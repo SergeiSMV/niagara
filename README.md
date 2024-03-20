@@ -3,5 +3,28 @@
 # Niagara App
 Новая реализация приложения продажи и доставки питьевой воды Niagara 
 
-## Setup
-//TODO: Add more information here
+## Зависимости:
+- Генератор: [build_runner](https://pub.dev/packages/build_runner)
+- Локатор зависимостей: [get_it](https://pub.dev/packages/get_it)
+  - Зависимости: [injectable](https://pub.dev/packages/injectable)
+  - Генератор: [injectable_generator](https://pub.dev/packages/injectable_generator)
+- Навигация: [auto_route](https://pub.dev/packages/auto_route)
+- Работа с HTTP: [dio](https://pub.dev/packages/dio)
+  - Преобразование типов: [retrofit](https://pub.dev/packages/retrofit)
+  - Генератор: [retrofit_generator](https://pub.dev/packages/retrofit_generator)
+- Интернационализация: [intl](https://pub.dev/packages/intl)
+  - Локализация: [slang](https://pub.dev/packages/slang)
+  - Обертка для работы: [slang_flutter](https://pub.dev/packages/slang_flutter)
+  - Генератор: [slang_build_runner](https://pub.dev/packages/slang_build_runner)
+- State-менеджер: [flutter_bloc](https://pub.dev/packages/flutter_bloc) 
+  - Управление событиями: [bloc_concurrency](https://pub.dev/packages/bloc_concurrency) 
+- Аннотации JSON: [json_annotation](https://pub.dev/packages/json_annotation) 
+  - Генерация: [json_serializable](https://pub.dev/packages/json_serializable)
+- Сравнение классов: [equatable](https://pub.dev/packages/equatable)
+- Хуки (react): [flutter_hooks](https://pub.dev/packages/flutter_hooks)
+- Логи: [talker](https://pub.dev/packages/talker)
+  - Для bloc: [talker_bloc_logger](https://pub.dev/packages/talker_bloc_logger)
+  - Для dio: [talker_dio_logger](https://pub.dev/packages/talker_dio_logger)
+- Анализатор: [very_good_analysis](https://pub.dev/packages/very_good_analysis)
+- Сетевые изображения: [cached_network_image](https://pub.dev/packages/cached_network_image)
+- SVG-изображения: [flutter_svg](https://pub.dev/packages/flutter_svg)
