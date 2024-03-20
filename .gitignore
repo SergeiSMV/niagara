@@ -91,6 +91,7 @@ app.*.map.json
 # Generated
 *.g.dart
 *.gr.dart
+*.gen.dart
 pubspec.lock
 
 # env
