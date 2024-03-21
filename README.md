@@ -4,7 +4,6 @@
 Новая реализация приложения продажи и доставки питьевой воды Niagara 
 
 ## Зависимости:
-- Генератор: [build_runner](https://pub.dev/packages/build_runner)
 - Локатор зависимостей: [get_it](https://pub.dev/packages/get_it)
   - Зависимости: [injectable](https://pub.dev/packages/injectable)
   - Генератор: [injectable_generator](https://pub.dev/packages/injectable_generator)
@@ -28,3 +27,14 @@
 - Анализатор: [very_good_analysis](https://pub.dev/packages/very_good_analysis)
 - Сетевые изображения: [cached_network_image](https://pub.dev/packages/cached_network_image)
 - SVG-изображения: [flutter_svg](https://pub.dev/packages/flutter_svg)
+- Build-генератор: [build_runner](https://pub.dev/packages/build_runner)
+- Генерация assets: [flutter_gen](https://pub.dev/packages/flutter_gen)
+
+## Установка 
+
+### Генерация assets
+1) `brew install FlutterGen/tap/fluttergen` (works with macOS and Linux)
+2) `dart pub global activate flutter_gen` (works with macOS, Linux and Windows)
+3) `flutter pub get`
+4) `dart run build_runner build`
+5) `fluttergen`
