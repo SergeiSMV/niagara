@@ -7,9 +7,9 @@ import 'package:niagara_app/core/theme/typography/base_typography.dart';
 
 /// Класс [AppTheme] содержит основную тему приложения, которая объединяет в
 /// себе цветовую тему и типографику. Все изменения в теме приложения
-/// производятся в этом классе.
+/// производятся в этом классе. Модификация темы извне не предусмотрена.
 @singleton
-class AppTheme {
+final class AppTheme {
   /// Основная тема приложения
   static ThemeData get lightTheme {
     return ThemeData.light().copyWith(
