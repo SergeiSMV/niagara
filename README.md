@@ -53,3 +53,6 @@
 - впоследствии 
 4) `dart run build_runner build`
 5) `fluttergen`
+
+### Генерация локализации
+- `dart run slang`

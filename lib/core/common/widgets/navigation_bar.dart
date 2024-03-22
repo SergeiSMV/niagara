@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Виджет нижней навигации для переключения между экранами
 /// приложения в [AutoTabsScaffold].
@@ -21,27 +22,27 @@ class BottomNavigationBarWidget extends StatelessWidget {
 
   List<_BottomNavigationBarItem> get _items => [
         _BottomNavigationBarItem(
-          title: 'Главная',
+          title: t.routes.home,
           inactiveIcon: _bottomIcons.homeStroke,
           activeIcon: _bottomIcons.homeFilled,
         ),
         _BottomNavigationBarItem(
-          title: 'Каталог',
+          title: t.routes.catalog,
           inactiveIcon: _bottomIcons.catalogStroke,
           activeIcon: _bottomIcons.catalogFilled,
         ),
         _BottomNavigationBarItem(
-          title: 'Корзина',
+          title: t.routes.cart,
           inactiveIcon: _bottomIcons.cartStroke,
           activeIcon: _bottomIcons.cartFilled,
         ),
         _BottomNavigationBarItem(
-          title: 'Магазины',
+          title: t.routes.shops,
           inactiveIcon: _bottomIcons.shopStroke,
           activeIcon: _bottomIcons.shopFilled,
         ),
         _BottomNavigationBarItem(
-          title: 'Профиль',
+          title: t.routes.profile,
           inactiveIcon: _bottomIcons.profileStroke,
           activeIcon: _bottomIcons.profileFilled,
         ),
@@ -87,6 +88,7 @@ class _NavBarIconWidget extends StatelessWidget {
         context.theme.bottomNavigationBarTheme.unselectedItemColor;
     return Padding(
       padding: const EdgeInsets.only(
+        top: AppConst.kNavBarIconPadding * 2,
         bottom: AppConst.kNavBarIconPadding,
       ),
       child: icon.svg(
