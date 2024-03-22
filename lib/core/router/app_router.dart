@@ -22,22 +22,24 @@ class AppRouter extends $AppRouter {
 
   /// Список всех маршрутов приложения
   @override
-  List<AutoRoute> get routes => [
-        AutoRoute(
-          initial: true,
-          page: NavigationRoute.page,
-          children: [
-            HomeRouters().routers,
-            CatalogRouters().routers,
-            CartRouters().routers,
-            ShopsRouters().routers,
-            ProfileRouters().routers,
-          ],
-        ),
-      ];
+  List<AutoRoute> get routes {
+    return [
+      AutoRoute(
+        initial: true,
+        page: NavigationRoute.page,
+        children: [
+          HomeRouters().routers,
+          CatalogRouters().routers,
+          CartRouters().routers,
+          ShopsRouters().routers,
+          ProfileRouters().routers,
+        ],
+      ),
+    ];
+  }
 
-  /// Функция для создания анимации перехода между экранами с
-  /// использованием [FadeTransition] во время перехода.
+  /// Функция для создания анимации перехода между экранами приложения с
+  /// использованием [FadeTransition].
   static Widget _transitionsBuilder(
     BuildContext context,
     Animation<double> animation,

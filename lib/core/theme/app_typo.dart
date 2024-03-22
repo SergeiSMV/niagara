@@ -9,7 +9,7 @@ import 'package:niagara_app/core/utils/gen/fonts.gen.dart';
 
 /// Класс [AppTypo] содержит типографику приложения.
 /// Все изменения в типографике производятся в этом классе.
-final class AppTypo extends BaseTypography {
+class AppTypo extends BaseTypography {
   /// Конструктор для типографики приложения
   const AppTypo()
       : super(
@@ -33,7 +33,7 @@ final class AppTypo extends BaseTypography {
   }
 }
 
-final class _HeadingTypography extends HeadingTypography {
+class _HeadingTypography extends HeadingTypography {
   const _HeadingTypography()
       : super(
           h1: const TextStyle(
@@ -60,7 +60,7 @@ final class _HeadingTypography extends HeadingTypography {
         );
 }
 
-final class _TextTypography extends TextTypography {
+class _TextTypography extends TextTypography {
   const _TextTypography()
       : super(
           tx1SemiBold: const TextStyle(
@@ -108,7 +108,7 @@ final class _TextTypography extends TextTypography {
         );
 }
 
-final class _CaptionTypography extends CaptionTypography {
+class _CaptionTypography extends CaptionTypography {
   const _CaptionTypography()
       : super(
           c1: const TextStyle(
@@ -126,7 +126,7 @@ final class _CaptionTypography extends CaptionTypography {
         );
 }
 
-final class _DescriptionTypography extends DescriptionTypography {
+class _DescriptionTypography extends DescriptionTypography {
   const _DescriptionTypography()
       : super(
           des1: const TextStyle(
@@ -156,7 +156,7 @@ final class _DescriptionTypography extends DescriptionTypography {
         );
 }
 
-final class _ButtonTypography extends ButtonTypography {
+class _ButtonTypography extends ButtonTypography {
   const _ButtonTypography()
       : super(
           btn1b: const TextStyle(

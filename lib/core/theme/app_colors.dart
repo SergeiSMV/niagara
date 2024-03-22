@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/theme/colors/base_colors.dart';
 import 'package:niagara_app/core/theme/colors/buttons_colors.dart';
 import 'package:niagara_app/core/theme/colors/field_border_colors.dart';
@@ -9,7 +10,8 @@ import 'package:niagara_app/core/theme/colors/text_colors.dart';
 
 /// Класс [AppColors] содержит цветовую тему приложения.
 /// Все изменения в цветовой теме производятся в этом классе.
-final class AppColors extends BaseColors {
+@singleton
+class AppColors extends BaseColors {
   /// Конструктор для цветовой темы
   const AppColors()
       : super(
@@ -34,7 +36,7 @@ final class AppColors extends BaseColors {
   }
 }
 
-final class _MainColors extends MainColors {
+class _MainColors extends MainColors {
   const _MainColors()
       : super(
           primary: const Color(0xFF044B75),
@@ -45,7 +47,7 @@ final class _MainColors extends MainColors {
         );
 }
 
-final class _TextColors extends TextColors {
+class _TextColors extends TextColors {
   const _TextColors()
       : super(
           main: const Color(0xFF020F17),
@@ -56,7 +58,7 @@ final class _TextColors extends TextColors {
         );
 }
 
-final class _ButtonColors extends ButtonColors {
+class _ButtonColors extends ButtonColors {
   const _ButtonColors()
       : super(
           primary: const Color(0xFF044B75),
@@ -66,7 +68,7 @@ final class _ButtonColors extends ButtonColors {
         );
 }
 
-final class _FieldBordersColors extends FieldBordersColors {
+class _FieldBordersColors extends FieldBordersColors {
   const _FieldBordersColors()
       : super(
           main: const Color(0xFFC6C9CB),
@@ -76,7 +78,7 @@ final class _FieldBordersColors extends FieldBordersColors {
         );
 }
 
-final class _InfoColors extends InfoColors {
+class _InfoColors extends InfoColors {
   const _InfoColors()
       : super(
           red: const Color(0xFFF25C68),
@@ -87,7 +89,7 @@ final class _InfoColors extends InfoColors {
         );
 }
 
-final class _GradientColors extends GradientColors {
+class _GradientColors extends GradientColors {
   const _GradientColors()
       : super(
           bgGradient: const [
