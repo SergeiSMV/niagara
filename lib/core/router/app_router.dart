@@ -39,9 +39,9 @@ class AppRouter extends $AppRouter {
   /// Функция для создания анимации перехода между экранами с
   /// использованием [FadeTransition] анимации.
   static Widget _transitionsBuilder(
-    BuildContext context,
+    BuildContext _,
     Animation<double> animation,
-    Animation<double> secondaryAnimation,
+    Animation<double> __,
     Widget child,
   ) =>
       FadeTransition(
