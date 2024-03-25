@@ -68,13 +68,11 @@ class SplashPage extends HookWidget {
                 child: AnimatedOpacity(
                   opacity: state ? 1 : 0,
                   duration: Durations.long2,
-                  child: SizedBox(
+                  child: Lottie.asset(
+                    Assets.lottie.loadCircleWhite,
+                    repeat: true,
                     width: AppConst.kLoaderSize,
                     height: AppConst.kLoaderSize,
-                    child: Lottie.asset(
-                      Assets.lottie.loadCircleWhite,
-                      repeat: true,
-                    ),
                   ),
                 ),
               ),
