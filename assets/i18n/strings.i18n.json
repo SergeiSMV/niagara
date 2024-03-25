@@ -1,0 +1,9 @@
+{
+  "routes": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "cart": "Cart",
+    "shops": "Shops",
+    "profile": "Profile"
+  }
+}

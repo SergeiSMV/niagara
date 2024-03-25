@@ -7,7 +7,8 @@
 - Локатор зависимостей: [get_it](https://pub.dev/packages/get_it)
   - Зависимости: [injectable](https://pub.dev/packages/injectable)
   - Генератор: [injectable_generator](https://pub.dev/packages/injectable_generator)
-- Навигация: [auto_route](https://pub.dev/packages/auto_route)
+- Навигация: [auto_router](https://pub.dev/packages/auto_router)
+  - Генерация: [auto_route_generator](https://pub.dev/packages/auto_route_generator)
 - Работа с HTTP: [dio](https://pub.dev/packages/dio)
   - Преобразование типов: [retrofit](https://pub.dev/packages/retrofit)
   - Генератор: [retrofit_generator](https://pub.dev/packages/retrofit_generator)
@@ -21,7 +22,8 @@
   - Генерация: [json_serializable](https://pub.dev/packages/json_serializable)
 - Сравнение классов: [equatable](https://pub.dev/packages/equatable)
 - Хуки (react): [flutter_hooks](https://pub.dev/packages/flutter_hooks)
-- Логи: [talker](https://pub.dev/packages/talker)
+- Логи: 
+  - Для flutter: [talker_flutter](https://pub.dev/packages/talker_flutter)
   - Для bloc: [talker_bloc_logger](https://pub.dev/packages/talker_bloc_logger)
   - Для dio: [talker_dio_logger](https://pub.dev/packages/talker_dio_logger)
 - Анализатор: [very_good_analysis](https://pub.dev/packages/very_good_analysis)
@@ -29,12 +31,28 @@
 - SVG-изображения: [flutter_svg](https://pub.dev/packages/flutter_svg)
 - Build-генератор: [build_runner](https://pub.dev/packages/build_runner)
 - Генерация assets: [flutter_gen](https://pub.dev/packages/flutter_gen)
+- Переменные окружения: [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
+- Функциональное программирование: [fpdart](https://pub.dev/packages/fpdart)
+- База данных: [hive](https://pub.dev/packages/hive)
+  - Ядро: [isar_flutter_libs](https://pub.dev/packages/isar_flutter_libs)
+- Файловая система: [path_provider](https://pub.dev/packages/path_provider)
 
 ## Установка 
 
+### Получение pub&pods
+- `sh gpub.sh`
+
+### Запуск build runner
+- `sh grun.sh`
+
 ### Генерация assets
+- впервые
 1) `brew install FlutterGen/tap/fluttergen` (works with macOS and Linux)
 2) `dart pub global activate flutter_gen` (works with macOS, Linux and Windows)
 3) `flutter pub get`
+- впоследствии 
 4) `dart run build_runner build`
 5) `fluttergen`
+
+### Генерация локализации
+- `dart run slang`

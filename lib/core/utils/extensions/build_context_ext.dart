@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/config/theme/app_colors.dart';
-import 'package:niagara_app/config/theme/app_typo.dart';
+import 'package:niagara_app/core/theme/colors/base_colors.dart';
+import 'package:niagara_app/core/theme/typography/base_typography.dart';
 
 /// Расширение для [BuildContext] для удобного доступа к вспомогательным методам
 /// и свойствам. Все методы и свойства возвращаются через контекст для
 /// использования в виджетах.
 extension BuildContextExt on BuildContext {
-  ThemeData get _theme => Theme.of(this);
   MediaQueryData get _mediaQuery => MediaQuery.of(this);
 
+  /// Возвращает тему приложения.
+  ThemeData get theme => Theme.of(this);
+
   /// Возвращает типографику приложения.
-  AppTypo get textStyle => _theme.extension<AppTypo>()!;
+  BaseTypography get textStyle => theme.extension<BaseTypography>()!;
 
   /// Возвращает цветовую тему приложения.
-  AppColors get colors => _theme.extension<AppColors>()!;
+  BaseColors get colors => theme.extension<BaseColors>()!;
 
   /// Вернуть размер экрана
   Size get screenSize => _mediaQuery.size;

@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:niagara_app/app.dart';
+import 'package:niagara_app/core/dependencies/di.dart' as di;
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/core/utils/logger/logger.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+void main() async {
+  /// Инициализация Flutter.
+  /// Проверка на инициализацию FlutterBinding.
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  /// Загрузка переменных окружения из файла `.env`.
+  await dotenv.load();
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+  /// Инициализация зависимостей.
+  di.setupDependencies();
+
+  /// Инициализация локализации.
+  LocaleSettings.useDeviceLocale();
+
+  /// Запрет на горизонтальное вращение экрана.
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  di.getIt<AppLogger>().verbose('Application started');
+
+  /// Запуск приложения.
+  runApp(TranslationProvider(child: const Application()));
 }

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/config/theme/colors/base_colors.dart';
-import 'package:niagara_app/config/theme/colors/buttons_colors.dart';
-import 'package:niagara_app/config/theme/colors/field_border_colors.dart';
-import 'package:niagara_app/config/theme/colors/gradient_colors.dart';
-import 'package:niagara_app/config/theme/colors/info_colors.dart';
-import 'package:niagara_app/config/theme/colors/main_colors.dart';
-import 'package:niagara_app/config/theme/colors/text_colors.dart';
+import 'package:injectable/injectable.dart';
+import 'package:niagara_app/core/theme/colors/base_colors.dart';
+import 'package:niagara_app/core/theme/colors/buttons_colors.dart';
+import 'package:niagara_app/core/theme/colors/field_border_colors.dart';
+import 'package:niagara_app/core/theme/colors/gradient_colors.dart';
+import 'package:niagara_app/core/theme/colors/info_colors.dart';
+import 'package:niagara_app/core/theme/colors/main_colors.dart';
+import 'package:niagara_app/core/theme/colors/text_colors.dart';
 
 /// Класс [AppColors] содержит цветовую тему приложения.
 /// Все изменения в цветовой теме производятся в этом классе.
+@singleton
 class AppColors extends BaseColors {
   /// Конструктор для цветовой темы
   const AppColors()
@@ -30,7 +32,6 @@ class AppColors extends BaseColors {
     double t,
   ) {
     if (other! is AppColors) return this;
-
     return const AppColors();
   }
 }
