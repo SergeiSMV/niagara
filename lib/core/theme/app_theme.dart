@@ -17,6 +17,7 @@ class AppTheme {
         AppColors(),
         AppTypo(),
       ],
+      scaffoldBackgroundColor: const AppColors().mainColors.white,
       brightness: Brightness.light,
       hoverColor: Colors.transparent,
       splashColor: Colors.transparent,

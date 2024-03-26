@@ -19,7 +19,6 @@ class HomeRouters implements BaseRouters {
         initial: true,
         children: [
           AutoRoute(page: HomeRoute.page, initial: true),
-          AutoRoute(page: Home2Route.page),
         ],
       );
 }
