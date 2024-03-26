@@ -5,5 +5,19 @@
     "cart": "Cart",
     "shops": "Shops",
     "profile": "Profile"
+  },
+  "auth": {
+    "enterPhone": "Enter phone number",
+    "authLater": "Authorize later",
+    "privacyPolicy(rich)": "By logging in, you agree to the ${userAgreement(user agreement)}, ${privacyPolicy(privacy policy)} and ${offer(offer)}",
+    "getCode": "Get code",
+    "confirmNumber": "Confirm number",
+    "enterCode": "Enter the code from the SMS",
+    "weSentCode(rich)": "We sent it to the number ${phoneNumber}",
+    "resendCode": "Resend",
+    "through(rich)": "Through ${time}",
+    "incorrectNumberFormat": "Incorrect number format",
+    "incorrectCode": "Incorrect code. Please try again",
+    "limitSendCode": "Message sending limit exceeded. You can request the SMS code again when the timer expires."
   }
 }
