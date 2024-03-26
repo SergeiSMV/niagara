@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:lottie/lottie.dart';
 import 'package:niagara_app/core/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
@@ -49,8 +48,7 @@ class SplashPage extends HookWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Lottie.asset(
-                Assets.lottie.splashScreen,
+              Assets.lottie.splashScreen.lottie(
                 controller: mainAnimationCtrl,
                 onLoaded: (composition) => mainAnimationCtrl
                   ..duration = composition.duration
@@ -68,8 +66,7 @@ class SplashPage extends HookWidget {
                 child: AnimatedOpacity(
                   opacity: state ? 1 : 0,
                   duration: Durations.long2,
-                  child: Lottie.asset(
-                    Assets.lottie.loadCircleWhite,
+                  child: Assets.lottie.loadCircleWhite.lottie(
                     repeat: true,
                     width: AppConst.kLoaderSize,
                     height: AppConst.kLoaderSize,
