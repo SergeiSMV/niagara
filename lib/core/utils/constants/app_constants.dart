@@ -4,23 +4,23 @@ import 'dart:ui';
 abstract final class AppConst {
   // ? ----------------------------- General ----------------------------- ? //
   // * ----------------------------- Padding ----------------------------- * //
-  /// Минимальный отступ (4)
+  /// Минимальный отступ
   static const double kPaddingMin = 4;
 
-  /// Средний отступ (8)
+  /// Средний отступ
   static const double kPaddingMid = 8;
 
-  /// Большой отступ (16)
+  /// Большой отступ
   static const double kPaddingMax = 16;
 
   // * ------------------------------ Icons ------------------------------ * //
-  /// Иконки малого размера (16)
+  /// Иконки малого размера
   static const double kIconSmall = 16;
 
-  /// Иконки среднего размера (20)
+  /// Иконки среднего размера
   static const double kIconMedium = 20;
 
-  /// Иконки большого размера (24)
+  /// Иконки большого размера
   static const double kIconLarge = 24;
 
   // * ----------------------------- App Bar ----------------------------- * //
@@ -52,6 +52,33 @@ abstract final class AppConst {
   /// Закругление кнопки маленькой
   static const double kButtonSmallRadius = 8;
 
+  // * ---------------------------- Text Field ---------------------------- * //
+  /// Радиус закругления текстового поля
+  static const double kTextFieldRadius = 12;
+
+  /// Отступы по горизонтали в текстовом поле
+  static const double kTextFieldPadding = 16;
+
+  /// Отступы по вертикали в текстовом поле
+  static const double kTextFieldVerticalPadding = 8;
+  
+  /// Имя для текстового поля с номером телефона
+  static const String kTextFieldPhoneName = 'phoneFiled';
+
+
+  // ? --------------------------- Regional Data -------------------------- ? //
+  /// Код страны
+  static const String kCountryPhoneCode = '+7';
+
+  /// Количество цифр в номере телефона
+  static const int kPhoneDigits = 10;
+
+  /// Маска для номера телефона
+  static const String kPhoneMask = '(###) ###-##-##';
+
+  /// Подсказка для номера телефона
+  static const String kPhoneHint = '(000) 000-00-00';
+
   // ? ---------------------- Bottom Navigation Bar ---------------------- ? //
   /// Размер иконок в нижней навигации
   static const double kNavBarIconSize = 24;
@@ -76,7 +103,7 @@ abstract final class AppConst {
   /// Отступ от нижнего края экрана до пользовательского соглашения
   static const double kAuthPrivacyPolicyBottomOffset = 12;
 
-  // * ------------------------- Get Code Button ------------------------- * //
+  // * ------------------------- Get Code Widget ------------------------- * //
   /// Прозрачность для тени
   static const double kShadowOpacity = 0.06;
 
@@ -91,5 +118,4 @@ abstract final class AppConst {
 
   /// Отступ от нижнего края элемента
   static const double kGetCodeButtonBottomPadding = 24;
-  
 }

@@ -10,9 +10,9 @@ GetIt get getIt => GetIt.instance;
 /// Инициализация зависимостей.
 /// Вызывается в методе `main` перед запуском приложения.
 @InjectableInit()
-void setupDependencies() {
+Future<void> setupDependencies() async {
   /// Инициализация [GetIt] и [Injectable] для работы с зависимостями.
-  getIt.init();
+  await getIt.init();
 
   /// Инициализация [TalkerBlocObserver] для логирования событий и состояний.
   Bloc.observer = getIt<TalkerBlocObserver>();

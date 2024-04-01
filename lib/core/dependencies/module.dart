@@ -32,4 +32,9 @@ abstract class AppModule {
         ),
       ),
     );
+
+  /// Экземпляр [SharedPreferences] для работы с хранилищем данных.
+  @preResolve
+  Future<SharedPreferences> get sharedPreferences =>
+      SharedPreferences.getInstance();
 }

@@ -1,0 +1,99 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:injectable/injectable.dart';
+import 'package:niagara_app/core/dependencies/di.dart';
+import 'package:niagara_app/core/common/presentation/theme/app_colors.dart';
+import 'package:niagara_app/core/common/presentation/theme/app_typo.dart';
+import 'package:niagara_app/core/common/presentation/theme/colors/base_colors.dart';
+import 'package:niagara_app/core/common/presentation/theme/decorations/custom_outline_input_border.dart';
+import 'package:niagara_app/core/common/presentation/theme/typography/base_typography.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+
+/// Класс [AppTheme] содержит основную тему приложения, которая объединяет в
+/// себе цветовую тему и типографику. Все изменения в теме приложения
+/// производятся в этом классе.
+@singleton
+class AppTheme {
+  /// Основная тема приложения
+  ThemeData get lightTheme {
+    final colors = getIt<AppColors>();
+    final typo = getIt<AppTypo>();
+
+    return ThemeData.light().copyWith(
+      extensions: <ThemeExtension>[colors, typo],
+      scaffoldBackgroundColor: const AppColors().mainColors.white,
+      brightness: Brightness.light,
+      hoverColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      appBarTheme: _appBarTheme(colors: colors, typography: typo),
+      bottomNavigationBarTheme: _bottomNavBarTheme(
+        colors: colors,
+        typography: typo,
+      ),
+      inputDecorationTheme: _inputDecorationTheme(
+        colors: colors,
+        typography: typo,
+      ),
+      actionIconTheme: ActionIconThemeData(
+        backButtonIconBuilder: (_) => Assets.icons.arrowLeft.svg(),
+      ),
+    );
+  }
+
+  /// Тема для AppBar
+  static AppBarTheme _appBarTheme({
+    required BaseColors colors,
+    required BaseTypography typography,
+  }) {
+    return AppBarTheme(
+      backgroundColor: colors.mainColors.white,
+      elevation: 0,
+      titleTextStyle: typography.textTypo.tx1SemiBold.withColor(
+        colors.textColors.main,
+      ),
+    );
+  }
+
+  // Тема нижней навигационной панели
+  static BottomNavigationBarThemeData _bottomNavBarTheme({
+    required BaseColors colors,
+    required BaseTypography typography,
+  }) =>
+      BottomNavigationBarThemeData(
+        backgroundColor: colors.mainColors.primary,
+        selectedItemColor: colors.textColors.white,
+        unselectedItemColor: colors.textColors.white.withOpacity(0.6),
+        selectedLabelStyle: typography.textTypo.tx4Medium,
+        unselectedLabelStyle: typography.textTypo.tx4Medium,
+        elevation: 0,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        enableFeedback: true,
+      );
+
+  // Тема для полей ввода
+  static InputDecorationTheme _inputDecorationTheme({
+    required BaseColors colors,
+    required BaseTypography typography,
+  }) {
+    return InputDecorationTheme(
+      border: _buildBorder(colors.fieldBordersColors.main),
+      focusedBorder: _buildBorder(colors.fieldBordersColors.accent),
+      errorBorder: _buildBorder(colors.fieldBordersColors.negative),
+      focusedErrorBorder: _buildBorder(colors.fieldBordersColors.negative),
+      disabledBorder: _buildBorder(colors.fieldBordersColors.inactive),
+    );
+  }
+
+  /// Создание кастомных границ для полей ввода
+  static CustomOutlineInputBorder _buildBorder(Color color) {
+    return CustomOutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppConst.kTextFieldRadius),
+      borderSide: BorderSide(color: color),
+    );
+  }
+}

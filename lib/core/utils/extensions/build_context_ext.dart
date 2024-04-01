@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/theme/colors/base_colors.dart';
-import 'package:niagara_app/core/theme/typography/base_typography.dart';
+import 'package:niagara_app/core/common/presentation/theme/colors/base_colors.dart';
+import 'package:niagara_app/core/common/presentation/theme/typography/base_typography.dart';
 
 /// Расширение для [BuildContext] для удобного доступа к вспомогательным методам
 /// и свойствам. Все методы и свойства возвращаются через контекст для

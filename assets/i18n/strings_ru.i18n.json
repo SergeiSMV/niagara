@@ -13,9 +13,9 @@
     "getCode": "Получить код",
     "confirmNumber": "Подтвердите номер",
     "enterCode": "Введите код из смс",
-    "weSentCode(rich)": "Мы отправили его на номер ${phoneNumber}",
+    "weSentCode": "Мы отправили его на номер ${phoneNumber}",
     "resendCode": "Отправить повторно",
-    "through(rich)": "Через ${time}",
+    "through": "Через ${time}",
     "incorrectNumberFormat": "Неверный формат номера",
     "incorrectCode": "Неверный код. Повторите попытку снова",
     "limitSendCode": "Превышен лимит отправки сообщений. Запросить СМС с кодом можно будет по истечению таймера."

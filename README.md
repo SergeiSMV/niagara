@@ -18,6 +18,8 @@
   - Генератор: [slang_build_runner](https://pub.dev/packages/slang_build_runner)
 - State-менеджер: [flutter_bloc](https://pub.dev/packages/flutter_bloc) 
   - Управление событиями: [bloc_concurrency](https://pub.dev/packages/bloc_concurrency) 
+- Генерация кода: [freezed](https://pub.dev/packages/freezed) 
+  - Аннотации: [freezed_annotation](https://pub.dev/packages/freezed_annotation) 
 - Аннотации JSON: [json_annotation](https://pub.dev/packages/json_annotation) 
   - Генерация: [json_serializable](https://pub.dev/packages/json_serializable)
 - Сравнение классов: [equatable](https://pub.dev/packages/equatable)
@@ -32,9 +34,9 @@
 - Build-генератор: [build_runner](https://pub.dev/packages/build_runner)
 - Генерация assets: [flutter_gen](https://pub.dev/packages/flutter_gen)
 - Переменные окружения: [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
-- Функциональное программирование: [fpdart](https://pub.dev/packages/fpdart)
-- База данных: [hive](https://pub.dev/packages/hive)
-  - Ядро: [isar_flutter_libs](https://pub.dev/packages/isar_flutter_libs)
+- Функциональное программирование: [either_dart](https://pub.dev/packages/either_dart)
+- База данных:
+  - Shared preferences: [shared_preferences](https://pub.dev/packages/shared_preferences)
 - Файловая система: [path_provider](https://pub.dev/packages/path_provider)
 
 ## Установка 

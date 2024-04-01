@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/extensions/padding_widget_ext.dart';
+import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 /// Кнопка в AppBar для вызова действия (например, открытие экрана уведомлений)
