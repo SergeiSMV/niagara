@@ -5,7 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
-import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:niagara_app/features/auth/presentation/widgets/auth_later_button.dart';
 import 'package:niagara_app/features/auth/presentation/widgets/enter_phone_widget.dart';
 import 'package:niagara_app/features/auth/presentation/widgets/get_code_widget.dart';
@@ -25,17 +25,21 @@ class AuthPage extends StatelessWidget {
 
     void navigateToMain() => context.replaceRoute(const NavigationRoute());
 
+    void navigateToOTP(String phone) =>
+        context.pushRoute(OTPRoute(phoneNumber: phone));
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const EnterPhoneWidget(),
       ),
-      body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) => state.maybeWhen(
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (_, state) => state.maybeWhen(
+          getCode: navigateToOTP,
           authLater: navigateToMain,
           orElse: () => null,
         ),
-        builder: (_, state) => Column(
+        child: Column(
           children: [
             PhoneNumberField(formKey: formKey),
             const AuthLaterButton(),

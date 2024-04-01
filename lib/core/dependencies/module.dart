@@ -37,4 +37,5 @@ abstract class AppModule {
   @preResolve
   Future<SharedPreferences> get sharedPreferences =>
       SharedPreferences.getInstance();
+      // ..then((value) => value.clear());
 }

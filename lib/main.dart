@@ -15,7 +15,7 @@ void main() async {
   await dotenv.load();
 
   /// Инициализация зависимостей.
-  di.setupDependencies();
+  await di.setupDependencies();
 
   /// Инициализация локализации.
   LocaleSettings.useDeviceLocale();

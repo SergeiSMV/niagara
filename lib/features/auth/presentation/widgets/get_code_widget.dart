@@ -6,7 +6,9 @@ import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
+import 'package:niagara_app/features/auth/presentation/bloc/validate_phone_cubit/validate_phone_cubit.dart';
 
 /// Кнопка "Получить код" для отправки кода подтверждения на номер телефона.
 class GetCodeWidget extends StatelessWidget {
@@ -26,9 +28,13 @@ class GetCodeWidget extends StatelessWidget {
         final phoneNumber = formKey
             .currentState?.value[AppConst.kTextFieldPhoneName]
             .toString();
-        context.read<AuthBloc>().add(AuthEvent.getCode(phoneNumber));
+        context
+          ..read<AuthBloc>().add(AuthEvent.getCode(phoneNumber))
+          ..read<CountdownTimerCubit>().startTimer();
       }
     }
+
+    final isValid = context.select((ValidatePhoneCubit cubit) => cubit.state);
 
     return Container(
       padding: AppConst.kPaddingMax.horizontal,
@@ -50,29 +56,11 @@ class GetCodeWidget extends StatelessWidget {
           bottom: AppConst.kGetCodeButtonBottomPadding,
         ),
         maintainBottomViewPadding: true,
-        child: BlocBuilder<AuthBloc, AuthState>(
-          builder: (_, state) => state.maybeWhen(
-            phoneValid: () => _GetCodeButton(onTap: onTapGetCode),
-            orElse: () => const _GetCodeButton(),
-          ),
+        child: AppTextButton.primary(
+          text: t.auth.getCode,
+          onTap: isValid ? onTapGetCode : null,
         ),
       ),
-    );
-  }
-}
-
-class _GetCodeButton extends StatelessWidget {
-  const _GetCodeButton({
-    this.onTap,
-  });
-
-  final void Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppTextButton.primary(
-      text: t.auth.getCode,
-      onTap: onTap,
     );
   }
 }

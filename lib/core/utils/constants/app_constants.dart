@@ -67,9 +67,6 @@ abstract final class AppConst {
 
 
   // ? --------------------------- Regional Data -------------------------- ? //
-  /// Код страны
-  static const String kCountryPhoneCode = '+7';
-
   /// Количество цифр в номере телефона
   static const int kPhoneDigits = 10;
 
@@ -118,4 +115,20 @@ abstract final class AppConst {
 
   /// Отступ от нижнего края элемента
   static const double kGetCodeButtonBottomPadding = 24;
+
+  // * ------------------------- OTP Code Widget ------------------------- * //
+  /// Высота поля ввода кода
+  static const double kOTPCodeHeight = 72;
+
+  /// Ширина поля ввода кода
+  static const double kOTPCodeWidth = 64;
+
+  /// Радиус закругления поля ввода кода
+  static const double kOTPCodeRadius = 12;
+
+  /// Размер заполнителя поля ввода кода
+  static const double kOTPCodePreFilledSize = 4;
+
+  /// Время до повторной отправки кода
+  static const int kOTPResendTime = 60;
 }

@@ -3,6 +3,26 @@
 # Niagara App
 Новая реализация приложения продажи и доставки питьевой воды Niagara 
 
+## Установка 
+
+### Получение pub&pods
+- `sh gpub.sh`
+
+### Запуск build runner
+- `sh grun.sh`
+
+### Генерация assets
+- впервые
+1) `brew install FlutterGen/tap/fluttergen` (works with macOS and Linux)
+2) `dart pub global activate flutter_gen` (works with macOS, Linux and Windows)
+3) `flutter pub get`
+- впоследствии 
+4) `dart run build_runner build`
+5) `fluttergen`
+
+### Генерация локализации
+- `dart run slang`
+
 ## Зависимости:
 - Локатор зависимостей: [get_it](https://pub.dev/packages/get_it)
   - Зависимости: [injectable](https://pub.dev/packages/injectable)
@@ -38,23 +58,8 @@
 - База данных:
   - Shared preferences: [shared_preferences](https://pub.dev/packages/shared_preferences)
 - Файловая система: [path_provider](https://pub.dev/packages/path_provider)
+- Ввод OTP: [pinput](https://pub.dev/packages/pinput)
+- Мок-данные: [mockito](https://pub.dev/packages/mockito) 
+- Формы ввода: [mask_text_input_formatter](https://pub.dev/packages/mask_text_input_formatter) 
+- Анимация Lottie: [lottie](https://pub.dev/packages/lottie) 
 
-## Установка 
-
-### Получение pub&pods
-- `sh gpub.sh`
-
-### Запуск build runner
-- `sh grun.sh`
-
-### Генерация assets
-- впервые
-1) `brew install FlutterGen/tap/fluttergen` (works with macOS and Linux)
-2) `dart pub global activate flutter_gen` (works with macOS, Linux and Windows)
-3) `flutter pub get`
-- впоследствии 
-4) `dart run build_runner build`
-5) `fluttergen`
-
-### Генерация локализации
-- `dart run slang`

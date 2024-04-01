@@ -53,11 +53,10 @@ class SplashPage extends HookWidget {
     void onMainNavigate() => context.router.replace(const NavigationRoute());
 
     return BlocListener<SplashCubit, SplashState>(
-      listener: (_, state) => state.when(
-        initial: () => null,
+      listener: (_, state) => state.maybeWhen(
         waiting: onCheckLoadedMain,
         done: onMainNavigate,
-        error: () => null,
+        orElse: () => null,
       ),
       child: FittedBox(
         fit: BoxFit.cover,

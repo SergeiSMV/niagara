@@ -1,8 +1,8 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/features/auth/domain/usecases/skip_auth/skip_auth.dart';
 
 part 'auth_bloc.freezed.dart';
@@ -12,8 +12,7 @@ part 'auth_state.dart';
 typedef _Emit = Emitter<AuthState>;
 
 /// [AuthBloc] - блок авторизации. Принимает [SkipAuthUseCase] для пропуска
-/// авторизации. При валидации номера телефона генерирует состояния
-/// [_PhoneValidState] и [_PhoneInvalidState]. При пропуске авторизации
+/// авторизации. При пропуске авторизации
 /// генерирует состояние [_AuthLaterState].
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -21,24 +20,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required SkipAuthUseCase skipAuthUseCase,
   })  : _skipAuthUseCase = skipAuthUseCase,
-        super(const _AuthInitial()) {
-    on<_PhoneValidationEvent>(_onPhoneValidation);
+        super(const _AuthInitialState()) {
+    on<_GetCodeEvent>(_onGetCode, transformer: droppable());
     on<_AuthLaterEvent>(_onAuthLater);
   }
+
+  // Используемые кейсы:
   final SkipAuthUseCase _skipAuthUseCase;
 
-  void _onPhoneValidation(_PhoneValidationEvent event, _Emit emit) {
-    final phoneNumber = event.phoneNumber?.replaceAll(RegExp(r'\D'), '');
-    // Можно добавить дополнительные проверки на валидность номера
-    if (phoneNumber != null && phoneNumber.length == AppConst.kPhoneDigits) {
-      emit(const _PhoneValidState());
-    } else {
-      emit(const _PhoneInvalidState());
-    }
+  void _onGetCode(_GetCodeEvent event, _Emit emit) {
+    if (event.phoneNumber == null) return;
+    emit(const _AuthInitialState());
+    emit(_GetCodeState(phoneNumber: event.phoneNumber!));
   }
 
   void _onAuthLater(_AuthLaterEvent event, _Emit emit) {
-    _skipAuthUseCase(const NoParams());
+    _skipAuthUseCase.call(const NoParams());
     emit(const _AuthLaterState());
   }
 }

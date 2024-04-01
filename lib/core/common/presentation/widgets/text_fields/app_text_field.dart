@@ -3,6 +3,7 @@ import 'package:niagara_app/core/common/presentation/widgets/text_fields/base_te
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/enums/base_text_filed_state.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Текстовое поле приложения [AppTextField]. Поддерживает различные состояния
 /// и валидацию.
@@ -54,7 +55,7 @@ class _PrefixPhoneWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      AppConst.kCountryPhoneCode,
+      t.auth.ruPhoneCode,
       style: context.textStyle.textTypo.tx1Medium,
     );
   }
