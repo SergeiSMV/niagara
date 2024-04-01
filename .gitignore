@@ -93,6 +93,7 @@ app.*.map.json
 *.gr.dart
 *.gen.dart
 *.config.dart
+*.freezed.dart
 pubspec.lock
 
 # env
