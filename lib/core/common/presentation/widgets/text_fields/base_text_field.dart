@@ -25,7 +25,7 @@ abstract class BaseTextField extends HookWidget {
   /// - [prefixWidget] - префикс (виджет),
   /// - [keyboardType] - тип клавиатуры,
   /// - [state] - состояние поля,
-  /// - [required] - флаг, указывающий, что поле обязательно для заполнения,
+  /// - [isRequired] - флаг, указывающий, что поле обязательно для заполнения,
   /// - [maxLength] - максимальная длина поля,
   /// - [mask] - маска для поля,
   /// - [onChanged] - функция, которая вызывается при изменении значения в поле
@@ -39,7 +39,7 @@ abstract class BaseTextField extends HookWidget {
     this.prefixWidget,
     this.keyboardType,
     this.state = BaseTextFieldState.idle,
-    this.required = false,
+    this.isRequired = false,
     this.maxLength,
     this.mask,
     this.onChanged,
@@ -70,7 +70,7 @@ abstract class BaseTextField extends HookWidget {
   final BaseTextFieldState state;
 
   /// Флаг, указывающий на то, что поле обязательно для заполнения
-  final bool required;
+  final bool isRequired;
 
   /// Максимальная длина поля
   final int? maxLength;
@@ -82,22 +82,22 @@ abstract class BaseTextField extends HookWidget {
   final void Function(String?)? onChanged;
 
   /// Проверка на то, что в поле можно вводить только цифры
-  bool get _numbers => keyboardType == TextInputType.number;
+  bool get _isNumbers => keyboardType == TextInputType.number;
 
   /// Проверка на то, что в поле можно вводить только номер телефона
-  bool get _phoneNumber => keyboardType == TextInputType.phone;
+  bool get _isPhoneNumber => keyboardType == TextInputType.phone;
 
   /// Проверка на то, что в поле можно вводить только email
-  bool get _email => keyboardType == TextInputType.emailAddress;
+  bool get _isEmail => keyboardType == TextInputType.emailAddress;
 
   /// Проверка на то, что в поле можно вводить только цифры
-  bool get _onlyDigits => _phoneNumber || _numbers;
+  bool get _isOnlyDigits => _isPhoneNumber || _isNumbers;
 
   /// Форматтер для маски
   TextInputFormatter? get maskFormatter => mask != null
       ? MaskTextInputFormatter(
           mask: mask,
-          filter: _onlyDigits ? {'#': RegExp('[0-9]')} : null,
+          filter: _isOnlyDigits ? {'#': RegExp('[0-9]')} : null,
         )
       : null;
 
@@ -148,20 +148,20 @@ abstract class BaseTextField extends HookWidget {
         ),
       ),
       inputFormatters: [
-        if (_onlyDigits) FilteringTextInputFormatter.digitsOnly,
+        if (_isOnlyDigits) FilteringTextInputFormatter.digitsOnly,
         if (maskFormatter != null) maskFormatter!,
       ],
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: FormBuilderValidators.compose([
-        if (required) FormBuilderValidators.required(),
+        if (isRequired) FormBuilderValidators.required(),
         if (maxLength != null) FormBuilderValidators.maxLength(maxLength!),
-        if (_numbers) FormBuilderValidators.numeric(),
-        if (_email) FormBuilderValidators.email(),
+        if (_isNumbers) FormBuilderValidators.numeric(),
+        if (_isEmail) FormBuilderValidators.email(),
         if (mask != null)
           FormBuilderValidators.minLength(
             mask!.length,
-            errorText: _phoneNumber ? t.auth.incorrectNumberFormat : null,
+            errorText: _isPhoneNumber ? t.auth.incorrectNumberFormat : null,
           ),
       ]),
       style: context.textStyle.textTypo.tx1Medium,
