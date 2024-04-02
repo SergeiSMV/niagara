@@ -39,23 +39,21 @@ class SplashPage extends HookWidget {
 
     void onLoaded(LottieComposition composition) => mainAnimationCtrl
       ..duration = composition.duration
-      ..forward().whenComplete(
-        context.read<SplashCubit>().onCheckAuth,
+      ..forward().whenComplete(context.read<SplashCubit>().onCheckAuth);
+
+    void readyToAuth() => context.replaceRoute(const AuthWrapperRoute());
+
+    void readyToMain() {
+      Future.delayed(
+        const Duration(seconds: 2),
+        () => context.replaceRoute(const NavigationRoute()),
       );
-
-    void onCheckLoadedMain() {
-      // TODO(Oleg): Заменить на данные из главной страницы
-      Future.delayed(const Duration(seconds: 2), () {
-        context.read<SplashCubit>().onDone();
-      });
     }
-
-    void onMainNavigate() => context.router.replace(const NavigationRoute());
 
     return BlocListener<SplashCubit, SplashState>(
       listener: (_, state) => state.maybeWhen(
-        waiting: onCheckLoadedMain,
-        done: onMainNavigate,
+        readyToAuth: readyToAuth,
+        readyToMain: readyToMain,
         orElse: () => null,
       ),
       child: FittedBox(

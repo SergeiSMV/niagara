@@ -15,7 +15,7 @@ class BottomLoaderWidget extends StatelessWidget {
       bottom: AppConst.kLoaderBottomOffset,
       child: BlocBuilder<SplashCubit, SplashState>(
         builder: (context, state) => state.maybeWhen(
-          waiting: () => const _SpinnerLoader(),
+          readyToMain: () => const _SpinnerLoader(),
           orElse: () => const SizedBox.shrink(),
         ),
       ),

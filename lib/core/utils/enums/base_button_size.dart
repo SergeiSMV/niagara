@@ -1,5 +1,3 @@
-// ignore_for_file: sort_constructors_first
-
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 
 /// Тип размера кнопки из списка предопределенных значений
@@ -34,6 +32,7 @@ enum BaseButtonSize {
   /// Радиус скругления кнопки
   final double borderRadius;
 
+  // ignore: sort_constructors_first
   const BaseButtonSize({
     required this.height,
     required this.verticalPadding,

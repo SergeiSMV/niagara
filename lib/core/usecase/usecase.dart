@@ -1,6 +1,6 @@
 // ignore_for_file: one_member_abstracts
 
-part of '../../../core.dart';
+part of '../core.dart';
 
 /// Абстрактный класс [UseCase] является базовым классом для всех случаев
 /// использования в приложении. Он принимает два параметра: [Type] - тип

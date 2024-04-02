@@ -1,19 +1,18 @@
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Интерфейс локального источника данных для сохранения флага
-/// о пропуске авторизации.
-abstract interface class ISkipAuthLocalDataSource {
-  /// Сохраняет флаг пропуска авторизации.
-  Future<void> cacheSkipAuth({required bool skipAuth});
+/// Абстракция локального источника данных для авторизации.
+abstract interface class IAuthLocalDataSource {
+  /// Устанавливает статус авторизации.
+  Future<void> onSetAuthStatus({required int status});
 
-  /// Получает флаг пропуска авторизации.
-  Future<bool> getSkipAuth();
+  /// Проверяет статус авторизации.
+  Future<int> onCheckAuthStatus();
 }
 
-/// Локальный источник данных для сохранения флага о пропуске авторизации.
-@LazySingleton(as: ISkipAuthLocalDataSource)
-class SkipAuthLocalDataSource implements ISkipAuthLocalDataSource {
+/// Реализация локального источника данных для авторизации.
+@LazySingleton(as: IAuthLocalDataSource)
+class SkipAuthLocalDataSource implements IAuthLocalDataSource {
   /// Конструктор локального источника данных.
   SkipAuthLocalDataSource({
     required SharedPreferences sharedPreferences,
@@ -24,10 +23,10 @@ class SkipAuthLocalDataSource implements ISkipAuthLocalDataSource {
   String get _skipAuthKey => 'skipAuth';
 
   @override
-  Future<void> cacheSkipAuth({required bool skipAuth}) =>
-      _sharedPreferences.setBool(_skipAuthKey, skipAuth);
+  Future<void> onSetAuthStatus({required int status}) =>
+      _sharedPreferences.setInt(_skipAuthKey, status);
 
   @override
-  Future<bool> getSkipAuth() =>
-      Future.value(_sharedPreferences.getBool(_skipAuthKey) ?? false);
+  Future<int> onCheckAuthStatus() =>
+      Future.value(_sharedPreferences.getInt(_skipAuthKey) ?? 0);
 }

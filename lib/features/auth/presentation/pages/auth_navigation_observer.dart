@@ -6,7 +6,9 @@ import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubi
 @injectable
 class AuthNavigatorObserver extends NavigatorObserver {
   /// Создает экземпляр [AuthNavigatorObserver].
-  AuthNavigatorObserver(this.countdownTimerCubit);
+  AuthNavigatorObserver({
+    required this.countdownTimerCubit,
+  });
 
   /// Кубит для работы с таймером обратного отсчета.
   final CountdownTimerCubit countdownTimerCubit;

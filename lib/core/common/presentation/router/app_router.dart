@@ -10,7 +10,6 @@ import 'package:niagara_app/core/common/presentation/router/routers/profile_rout
 import 'package:niagara_app/core/common/presentation/router/routers/shops_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/splash_routes.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/features/auth/presentation/pages/auth_guard.dart';
 
 /// Класс [AppRouter] роутера приложения. Содержит все модули и
 /// их маршруты навигации в приложении.
@@ -31,7 +30,6 @@ class AppRouter extends $AppRouter {
         getIt<AuthRouters>().routers,
         AutoRoute(
           page: NavigationRoute.page,
-          guards: [getIt<SkipAuthGuard>()],
           children: [
             getIt<HomeRouters>().routers,
             getIt<CatalogRouters>().routers,

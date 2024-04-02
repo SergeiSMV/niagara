@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/auth/domain/usecases/skip_auth/check_skip_auth.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
+import 'package:niagara_app/features/auth/domain/usecases/check_auth_status.dart';
 
-part 'splash_cubit.freezed.dart';
 part './splash_state.dart';
+part 'splash_cubit.freezed.dart';
 
 /// Кубит для управления состоянием загрузки приложения. Проверяет на пропуск
 /// авторизации и уведомляет о завершении загрузки.
@@ -14,23 +15,22 @@ part './splash_state.dart';
 class SplashCubit extends Cubit<SplashState> {
   /// Конструктор по умолчанию
   SplashCubit({
-    required CheckSkipAuthUseCase checkSkipAuthUseCase,
-  })  : _checkSkipAuthUseCase = checkSkipAuthUseCase,
+    required CheckAuthStatusUseCase checkAuthStatusUseCase,
+  })  : _checkAuthStatusUseCase = checkAuthStatusUseCase,
         super(const SplashState.initial());
 
   /// UseCase для проверки на пропуск авторизации
-  final CheckSkipAuthUseCase _checkSkipAuthUseCase;
+  final CheckAuthStatusUseCase _checkAuthStatusUseCase;
 
   /// Проверка на пропуск авторизации
-  Future<void> onCheckAuth() =>
-      _checkSkipAuthUseCase.call(const NoParams()).fold(
-            (_) => emit(const SplashState.error()),
-            (skipAuth) => skipAuth ? onWaiting() : onDone(),
-          );
-
-  /// Уведомление о загрузке данных (для загрузки главной)
-  void onWaiting() => emit(const SplashState.waiting());
-
-  /// Завершение splash-экрана
-  void onDone() => emit(const SplashState.done());
+  Future<void> onCheckAuth() async {
+    final res = await _checkAuthStatusUseCase.call(const NoParams()).fold(
+          (_) => const SplashState.error(),
+          (status) => switch (status) {
+            AuthenticatedStatus.unknown => const SplashState.readyToAuth(),
+            _ => const SplashState.readyToMain(),
+          },
+        );
+    emit(res);
+  }
 }
