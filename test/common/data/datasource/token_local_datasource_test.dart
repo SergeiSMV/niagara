@@ -9,8 +9,10 @@ import 'package:uuid/uuid.dart';
 
 import 'token_local_datasource_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<FlutterSecureStorage>()])
-@GenerateNiceMocks([MockSpec<Uuid>()])
+@GenerateNiceMocks([
+  MockSpec<FlutterSecureStorage>(),
+  MockSpec<Uuid>(),
+])
 class MockDotEnv extends Mock implements DotEnv {}
 
 void main() async {
