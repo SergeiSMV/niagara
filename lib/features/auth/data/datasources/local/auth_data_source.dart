@@ -12,9 +12,9 @@ abstract interface class IAuthLocalDataSource {
 
 /// Реализация локального источника данных для авторизации.
 @LazySingleton(as: IAuthLocalDataSource)
-class SkipAuthLocalDataSource implements IAuthLocalDataSource {
+class AuthLocalDataSource implements IAuthLocalDataSource {
   /// Конструктор локального источника данных.
-  SkipAuthLocalDataSource({
+  AuthLocalDataSource({
     required SharedPreferences sharedPreferences,
   }) : _sharedPreferences = sharedPreferences;
 
