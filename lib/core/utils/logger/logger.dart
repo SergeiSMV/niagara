@@ -1,7 +1,7 @@
 import 'package:talker_flutter/talker_flutter.dart';
 
 /// Абстракция логгера приложения.
-abstract class AppLogger {
+abstract interface class IAppLogger {
   /// Запись критического сообщения.
   void critical(String message, [Object? error, StackTrace? stackTrace]);
 
@@ -19,13 +19,16 @@ abstract class AppLogger {
 
   /// Запись подробного сообщения.
   void verbose(String message, [Object? error, StackTrace? stackTrace]);
+
+  /// Обработка ошибки.
+  void handle(Object error, [StackTrace? stackTrace]);
 }
 
 /// Реализация логгера приложения на основе [Talker].
-class AppTalkerLogger implements AppLogger {
+class AppLogger implements IAppLogger {
   /// Создает экземпляр логгера приложения.
   /// [talker] - экземпляр [Talker] для записи логов.
-  AppTalkerLogger({required Talker talker}) : _talker = talker;
+  AppLogger({required Talker talker}) : _talker = talker;
 
   final Talker _talker;
 
@@ -52,4 +55,8 @@ class AppTalkerLogger implements AppLogger {
   @override
   void verbose(String message, [Object? error, StackTrace? stackTrace]) =>
       _talker.verbose(message, error, stackTrace);
+
+  @override
+  void handle(Object error, [StackTrace? stackTrace]) =>
+      _talker.handle(error, stackTrace);
 }

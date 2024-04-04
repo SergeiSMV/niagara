@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:niagara_app/app.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.dart';
+import 'package:niagara_app/core/common/presentation/theme/app_theme.dart';
 import 'package:niagara_app/core/dependencies/di.dart' as di;
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/core/utils/logger/logger.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 void main() async {
   /// Инициализация Flutter.
   /// Проверка на инициализацию FlutterBinding.
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Загрузка переменных окружения из файла `.env`.
+  /// Загрузка переменных окружения.
   await dotenv.load();
 
   /// Инициализация зависимостей.
@@ -26,8 +29,16 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  di.getIt<AppLogger>().verbose('Application started');
+  di.getIt<IAppLogger>().info('Application started');
 
   /// Запуск приложения.
-  runApp(TranslationProvider(child: const Application()));
+  runApp(
+    TranslationProvider(
+      child: Application(
+        talker: di.getIt<Talker>(),
+        router: di.getIt<AppRouter>(),
+        theme: di.getIt<AppTheme>(),
+      ),
+    ),
+  );
 }

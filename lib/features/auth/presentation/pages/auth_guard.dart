@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:either_dart/either.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/features/auth/domain/usecases/check_auth_status.dart';
 
@@ -21,7 +20,7 @@ class AuthGuard extends AutoRouteGuard {
     StackRouter router,
   ) async {
     /// Проверка на авторизацию
-    final hasAuth = await _authStatusUseCase.call(const NoParams()).fold(
+    final hasAuth = await _authStatusUseCase.call().fold(
           (_) => false,
           (authState) => authState == AuthenticatedStatus.authenticated,
         );

@@ -6,7 +6,7 @@ import 'package:niagara_app/features/auth/domain/repositories/auth_repository.da
 
 /// UseCase для проверки авторизован ли пользователь
 @injectable
-class CheckAuthStatusUseCase extends UseCase<AuthenticatedStatus, NoParams> {
+class CheckAuthStatusUseCase extends UseCaseNoParams<AuthenticatedStatus> {
   /// Конструктор UseCase. Принимает репозиторий [IAuthRepository]
   CheckAuthStatusUseCase({required IAuthRepository repository})
       : _repository = repository;
@@ -14,7 +14,7 @@ class CheckAuthStatusUseCase extends UseCase<AuthenticatedStatus, NoParams> {
   final IAuthRepository _repository;
 
   @override
-  Future<Either<Failure, AuthenticatedStatus>> call(NoParams params) {
+  Future<Either<Failure, AuthenticatedStatus>> call() {
     return _repository.onCheckAuthStatus();
   }
 }

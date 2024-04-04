@@ -3,18 +3,27 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.dart';
 import 'package:niagara_app/core/common/presentation/theme/app_theme.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 /// Основная точка входа в приложение
 class Application extends StatelessWidget {
   /// Конструктор приложения по умолчанию
-  const Application({super.key});
+  /// - [talker] - объект [Talker] для логирования событий
+  /// - [router] - объект роутера приложения [AppRouter]
+  /// - [theme] - тема приложения [AppTheme] для отображения виджетов
+  const Application({
+    required Talker talker,
+    required AppRouter router,
+    required AppTheme theme,
+    super.key,
+  })  : _talker = talker,
+        _router = router,
+        _theme = theme;
 
-  Talker get _talker => getIt<Talker>();
-  AppRouter get _router => getIt<AppRouter>();
-  AppTheme get _theme => getIt<AppTheme>();
+  final Talker _talker;
+  final AppRouter _router;
+  final AppTheme _theme;
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(

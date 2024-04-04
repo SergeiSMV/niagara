@@ -1,35 +1,34 @@
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
+import 'package:niagara_app/core/utils/logger/logger.dart';
 import 'package:niagara_app/features/auth/data/datasources/local/skip_auth_data_source.dart';
 import 'package:niagara_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 /// Репозиторий для работы с авторизацией.
 @LazySingleton(as: IAuthRepository)
 class AuthRepository implements IAuthRepository {
   /// Конструктор репозитория.
   /// - [localDataSource] - локальный источник данных.
+  /// - [logger] - логгер.
   AuthRepository({
     required IAuthLocalDataSource localDataSource,
-  }) : _localDataSource = localDataSource;
-
-  Talker get _logger => getIt<Talker>();
+    required IAppLogger logger,
+  })  : _localDataSource = localDataSource,
+        _logger = logger;
 
   final IAuthLocalDataSource _localDataSource;
+  final IAppLogger _logger;
 
   @override
   Future<Either<Failure, AuthenticatedStatus>> onCheckAuthStatus() async {
     try {
-      final res = await _localDataSource
-          .onCheckAuthStatus()
-          .then((status) => AuthenticatedStatus.values[status]);
-      return Right(res);
+      final res = await _localDataSource.onCheckAuthStatus();
+      return Right(AuthenticatedStatus.values[res]);
     } on Exception catch (e, st) {
       _logger.handle(e, st);
-      return Left(SkipAuthFailure());
+      return Left(AuthRepoFailure());
     }
   }
 
@@ -42,7 +41,7 @@ class AuthRepository implements IAuthRepository {
       return const Right(null);
     } on Exception catch (e, st) {
       _logger.handle(e, st);
-      return Left(SkipAuthFailure());
+      return Left(AuthRepoFailure());
     }
   }
 }

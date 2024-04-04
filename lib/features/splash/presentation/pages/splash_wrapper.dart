@@ -10,7 +10,7 @@ class SplashWrapperPage extends AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<SplashCubit>(),
+      create: (_) => getIt<SplashCubit>()..onCheckToken(),
       child: const AutoRouter(),
     );
   }

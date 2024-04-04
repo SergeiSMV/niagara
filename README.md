@@ -30,8 +30,6 @@
 - Навигация: [auto_router](https://pub.dev/packages/auto_router)
   - Генерация: [auto_route_generator](https://pub.dev/packages/auto_route_generator)
 - Работа с HTTP: [dio](https://pub.dev/packages/dio)
-  - Преобразование типов: [retrofit](https://pub.dev/packages/retrofit)
-  - Генератор: [retrofit_generator](https://pub.dev/packages/retrofit_generator)
 - Интернационализация: [intl](https://pub.dev/packages/intl)
   - Локализация: [slang](https://pub.dev/packages/slang)
   - Обертка для работы: [slang_flutter](https://pub.dev/packages/slang_flutter)
@@ -57,9 +55,11 @@
 - Функциональное программирование: [either_dart](https://pub.dev/packages/either_dart)
 - База данных:
   - Shared preferences: [shared_preferences](https://pub.dev/packages/shared_preferences)
+  - Шифрование: [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage)
 - Файловая система: [path_provider](https://pub.dev/packages/path_provider)
 - Ввод OTP: [pinput](https://pub.dev/packages/pinput)
 - Мок-данные: [mockito](https://pub.dev/packages/mockito) 
 - Формы ввода: [mask_text_input_formatter](https://pub.dev/packages/mask_text_input_formatter) 
 - Анимация Lottie: [lottie](https://pub.dev/packages/lottie) 
+- UUID: [uuid](https://pub.dev/packages/uuid) 
 

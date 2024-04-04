@@ -38,7 +38,8 @@ class GetCodeWidget extends StatelessWidget {
       }
     }
 
-    final isValid = context.select((ValidatePhoneCubit cubit) => cubit.state);
+    final isValid =
+        context.select<ValidatePhoneCubit, bool>((cubit) => cubit.state);
 
     return Container(
       padding: AppConst.kPaddingMax.horizontal,
