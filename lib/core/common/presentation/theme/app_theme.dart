@@ -5,7 +5,6 @@ import 'package:niagara_app/core/common/presentation/theme/app_typo.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/base_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/decorations/custom_outline_input_border.dart';
 import 'package:niagara_app/core/common/presentation/theme/typography/base_typography.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
@@ -15,26 +14,33 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 /// производятся в этом классе.
 @singleton
 class AppTheme {
+  /// Конструктор по умолчанию для создания темы приложения
+  AppTheme({
+    required AppColors colors,
+    required AppTypo typography,
+  })  : _appColors = colors,
+        _appTypo = typography;
+
+  final AppColors _appColors;
+  final AppTypo _appTypo;
+
   /// Основная тема приложения
   ThemeData get lightTheme {
-    final colors = getIt<AppColors>();
-    final typo = getIt<AppTypo>();
-
     return ThemeData.light().copyWith(
-      extensions: <ThemeExtension>[colors, typo],
+      extensions: <ThemeExtension>[_appColors, _appTypo],
       scaffoldBackgroundColor: const AppColors().mainColors.white,
       brightness: Brightness.light,
       hoverColor: Colors.transparent,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      appBarTheme: _appBarTheme(colors: colors, typography: typo),
+      appBarTheme: _appBarTheme(colors: _appColors, typography: _appTypo),
       bottomNavigationBarTheme: _bottomNavBarTheme(
-        colors: colors,
-        typography: typo,
+        colors: _appColors,
+        typography: _appTypo,
       ),
       inputDecorationTheme: _inputDecorationTheme(
-        colors: colors,
-        typography: typo,
+        colors: _appColors,
+        typography: _appTypo,
       ),
       actionIconTheme: ActionIconThemeData(
         backButtonIconBuilder: (_) => Assets.icons.arrowLeft.svg(),

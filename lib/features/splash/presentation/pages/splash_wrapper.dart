@@ -9,8 +9,17 @@ import 'package:niagara_app/features/splash/presentation/cubit/splash_cubit.dart
 class SplashWrapperPage extends AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
+    // Создаем экземпляр SplashCubit
+    final splashCubit = getIt<SplashCubit>();
+
+    // Вызываем onCheckToken в следующем кадре
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      splashCubit.onCheckToken();
+    });
+
+    // Возвращаем BlocProvider с созданным SplashCubit
     return BlocProvider(
-      create: (_) => getIt<SplashCubit>()..onCheckToken(),
+      create: (_) => splashCubit,
       child: const AutoRouter(),
     );
   }
