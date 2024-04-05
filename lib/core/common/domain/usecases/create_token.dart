@@ -2,14 +2,14 @@ part of '../../../core.dart';
 
 /// UseCase для получения токена
 @injectable
-class GetTokenUseCase extends UseCaseNoParams<String> {
+class CreateTokenUseCase extends UseCaseNoParams<void> {
   /// Конструктор UseCase для получения токена
-  const GetTokenUseCase({
+  const CreateTokenUseCase({
     required ITokenRepository repository,
   }) : _repository = repository;
 
   final ITokenRepository _repository;
 
   @override
-  Future<Either<Failure, String>> call() async => _repository.onGetToken();
+  Future<Either<Failure, void>> call() async => _repository.onCreateToken();
 }

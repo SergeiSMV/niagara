@@ -24,6 +24,6 @@ class TokenModel extends Equatable {
   List<Object?> get props => [isValid, token];
 }
 
-extension TokenModelX on TokenModel {
-  bool get isSuccessful => isValid && token != null;
+extension TokenModelExt on TokenModel {
+  bool get isSuccessful => isValid && token != null && token!.isNotEmpty;
 }

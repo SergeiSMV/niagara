@@ -16,18 +16,20 @@ sealed class Failure extends Equatable {
   List<Object?> get props => [error];
 }
 
-class AuthRepoFailure extends Failure {
-  const AuthRepoFailure([super.error]);
+// ! ------------------------------- Token ------------------------------- ! //
+class GetTokenFailure extends Failure {
+  const GetTokenFailure([super.error]);
 }
 
-class TokenRemoteFailure extends Failure {
-  const TokenRemoteFailure([super.error]);
+class CheckTokenFailure extends Failure {
+  const CheckTokenFailure([super.error]);
 }
 
-class TokenLocalFailure extends Failure {
-  const TokenLocalFailure([super.error]);
+// ! -------------------------------- Auth ------------------------------- ! //
+class CreateCodeFailure extends Failure {
+  const CreateCodeFailure([super.error]);
 }
 
-class TokenRepositoryFailure extends Failure {
-  const TokenRepositoryFailure([super.error]);
+class ValidateCodeFailure extends Failure {
+  const ValidateCodeFailure([super.error]);
 }

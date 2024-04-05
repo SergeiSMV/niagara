@@ -33,7 +33,7 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
           },
         ),
         converter: (json) => json['token'] as String,
-        failure: TokenRemoteFailure.new,
+        failure: GetTokenFailure.new,
       );
 
   @override
@@ -48,6 +48,6 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
           },
         ),
         converter: TokenModel.fromJson,
-        failure: TokenRemoteFailure.new,
+        failure: CheckTokenFailure.new,
       );
 }

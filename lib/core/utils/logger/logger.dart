@@ -1,4 +1,4 @@
-import 'package:talker_flutter/talker_flutter.dart';
+part of '../../core.dart';
 
 /// Абстракция логгера приложения.
 abstract interface class IAppLogger {
@@ -21,14 +21,17 @@ abstract interface class IAppLogger {
   void verbose(String message, [Object? error, StackTrace? stackTrace]);
 
   /// Обработка ошибки.
-  void handle(Object error, [StackTrace? stackTrace]);
+  void handle(Object error, [StackTrace? stackTrace, dynamic msg]);
 }
 
 /// Реализация логгера приложения на основе [Talker].
+@LazySingleton(as: IAppLogger)
 class AppLogger implements IAppLogger {
   /// Создает экземпляр логгера приложения.
   /// [talker] - экземпляр [Talker] для записи логов.
-  AppLogger({required Talker talker}) : _talker = talker;
+  AppLogger({
+    required Talker talker,
+  }) : _talker = talker;
 
   final Talker _talker;
 
@@ -57,6 +60,6 @@ class AppLogger implements IAppLogger {
       _talker.verbose(message, error, stackTrace);
 
   @override
-  void handle(Object error, [StackTrace? stackTrace]) =>
-      _talker.handle(error, stackTrace);
+  void handle(Object error, [StackTrace? stackTrace, dynamic msg]) =>
+      _talker.handle(error, stackTrace, msg);
 }

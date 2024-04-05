@@ -10,7 +10,6 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:niagara_app/core/common/data/models/token.dart' as _i6;
 import 'package:niagara_app/core/core.dart' as _i2;
-import 'package:niagara_app/core/utils/logger/logger.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -154,7 +153,7 @@ class MockITokenLocalDataSource extends _i1.Mock
 /// A class which mocks [IAppLogger].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIAppLogger extends _i1.Mock implements _i7.IAppLogger {
+class MockIAppLogger extends _i1.Mock implements _i2.IAppLogger {
   @override
   void critical(
     String? message, [
@@ -267,6 +266,7 @@ class MockIAppLogger extends _i1.Mock implements _i7.IAppLogger {
   void handle(
     Object? error, [
     StackTrace? stackTrace,
+    dynamic msg,
   ]) =>
       super.noSuchMethod(
         Invocation.method(
@@ -274,6 +274,7 @@ class MockIAppLogger extends _i1.Mock implements _i7.IAppLogger {
           [
             error,
             stackTrace,
+            msg,
           ],
         ),
         returnValueForMissingStub: null,

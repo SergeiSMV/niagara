@@ -10,17 +10,17 @@ abstract final class ApiConst {
   /// Пароль для авторизации
   static const String kPassword = 'API_PASSWORD';
 
-  // ? ------------------------------- Keys ------------------------------ ? //
-  /// Ключ для токена
-  static const String kToken = 'TOKEN_KEY';
-
-  /// Ключ для идентификатора устройства
-  static const String kDeviceId = 'DEVICE_ID_KEY';
-
   // ? ------------------------------ Token ------------------------------ ? //
   /// -POST- Запрос на получение токена
-  static const String kGetToken = '/token_session';
+  static const String kGetToken = '/get_token_session';
 
   /// -GET- Запрос на проверку токена
-  static const String kCheckToken = '/token_session';
+  static const String kCheckToken = '/check_token_session';
+
+  // ? ------------------------------ Auth ------------------------------- ? //
+  /// -POST- Запрос на создание кода для авторизации
+  static const String kCreateCode = '/code_confirm_create';
+
+  /// -POST- Запрос на проверку кода для авторизации
+  static const String kValidateCode = '/code_confirm_validate';
 }

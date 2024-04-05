@@ -20,10 +20,6 @@ abstract class AppModule {
         ),
       );
 
-  /// Экземпляр [IAppLogger] для работы с логированием.
-  @lazySingleton
-  IAppLogger get appLogger => AppLogger(talker: talker);
-
   // ? ------------------------------- Dio ------------------------------- ? //
   /// Экземпляр [Dio] для работы с HTTP-запросами.
   @lazySingleton
@@ -51,21 +47,13 @@ abstract class AppModule {
 
   /// Экземпляр [TalkerDioLogger] для логирования HTTP-запросов.
   @lazySingleton
-  TalkerDioLogger get talkerDioLogger => TalkerDioLogger(
-        talker: talker,
-      );
+  TalkerDioLogger get talkerDioLogger => TalkerDioLogger(talker: talker);
 
   /// Экземпляр [InterceptorsWrapper] для обработки ошибок HTTP-запросов
   /// и повтора запроса при необходимости.
   @lazySingleton
   InterceptorsWrapper get exceptionWrapper => InterceptorsWrapper(
         onError: (DioException e, ErrorInterceptorHandler handler) async {
-          if (e.response?.statusCode == 401) {
-            // Добавляем заголовок авторизации
-            e.requestOptions.headers['Authorization'] = _basicAuth;
-            // Повторяем запрос
-            return handler.resolve(await dio.fetch(e.requestOptions));
-          }
           talker.handle(e, e.stackTrace);
           return handler.next(e);
         },
@@ -90,7 +78,7 @@ abstract class AppModule {
   /// Экземпляр [SharedPreferences] для работы с хранилищем данных.
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
-  // ..then((value) => value.clear()); 
+  // ..then((value) => value.clear());
 
   /// Экземпляр [FlutterSecureStorage] для работы с безопасным хранилищем данных
   @lazySingleton

@@ -17,7 +17,7 @@ class SplashCubit extends Cubit<SplashState> {
   /// Конструктор по умолчанию
   SplashCubit({
     required CheckAuthStatusUseCase checkAuthStatusUseCase,
-    required GetTokenUseCase getTokenUseCase,
+    required CreateTokenUseCase getTokenUseCase,
     required CheckTokenUseCase checkTokenUseCase,
   })  : _checkAuthStatusUseCase = checkAuthStatusUseCase,
         _getTokenUseCase = getTokenUseCase,
@@ -25,7 +25,7 @@ class SplashCubit extends Cubit<SplashState> {
         super(const SplashState.initial());
 
   /// UseCase для получения токена
-  final GetTokenUseCase _getTokenUseCase;
+  final CreateTokenUseCase _getTokenUseCase;
 
   /// UseCase для проверки токена
   final CheckTokenUseCase _checkTokenUseCase;

@@ -5,7 +5,6 @@ import 'package:mockito/mockito.dart';
 import 'package:niagara_app/core/common/data/models/token.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/logger/logger.dart';
 
 import 'token_repository_test.mocks.dart';
 
@@ -51,7 +50,7 @@ void main() {
       when(mockTokenLocalDataSource.onSetToken(token: 'test_token'))
           .thenAnswer((_) async => const Right<Failure, dynamic>(null));
 
-      final result = await tokenRepository.getToken();
+      final result = await tokenRepository.onCreateToken();
 
       verify(mockTokenLocalDataSource.onGetDeviceId()).called(1);
       verify(mockTokenRemoteDataSource.onGetToken(deviceId: 'test_device_id'))
@@ -66,10 +65,10 @@ void main() {
       when(mockTokenLocalDataSource.onGetDeviceId())
           .thenThrow(Exception('test_exception'));
 
-      final result = await tokenRepository.getToken();
+      final result = await tokenRepository.onCreateToken();
 
       result.fold(
-        (failure) => expect(failure, isA<TokenRepositoryFailure>()),
+        (failure) => expect(failure, isA<GetTokenFailure>()),
         (_) => fail('Expected a Left'),
       );
     });
@@ -78,7 +77,7 @@ void main() {
       when(mockTokenLocalDataSource.onGetToken())
           .thenAnswer((_) async => 'test_token');
 
-      final result = await tokenRepository.checkToken();
+      final result = await tokenRepository.onCheckToken();
 
       verify(mockTokenLocalDataSource.onGetToken()).called(1);
 
@@ -89,10 +88,10 @@ void main() {
       when(mockTokenLocalDataSource.onGetToken())
           .thenThrow(Exception('test_exception'));
 
-      final result = await tokenRepository.checkToken();
+      final result = await tokenRepository.onCheckToken();
 
       result.fold(
-        (failure) => expect(failure, isA<TokenRepositoryFailure>()),
+        (failure) => expect(failure, isA<CheckTokenFailure>()),
         (_) => fail('Expected a Left'),
       );
     });

@@ -59,14 +59,14 @@ void main() {
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
         ),
-      ).thenAnswer((_) async => const Left(TokenRemoteFailure()));
+      ).thenAnswer((_) async => const Left(GetTokenFailure()));
 
       final result =
           await tokenRemoteDataSource.onGetToken(deviceId: 'test_device_id');
 
       expect(
         result,
-        equals(const Left<Failure, dynamic>(TokenRemoteFailure())),
+        equals(const Left<Failure, dynamic>(GetTokenFailure())),
       );
       verify(
         mockRequestHandler.sendRequest<String>(
@@ -118,14 +118,14 @@ void main() {
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
         ),
-      ).thenAnswer((_) async => const Left(TokenRemoteFailure()));
+      ).thenAnswer((_) async => const Left(CheckTokenFailure()));
 
       final result =
           await tokenRemoteDataSource.onCheckToken(token: 'invalid_token');
 
       expect(
         result,
-        const Left<Failure, dynamic>(TokenRemoteFailure()),
+        const Left<Failure, dynamic>(CheckTokenFailure()),
       );
 
       verify(
