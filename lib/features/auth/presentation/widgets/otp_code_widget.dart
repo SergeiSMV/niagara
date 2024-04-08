@@ -6,24 +6,33 @@ import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:pinput/pinput.dart';
 
-/// Виджет для ввода кода подтверждения.
 class OTPCodeWidget extends StatelessWidget {
-  /// Конструктор виджета для ввода кода подтверждения.
   const OTPCodeWidget({super.key});
+
+  PinTheme _buildPinTheme(BuildContext context) => PinTheme(
+        height: AppConst.kOTPCodeHeight,
+        width: AppConst.kOTPCodeWidth,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppConst.kOTPCodeRadius),
+          border: Border.all(
+            color: context.colors.fieldBordersColors.main,
+          ),
+        ),
+        textStyle: context.textStyle.headingTypo.h1,
+      );
+
+  Widget _buildCursor(Color color) => Container(
+        height: AppConst.kOTPCodePreFilledSize,
+        width: AppConst.kOTPCodePreFilledSize,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
-    final pinTheme = PinTheme(
-      height: AppConst.kOTPCodeHeight,
-      width: AppConst.kOTPCodeWidth,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppConst.kOTPCodeRadius),
-        border: Border.all(
-          color: context.colors.fieldBordersColors.main,
-        ),
-      ),
-      textStyle: context.textStyle.headingTypo.h1,
-    );
+    final pinTheme = _buildPinTheme(context);
 
     return Pinput(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,16 +55,5 @@ class OTPCodeWidget extends StatelessWidget {
       onTapOutside: (_) => FocusScope.of(context).unfocus(),
       // forceErrorState: true,
     ).paddingAll(AppConst.kPaddingMid);
-  }
-
-  Container _buildCursor(Color color) {
-    return Container(
-      height: AppConst.kOTPCodePreFilledSize,
-      width: AppConst.kOTPCodePreFilledSize,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
-      ),
-    );
   }
 }

@@ -6,15 +6,13 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Виджет заголовка страницы ввода кода подтверждения.
 class OTPTitleWidget extends StatelessWidget {
-  /// Конструктор виджета заголовка страницы ввода кода подтверждения.
-  /// - [phoneNumber] - номер телефона, на который отправлен код подтверждения.
   const OTPTitleWidget({
-    required this.phoneNumber,
+    required String phoneNumber,
     super.key,
-  });
+  }) : _phoneNumber = phoneNumber;
 
   /// Номер телефона
-  final String phoneNumber;
+  final String _phoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,7 @@ class OTPTitleWidget extends StatelessWidget {
           style: context.textStyle.headingTypo.h3,
         ).padding(bottom: AppConst.kPaddingMid + AppConst.kPaddingMin),
         Text(
-          t.auth.weSentCode(phoneNumber: phoneNumber),
+          t.auth.weSentCode(phoneNumber: _phoneNumber),
           style: context.textStyle.textTypo.tx1Medium,
           textAlign: TextAlign.center,
         ).paddingSymmetric(

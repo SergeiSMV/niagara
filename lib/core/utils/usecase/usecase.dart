@@ -10,15 +10,8 @@ abstract class UseCase<Type, Params> {
 
   /// Метод [call] выполняет логику случая использования. Принимает параметры
   /// [params] и возвращает [Either] с [Failure] и [Type].
-  Future<Either<Failure, Type>> call(Params params);
+  Future<Either<Failure, Type>> call([Params? params]);
 }
 
-/// Абстрактный класс [UseCaseNoParams] без параметров с типом [Type].
-/// Возвращает [Either] с [Failure] и [Type].
-abstract class UseCaseNoParams<Type> {
-  /// Создает объект случая использования без параметров.
-  const UseCaseNoParams();
-
-  /// Метод [call] выполняет логику случая использования. Возвращает [Either]
-  Future<Either<Failure, Type>> call();
-}
+/// Пустой класс [NoParams] для случаев использования без параметров.
+class NoParams {}

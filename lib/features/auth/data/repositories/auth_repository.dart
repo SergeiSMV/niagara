@@ -1,47 +1,106 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/core/utils/logger/logger.dart';
-import 'package:niagara_app/features/auth/data/datasources/local/skip_auth_data_source.dart';
+import 'package:niagara_app/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:niagara_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:niagara_app/features/auth/domain/repositories/auth_repository.dart';
 
-/// Репозиторий для работы с авторизацией.
 @LazySingleton(as: IAuthRepository)
-class AuthRepository implements IAuthRepository {
-  /// Конструктор репозитория.
-  /// - [localDataSource] - локальный источник данных.
-  /// - [logger] - логгер.
+class AuthRepository with LogMixin implements IAuthRepository {
   AuthRepository({
     required IAuthLocalDataSource localDataSource,
-    required IAppLogger logger,
+    required IAuthRemoteDatasource remoteDatasource,
+    required ITokenLocalDataSource tokenLocalDataSource,
   })  : _localDataSource = localDataSource,
-        _logger = logger;
+        _remoteDatasource = remoteDatasource,
+        _tokenLocalDataSource = tokenLocalDataSource;
 
   final IAuthLocalDataSource _localDataSource;
-  final IAppLogger _logger;
+  final IAuthRemoteDatasource _remoteDatasource;
+  final ITokenLocalDataSource _tokenLocalDataSource;
+
+  static const String _tokenEmptyError = 'Token is empty';
+  static const String _codeInvalidError = 'Code is invalid';
 
   @override
-  Future<Either<Failure, AuthenticatedStatus>> onCheckAuthStatus() async {
+  Future<Either<Failure, AuthenticatedStatus>> checkAuthStatus() async {
     try {
-      final res = await _localDataSource.onCheckAuthStatus();
-      return Right(AuthenticatedStatus.values[res]);
-    } on Exception catch (e, st) {
-      _logger.handle(e, st);
-      return Left(AuthRepoFailure());
+      final result = await _localDataSource
+          .onCheckAuthStatus()
+          .then((value) => AuthenticatedStatus.values[value]);
+      return Right(result);
+    } catch (e, st) {
+      return Left(logError(const CheckAuthStatusFailure(), e, st));
     }
   }
 
   @override
-  Future<Either<Failure, void>> onSetAuthStatus({
-    required AuthenticatedStatus status,
+  Future<Either<Failure, String>> sendCode({required String phone}) async {
+    try {
+      final token = await _tokenLocalDataSource.onGetToken();
+      if (token == null) {
+        return Left(logFailure(const CreateCodeFailure(_tokenEmptyError)));
+      }
+
+      return await _remoteDatasource
+          .onCreateCode(
+            token: token,
+            phone: phone,
+          )
+          .fold(
+            (left) => Left(logFailure(CreateCodeFailure(left.error))),
+            (right) => Right(right.$2),
+          );
+    } catch (e, st) {
+      return Left(logError(const CreateCodeFailure(), e, st));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> checkCode({
+    required String phone,
+    required String code,
   }) async {
     try {
-      await _localDataSource.onSetAuthStatus(status: status.index);
+      final token = await _tokenLocalDataSource.onGetToken();
+      if (token == null) {
+        return Left(logFailure(const ValidateCodeFailure(_tokenEmptyError)));
+      }
+
+      return await _remoteDatasource
+          .onValidateCode(token: token, phone: phone, code: code)
+          .fold(
+        (left) => Left(logFailure(ValidateCodeFailure(left.error))),
+        (right) {
+          if (!right) {
+            return Left(
+              logFailure(const ValidateCodeFailure(_codeInvalidError)),
+            );
+          }
+
+          _localDataSource.onSetAuthStatus(
+            status: AuthenticatedStatus.authenticated.index,
+          );
+          return const Right(null);
+        },
+      );
+    } catch (e, st) {
+      return Left(logError(const ValidateCodeFailure(), e, st));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> skipAuth() async {
+    try {
+      await _localDataSource.onSetAuthStatus(
+        status: AuthenticatedStatus.unauthenticated.index,
+      );
       return const Right(null);
-    } on Exception catch (e, st) {
-      _logger.handle(e, st);
-      return Left(AuthRepoFailure());
+    } catch (e, st) {
+      return Left(logError(const SkipAuthFailure(), e, st));
     }
   }
 }

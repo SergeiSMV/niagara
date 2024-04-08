@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/constants/api_constants.dart';
+import 'package:niagara_app/core/utils/constants/keys_constants.dart';
 import 'package:uuid/uuid.dart';
 
 import 'token_local_datasource_test.mocks.dart';
@@ -20,8 +20,8 @@ void main() async {
   MockDotEnv().testLoad();
 
   const token = 'token_test';
-  const tokenKey = ApiConst.kToken;
-  const deviceId = ApiConst.kDeviceId;
+  const tokenKey = KeysConst.kToken;
+  const deviceId = KeysConst.kDeviceId;
 
   group('TokenLocalDataSource', () {
     late TokenLocalDataSource datasource;

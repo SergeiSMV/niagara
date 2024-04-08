@@ -7,7 +7,7 @@ mixin LogMixin {
   /// Вывод ошибки в консоль и лог.
   Failure logFailure(Failure f) {
     final msg = _buildMessage(f);
-    _logger.warning(msg);
+    _logger.log(level: LogLevel.warning, message: msg);
     return f;
   }
 

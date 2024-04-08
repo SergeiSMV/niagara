@@ -1,6 +1,5 @@
 part of 'auth_bloc.dart';
 
-/// [AuthEvent] - события блока авторизации.
 @freezed
 sealed class AuthEvent with _$AuthEvent {
   const factory AuthEvent.getCode({

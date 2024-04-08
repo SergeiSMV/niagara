@@ -2,13 +2,18 @@ import 'package:either_dart/either.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
 
-/// Абстракция репозитория для пропуска авторизации.
 abstract interface class IAuthRepository {
-  /// Метод [onSetAuthStatus] выполняет пропуск авторизации.
-  Future<Either<Failure, void>> onSetAuthStatus({
-    required AuthenticatedStatus status,
+  Future<Either<Failure, void>> skipAuth();
+
+  // ! Возвращаемое значение - временное !
+  Future<Either<Failure, String>> sendCode({
+    required String phone,
   });
 
-  /// Метод [onCheckAuthStatus] проверяет авторизацию.
-  Future<Either<Failure, AuthenticatedStatus>> onCheckAuthStatus();
+  Future<Either<Failure, void>> checkCode({
+    required String phone,
+    required String code,
+  });
+
+  Future<Either<Failure, AuthenticatedStatus>> checkAuthStatus();
 }

@@ -11,7 +11,6 @@ import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubi
 
 /// Виджет для повторной отправки кода подтверждения.
 class ReSendCodeWidget extends StatelessWidget {
-  /// Конструктор виджета для повторной отправки кода подтверждения.
   const ReSendCodeWidget({super.key});
 
   @override
@@ -34,6 +33,17 @@ class ReSendCodeWidget extends StatelessWidget {
 class _ResendCodeButton extends StatelessWidget {
   const _ResendCodeButton();
 
+  void onResendCode(BuildContext context, {bool isDisabled = false}) {
+    if (isDisabled) return;
+    final phoneNumber = context.read<AuthBloc>().state.maybeWhen(
+          getCode: (phoneNumber) => phoneNumber,
+          orElse: () => null,
+        );
+    context
+      ..read<CountdownTimerCubit>().startTimer()
+      ..read<AuthBloc>().add(AuthEvent.getCode(phoneNumber: phoneNumber));
+  }
+
   @override
   Widget build(BuildContext context) {
     final time = context.select((CountdownTimerCubit cubit) => cubit.state);
@@ -43,19 +53,8 @@ class _ResendCodeButton extends StatelessWidget {
         ? context.colors.textColors.secondary
         : context.colors.textColors.accent;
 
-    void onResendCode() {
-      if (isDisabled) return;
-      final phoneNumber = context.read<AuthBloc>().state.maybeWhen(
-            getCode: (phoneNumber) => phoneNumber,
-            orElse: () => null,
-          );
-      context
-        ..read<CountdownTimerCubit>().startTimer()
-        ..read<AuthBloc>().add(AuthEvent.getCode(phoneNumber: phoneNumber));
-    }
-
     return InkWell(
-      onTap: onResendCode,
+      onTap: () => onResendCode(context, isDisabled: isDisabled),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.center,

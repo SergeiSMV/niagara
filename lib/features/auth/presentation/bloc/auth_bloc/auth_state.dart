@@ -1,6 +1,5 @@
 part of 'auth_bloc.dart';
 
-/// [AuthState] - состояния блока авторизации.
 @freezed
 sealed class AuthState with _$AuthState {
   const factory AuthState.initial() = _AuthInitialState;

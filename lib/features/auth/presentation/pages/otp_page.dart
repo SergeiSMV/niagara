@@ -11,14 +11,12 @@ import 'package:niagara_app/features/auth/presentation/widgets/resend_code_widge
 /// Страница для ввода кода подтверждения.
 @RoutePage()
 class OTPPage extends StatelessWidget {
-  /// Конструктор страницы для ввода кода подтверждения.
   const OTPPage({
-    required this.phoneNumber,
+    required String phoneNumber,
     super.key,
-  });
+  }) : _phoneNumber = phoneNumber;
 
-  /// Номер телефона, на который отправлен код подтверждения.
-  final String phoneNumber;
+  final String _phoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,7 @@ class OTPPage extends StatelessWidget {
       appBar: AppBarWidget(title: t.auth.confirmNumber),
       body: Column(
         children: [
-          OTPTitleWidget(phoneNumber: phoneNumber),
+          OTPTitleWidget(phoneNumber: _phoneNumber),
           const OTPCodeWidget(),
           const Spacer(),
           const ReSendCodeWidget(),

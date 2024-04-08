@@ -2,7 +2,7 @@ part of '../../../core.dart';
 
 /// UseCase для проверки токена
 @injectable
-class CheckTokenUseCase extends UseCaseNoParams<bool> {
+class CheckTokenUseCase extends UseCase<bool, NoParams> {
   /// Конструктор UseCase для проверки токена
   const CheckTokenUseCase({
     required ITokenRepository repository,
@@ -11,5 +11,6 @@ class CheckTokenUseCase extends UseCaseNoParams<bool> {
   final ITokenRepository _repository;
 
   @override
-  Future<Either<Failure, bool>> call() async => _repository.onCheckToken();
+  Future<Either<Failure, bool>> call([NoParams? params]) async =>
+      _repository.onCheckToken();
 }

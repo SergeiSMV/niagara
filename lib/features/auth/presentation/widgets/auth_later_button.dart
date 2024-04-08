@@ -8,18 +8,17 @@ import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.
 
 /// Кнопка "Авторизоваться позже".
 class AuthLaterButton extends StatelessWidget {
-  /// Создает экземпляр [AuthLaterButton].
   const AuthLaterButton({super.key});
+
+  void onTapAuthLater(BuildContext context) => context
+    ..read<AuthBloc>().add(const AuthEvent.authLater())
+    ..replaceRoute(const NavigationRoute());
 
   @override
   Widget build(BuildContext context) {
-    void onTapAuthLater() => context
-      ..read<AuthBloc>().add(const AuthEvent.authLater())
-      ..replaceRoute(const NavigationRoute());
-
     return AppTextButton.invisible(
       text: t.auth.authLater,
-      onTap: onTapAuthLater,
+      onTap: () => onTapAuthLater(context),
     );
   }
 }

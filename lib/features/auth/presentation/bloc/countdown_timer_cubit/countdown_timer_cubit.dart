@@ -5,9 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 
 @injectable
-/// Кубит для отсчета времени.
 class CountdownTimerCubit extends Cubit<int> {
-  /// Создает экземпляр [CountdownTimerCubit].
   CountdownTimerCubit() : super(0);
 
   StreamSubscription<int>? _timerSubscription;
@@ -18,7 +16,6 @@ class CountdownTimerCubit extends Cubit<int> {
     return super.close();
   }
 
-  /// Запускает таймер.
   void startTimer() {
     emit(AppConst.kOTPResendTime);
     _timerSubscription?.cancel();
@@ -28,7 +25,6 @@ class CountdownTimerCubit extends Cubit<int> {
     ).take(AppConst.kOTPResendTime).listen(emit);
   }
 
-  /// Останавливает таймер.
   void stopTimer() {
     _timerSubscription?.cancel();
     _timerSubscription = null;

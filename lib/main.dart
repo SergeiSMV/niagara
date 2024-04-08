@@ -34,7 +34,10 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  di.getIt<IAppLogger>().info('Application started');
+  di.getIt<IAppLogger>().log(
+        level: LogLevel.verbose,
+        message: 'Application started',
+      );
 
   /// Запуск приложения.
   runApp(

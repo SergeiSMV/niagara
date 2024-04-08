@@ -10,6 +10,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:niagara_app/core/common/data/models/token.dart' as _i6;
 import 'package:niagara_app/core/core.dart' as _i2;
+import 'package:talker_flutter/talker_flutter.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -155,109 +156,22 @@ class MockITokenLocalDataSource extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockIAppLogger extends _i1.Mock implements _i2.IAppLogger {
   @override
-  void critical(
-    String? message, [
+  void log({
+    required _i7.LogLevel? level,
+    required String? message,
     Object? error,
     StackTrace? stackTrace,
-  ]) =>
+  }) =>
       super.noSuchMethod(
         Invocation.method(
-          #critical,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void error(
-    String? message, [
-    Object? error,
-    StackTrace? stackTrace,
-  ]) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #error,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void warning(
-    String? message, [
-    Object? error,
-    StackTrace? stackTrace,
-  ]) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #warning,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void info(
-    String? message, [
-    Object? error,
-    StackTrace? stackTrace,
-  ]) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #info,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void debug(
-    String? message, [
-    Object? error,
-    StackTrace? stackTrace,
-  ]) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #debug,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void verbose(
-    String? message, [
-    Object? error,
-    StackTrace? stackTrace,
-  ]) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #verbose,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
+          #log,
+          [],
+          {
+            #level: level,
+            #message: message,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
         ),
         returnValueForMissingStub: null,
       );

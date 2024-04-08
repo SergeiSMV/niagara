@@ -7,15 +7,15 @@ import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubi
 class AuthNavigatorObserver extends NavigatorObserver {
   /// Создает экземпляр [AuthNavigatorObserver].
   AuthNavigatorObserver({
-    required this.countdownTimerCubit,
-  });
+    required CountdownTimerCubit countdownTimerCubit,
+  }) : _countdownTimerCubit = countdownTimerCubit;
 
   /// Кубит для работы с таймером обратного отсчета.
-  final CountdownTimerCubit countdownTimerCubit;
+  final CountdownTimerCubit _countdownTimerCubit;
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPop(route, previousRoute);
-    countdownTimerCubit.stopTimer();
+    _countdownTimerCubit.stopTimer();
   }
 }

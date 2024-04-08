@@ -4,7 +4,6 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Виджет для ввода номера телефона.
 class EnterPhoneWidget extends StatelessWidget {
-  /// Создает экземпляр [EnterPhoneWidget].
   const EnterPhoneWidget({super.key});
 
   @override

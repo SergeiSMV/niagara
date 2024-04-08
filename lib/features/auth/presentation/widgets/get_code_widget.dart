@@ -14,33 +14,28 @@ import 'package:niagara_app/features/auth/presentation/bloc/validate_phone_cubit
 
 /// Кнопка "Получить код" для отправки кода подтверждения на номер телефона.
 class GetCodeWidget extends StatelessWidget {
-  /// Создает экземпляр [GetCodeWidget].
   const GetCodeWidget({
-    required this.formKey,
+    required GlobalKey<FormBuilderState> formKey,
     super.key,
-  });
+  }) : _formKey = formKey;
 
   /// Ключ формы для валидации номера телефона.
-  final GlobalKey<FormBuilderState> formKey;
+  final GlobalKey<FormBuilderState> _formKey;
+
+  void onTapGetCode(BuildContext context) {
+    if (_formKey.currentState?.saveAndValidate() ?? false) {
+      final phoneNumber =
+          _formKey.currentState?.value[AppConst.kTextFieldPhoneName].toString();
+      if (phoneNumber == null || phoneNumber.isEmpty) return;
+      context
+        ..read<AuthBloc>().add(AuthEvent.getCode(phoneNumber: phoneNumber))
+        ..read<CountdownTimerCubit>().startTimer()
+        ..pushRoute(OTPRoute(phoneNumber: phoneNumber));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    void onTapGetCode() {
-      if (formKey.currentState?.saveAndValidate() ?? false) {
-        final phoneNumber = formKey
-            .currentState?.value[AppConst.kTextFieldPhoneName]
-            .toString();
-        if (phoneNumber == null || phoneNumber.isEmpty) return;
-        context
-          ..read<AuthBloc>().add(AuthEvent.getCode(phoneNumber: phoneNumber))
-          ..read<CountdownTimerCubit>().startTimer()
-          ..pushRoute(OTPRoute(phoneNumber: phoneNumber));
-      }
-    }
-
-    final isValid =
-        context.select<ValidatePhoneCubit, bool>((cubit) => cubit.state);
-
     return Container(
       padding: AppConst.kPaddingMax.horizontal,
       decoration: BoxDecoration(
@@ -61,9 +56,11 @@ class GetCodeWidget extends StatelessWidget {
           bottom: AppConst.kGetCodeButtonBottomPadding,
         ),
         maintainBottomViewPadding: true,
-        child: AppTextButton.primary(
-          text: t.auth.getCode,
-          onTap: isValid ? onTapGetCode : null,
+        child: BlocBuilder<ValidatePhoneCubit, bool>(
+          builder: (_, isValid) => AppTextButton.primary(
+            text: t.auth.getCode,
+            onTap: isValid ? () => onTapGetCode(context) : null,
+          ),
         ),
       ),
     );

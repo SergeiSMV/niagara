@@ -8,28 +8,25 @@ import 'package:niagara_app/features/auth/presentation/bloc/validate_phone_cubit
 
 /// Поле для ввода номера телефона.
 class PhoneNumberField extends StatelessWidget {
-  /// Создает экземпляр [PhoneNumberField].
-  /// - [formKey] - обязательный ключ формы для валидации номера телефона.
   const PhoneNumberField({
-    required this.formKey,
+    required GlobalKey<FormBuilderState> formKey,
     super.key,
-  });
+  }) : _formKey = formKey;
 
-  /// Ключ формы для валидации номера телефона.
-  final GlobalKey<FormBuilderState> formKey;
+  final GlobalKey<FormBuilderState> _formKey;
+
+  void onChangedPhoneInput(BuildContext context, {String? phone}) =>
+      context.read<ValidatePhoneCubit>().validatePhone(phone);
 
   @override
   Widget build(BuildContext context) {
-    void onChangedPhoneInput(String? phone) =>
-        context.read<ValidatePhoneCubit>().validatePhone(phone);
-
-    final isValid = context.select((ValidatePhoneCubit cubit) => cubit.state);
-
     return FormBuilder(
-      key: formKey,
-      child: AppTextField.phone(
-        onChanged: onChangedPhoneInput,
-        state: isValid ? BaseTextFieldState.success : null,
+      key: _formKey,
+      child: BlocBuilder<ValidatePhoneCubit, bool>(
+        builder: (context, isValid) => AppTextField.phone(
+          onChanged: (value) => onChangedPhoneInput(context, phone: value),
+          state: isValid ? BaseTextFieldState.success : null,
+        ),
       ).paddingAll(16),
     );
   }

@@ -33,3 +33,11 @@ class CreateCodeFailure extends Failure {
 class ValidateCodeFailure extends Failure {
   const ValidateCodeFailure([super.error]);
 }
+
+class CheckAuthStatusFailure extends Failure {
+  const CheckAuthStatusFailure([super.error]);
+}
+
+class SkipAuthFailure extends Failure {
+  const SkipAuthFailure([super.error]);
+}

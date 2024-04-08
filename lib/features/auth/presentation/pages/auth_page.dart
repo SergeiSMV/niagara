@@ -13,7 +13,6 @@ import 'package:niagara_app/features/auth/presentation/widgets/privacy_policy_te
 /// "Получить код", а также ссылками на политику конфиденциальности.
 @RoutePage()
 class AuthPage extends StatelessWidget {
-  /// Конструктор страницы авторизации [AuthPage].
   const AuthPage({super.key});
 
   @override
