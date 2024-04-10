@@ -6,7 +6,6 @@ import 'package:niagara_app/features/splash/presentation/cubit/splash_cubit.dart
 
 /// Виджет загрузчика внизу экрана
 class BottomLoaderWidget extends StatelessWidget {
-  /// Конструктор виджета загрузчика внизу экрана
   const BottomLoaderWidget({super.key});
 
   @override

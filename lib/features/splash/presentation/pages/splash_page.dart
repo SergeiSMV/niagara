@@ -14,7 +14,6 @@ import 'package:niagara_app/features/splash/presentation/widgets/bottom_loader_w
 /// Страница загрузки приложения с анимацией логотипа
 @RoutePage()
 class SplashPage extends HookWidget {
-  /// Используется Cubit для управления состоянием после загрузки анимации
   const SplashPage({super.key});
 
   @override
