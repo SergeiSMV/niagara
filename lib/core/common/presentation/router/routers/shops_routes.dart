@@ -11,7 +11,7 @@ class ShopsNavigatorPage extends AutoRouter {
 }
 
 /// Класс роутера для модуля Cart (Корзина)
-@injectable
+@lazySingleton
 class ShopsRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(

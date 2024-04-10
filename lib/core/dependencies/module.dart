@@ -57,8 +57,8 @@ abstract class AppModule {
   // ? ----------------------------- Storage ----------------------------- ? //
   /// Экземпляр [SharedPreferences] для работы с хранилищем данных.
   @preResolve
-  Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
-  //.then((value) => value..clear());
+  Future<SharedPreferences> prefs() => SharedPreferences.getInstance()
+  .then((value) => value..clear());
 
   /// Экземпляр [FlutterSecureStorage] для работы с безопасным хранилищем данных
   @lazySingleton

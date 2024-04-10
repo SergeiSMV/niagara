@@ -20,5 +20,10 @@
     "incorrectNumberFormat": "Incorrect number format",
     "incorrectCode": "Incorrect code. Please try again",
     "limitSendCode": "Message sending limit exceeded. You can request the SMS code again when the timer expires."
+  },
+  "locations": {
+    "deliveryAddress": "Delivery address",
+    "yeahThatsRight": "Yes, that's right",
+    "enterManually": "Enter manually"
   }
 }

@@ -11,7 +11,7 @@ class CatalogNavigatorPage extends AutoRouter {
 }
 
 /// Класс роутера для модуля Catalog (Каталог)
-@injectable
+@lazySingleton
 class CatalogRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(

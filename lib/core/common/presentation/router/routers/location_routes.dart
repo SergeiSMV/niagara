@@ -3,15 +3,14 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/router/base_route.dart';
 
-/// Класс роутера для модуля Cart (Корзина)
+/// Класс роутера для модуля локаций
 @lazySingleton
-class SplashRouters implements BaseRouters {
+class LocationsRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(
-        page: SplashWrapperRoute.page,
-        initial: true,
+        page: LocationsWrapperRoute.page,
         children: [
-          AutoRoute(page: SplashRoute.page, initial: true),
+          AutoRoute(page: AddressSelectionRoute.page, initial: true),
         ],
       );
 }

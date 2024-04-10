@@ -11,7 +11,7 @@ class HomeNavigatorPage extends AutoRouter {
 }
 
 /// Класс роутера для модуля Home (Главная)
-@injectable
+@lazySingleton
 class HomeRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(
