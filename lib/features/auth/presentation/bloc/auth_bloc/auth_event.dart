@@ -3,13 +3,16 @@ part of 'auth_bloc.dart';
 @freezed
 sealed class AuthEvent with _$AuthEvent {
   const factory AuthEvent.getCode({
-    String? phoneNumber,
+    required String phoneNumber,
   }) = _GetCodeEvent;
+
+  const factory AuthEvent.resendCode() = _ResendCodeEvent;
+
+  const factory AuthEvent.otpChanged() = _OtpChangedEvent;
 
   const factory AuthEvent.authLater() = _AuthLaterEvent;
 
   const factory AuthEvent.authNow({
-    required String phoneNumber,
-    String? otp,
+    required String otp,
   }) = _AuthNowEvent;
 }

@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 
-@injectable
+@lazySingleton
 class ValidatePhoneCubit extends Cubit<bool> {
   ValidatePhoneCubit() : super(false);
 

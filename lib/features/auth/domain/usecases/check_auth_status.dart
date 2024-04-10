@@ -4,6 +4,10 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/features/auth/domain/repositories/auth_repository.dart';
 
+/// Проверяет статус авторизации.
+///
+/// Возвращает [CheckAuthStatusFailure], если статус авторизации не был получен.
+/// Возвращает [Right<AuthenticatedStatus>] если статус авторизации был получен.
 @injectable
 class CheckAuthStatusUseCase extends UseCase<AuthenticatedStatus, NoParams> {
   CheckAuthStatusUseCase({
@@ -13,7 +17,6 @@ class CheckAuthStatusUseCase extends UseCase<AuthenticatedStatus, NoParams> {
   final IAuthRepository _repository;
 
   @override
-  Future<Either<Failure, AuthenticatedStatus>> call([NoParams? params]) {
-    return _repository.checkAuthStatus();
-  }
+  Future<Either<Failure, AuthenticatedStatus>> call([NoParams? params]) =>
+      _repository.checkAuthStatus();
 }

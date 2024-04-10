@@ -35,13 +35,10 @@ class _ResendCodeButton extends StatelessWidget {
 
   void onResendCode(BuildContext context, {bool isDisabled = false}) {
     if (isDisabled) return;
-    final phoneNumber = context.read<AuthBloc>().state.maybeWhen(
-          getCode: (phoneNumber) => phoneNumber,
-          orElse: () => null,
-        );
+
     context
       ..read<CountdownTimerCubit>().startTimer()
-      ..read<AuthBloc>().add(AuthEvent.getCode(phoneNumber: phoneNumber));
+      ..read<AuthBloc>().add(const AuthEvent.resendCode());
   }
 
   @override

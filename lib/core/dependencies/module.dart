@@ -1,5 +1,3 @@
-// ignore_for_file: invalid_annotation_target
-
 part of '../core.dart';
 
 /// Модуль зависимостей приложения.
@@ -16,69 +14,51 @@ abstract class AppModule {
         talker: talker,
         settings: const TalkerBlocLoggerSettings(
           printChanges: true,
-          printStateFullData: false,
+          printCreations: true,
+          printClosings: true,
         ),
       );
 
   // ? ------------------------------- Dio ------------------------------- ? //
-  /// Экземпляр [Dio] для работы с HTTP-запросами.
-  @lazySingleton
-  Dio get dio => Dio(baseOptions)
-    ..interceptors.add(talkerDioLogger)
-    ..interceptors.add(exceptionWrapper);
 
   /// Базовый URL для API.
-  @Named(ApiConst.kBaseUrl)
-  String provideBaseUrl() =>
+  @Named('BaseUrl')
+  String get baseUrl =>
       dotenv.get(ApiConst.kBaseUrl, fallback: 'NO_CONFIGURATION');
 
-  /// Экземпляр [BaseOptions] для настройки HTTP-запросов.
+  /// Экземпляр [Dio] для работы с HTTP-запросами.
   @lazySingleton
-  BaseOptions get baseOptions => BaseOptions(
-        baseUrl: provideBaseUrl(),
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 10),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': _basicAuth,
-        },
-      );
+  Dio dio(
+    @Named('BaseUrl') String url,
+    ErrorInterceptor errorInterceptor,
+    AuthInterceptor authInterceptor,
+  ) =>
+      Dio(
+        BaseOptions(
+          baseUrl: url,
+          connectTimeout: const Duration(seconds: 5),
+          receiveTimeout: const Duration(seconds: 10),
+        ),
+      )
+        ..interceptors.add(errorInterceptor)
+        ..interceptors.add(authInterceptor)
+        ..interceptors.add(talkerDioLogger);
 
   /// Экземпляр [TalkerDioLogger] для логирования HTTP-запросов.
   @lazySingleton
-  TalkerDioLogger get talkerDioLogger => TalkerDioLogger(talker: talker);
-
-  /// Экземпляр [InterceptorsWrapper] для обработки ошибок HTTP-запросов
-  /// и повтора запроса при необходимости.
-  @lazySingleton
-  InterceptorsWrapper get exceptionWrapper => InterceptorsWrapper(
-        onError: (DioException e, ErrorInterceptorHandler handler) async {
-          talker.handle(e, e.stackTrace);
-          return handler.next(e);
-        },
+  TalkerDioLogger get talkerDioLogger => TalkerDioLogger(
+        talker: talker,
+        settings: const TalkerDioLoggerSettings(
+          printRequestHeaders: true,
+          printResponseHeaders: true,
+        ),
       );
-
-  /// Логин для авторизации.
-  @Named('login')
-  String get _login => dotenv.get(ApiConst.kLogin, fallback: 'NO_LOGIN');
-
-  /// Пароль для авторизации.
-  @Named('password')
-  String get _password =>
-      dotenv.get(ApiConst.kPassword, fallback: 'NO_PASSWORD');
-
-  /// Строка авторизации.
-  @Named('basicAuth')
-  String get _basicAuth => 'Basic ${base64Encode(
-        utf8.encode('$_login:$_password'),
-      )}';
 
   // ? ----------------------------- Storage ----------------------------- ? //
   /// Экземпляр [SharedPreferences] для работы с хранилищем данных.
   @preResolve
-  Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
-  // ..then((value) => value.clear());
+  Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
+  //.then((value) => value..clear());
 
   /// Экземпляр [FlutterSecureStorage] для работы с безопасным хранилищем данных
   @lazySingleton
@@ -86,8 +66,8 @@ abstract class AppModule {
         aOptions: AndroidOptions(encryptedSharedPreferences: true),
       );
 
-  // ? ------------------------------- Uuid ------------------------------ ? //
-  /// Экземпляр [Uuid] для генерации UUID.
+  // ? ------------------------- DeviceInfoPlugin ------------------------ ? //
+  /// Экземпляр [DeviceInfoPlugin] для генерации ID.
   @lazySingleton
-  Uuid get uuid => const Uuid();
+  DeviceInfoPlugin get deviceInfoPlugin => DeviceInfoPlugin();
 }

@@ -1,86 +1,68 @@
 part of '../../../core.dart';
 
-/// Абстракция репозитория для токена.
+/// Репозиторий для управления токенами аутентификации пользователя.
+///
+/// Этот репозиторий отвечает за взаимодействие с локальным источником данных
+/// и удаленным источником данных для выполнения операций, связанных с токеном,
+/// таких как создание, проверка и получение токена аутентификации пользователя.
 @LazySingleton(as: ITokenRepository)
-class TokenRepository with LogMixin implements ITokenRepository {
-  /// - [remoteDataSource] - удаленный источник данных для токена.
-  /// - [localDataSource] - локальный источник данных для токена.
+class TokenRepository extends BaseRepository implements ITokenRepository {
+  /// Конструирует экземпляр [TokenRepository].
+  ///
+  /// - [remoteDataSource] используется для взаимодействия с удаленным сервисом
+  /// токена.
+  /// - [localDataSource] используется для хранения и получения токена локально.
+  /// - [deviceIdProvider] используется для получения уникального идентификатора
+  /// - [logger] используется для ведения журнала ошибок и другой
+  /// соответствующей информации.
   TokenRepository({
     required ITokenRemoteDataSource remoteDataSource,
     required ITokenLocalDataSource localDataSource,
+    required IDeviceIdDatasource deviceIdProvider,
+    required super.logger,
   })  : _remoteDataSource = remoteDataSource,
-        _localDataSource = localDataSource;
+        _localDataSource = localDataSource,
+        _deviceIdProvider = deviceIdProvider;
 
   final ITokenRemoteDataSource _remoteDataSource;
   final ITokenLocalDataSource _localDataSource;
+  final IDeviceIdDatasource _deviceIdProvider;
+
+  // Кешируем токен, чтобы избежать нескольких запросов к хранилищам данных.
+  String? _cachedToken;
 
   @override
-  Future<Either<Failure, void>> onCreateToken() async {
-    try {
-      // Получаем идентификатор устройства
-      final deviceId = await _localDataSource.onGetDeviceId();
+  Future<Either<Failure, void>> createToken() =>
+      execute(_createToken, const CreateTokenFailure());
 
-      // Получаем токен из удаленного источника данных
-      return await _remoteDataSource.onGetToken(deviceId: deviceId).fold(
-        (left) => Left(logFailure(GetTokenFailure(left.error))),
-        (right) async {
-          // Сохраняем токен в локальном источнике данных
-          await _localDataSource.onSetToken(token: right);
+  @override
+  Future<Either<Failure, String>> getToken() =>
+      execute(_getToken, const GetTokenFailure());
 
-          // Возвращаем успешный результат
-          return const Right(null);
-        },
-      );
-    } catch (e, st) {
-      // В случае ошибки возвращаем ошибку репозитория
-      return Left(logError(const GetTokenFailure(), e, st));
-    }
+  Future<void> _createToken() async {
+    final deviceId = await _deviceIdProvider.getOrCreateUniqueId();
+
+    if (deviceId.isLeft) throw const DeviceIdFailure();
+
+    await _remoteDataSource.getToken(deviceId: deviceId.right).fold(
+      (failure) => throw GetTokenFailure(failure.error),
+      (token) async {
+        _cachedToken = null;
+        await _localDataSource.setToken(token: token);
+      },
+    );
   }
 
-  @override
-  Future<Either<Failure, bool>> onCheckToken() async {
-    try {
-      // Получаем токен из локального источника данных
-      final localToken = await _localDataSource.onGetToken();
+  Future<String> _getToken() async {
+    if (_cachedToken != null) return _cachedToken!;
 
-      // Если токен пустой, возвращаем failure
-      if (localToken == null || localToken.isEmpty) {
-        return Left(logFailure(const CheckTokenFailure('Token is empty')));
-      }
+    final localToken = await _localDataSource.getToken();
 
-      // Проверяем токен на валидность
-      return await _remoteDataSource.onCheckToken(token: localToken).fold(
-        (left) => Left(logFailure(CheckTokenFailure(left.error))),
-        (right) {
-          // Если удаленный токен валиден, возвращаем его
-          if (right.isSuccessful) return const Right(true);
-
-          // Иначе возвращаем ошибку репозитория
-          return Left(logFailure(const CheckTokenFailure('Token is invalid')));
-        },
-      );
-    } catch (e, st) {
-      // В случае ошибки возвращаем ошибку репозитория
-      return Left(logError(const CheckTokenFailure(), e, st));
+    if (localToken == null || localToken.isEmpty) {
+      throw const TokenNotFoundFailure();
     }
-  }
 
-  @override
-  Future<Either<Failure, String>> onGetToken() async {
-    try {
-      // Получаем токен из локального источника данных
-      final localToken = await _localDataSource.onGetToken();
-
-      // Если токен пустой, возвращаем failure
-      if (localToken == null || localToken.isEmpty) {
-        return Left(logFailure(const CheckTokenFailure('Token is empty')));
-      }
-
-      // Возвращаем токен
-      return Right(localToken);
-    } catch (e, st) {
-      // В случае ошибки возвращаем ошибку репозитория
-      return Left(logError(const CheckTokenFailure(), e, st));
-    }
+    _cachedToken = localToken;
+    return localToken;
   }
 }

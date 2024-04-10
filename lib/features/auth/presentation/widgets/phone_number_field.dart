@@ -15,8 +15,12 @@ class PhoneNumberField extends StatelessWidget {
 
   final GlobalKey<FormBuilderState> _formKey;
 
-  void onChangedPhoneInput(BuildContext context, {String? phone}) =>
+  void onChangedPhoneInput(BuildContext context, {String? phone}) {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      FocusScope.of(context).unfocus();
       context.read<ValidatePhoneCubit>().validatePhone(phone);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -61,5 +61,5 @@
 - Мок-данные: [mockito](https://pub.dev/packages/mockito) 
 - Формы ввода: [mask_text_input_formatter](https://pub.dev/packages/mask_text_input_formatter) 
 - Анимация Lottie: [lottie](https://pub.dev/packages/lottie) 
-- UUID: [uuid](https://pub.dev/packages/uuid) 
+- ID устройства: [device_info_plus](https://pub.dev/packages/device_info_plus) 
 

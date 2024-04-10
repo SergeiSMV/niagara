@@ -1,11 +1,11 @@
-part of '../../core.dart';
+part of '../../../core.dart';
 
 /// Обработчик запросов.
-@LazySingleton()
+@injectable
 class RequestHandler {
   /// Создает экземпляр [RequestHandler].
   /// - [dio] - экземпляр [Dio] для работы с HTTP-запросами.
-  RequestHandler({
+  const RequestHandler({
     required Dio dio,
   }) : _dio = dio;
 

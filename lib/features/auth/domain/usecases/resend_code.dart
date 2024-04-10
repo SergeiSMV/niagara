@@ -3,13 +3,13 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/auth/domain/repositories/auth_repository.dart';
 
-/// Пропускает авторизацию.
-///
-/// Возвращает [SkipAuthFailure], если авторизация не была пропущена.
-/// Возвращает [Right<void>] если авторизация была пропущена.
+/// Повторно отправляет код подтверждения.
+/// 
+/// Возвращает [ResendCodeFailure], если номер телефона не был отправлен.
+/// Возвращает [Right<void>] если номер телефона был отправлен.
 @injectable
-class SkipAuthUseCase extends UseCase<void, NoParams> {
-  SkipAuthUseCase({
+class ResendPhoneUseCase extends UseCase<void, NoParams> {
+  ResendPhoneUseCase({
     required IAuthRepository repository,
   }) : _repository = repository;
 
@@ -17,5 +17,5 @@ class SkipAuthUseCase extends UseCase<void, NoParams> {
 
   @override
   Future<Either<Failure, void>> call([NoParams? params]) =>
-      _repository.skipAuth();
+      _repository.resendCode();
 }

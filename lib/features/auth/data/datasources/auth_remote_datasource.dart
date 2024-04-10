@@ -1,16 +1,27 @@
+import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/constants/api_constants.dart';
 
+/// Определяет интерфейс для удаленного источника данных аутентификации.
+///
+/// Этот интерфейс предоставляет методы для создания и проверки кодов
+/// аутентификации.
 abstract interface class IAuthRemoteDatasource {
-  Future<Either<Failure, (bool, String tempCode)>> onCreateCode({
-    required String token,
+  /// Метод `onCreateCode` генерирует временный код аутентификации для заданного
+  /// номера телефона и токена. Он возвращает тип `Either`, где левая сторона
+  /// представляет `Failure`, а правая сторона представляет кортеж,  содержащий
+  /// булево значение, указывающее на успех, и сгенерированный временный код.
+  Future<Either<Failure, bool>> onCreateCode({
     required String phone,
   });
 
-  Future<Either<Failure, bool>> onValidateCode({
-    required String token,
+  /// Метод `onValidateCode` проверяет код аутентификации для заданного номера
+  /// телефона, токена и кода. Он возвращает тип `Either`, где левая сторона
+  /// представляет `Failure`, а правая сторона представляет булево
+  /// значение, указывающее, является ли код действительным или нет.
+  Future<Either<Failure, bool>> onConfirmCode({
     required String phone,
     required String code,
   });
@@ -25,42 +36,41 @@ class AuthRemoteDatasource implements IAuthRemoteDatasource {
   final RequestHandler _requestHandler;
 
   @override
-  Future<Either<Failure, (bool, String tempCode)>> onCreateCode({
-    required String token,
+  Future<Either<Failure, bool>> onCreateCode({
     required String phone,
   }) =>
       _requestHandler.sendRequest(
         request: (dio) => dio.post(
           ApiConst.kCreateCode,
           data: {
-            'token': token,
             'phone': phone,
           },
         ),
-        converter: (json) => (
-          json['success'] as bool,
-          // ! временное решение по просьбе бэка !
-          json['temp_code'] as String,
-        ),
+        converter: (json) => json['success'] as bool? ?? false,
         failure: CreateCodeFailure.new,
       );
 
   @override
-  Future<Either<Failure, bool>> onValidateCode({
-    required String token,
+  Future<Either<Failure, bool>> onConfirmCode({
     required String phone,
     required String code,
   }) =>
       _requestHandler.sendRequest(
         request: (dio) => dio.post(
-          ApiConst.kValidateCode,
+          ApiConst.kConfirmCode,
           data: {
-            'token': token,
             'phone': phone,
             'code': code,
           },
+          options: Options(
+            validateStatus: (status) {
+              if (status == null) return false;
+              if (status == 401) return true;
+              return status >= 200 && status < 300;
+            },
+          ),
         ),
-        converter: (json) => json['valid'] as bool,
+        converter: (json) => json['valid'] as bool? ?? false,
         failure: ValidateCodeFailure.new,
       );
 }

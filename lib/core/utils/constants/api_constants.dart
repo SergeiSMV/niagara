@@ -22,5 +22,5 @@ abstract final class ApiConst {
   static const String kCreateCode = '/code_confirm_create';
 
   /// -POST- Запрос на проверку кода для авторизации
-  static const String kValidateCode = '/code_confirm_validate';
+  static const String kConfirmCode = '/code_confirm_check';
 }

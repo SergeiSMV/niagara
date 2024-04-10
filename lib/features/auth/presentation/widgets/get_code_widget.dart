@@ -1,15 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
 import 'package:niagara_app/features/auth/presentation/bloc/validate_phone_cubit/validate_phone_cubit.dart';
 
 /// Кнопка "Получить код" для отправки кода подтверждения на номер телефона.
@@ -27,15 +24,19 @@ class GetCodeWidget extends StatelessWidget {
       final phoneNumber =
           _formKey.currentState?.value[AppConst.kTextFieldPhoneName].toString();
       if (phoneNumber == null || phoneNumber.isEmpty) return;
-      context
-        ..read<AuthBloc>().add(AuthEvent.getCode(phoneNumber: phoneNumber))
-        ..read<CountdownTimerCubit>().startTimer()
-        ..pushRoute(OTPRoute(phoneNumber: phoneNumber));
+      context.read<AuthBloc>().add(AuthEvent.getCode(phoneNumber: phoneNumber));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = context.watch<AuthBloc>().state.maybeWhen(
+          loading: () => true,
+          orElse: () => false,
+        );
+
+    final isValid = context.watch<ValidatePhoneCubit>().state;
+
     return Container(
       padding: AppConst.kPaddingMax.horizontal,
       decoration: BoxDecoration(
@@ -56,11 +57,9 @@ class GetCodeWidget extends StatelessWidget {
           bottom: AppConst.kGetCodeButtonBottomPadding,
         ),
         maintainBottomViewPadding: true,
-        child: BlocBuilder<ValidatePhoneCubit, bool>(
-          builder: (_, isValid) => AppTextButton.primary(
-            text: t.auth.getCode,
-            onTap: isValid ? () => onTapGetCode(context) : null,
-          ),
+        child: AppTextButton.primary(
+          text: !isLoading ? t.auth.getCode : null,
+          onTap: isValid ? () => onTapGetCode(context) : null,
         ),
       ),
     );

@@ -11,7 +11,6 @@ class OTPTitleWidget extends StatelessWidget {
     super.key,
   }) : _phoneNumber = phoneNumber;
 
-  /// Номер телефона
   final String _phoneNumber;
 
   @override

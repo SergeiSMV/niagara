@@ -4,12 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 
-@injectable
+@lazySingleton
 class CountdownTimerCubit extends Cubit<int> {
   CountdownTimerCubit() : super(0);
 
   StreamSubscription<int>? _timerSubscription;
-
+  
+  @disposeMethod
   @override
   Future<void> close() {
     _timerSubscription?.cancel();

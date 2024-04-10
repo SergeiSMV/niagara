@@ -1,18 +1,33 @@
 part of '../../../core.dart';
 
-/// Абстракция локального источника данных для токена.
+/// Локальный источник данных для управления токенами аутентификации.
+///
+/// Этот источник данных отвечает за хранение и получение токена аутентификации
+/// пользователя в локальном хранилище, таком как SharedPreferences или
+/// локальная база данных.
 abstract interface class ITokenLocalDataSource {
-  /// Устанавливает токен.
-  Future<void> onSetToken({required String token});
+  /// Сохраняет новый токен аутентификации в локальном хранилище.
+  ///
+  /// [token] - новый токен, который нужно сохранить.
+  ///
+  /// Возвращает:
+  ///   - [Right<void>] если токен был успешно сохранен.
+  ///   - [Left<Failure>] если произошла ошибка при сохранении токена.
+  Future<void> setToken({required String token});
 
-  /// Возвращает токен.
-  Future<String?> onGetToken();
+  /// Получает сохраненный токен аутентификации из локального хранилища.
+  ///
+  /// Возвращает:
+  ///   - [Right<String>] содержащий сохраненный токен.
+  ///   - [Left<Failure>] если токен не найден или ошибка при получении.
+  Future<String?> getToken();
 
-  /// Удаляет токен.
-  Future<void> onDeleteToken();
-
-  /// Возвращает идентификатор устройства.
-  Future<String> onGetDeviceId();
+  /// Удаляет сохраненный токен аутентификации из локального хранилища.
+  ///
+  /// Возвращает:
+  ///   - [Right<void>] если токен был успешно удален.
+  ///   - [Left<Failure>] если произошла ошибка при удалении токена.
+  Future<void> deleteToken();
 }
 
 /// Реализация локального источника данных для токена.
@@ -21,35 +36,20 @@ class TokenLocalDataSource implements ITokenLocalDataSource {
   /// - [storage] - хранилище токена.
   TokenLocalDataSource({
     required FlutterSecureStorage storage,
-    required Uuid uuid,
-  })  : _storage = storage,
-        _uuid = uuid;
+  }) : _storage = storage;
 
   /// Хранилище токена в шифрованном виде.
   final FlutterSecureStorage _storage;
 
-  /// Уникальный идентификатор для устройства.
-  final Uuid _uuid;
-
   String get _tokenKey => KeysConst.kToken;
-  String get _deviceIdKey => KeysConst.kDeviceId;
 
   @override
-  Future<void> onSetToken({required String token}) =>
+  Future<void> setToken({required String token}) async =>
       _storage.write(key: _tokenKey, value: token);
 
   @override
-  Future<String?> onGetToken() => _storage.read(key: _tokenKey);
+  Future<String?> getToken() async => _storage.read(key: _tokenKey);
 
   @override
-  Future<void> onDeleteToken() => _storage.delete(key: _tokenKey);
-
-  @override
-  Future<String> onGetDeviceId() async {
-    final deviceId = await _storage.read(key: _deviceIdKey);
-    if (deviceId != null) return deviceId;
-    final newDeviceId = _uuid.v4();
-    await _storage.write(key: _deviceIdKey, value: newDeviceId);
-    return newDeviceId;
-  }
+  Future<void> deleteToken() async => _storage.delete(key: _tokenKey);
 }

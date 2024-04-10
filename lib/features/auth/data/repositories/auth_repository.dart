@@ -9,98 +9,84 @@ import 'package:niagara_app/features/auth/data/datasources/auth_remote_datasourc
 import 'package:niagara_app/features/auth/domain/repositories/auth_repository.dart';
 
 @LazySingleton(as: IAuthRepository)
-class AuthRepository with LogMixin implements IAuthRepository {
+class AuthRepository extends BaseRepository implements IAuthRepository {
   AuthRepository({
     required IAuthLocalDataSource localDataSource,
     required IAuthRemoteDatasource remoteDatasource,
-    required ITokenLocalDataSource tokenLocalDataSource,
+    required super.logger,
   })  : _localDataSource = localDataSource,
-        _remoteDatasource = remoteDatasource,
-        _tokenLocalDataSource = tokenLocalDataSource;
+        _remoteDatasource = remoteDatasource;
 
   final IAuthLocalDataSource _localDataSource;
   final IAuthRemoteDatasource _remoteDatasource;
-  final ITokenLocalDataSource _tokenLocalDataSource;
 
-  static const String _tokenEmptyError = 'Token is empty';
-  static const String _codeInvalidError = 'Code is invalid';
+  /// Кешируем номер телефона, чтобы избежать нескольких запросов к хранилищам.
+  String? _cachedPhone;
 
   @override
-  Future<Either<Failure, AuthenticatedStatus>> checkAuthStatus() async {
-    try {
-      final result = await _localDataSource
-          .onCheckAuthStatus()
-          .then((value) => AuthenticatedStatus.values[value]);
-      return Right(result);
-    } catch (e, st) {
-      return Left(logError(const CheckAuthStatusFailure(), e, st));
-    }
+  Future<Either<Failure, AuthenticatedStatus>> checkAuthStatus() =>
+      execute(_checkAuthStatus, const CheckAuthStatusFailure());
+
+  @override
+  Future<Either<Failure, void>> sendPhone({required String phone}) =>
+      execute(() => _sendPhone(phone), const CreateCodeFailure());
+
+  @override
+  Future<Either<Failure, void>> skipAuth() {
+    return execute(_skipAuth, const SkipAuthFailure());
   }
 
   @override
-  Future<Either<Failure, String>> sendCode({required String phone}) async {
-    try {
-      final token = await _tokenLocalDataSource.onGetToken();
-      if (token == null) {
-        return Left(logFailure(const CreateCodeFailure(_tokenEmptyError)));
-      }
-
-      return await _remoteDatasource
-          .onCreateCode(
-            token: token,
-            phone: phone,
-          )
-          .fold(
-            (left) => Left(logFailure(CreateCodeFailure(left.error))),
-            (right) => Right(right.$2),
-          );
-    } catch (e, st) {
-      return Left(logError(const CreateCodeFailure(), e, st));
+  Future<Either<Failure, void>> resendCode() {
+    if (_cachedPhone == null) {
+      return Future.value(const Left(ResendCodeFailure()));
     }
+
+    return execute(() => _sendPhone(_cachedPhone!), const ResendCodeFailure());
   }
 
   @override
-  Future<Either<Failure, void>> checkCode({
-    required String phone,
-    required String code,
-  }) async {
-    try {
-      final token = await _tokenLocalDataSource.onGetToken();
-      if (token == null) {
-        return Left(logFailure(const ValidateCodeFailure(_tokenEmptyError)));
-      }
-
-      return await _remoteDatasource
-          .onValidateCode(token: token, phone: phone, code: code)
-          .fold(
-        (left) => Left(logFailure(ValidateCodeFailure(left.error))),
-        (right) {
-          if (!right) {
-            return Left(
-              logFailure(const ValidateCodeFailure(_codeInvalidError)),
-            );
-          }
-
-          _localDataSource.onSetAuthStatus(
-            status: AuthenticatedStatus.authenticated.index,
-          );
-          return const Right(null);
-        },
-      );
-    } catch (e, st) {
-      return Left(logError(const ValidateCodeFailure(), e, st));
-    }
+  Future<Either<Failure, void>> checkCode({required String code}) {
+    return execute(() => _checkCode(code), const ValidateCodeFailure());
   }
 
-  @override
-  Future<Either<Failure, void>> skipAuth() async {
-    try {
-      await _localDataSource.onSetAuthStatus(
-        status: AuthenticatedStatus.unauthenticated.index,
-      );
-      return const Right(null);
-    } catch (e, st) {
-      return Left(logError(const SkipAuthFailure(), e, st));
-    }
+  Future<AuthenticatedStatus> _checkAuthStatus() async {
+    return _localDataSource
+        .checkAuthStatus()
+        .then((value) => AuthenticatedStatus.values[value]);
+  }
+
+  Future<void> _sendPhone(String phone) async {
+    _cachedPhone = phone;
+    return _remoteDatasource.onCreateCode(phone: phone).fold(
+      (failure) => throw CreateCodeFailure(failure.error),
+      (isValid) {
+        if (!isValid) throw const CreateCodeFailure();
+        return;
+      },
+    );
+  }
+
+  Future<void> _checkCode(String code) async {
+    if (_cachedPhone == null) throw const PhoneNotFoundFailure();
+
+    return _remoteDatasource
+        .onConfirmCode(phone: _cachedPhone!, code: code)
+        .fold(
+      (failure) => throw ValidateCodeFailure(failure.error),
+      (success) {
+        if (!success) throw const ValidateCodeFailure();
+        _localDataSource.setAuthStatus(
+          status: AuthenticatedStatus.authenticated.index,
+        );
+        _cachedPhone = null;
+      },
+    );
+  }
+
+  Future<void> _skipAuth() {
+    return _localDataSource.setAuthStatus(
+      status: AuthenticatedStatus.unauthenticated.index,
+    );
   }
 }

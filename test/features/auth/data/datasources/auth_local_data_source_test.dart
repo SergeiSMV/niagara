@@ -27,7 +27,7 @@ void main() {
       when(mockSharedPreferences.setInt(any, any))
           .thenAnswer((_) async => true);
 
-      await dataSource.onSetAuthStatus(
+      await dataSource.setAuthStatus(
         status: AuthenticatedStatus.authenticated.index,
       );
 
@@ -44,7 +44,7 @@ void main() {
       when(mockSharedPreferences.getInt(any))
           .thenReturn(AuthenticatedStatus.authenticated.index);
 
-      final result = await dataSource.onCheckAuthStatus();
+      final result = await dataSource.checkAuthStatus();
 
       expect(result, AuthenticatedStatus.authenticated.index);
       verify(mockSharedPreferences.getInt(authStatusKey)).called(1);

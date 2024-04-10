@@ -12,11 +12,6 @@ class SplashWrapperPage extends AutoRouteWrapper {
     // Создаем экземпляр SplashCubit
     final splashCubit = getIt<SplashCubit>();
 
-    // Вызываем onCheckToken в следующем кадре
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      splashCubit.onCheckToken();
-    });
-
     // Возвращаем BlocProvider с созданным SplashCubit
     return BlocProvider(
       create: (_) => splashCubit,

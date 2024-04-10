@@ -5,10 +5,10 @@ part of '../../core.dart';
 /// Класс [Failure] является базовым классом для всех ошибок, которые могут
 /// возникнуть в приложении. Он реализует [Equatable] для сравнения объектов
 /// ошибок. Все ошибки должны наследоваться от этого класса.
-sealed class Failure extends Equatable {
+sealed class Failure with EquatableMixin implements Exception {
   /// Создает экземпляр [Failure].
   /// - [error] - описание ошибки.
-  const Failure([this.error]);
+  const Failure(this.error);
 
   final String? error;
 
@@ -17,27 +17,49 @@ sealed class Failure extends Equatable {
 }
 
 // ! ------------------------------- Token ------------------------------- ! //
+
+class CreateTokenFailure extends Failure {
+  const CreateTokenFailure([super.error]);
+}
+
 class GetTokenFailure extends Failure {
   const GetTokenFailure([super.error]);
 }
 
-class CheckTokenFailure extends Failure {
-  const CheckTokenFailure([super.error]);
+class TokenNotFoundFailure extends Failure {
+  const TokenNotFoundFailure([super.error = 'Token not found']);
+}
+
+class BasicAuthFailure extends Failure {
+  const BasicAuthFailure([super.error]);
+}
+
+// ! ----------------------------- Device ID ----------------------------- ! //
+class DeviceIdFailure extends Failure {
+  const DeviceIdFailure([super.error = 'Device ID failure']);
 }
 
 // ! -------------------------------- Auth ------------------------------- ! //
 class CreateCodeFailure extends Failure {
-  const CreateCodeFailure([super.error]);
+  const CreateCodeFailure([super.error = 'Invalid phone number']);
 }
 
 class ValidateCodeFailure extends Failure {
-  const ValidateCodeFailure([super.error]);
+  const ValidateCodeFailure([super.error = 'Invalid auth code']);
 }
 
 class CheckAuthStatusFailure extends Failure {
   const CheckAuthStatusFailure([super.error]);
 }
 
+class ResendCodeFailure extends Failure {
+  const ResendCodeFailure([super.error]);
+}
+
 class SkipAuthFailure extends Failure {
   const SkipAuthFailure([super.error]);
+}
+
+class PhoneNotFoundFailure extends Failure {
+  const PhoneNotFoundFailure([super.error = 'Phone not found']);
 }

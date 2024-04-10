@@ -9,6 +9,7 @@ class AuthRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(
         page: AuthWrapperRoute.page,
+        maintainState: false,
         children: [
           AutoRoute(page: AuthRoute.page, initial: true),
           AutoRoute(page: OTPRoute.page),
