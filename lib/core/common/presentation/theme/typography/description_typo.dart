@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-/// Типографика описаний
 abstract class DescriptionTypography {
-  /// Конструктор для типографики описаний
   const DescriptionTypography({
     required this.des1,
     required this.des2,

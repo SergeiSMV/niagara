@@ -6,8 +6,9 @@ import 'package:niagara_app/features/auth/domain/repositories/auth_repository.da
 
 /// Отправляет номер телефона.
 ///
-/// Возвращает [CreateCodeFailure], если номер телефона не был отправлен.
-/// Возвращает [Right<void>] если номер телефона был отправлен.
+/// Возвращает:
+/// - [void] если номер телефона был отправлен.
+/// - [Failure] если номер телефона не был отправлен.
 @injectable
 class SendPhoneUseCase extends UseCase<void, SendPhoneParams> {
   SendPhoneUseCase({

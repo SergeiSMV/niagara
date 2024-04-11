@@ -6,15 +6,15 @@ abstract interface class IDeviceIdDatasource {
   /// Получает уникальный идентификатор устройства или создает новый.
   ///
   /// Возвращает:
-  ///   - [Right<String>] содержащий идентификатор устройства.
-  ///   - [Left<Failure>] если произошла ошибка при получении идентификатора.
+  ///   - [String] содержащий идентификатор устройства.
+  ///   - [Failure] если произошла ошибка при получении идентификатора.
   Future<Either<Failure, String>> getOrCreateUniqueId();
 
   /// Получает сохраненный уникальный идентификатор устройства.
   ///
   /// Возвращает:
-  ///   - [Right<String>] содержащий идентификатор устройства.
-  ///   - [Left<Failure>] если идентификатор не найден.
+  ///   - [String] содержащий идентификатор устройства.
+  ///   - [Failure] если идентификатор не найден.
   Future<Either<Failure, String>> getUniqueId();
 }
 
@@ -34,8 +34,8 @@ class DeviceIdDatasource implements IDeviceIdDatasource {
   /// Получает уникальный идентификатор устройства или создает новый.
   ///
   /// Если уникальный идентификатор уже существует, возвращает его.
-  /// В противном случае создает новый уникальный идентификатор,
-  /// используя [DeviceInfoPlugin], и сохраняет его в [FlutterSecureStorage]
+  /// В противном случае создает уникальный идентификатор, используя 
+  /// [DeviceInfoPlugin], и сохраняет его в [FlutterSecureStorage]
   /// перед возвратом.
   @override
   Future<Either<Failure, String>> getOrCreateUniqueId() async {

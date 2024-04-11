@@ -16,7 +16,7 @@ class GetCodeWidget extends StatelessWidget {
     super.key,
   }) : _formKey = formKey;
 
-  /// Ключ формы для валидации номера телефона.
+  // Ключ формы для валидации номера телефона.
   final GlobalKey<FormBuilderState> _formKey;
 
   void onTapGetCode(BuildContext context) {

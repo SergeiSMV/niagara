@@ -7,7 +7,6 @@ import 'package:niagara_app/core/common/presentation/theme/typography/text_typo.
 
 /// Базовая типографика приложения (размеры шрифтов, межстрочные интервалы, etc)
 abstract class BaseTypography extends ThemeExtension<BaseTypography> {
-  /// Конструктор для базовой типографики
   const BaseTypography({
     required this.headingTypo,
     required this.textTypo,
@@ -16,18 +15,13 @@ abstract class BaseTypography extends ThemeExtension<BaseTypography> {
     required this.buttonTypo,
   });
 
-  /// Типографика заголовков
   final HeadingTypography headingTypo;
 
-  /// Типографика текста
   final TextTypography textTypo;
 
-  /// Типографика подписей
   final CaptionTypography captionTypo;
 
-  /// Типографика описаний
   final DescriptionTypography descriptionTypo;
 
-  /// Типографика кнопок
   final ButtonTypography buttonTypo;
 }

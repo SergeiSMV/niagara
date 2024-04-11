@@ -12,7 +12,6 @@ import 'package:niagara_app/core/common/presentation/theme/colors/text_colors.da
 /// Все изменения в цветовой теме производятся в этом классе.
 @singleton
 class AppColors extends BaseColors {
-  /// Конструктор для цветовой темы
   const AppColors()
       : super(
           mainColors: const _MainColors(),

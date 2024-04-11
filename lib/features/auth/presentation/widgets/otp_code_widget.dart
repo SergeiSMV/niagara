@@ -8,6 +8,7 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pinput/pinput.dart';
 
+/// Виджет для ввода кода подтверждения
 class OTPCodeWidget extends StatelessWidget {
   const OTPCodeWidget({super.key});
 

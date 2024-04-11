@@ -7,7 +7,6 @@ import 'package:niagara_app/features/auth/domain/usecases/check_auth_status.dart
 /// [AuthGuard] для проверки авторизации. Если пользователь не авторизован, то
 /// перенаправляет на страницу авторизации.
 class AuthGuard extends AutoRouteGuard {
-  /// Принимает [CheckAuthStatusUseCase] для проверки авторизации пользователя.
   AuthGuard({
     required CheckAuthStatusUseCase authStatusUseCase,
   }) : _authStatusUseCase = authStatusUseCase;
@@ -19,17 +18,17 @@ class AuthGuard extends AutoRouteGuard {
     NavigationResolver resolver,
     StackRouter router,
   ) async {
-    /// Проверка на авторизацию
+    // Проверка на авторизацию
     final hasAuth = await _authStatusUseCase.call().fold(
           (_) => false,
           (authState) => authState == AuthenticatedStatus.authenticated,
         );
 
-    /// Если авторизован, то продолжаем
+    // Если авторизован, то продолжаем
     if (hasAuth) {
       resolver.next();
     } else {
-      /// Если не авторизован, то переходим на страницу авторизации
+      // Если не авторизован, то переходим на страницу авторизации
       await resolver.redirect(const AuthRoute());
     }
   }

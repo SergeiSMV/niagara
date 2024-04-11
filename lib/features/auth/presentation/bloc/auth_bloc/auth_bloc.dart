@@ -15,6 +15,9 @@ part 'auth_state.dart';
 
 typedef _Emit = Emitter<AuthState>;
 
+/// Блок для авторизации. Отправляет код на телефон, проверяет его и пропускает
+/// авторизацию. При ошибке отправки кода, проверки кода или пропуска
+/// авторизации отправляет ошибку.
 @lazySingleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({

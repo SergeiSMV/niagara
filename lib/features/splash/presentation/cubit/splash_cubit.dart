@@ -13,16 +13,13 @@ part 'splash_cubit.freezed.dart';
 /// авторизации и уведомляет о завершении загрузки.
 @lazySingleton
 class SplashCubit extends Cubit<SplashState> {
-  /// Конструктор по умолчанию
   SplashCubit({
     required CheckAuthStatusUseCase checkAuthStatusUseCase,
   })  : _checkAuthStatusUseCase = checkAuthStatusUseCase,
         super(const SplashState.initial());
 
-  /// UseCase для проверки на пропуск авторизации
   final CheckAuthStatusUseCase _checkAuthStatusUseCase;
 
-  /// Проверка на пропуск авторизации
   Future<void> onCheckAuth() async {
     final res = await _checkAuthStatusUseCase.call().fold(
           (_) => const SplashState.error(),

@@ -5,8 +5,9 @@ import 'package:niagara_app/features/auth/domain/repositories/auth_repository.da
 
 /// Пропускает авторизацию.
 ///
-/// Возвращает [SkipAuthFailure], если авторизация не была пропущена.
-/// Возвращает [Right<void>] если авторизация была пропущена.
+/// Возвращает:
+/// - [void] если авторизация была пропущена.
+/// - [Failure] если авторизация не была пропущена.
 @injectable
 class SkipAuthUseCase extends UseCase<void, NoParams> {
   SkipAuthUseCase({

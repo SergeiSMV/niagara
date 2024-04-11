@@ -14,7 +14,6 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 /// производятся в этом классе.
 @singleton
 class AppTheme {
-  /// Конструктор по умолчанию для создания темы приложения
   AppTheme({
     required AppColors colors,
     required AppTypo typography,
@@ -24,7 +23,7 @@ class AppTheme {
   final AppColors _appColors;
   final AppTypo _appTypo;
 
-  /// Основная тема приложения
+  // Основная тема приложения
   ThemeData get lightTheme {
     return ThemeData.light().copyWith(
       extensions: <ThemeExtension>[_appColors, _appTypo],
@@ -48,7 +47,7 @@ class AppTheme {
     );
   }
 
-  /// Тема для AppBar
+  // Тема для AppBar
   static AppBarTheme _appBarTheme({
     required BaseColors colors,
     required BaseTypography typography,
@@ -94,7 +93,7 @@ class AppTheme {
     );
   }
 
-  /// Создание кастомных границ для полей ввода
+  // Создание кастомных границ для полей ввода
   static CustomOutlineInputBorder _buildBorder(Color color) {
     return CustomOutlineInputBorder(
       borderRadius: BorderRadius.circular(AppConst.kTextFieldRadius),

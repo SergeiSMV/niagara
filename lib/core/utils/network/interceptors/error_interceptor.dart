@@ -1,7 +1,6 @@
 part of '../../../core.dart';
 
-/// Экземпляр [ErrorInterceptor] для обработки ошибок HTTP-запросов
-/// и повтора запроса при необходимости.
+/// Экземпляр [ErrorInterceptor] для обработки ошибок HTTP-запросов.
 @lazySingleton
 class ErrorInterceptor extends InterceptorsWrapper {
   ErrorInterceptor({

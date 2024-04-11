@@ -7,8 +7,8 @@ import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubi
 import 'package:niagara_app/features/auth/presentation/bloc/validate_phone_cubit/validate_phone_cubit.dart';
 import 'package:niagara_app/features/auth/presentation/pages/auth_navigation_observer.dart';
 
-/// [AuthWrapperPage] - обертка страницы в [MultiBlocProvider] для работы
-/// с [AuthBloc], [ValidatePhoneCubit] и [CountdownTimerCubit]
+/// [AuthWrapperPage] - обертка страницы для работы с необходимыми states, 
+/// а также добавляет наблюдателя для отслеживания навигации внутри авторизации.
 @RoutePage()
 class AuthWrapperPage extends AutoRouteWrapper {
   @override

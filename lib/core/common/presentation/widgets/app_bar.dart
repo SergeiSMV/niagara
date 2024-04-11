@@ -33,7 +33,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   /// Список действий AppBar.
   final List<Widget>? actions;
 
+  /// Возвращает виджет заголовка AppBar.
   Widget? get _title => titleWidget ?? (title != null ? Text(title!) : null);
+
+  /// Возвращает флаг, центрировать ли заголовок.
   bool get _centerTitle => title != null;
 
   @override

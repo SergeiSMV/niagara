@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-/// Типографика текста
 abstract class TextTypography {
-  /// Конструктор для типографики текста
   const TextTypography({
     required this.tx1SemiBold,
     required this.tx1Medium,

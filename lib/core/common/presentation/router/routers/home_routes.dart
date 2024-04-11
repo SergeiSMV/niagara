@@ -3,10 +3,8 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/router/base_route.dart';
 
-/// Страница навигации для модуля Home (Главная)
 @RoutePage()
 class HomeNavigatorPage extends AutoRouter {
-  /// Конструктор страницы навигации
   const HomeNavigatorPage({super.key});
 }
 

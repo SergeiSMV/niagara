@@ -7,11 +7,9 @@ class AuthInterceptor extends Interceptor {
   ITokenRepository? _tokenRepository;
   Dio? _dio;
 
-  // Получение ITokenRepository
   ITokenRepository get tokenRepository =>
       _tokenRepository ??= getIt<ITokenRepository>();
 
-  // Получение Dio
   Dio get dio => _dio ??= getIt<Dio>();
 
   // Счетчик попыток повтора запроса

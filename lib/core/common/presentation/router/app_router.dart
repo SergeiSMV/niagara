@@ -11,13 +11,10 @@ import 'package:niagara_app/core/common/presentation/router/routers/profile_rout
 import 'package:niagara_app/core/common/presentation/router/routers/shops_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/splash_routes.dart';
 
-/// Класс [AppRouter] роутера приложения. Содержит все модули и
-/// их маршруты навигации в приложении.
+/// Класс [AppRouter] роутера приложения. Содержит все модули и их маршруты.
 @AutoRouterConfig()
 @singleton
 class AppRouter extends $AppRouter {
-  /// Конструктор роутера приложения [AppRouter] с передачей всех модулей
-  /// и их маршрутов навигации.
   AppRouter({
     required SplashRouters splashRouters,
     required AuthRouters authRouters,
@@ -45,14 +42,6 @@ class AppRouter extends $AppRouter {
   final ProfileRouters _profileRouters;
   final LocationsRouters _locationsRouters;
 
-  /// Тип маршрута по умолчанию для приложения. Используется для анимации
-  /// переходов между экранами приложения.
-  @override
-  RouteType get defaultRouteType => const RouteType.custom(
-        transitionsBuilder: _transitionsBuilder,
-      );
-
-  /// Список всех маршрутов приложения
   @override
   List<AutoRoute> get routes => [
         _splashRouters.routers,
@@ -70,16 +59,16 @@ class AppRouter extends $AppRouter {
         _locationsRouters.routers,
       ];
 
-  /// Функция для создания анимации перехода между экранами с
-  /// использованием [FadeTransition] анимации.
-  static Widget _transitionsBuilder(
-    BuildContext _,
-    Animation<double> animation,
-    Animation<double> __,
-    Widget child,
-  ) =>
-      FadeTransition(
-        opacity: animation,
-        child: child,
-      );
+  /// Анимация переходов между экранами приложения.
+  @override
+  RouteType get defaultRouteType {
+    return RouteType.custom(
+      transitionsBuilder: (_, animation, __, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
+  }
 }
