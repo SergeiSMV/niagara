@@ -1,4 +1,3 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -11,11 +10,8 @@ import 'token_local_datasource_test.mocks.dart';
 @GenerateNiceMocks([
   MockSpec<FlutterSecureStorage>(),
 ])
-class MockDotEnv extends Mock implements DotEnv {}
-
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  MockDotEnv().testLoad();
 
   const token = 'token_test';
   const tokenKey = KeysConst.kToken;

@@ -13,11 +13,18 @@ void main() {
   group('TokenRemoteDataSource', () {
     late MockRequestHandler mockRequestHandler;
     late TokenRemoteDataSource tokenRemoteDataSource;
+    late String basicLogin;
+    late String basicPassword;
 
     setUp(() {
       mockRequestHandler = MockRequestHandler();
-      tokenRemoteDataSource =
-          TokenRemoteDataSource(requestHandler: mockRequestHandler);
+      basicLogin = 'test_login';
+      basicPassword = 'test_password';
+      tokenRemoteDataSource = TokenRemoteDataSource(
+        requestHandler: mockRequestHandler,
+        basicLogin: basicLogin,
+        basicPassword: basicPassword,
+      );
     });
 
     test('onGetToken returns token when request is successful', () async {
