@@ -52,7 +52,7 @@ class AuthInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     return tokenRepository.getToken().fold(
-      (failure) => throw Exception(failure.error),
+      (_) => super.onRequest(options, handler),
       (token) {
         options.headers['Authorization'] = 'Bearer $token';
         return super.onRequest(options, handler);

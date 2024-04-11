@@ -1,6 +1,6 @@
 part of '../../../core.dart';
 
-/// Удаленный источник данных для управления токенами аутентификации, отвечает 
+/// Удаленный источник данных для управления токенами аутентификации, отвечает
 /// за взаимодействие с удаленным сервисом для получения нового токена.
 abstract interface class ITokenRemoteDataSource {
   /// Получает новый токен аутентификации от удаленного сервиса.
@@ -11,7 +11,7 @@ abstract interface class ITokenRemoteDataSource {
   Future<Either<Failure, String>> getToken({required String deviceId});
 
   /// Получает basic аутентификацию для доступа к удаленному сервису.
-  /// 
+  ///
   /// Возвращает:
   ///  - [String] содержащий basic аутентификацию.
   Future<String> getBasicAuth();
@@ -50,6 +50,9 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
         options: Options(
           headers: {
             'Authorization': 'Basic $base64',
+          },
+          extra: {
+            'skipTokenVerify': true,
           },
         ),
         data: {
