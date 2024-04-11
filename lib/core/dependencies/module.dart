@@ -28,13 +28,18 @@ abstract class AppModule {
 
   // ? ------------------------------- Dio ------------------------------- ? //
 
-  @Named('BaseUrl')
-  String get baseUrl =>
-      dotenv.get(ApiConst.kBaseUrl, fallback: 'NO_CONFIGURATION');
+  @Named(ApiConst.kBaseUrl)
+  String get baseUrl => const String.fromEnvironment(ApiConst.kBaseUrl);
+
+  @Named(ApiConst.kLogin)
+  String get basicLogin => const String.fromEnvironment(ApiConst.kLogin);
+
+  @Named(ApiConst.kPassword)
+  String get basicPassword => const String.fromEnvironment(ApiConst.kPassword);
 
   @lazySingleton
   Dio dio(
-    @Named('BaseUrl') String url,
+    @Named(ApiConst.kBaseUrl) String url,
     ErrorInterceptor errorInterceptor,
     AuthInterceptor authInterceptor,
   ) =>

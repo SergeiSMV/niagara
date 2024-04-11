@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:niagara_app/app.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.dart';
 import 'package:niagara_app/core/common/presentation/theme/app_theme.dart';
@@ -15,9 +14,6 @@ void main() async {
   /// Инициализация Flutter.
   /// Проверка на инициализацию FlutterBinding.
   WidgetsFlutterBinding.ensureInitialized();
-
-  /// Загрузка переменных окружения.
-  await dotenv.load();
 
   /// Инициализация зависимостей.
   await di.setupDependencies();

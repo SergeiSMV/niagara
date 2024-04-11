@@ -24,19 +24,17 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
   /// - [requestHandler] - обработчик запросов.
   TokenRemoteDataSource({
     required RequestHandler requestHandler,
-  }) : _requestHandler = requestHandler;
+    @Named(ApiConst.kLogin) required String basicLogin,
+    @Named(ApiConst.kPassword) required String basicPassword,
+  })  : _requestHandler = requestHandler,
+        _basicLogin = basicLogin,
+        _basicPassword = basicPassword;
 
   final RequestHandler _requestHandler;
 
-  String get _login => dotenv.get(
-        ApiConst.kLogin,
-        fallback: 'NO_LOGIN',
-      );
+  final String _basicLogin;
 
-  String get _password => dotenv.get(
-        ApiConst.kPassword,
-        fallback: 'NO_PASSWORD',
-      );
+  final String _basicPassword;
 
   @override
   Future<Either<Failure, String>> getToken({
@@ -52,7 +50,7 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
             'Authorization': 'Basic $base64',
           },
           extra: {
-            'skipTokenVerify': true,
+            'ignoreToken': true,
           },
         ),
         data: {
@@ -66,6 +64,7 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
   }
 
   @override
-  Future<String> getBasicAuth() async =>
-      base64Encode(utf8.encode('$_login:$_password'));
+  Future<String> getBasicAuth() async {
+    return base64Encode(utf8.encode('$_basicLogin:$_basicPassword'));
+  }
 }
