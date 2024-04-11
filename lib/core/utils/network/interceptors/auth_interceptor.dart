@@ -51,10 +51,15 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
+    if (options.extra['ignoreToken'] == true) {
+      return super.onRequest(options, handler);
+    }
+
     return tokenRepository.getToken().fold(
       (_) => super.onRequest(options, handler),
       (token) {
         options.headers['Authorization'] = 'Bearer $token';
+
         return super.onRequest(options, handler);
       },
     );
