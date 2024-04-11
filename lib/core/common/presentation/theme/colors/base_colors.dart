@@ -6,9 +6,8 @@ import 'package:niagara_app/core/common/presentation/theme/colors/info_colors.da
 import 'package:niagara_app/core/common/presentation/theme/colors/main_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/text_colors.dart';
 
-/// Основные цвета приложения, используемые в макетах
+/// Цвета приложения, используемые в макетах
 abstract class BaseColors extends ThemeExtension<BaseColors> {
-  /// Конструктор для основных цветов темы
   const BaseColors({
     required this.mainColors,
     required this.textColors,
@@ -18,21 +17,15 @@ abstract class BaseColors extends ThemeExtension<BaseColors> {
     required this.gradientColors,
   });
 
-  /// Основные цвета
   final MainColors mainColors;
 
-  /// Цвета текста
   final TextColors textColors;
 
-  /// Цвета кнопок
   final ButtonColors buttonColors;
 
-  /// Цвета границ полей ввода
   final FieldBordersColors fieldBordersColors;
 
-  /// Цвета информационных элементов
   final InfoColors infoColors;
 
-  /// Градиентные цвета
   final GradientColors gradientColors;
 }

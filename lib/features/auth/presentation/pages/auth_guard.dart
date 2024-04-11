@@ -18,17 +18,17 @@ class AuthGuard extends AutoRouteGuard {
     NavigationResolver resolver,
     StackRouter router,
   ) async {
-    /// Проверка на авторизацию
+    // Проверка на авторизацию
     final hasAuth = await _authStatusUseCase.call().fold(
           (_) => false,
           (authState) => authState == AuthenticatedStatus.authenticated,
         );
 
-    /// Если авторизован, то продолжаем
+    // Если авторизован, то продолжаем
     if (hasAuth) {
       resolver.next();
     } else {
-      /// Если не авторизован, то переходим на страницу авторизации
+      // Если не авторизован, то переходим на страницу авторизации
       await resolver.redirect(const AuthRoute());
     }
   }

@@ -81,7 +81,6 @@ class AppTextButton extends BaseButton {
     return _TextButtonWidget(text: text, type: type, size: size);
   }
 
-  /// Текст кнопки
   final String? text;
 }
 
@@ -102,10 +101,10 @@ class _TextButtonWidget extends StatelessWidget {
     final color = context.colors.textColors;
 
     final style = switch (type) {
-      BaseButtonType.primary => typo.btn1b.withColor(color.white),
-      BaseButtonType.accent => typo.btn1b.withColor(color.white),
-      BaseButtonType.secondary => typo.btn1sb.withColor(color.main),
-      BaseButtonType.invisible => typo.btn1sb.withColor(color.accent),
+      BaseButtonType.primary => typo.btn1bold.withColor(color.white),
+      BaseButtonType.accent => typo.btn1bold.withColor(color.white),
+      BaseButtonType.secondary => typo.btn1semiBold.withColor(color.main),
+      BaseButtonType.invisible => typo.btn1semiBold.withColor(color.accent),
     };
 
     return Text(text, style: style).paddingSymmetric(

@@ -3,42 +3,36 @@ part of '../../../core.dart';
 /// Локальный источник данных для управления токенами аутентификации.
 ///
 /// Этот источник данных отвечает за хранение и получение токена аутентификации
-/// пользователя в локальном хранилище, таком как SharedPreferences или
+/// пользователя в локальном хранилище, таком как [FlutterSecureStorage] или
 /// локальная база данных.
 abstract interface class ITokenLocalDataSource {
   /// Сохраняет новый токен аутентификации в локальном хранилище.
-  ///
-  /// [token] - новый токен, который нужно сохранить.
+  /// - [token] - новый токен, который нужно сохранить.
   ///
   /// Возвращает:
-  ///   - [Right<void>] если токен был успешно сохранен.
-  ///   - [Left<Failure>] если произошла ошибка при сохранении токена.
+  ///   - [void] если токен был успешно сохранен.
   Future<void> setToken({required String token});
 
   /// Получает сохраненный токен аутентификации из локального хранилища.
   ///
   /// Возвращает:
-  ///   - [Right<String>] содержащий сохраненный токен.
-  ///   - [Left<Failure>] если токен не найден или ошибка при получении.
+  ///   - [String] содержащий сохраненный токен.
   Future<String?> getToken();
 
   /// Удаляет сохраненный токен аутентификации из локального хранилища.
   ///
   /// Возвращает:
-  ///   - [Right<void>] если токен был успешно удален.
-  ///   - [Left<Failure>] если произошла ошибка при удалении токена.
+  ///   - [void] если токен был успешно удален.
   Future<void> deleteToken();
 }
 
 /// Реализация локального источника данных для токена.
 @LazySingleton(as: ITokenLocalDataSource)
 class TokenLocalDataSource implements ITokenLocalDataSource {
-  /// - [storage] - хранилище токена.
   TokenLocalDataSource({
     required FlutterSecureStorage storage,
   }) : _storage = storage;
 
-  /// Хранилище токена в шифрованном виде.
   final FlutterSecureStorage _storage;
 
   String get _tokenKey => KeysConst.kToken;

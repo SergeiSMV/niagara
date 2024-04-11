@@ -3,14 +3,11 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/router/base_route.dart';
 
-/// Страница навигации для модуля Shops (Магазины)
 @RoutePage()
 class ShopsNavigatorPage extends AutoRouter {
-  /// Конструктор страницы навигации
   const ShopsNavigatorPage({super.key});
 }
 
-/// Класс роутера для модуля Cart (Корзина)
 @injectable
 class ShopsRouters implements BaseRouters {
   @override

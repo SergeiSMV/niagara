@@ -1,7 +1,7 @@
 part of '../../core.dart';
 
-/// Базовый класс для всех репозиториев.
-/// Предоставляет методы для выполнения асинхронных действий и логирования ошибок.
+/// Базовый класс для всех репозиториев. Предоставляет методы для выполнения
+/// асинхронных действий и логирования ошибок.
 ///
 /// - [IAppLogger] - логгер для записи сообщений об ошибках.
 abstract class BaseRepository {
@@ -31,18 +31,7 @@ abstract class BaseRepository {
     }
   }
 
-  /// Логирует ошибку и возвращает ее. Предполагается, что ошибка уже была
-  /// создана и передана в качестве аргумента.
-  /// Возвращает переданную ошибку.
-  Failure logFailure(Failure f) {
-    final msg = _buildMessage(f);
-    _logger.log(level: LogLevel.warning, message: msg);
-    return f;
-  }
-
-  /// Логирует ошибку и возвращает ее. Предполагается, что ошибка уже была
-  /// создана и передана в качестве аргумента.
-  /// Возвращает переданную ошибку.
+  /// Логирует ошибку и возвращает ее.
   Failure _logError(
     Failure f,
     Object e, [
@@ -56,7 +45,7 @@ abstract class BaseRepository {
   /// Строит сообщение об ошибке.
   /// Возвращает строку с именем класса и сообщением об ошибке.
   /// Если сообщение об ошибке отсутствует, возвращает только имя класса.
-  /// Пример: 'BaseRepository :: Failure'
+  /// Пример: 'BaseRepository :: Failure :: error message'
   String _buildMessage(Failure f) {
     final where = runtimeType.toString();
     final who = f.runtimeType.toString();

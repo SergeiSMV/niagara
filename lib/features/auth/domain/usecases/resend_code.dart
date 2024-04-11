@@ -5,8 +5,9 @@ import 'package:niagara_app/features/auth/domain/repositories/auth_repository.da
 
 /// Повторно отправляет код подтверждения.
 /// 
-/// Возвращает [ResendCodeFailure], если номер телефона не был отправлен.
-/// Возвращает [Right<void>] если номер телефона был отправлен.
+/// Возвращает: 
+/// - [void] если код подтверждения был отправлен.
+/// - [Failure] если код подтверждения не был отправлен.
 @injectable
 class ResendPhoneUseCase extends UseCase<void, NoParams> {
   ResendPhoneUseCase({

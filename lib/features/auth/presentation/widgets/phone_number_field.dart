@@ -13,6 +13,7 @@ class PhoneNumberField extends StatelessWidget {
     super.key,
   }) : _formKey = formKey;
 
+  // Ключ формы для валидации номера телефона.
   final GlobalKey<FormBuilderState> _formKey;
 
   void onChangedPhoneInput(BuildContext context, {String? phone}) {

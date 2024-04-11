@@ -9,14 +9,11 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 /// Виджет нижней навигации для переключения между экранами
 /// приложения в [AutoTabsScaffold].
 class BottomNavigationBarWidget extends StatelessWidget {
-  /// Конструктор виджета нижней навигации.
-  /// Принимает [TabsRouter] для работы с навигацией между экранами.
   const BottomNavigationBarWidget({
     required this.tabsRouter,
     super.key,
   });
 
-  /// Роутер для переключения между экранами
   final TabsRouter tabsRouter;
 
   $AssetsIconsBottomBarGen get _bottomIcons => Assets.icons.bottomBar;

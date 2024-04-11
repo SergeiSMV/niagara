@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-/// Типографика заголовков
 abstract class HeadingTypography {
-  /// Конструктор для типографики заголовков
   const HeadingTypography({
     required this.h1,
     required this.h2,

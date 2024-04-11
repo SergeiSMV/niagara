@@ -3,13 +3,13 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
 
 /// Наблюдатель для навигации внутри авторизации.
+/// Останавливает таймер обратного отсчета при закрытии экрана ввода кода.
 @injectable
 class AuthNavigatorObserver extends NavigatorObserver {
   AuthNavigatorObserver({
     required CountdownTimerCubit countdownTimerCubit,
   }) : _countdownTimerCubit = countdownTimerCubit;
 
-  /// Кубит для работы с таймером обратного отсчета.
   final CountdownTimerCubit _countdownTimerCubit;
 
   @override

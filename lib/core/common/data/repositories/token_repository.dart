@@ -1,10 +1,5 @@
 part of '../../../core.dart';
 
-/// Репозиторий для управления токенами аутентификации пользователя.
-///
-/// Этот репозиторий отвечает за взаимодействие с локальным источником данных
-/// и удаленным источником данных для выполнения операций, связанных с токеном,
-/// таких как создание, проверка и получение токена аутентификации пользователя.
 @LazySingleton(as: ITokenRepository)
 class TokenRepository extends BaseRepository implements ITokenRepository {
   /// Конструирует экземпляр [TokenRepository].
@@ -13,8 +8,7 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
   /// токена.
   /// - [localDataSource] используется для хранения и получения токена локально.
   /// - [deviceIdProvider] используется для получения уникального идентификатора
-  /// - [logger] используется для ведения журнала ошибок и другой
-  /// соответствующей информации.
+  /// - [logger] используется для ведения журнала ошибок и другой информации.
   TokenRepository({
     required ITokenRemoteDataSource remoteDataSource,
     required ITokenLocalDataSource localDataSource,

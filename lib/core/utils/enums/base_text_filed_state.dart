@@ -4,25 +4,16 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 /// Состояние текстового поля и его внешний вид
 enum BaseTextFieldState {
-  /// Нейтральное состояние
   idle,
 
-  /// Успешное состояние
   success,
 
-  /// Состояние блокировки
   disabled;
 
-  /// Расширения для работы с состоянием. 
-  /// Позволяет удобно получать цвета и иконки
-  
-  /// Возвращает true, если состояние idle
   bool get isIdle => this == BaseTextFieldState.idle;
 
-  /// Возвращает true, если состояние disabled
   bool get isDisabled => this == BaseTextFieldState.disabled;
 
-  /// Возвращает true, если состояние success
   bool get isSuccess => this == BaseTextFieldState.success;
 
   /// Получение цвета для состояния

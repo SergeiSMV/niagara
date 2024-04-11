@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/navigation_bar.dart';
 
-/// Страница [NavigationPage] для внутренней навигации в приложении. Содержит в
-/// себе все основные маршруты приложения. Позволяет переключаться между
-/// различными экранами приложения.
+/// Страница [NavigationPage] для внутренней навигации в приложении. 
+/// Содержит в себе все основные маршруты приложения. 
 @RoutePage()
 class NavigationPage extends StatelessWidget {
-  /// Конструктор страницы навигации
   const NavigationPage({super.key});
 
   static List<PageRouteInfo> get _routes => [

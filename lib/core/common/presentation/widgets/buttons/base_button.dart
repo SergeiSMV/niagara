@@ -15,7 +15,6 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 /// отсутствии [onTap] кнопка будет неактивной.
 abstract class BaseButton extends StatelessWidget {
   /// Создает экземпляр [BaseButton] основного стиля.
-  /// Описание параметров см. в [BaseButton].
   const BaseButton.primary({
     super.key,
     this.child,
@@ -24,7 +23,6 @@ abstract class BaseButton extends StatelessWidget {
   }) : type = BaseButtonType.primary;
 
   /// Создает экземпляр [BaseButton] акцентного стиля.
-  /// Описание параметров см. в [BaseButton].
   const BaseButton.accent({
     super.key,
     this.child,
@@ -33,7 +31,6 @@ abstract class BaseButton extends StatelessWidget {
   }) : type = BaseButtonType.accent;
 
   /// Создает экземпляр [BaseButton] вторичного стиля.
-  /// Описание параметров см. в [BaseButton].
   const BaseButton.secondary({
     super.key,
     this.child,
@@ -42,7 +39,6 @@ abstract class BaseButton extends StatelessWidget {
   }) : type = BaseButtonType.secondary;
 
   /// Создает экземпляр [BaseButton] невидимого стиля.
-  /// Описание параметров см. в [BaseButton].
   const BaseButton.invisible({
     super.key,
     this.child,

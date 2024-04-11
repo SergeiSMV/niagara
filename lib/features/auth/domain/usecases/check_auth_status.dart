@@ -6,8 +6,9 @@ import 'package:niagara_app/features/auth/domain/repositories/auth_repository.da
 
 /// Проверяет статус авторизации.
 ///
-/// Возвращает [CheckAuthStatusFailure], если статус авторизации не был получен.
-/// Возвращает [Right<AuthenticatedStatus>] если статус авторизации был получен.
+/// Возвращает:
+/// - [AuthenticatedStatus] если статус авторизации был получен.
+/// - [Failure] если статус авторизации не был получен.
 @injectable
 class CheckAuthStatusUseCase extends UseCase<AuthenticatedStatus, NoParams> {
   CheckAuthStatusUseCase({

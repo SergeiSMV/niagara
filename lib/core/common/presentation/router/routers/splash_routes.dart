@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/router/base_route.dart';
 
-/// Класс роутера для модуля Cart (Корзина)
 @injectable
 class SplashRouters implements BaseRouters {
   @override

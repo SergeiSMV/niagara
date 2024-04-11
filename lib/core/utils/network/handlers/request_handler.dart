@@ -3,8 +3,6 @@ part of '../../../core.dart';
 /// Обработчик запросов.
 @injectable
 class RequestHandler {
-  /// Создает экземпляр [RequestHandler].
-  /// - [dio] - экземпляр [Dio] для работы с HTTP-запросами.
   const RequestHandler({
     required Dio dio,
   }) : _dio = dio;

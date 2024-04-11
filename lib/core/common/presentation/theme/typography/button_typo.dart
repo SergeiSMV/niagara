@@ -1,32 +1,30 @@
 import 'package:flutter/widgets.dart';
 
-/// Типографика кнопок
 abstract class ButtonTypography {
-  /// Конструктор для типографики кнопок
   const ButtonTypography({
-    required this.btn1b,
-    required this.btn1sb,
-    required this.btn2b,
-    required this.btn2sb,
-    required this.btn3b,
-    required this.btn3sb,
+    required this.btn1bold,
+    required this.btn1semiBold,
+    required this.btn2bold,
+    required this.btn2semiBold,
+    required this.btn3bold,
+    required this.btn3semiBold,
   });
 
   /// Button / Btn1  - Bold
-  final TextStyle btn1b;
+  final TextStyle btn1bold;
 
   /// Button / Btn1  - SemiBold
-  final TextStyle btn1sb;
+  final TextStyle btn1semiBold;
 
   /// Button / Btn2 - Bold
-  final TextStyle btn2b;
+  final TextStyle btn2bold;
 
   /// Button / Btn2 - SemiBold
-  final TextStyle btn2sb;
+  final TextStyle btn2semiBold;
 
   /// Button / Btn3 - Bold
-  final TextStyle btn3b;
+  final TextStyle btn3bold;
 
   /// Button / Btn3 - SemiBold
-  final TextStyle btn3sb;
+  final TextStyle btn3semiBold;
 }

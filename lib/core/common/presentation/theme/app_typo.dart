@@ -161,37 +161,37 @@ class _DescriptionTypography extends DescriptionTypography {
 class _ButtonTypography extends ButtonTypography {
   const _ButtonTypography()
       : super(
-          btn1b: const TextStyle(
+          btn1bold: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
             height: 22 / 16,
             fontFamily: FontFamily.montserrat,
           ),
-          btn1sb: const TextStyle(
+          btn1semiBold: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
             height: 22 / 16,
             fontFamily: FontFamily.montserrat,
           ),
-          btn2b: const TextStyle(
+          btn2bold: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w700,
             height: 20 / 14,
             fontFamily: FontFamily.montserrat,
           ),
-          btn2sb: const TextStyle(
+          btn2semiBold: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             height: 20 / 14,
             fontFamily: FontFamily.montserrat,
           ),
-          btn3b: const TextStyle(
+          btn3bold: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             height: 16 / 12,
             fontFamily: FontFamily.montserrat,
           ),
-          btn3sb: const TextStyle(
+          btn3semiBold: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
             height: 16 / 12,
