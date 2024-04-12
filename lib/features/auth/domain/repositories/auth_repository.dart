@@ -1,0 +1,48 @@
+import 'package:either_dart/either.dart';
+import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
+
+/// Репозиторий для работы с авторизацией.
+///
+/// Содержит методы для отправки кода подтверждения, проверки кода,
+/// проверки статуса авторизации и пропуска авторизации.
+abstract interface class IAuthRepository {
+  /// Пропускает авторизацию.
+  ///
+  /// Возвращает:
+  /// - [void] если авторизация была пропущена.
+  /// - [Failure] если авторизация не была пропущена.
+  Future<Either<Failure, void>> skipAuth();
+
+  /// Отправляет код подтверждения на указанный номер телефона.
+  ///
+  /// - [phone] - номер телефона.
+  ///
+  /// Возвращает:
+  /// - [void] если номер телефона был отправлен.
+  /// - [Failure] если номер телефона не был отправлен.
+  Future<Either<Failure, void>> sendPhone({required String phone});
+
+  /// Проверяет код подтверждения.
+  ///
+  /// - [code] - код подтверждения.
+  ///
+  /// Возвращает:
+  /// - [void] если код подтверждения верный.
+  /// - [Failure] если код подтверждения не верный.
+  Future<Either<Failure, void>> checkCode({required String code});
+
+  /// Повторно отправляет код подтверждения.
+  ///
+  /// Возвращает:
+  /// - [void] если код подтверждения был отправлен.
+  /// - [Failure] если код подтверждения не был отправлен.
+  Future<Either<Failure, void>> resendCode();
+
+  /// Проверяет статус авторизации.
+  ///
+  /// Возвращает:
+  /// - [AuthenticatedStatus] если статус авторизации был получен.
+  /// - [Failure] если статус авторизации не был получен.
+  Future<Either<Failure, AuthenticatedStatus>> checkAuthStatus();
+}

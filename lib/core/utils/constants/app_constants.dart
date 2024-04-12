@@ -1,22 +1,108 @@
+import 'dart:ui';
+
 /// Константы приложения
 abstract final class AppConst {
-  //* --- Bottom Navigation Bar --- *//
-  /// Размер иконок в нижней навигации
+  // ? ----------------------------- General ----------------------------- ? //
+
+  static const double kCommon1 = 1;
+
+  static const double kCommon2 = 2;
+
+  static const double kCommon4 = 4;
+
+  static const double kCommon8 = 8;
+
+  static const double kCommon12 = 12;
+
+  static const double kCommon16 = 16;
+
+  static const double kCommon24 = 24;
+
+  static const double kCommon32 = 32;
+
+  static const double kCommon48 = 48;
+
+  static const double kCommon64 = 64;
+
+  // * ------------------------------ Icons ------------------------------ * //
+  static const double kIconSmall = 16;
+
+  static const double kIconMedium = 20;
+
+  static const double kIconLarge = 24;
+
+  // * ----------------------------- App Bar ----------------------------- * //
+  static const double kAppBarDividerThickness = 1;
+
+  // * ----------------------------- Buttons ----------------------------- * //
+  static const double kButtonLarge = 54;
+
+  static const double kButtonMedium = 44;
+
+  static const double kButtonSmall = 32;
+
+  static const double kButtonVerticalPadding = 12;
+
+  static const double kButtonSmallVerticalPadding = 8;
+
+  static const double kButtonHorizontalPadding = 24;
+
+  static const double kButtonRadius = 12;
+
+  static const double kButtonSmallRadius = 8;
+
+  // * ---------------------------- Text Field ---------------------------- * //
+  static const double kTextFieldRadius = 12;
+
+  static const double kTextFieldPadding = 16;
+
+  static const double kTextFieldVerticalPadding = 8;
+
+  static const String kTextFieldPhoneName = 'phoneFiled';
+
+  // ? --------------------------- Regional Data -------------------------- ? //
+  static const int kPhoneDigits = 10;
+
+  static const String kPhoneMask = '(###) ###-##-##';
+
+  static const String kPhoneHint = '(000) 000-00-00';
+
+  // ? ---------------------- Bottom Navigation Bar ---------------------- ? //
   static const double kNavBarIconSize = 24;
 
-  /// Отступ иконок в нижней навигации
   static const double kNavBarIconPadding = 4;
 
-  /// Радиус скругления нижней навигации
   static const double kNavBarRadius = 16;
 
-  //* --- Splash Page --- *//
-  /// Длительность анимации появления логотипа
+  // ? --------------------------- Splash Page --------------------------- ? //
   static const Duration kSplashLogoDuration = Duration(milliseconds: 1250);
 
-  /// Смещение лоадера от нижней части экрана
   static const double kLoaderBottomOffset = 8;
 
-  /// Размер лоадера
   static const double kLoaderSize = 64;
+
+  // ? ------------------------------- Auth ------------------------------ ? //
+  static const double kAuthPrivacyPolicyBottomOffset = 12;
+
+  // * ------------------------- Get Code Widget ------------------------- * //
+  static const double kShadowOpacity = 0.06;
+
+  static const Offset kShadowOffset = Offset(0, -4);
+
+  static const double kShadowBlur = 12;
+
+  static const double kGetCodeButtonTopPadding = 12;
+
+  static const double kGetCodeButtonBottomPadding = 24;
+
+  // * ------------------------- OTP Code Widget ------------------------- * //
+  static const double kOTPCodeHeight = 72;
+
+  static const double kOTPCodeWidth = 64;
+
+  static const double kOTPCodeRadius = 12;
+
+  static const double kOTPCodePreFilledSize = 4;
+
+  static const int kOTPResendTime = 60;
 }

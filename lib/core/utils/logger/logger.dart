@@ -1,55 +1,43 @@
-import 'package:talker_flutter/talker_flutter.dart';
+part of '../../core.dart';
 
 /// Абстракция логгера приложения.
-abstract class AppLogger {
-  /// Запись критического сообщения.
-  void critical(String message, [Object? error, StackTrace? stackTrace]);
+abstract interface class IAppLogger {
+  void log({
+    required LogLevel level,
+    required String message,
+    Object? error,
+    StackTrace? stackTrace,
+  });
 
-  /// Запись сообщения об ошибке.
-  void error(String message, [Object? error, StackTrace? stackTrace]);
-
-  /// Запись предупреждения.
-  void warning(String message, [Object? error, StackTrace? stackTrace]);
-
-  /// Запись информационного сообщения.
-  void info(String message, [Object? error, StackTrace? stackTrace]);
-
-  /// Запись отладочного сообщения.
-  void debug(String message, [Object? error, StackTrace? stackTrace]);
-
-  /// Запись подробного сообщения.
-  void verbose(String message, [Object? error, StackTrace? stackTrace]);
+  void handle(Object error, [StackTrace? stackTrace, dynamic msg]);
 }
 
 /// Реализация логгера приложения на основе [Talker].
-class AppTalkerLogger implements AppLogger {
-  /// Создает экземпляр логгера приложения.
-  /// [talker] - экземпляр [Talker] для записи логов.
-  AppTalkerLogger({required Talker talker}) : _talker = talker;
+@LazySingleton(as: IAppLogger)
+class AppLogger implements IAppLogger {
+  AppLogger({
+    required Talker talker,
+  }) : _talker = talker;
 
   final Talker _talker;
 
   @override
-  void critical(String message, [Object? error, StackTrace? stackTrace]) =>
-      _talker.critical(message, error, stackTrace);
+  void log({
+    required LogLevel level,
+    required String message,
+    Object? error,
+    StackTrace? stackTrace,
+  }) =>
+      switch (level) {
+        LogLevel.debug => _talker.debug(message, error, stackTrace),
+        LogLevel.info => _talker.info(message, error, stackTrace),
+        LogLevel.warning => _talker.warning(message, error, stackTrace),
+        LogLevel.error => _talker.error(message, error, stackTrace),
+        LogLevel.critical => _talker.critical(message, error, stackTrace),
+        LogLevel.verbose => _talker.verbose(message, error, stackTrace),
+      };
 
   @override
-  void error(String message, [Object? error, StackTrace? stackTrace]) =>
-      _talker.error(message, error, stackTrace);
-
-  @override
-  void warning(String message, [Object? error, StackTrace? stackTrace]) =>
-      _talker.warning(message, error, stackTrace);
-
-  @override
-  void info(String message, [Object? error, StackTrace? stackTrace]) =>
-      _talker.info(message, error, stackTrace);
-
-  @override
-  void debug(String message, [Object? error, StackTrace? stackTrace]) =>
-      _talker.debug(message, error, stackTrace);
-
-  @override
-  void verbose(String message, [Object? error, StackTrace? stackTrace]) =>
-      _talker.verbose(message, error, stackTrace);
+  void handle(Object error, [StackTrace? stackTrace, dynamic msg]) =>
+      _talker.handle(error, stackTrace, msg);
 }

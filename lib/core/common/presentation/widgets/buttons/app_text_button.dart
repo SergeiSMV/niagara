@@ -1,0 +1,115 @@
+import 'package:flutter/material.dart';
+import 'package:niagara_app/core/common/presentation/widgets/buttons/base_button.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/enums/base_button_size.dart';
+import 'package:niagara_app/core/utils/enums/base_button_type.dart';
+import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
+
+/// Кнопка с текстом [AppTextButton]. Поддерживает различные стили.
+/// Поддерживает состояния загрузки и недоступность для нажатия.
+class AppTextButton extends BaseButton {
+  /// Создает экземпляр [AppTextButton] основного стиля.
+  /// Описание параметров см. в [BaseButton].
+  AppTextButton.primary({
+    super.key,
+    this.text,
+    super.onTap,
+    super.size,
+  }) : super.primary(
+          child: _buildWidgetOrNull(
+            text: text,
+            type: BaseButtonType.primary,
+            size: size,
+          ),
+        );
+
+  /// Создает экземпляр [AppTextButton] акцентного стиля.
+  /// Описание параметров см. в [BaseButton].
+  AppTextButton.accent({
+    super.key,
+    this.text,
+    super.onTap,
+    super.size,
+  }) : super.accent(
+          child: _buildWidgetOrNull(
+            text: text,
+            type: BaseButtonType.accent,
+            size: size,
+          ),
+        );
+
+  /// Создает экземпляр [AppTextButton] вторичного стиля.
+  /// Описание параметров см. в [BaseButton].
+  AppTextButton.secondary({
+    super.key,
+    this.text,
+    super.onTap,
+    super.size,
+  }) : super.secondary(
+          child: _buildWidgetOrNull(
+            text: text,
+            type: BaseButtonType.secondary,
+            size: size,
+          ),
+        );
+
+  /// Создает экземпляр [AppTextButton] невидимого стиля.
+  /// Описание параметров см. в [BaseButton].
+  AppTextButton.invisible({
+    required this.text,
+    required super.onTap,
+    super.key,
+    super.size,
+  }) : super.invisible(
+          child: _buildWidgetOrNull(
+            text: text,
+            type: BaseButtonType.invisible,
+            size: size,
+          ),
+        );
+
+  /// Создает виджет [Text] с указанным текстом и стилем с учетом размера кнопки
+  /// или возвращает null, если текст не указан
+  static Widget? _buildWidgetOrNull({
+    required String? text,
+    required BaseButtonType type,
+    required BaseButtonSize size,
+  }) {
+    if (text == null) return null;
+    return _TextButtonWidget(text: text, type: type, size: size);
+  }
+
+  final String? text;
+}
+
+class _TextButtonWidget extends StatelessWidget {
+  const _TextButtonWidget({
+    required this.text,
+    required this.type,
+    required this.size,
+  });
+
+  final String text;
+  final BaseButtonType type;
+  final BaseButtonSize size;
+
+  @override
+  Widget build(BuildContext context) {
+    final typo = context.textStyle.buttonTypo;
+    final color = context.colors.textColors;
+
+    final style = switch (type) {
+      BaseButtonType.primary => typo.btn1bold.withColor(color.white),
+      BaseButtonType.accent => typo.btn1bold.withColor(color.white),
+      BaseButtonType.secondary => typo.btn1semiBold.withColor(color.main),
+      BaseButtonType.invisible => typo.btn1semiBold.withColor(color.accent),
+    };
+
+    return Text(text, style: style).paddingSymmetric(
+      vertical: size.verticalPadding,
+      horizontal: AppConst.kButtonHorizontalPadding,
+    );
+  }
+}

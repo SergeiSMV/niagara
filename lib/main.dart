@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/app.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.dart';
+import 'package:niagara_app/core/common/presentation/theme/app_theme.dart';
+import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/dependencies/di.dart' as di;
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/core/utils/logger/logger.dart';
+import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 void main() async {
   /// Инициализация Flutter.
   /// Проверка на инициализацию FlutterBinding.
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Загрузка переменных окружения из файла `.env`.
-  await dotenv.load();
-
   /// Инициализация зависимостей.
-  di.setupDependencies();
+  await di.setupDependencies();
+
+  /// Инициализация [TalkerBlocObserver] для логирования событий и состояний.
+  Bloc.observer = di.getIt<TalkerBlocObserver>();
 
   /// Инициализация локализации.
   LocaleSettings.useDeviceLocale();
@@ -26,8 +30,19 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  di.getIt<AppLogger>().verbose('Application started');
+  di.getIt<IAppLogger>().log(
+        level: LogLevel.verbose,
+        message: 'Application started',
+      );
 
   /// Запуск приложения.
-  runApp(TranslationProvider(child: const Application()));
+  runApp(
+    TranslationProvider(
+      child: Application(
+        talker: di.getIt<Talker>(),
+        router: di.getIt<AppRouter>(),
+        theme: di.getIt<AppTheme>(),
+      ),
+    ),
+  );
 }

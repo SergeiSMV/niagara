@@ -1,0 +1,36 @@
+import 'dart:async';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
+
+/// Кубит для работы с таймером обратного отсчета.
+/// Возвращает текущее значение таймера.
+@lazySingleton
+class CountdownTimerCubit extends Cubit<int> {
+  CountdownTimerCubit() : super(0);
+
+  StreamSubscription<int>? _timerSubscription;
+
+  @disposeMethod
+  @override
+  Future<void> close() {
+    _timerSubscription?.cancel();
+    return super.close();
+  }
+
+  void startTimer() {
+    emit(AppConst.kOTPResendTime);
+    _timerSubscription?.cancel();
+    _timerSubscription = Stream.periodic(
+      const Duration(seconds: 1),
+      (x) => AppConst.kOTPResendTime - x - 1,
+    ).take(AppConst.kOTPResendTime).listen(emit);
+  }
+
+  void stopTimer() {
+    _timerSubscription?.cancel();
+    _timerSubscription = null;
+    emit(0);
+  }
+}

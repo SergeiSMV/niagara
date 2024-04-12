@@ -5,5 +5,20 @@
     "cart": "Cart",
     "shops": "Shops",
     "profile": "Profile"
+  },
+  "auth": {
+    "ruPhoneCode": "+7",
+    "enterPhone": "Enter phone number",
+    "authLater": "Authorize later",
+    "privacyPolicy(rich)": "By logging in, you agree to the ${userAgreement(user agreement)}, ${privacyPolicy(privacy policy)} and ${offer(offer)}",
+    "getCode": "Get code",
+    "confirmNumber": "Confirm number",
+    "enterCode": "Enter the code from the SMS",
+    "weSentCode": "We sent it to the number @:auth.ruPhoneCode ${phoneNumber}",
+    "resendCode": "Resend",
+    "through": "Through ${time}",
+    "incorrectNumberFormat": "Incorrect number format",
+    "incorrectCode": "Incorrect code. Please try again",
+    "limitSendCode": "Message sending limit exceeded. You can request the SMS code again when the timer expires."
   }
 }

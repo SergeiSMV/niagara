@@ -4,15 +4,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:niagara_app/core/router/app_router.gr.dart';
+import 'package:lottie/lottie.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/splash/presentation/cubit/splash_cubit.dart';
+import 'package:niagara_app/features/splash/presentation/widgets/bottom_loader_widget.dart';
 
 /// Страница загрузки приложения с анимацией логотипа
 @RoutePage()
 class SplashPage extends HookWidget {
-  /// Используется Cubit для управления состоянием после загрузки анимации
   const SplashPage({super.key});
 
   @override
@@ -35,46 +36,41 @@ class SplashPage extends HookWidget {
       [mainAnimationCtrl],
     );
 
-    return BlocProvider(
-      create: (_) => SplashCubit(),
-      child: BlocConsumer<SplashCubit, bool>(
-        listener: (context, state) {
-          // TODO(Oleg): Дополнить ожиданием загрузки данных.
-          // Переход на главный экран при готовности.
-          if (state) context.router.replace(const NavigationRoute());
-        },
-        builder: (context, state) => FittedBox(
-          fit: BoxFit.cover,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Assets.lottie.splashScreen.lottie(
-                controller: mainAnimationCtrl,
-                onLoaded: (composition) => mainAnimationCtrl
-                  ..duration = composition.duration
-                  ..forward().whenComplete(
-                    context.read<SplashCubit>().readyToNavigate,
-                  ),
-              ),
-              AnimatedOpacity(
-                opacity: opacity.value,
-                duration: Durations.medium1,
-                child: Assets.images.logo.svg(),
-              ),
-              Positioned(
-                bottom: AppConst.kLoaderBottomOffset,
-                child: AnimatedOpacity(
-                  opacity: state ? 1 : 0,
-                  duration: Durations.long2,
-                  child: Assets.lottie.loadCircleWhite.lottie(
-                    repeat: true,
-                    width: AppConst.kLoaderSize,
-                    height: AppConst.kLoaderSize,
-                  ),
-                ),
-              ),
-            ],
-          ),
+    void onLoaded(LottieComposition composition) => mainAnimationCtrl
+      ..duration = composition.duration
+      ..forward().whenComplete(context.read<SplashCubit>().onCheckAuth);
+
+    void readyToAuth() => context.replaceRoute(const AuthWrapperRoute());
+
+    void readyToMain() {
+      Future.delayed(
+        const Duration(seconds: 2),
+        () => context.replaceRoute(const NavigationRoute()),
+      );
+    }
+
+    return BlocListener<SplashCubit, SplashState>(
+      listener: (_, state) => state.maybeWhen(
+        readyToAuth: readyToAuth,
+        readyToMain: readyToMain,
+        orElse: () => null,
+      ),
+      child: FittedBox(
+        fit: BoxFit.cover,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Assets.lottie.splashScreen.lottie(
+              controller: mainAnimationCtrl,
+              onLoaded: onLoaded,
+            ),
+            AnimatedOpacity(
+              opacity: opacity.value,
+              duration: Durations.medium1,
+              child: Assets.images.logo.svg(),
+            ),
+            const BottomLoaderWidget(),
+          ],
         ),
       ),
     );

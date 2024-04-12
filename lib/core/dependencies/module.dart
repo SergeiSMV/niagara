@@ -1,35 +1,71 @@
 part of '../core.dart';
 
-/// Модуль зависимостей приложения.
 @module
 abstract class AppModule {
-  /// Экземпляр [Talker] для работы с логированием.
+  // ? ------------------------------ Talker ----------------------------- ? //
+
   @lazySingleton
   Talker get talker => TalkerFlutter.init();
 
-  /// Экземпляр [TalkerBlocObserver] для логирования событий и состояний.
   @lazySingleton
   TalkerBlocObserver get talkerBlocObserver => TalkerBlocObserver(
         talker: talker,
         settings: const TalkerBlocLoggerSettings(
           printChanges: true,
-          printStateFullData: false,
+          printCreations: true,
+          printClosings: true,
         ),
       );
 
-  /// Экземпляр [AppLogger] для работы с логированием.
   @lazySingleton
-  AppLogger get appLogger => AppTalkerLogger(talker: talker);
-
-  /// Экземпляр [Dio] для работы с HTTP-запросами.
-  @lazySingleton
-  Dio get dio => Dio()
-    ..interceptors.add(
-      TalkerDioLogger(
+  TalkerDioLogger get talkerDioLogger => TalkerDioLogger(
+        talker: talker,
         settings: const TalkerDioLoggerSettings(
           printRequestHeaders: true,
           printResponseHeaders: true,
         ),
-      ),
-    );
+      );
+
+  // ? ------------------------------- Dio ------------------------------- ? //
+
+  @Named(ApiConst.kBaseUrl)
+  String get baseUrl => const String.fromEnvironment(ApiConst.kBaseUrl);
+
+  @Named(ApiConst.kLogin)
+  String get basicLogin => const String.fromEnvironment(ApiConst.kLogin);
+
+  @Named(ApiConst.kPassword)
+  String get basicPassword => const String.fromEnvironment(ApiConst.kPassword);
+
+  @lazySingleton
+  Dio dio(
+    @Named(ApiConst.kBaseUrl) String url,
+    ErrorInterceptor errorInterceptor,
+    AuthInterceptor authInterceptor,
+  ) =>
+      Dio(
+        BaseOptions(
+          baseUrl: url,
+          connectTimeout: const Duration(seconds: 5),
+          receiveTimeout: const Duration(seconds: 10),
+        ),
+      )
+        ..interceptors.add(errorInterceptor)
+        ..interceptors.add(authInterceptor)
+        ..interceptors.add(talkerDioLogger);
+
+  // ? ----------------------------- Storage ----------------------------- ? //
+
+  @preResolve
+  Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
+
+  @lazySingleton
+  FlutterSecureStorage get secureStorage => const FlutterSecureStorage(
+        aOptions: AndroidOptions(encryptedSharedPreferences: true),
+      );
+
+  // ? ------------------------- DeviceInfoPlugin ------------------------ ? //
+
+  @lazySingleton
+  DeviceInfoPlugin get deviceInfoPlugin => DeviceInfoPlugin();
 }
