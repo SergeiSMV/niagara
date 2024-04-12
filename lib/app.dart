@@ -8,10 +8,6 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 /// Основная точка входа в приложение
 class Application extends StatelessWidget {
-  /// Конструктор приложения по умолчанию
-  /// - [talker] - объект [Talker] для логирования событий
-  /// - [router] - объект роутера приложения [AppRouter]
-  /// - [theme] - тема приложения [AppTheme] для отображения виджетов
   const Application({
     required Talker talker,
     required AppRouter router,

@@ -24,7 +24,7 @@ class AppBarAddressButton extends StatelessWidget {
             'ул. Ростовское ш., дом 22/б',
             style: context.textStyle.textTypo.tx2SemiBold.withColor(mainColor),
           ),
-          AppConst.kPaddingMin.width,
+          AppConst.kCommon4.width,
           Assets.icons.arrowRight.svg(
             width: AppConst.kIconSmall,
             height: AppConst.kIconSmall,

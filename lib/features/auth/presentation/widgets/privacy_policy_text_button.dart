@@ -50,6 +50,6 @@ class PrivacyPolicyTextButtons extends StatelessWidget {
       ),
       style: context.textStyle.textTypo.tx2Medium,
       textAlign: TextAlign.center,
-    ).paddingSymmetric(horizontal: AppConst.kPaddingMax);
+    ).paddingSymmetric(horizontal: AppConst.kCommon16);
   }
 }

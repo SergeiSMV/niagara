@@ -75,6 +75,6 @@ class OTPCodeWidget extends StatelessWidget {
       onCompleted: (value) => onCodeEntered(context, value),
       onTapOutside: (_) => FocusScope.of(context).unfocus(),
       forceErrorState: errorOTP,
-    ).paddingAll(AppConst.kPaddingMid);
+    ).paddingAll(AppConst.kCommon8);
   }
 }

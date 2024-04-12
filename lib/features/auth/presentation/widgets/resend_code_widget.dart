@@ -88,6 +88,6 @@ class _ResendCodeTimer extends StatelessWidget {
       style: context.textStyle.textTypo.tx1Medium.withColor(
         context.colors.textColors.secondary,
       ),
-    ).padding(top: AppConst.kPaddingMid);
+    ).padding(top: AppConst.kCommon8);
   }
 }
