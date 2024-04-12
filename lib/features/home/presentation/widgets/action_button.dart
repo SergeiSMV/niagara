@@ -27,7 +27,7 @@ class AppBarActionButton extends StatelessWidget {
       onTap: onTap,
       child: icon
           .svg(width: AppConst.kIconLarge, height: AppConst.kIconLarge)
-          .paddingSymmetric(horizontal: AppConst.kPaddingMid),
+          .paddingSymmetric(horizontal: AppConst.kCommon8),
     );
   }
 }

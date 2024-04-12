@@ -2,13 +2,6 @@ part of '../../../core.dart';
 
 @LazySingleton(as: ITokenRepository)
 class TokenRepository extends BaseRepository implements ITokenRepository {
-  /// Конструирует экземпляр [TokenRepository].
-  ///
-  /// - [remoteDataSource] используется для взаимодействия с удаленным сервисом
-  /// токена.
-  /// - [localDataSource] используется для хранения и получения токена локально.
-  /// - [deviceIdProvider] используется для получения уникального идентификатора
-  /// - [logger] используется для ведения журнала ошибок и другой информации.
   TokenRepository({
     required ITokenRemoteDataSource remoteDataSource,
     required ITokenLocalDataSource localDataSource,

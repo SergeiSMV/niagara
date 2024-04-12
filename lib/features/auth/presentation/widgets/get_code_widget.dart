@@ -38,7 +38,7 @@ class GetCodeWidget extends StatelessWidget {
     final isValid = context.watch<ValidatePhoneCubit>().state;
 
     return Container(
-      padding: AppConst.kPaddingMax.horizontal,
+      padding: AppConst.kCommon16.horizontal,
       decoration: BoxDecoration(
         color: context.colors.mainColors.white,
         boxShadow: [

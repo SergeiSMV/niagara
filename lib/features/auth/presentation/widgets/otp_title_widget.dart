@@ -20,15 +20,15 @@ class OTPTitleWidget extends StatelessWidget {
         Text(
           t.auth.enterCode,
           style: context.textStyle.headingTypo.h3,
-        ).padding(bottom: AppConst.kPaddingMid + AppConst.kPaddingMin),
+        ).padding(bottom: AppConst.kCommon8 + AppConst.kCommon4),
         Text(
           t.auth.weSentCode(phoneNumber: _phoneNumber),
           style: context.textStyle.textTypo.tx1Medium,
           textAlign: TextAlign.center,
         ).paddingSymmetric(
-          horizontal: AppConst.kPaddingMax * 2,
+          horizontal: AppConst.kCommon16 * 2,
         ),
       ],
-    ).paddingAll(AppConst.kPaddingMax);
+    ).paddingAll(AppConst.kCommon16);
   }
 }

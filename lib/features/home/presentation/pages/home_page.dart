@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
             // TODO(Oleg): Реализовать переход на экран поддержки
             onTap: () => debugPrint('Support'),
           ),
-          AppConst.kPaddingMid.width,
+          AppConst.kCommon8.width,
         ],
       ),
       body: const Center(

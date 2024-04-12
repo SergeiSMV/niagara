@@ -122,7 +122,7 @@ abstract class BaseTextField extends HookWidget {
         hintText: hint,
         prefixIcon: prefixWidget?.padding(
           left: AppConst.kTextFieldVerticalPadding,
-          right: AppConst.kPaddingMin,
+          right: AppConst.kCommon4,
         ),
         prefixText: prefix,
         prefixIconConstraints: const BoxConstraints(),

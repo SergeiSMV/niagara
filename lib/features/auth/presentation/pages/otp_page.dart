@@ -40,7 +40,7 @@ class OTPPage extends StatelessWidget {
             const Spacer(),
             const ReSendCodeWidget(),
           ],
-        ).paddingSymmetric(horizontal: AppConst.kPaddingMax),
+        ).paddingSymmetric(horizontal: AppConst.kCommon16),
       ),
     );
   }
