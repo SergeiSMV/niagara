@@ -50,5 +50,7 @@
 	</array>
 	<key>DART_DEFINES</key>
 	<string>$(DART_DEFINES)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Доступ к геолокации пользователя необходим для отображения текущей геопозиции.</string>
 </dict>
 </plist>

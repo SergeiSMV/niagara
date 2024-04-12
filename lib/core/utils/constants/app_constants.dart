@@ -61,10 +61,17 @@ abstract final class AppConst {
 
   /// Отступы по вертикали в текстовом поле
   static const double kTextFieldVerticalPadding = 8;
-  
+
   /// Имя для текстового поля с номером телефона
   static const String kTextFieldPhoneName = 'phoneFiled';
 
+  // * ------------------------------ Shadow ----------------------------- * //
+
+  /// Смещение тени
+  static const Offset kShadowOffset = Offset(0, -4);
+
+  /// Степень размытия тени
+  static const double kShadowBlur = 12;
 
   // ? --------------------------- Regional Data -------------------------- ? //
   /// Количество цифр в номере телефона
@@ -75,6 +82,10 @@ abstract final class AppConst {
 
   /// Подсказка для номера телефона
   static const String kPhoneHint = '(000) 000-00-00';
+
+  /// Координаты Челябинска (город по умолчанию)
+  static const ({double latitude, double longitude}) kDefaultCity =
+      (latitude: 55.1609, longitude: 61.4026);
 
   // ? ---------------------- Bottom Navigation Bar ---------------------- ? //
   /// Размер иконок в нижней навигации
@@ -103,12 +114,6 @@ abstract final class AppConst {
   // * ------------------------- Get Code Widget ------------------------- * //
   /// Прозрачность для тени
   static const double kShadowOpacity = 0.06;
-
-  /// Смещение тени
-  static const Offset kShadowOffset = Offset(0, -4);
-
-  /// Степень размытия тени
-  static const double kShadowBlur = 12;
 
   /// Отступ от верхнего края элемента
   static const double kGetCodeButtonTopPadding = 12;
