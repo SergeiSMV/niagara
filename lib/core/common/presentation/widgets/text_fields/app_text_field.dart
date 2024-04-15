@@ -14,7 +14,6 @@ class AppTextField extends BaseTextField {
     super.initialText,
     super.label,
     super.hint,
-    super.prefix,
     super.prefixWidget,
     super.keyboardType,
     super.state,
@@ -43,6 +42,31 @@ class AppTextField extends BaseTextField {
       isRequired: true,
       maxLength: mask.length,
       mask: mask,
+      onChanged: onChanged,
+    );
+  }
+
+  factory AppTextField.text({
+    Key? key,
+    String? initialText,
+    void Function(String?)? onChanged,
+    BaseTextFieldState? state,
+    String? label,
+    String? hint,
+    bool isRequired = false,
+    int? maxLength,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return AppTextField._(
+      name: AppConst.kTextFieldTextName,
+      key: key,
+      initialText: initialText,
+      label: label,
+      hint: hint,
+      keyboardType: keyboardType,
+      state: state ?? BaseTextFieldState.idle,
+      isRequired: isRequired,
+      maxLength: maxLength,
       onChanged: onChanged,
     );
   }

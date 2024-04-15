@@ -1,14 +1,13 @@
 /// Константы для API
 abstract final class ApiConst {
   // ? ----------------------------- General ----------------------------- ? //
-  /// Базовый URL
   static const String kBaseUrl = 'API_HOST';
 
-  /// Логин для авторизации
   static const String kLogin = 'API_LOGIN';
 
-  /// Пароль для авторизации
   static const String kPassword = 'API_PASSWORD';
+
+  static const String kYandexGeo = 'YANDEX_GEO';
 
   // ? ------------------------------ Token ------------------------------ ? //
   /// -POST- Запрос на получение токена

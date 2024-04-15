@@ -25,8 +25,8 @@ import YandexMapsMobile
             dartDefinesDictionary[values[0]] = values[1]
         }
         
-        guard let apiKey = dartDefinesDictionary["YANDEX_MAPS_API_KEY"] else {
-            print("YANDEX_MAPS_API_KEY not found")
+        guard let apiKey = dartDefinesDictionary["YANDEX_MAPS"] else {
+            print("YANDEX_MAPS not found")
             return false
         }
         

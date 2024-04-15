@@ -8,24 +8,19 @@ import 'package:niagara_app/core/common/presentation/theme/typography/base_typog
 extension BuildContextExt on BuildContext {
   MediaQueryData get _mediaQuery => MediaQuery.of(this);
 
-  /// Возвращает тему приложения.
   ThemeData get theme => Theme.of(this);
 
-  /// Возвращает типографику приложения.
   BaseTypography get textStyle => theme.extension<BaseTypography>()!;
 
-  /// Возвращает цветовую тему приложения.
   BaseColors get colors => theme.extension<BaseColors>()!;
 
-  /// Вернуть размер экрана
   Size get screenSize => _mediaQuery.size;
 
-  /// Вернуть ширину экрана
+  double get devicePixelRatio => _mediaQuery.devicePixelRatio;
+
   double get screenWidth => screenSize.width;
 
-  /// Вернуть высоту экрана
   double get screenHeight => screenSize.height;
 
-  /// Вернуть ориентацию экрана
   Orientation get orientation => _mediaQuery.orientation;
 }

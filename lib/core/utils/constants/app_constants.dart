@@ -60,6 +60,8 @@ abstract final class AppConst {
 
   static const String kTextFieldPhoneName = 'phoneFiled';
 
+  static const String kTextFieldTextName = 'textField';
+
   // * ------------------------------ Shadow ----------------------------- * //
 
   static const Offset kShadowOffset = Offset(0, -4);

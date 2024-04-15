@@ -2,8 +2,6 @@ part of '../core.dart';
 
 @module
 abstract class AppModule {
-  // ? ------------------------------ Talker ----------------------------- ? //
-
   @lazySingleton
   Talker get talker => TalkerFlutter.init();
 
@@ -26,8 +24,6 @@ abstract class AppModule {
         ),
       );
 
-  // ? ------------------------------- Dio ------------------------------- ? //
-
   @Named(ApiConst.kBaseUrl)
   String get baseUrl => const String.fromEnvironment(ApiConst.kBaseUrl);
 
@@ -36,6 +32,9 @@ abstract class AppModule {
 
   @Named(ApiConst.kPassword)
   String get basicPassword => const String.fromEnvironment(ApiConst.kPassword);
+
+  @Named(ApiConst.kYandexGeo)
+  String get yandexGeoKey => const String.fromEnvironment(ApiConst.kYandexGeo);
 
   @lazySingleton
   Dio dio(
@@ -54,8 +53,6 @@ abstract class AppModule {
         ..interceptors.add(authInterceptor)
         ..interceptors.add(talkerDioLogger);
 
-  // ? ----------------------------- Storage ----------------------------- ? //
-
   @preResolve
   Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
 
@@ -64,8 +61,12 @@ abstract class AppModule {
         aOptions: AndroidOptions(encryptedSharedPreferences: true),
       );
 
-  // ? ------------------------- DeviceInfoPlugin ------------------------ ? //
-
   @lazySingleton
   DeviceInfoPlugin get deviceInfoPlugin => DeviceInfoPlugin();
+
+  @lazySingleton
+  YandexGeocoder yandexGeocoder(
+    @Named(ApiConst.kYandexGeo) String yandexGeoKey,
+  ) =>
+      YandexGeocoder(apiKey: yandexGeoKey);
 }

@@ -24,7 +24,11 @@
   "locations": {
     "deliveryAddress": "Адрес доставки",
     "yeahThatsRight": "Да, всё верно",
-    "enterManually": "Ввести вручную"
-    
+    "enterManually": "Ввести вручную",
+    "continueButton": "Продолжить",
+    "flatOffice": "Квартира/офис",
+    "entrance": "Подъезд",
+    "floor": "Этаж",
+    "addressComment": "Комментарий к адресу"
   }
 }

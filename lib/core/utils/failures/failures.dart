@@ -71,3 +71,11 @@ class PermissionDeniedForeverException extends Failure {
 class ServiceNotEnabledException extends Failure {
   const ServiceNotEnabledException([super.error = 'Location service failure']);
 }
+
+class LocationDataFailure extends Failure {
+  const LocationDataFailure([super.error = 'Location data failure']);
+}
+
+class AddressDataFailure extends Failure {
+  const AddressDataFailure([super.error = 'Address data failure']);
+}

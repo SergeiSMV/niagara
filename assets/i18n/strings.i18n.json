@@ -24,6 +24,11 @@
   "locations": {
     "deliveryAddress": "Delivery address",
     "yeahThatsRight": "Yes, that's right",
-    "enterManually": "Enter manually"
+    "enterManually": "Enter manually",
+    "continueButton": "Continue",
+    "flatOffice": "Flat/Office",
+    "entrance": "Entrance",
+    "floor": "Floor",
+    "addressComment": "Address comment"
   }
 }

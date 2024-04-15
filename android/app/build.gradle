@@ -53,11 +53,11 @@ android {
     defaultConfig {
         applicationId "com.example.niagara_app"
         minSdkVersion 23
-        compileSdkVersion 33
+        compileSdkVersion 34
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        resValue "string", "api_key", dartEnvironmentVariables['YANDEX_MAPS_API_KEY']
+        resValue "string", "api_key", dartEnvironmentVariables['YANDEX_MAPS']
     }
 
     buildTypes {
