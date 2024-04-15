@@ -12,6 +12,7 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/location/domain/usecases/get_address.dart';
 import 'package:niagara_app/features/location/domain/usecases/get_user_position.dart';
 import 'package:niagara_app/features/location/domain/usecases/open_settings.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 part 'address_selection_cubit.freezed.dart';
@@ -98,7 +99,7 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
   Future<bool> checkUserLocationPermission() async =>
       _getUserLocationUseCase.call().fold(
             (failure) => false,
-            (isGranted) => isGranted,
+            (status) => status.isGranted,
           );
 
   Future<void> enableUserLayer() async => _controller.toggleUserLayer(

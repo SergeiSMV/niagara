@@ -1,11 +1,22 @@
 part of '../../core.dart';
 
-@lazySingleton
-class PermissionsService {
+abstract interface class IPermissionsService {
   /// Открывает настройки приложения.
-  Future<bool> openSettings() async => openAppSettings();
+  Future<bool> openSettings();
 
   /// Проверяет, есть ли у приложения разрешение на использование геолокации.
-  Future<bool> checkLocationPermission() async =>
-      Permission.location.request().isGranted;
+  Future<PermissionStatus> checkLocationPermission();
+}
+
+@LazySingleton(as: IPermissionsService)
+class PermissionsService implements IPermissionsService {
+  @override
+  Future<bool> openSettings() async => openAppSettings();
+
+  @override
+  Future<PermissionStatus> checkLocationPermission() async {
+    await Permission.location.request();
+    final status = await Permission.location.status;
+    return status;
+  }
 }
