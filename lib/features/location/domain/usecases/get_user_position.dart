@@ -1,22 +1,25 @@
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 @injectable
-class LocationPermissionUseCase extends UseCase<bool, NoParams> {
+class LocationPermissionUseCase extends UseCase<PermissionStatus, NoParams> {
   LocationPermissionUseCase({
-    required PermissionsService permissionsService,
+    required IPermissionsService permissionsService,
   }) : _permissionsService = permissionsService;
 
-  final PermissionsService _permissionsService;
+  final IPermissionsService _permissionsService;
 
   @override
-  Future<Either<Failure, bool>> call([NoParams? params]) async {
+  Future<Either<Failure, PermissionStatus>> call([NoParams? params]) async {
     try {
-      final isGranted = await _permissionsService.checkLocationPermission();
-      if (!isGranted) return const Left(LocationDataFailure());
+      final res = await _permissionsService.checkLocationPermission();
+      if (!res.isGranted) {
+        return const Left(LocationDataFailure());
+      }
 
-      return Right(isGranted);
+      return Right(res);
     } catch (e) {
       return Left(LocationDataFailure(e.toString()));
     }

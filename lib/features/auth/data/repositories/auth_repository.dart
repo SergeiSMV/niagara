@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
