@@ -7,9 +7,11 @@ import 'package:niagara_app/core/common/presentation/widgets/modals/static_botto
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/location/presentation/cubit/map_cubit.dart';
+import 'package:niagara_app/features/location/presentation/cubit/address_selection_cubit.dart';
 import 'package:niagara_app/features/location/presentation/widgets/approve_address_widget.dart';
 import 'package:niagara_app/features/location/presentation/widgets/complete_address_widget.dart';
+import 'package:niagara_app/features/location/presentation/widgets/location_unavailable_widget.dart';
+import 'package:niagara_app/features/location/presentation/widgets/no_address_found_widget.dart';
 import 'package:niagara_app/features/location/presentation/widgets/request_location_button.dart';
 
 @RoutePage()
@@ -18,7 +20,7 @@ class AddressSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mapCubit = context.read<MapCubit>();
+    final cubit = context.read<AddressSelectionCubit>();
     return Scaffold(
       appBar: AppBarWidget(
         title: t.locations.deliveryAddress,
@@ -29,24 +31,32 @@ class AddressSelectionPage extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         children: [
           MapWidget(
-            key: mapCubit.mapKey,
+            key: cubit.mapKey,
             mapObjects: const [],
-            onControllerCreated: mapCubit.onControllerCreated,
-            onUserLocationUpdated: mapCubit.onUserLocationUpdated,
+            onControllerCreated: cubit.onControllerCreated,
+            onUserLocationUpdated: cubit.onUserLocationUpdated,
             allowUserInteractions: false,
           ),
-          StaticBottomModalWidget(
-            key: mapCubit.modalKey,
-            child: SafeArea(
-              child: BlocBuilder<MapCubit, MapState>(
-                builder: (_, state) => state.when(
-                  initial: SizedBox.new,
-                  searching: SizedBox.new,
-                  complete: CompleteAddressWidget.new,
-                  approve: ApproveAddressWidget.new,
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const LocationUnavailableWidget(),
+              StaticBottomModalWidget(
+                key: cubit.modalKey,
+                child: SafeArea(
+                  child:
+                      BlocBuilder<AddressSelectionCubit, AddressSelectionState>(
+                    buildWhen: (previous, current) => previous != current,
+                    builder: (_, state) => state.maybeWhen(
+                      complete: CompleteAddressWidget.new,
+                      approve: ApproveAddressWidget.new,
+                      denied: NoAddressFoundWidget.new,
+                      orElse: SizedBox.new,
+                    ),
+                  ).paddingSymmetric(horizontal: AppConst.kCommon16),
                 ),
-              ).paddingSymmetric(horizontal: AppConst.kCommon16),
-            ),
+              ),
+            ],
           ),
         ],
       ),

@@ -64,10 +64,6 @@ class PhoneNotFoundFailure extends Failure {
 
 // ! ------------------------------ Location ------------------------------ ! //
 
-class PermissionDeniedForeverException extends Failure {
-  const PermissionDeniedForeverException([super.error = 'Permission denied']);
-}
-
 class ServiceNotEnabledException extends Failure {
   const ServiceNotEnabledException([super.error = 'Location service failure']);
 }

@@ -29,6 +29,13 @@
     "flatOffice": "Квартира/офис",
     "entrance": "Подъезд",
     "floor": "Этаж",
-    "addressComment": "Комментарий к адресу"
+    "addressComment": "Комментарий к адресу",
+    "noAddressFound": "Адрес не найден",
+    "yourGeoIsUnavailable": "Ваша геолокация недоступна",
+    "selectTheDeliveryAddressYourself": "Выберите адрес доставки самостоятельно",
+    "turnOnLocation": "Включить геолокацию?",
+    "turnOnLocationDescription": "Сейчас геолокация недоступна, вы можете включить ее в настройках.",
+    "later": "Позже",
+    "settings": "Настройки"
   }
 }

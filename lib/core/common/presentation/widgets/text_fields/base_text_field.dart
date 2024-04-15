@@ -166,6 +166,7 @@ abstract class BaseTextField extends HookWidget {
       ]),
       style: context.textStyle.textTypo.tx1Medium,
       textAlignVertical: TextAlignVertical.center,
+      cursorColor: context.colors.textColors.accent,
       onChanged: onChanged,
       onTapOutside: (_) => FocusScope.of(context).unfocus(),
     );

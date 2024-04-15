@@ -55,7 +55,6 @@ class AppTextField extends BaseTextField {
     String? hint,
     bool isRequired = false,
     int? maxLength,
-    TextInputType keyboardType = TextInputType.text,
   }) {
     return AppTextField._(
       name: AppConst.kTextFieldTextName,
@@ -63,7 +62,31 @@ class AppTextField extends BaseTextField {
       initialText: initialText,
       label: label,
       hint: hint,
-      keyboardType: keyboardType,
+      keyboardType: TextInputType.text,
+      state: state ?? BaseTextFieldState.idle,
+      isRequired: isRequired,
+      maxLength: maxLength,
+      onChanged: onChanged,
+    );
+  }
+
+  factory AppTextField.number({
+    Key? key,
+    String? initialText,
+    void Function(String?)? onChanged,
+    BaseTextFieldState? state,
+    String? label,
+    String? hint,
+    bool isRequired = false,
+    int? maxLength,
+  }) {
+    return AppTextField._(
+      name: AppConst.kTextFieldTextName,
+      key: key,
+      initialText: initialText,
+      label: label,
+      hint: hint,
+      keyboardType: TextInputType.number,
       state: state ?? BaseTextFieldState.idle,
       isRequired: isRequired,
       maxLength: maxLength,

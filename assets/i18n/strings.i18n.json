@@ -29,6 +29,13 @@
     "flatOffice": "Flat/Office",
     "entrance": "Entrance",
     "floor": "Floor",
-    "addressComment": "Address comment"
+    "addressComment": "Address comment",
+    "noAddressFound": "No address found",
+    "yourGeoIsUnavailable": "Your geolocation is unavailable",
+    "selectTheDeliveryAddressYourself": "Select the delivery address yourself",
+    "turnOnLocation": "Turn on location?",
+    "turnOnLocationDescription": "Your geolocation is not available now, you can enable it in the settings.",
+    "later": "Later",
+    "settings": "Settings"
   }
 }

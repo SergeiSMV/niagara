@@ -78,6 +78,8 @@ abstract final class AppConst {
   static const ({double latitude, double longitude}) kDefaultCity =
       (latitude: 55.1609, longitude: 61.4026); // Челябинск
 
+  static const double kDefaultZoom = 16;
+
   // ? ---------------------- Bottom Navigation Bar ---------------------- ? //
   static const double kNavBarIconSize = 24;
 

@@ -76,7 +76,9 @@ abstract class BaseButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: _inactive ? context.colors.buttonColors.inactive : buttonColor,
+          color: _inactive
+              ? context.colors.buttonColors.inactive.withOpacity(0.5)
+              : buttonColor,
           borderRadius: BorderRadius.circular(size.borderRadius),
         ),
         height: size.height,
