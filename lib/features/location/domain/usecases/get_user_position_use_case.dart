@@ -13,15 +13,8 @@ class LocationPermissionUseCase extends UseCase<PermissionStatus, NoParams> {
 
   @override
   Future<Either<Failure, PermissionStatus>> call([NoParams? params]) async {
-    try {
-      final res = await _permissionsService.checkLocationPermission();
-      if (!res.isGranted) {
-        return const Left(LocationDataFailure());
-      }
-
-      return Right(res);
-    } catch (e) {
-      return Left(LocationDataFailure(e.toString()));
-    }
+    final res = await _permissionsService.checkLocationPermission();
+    if (!res.isGranted) return const Left(LocationDataFailure());
+    return Right(res);
   }
 }

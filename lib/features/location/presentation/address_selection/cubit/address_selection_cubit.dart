@@ -9,11 +9,11 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/common/presentation/theme/app_colors.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/location/domain/usecases/get_address.dart';
-import 'package:niagara_app/features/location/domain/usecases/get_user_position.dart';
-import 'package:niagara_app/features/location/domain/usecases/open_settings.dart';
+import 'package:niagara_app/features/location/domain/usecases/get_address_use_case.dart';
+import 'package:niagara_app/features/location/domain/usecases/get_user_position_use_case.dart';
+import 'package:niagara_app/features/location/domain/usecases/open_settings_use_case.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
 
 part 'address_selection_cubit.freezed.dart';
 part 'address_selection_state.dart';
@@ -27,7 +27,7 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
   })  : _openSettingsUseCase = openSettingsUseCase,
         _getUserLocationUseCase = getUserLocationUseCase,
         _getAddressUseCase = getAddressUseCase,
-        super(const _AddressSelectionInitialState());
+        super(const _Initial());
 
   late YandexMapController _controller;
 
@@ -41,7 +41,6 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
   @disposeMethod
   @override
   Future<void> close() {
-    _controller.dispose();
     return super.close();
   }
 
@@ -53,13 +52,13 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
   Future<UserLocationView>? onUserLocationUpdated(UserLocationView view) async {
     final color = const AppColors().mainColors.primary;
 
-    emit(const _AddressSelectionSearchingState());
+    emit(const _Searching());
 
     final point = await _getUserPosition();
     if (point != null) {
       await _getAddressUseCase.call(point).fold(
             (failure) => null,
-            (address) => emit(_AddressSelectionCompleteState(address: address)),
+            (address) => emit(_Complete(address: address)),
           );
     }
 
@@ -110,8 +109,8 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
   Future<void> onOpenSettings() async => _openSettingsUseCase.call();
 
   Future<void> onApproveAddress() async {
-    final state = this.state as _AddressSelectionCompleteState;
-    emit(_AddressSelectionApproveState(address: state.address));
+    final state = this.state as _Complete;
+    emit(_Approve(address: state.address));
     await _getUserPosition();
   }
 
@@ -180,9 +179,9 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
     String? floor,
     String? comment,
   }) async {
-    final approveState = state as _AddressSelectionApproveState;
+    final approveState = state as _Approve;
     emit(
-      _AddressSelectionApproveState(
+      _Approve(
         address: approveState.address,
         flat: flat ?? approveState.flat,
         entrance: entrance ?? approveState.entrance,
@@ -202,6 +201,6 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
       point: point,
       zoom: 10,
     );
-    emit(const _AddressSelectionDeniedState());
+    emit(const _Denied());
   }
 }

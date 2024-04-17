@@ -81,7 +81,7 @@ class AppTextField extends BaseTextField {
     int? maxLength,
   }) {
     return AppTextField._(
-      name: AppConst.kTextFieldTextName,
+      name: AppConst.kNumberTextFieldName,
       key: key,
       initialText: initialText,
       label: label,
@@ -89,6 +89,28 @@ class AppTextField extends BaseTextField {
       keyboardType: TextInputType.number,
       state: state ?? BaseTextFieldState.idle,
       isRequired: isRequired,
+      maxLength: maxLength,
+      onChanged: onChanged,
+    );
+  }
+
+  factory AppTextField.search({
+    Key? key,
+    String? initialText,
+    void Function(String?)? onChanged,
+    BaseTextFieldState? state,
+    String? label,
+    String? hint,
+    int? maxLength,
+  }) {
+    return AppTextField._(
+      name: AppConst.kTextFieldTextName,
+      key: key,
+      initialText: initialText,
+      label: label,
+      hint: hint,
+      keyboardType: TextInputType.text,
+      state: state ?? BaseTextFieldState.idle,
       maxLength: maxLength,
       onChanged: onChanged,
     );

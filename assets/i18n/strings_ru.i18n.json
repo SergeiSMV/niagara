@@ -1,4 +1,7 @@
 {
+  "common": {
+    "cancel": "Отменить"
+  },
   "routes": {
     "home": "Главная",
     "catalog": "Каталог",
@@ -37,5 +40,10 @@
     "turnOnLocationDescription": "Сейчас геолокация недоступна, вы можете включить ее в настройках.",
     "later": "Позже",
     "settings": "Настройки"
+  },
+  "search": {
+    "inputField": "Поле ввода",
+    "thatAddressDoesntExist": "Такого адреса не существует",
+    "enterADifferentAddress": "Введите другой адрес"
   }
 }

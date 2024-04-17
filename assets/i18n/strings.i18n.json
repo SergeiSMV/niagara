@@ -1,4 +1,7 @@
 {
+  "common": {
+    "cancel": "Cancel"
+  },
   "routes": {
     "home": "Home",
     "catalog": "Catalog",
@@ -37,5 +40,10 @@
     "turnOnLocationDescription": "Your geolocation is not available now, you can enable it in the settings.",
     "later": "Later",
     "settings": "Settings"
+  },
+  "search": {
+    "inputField": "Input field",
+    "thatAddressDoesntExist": "That address doesn't exist",
+    "enterADifferentAddress": "Enter a different address"
   }
 }

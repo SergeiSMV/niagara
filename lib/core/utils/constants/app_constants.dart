@@ -10,6 +10,8 @@ abstract final class AppConst {
 
   static const double kCommon4 = 4;
 
+  static const double kCommon6 = 6;
+
   static const double kCommon8 = 8;
 
   static const double kCommon12 = 12;
@@ -62,11 +64,18 @@ abstract final class AppConst {
 
   static const String kTextFieldTextName = 'textField';
 
-  // * ------------------------------ Shadow ----------------------------- * //
+  static const String kNumberTextFieldName = 'numberField';
 
+  static const String kSearchTextFieldName = 'searchField';
+
+  // * ------------------------------ Shadow ----------------------------- * //
   static const Offset kShadowOffset = Offset(0, -4);
 
   static const double kShadowBlur = 12;
+
+  // * ------------------------------ Loader ----------------------------- * //
+  static const double kLoaderSmall = 64;
+  static const double kLoaderBig = 128;
 
   // ? --------------------------- Regional Data -------------------------- ? //
   static const int kPhoneDigits = 10;
@@ -91,8 +100,6 @@ abstract final class AppConst {
   static const Duration kSplashLogoDuration = Duration(milliseconds: 1250);
 
   static const double kLoaderBottomOffset = 8;
-
-  static const double kLoaderSize = 64;
 
   // ? ------------------------------- Auth ------------------------------ ? //
   static const double kAuthPrivacyPolicyBottomOffset = 12;

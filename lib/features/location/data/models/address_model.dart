@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// TODO(Oleg): Данные с бэка подогнать под новую entity
 class Address extends Equatable {
   const Address({
     required this.name,

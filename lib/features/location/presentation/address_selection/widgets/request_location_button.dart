@@ -7,7 +7,7 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/location/presentation/cubit/address_selection_cubit.dart';
+import 'package:niagara_app/features/location/presentation/address_selection/cubit/address_selection_cubit.dart';
 
 class RequestLocationButton extends StatelessWidget {
   const RequestLocationButton({super.key});
