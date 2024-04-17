@@ -46,8 +46,15 @@ class OTPCodeWidget extends StatelessWidget {
     final pinTheme = _buildPinTheme(context);
 
     final errorOTP = context.watch<AuthBloc>().state.maybeWhen(
-          otpError: (_) => true,
+          otpError: () => true,
+          otpChangeError: () => true,
           orElse: () => false,
+        );
+
+    final errorOTPText = context.watch<AuthBloc>().state.maybeWhen(
+          otpError: () => t.auth.incorrectCode,
+          otpChangeError: () => t.auth.limitSendCode,
+          orElse: () => '',
         );
 
     return Pinput(
@@ -65,7 +72,7 @@ class OTPCodeWidget extends StatelessWidget {
       ),
       preFilledWidget: _buildCursor(context.colors.fieldBordersColors.main),
       cursor: _buildCursor(context.colors.fieldBordersColors.accent),
-      errorText: t.auth.incorrectCode,
+      errorText: errorOTPText,
       errorTextStyle: context.textStyle.textTypo.tx3Medium
           .withColor(context.colors.textColors.error),
       androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
