@@ -6,7 +6,8 @@ class SearchAddressState with _$SearchAddressState {
 
   const factory SearchAddressState.loading() = _Loading;
 
-  // const factory SearchAddressState.loaded(List<SearchAddress> searchAddresses) = _Loaded;
+  const factory SearchAddressState.loaded(List<Location> searchAddresses) =
+      _Loaded;
 
-  const factory SearchAddressState.error(String message) = _Error;
+  const factory SearchAddressState.error() = _Error;
 }

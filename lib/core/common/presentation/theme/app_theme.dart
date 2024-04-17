@@ -53,6 +53,7 @@ class AppTheme {
     return AppBarTheme(
       backgroundColor: colors.mainColors.white,
       elevation: 0,
+      scrolledUnderElevation: 0,
       titleTextStyle: typography.textTypo.tx1SemiBold.withColor(
         colors.textColors.main,
       ),

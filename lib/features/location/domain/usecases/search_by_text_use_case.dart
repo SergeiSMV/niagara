@@ -1,10 +1,11 @@
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/features/location/domain/entities/location.dart';
 import 'package:niagara_app/features/location/domain/repositories/geocoder_repository.dart';
 
 @injectable
-class SearchByTextUseCase extends UseCase<void, String> {
+class SearchByTextUseCase extends UseCase<List<Location>, String> {
   SearchByTextUseCase({
     required IGeocoderRepository geocoder,
   }) : _geocoder = geocoder;
@@ -12,6 +13,6 @@ class SearchByTextUseCase extends UseCase<void, String> {
   final IGeocoderRepository _geocoder;
 
   @override
-  Future<Either<Failure, void>> call(String params) async =>
+  Future<Either<Failure, List<Location>>> call(String params) async =>
       _geocoder.getAddressesByQuery(query: params);
 }

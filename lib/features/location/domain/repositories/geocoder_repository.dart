@@ -1,6 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:yandex_geocoder/yandex_geocoder.dart';
+import 'package:niagara_app/features/location/domain/entities/location.dart';
 
 abstract interface class IGeocoderRepository {
   /// Получает адрес по координатам.
@@ -11,7 +11,7 @@ abstract interface class IGeocoderRepository {
   /// Возвращает:
   /// - [String] если адрес был получен.
   /// - [Failure] если адрес не был получен.
-  Future<Either<Failure, GeoObject>> getAddressByCoordinates({
+  Future<Either<Failure, Location>> getAddressByCoordinates({
     required double latitude,
     required double longitude,
   });
@@ -23,7 +23,7 @@ abstract interface class IGeocoderRepository {
   /// Возвращает:
   /// - [List<String>] если адреса были получены.
   /// - [Failure] если адреса не были получены.
-  Future<Either<Failure, List<GeoObject>>> getAddressesByQuery({
+  Future<Either<Failure, List<Location>>> getAddressesByQuery({
     required String query,
   });
 }

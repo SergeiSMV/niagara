@@ -11,6 +11,7 @@ class LocationsRouters implements BaseRouters {
         page: LocationsWrapperRoute.page,
         children: [
           AutoRoute(page: AddressSelectionRoute.page, initial: true),
+          AutoRoute(page: SearchAddressRoute.page),
         ],
       );
 }

@@ -1,6 +1,9 @@
 import 'package:either_dart/either.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/features/location/data/mappers/location_mapper.dart';
+import 'package:niagara_app/features/location/domain/entities/location.dart';
 import 'package:niagara_app/features/location/domain/repositories/geocoder_repository.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' hide Point;
 
@@ -14,7 +17,7 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
   final YandexGeocoder _geocoder;
 
   @override
-  Future<Either<Failure, GeoObject>> getAddressByCoordinates({
+  Future<Either<Failure, Location>> getAddressByCoordinates({
     required double latitude,
     required double longitude,
   }) {
@@ -28,7 +31,7 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
   }
 
   @override
-  Future<Either<Failure, List<GeoObject>>> getAddressesByQuery({
+  Future<Either<Failure, List<Location>>> getAddressesByQuery({
     required String query,
   }) async {
     return execute(
@@ -37,7 +40,7 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
     );
   }
 
-  Future<GeoObject> _getAddressByCoordinates({
+  Future<Location> _getAddressByCoordinates({
     required double latitude,
     required double longitude,
   }) async {
@@ -50,25 +53,41 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
       ),
     );
 
-    final geoObject = res
-        .response?.geoObjectCollection?.featureMember?.firstOrNull?.geoObject;
-
-    if (geoObject == null) throw const AddressDataFailure();
-
-    return geoObject;
-  }
-
-  Future<List<GeoObject>> _getAddressesByQuery({
-    required String query,
-  }) async {
-    final res =
-        await _geocoder.getGeocode(DirectGeocodeRequest(addressGeocode: query));
     final featureMembers = res.response?.geoObjectCollection?.featureMember;
 
-    if (featureMembers != null) {
-      return featureMembers.map((e) => e.geoObject!).toList();
+    final geoObjects = _extractGeoObjects(featureMembers);
+    if (geoObjects.isNotEmpty) {
+      debugPrint('geoObjects: $geoObjects');
+      final locations = geoObjects.map((e) => e.toLocation()).toList();
+      if (locations.isEmpty) throw const AddressDataFailure();
+      return locations.first;
+    }
+
+    return throw const AddressDataFailure();
+  }
+
+  Future<List<Location>> _getAddressesByQuery({
+    required String query,
+  }) async {
+    final res = await _geocoder.getGeocode(
+      DirectGeocodeRequest(addressGeocode: query),
+    );
+
+    final featureMembers = res.response?.geoObjectCollection?.featureMember;
+
+    final geoObjects = _extractGeoObjects(featureMembers);
+    if (geoObjects.isNotEmpty) {
+      return geoObjects.map((e) => e.toLocation()).toList();
     }
 
     return [];
+  }
+
+  List<GeoObject> _extractGeoObjects(List<FeatureMember>? featureMembers) {
+    return featureMembers
+            ?.map((e) => e.geoObject)
+            .whereType<GeoObject>()
+            .toList() ??
+        [];
   }
 }

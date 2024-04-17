@@ -9,9 +9,9 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/common/presentation/theme/app_colors.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/location/domain/usecases/get_address.dart';
-import 'package:niagara_app/features/location/domain/usecases/get_user_position.dart';
-import 'package:niagara_app/features/location/domain/usecases/open_settings.dart';
+import 'package:niagara_app/features/location/domain/usecases/get_address_use_case.dart';
+import 'package:niagara_app/features/location/domain/usecases/get_user_position_use_case.dart';
+import 'package:niagara_app/features/location/domain/usecases/open_settings_use_case.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
 

@@ -21,7 +21,7 @@ enum LocationPrecision {
   bool get isWithoutHouseNumber =>
       this == LocationPrecision.street || this == LocationPrecision.other;
 
-  static LocationPrecision fromString(String value) =>
+  static LocationPrecision fromString(String? value) =>
       LocationPrecision.values.firstWhere(
         (e) => e.toString().split('.').last == value,
         orElse: () => LocationPrecision.other,

@@ -14,14 +14,13 @@ class GetAddressUseCase extends UseCase<String, Point> {
 
   @override
   Future<Either<Failure, String>> call(Point params) async {
-    final geoObject = _geocoder.getAddressByCoordinates(
+    final location = _geocoder.getAddressByCoordinates(
       latitude: params.latitude,
       longitude: params.longitude,
     );
 
-    return geoObject.fold(Left.new, (geoObject) {
-      final name = geoObject.name;
-      if (name == null) return const Left(AddressDataFailure());
+    return location.fold(Left.new, (location) {
+      final name = location.name;
       return Right(name);
     });
   }

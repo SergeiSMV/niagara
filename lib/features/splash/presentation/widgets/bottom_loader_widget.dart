@@ -29,8 +29,8 @@ class _SpinnerLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Assets.lottie.loadCircleWhite.lottie(
       repeat: true,
-      width: AppConst.kLoaderSize,
-      height: AppConst.kLoaderSize,
+      width: AppConst.kLoaderSmall,
+      height: AppConst.kLoaderSmall,
     );
   }
 }
