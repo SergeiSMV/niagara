@@ -51,6 +51,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         child: Divider(
           thickness: AppConst.kAppBarDividerThickness,
           color: context.colors.fieldBordersColors.inactive,
+          height: 0,
         ),
       ),
     );

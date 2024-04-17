@@ -22,6 +22,7 @@ class AppTextButton extends BaseButton {
             text: text,
             type: BaseButtonType.primary,
             size: size,
+            inactive: onTap == null,
           ),
         );
 
@@ -37,6 +38,7 @@ class AppTextButton extends BaseButton {
             text: text,
             type: BaseButtonType.accent,
             size: size,
+            inactive: onTap == null,
           ),
         );
 
@@ -52,6 +54,7 @@ class AppTextButton extends BaseButton {
             text: text,
             type: BaseButtonType.secondary,
             size: size,
+            inactive: onTap == null,
           ),
         );
 
@@ -67,6 +70,7 @@ class AppTextButton extends BaseButton {
             text: text,
             type: BaseButtonType.invisible,
             size: size,
+            inactive: onTap == null,
           ),
         );
 
@@ -76,9 +80,15 @@ class AppTextButton extends BaseButton {
     required String? text,
     required BaseButtonType type,
     required BaseButtonSize size,
+    bool inactive = false,
   }) {
     if (text == null) return null;
-    return _TextButtonWidget(text: text, type: type, size: size);
+    return _TextButtonWidget(
+      text: text,
+      type: type,
+      size: size,
+      inactive: inactive,
+    );
   }
 
   final String? text;
@@ -89,25 +99,36 @@ class _TextButtonWidget extends StatelessWidget {
     required this.text,
     required this.type,
     required this.size,
+    this.inactive = false,
   });
 
   final String text;
   final BaseButtonType type;
   final BaseButtonSize size;
+  final bool inactive;
 
   @override
   Widget build(BuildContext context) {
     final typo = context.textStyle.buttonTypo;
-    final color = context.colors.textColors;
+    final textColors = context.colors.textColors;
 
     final style = switch (type) {
-      BaseButtonType.primary => typo.btn1bold.withColor(color.white),
-      BaseButtonType.accent => typo.btn1bold.withColor(color.white),
-      BaseButtonType.secondary => typo.btn1semiBold.withColor(color.main),
-      BaseButtonType.invisible => typo.btn1semiBold.withColor(color.accent),
+      BaseButtonType.primary => typo.btn1bold,
+      BaseButtonType.accent => typo.btn1bold,
+      BaseButtonType.secondary => typo.btn1semiBold,
+      BaseButtonType.invisible => typo.btn1semiBold,
     };
 
-    return Text(text, style: style).paddingSymmetric(
+    Color adaptiveColor(Color color) => color.withOpacity(inactive ? 0.8 : 1);
+
+    final color = switch (type) {
+      BaseButtonType.primary => adaptiveColor(textColors.white),
+      BaseButtonType.accent => adaptiveColor(textColors.white),
+      BaseButtonType.secondary => adaptiveColor(textColors.main),
+      BaseButtonType.invisible => adaptiveColor(textColors.accent),
+    };
+
+    return Text(text, style: style.withColor(color)).paddingSymmetric(
       vertical: size.verticalPadding,
       horizontal: AppConst.kButtonHorizontalPadding,
     );

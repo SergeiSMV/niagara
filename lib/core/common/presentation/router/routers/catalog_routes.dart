@@ -8,7 +8,8 @@ class CatalogNavigatorPage extends AutoRouter {
   const CatalogNavigatorPage({super.key});
 }
 
-@injectable
+/// Класс роутера для модуля Catalog (Каталог)
+@lazySingleton
 class CatalogRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(

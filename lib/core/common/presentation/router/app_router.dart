@@ -6,6 +6,7 @@ import 'package:niagara_app/core/common/presentation/router/routers/auth_routes.
 import 'package:niagara_app/core/common/presentation/router/routers/cart_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/catalog_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/home_routes.dart';
+import 'package:niagara_app/core/common/presentation/router/routers/location_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/profile_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/shops_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/splash_routes.dart';
@@ -22,13 +23,15 @@ class AppRouter extends $AppRouter {
     required CartRouters cartRouters,
     required ShopsRouters shopsRouters,
     required ProfileRouters profileRouters,
+    required LocationsRouters locationsRouters,
   })  : _splashRouters = splashRouters,
         _authRouters = authRouters,
         _homeRouters = homeRouters,
         _catalogRouters = catalogRouters,
         _cartRouters = cartRouters,
         _shopsRouters = shopsRouters,
-        _profileRouters = profileRouters;
+        _profileRouters = profileRouters,
+        _locationsRouters = locationsRouters;
 
   final SplashRouters _splashRouters;
   final AuthRouters _authRouters;
@@ -37,6 +40,7 @@ class AppRouter extends $AppRouter {
   final CartRouters _cartRouters;
   final ShopsRouters _shopsRouters;
   final ProfileRouters _profileRouters;
+  final LocationsRouters _locationsRouters;
 
   @override
   List<AutoRoute> get routes => [
@@ -52,6 +56,7 @@ class AppRouter extends $AppRouter {
             _profileRouters.routers,
           ],
         ),
+        _locationsRouters.routers,
       ];
 
   /// Анимация переходов между экранами приложения.

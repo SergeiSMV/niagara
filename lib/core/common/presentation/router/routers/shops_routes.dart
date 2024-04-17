@@ -8,7 +8,8 @@ class ShopsNavigatorPage extends AutoRouter {
   const ShopsNavigatorPage({super.key});
 }
 
-@injectable
+/// Класс роутера для модуля Cart (Корзина)
+@lazySingleton
 class ShopsRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(

@@ -20,5 +20,22 @@
     "incorrectNumberFormat": "Incorrect number format",
     "incorrectCode": "Incorrect code. Please try again",
     "limitSendCode": "Message sending limit exceeded. You can request the SMS code again when the timer expires."
+  },
+  "locations": {
+    "deliveryAddress": "Delivery address",
+    "yeahThatsRight": "Yes, that's right",
+    "enterManually": "Enter manually",
+    "continueButton": "Continue",
+    "flatOffice": "Flat/Office",
+    "entrance": "Entrance",
+    "floor": "Floor",
+    "addressComment": "Address comment",
+    "noAddressFound": "No address found",
+    "yourGeoIsUnavailable": "Your geolocation is unavailable",
+    "selectTheDeliveryAddressYourself": "Select the delivery address yourself",
+    "turnOnLocation": "Turn on location?",
+    "turnOnLocationDescription": "Your geolocation is not available now, you can enable it in the settings.",
+    "later": "Later",
+    "settings": "Settings"
   }
 }

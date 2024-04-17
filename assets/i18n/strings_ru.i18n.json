@@ -20,5 +20,22 @@
     "incorrectNumberFormat": "Неверный формат номера",
     "incorrectCode": "Неверный код. Повторите попытку снова",
     "limitSendCode": "Превышен лимит отправки сообщений. Запросить СМС с кодом можно будет по истечению таймера."
+  },
+  "locations": {
+    "deliveryAddress": "Адрес доставки",
+    "yeahThatsRight": "Да, всё верно",
+    "enterManually": "Ввести вручную",
+    "continueButton": "Продолжить",
+    "flatOffice": "Квартира/офис",
+    "entrance": "Подъезд",
+    "floor": "Этаж",
+    "addressComment": "Комментарий к адресу",
+    "noAddressFound": "Адрес не найден",
+    "yourGeoIsUnavailable": "Ваша геолокация недоступна",
+    "selectTheDeliveryAddressYourself": "Выберите адрес доставки самостоятельно",
+    "turnOnLocation": "Включить геолокацию?",
+    "turnOnLocationDescription": "Сейчас геолокация недоступна, вы можете включить ее в настройках.",
+    "later": "Позже",
+    "settings": "Настройки"
   }
 }

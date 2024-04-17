@@ -61,3 +61,17 @@ class SkipAuthFailure extends Failure {
 class PhoneNotFoundFailure extends Failure {
   const PhoneNotFoundFailure([super.error = 'Phone not found']);
 }
+
+// ! ------------------------------ Location ------------------------------ ! //
+
+class ServiceNotEnabledException extends Failure {
+  const ServiceNotEnabledException([super.error = 'Location service failure']);
+}
+
+class LocationDataFailure extends Failure {
+  const LocationDataFailure([super.error = 'Location data failure']);
+}
+
+class AddressDataFailure extends Failure {
+  const AddressDataFailure([super.error = 'Address data failure']);
+}

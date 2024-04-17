@@ -8,7 +8,8 @@ class ProfileNavigatorPage extends AutoRouter {
   const ProfileNavigatorPage({super.key});
 }
 
-@injectable
+/// Класс роутера для модуля Cart (Корзина)
+@lazySingleton
 class ProfileRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(

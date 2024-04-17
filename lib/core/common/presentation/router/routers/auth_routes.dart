@@ -3,7 +3,8 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/router/base_route.dart';
 
-@injectable
+/// Класс роутера для модуля авторизации
+@lazySingleton
 class AuthRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(

@@ -22,7 +22,7 @@ class OTPPage extends StatelessWidget {
   final String _phoneNumber;
 
   Future<void> _navigateToMain(BuildContext context) =>
-      context.pushRoute(const NavigationRoute());
+      context.replaceRoute(const LocationsWrapperRoute());
 
   @override
   Widget build(BuildContext context) {

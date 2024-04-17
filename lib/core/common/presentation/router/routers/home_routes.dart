@@ -8,7 +8,8 @@ class HomeNavigatorPage extends AutoRouter {
   const HomeNavigatorPage({super.key});
 }
 
-@injectable
+/// Класс роутера для модуля Home (Главная)
+@lazySingleton
 class HomeRouters implements BaseRouters {
   @override
   AutoRoute get routers => AutoRoute(

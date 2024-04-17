@@ -23,7 +23,6 @@ class AppTheme {
   final AppColors _appColors;
   final AppTypo _appTypo;
 
-  // Основная тема приложения
   ThemeData get lightTheme {
     return ThemeData.light().copyWith(
       extensions: <ThemeExtension>[_appColors, _appTypo],
@@ -47,7 +46,6 @@ class AppTheme {
     );
   }
 
-  // Тема для AppBar
   static AppBarTheme _appBarTheme({
     required BaseColors colors,
     required BaseTypography typography,
@@ -61,7 +59,6 @@ class AppTheme {
     );
   }
 
-  // Тема нижней навигационной панели
   static BottomNavigationBarThemeData _bottomNavBarTheme({
     required BaseColors colors,
     required BaseTypography typography,
@@ -79,7 +76,6 @@ class AppTheme {
         enableFeedback: true,
       );
 
-  // Тема для полей ввода
   static InputDecorationTheme _inputDecorationTheme({
     required BaseColors colors,
     required BaseTypography typography,
@@ -90,10 +86,13 @@ class AppTheme {
       errorBorder: _buildBorder(colors.fieldBordersColors.negative),
       focusedErrorBorder: _buildBorder(colors.fieldBordersColors.negative),
       disabledBorder: _buildBorder(colors.fieldBordersColors.inactive),
+      labelStyle: typography.descriptionTypo.des1
+          .withColor(colors.textColors.secondary),
+      floatingLabelStyle: typography.descriptionTypo.des3
+          .withColor(colors.textColors.secondary),
     );
   }
 
-  // Создание кастомных границ для полей ввода
   static CustomOutlineInputBorder _buildBorder(Color color) {
     return CustomOutlineInputBorder(
       borderRadius: BorderRadius.circular(AppConst.kTextFieldRadius),
