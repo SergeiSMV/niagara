@@ -7,6 +7,7 @@ import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
 import 'package:niagara_app/features/auth/presentation/widgets/otp_code_widget.dart';
 import 'package:niagara_app/features/auth/presentation/widgets/otp_title_widget.dart';
 import 'package:niagara_app/features/auth/presentation/widgets/resend_code_widget.dart';
@@ -24,11 +25,15 @@ class OTPPage extends StatelessWidget {
   Future<void> _navigateToMain(BuildContext context) =>
       context.replaceRoute(const LocationsWrapperRoute());
 
+  void _resetTimer(BuildContext context) =>
+      context.read<CountdownTimerCubit>().startTimer();
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) => state.maybeWhen(
         otpSuccess: () => _navigateToMain(context),
+        otpChangeError: () => _resetTimer(context),
         orElse: () => null,
       ),
       child: Scaffold(

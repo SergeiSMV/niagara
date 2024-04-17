@@ -120,5 +120,7 @@ abstract final class AppConst {
 
   static const double kOTPCodePreFilledSize = 4;
 
-  static const int kOTPResendTime = 60;
+  static const int kOTPResendTime = 90;
+
+  static const int kOTPChangeCount = 3;
 }
