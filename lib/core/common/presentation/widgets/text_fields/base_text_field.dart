@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide OutlineInputBorder;
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -166,6 +165,7 @@ abstract class BaseTextField extends HookWidget {
       ]),
       style: context.textStyle.textTypo.tx1Medium,
       textAlignVertical: TextAlignVertical.center,
+      textCapitalization: TextCapitalization.sentences,
       cursorColor: context.colors.textColors.accent,
       onChanged: onChanged,
       onTapOutside: (_) => FocusScope.of(context).unfocus(),

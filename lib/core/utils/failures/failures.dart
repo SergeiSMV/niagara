@@ -75,3 +75,7 @@ class LocationDataFailure extends Failure {
 class AddressDataFailure extends Failure {
   const AddressDataFailure([super.error = 'Address data failure']);
 }
+
+class SearchAddressFailure extends Failure {
+  const SearchAddressFailure([super.error = 'Search address failure']);
+}

@@ -2,7 +2,7 @@ import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/location/domain/repositories/geocoder_repository.dart';
-import 'package:yandex_geocoder/yandex_geocoder.dart';
+import 'package:yandex_geocoder/yandex_geocoder.dart' hide Point;
 
 @LazySingleton(as: IGeocoderRepository)
 class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
@@ -14,7 +14,7 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
   final YandexGeocoder _geocoder;
 
   @override
-  Future<Either<Failure, String>> getAddressByCoordinates({
+  Future<Either<Failure, GeoObject>> getAddressByCoordinates({
     required double latitude,
     required double longitude,
   }) {
@@ -27,22 +27,48 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
     );
   }
 
-  Future<String> _getAddressByCoordinates({
+  @override
+  Future<Either<Failure, List<GeoObject>>> getAddressesByQuery({
+    required String query,
+  }) async {
+    return execute(
+      () => _getAddressesByQuery(query: query),
+      const SearchAddressFailure(),
+    );
+  }
+
+  Future<GeoObject> _getAddressByCoordinates({
     required double latitude,
     required double longitude,
   }) async {
     final res = await _geocoder.getGeocode(
-      ReverseGeocodeRequest(pointGeocode: (lat: latitude, lon: longitude)),
+      ReverseGeocodeRequest(
+        pointGeocode: (
+          lat: latitude,
+          lon: longitude,
+        ),
+      ),
     );
 
-    if (res.firstAddress == null) throw const AddressDataFailure();
-    final street = res.firstAddress!.components!
-        .firstWhere((element) => element.kind == KindResponse.street)
-        .name;
+    final geoObject = res
+        .response?.geoObjectCollection?.featureMember?.firstOrNull?.geoObject;
 
-    final house = res.firstAddress!.components!
-        .firstWhere((element) => element.kind == KindResponse.house)
-        .name;
-    return '$street, $house';
+    if (geoObject == null) throw const AddressDataFailure();
+
+    return geoObject;
+  }
+
+  Future<List<GeoObject>> _getAddressesByQuery({
+    required String query,
+  }) async {
+    final res =
+        await _geocoder.getGeocode(DirectGeocodeRequest(addressGeocode: query));
+    final featureMembers = res.response?.geoObjectCollection?.featureMember;
+
+    if (featureMembers != null) {
+      return featureMembers.map((e) => e.geoObject!).toList();
+    }
+
+    return [];
   }
 }

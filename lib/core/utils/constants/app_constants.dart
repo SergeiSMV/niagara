@@ -10,6 +10,8 @@ abstract final class AppConst {
 
   static const double kCommon4 = 4;
 
+  static const double kCommon6 = 6;
+
   static const double kCommon8 = 8;
 
   static const double kCommon12 = 12;
@@ -61,6 +63,10 @@ abstract final class AppConst {
   static const String kTextFieldPhoneName = 'phoneFiled';
 
   static const String kTextFieldTextName = 'textField';
+
+  static const String kNumberTextFieldName = 'numberField';
+
+  static const String kSearchTextFieldName = 'searchField';
 
   // * ------------------------------ Shadow ----------------------------- * //
 

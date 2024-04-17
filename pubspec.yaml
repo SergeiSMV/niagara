@@ -39,11 +39,12 @@ dependencies:
   shared_preferences: ^2.2.2
   slang: ^3.30.1
   slang_flutter: ^3.30.0
+  stream_transform: ^2.1.0
   talker_bloc_logger: ^4.1.0
   talker_dio_logger: ^4.1.0
   talker_flutter: ^4.1.0
   yandex_geocoder: ^2.3.1
-  yandex_mapkit: ^4.0.1
+  yandex_mapkit_lite: ^2.0.1
 
 dev_dependencies:
   auto_route_generator: ^8.0.0

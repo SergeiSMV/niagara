@@ -7,12 +7,12 @@ import 'package:niagara_app/core/common/presentation/widgets/modals/static_botto
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/location/presentation/cubit/address_selection_cubit.dart';
-import 'package:niagara_app/features/location/presentation/widgets/approve_address_widget.dart';
-import 'package:niagara_app/features/location/presentation/widgets/complete_address_widget.dart';
-import 'package:niagara_app/features/location/presentation/widgets/location_unavailable_widget.dart';
-import 'package:niagara_app/features/location/presentation/widgets/no_address_found_widget.dart';
-import 'package:niagara_app/features/location/presentation/widgets/request_location_button.dart';
+import 'package:niagara_app/features/location/presentation/address_selection/cubit/address_selection_cubit.dart';
+import 'package:niagara_app/features/location/presentation/address_selection/widgets/approve_address_widget.dart';
+import 'package:niagara_app/features/location/presentation/address_selection/widgets/complete_address_widget.dart';
+import 'package:niagara_app/features/location/presentation/address_selection/widgets/location_unavailable_widget.dart';
+import 'package:niagara_app/features/location/presentation/address_selection/widgets/no_address_found_widget.dart';
+import 'package:niagara_app/features/location/presentation/address_selection/widgets/request_location_button.dart';
 
 @RoutePage()
 class AddressSelectionPage extends StatelessWidget {

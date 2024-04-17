@@ -62,6 +62,6 @@
 - Формы ввода: [mask_text_input_formatter](https://pub.dev/packages/mask_text_input_formatter)
 - Анимация Lottie: [lottie](https://pub.dev/packages/lottie)
 - ID устройства: [device_info_plus](https://pub.dev/packages/device_info_plus) 
-- Карты: [yandex_mapkit](https://pub.dev/packages/yandex_mapkit) 
+- Карты: [yandex_mapkit_lite](https://pub.dev/packages/yandex_mapkit_lite) 
 - Геолокация [geolocator](https://pub.dev/packages/geolocator) 
 
