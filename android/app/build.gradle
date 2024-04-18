@@ -33,7 +33,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.niagara_app"
+    namespace "io.cordova.niagara74"
     compileSdk flutter.compileSdkVersion
     ndkVersion "25.1.8937393"
 
@@ -51,7 +51,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.niagara_app"
+        applicationId "io.cordova.niagara74"
         minSdkVersion 23
         compileSdkVersion 34
         targetSdkVersion flutter.targetSdkVersion
