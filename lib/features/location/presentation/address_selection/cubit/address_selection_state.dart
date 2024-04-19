@@ -7,16 +7,14 @@ class AddressSelectionState with _$AddressSelectionState {
   const factory AddressSelectionState.searching() = _Searching;
 
   const factory AddressSelectionState.complete({
-    required String address,
+    required Location location,
   }) = _Complete;
 
   const factory AddressSelectionState.approve({
-    required String address,
-    @Default('') String flat,
-    @Default('') String entrance,
-    @Default('') String floor,
-    @Default('') String comment,
+    required Location location,
   }) = _Approve;
 
   const factory AddressSelectionState.denied() = _Denied;
+
+  const factory AddressSelectionState.noAddressFound() = _NoAddressFound;
 }

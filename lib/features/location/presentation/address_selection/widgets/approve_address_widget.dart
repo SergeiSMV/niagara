@@ -10,52 +10,53 @@ import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/location/domain/entities/location.dart';
 import 'package:niagara_app/features/location/presentation/address_selection/cubit/address_selection_cubit.dart';
 
 class ApproveAddressWidget extends StatelessWidget {
   const ApproveAddressWidget(
-    this.address,
-    this.flat,
-    this.entrance,
-    this.floor,
-    this.comment, {
+    this.location, {
     super.key,
   });
 
-  final String address;
-  final String? flat;
-  final String? entrance;
-  final String? floor;
-  final String? comment;
+  final Location location;
+
+  void goToMain(BuildContext context) =>
+      context.replaceRoute(const NavigationRoute());
+
+  void editAddress(BuildContext context) =>
+      context.read<AddressSelectionCubit>().onEditAddress();
 
   @override
   Widget build(BuildContext context) {
-    void goToMain() => context.replaceRoute(const NavigationRoute());
-
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              address,
-              style: context.textStyle.textTypo.tx1SemiBold,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Assets.icons.pen.svg(
-                width: AppConst.kIconMedium,
-                height: AppConst.kIconMedium,
-              ),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  location.name,
+                  style: context.textStyle.textTypo.tx1SemiBold,
+                ),
+                InkWell(
+                  onTap: () => editAddress(context),
+                  child: Assets.icons.pen.svg(
+                    width: AppConst.kIconMedium,
+                    height: AppConst.kIconMedium,
+                  ),
+                ),
+              ],
+            ).paddingSymmetric(vertical: AppConst.kCommon24),
+            const _AdditionalAddressFields(),
+            AppTextButton.primary(
+              text: t.locations.continueButton,
+              onTap: () => goToMain(context),
+            ).paddingSymmetric(vertical: AppConst.kCommon24),
           ],
-        ).paddingSymmetric(vertical: AppConst.kCommon24),
-        const _AdditionalAddressFields(),
-        AppTextButton.primary(
-          text: t.locations.continueButton,
-          onTap: goToMain,
-        ).paddingSymmetric(vertical: AppConst.kCommon24),
+        ),
       ],
     );
   }
@@ -71,7 +72,7 @@ class _AdditionalAddressFields extends StatelessWidget {
       children: [
         AppTextField.number(
           label: t.locations.flatOffice,
-          onChanged: cubit.onEnterFlat,
+          onChanged: (flat) => cubit.updateAdditionalAddressData(flat: flat),
         ),
         AppConst.kCommon12.height,
         Row(
@@ -79,14 +80,16 @@ class _AdditionalAddressFields extends StatelessWidget {
             Expanded(
               child: AppTextField.number(
                 label: t.locations.entrance,
-                onChanged: cubit.onEnterEntrance,
+                onChanged: (entrance) =>
+                    cubit.updateAdditionalAddressData(entrance: entrance),
               ),
             ),
             AppConst.kCommon12.width,
             Expanded(
               child: AppTextField.number(
                 label: t.locations.floor,
-                onChanged: cubit.onEnterFloor,
+                onChanged: (floor) =>
+                    cubit.updateAdditionalAddressData(floor: floor),
               ),
             ),
           ],
@@ -94,7 +97,8 @@ class _AdditionalAddressFields extends StatelessWidget {
         AppConst.kCommon12.height,
         AppTextField.text(
           label: t.locations.addressComment,
-          onChanged: cubit.onEnterComment,
+          onChanged: (comment) =>
+              cubit.updateAdditionalAddressData(comment: comment),
         ),
         AppConst.kCommon12.height,
       ],
