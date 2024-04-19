@@ -4,6 +4,8 @@ import 'package:niagara_app/core/common/presentation/theme/colors/field_border_c
 import 'package:niagara_app/core/common/presentation/theme/colors/gradient_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/info_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/main_colors.dart';
+import 'package:niagara_app/core/common/presentation/theme/colors/map_colors.dart';
+import 'package:niagara_app/core/common/presentation/theme/colors/other_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/text_colors.dart';
 
 /// Цвета приложения, используемые в макетах
@@ -15,6 +17,8 @@ abstract class BaseColors extends ThemeExtension<BaseColors> {
     required this.fieldBordersColors,
     required this.infoColors,
     required this.gradientColors,
+    required this.mapColors,
+    required this.otherColors,
   });
 
   final MainColors mainColors;
@@ -28,4 +32,8 @@ abstract class BaseColors extends ThemeExtension<BaseColors> {
   final InfoColors infoColors;
 
   final GradientColors gradientColors;
+
+  final MapColors mapColors;
+
+  final OtherColors otherColors;
 }

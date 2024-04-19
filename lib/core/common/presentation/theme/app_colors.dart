@@ -6,6 +6,8 @@ import 'package:niagara_app/core/common/presentation/theme/colors/field_border_c
 import 'package:niagara_app/core/common/presentation/theme/colors/gradient_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/info_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/main_colors.dart';
+import 'package:niagara_app/core/common/presentation/theme/colors/map_colors.dart';
+import 'package:niagara_app/core/common/presentation/theme/colors/other_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/text_colors.dart';
 
 /// Класс [AppColors] содержит цветовую тему приложения.
@@ -20,6 +22,8 @@ class AppColors extends BaseColors {
           fieldBordersColors: const _FieldBordersColors(),
           infoColors: const _InfoColors(),
           gradientColors: const _GradientColors(),
+          mapColors: const _MapColors(),
+          otherColors: const _OtherColors(),
         );
 
   @override
@@ -85,6 +89,7 @@ class _InfoColors extends InfoColors {
           green: const Color(0xFF44C3A5),
           blue: const Color(0xFF0F78FF),
           bgBlue: const Color(0xFFE5EFFF),
+          yellow: const Color(0xFFFFD263),
         );
 }
 
@@ -99,5 +104,21 @@ class _GradientColors extends GradientColors {
             Color(0xFFFBAB7E),
             Color(0xFFF7CE68),
           ],
+        );
+}
+
+class _MapColors extends MapColors {
+  const _MapColors()
+      : super(
+          deliveryEnabled: const Color(0xFF044B75),
+          deliveryDisabled: const Color(0xFFF25C68),
+        );
+}
+
+class _OtherColors extends OtherColors {
+  const _OtherColors()
+      : super(
+          background70: const Color(0x70000000),
+          separator30: const Color(0x30C6C9CB),
         );
 }

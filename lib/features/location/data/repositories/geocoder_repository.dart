@@ -1,5 +1,4 @@
 import 'package:either_dart/either.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/location/data/mappers/location_mapper.dart';
@@ -57,7 +56,6 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
 
     final geoObjects = _extractGeoObjects(featureMembers);
     if (geoObjects.isNotEmpty) {
-      debugPrint('geoObjects: $geoObjects');
       final locations = geoObjects.map((e) => e.toLocation()).toList();
       if (locations.isEmpty) throw const AddressDataFailure();
       return locations.first;

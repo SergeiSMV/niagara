@@ -18,4 +18,6 @@ abstract class TextColors {
   final Color secondary;
 
   final Color white;
+
+  Color get white80 => white.withOpacity(0.8);
 }

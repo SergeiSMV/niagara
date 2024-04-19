@@ -7,6 +7,7 @@ abstract class InfoColors {
     required this.green,
     required this.blue,
     required this.bgBlue,
+    required this.yellow,
   });
 
   final Color red;
@@ -18,4 +19,6 @@ abstract class InfoColors {
   final Color blue;
 
   final Color bgBlue;
+
+  final Color yellow;
 }

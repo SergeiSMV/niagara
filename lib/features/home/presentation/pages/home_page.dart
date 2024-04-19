@@ -33,11 +33,11 @@ class HomePage extends StatelessWidget {
           AppConst.kCommon8.width,
         ],
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Home Page'),
+            
           ],
         ),
       ),
