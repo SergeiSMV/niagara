@@ -5,7 +5,7 @@ import 'package:niagara_app/features/location/domain/entities/location.dart';
 import 'package:niagara_app/features/location/domain/repositories/location_repository.dart';
 
 @injectable
-class GetCitiesUseCase extends UseCase<List<Location>, NoParams> {
+class GetCitiesUseCase extends BaseUseCase<List<Location>, NoParams> {
   GetCitiesUseCase({
     required ILocationRepository locationRepository,
   }) : _locationRepository = locationRepository;
