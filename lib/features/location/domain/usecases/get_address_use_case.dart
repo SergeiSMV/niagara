@@ -6,7 +6,7 @@ import 'package:niagara_app/features/location/domain/repositories/geocoder_repos
 import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
 
 @injectable
-class GetAddressUseCase extends UseCase<Location, Point> {
+class GetAddressUseCase extends BaseUseCase<Location, Point> {
   GetAddressUseCase({
     required IGeocoderRepository geocoder,
   }) : _geocoder = geocoder;

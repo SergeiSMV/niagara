@@ -5,7 +5,7 @@ import 'package:niagara_app/features/location/domain/entities/location.dart';
 import 'package:niagara_app/features/location/domain/repositories/geocoder_repository.dart';
 
 @injectable
-class SearchByTextUseCase extends UseCase<List<Location>, String> {
+class SearchByTextUseCase extends BaseUseCase<List<Location>, String> {
   SearchByTextUseCase({
     required IGeocoderRepository geocoder,
   }) : _geocoder = geocoder;

@@ -1,12 +1,12 @@
 part of '../../core.dart';
 
-/// Абстрактный класс [UseCase] с параметрами [Type] и [Params].
+/// Абстрактный класс [BaseUseCase] с параметрами [Type] и [Params].
 /// [Type] - тип возвращаемого значения,
 /// [Params] - тип параметров, которые принимает случай использования.
 /// Возвращает [Either] с [Failure] и [Type].
-abstract class UseCase<Type, Params> {
+abstract class BaseUseCase<Type, Params> {
   /// Создает объект случая использования.
-  const UseCase();
+  const BaseUseCase();
 
   /// Метод [call] выполняет логику случая использования. Принимает параметры
   /// [params] и возвращает [Either] с [Failure] и [Type].

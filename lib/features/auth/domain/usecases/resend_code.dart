@@ -4,12 +4,12 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/auth/domain/repositories/auth_repository.dart';
 
 /// Повторно отправляет код подтверждения.
-/// 
-/// Возвращает: 
+///
+/// Возвращает:
 /// - [void] если код подтверждения был отправлен.
 /// - [Failure] если код подтверждения не был отправлен.
 @injectable
-class ResendPhoneUseCase extends UseCase<void, NoParams> {
+class ResendPhoneUseCase extends BaseUseCase<void, NoParams> {
   ResendPhoneUseCase({
     required IAuthRepository repository,
   }) : _repository = repository;
