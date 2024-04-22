@@ -10,7 +10,8 @@ class LocationsRouters implements BaseRouters {
   AutoRoute get routers => AutoRoute(
         page: LocationsWrapperRoute.page,
         children: [
-          AutoRoute(page: AddressSelectionRoute.page, initial: true),
+          AutoRoute(page: CitiesRoute.page, initial: true),
+          AutoRoute(page: AddressSelectionRoute.page),
           AutoRoute(page: SearchAddressRoute.page),
         ],
       );

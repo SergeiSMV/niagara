@@ -29,7 +29,7 @@ void main() {
 
     test('onGetToken returns token when request is successful', () async {
       when(
-        mockRequestHandler.sendRequest<String>(
+        mockRequestHandler.sendRequest<String, Map<String, dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
@@ -41,7 +41,7 @@ void main() {
 
       expect(result, equals(const Right<dynamic, dynamic>('test_token')));
       verify(
-        mockRequestHandler.sendRequest<String>(
+        mockRequestHandler.sendRequest<String, Map<String, dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
@@ -51,7 +51,7 @@ void main() {
 
     test('onGetToken returns empty string when request fails', () async {
       when(
-        mockRequestHandler.sendRequest<String>(
+        mockRequestHandler.sendRequest<String, Map<String, dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
@@ -66,7 +66,7 @@ void main() {
         equals(const Left<Failure, dynamic>(GetTokenFailure())),
       );
       verify(
-        mockRequestHandler.sendRequest<String>(
+        mockRequestHandler.sendRequest<String, Map<String, dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),

@@ -10,11 +10,11 @@ import 'package:niagara_app/core/utils/constants/api_constants.dart';
 /// аутентификации.
 abstract interface class IAuthRemoteDatasource {
   /// Метод `onCreateCode` генерирует временный код аутентификации для заданного
-  /// номера телефона и токена. 
-  /// 
+  /// номера телефона и токена.
+  ///
   /// - [phone] номер телефона, для которого создается код.
-  /// 
-  /// Возвращает: 
+  ///
+  /// Возвращает:
   /// - [bool] значение, указывающее, был ли код создан успешно.
   /// - [Failure] в случае ошибки.
   Future<Either<Failure, bool>> onCreateCode({
@@ -23,10 +23,10 @@ abstract interface class IAuthRemoteDatasource {
 
   /// Метод `onValidateCode` проверяет код аутентификации для заданного номера
   /// телефона, токена и кода.
-  /// 
+  ///
   /// - [phone] номер телефона, для которого проверяется код.
   /// - [code] код аутентификации.
-  /// 
+  ///
   /// Возвращает:
   /// - [bool] значение, указывающее, был ли код аутентификации верным.
   /// - [Failure] в случае ошибки.
@@ -48,7 +48,7 @@ class AuthRemoteDatasource implements IAuthRemoteDatasource {
   Future<Either<Failure, bool>> onCreateCode({
     required String phone,
   }) =>
-      _requestHandler.sendRequest(
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kCreateCode,
           data: {
@@ -64,7 +64,7 @@ class AuthRemoteDatasource implements IAuthRemoteDatasource {
     required String phone,
     required String code,
   }) =>
-      _requestHandler.sendRequest(
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kConfirmCode,
           data: {

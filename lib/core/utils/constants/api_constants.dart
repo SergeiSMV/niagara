@@ -22,4 +22,8 @@ abstract final class ApiConst {
 
   /// -POST- Запрос на проверку кода для авторизации
   static const String kConfirmCode = '/code_confirm_check';
+
+  // ? ----------------------------- Location ----------------------------- ? //
+  /// -GET- Запрос на получение списка городов
+  static const String kGetCities = '/region';
 }

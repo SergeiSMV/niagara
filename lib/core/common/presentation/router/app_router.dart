@@ -44,18 +44,18 @@ class AppRouter extends $AppRouter {
 
   @override
   List<AutoRoute> get routes => [
-        _splashRouters.routers,
-        _authRouters.routers,
-        AutoRoute(
-          page: NavigationRoute.page,
-          children: [
-            _homeRouters.routers,
-            _catalogRouters.routers,
-            _cartRouters.routers,
-            _shopsRouters.routers,
-            _profileRouters.routers,
-          ],
-        ),
+        // _splashRouters.routers,
+        // _authRouters.routers,
+        // AutoRoute(
+        //   page: NavigationRoute.page,
+        //   children: [
+        //     _homeRouters.routers,
+        //     _catalogRouters.routers,
+        //     _cartRouters.routers,
+        //     _shopsRouters.routers,
+        //     _profileRouters.routers,
+        //   ],
+        // ),
         _locationsRouters.routers,
       ];
 

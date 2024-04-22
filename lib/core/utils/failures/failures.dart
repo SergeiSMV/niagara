@@ -79,3 +79,11 @@ class AddressDataFailure extends Failure {
 class SearchAddressFailure extends Failure {
   const SearchAddressFailure([super.error = 'Search address failure']);
 }
+
+class CitiesDataFailure extends Failure {
+  const CitiesDataFailure([super.error = 'Cities data failure']);
+}
+
+class ShopsDataFailure extends Failure {
+  const ShopsDataFailure([super.error = 'Shops data failure']);
+}
