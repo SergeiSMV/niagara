@@ -10,7 +10,8 @@ import 'package:niagara_app/features/auth/domain/repositories/auth_repository.da
 /// - [AuthenticatedStatus] если статус авторизации был получен.
 /// - [Failure] если статус авторизации не был получен.
 @injectable
-class CheckAuthStatusUseCase extends UseCase<AuthenticatedStatus, NoParams> {
+class CheckAuthStatusUseCase
+    extends BaseUseCase<AuthenticatedStatus, NoParams> {
   CheckAuthStatusUseCase({
     required IAuthRepository repository,
   }) : _repository = repository;

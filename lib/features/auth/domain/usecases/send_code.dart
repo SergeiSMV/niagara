@@ -10,7 +10,7 @@ import 'package:niagara_app/features/auth/domain/repositories/auth_repository.da
 /// - [void] если номер телефона был отправлен.
 /// - [Failure] если номер телефона не был отправлен.
 @injectable
-class SendPhoneUseCase extends UseCase<void, SendPhoneParams> {
+class SendPhoneUseCase extends BaseUseCase<void, SendPhoneParams> {
   SendPhoneUseCase({
     required IAuthRepository repository,
   }) : _repository = repository;
