@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
 
 @injectable
-class OpenSettingsUseCase extends UseCase<void, NoParams> {
+class OpenSettingsUseCase extends BaseUseCase<void, NoParams> {
   OpenSettingsUseCase({
     required IPermissionsService permissionsService,
   }) : _permissionsService = permissionsService;

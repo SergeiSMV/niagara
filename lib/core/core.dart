@@ -33,6 +33,6 @@ part 'utils/logger/logger.dart';
 part 'utils/network/handlers/request_handler.dart';
 part 'utils/network/interceptors/auth_interceptor.dart';
 part 'utils/network/interceptors/error_interceptor.dart';
-part 'utils/repository/base_repository.dart';
+part 'common/domain/base_repository.dart';
 part 'utils/services/permissions_service.dart';
-part 'utils/usecase/usecase.dart';
+part 'common/domain/base_usecase.dart';
