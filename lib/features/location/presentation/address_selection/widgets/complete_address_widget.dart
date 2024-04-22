@@ -8,12 +8,16 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/location/domain/entities/location.dart';
 import 'package:niagara_app/features/location/presentation/address_selection/cubit/address_selection_cubit.dart';
 
 class CompleteAddressWidget extends StatelessWidget {
-  const CompleteAddressWidget(this.address, {super.key});
+  const CompleteAddressWidget(
+    this.location, {
+    super.key,
+  });
 
-  final String address;
+  final Location location;
 
   void _onManualInput(BuildContext context) =>
       context.pushRoute(const SearchAddressRoute());
@@ -25,7 +29,7 @@ class CompleteAddressWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          address,
+          location.name,
           style: context.textStyle.textTypo.tx1SemiBold,
         ).paddingSymmetric(vertical: AppConst.kCommon24),
         AppTextButton.primary(
