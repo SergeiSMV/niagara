@@ -10,7 +10,7 @@ import 'package:niagara_app/features/auth/domain/repositories/auth_repository.da
 /// - [void] если код подтверждения верный.
 /// - [Failure] если код подтверждения не верный.
 @injectable
-class CheckOTPCodeUseCase extends UseCase<void, CheckOTPParams> {
+class CheckOTPCodeUseCase extends BaseUseCase<void, CheckOTPParams> {
   CheckOTPCodeUseCase({
     required IAuthRepository repository,
   }) : _repository = repository;

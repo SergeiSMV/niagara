@@ -4,7 +4,8 @@ import 'package:niagara_app/core/core.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 @injectable
-class LocationPermissionUseCase extends UseCase<PermissionStatus, NoParams> {
+class LocationPermissionUseCase
+    extends BaseUseCase<PermissionStatus, NoParams> {
   LocationPermissionUseCase({
     required IPermissionsService permissionsService,
   }) : _permissionsService = permissionsService;

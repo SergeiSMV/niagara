@@ -9,7 +9,7 @@ import 'package:niagara_app/features/auth/domain/repositories/auth_repository.da
 /// - [void] если авторизация была пропущена.
 /// - [Failure] если авторизация не была пропущена.
 @injectable
-class SkipAuthUseCase extends UseCase<void, NoParams> {
+class SkipAuthUseCase extends BaseUseCase<void, NoParams> {
   SkipAuthUseCase({
     required IAuthRepository repository,
   }) : _repository = repository;
