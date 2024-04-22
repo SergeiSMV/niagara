@@ -13,6 +13,7 @@ dependencies:
   cached_network_image: ^3.3.1
   device_info_plus: ^10.0.1
   dio: ^5.4.1
+  drift: ^2.17.0
   either_dart: ^1.0.0
   equatable: ^2.0.5
   flutter:
@@ -33,12 +34,15 @@ dependencies:
   lottie: ^3.1.0
   mask_text_input_formatter: ^2.9.0
   mockito: ^5.4.4
+  path: ^1.9.0
   path_provider: ^2.1.0
   permission_handler: ^11.3.1
   pinput: ^4.0.0
   shared_preferences: ^2.2.2
   slang: ^3.30.1
   slang_flutter: ^3.30.0
+  sqlite3: ^2.4.2
+  sqlite3_flutter_libs: ^0.5.0
   stream_transform: ^2.1.0
   talker_bloc_logger: ^4.1.0
   talker_dio_logger: ^4.1.0
@@ -49,6 +53,7 @@ dependencies:
 dev_dependencies:
   auto_route_generator: ^8.0.0
   build_runner: ^2.4.8
+  drift_dev: ^2.17.0
   flutter_gen: ^5.4.0
   flutter_test:
     sdk: flutter
