@@ -44,7 +44,7 @@ void main() {
 
     provideDummy<Either<Failure, List<CityModel>>>(const Right(cities));
     provideDummy<Either<Failure, List<dynamic>>>(
-      const Left(CitiesDataFailure()),
+      const Left(CitiesRemoteDataFailure()),
     );
 
     test('should return a list of cities when successful', () async {
@@ -73,7 +73,7 @@ void main() {
 
     test('should return a failure when unsuccessful', () async {
       // Arrange
-      const failure = CitiesDataFailure('Error');
+      const failure = CitiesRemoteDataFailure('Error');
       when(
         mockRequestHandler.sendRequest<List<CityModel>, List<dynamic>>(
           request: anyNamed('request'),

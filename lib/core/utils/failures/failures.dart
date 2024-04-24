@@ -16,8 +16,9 @@ sealed class Failure with EquatableMixin implements Exception {
 }
 
 // ! ------------------------------- Token ------------------------------- ! //
-class CreateTokenFailure extends Failure {
-  const CreateTokenFailure([super.error = 'Token creation failure']);
+
+class TokenRepositoryFailure extends Failure {
+  const TokenRepositoryFailure([super.error = 'Token repo failure']);
 }
 
 class GetTokenFailure extends Failure {
@@ -28,16 +29,17 @@ class TokenNotFoundFailure extends Failure {
   const TokenNotFoundFailure([super.error = 'Token not found']);
 }
 
-class BasicAuthFailure extends Failure {
-  const BasicAuthFailure([super.error = 'Basic auth failure']);
-}
-
 // ! ----------------------------- Device ID ----------------------------- ! //
 class DeviceIdFailure extends Failure {
   const DeviceIdFailure([super.error = 'Device ID failure']);
 }
 
 // ! -------------------------------- Auth ------------------------------- ! //
+
+class AuthRepositoryFailure extends Failure {
+  const AuthRepositoryFailure([super.error = 'Auth repo failure']);
+}
+
 class CreateCodeFailure extends Failure {
   const CreateCodeFailure([super.error = 'Invalid phone number']);
 }
@@ -62,6 +64,20 @@ class PhoneNotFoundFailure extends Failure {
   const PhoneNotFoundFailure([super.error = 'Phone not found']);
 }
 
+// ! -------------------------------- City -------------------------------- ! //
+
+class CitiesRepositoryFailure extends Failure {
+  const CitiesRepositoryFailure([super.error = 'Cities repo failure']);
+}
+
+class CitiesLocalDataFailure extends Failure {
+  const CitiesLocalDataFailure([super.error = 'City local data failure']);
+}
+
+class CitiesRemoteDataFailure extends Failure {
+  const CitiesRemoteDataFailure([super.error = 'City remote data failure']);
+}
+
 // ! ------------------------------ Location ------------------------------ ! //
 
 class ServiceNotEnabledException extends Failure {
@@ -72,6 +88,10 @@ class LocationDataFailure extends Failure {
   const LocationDataFailure([super.error = 'Location data failure']);
 }
 
+class GeocoderRepositoryFailure extends Failure {
+  const GeocoderRepositoryFailure([super.error = 'Geocoder repo failure']);
+}
+
 class AddressDataFailure extends Failure {
   const AddressDataFailure([super.error = 'Address data failure']);
 }
@@ -80,24 +100,20 @@ class SearchAddressFailure extends Failure {
   const SearchAddressFailure([super.error = 'Search address failure']);
 }
 
-class CitiesDataFailure extends Failure {
-  const CitiesDataFailure([super.error = 'Cities data failure']);
-}
-
-class ShopsDataFailure extends Failure {
-  const ShopsDataFailure([super.error = 'Shops data failure']);
-}
-
-class CitiesLocalDataFailure extends Failure {
-  const CitiesLocalDataFailure([super.error = 'City local data failure']);
-}
-
 class LocationsLocalDataFailure extends Failure {
   const LocationsLocalDataFailure([
     super.error = 'Locations local data failure',
   ]);
 }
 
-class LocationsDataFailure extends Failure {
-  const LocationsDataFailure([super.error = 'Locations data failure']);
+class LocationsRepositoryFailure extends Failure {
+  const LocationsRepositoryFailure([
+    super.error = 'Locations repository failure',
+  ]);
+}
+
+class LocationsRemoteDataFailure extends Failure {
+  const LocationsRemoteDataFailure([
+    super.error = 'Locations remote data failure',
+  ]);
 }

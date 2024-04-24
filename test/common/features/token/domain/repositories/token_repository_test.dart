@@ -20,7 +20,7 @@ void main() {
   late IAppLogger mockLogger;
 
   provideDummy<Either<Failure, void>>(const Right(null));
-  provideDummy<Either<Failure, void>>(const Left(CreateTokenFailure()));
+  provideDummy<Either<Failure, void>>(const Left(TokenRepositoryFailure()));
 
   provideDummy<Either<Failure, String>>(const Right('cached_token'));
   provideDummy<Either<Failure, String>>(const Left(GetTokenFailure()));
@@ -72,7 +72,7 @@ void main() {
 
       final result = await tokenRepository.createToken();
 
-      expect(result, const Left<Failure, void>(CreateTokenFailure()));
+      expect(result, const Left<Failure, void>(TokenRepositoryFailure()));
       verify(mockDeviceIdDatasource.getOrCreateUniqueId()).called(1);
       verifyNever(
           mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
@@ -85,11 +85,11 @@ void main() {
           .thenAnswer((_) async => const Right('test_device_id'));
 
       when(mockTokenRemoteDataSource.getToken(deviceId: 'test_device_id'))
-          .thenAnswer((_) async => const Left(CreateTokenFailure()));
+          .thenAnswer((_) async => const Left(TokenRepositoryFailure()));
 
       final result = await tokenRepository.createToken();
 
-      expect(result, const Left<Failure, void>(CreateTokenFailure()));
+      expect(result, const Left<Failure, void>(TokenRepositoryFailure()));
       verify(mockDeviceIdDatasource.getOrCreateUniqueId()).called(1);
       verify(mockTokenRemoteDataSource.getToken(deviceId: 'test_device_id'))
           .called(1);

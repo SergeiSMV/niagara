@@ -30,10 +30,10 @@ class LocationModel extends Equatable {
     this.isActive,
   });
 
-  @JsonKey(name: 'LAT')
+  @JsonKey(name: 'LAT', fromJson: _getCoordinate)
   final double latitude;
 
-  @JsonKey(name: 'LAN')
+  @JsonKey(name: 'LAN', fromJson: _getCoordinate)
   final double longitude;
 
   @JsonKey(name: 'REGION')
@@ -84,6 +84,9 @@ class LocationModel extends Equatable {
       _$LocationModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$LocationModelToJson(this);
+
+  static double _getCoordinate(String value) =>
+      double.parse(value.replaceAll(',', '.'));
 
   @override
   List<Object?> get props => [

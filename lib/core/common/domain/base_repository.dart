@@ -11,6 +11,9 @@ abstract class BaseRepository {
 
   final IAppLogger _logger;
 
+  /// Возвращает объект ошибки, который будет возвращен в случае ошибки.
+  Failure get failure;
+
   /// Выполняет асинхронное действие и возвращает результат в виде [Either].
   ///
   /// - [action] - асинхронное действие.
@@ -19,10 +22,7 @@ abstract class BaseRepository {
   /// Возвращает:
   ///  - [Right<T>] если действие выполнено успешно.
   /// - [Left<Failure>] если произошла ошибка.
-  Future<Either<Failure, T>> execute<T>(
-    Future<T> Function() action,
-    Failure failure,
-  ) async {
+  Future<Either<Failure, T>> execute<T>(Future<T> Function() action) async {
     try {
       final result = await action();
       return Right(result);

@@ -16,18 +16,15 @@ class AllLocations extends DatabaseAccessor<AppDatabase>
     return locationTable.map((e) => e.toModel()).toList();
   }
 
-  Future<LocationModel> getPrimaryLocation() async {
-    final locationTable = await (select(locations)
-          ..where((tbl) => tbl.isPrimary.equals(true)))
-        .getSingle();
-
-    return locationTable.toModel();
-  }
+  Future<void> insertLocations(List<LocationsCompanion> companions) async =>
+      batch((batch) {
+        batch.insertAll(locations, companions);
+      });
 
   Future<int> insertLocation(LocationsCompanion companion) =>
       into(locations).insert(companion);
 
-  Future<void> updateLocation(LocationsCompanion companion) =>
+  Future<bool> updateLocation(LocationsCompanion companion) =>
       update(locations).replace(companion);
 
   Future<int> deleteLocation(LocationsCompanion companion) =>

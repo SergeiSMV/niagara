@@ -18,26 +18,25 @@ class CitiesRepository extends BaseRepository implements ICitiesRepository {
   final ICitiesLocalDatasource _local;
 
   @override
+  Failure get failure => const CitiesRepositoryFailure();
+
+  @override
   Future<Either<Failure, List<City>>> getCities() => execute(
         () => _remote.getCities().fold(
-              (failure) => throw CitiesDataFailure(failure.error),
+              (failure) => throw failure,
               (cities) => cities.map((e) => e.toCity()).toList(),
             ),
-        const CitiesDataFailure(),
       );
 
   @override
   Future<Either<Failure, City>> getCity() => execute(
         () async => _local.getCity().fold(
-              (failure) => throw CitiesLocalDataFailure(failure.error),
+              (failure) => throw failure,
               (cityModel) => cityModel.toCity(),
             ),
-        const CitiesLocalDataFailure(),
       );
 
   @override
-  Future<Either<Failure, void>> setCity({required City city}) => execute(
-        () async => _local.setCity(city.toModel()),
-        const CitiesLocalDataFailure(),
-      );
+  Future<Either<Failure, void>> setCity({required City city}) =>
+      execute(() async => _local.setCity(city.toModel()));
 }

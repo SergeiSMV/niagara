@@ -1,3 +1,4 @@
+import 'package:niagara_app/core/utils/enums/location_precision.dart';
 import 'package:niagara_app/features/location/data/models/location_model.dart';
 import 'package:niagara_app/features/location/domain/entities/locality.dart';
 
@@ -22,7 +23,10 @@ extension LocationMapper on LocationModel {
 }
 
 extension LocationModelMapper on Location {
-  LocationModel toModel() {
+  LocationModel toModel({
+    LocationPrecision? precision,
+    bool? isPrimary,
+  }) {
     return LocationModel(
       latitude: coordinates.$1,
       longitude: coordinates.$2,
@@ -37,8 +41,8 @@ extension LocationModelMapper on Location {
       entrance: entrance ?? '',
       name: name,
       description: description,
-      precision: precision,
-      isPrimary: isPrimary,
+      precision: precision ?? this.precision,
+      isPrimary: isPrimary ?? this.isPrimary,
     );
   }
 }

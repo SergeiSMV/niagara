@@ -111,25 +111,4 @@ void main() {
       verify(allLocations.insertLocation(location.toCompanion())).called(1);
     });
   });
-
-  group('getPrimaryLocation', () {
-    test('should return the primary location', () async {
-      when(allLocations.getPrimaryLocation()).thenAnswer((_) async => location);
-
-      final result = await datasource.getPrimaryLocation();
-
-      expect(result, isA<Right<Failure, LocationModel>>());
-      verify(allLocations.getPrimaryLocation()).called(1);
-    });
-
-    test('should return a LocalDataFailure when an exception is thrown',
-        () async {
-      when(allLocations.getPrimaryLocation()).thenThrow(Exception('Error'));
-
-      final result = await datasource.getPrimaryLocation();
-
-      expect(result, isA<Left<Failure, LocationModel>>());
-      verify(allLocations.getPrimaryLocation()).called(1);
-    });
-  });
 }

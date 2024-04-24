@@ -1,5 +1,3 @@
-import 'package:either_dart/either.dart';
-import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/features/auth/data/datasources/auth_local_data_source.dart';
@@ -22,17 +20,18 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
   String? _cachedPhone;
 
   @override
+  Failure get failure => const AuthRepositoryFailure();
+
+  @override
   Future<Either<Failure, AuthenticatedStatus>> checkAuthStatus() =>
-      execute(_checkAuthStatus, const CheckAuthStatusFailure());
+      execute(_checkAuthStatus);
 
   @override
   Future<Either<Failure, void>> sendPhone({required String phone}) =>
-      execute(() => _sendPhone(phone), const CreateCodeFailure());
+      execute(() => _sendPhone(phone));
 
   @override
-  Future<Either<Failure, void>> skipAuth() {
-    return execute(_skipAuth, const SkipAuthFailure());
-  }
+  Future<Either<Failure, void>> skipAuth() => execute(_skipAuth);
 
   @override
   Future<Either<Failure, void>> resendCode() {
@@ -40,13 +39,12 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
       return Future.value(const Left(ResendCodeFailure()));
     }
 
-    return execute(() => _sendPhone(_cachedPhone!), const ResendCodeFailure());
+    return execute(() => _sendPhone(_cachedPhone!));
   }
 
   @override
-  Future<Either<Failure, void>> checkCode({required String code}) {
-    return execute(() => _checkCode(code), const ValidateCodeFailure());
-  }
+  Future<Either<Failure, void>> checkCode({required String code}) =>
+      execute(() => _checkCode(code));
 
   Future<AuthenticatedStatus> _checkAuthStatus() async {
     return _localDataSource

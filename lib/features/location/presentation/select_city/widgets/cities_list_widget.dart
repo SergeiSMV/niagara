@@ -9,7 +9,6 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/location/domain/entities/locality.dart';
-import 'package:niagara_app/features/location/presentation/locations/bloc/locations_bloc.dart';
 import 'package:niagara_app/features/location/presentation/select_city/cubit/select_city_cubit.dart';
 import 'package:niagara_app/features/location/presentation/select_city/widgets/list_separator_widget.dart';
 
@@ -17,15 +16,21 @@ class CitiesListWidget extends StatelessWidget {
   const CitiesListWidget({super.key});
 
   void _onSelectCity(BuildContext context, {required City city}) {
-    context
-      ..read<LocationsBloc>().add(LocationsEvent.selectCity(city: city))
-      ..replaceRoute(const NavigationRoute());
+    context.read<SelectCityCubit>().selectCity(city);
+  }
+
+  void _onNavigateToNavigation(BuildContext context) {
+    context.router.replace(const NavigationRoute());
   }
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child: BlocBuilder<SelectCityCubit, SelectCityState>(
+      child: BlocConsumer<SelectCityCubit, SelectCityState>(
+        listener: (context, state) => state.maybeWhen(
+          selected: (_) => _onNavigateToNavigation(context),
+          orElse: () => null,
+        ),
         builder: (_, state) => state.maybeWhen(
           loading: () => Center(
             heightFactor: AppConst.kCommon4,

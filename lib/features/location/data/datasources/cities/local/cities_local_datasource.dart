@@ -23,7 +23,9 @@ class CitiesLocalDatasource implements ICitiesLocalDatasource {
         () async {
           final cities = await _database.allCities.getCities();
           final city = cities.isNotEmpty ? cities.first : null;
-          if (city == null) return throw const CitiesLocalDataFailure();
+          if (city == null) {
+            throw const CitiesLocalDataFailure('City not found');
+          }
           return city;
         },
       );

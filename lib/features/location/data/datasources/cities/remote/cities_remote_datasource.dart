@@ -6,7 +6,7 @@ import 'package:niagara_app/features/location/data/models/city_model.dart';
 ///
 /// Возвращает список городов
 abstract interface class ICitiesRemoteDatasource {
-  /// Получает список городов 
+  /// Получает список городов
   Future<Either<Failure, List<CityModel>>> getCities();
 }
 
@@ -29,6 +29,6 @@ class CitiesRemoteDatasource implements ICitiesRemoteDatasource {
             .toList()
             .map(CityModel.fromJson)
             .toList(),
-        failure: CitiesDataFailure.new,
+        failure: CitiesRemoteDataFailure.new,
       );
 }

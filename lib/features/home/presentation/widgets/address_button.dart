@@ -21,22 +21,19 @@ class AppBarAddressButton extends StatelessWidget {
       // TODO(Oleg): Реализовать переход на экран выбора адреса
       onTap: () => debugPrint('AddressButtonWidget'),
       child: BlocBuilder<LocationsBloc, LocationsState>(
-        builder: (context, state) => state.maybeWhen(
-          loaded: (city, _) => Row(
-            children: [
-              Text(
-                city.name,
-                style: textStyle.withColor(mainColor),
-              ),
-              AppConst.kCommon4.width,
-              Assets.icons.arrowRight.svg(
-                width: AppConst.kIconSmall,
-                height: AppConst.kIconSmall,
-                colorFilter: ColorFilter.mode(mainColor, BlendMode.srcIn),
-              ),
-            ],
-          ),
-          orElse: SizedBox.shrink,
+        builder: (_, state) => Row(
+          children: [
+            Text(
+              state.locationName,
+              style: textStyle.withColor(mainColor),
+            ),
+            AppConst.kCommon4.width,
+            Assets.icons.arrowRight.svg(
+              width: AppConst.kIconSmall,
+              height: AppConst.kIconSmall,
+              colorFilter: ColorFilter.mode(mainColor, BlendMode.srcIn),
+            ),
+          ],
         ),
       ),
     );

@@ -5,13 +5,13 @@ import 'package:niagara_app/features/location/data/models/location_model.dart';
 abstract interface class ILocationsLocalDatasource {
   Future<Either<Failure, List<LocationModel>>> getLocations();
 
+  Future<Either<Failure, void>> saveLocations(List<LocationModel> locations);
+
   Future<Either<Failure, void>> addLocation(LocationModel location);
 
   Future<Either<Failure, void>> updateLocation(LocationModel location);
 
   Future<Either<Failure, void>> deleteLocation(LocationModel location);
-
-  Future<Either<Failure, LocationModel>> getPrimaryLocation();
 }
 
 @LazySingleton(as: ILocationsLocalDatasource)
@@ -25,6 +25,13 @@ class LocationsLocalDatasource implements ILocationsLocalDatasource {
   @override
   Future<Either<Failure, List<LocationModel>>> getLocations() => _execute(
         () => _database.allLocations.getLocations(),
+      );
+
+  @override
+  Future<Either<Failure, void>> saveLocations(List<LocationModel> locations) =>
+      _execute(
+        () => _database.allLocations
+            .insertLocations(locations.map((e) => e.toCompanion()).toList()),
       );
 
   @override
@@ -42,11 +49,6 @@ class LocationsLocalDatasource implements ILocationsLocalDatasource {
   Future<Either<Failure, void>> deleteLocation(LocationModel location) =>
       _execute(
         () => _database.allLocations.deleteLocation(location.toCompanion()),
-      );
-
-  @override
-  Future<Either<Failure, LocationModel>> getPrimaryLocation() => _execute(
-        () => _database.allLocations.getPrimaryLocation(),
       );
 
   Future<Either<Failure, T>> _execute<T>(Future<T> Function() action) async {

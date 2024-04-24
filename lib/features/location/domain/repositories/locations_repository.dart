@@ -13,7 +13,4 @@ abstract interface class ILocationsRepository {
 
   /// Удаляет адрес доставки.
   Future<Either<Failure, void>> deleteLocation(Location location);
-
-  /// Получает адрес доставки по умолчанию.
-  Future<Either<Failure, Location>> getPrimaryLocation();
 }
