@@ -1,6 +1,7 @@
 {
   "common": {
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "refresh": "Refresh"
   },
   "routes": {
     "home": "Home",
@@ -45,5 +46,11 @@
     "inputField": "Input field",
     "thatAddressDoesntExist": "That address doesn't exist",
     "enterADifferentAddress": "Enter a different address"
+  },
+  "cities": {
+    "yourCity": "Your city",
+    "selectCity": "Select a city.",
+    "description": "catalogue assortment and promotional offers depend on it",
+    "errorLoad": "Error loading cities"
   }
 }

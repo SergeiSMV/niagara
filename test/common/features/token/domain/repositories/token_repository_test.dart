@@ -1,8 +1,7 @@
-import 'package:either_dart/either.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/core.dart' hide test;
 import 'package:niagara_app/core/dependencies/di.dart';
 
 import 'token_repository_test.mocks.dart';
@@ -20,9 +19,11 @@ void main() {
   late MockIDeviceIdDatasource mockDeviceIdDatasource;
   late IAppLogger mockLogger;
 
-  provideDummy<Either<Failure, String>>(const Right('test_token'));
+  provideDummy<Either<Failure, void>>(const Right(null));
+  provideDummy<Either<Failure, void>>(const Left(TokenRepositoryFailure()));
 
-  provideDummy<Either<Failure, bool>>(const Right(true));
+  provideDummy<Either<Failure, String>>(const Right('cached_token'));
+  provideDummy<Either<Failure, String>>(const Left(GetTokenFailure()));
 
   setUpAll(() {
     getIt.registerSingleton<IAppLogger>(MockIAppLogger());
@@ -39,36 +40,60 @@ void main() {
   });
 
   group('TokenRepository', () {
-    test('getToken gets device id, fetches token, and saves it', () async {
+    test('getToken returns cached token if available', () async {
+      when(mockTokenLocalDataSource.getToken())
+          .thenAnswer((_) async => 'cached_token');
+
+      final result = await tokenRepository.getToken();
+
+      expect(result, const Right<Failure, String>('cached_token'));
+      verifyNever(mockDeviceIdDatasource.getOrCreateUniqueId());
+      verifyNever(
+          mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
+      verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
+    });
+
+    test('getToken throws TokenNotFoundFailure if local token is null or empty',
+        () async {
+      when(mockTokenLocalDataSource.getToken()).thenAnswer((_) async => null);
+
+      final result = await tokenRepository.getToken();
+
+      expect(result, const Left<Failure, String>(GetTokenFailure()));
+      verifyNever(mockDeviceIdDatasource.getOrCreateUniqueId());
+      verifyNever(
+          mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
+      verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
+    });
+
+    test('createToken throws DeviceIdFailure if device id fails', () async {
+      when(mockDeviceIdDatasource.getOrCreateUniqueId())
+          .thenAnswer((_) async => const Left(DeviceIdFailure()));
+
+      final result = await tokenRepository.createToken();
+
+      expect(result, const Left<Failure, void>(TokenRepositoryFailure()));
+      verify(mockDeviceIdDatasource.getOrCreateUniqueId()).called(1);
+      verifyNever(
+          mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
+      verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
+    });
+
+    test('createToken throws GetTokenFailure if remote token fetch fails',
+        () async {
       when(mockDeviceIdDatasource.getOrCreateUniqueId())
           .thenAnswer((_) async => const Right('test_device_id'));
 
       when(mockTokenRemoteDataSource.getToken(deviceId: 'test_device_id'))
-          .thenAnswer((_) async => const Right('test_token'));
-
-      when(mockTokenLocalDataSource.setToken(token: 'test_token'))
-          .thenAnswer((_) async => const Right<Failure, dynamic>(null));
+          .thenAnswer((_) async => const Left(TokenRepositoryFailure()));
 
       final result = await tokenRepository.createToken();
 
+      expect(result, const Left<Failure, void>(TokenRepositoryFailure()));
       verify(mockDeviceIdDatasource.getOrCreateUniqueId()).called(1);
       verify(mockTokenRemoteDataSource.getToken(deviceId: 'test_device_id'))
           .called(1);
-      verify(mockTokenLocalDataSource.setToken(token: 'test_token')).called(1);
-
-      expect(result, const Right<dynamic, dynamic>(null));
-    });
-
-    test('getToken returns failure when an error occurs', () async {
-      when(mockDeviceIdDatasource.getOrCreateUniqueId())
-          .thenThrow(Exception('test_exception'));
-
-      final result = await tokenRepository.createToken();
-
-      result.fold(
-        (failure) => expect(failure, isA<GetTokenFailure>()),
-        (_) => fail('Expected a Left'),
-      );
+      verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
     });
   });
 }

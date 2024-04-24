@@ -11,28 +11,30 @@ class RequestHandler {
 
   /// Отправляет запрос и возвращает результат.
   /// В случае ошибки возвращает [Failure].
-  Future<Either<Failure, D>> sendRequest<D>({
-    required Future<Response<Map<String, dynamic>>> Function(Dio dio) request,
-    required D Function(Map<String, dynamic>) converter,
+  Future<Either<Failure, D>> sendRequest<D, T>({
+    required Future<Response<dynamic>> Function(Dio dio) request,
+    required D Function(T) converter,
     required Failure Function(String error) failure,
     bool useCompute = false,
   }) async {
     try {
       final response = await request(_dio);
+
       if (response.data == null) return Left(failure('no data'));
+      final data = response.data! as Map<String, dynamic>;
 
       // Проверяем, есть ли ошибка в ответе сервера и возвращаем ее
       // в виде объекта [Failure].
-      final error = response.data!['error'] as String?;
+      final error = data['error'] as String?;
       if (error != null && error.isNotEmpty) return Left(failure(error));
 
-      // Получаем данные ответа сервера и конвертируем их в объект [R].
-      final responseData = response.data!['response'] as Map<String, dynamic>?;
+      // Получаем данные ответа сервера и конвертируем их в объект [T].
+      final responseData = data['response'] as T?;
 
       if (responseData == null) return Left(failure('no data'));
 
       final res = useCompute
-          ? await compute<Map<String, dynamic>, D>(converter, responseData)
+          ? await compute<T, D>(converter, responseData)
           : converter(responseData);
       return Right(res);
     } catch (e) {

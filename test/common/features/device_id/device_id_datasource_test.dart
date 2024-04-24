@@ -1,10 +1,9 @@
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:either_dart/either.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/core.dart' hide test;
 
 import 'device_id_datasource_test.mocks.dart';
 

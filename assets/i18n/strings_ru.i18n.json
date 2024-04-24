@@ -1,6 +1,7 @@
 {
   "common": {
-    "cancel": "Отменить"
+    "cancel": "Отменить",
+    "refresh": "Обновить"
   },
   "routes": {
     "home": "Главная",
@@ -45,5 +46,11 @@
     "inputField": "Поле ввода",
     "thatAddressDoesntExist": "Такого адреса не существует",
     "enterADifferentAddress": "Введите другой адрес"
+  },
+  "cities": {
+    "yourCity": "Ваш город",
+    "selectCity": "Выберите город",
+    "description": "от этого зависит ассортимент каталога и акционные предложения",
+    "errorLoad": "Не удалось загрузить города"
   }
 }

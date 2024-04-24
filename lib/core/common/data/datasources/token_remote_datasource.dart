@@ -42,7 +42,7 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
   }) async {
     final base64 = await getBasicAuth();
 
-    return _requestHandler.sendRequest<String>(
+    return _requestHandler.sendRequest<String, Map<String, dynamic>>(
       request: (dio) => dio.post(
         ApiConst.kGetToken,
         options: Options(

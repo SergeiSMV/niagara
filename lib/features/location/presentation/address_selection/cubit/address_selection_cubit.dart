@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/features/location/domain/entities/location.dart';
+import 'package:niagara_app/features/location/domain/entities/locality.dart';
 import 'package:niagara_app/features/location/domain/usecases/get_address_use_case.dart';
 import 'package:niagara_app/features/location/domain/usecases/get_user_position_use_case.dart';
 import 'package:niagara_app/features/location/domain/usecases/open_settings_use_case.dart';
@@ -143,14 +143,13 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
     String? comment,
   }) async {
     final location = (state as _Approve).location;
+
     emit(
       _Approve(
-        location: location.copyWith(
-          address: location.address.copyWith(
-            flat: flat,
-            entrance: entrance,
-            floor: floor,
-          ),
+        location: location.copyWithoutDetails(
+          flat: flat?.trim(),
+          entrance: entrance?.trim(),
+          floor: floor?.trim(),
           comment: comment,
         ),
       ),

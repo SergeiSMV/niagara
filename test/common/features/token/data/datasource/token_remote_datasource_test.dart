@@ -1,8 +1,7 @@
-import 'package:either_dart/either.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/core.dart' hide test;
 
 import 'token_remote_datasource_test.mocks.dart';
 
@@ -29,7 +28,7 @@ void main() {
 
     test('onGetToken returns token when request is successful', () async {
       when(
-        mockRequestHandler.sendRequest<String>(
+        mockRequestHandler.sendRequest<String, Map<String, dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
@@ -41,7 +40,7 @@ void main() {
 
       expect(result, equals(const Right<dynamic, dynamic>('test_token')));
       verify(
-        mockRequestHandler.sendRequest<String>(
+        mockRequestHandler.sendRequest<String, Map<String, dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
@@ -51,7 +50,7 @@ void main() {
 
     test('onGetToken returns empty string when request fails', () async {
       when(
-        mockRequestHandler.sendRequest<String>(
+        mockRequestHandler.sendRequest<String, Map<String, dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
@@ -66,7 +65,7 @@ void main() {
         equals(const Left<Failure, dynamic>(GetTokenFailure())),
       );
       verify(
-        mockRequestHandler.sendRequest<String>(
+        mockRequestHandler.sendRequest<String, Map<String, dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),

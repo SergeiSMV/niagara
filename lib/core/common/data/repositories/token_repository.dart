@@ -19,12 +19,13 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
   String? _cachedToken;
 
   @override
-  Future<Either<Failure, void>> createToken() =>
-      execute(_createToken, const CreateTokenFailure());
+  Failure get failure => const TokenRepositoryFailure();
 
   @override
-  Future<Either<Failure, String>> getToken() =>
-      execute(_getToken, const GetTokenFailure());
+  Future<Either<Failure, void>> createToken() => execute(_createToken);
+
+  @override
+  Future<Either<Failure, String>> getToken() => execute(_getToken);
 
   Future<void> _createToken() async {
     final deviceId = await _deviceIdProvider.getOrCreateUniqueId();

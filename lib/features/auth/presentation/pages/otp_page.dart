@@ -23,7 +23,7 @@ class OTPPage extends StatelessWidget {
   final String _phoneNumber;
 
   Future<void> _navigateToMain(BuildContext context) =>
-      context.replaceRoute(const LocationsWrapperRoute());
+      context.replaceRoute(const NavigationRoute());
 
   void _resetTimer(BuildContext context) =>
       context.read<CountdownTimerCubit>().startTimer();
