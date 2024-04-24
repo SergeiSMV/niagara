@@ -1,7 +1,5 @@
-import 'package:either_dart/either.dart';
-import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/location/domain/entities/location.dart';
+import 'package:niagara_app/features/location/domain/entities/locality.dart';
 import 'package:niagara_app/features/location/domain/repositories/geocoder_repository.dart';
 
 @injectable

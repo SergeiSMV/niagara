@@ -1,5 +1,5 @@
 import 'package:niagara_app/core/utils/enums/location_precision.dart';
-import 'package:niagara_app/features/location/domain/entities/location.dart';
+import 'package:niagara_app/features/location/domain/entities/locality.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart';
 
 extension GeoObjectToLocationExt on GeoObject {
@@ -14,9 +14,7 @@ extension GeoObjectToLocationExt on GeoObject {
       metaDataProperty?.geocoderMetaData?.precision,
     );
 
-    final country = _addressComponent(KindResponse.country);
     final province = _addressComponent(KindResponse.province);
-    final area = _addressComponent(KindResponse.area);
     final locality = _addressComponent(KindResponse.locality);
     final district = _addressComponent(KindResponse.district);
     final street = _addressComponent(KindResponse.street);
@@ -27,15 +25,11 @@ extension GeoObjectToLocationExt on GeoObject {
       name: name,
       description: description,
       precision: precision,
-      address: LocationAddress(
-        country: country,
-        province: province,
-        area: area,
-        locality: locality,
-        district: district,
-        street: street,
-        house: house,
-      ),
+      province: province,
+      locality: locality,
+      district: district,
+      street: street,
+      house: house,
     );
   }
 

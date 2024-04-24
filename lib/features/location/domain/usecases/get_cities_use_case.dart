@@ -1,18 +1,16 @@
-import 'package:either_dart/either.dart';
-import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/location/domain/entities/location.dart';
-import 'package:niagara_app/features/location/domain/repositories/location_repository.dart';
+import 'package:niagara_app/features/location/domain/entities/locality.dart';
+import 'package:niagara_app/features/location/domain/repositories/cities_repository.dart';
 
 @injectable
-class GetCitiesUseCase extends BaseUseCase<List<Location>, NoParams> {
+class GetCitiesUseCase extends BaseUseCase<List<City>, NoParams> {
   GetCitiesUseCase({
-    required ILocationRepository locationRepository,
+    required ICitiesRepository locationRepository,
   }) : _locationRepository = locationRepository;
 
-  final ILocationRepository _locationRepository;
+  final ICitiesRepository _locationRepository;
 
   @override
-  Future<Either<Failure, List<Location>>> call([NoParams? params]) =>
+  Future<Either<Failure, List<City>>> call([NoParams? params]) =>
       _locationRepository.getCities();
 }

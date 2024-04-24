@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
-import 'package:niagara_app/features/location/domain/entities/location.dart';
+import 'package:niagara_app/features/location/domain/entities/locality.dart';
 import 'package:niagara_app/features/location/domain/usecases/search_by_text_use_case.dart';
 
 part 'search_address_bloc.freezed.dart';

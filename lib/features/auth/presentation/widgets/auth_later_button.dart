@@ -12,7 +12,7 @@ class AuthLaterButton extends StatelessWidget {
 
   void onTapAuthLater(BuildContext context) => context
     ..read<AuthBloc>().add(const AuthEvent.authLater())
-    ..replaceRoute(const CitiesRoute());
+    ..replaceRoute(const NavigationRoute());
 
   @override
   Widget build(BuildContext context) {

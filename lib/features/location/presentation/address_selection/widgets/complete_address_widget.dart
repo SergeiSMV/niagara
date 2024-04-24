@@ -8,7 +8,7 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/location/domain/entities/location.dart';
+import 'package:niagara_app/features/location/domain/entities/locality.dart';
 import 'package:niagara_app/features/location/presentation/address_selection/cubit/address_selection_cubit.dart';
 
 class CompleteAddressWidget extends StatelessWidget {

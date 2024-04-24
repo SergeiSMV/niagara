@@ -10,6 +10,7 @@ import 'package:niagara_app/core/common/presentation/router/routers/location_rou
 import 'package:niagara_app/core/common/presentation/router/routers/profile_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/shops_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/splash_routes.dart';
+import 'package:niagara_app/features/location/presentation/location_guard.dart';
 
 /// Класс [AppRouter] роутера приложения. Содержит все модули и их маршруты.
 @AutoRouterConfig()
@@ -24,6 +25,7 @@ class AppRouter extends $AppRouter {
     required ShopsRouters shopsRouters,
     required ProfileRouters profileRouters,
     required LocationsRouters locationsRouters,
+    required LocationGuard locationGuard,
   })  : _splashRouters = splashRouters,
         _authRouters = authRouters,
         _homeRouters = homeRouters,
@@ -31,7 +33,8 @@ class AppRouter extends $AppRouter {
         _cartRouters = cartRouters,
         _shopsRouters = shopsRouters,
         _profileRouters = profileRouters,
-        _locationsRouters = locationsRouters;
+        _locationsRouters = locationsRouters,
+        _locationGuard = locationGuard;
 
   final SplashRouters _splashRouters;
   final AuthRouters _authRouters;
@@ -41,21 +44,25 @@ class AppRouter extends $AppRouter {
   final ShopsRouters _shopsRouters;
   final ProfileRouters _profileRouters;
   final LocationsRouters _locationsRouters;
+  final LocationGuard _locationGuard;
 
   @override
   List<AutoRoute> get routes => [
-        // _splashRouters.routers,
-        // _authRouters.routers,
-        // AutoRoute(
-        //   page: NavigationRoute.page,
-        //   children: [
-        //     _homeRouters.routers,
-        //     _catalogRouters.routers,
-        //     _cartRouters.routers,
-        //     _shopsRouters.routers,
-        //     _profileRouters.routers,
-        //   ],
-        // ),
+        _splashRouters.routers,
+        _authRouters.routers,
+        AutoRoute(
+          page: NavigationRoute.page,
+          guards: [
+            _locationGuard,
+          ],
+          children: [
+            _homeRouters.routers,
+            _catalogRouters.routers,
+            _cartRouters.routers,
+            _shopsRouters.routers,
+            _profileRouters.routers,
+          ],
+        ),
         _locationsRouters.routers,
       ];
 

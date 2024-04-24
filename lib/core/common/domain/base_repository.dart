@@ -50,6 +50,6 @@ abstract class BaseRepository {
     final where = runtimeType.toString();
     final who = f.runtimeType.toString();
     final errorMessage = f.error;
-    return '$where :: $who${errorMessage != null ? ' :: $errorMessage' : ''}';
+    return '$where :: $who :: $errorMessage';
   }
 }

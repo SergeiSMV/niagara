@@ -9,7 +9,7 @@ sealed class Failure with EquatableMixin implements Exception {
   /// - [error] - описание ошибки.
   const Failure(this.error);
 
-  final String? error;
+  final String error;
 
   @override
   List<Object?> get props => [error];
@@ -17,11 +17,11 @@ sealed class Failure with EquatableMixin implements Exception {
 
 // ! ------------------------------- Token ------------------------------- ! //
 class CreateTokenFailure extends Failure {
-  const CreateTokenFailure([super.error]);
+  const CreateTokenFailure([super.error = 'Token creation failure']);
 }
 
 class GetTokenFailure extends Failure {
-  const GetTokenFailure([super.error]);
+  const GetTokenFailure([super.error = 'Token fetching failure']);
 }
 
 class TokenNotFoundFailure extends Failure {
@@ -29,7 +29,7 @@ class TokenNotFoundFailure extends Failure {
 }
 
 class BasicAuthFailure extends Failure {
-  const BasicAuthFailure([super.error]);
+  const BasicAuthFailure([super.error = 'Basic auth failure']);
 }
 
 // ! ----------------------------- Device ID ----------------------------- ! //
@@ -47,15 +47,15 @@ class ValidateCodeFailure extends Failure {
 }
 
 class CheckAuthStatusFailure extends Failure {
-  const CheckAuthStatusFailure([super.error]);
+  const CheckAuthStatusFailure([super.error = 'Auth status failure']);
 }
 
 class ResendCodeFailure extends Failure {
-  const ResendCodeFailure([super.error]);
+  const ResendCodeFailure([super.error = 'Resend code failure']);
 }
 
 class SkipAuthFailure extends Failure {
-  const SkipAuthFailure([super.error]);
+  const SkipAuthFailure([super.error = 'Skip auth failure']);
 }
 
 class PhoneNotFoundFailure extends Failure {
@@ -86,4 +86,18 @@ class CitiesDataFailure extends Failure {
 
 class ShopsDataFailure extends Failure {
   const ShopsDataFailure([super.error = 'Shops data failure']);
+}
+
+class CitiesLocalDataFailure extends Failure {
+  const CitiesLocalDataFailure([super.error = 'City local data failure']);
+}
+
+class LocationsLocalDataFailure extends Failure {
+  const LocationsLocalDataFailure([
+    super.error = 'Locations local data failure',
+  ]);
+}
+
+class LocationsDataFailure extends Failure {
+  const LocationsDataFailure([super.error = 'Locations data failure']);
 }
