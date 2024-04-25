@@ -6,7 +6,6 @@ import 'package:niagara_app/core/common/presentation/theme/app_theme.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-/// Основная точка входа в приложение
 class Application extends StatelessWidget {
   const Application({
     required Talker talker,

@@ -17,13 +17,18 @@ enum LocationPrecision {
   /// Не найдена улица, но найден, например, посёлок, район и т. п.
   other;
 
-  /// Найден адрес без номера дома.
-  bool get isWithoutHouseNumber =>
-      this == LocationPrecision.street || this == LocationPrecision.other;
-
   static LocationPrecision fromString(String? value) =>
       LocationPrecision.values.firstWhere(
         (e) => e.toString().split('.').last == value,
         orElse: () => LocationPrecision.other,
       );
+
+  static LocationPrecision parse({
+    required String street,
+    required String house,
+  }) {
+    if (house.isEmpty) return LocationPrecision.street;
+    if (street.isEmpty) return LocationPrecision.other;
+    return LocationPrecision.exact;
+  }
 }

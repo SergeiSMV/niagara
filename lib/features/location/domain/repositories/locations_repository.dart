@@ -1,5 +1,5 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/location/domain/entities/locality.dart';
+import 'package:niagara_app/features/location/domain/models/location.dart';
 
 abstract interface class ILocationsRepository {
   /// Получает все адреса доставки

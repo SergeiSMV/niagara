@@ -1,4 +1,7 @@
-part of '../../../core.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/constants/keys_constants.dart';
 
 /// Локальный источник данных для управления уникальным идентификатором
 /// устройства.
@@ -34,7 +37,7 @@ class DeviceIdDatasource implements IDeviceIdDatasource {
   /// Получает уникальный идентификатор устройства или создает новый.
   ///
   /// Если уникальный идентификатор уже существует, возвращает его.
-  /// В противном случае создает уникальный идентификатор, используя 
+  /// В противном случае создает уникальный идентификатор, используя
   /// [DeviceInfoPlugin], и сохраняет его в [FlutterSecureStorage]
   /// перед возвратом.
   @override

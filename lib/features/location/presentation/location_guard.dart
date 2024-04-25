@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/features/location/domain/usecases/get_city_use_case.dart';
+import 'package:niagara_app/features/location/domain/usecases/cities/get_city_use_case.dart';
 
 /// Гард для проверки наличия основного местоположения.
 @injectable

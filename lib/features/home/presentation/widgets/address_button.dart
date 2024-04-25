@@ -23,9 +23,12 @@ class AppBarAddressButton extends StatelessWidget {
       child: BlocBuilder<LocationsBloc, LocationsState>(
         builder: (_, state) => Row(
           children: [
-            Text(
-              state.locationName,
-              style: textStyle.withColor(mainColor),
+            Flexible(
+              child: Text(
+                state.locationName,
+                style: textStyle.withColor(mainColor),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             AppConst.kCommon4.width,
             Assets.icons.arrowRight.svg(

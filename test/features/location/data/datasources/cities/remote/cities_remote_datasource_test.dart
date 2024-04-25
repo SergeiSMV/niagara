@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:niagara_app/core/core.dart' hide test;
-import 'package:niagara_app/features/location/data/datasources/cities/remote/cities_remote_datasource.dart';
-import 'package:niagara_app/features/location/data/models/city_model.dart';
+import 'package:niagara_app/features/location/data/cities/remote/data_source/cities_remote_data_source.dart';
+import 'package:niagara_app/features/location/data/cities/remote/dto/city_dto.dart';
 
 import 'cities_remote_datasource_test.mocks.dart';
 
@@ -22,27 +22,30 @@ void main() {
 
   group('getCities', () {
     const cities = [
-      CityModel(
+      CityDto(
+        id: 1,
         city: 'Уфа',
         region: 'Башкортостан республика',
-        lat: 54.735147,
-        lon: 55.958727,
+        latitude: 54.735147,
+        longitude: 55.958727,
       ),
-      CityModel(
+      CityDto(
+        id: 2,
         city: 'Краснодар',
         region: 'Краснодарский край',
-        lat: 45.03547,
-        lon: 38.975313,
+        latitude: 45.03547,
+        longitude: 38.975313,
       ),
-      CityModel(
+      CityDto(
+        id: 3,
         city: 'Курган',
         region: 'Курганская область',
-        lat: 55.441004,
-        lon: 65.341118,
+        latitude: 55.441004,
+        longitude: 65.341118,
       ),
     ];
 
-    provideDummy<Either<Failure, List<CityModel>>>(const Right(cities));
+    provideDummy<Either<Failure, List<CityDto>>>(const Right(cities));
     provideDummy<Either<Failure, List<dynamic>>>(
       const Left(CitiesRemoteDataFailure()),
     );
@@ -50,7 +53,7 @@ void main() {
     test('should return a list of cities when successful', () async {
       // Arrange
       when(
-        mockRequestHandler.sendRequest<List<CityModel>, List<dynamic>>(
+        mockRequestHandler.sendRequest<List<CityDto>, List<dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
@@ -61,9 +64,9 @@ void main() {
       final result = await dataSource.getCities();
 
       // Assert
-      expect(result, isA<Right<Failure, List<CityModel>>>());
+      expect(result, isA<Right<Failure, List<CityDto>>>());
       verify(
-        mockRequestHandler.sendRequest<List<CityModel>, List<dynamic>>(
+        mockRequestHandler.sendRequest<List<CityDto>, List<dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
@@ -75,7 +78,7 @@ void main() {
       // Arrange
       const failure = CitiesRemoteDataFailure('Error');
       when(
-        mockRequestHandler.sendRequest<List<CityModel>, List<dynamic>>(
+        mockRequestHandler.sendRequest<List<CityDto>, List<dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),
@@ -86,9 +89,9 @@ void main() {
       final result = await dataSource.getCities();
 
       // Assert
-      expect(result, isA<Left<Failure, List<CityModel>>>());
+      expect(result, isA<Left<Failure, List<CityDto>>>());
       verify(
-        mockRequestHandler.sendRequest<List<CityModel>, List<dynamic>>(
+        mockRequestHandler.sendRequest<List<CityDto>, List<dynamic>>(
           request: anyNamed('request'),
           converter: anyNamed('converter'),
           failure: anyNamed('failure'),

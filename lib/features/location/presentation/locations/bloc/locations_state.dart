@@ -14,10 +14,10 @@ class LocationsState with _$LocationsState {
   String get locationName => maybeWhen(
         loaded: (city, locations) {
           final primaryLocation = locations.firstWhereOrNull(
-            (element) => element.isPrimary,
+            (element) => element.isDefault,
           );
 
-          return primaryLocation?.name ?? city.name;
+          return (primaryLocation ?? city).name;
         },
         orElse: () => '',
       );

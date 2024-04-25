@@ -1,6 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:either_dart/either.dart';
-import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/constants/api_constants.dart';
 

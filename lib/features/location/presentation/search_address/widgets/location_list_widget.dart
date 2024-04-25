@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/features/location/domain/entities/locality.dart';
+import 'package:niagara_app/features/location/domain/models/location.dart';
 
 class LocationListWidget extends StatelessWidget {
   const LocationListWidget(

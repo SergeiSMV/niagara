@@ -1,12 +1,12 @@
-import 'package:injectable/injectable.dart';
+import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/constants/keys_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Определяет интерфейс для AuthLocalDataSource, который отвечает за
 /// управление локальным хранением данных, связанных с аутентификацией.
 ///
-/// Этот интерфейс предоставляет методы для установки и получения статуса 
-/// аутентификации пользователя, который обычно хранится в локальном хранилище, 
+/// Этот интерфейс предоставляет методы для установки и получения статуса
+/// аутентификации пользователя, который обычно хранится в локальном хранилище,
 /// таком как SharedPreferences.
 abstract interface class IAuthLocalDataSource {
   /// Устанавливает статус аутентификации пользователя в локальном хранилище.

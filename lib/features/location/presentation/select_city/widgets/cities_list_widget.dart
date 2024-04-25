@@ -8,7 +8,7 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/location/domain/entities/locality.dart';
+import 'package:niagara_app/features/location/domain/models/city.dart';
 import 'package:niagara_app/features/location/presentation/select_city/cubit/select_city_cubit.dart';
 import 'package:niagara_app/features/location/presentation/select_city/widgets/list_separator_widget.dart';
 

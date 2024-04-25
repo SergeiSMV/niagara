@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
-import 'package:niagara_app/features/location/domain/entities/locality.dart';
-import 'package:niagara_app/features/location/domain/usecases/get_city_use_case.dart';
-import 'package:niagara_app/features/location/domain/usecases/get_locations_use_case.dart';
+import 'package:niagara_app/features/location/domain/models/city.dart';
+import 'package:niagara_app/features/location/domain/models/location.dart';
+import 'package:niagara_app/features/location/domain/usecases/cities/get_city_use_case.dart';
+import 'package:niagara_app/features/location/domain/usecases/locations/get_locations_use_case.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'locations_bloc.freezed.dart';

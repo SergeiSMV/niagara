@@ -1,0 +1,14 @@
+import 'package:niagara_app/features/location/domain/models/base_locality.dart';
+
+/// Модель города (населенного пункта)
+class City extends BaseLocality {
+  const City({
+    required super.id,
+    required super.coordinates,
+    required super.province,
+    required super.locality,
+  });
+
+  @override
+  String get name => super.locality;
+}

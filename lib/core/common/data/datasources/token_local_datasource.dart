@@ -1,4 +1,6 @@
-part of '../../../core.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/constants/keys_constants.dart';
 
 /// Локальный источник данных для управления токенами аутентификации.
 ///

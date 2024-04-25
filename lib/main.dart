@@ -11,17 +11,12 @@ import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 void main() async {
-  /// Инициализация Flutter.
-  /// Проверка на инициализацию FlutterBinding.
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Инициализация зависимостей.
   await di.setupDependencies();
 
-  /// Инициализация [TalkerBlocObserver] для логирования событий и состояний.
   Bloc.observer = di.getIt<TalkerBlocObserver>();
 
-  /// Инициализация локализации.
   LocaleSettings.useDeviceLocale();
 
   /// Запрет на горизонтальное вращение экрана.
@@ -35,7 +30,6 @@ void main() async {
         message: 'Application started',
       );
 
-  /// Запуск приложения.
   runApp(
     TranslationProvider(
       child: Application(

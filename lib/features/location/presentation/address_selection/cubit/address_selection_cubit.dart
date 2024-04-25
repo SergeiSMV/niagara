@@ -7,10 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/features/location/domain/entities/locality.dart';
-import 'package:niagara_app/features/location/domain/usecases/get_address_use_case.dart';
-import 'package:niagara_app/features/location/domain/usecases/get_user_position_use_case.dart';
-import 'package:niagara_app/features/location/domain/usecases/open_settings_use_case.dart';
+import 'package:niagara_app/features/location/domain/models/location.dart';
+import 'package:niagara_app/features/location/domain/usecases/geocoder/get_address_use_case.dart';
+import 'package:niagara_app/features/location/domain/usecases/permissions/get_user_position_use_case.dart';
+import 'package:niagara_app/features/location/domain/usecases/permissions/open_settings_use_case.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
 

@@ -4,10 +4,10 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/enums/location_precision.dart';
-import 'package:niagara_app/features/location/data/datasources/cities/local/cities_dao.dart';
-import 'package:niagara_app/features/location/data/datasources/cities/local/cities_table.dart';
-import 'package:niagara_app/features/location/data/datasources/locations/local/location_drift_dao.dart';
-import 'package:niagara_app/features/location/data/datasources/locations/local/location_drift_table.dart';
+import 'package:niagara_app/features/location/data/cities/local/dao/cities_dao.dart';
+import 'package:niagara_app/features/location/data/cities/local/tables/cities_table.dart';
+import 'package:niagara_app/features/location/data/locations/local/dao/location_dao.dart';
+import 'package:niagara_app/features/location/data/locations/local/tables/location_table.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqlite3/sqlite3.dart';
@@ -17,8 +17,8 @@ part 'app_database.g.dart';
 
 @DriftDatabase(
   tables: [
-    Locations,
-    Cities,
+    LocationsTable,
+    CitiesTable,
   ],
   daos: [
     AllLocations,
