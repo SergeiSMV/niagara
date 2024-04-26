@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBarWidget(
         automaticallyImplyLeading: false,
-        titleWidget: const AppBarAddressButton(),
+        body: const AppBarAddressButton(),
         actions: [
           AppBarActionButton(
             icon: Assets.icons.notifications,
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
             // TODO(Oleg): Реализовать переход на экран поддержки
             onTap: () => debugPrint('Support'),
           ),
-          AppConst.kCommon8.width,
+          AppConst.kCommon8.horizontalBox,
         ],
       ),
       body: Center(

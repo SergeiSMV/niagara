@@ -74,7 +74,7 @@ class _AdditionalAddressFields extends StatelessWidget {
           label: t.locations.flatOffice,
           onChanged: (flat) => cubit.updateAdditionalAddressData(flat: flat),
         ),
-        AppConst.kCommon12.height,
+        AppConst.kCommon12.verticalBox,
         Row(
           children: [
             Expanded(
@@ -84,7 +84,7 @@ class _AdditionalAddressFields extends StatelessWidget {
                     cubit.updateAdditionalAddressData(entrance: entrance),
               ),
             ),
-            AppConst.kCommon12.width,
+            AppConst.kCommon12.horizontalBox,
             Expanded(
               child: AppTextField.number(
                 label: t.locations.floor,
@@ -94,13 +94,13 @@ class _AdditionalAddressFields extends StatelessWidget {
             ),
           ],
         ),
-        AppConst.kCommon12.height,
+        AppConst.kCommon12.verticalBox,
         AppTextField.text(
           label: t.locations.addressComment,
           onChanged: (comment) =>
               cubit.updateAdditionalAddressData(comment: comment),
         ),
-        AppConst.kCommon12.height,
+        AppConst.kCommon12.verticalBox,
       ],
     );
   }

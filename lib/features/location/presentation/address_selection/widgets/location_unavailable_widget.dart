@@ -25,7 +25,7 @@ class LocationUnavailableWidget extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          AppConst.kCommon8.width,
+          AppConst.kCommon8.horizontalBox,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

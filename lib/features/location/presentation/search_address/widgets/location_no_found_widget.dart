@@ -30,13 +30,13 @@ class LocationNotFoundWidget extends StatelessWidget {
               const Spacer(),
             ],
           ),
-          AppConst.kCommon16.height,
+          AppConst.kCommon16.verticalBox,
           Text(
             t.search.thatAddressDoesntExist,
             style: textStyle.headingTypo.h3.withColor(textColors.main),
             textAlign: TextAlign.center,
           ),
-          AppConst.kCommon8.height,
+          AppConst.kCommon8.verticalBox,
           Text(
             t.search.enterADifferentAddress,
             style: textStyle.textTypo.tx3Medium.withColor(textColors.secondary),

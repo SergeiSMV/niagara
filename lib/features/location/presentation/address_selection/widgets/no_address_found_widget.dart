@@ -23,7 +23,7 @@ class NoAddressFoundWidget extends StatelessWidget {
                 BlendMode.srcIn,
               ),
             ),
-            AppConst.kCommon12.width,
+            AppConst.kCommon12.horizontalBox,
             Text(
               t.locations.noAddressFound,
               style: context.textStyle.textTypo.tx1SemiBold,
@@ -37,7 +37,7 @@ class NoAddressFoundWidget extends StatelessWidget {
           text: t.locations.enterManually,
           onTap: () {},
         ).paddingSymmetric(vertical: AppConst.kCommon12),
-        AppConst.kCommon12.height,
+        AppConst.kCommon12.verticalBox,
       ],
     );
   }

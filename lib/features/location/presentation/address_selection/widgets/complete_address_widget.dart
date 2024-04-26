@@ -40,7 +40,7 @@ class CompleteAddressWidget extends StatelessWidget {
           text: t.locations.enterManually,
           onTap: () => _onManualInput(context),
         ).paddingSymmetric(vertical: AppConst.kCommon12),
-        AppConst.kCommon12.height,
+        AppConst.kCommon12.verticalBox,
       ],
     );
   }

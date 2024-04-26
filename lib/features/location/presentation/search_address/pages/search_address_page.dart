@@ -24,7 +24,7 @@ class SearchAddressPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBarWidget(
         automaticallyImplyLeading: false,
-        titleWidget: SearchTextField(
+        body: SearchTextField(
           onChanged: (value) => _onInputChanged(context, value),
         ),
         actions: const [SearchBarBackButton()],

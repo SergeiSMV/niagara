@@ -19,7 +19,7 @@ class SelectCityHeaderWidget extends StatelessWidget {
           style: context.textStyle.headingTypo.h3
               .withColor(context.colors.textColors.main),
         ),
-        AppConst.kCommon12.height,
+        AppConst.kCommon12.verticalBox,
         Text(
           t.cities.description,
           style: context.textStyle.textTypo.tx1Medium

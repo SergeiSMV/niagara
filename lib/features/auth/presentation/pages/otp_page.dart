@@ -5,7 +5,6 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
 import 'package:niagara_app/features/auth/presentation/widgets/otp_code_widget.dart';
@@ -37,7 +36,7 @@ class OTPPage extends StatelessWidget {
         orElse: () => null,
       ),
       child: Scaffold(
-        appBar: AppBarWidget(title: t.auth.confirmNumber),
+        appBar: const AppBarWidget(),
         body: Column(
           children: [
             OTPTitleWidget(phoneNumber: _phoneNumber),
