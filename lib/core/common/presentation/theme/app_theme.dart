@@ -43,6 +43,11 @@ class AppTheme {
       actionIconTheme: ActionIconThemeData(
         backButtonIconBuilder: (_) => Assets.icons.arrowLeft.svg(),
       ),
+      textTheme: ThemeData.light().textTheme.apply(
+            displayColor: _appColors.textColors.main,
+            bodyColor: _appColors.textColors.main,
+            decorationColor: _appColors.textColors.main,
+          ),
     );
   }
 

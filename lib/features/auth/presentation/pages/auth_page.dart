@@ -6,7 +6,6 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:niagara_app/features/auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
 import 'package:niagara_app/features/auth/presentation/widgets/auth_later_button.dart';
@@ -36,9 +35,8 @@ class AuthPage extends StatelessWidget {
         orElse: () => null,
       ),
       child: Scaffold(
-        appBar: AppBarWidget(
+        appBar: const AppBarWidget(
           automaticallyImplyLeading: false,
-          title: t.auth.enterPhone,
         ),
         body: Column(
           children: [
@@ -46,7 +44,7 @@ class AuthPage extends StatelessWidget {
             const AuthLaterButton(),
             const Spacer(),
             const PrivacyPolicyTextButtons(),
-            AppConst.kAuthPrivacyPolicyBottomOffset.height,
+            AppConst.kAuthPrivacyPolicyBottomOffset.verticalBox,
             GetCodeWidget(formKey: formKey),
           ],
         ),

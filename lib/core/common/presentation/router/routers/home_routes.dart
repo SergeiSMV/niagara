@@ -12,7 +12,11 @@ abstract final class HomeRouters {
         page: HomeNavigatorRoute.page,
         initial: true,
         children: [
-          AutoRoute(page: HomeRoute.page, initial: true),
+          AutoRoute(
+            page: HomeRoute.page,
+            initial: true,
+            title: (_, __) => '',
+          ),
         ],
       );
 }
