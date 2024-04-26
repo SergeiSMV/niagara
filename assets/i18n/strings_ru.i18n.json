@@ -32,6 +32,7 @@
     "enterManually": "Ввести вручную",
     "continueButton": "Продолжить",
     "flatOffice": "Квартира/офис",
+    "flatOffice_short": "Кв./оф.",
     "entrance": "Подъезд",
     "floor": "Этаж",
     "addressComment": "Комментарий к адресу",
@@ -45,7 +46,8 @@
     "myAddresses": "Мои адреса",
     "delivery": "Доставка",
     "addNewAddress": "Добавить новый адрес",
-    "editAddress": "Редактирование адреса"
+    "editAddress": "Редактирование адреса",
+    "errorLoad": "Не удалось загрузить адреса доставки"
   },
   "search": {
     "inputField": "Поле ввода",

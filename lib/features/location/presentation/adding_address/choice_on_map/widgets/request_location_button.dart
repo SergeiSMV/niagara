@@ -7,20 +7,20 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/location/presentation/address_selection/cubit/address_selection_cubit.dart';
+import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/cubit/choice_on_map_cubit.dart';
 
 class RequestLocationButton extends StatelessWidget {
   const RequestLocationButton({super.key});
 
   Future<void> onDeterminePosition(BuildContext context) async {
-    final cubit = context.read<AddressSelectionCubit>();
+    final cubit = context.read<ChoiceOnMapCubit>();
     await cubit.determinePosition().whenComplete(() {
       if (!cubit.isPermissionGranted) showDialog(context);
     });
   }
 
   Future<void> showDialog(BuildContext context) async {
-    final cubit = context.read<AddressSelectionCubit>();
+    final cubit = context.read<ChoiceOnMapCubit>();
     final textStyle = context.textStyle.buttonTypo.btn2semiBold
         .withColor(context.colors.textColors.accent);
 

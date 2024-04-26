@@ -14,12 +14,12 @@ import 'package:niagara_app/features/location/domain/usecases/permissions/open_s
 import 'package:permission_handler/permission_handler.dart';
 import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
 
-part 'address_selection_cubit.freezed.dart';
-part 'address_selection_state.dart';
+part 'choice_on_map_cubit.freezed.dart';
+part 'choice_on_map_state.dart';
 
-@lazySingleton
-class AddressSelectionCubit extends Cubit<AddressSelectionState> {
-  AddressSelectionCubit({
+@injectable
+class ChoiceOnMapCubit extends Cubit<ChoiceOnMapState> {
+  ChoiceOnMapCubit({
     required OpenSettingsUseCase openSettingsUseCase,
     required LocationPermissionUseCase getUserLocationUseCase,
     required GetAddressUseCase getAddressUseCase,
@@ -38,12 +38,6 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
 
   ScreenRect? focusRect;
   ({double x, double y})? markerPosition;
-
-  @disposeMethod
-  @override
-  Future<void> close() {
-    return super.close();
-  }
 
   // Отвечает за инициализацию контроллера карты
   Future<void> onControllerCreated(YandexMapController controller) async {
@@ -124,7 +118,7 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
   Future<void> onOpenSettings() async => _openSettingsUseCase.call();
 
   /// Подтверждает адрес и переходит на экран редактирования
-  Future<void> onApproveAddress() async {
+  Future<void> onAddendumAddress() async {
     final state = this.state as _Complete;
     emit(_Approve(location: state.location));
   }
@@ -135,25 +129,8 @@ class AddressSelectionCubit extends Cubit<AddressSelectionState> {
     emit(_Complete(location: state.location));
   }
 
-  /// Обновляет дополнительные данные адреса
-  Future<void> updateAdditionalAddressData({
-    String? flat,
-    String? entrance,
-    String? floor,
-    String? comment,
-  }) async {
-    final location = (state as _Approve).location;
-
-    emit(
-      _Approve(
-        location: location.copyWithoutDetails(
-          flat: flat?.trim(),
-          entrance: entrance?.trim(),
-          floor: floor?.trim(),
-          comment: comment,
-        ),
-      ),
-    );
+  Future<void> onApproveAddress({required Location location}) async {
+    emit(_Approve(location: location));
   }
 
   // Проверяет разрешение на использование геолокации

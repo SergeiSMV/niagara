@@ -1,50 +1,50 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 
 /// Кастомный виджет AppBar для приложения.
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  /// Создает экземпляр AppBarWidget.
-  /// - [title] - заголовок AppBar.
-  /// - [titleWidget] - виджет заголовка AppBar.
-  /// - [automaticallyImplyLeading] - флаг, показывать ли кнопку назад.
-  /// - [actions] - список действий AppBar.
-  /// - [key] - ключ виджета.
   const AppBarWidget({
     super.key,
     this.automaticallyImplyLeading = true,
+    this.automaticallyImplyTitle = true,
     this.title,
-    this.titleWidget,
+    this.body,
     this.actions,
-  }) : assert(
-          (title == null) != (titleWidget == null),
-          'Only one of title or titleWidget must be non-null',
-        );
+  });
 
   /// Заголовок AppBar.
   final String? title;
 
-  /// Виджет заголовка AppBar.
-  final Widget? titleWidget;
+  /// Виджет вместо заголовка AppBar.
+  final Widget? body;
 
   /// Флаг, показывать ли кнопку назад.
   final bool automaticallyImplyLeading;
 
-  /// Список действий AppBar.
+  /// Флаг, показывать ли заголовок у текущего экрана.
+  final bool automaticallyImplyTitle;
+
+  /// Виджеты справа от заголовка.
   final List<Widget>? actions;
 
-  /// Возвращает виджет заголовка AppBar.
-  Widget? get _title => titleWidget ?? (title != null ? Text(title!) : null);
+  bool get _showTitle => title != null || automaticallyImplyTitle;
 
-  /// Возвращает флаг, центрировать ли заголовок.
-  bool get _centerTitle => title != null;
+  bool get _centerTitle => _showTitle;
 
   @override
   Widget build(BuildContext context) {
+    final title = Text(this.title ?? context.topRoute.title(context));
+
     return AppBar(
       automaticallyImplyLeading: automaticallyImplyLeading,
-      title: _title,
+      leading: automaticallyImplyLeading ? const AutoLeadingButton() : null,
+      title: body ?? (_showTitle ? title : null),
       centerTitle: _centerTitle,
+      titleTextStyle: context.textStyle.textTypo.tx1SemiBold
+          .withColor(context.colors.textColors.main),
       actions: actions,
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(0),

@@ -32,6 +32,7 @@
     "enterManually": "Enter manually",
     "continueButton": "Continue",
     "flatOffice": "Flat/Office",
+    "flatOffice_short": "Fl./Off.",
     "entrance": "Entrance",
     "floor": "Floor",
     "addressComment": "Address comment",
@@ -45,7 +46,8 @@
     "myAddresses": "My addresses",
     "delivery": "Delivery",
     "addNewAddress": "Add new address",
-    "editAddress": "Edit address"
+    "editAddress": "Edit address",
+    "errorLoad": "Error loading addresses"
   },
   "search": {
     "inputField": "Input field",

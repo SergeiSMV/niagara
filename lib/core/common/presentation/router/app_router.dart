@@ -5,6 +5,7 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/auth_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/cart_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/catalog_routes.dart';
+import 'package:niagara_app/core/common/presentation/router/routers/empty_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/home_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/location_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/profile_routes.dart';
@@ -46,19 +47,4 @@ class AppRouter extends $AppRouter {
       },
     );
   }
-}
-
-@RoutePage()
-class EmptyNavigatorPage extends StatelessWidget implements AutoRouteWrapper {
-  const EmptyNavigatorPage({super.key});
-
-  @override
-  Widget wrappedRoute(BuildContext context) => this;
-
-  @override
-  Widget build(BuildContext context) => const AutoRouter();
-}
-
-abstract final class EmptyRouters {
-  static AutoRoute get routers => AutoRoute(page: EmptyNavigatorRoute.page);
 }

@@ -16,7 +16,10 @@ class SelectCityCubit extends Cubit<SelectCityState> {
     required SetCityUseCase setCityUseCase,
   })  : _getCitiesUseCase = getCitiesUseCase,
         _setCityUseCase = setCityUseCase,
-        super(const _Initial());
+        super(const _Initial()) {
+    /// При инициализации кубита загружаем список городов
+    getCities();
+  }
 
   final GetCitiesUseCase _getCitiesUseCase;
   final SetCityUseCase _setCityUseCase;

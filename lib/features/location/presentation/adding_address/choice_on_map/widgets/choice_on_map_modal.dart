@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/static_bottom_modal.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/features/location/presentation/address_selection/cubit/address_selection_cubit.dart';
-import 'package:niagara_app/features/location/presentation/address_selection/widgets/approve_address_widget.dart';
-import 'package:niagara_app/features/location/presentation/address_selection/widgets/complete_address_widget.dart';
-import 'package:niagara_app/features/location/presentation/address_selection/widgets/location_unavailable_widget.dart';
-import 'package:niagara_app/features/location/presentation/address_selection/widgets/no_address_found_widget.dart';
+import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/cubit/choice_on_map_cubit.dart';
+import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/widgets/approve_address_widget.dart';
+import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/widgets/complete_address_widget.dart';
+import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/widgets/location_unavailable_widget.dart';
+import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/widgets/no_address_found_widget.dart';
 
-class AddressSelectionModal extends StatelessWidget {
-  const AddressSelectionModal({super.key});
+class ChoiceOnMapModal extends StatelessWidget {
+  const ChoiceOnMapModal({super.key});
 
   static Duration get _duration => Durations.short2;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddressSelectionCubit, AddressSelectionState>(
+    return BlocBuilder<ChoiceOnMapCubit, ChoiceOnMapState>(
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) => AnimatedSwitcher(
         duration: _duration,
@@ -44,18 +44,21 @@ class AddressSelectionModal extends StatelessWidget {
                   denied: LocationUnavailableWidget.new,
                   orElse: SizedBox.shrink,
                 ),
-                StaticBottomModalWidget(
-                  child: AnimatedSize(
-                    duration: _duration,
-                    child: SafeArea(
-                      child: state.maybeWhen(
-                        complete: CompleteAddressWidget.new,
-                        approve: ApproveAddressWidget.new,
-                        denied: NoAddressFoundWidget.new,
-                        noAddressFound: NoAddressFoundWidget.new,
-                        orElse: () => const SizedBox(
-                          width: double.infinity,
-                          height: AppConst.kCommon16,
+                SingleChildScrollView(
+                  reverse: true,
+                  child: StaticBottomModalWidget(
+                    child: AnimatedSize(
+                      duration: _duration,
+                      child: SafeArea(
+                        child: state.maybeWhen(
+                          complete: CompleteAddressWidget.new,
+                          approve: ApproveAddressWidget.new,
+                          denied: NoAddressFoundWidget.new,
+                          noAddressFound: NoAddressFoundWidget.new,
+                          orElse: () => const SizedBox(
+                            width: double.infinity,
+                            height: AppConst.kCommon16,
+                          ),
                         ),
                       ),
                     ),

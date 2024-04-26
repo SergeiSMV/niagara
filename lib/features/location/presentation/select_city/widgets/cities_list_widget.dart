@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/location/domain/models/city.dart';
 import 'package:niagara_app/features/location/presentation/select_city/cubit/select_city_cubit.dart';
@@ -16,29 +15,33 @@ class CitiesListWidget extends StatelessWidget {
   const CitiesListWidget({super.key});
 
   void _onSelectCity(BuildContext context, {required City city}) {
-    context.read<SelectCityCubit>().selectCity(city);
+    context
+      ..read<SelectCityCubit>().selectCity(city)
+      ..router.replace(const NavigationRoute());
   }
 
-  void _onNavigateToNavigation(BuildContext context) {
+  void _navigateToMain(BuildContext context) {
     context.router.replace(const NavigationRoute());
   }
+
+  void _onRefresh(BuildContext context) =>
+      context.read<SelectCityCubit>().getCities();
+
+  Widget get _loader => const AppCenterLoader();
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
       child: BlocConsumer<SelectCityCubit, SelectCityState>(
-        listener: (context, state) => state.maybeWhen(
-          selected: (_) => _onNavigateToNavigation(context),
-          orElse: () => null,
-        ),
-        builder: (_, state) => state.maybeWhen(
-          loading: () => Center(
-            heightFactor: AppConst.kCommon4,
-            child: Assets.lottie.loadCircle.lottie(
-              width: AppConst.kLoaderBig,
-              height: AppConst.kLoaderBig,
-            ),
-          ),
+        listener: (context, state) {
+          state.maybeWhen(
+            selected: (_) => _navigateToMain(context),
+            orElse: () {},
+          );
+        },
+        builder: (_, state) => state.when(
+          initial: SizedBox.shrink,
+          loading: () => _loader,
           loaded: (cities) => ListView.separated(
             itemCount: cities.length,
             itemBuilder: (_, index) {
@@ -54,9 +57,10 @@ class CitiesListWidget extends StatelessWidget {
             },
             separatorBuilder: (_, __) => const ListSeparatorWidget(),
           ),
-          orElse: () => ErrorRefreshWidget(
+          selected: (_) => _loader,
+          error: () => ErrorRefreshWidget(
             error: t.cities.errorLoad,
-            onRefresh: () => context.read<SelectCityCubit>().getCities(),
+            onRefresh: () => _onRefresh(context),
           ),
         ),
       ),

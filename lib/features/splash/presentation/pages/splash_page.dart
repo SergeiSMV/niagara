@@ -42,12 +42,7 @@ class SplashPage extends HookWidget {
 
     void readyToAuth() => context.replaceRoute(const AuthWrapperRoute());
 
-    void readyToMain() {
-      Future.delayed(
-        const Duration(seconds: 2),
-        () => context.replaceRoute(const NavigationRoute()),
-      );
-    }
+    void readyToMain() => context.replaceRoute(const NavigationRoute());
 
     return BlocListener<SplashCubit, SplashState>(
       listener: (_, state) => state.maybeWhen(

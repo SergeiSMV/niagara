@@ -76,6 +76,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/icons/bottom_bar/
+    - assets/icons/radio/
     - assets/i18n/
     - assets/lottie/
 

@@ -5,16 +5,18 @@ import 'package:niagara_app/core/common/presentation/widgets/map_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/location/presentation/address_selection/cubit/address_selection_cubit.dart';
+import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/cubit/choice_on_map_cubit.dart';
 
-class AddressSelectionMap extends StatelessWidget {
-  const AddressSelectionMap({super.key});
+class ChoiceOnMapMapWidget extends StatelessWidget {
+  const ChoiceOnMapMapWidget({super.key});
 
   static const _markerSize = AppConst.kIconLarge;
 
+  static final _mapKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    final cubit = context.watch<AddressSelectionCubit>();
+    final cubit = context.watch<ChoiceOnMapCubit>();
     final markerPosition = cubit.markerPosition;
 
     return LayoutBuilder(
@@ -22,6 +24,7 @@ class AddressSelectionMap extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         children: [
           MapWidget(
+            key: _mapKey,
             mapObjects: const [],
             onControllerCreated: cubit.onControllerCreated,
             onUserLocationUpdated: cubit.onUserLocationUpdated,

@@ -9,7 +9,7 @@ import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/location/domain/models/location.dart';
-import 'package:niagara_app/features/location/presentation/address_selection/cubit/address_selection_cubit.dart';
+import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/cubit/choice_on_map_cubit.dart';
 
 class CompleteAddressWidget extends StatelessWidget {
   const CompleteAddressWidget(
@@ -24,7 +24,7 @@ class CompleteAddressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AddressSelectionCubit>();
+    final cubit = context.read<ChoiceOnMapCubit>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,7 +34,7 @@ class CompleteAddressWidget extends StatelessWidget {
         ).paddingSymmetric(vertical: AppConst.kCommon24),
         AppTextButton.primary(
           text: t.locations.yeahThatsRight,
-          onTap: cubit.onApproveAddress,
+          onTap: cubit.onAddendumAddress,
         ),
         AppTextButton.secondary(
           text: t.locations.enterManually,
