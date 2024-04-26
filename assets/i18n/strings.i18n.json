@@ -1,7 +1,8 @@
 {
   "common": {
     "cancel": "Cancel",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "save": "Save"
   },
   "routes": {
     "home": "Home",
@@ -40,7 +41,11 @@
     "turnOnLocation": "Turn on location?",
     "turnOnLocationDescription": "Your geolocation is not available now, you can enable it in the settings.",
     "later": "Later",
-    "settings": "Settings"
+    "settings": "Settings",
+    "myAddresses": "My addresses",
+    "delivery": "Delivery",
+    "addNewAddress": "Add new address",
+    "editAddress": "Edit address"
   },
   "search": {
     "inputField": "Input field",
@@ -52,5 +57,9 @@
     "selectCity": "Select a city.",
     "description": "catalogue assortment and promotional offers depend on it",
     "errorLoad": "Error loading cities"
+  },
+  "shops": {
+    "shops": "Shops",
+    "buildRoute": "Build route"
   }
 }
