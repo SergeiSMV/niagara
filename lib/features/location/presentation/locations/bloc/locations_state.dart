@@ -9,7 +9,9 @@ class LocationsState with _$LocationsState {
     required City city,
     required List<Location> locations,
   }) = _Loaded;
-  const factory LocationsState.error() = _Error;
+  const factory LocationsState.error({
+    City? city,
+  }) = _Error;
 
   String get locationName => maybeWhen(
         loaded: (city, locations) {

@@ -26,7 +26,11 @@ class LocationGuard extends AutoRouteGuard {
       resolver.next();
     } else {
       // Если не авторизован, то переходим на страницу выбора города
-      await resolver.redirect(const CitiesRoute());
+      await resolver.redirect(
+        const LocationsNavigatorRoute(
+          children: [CitiesRoute()],
+        ),
+      );
     }
   }
 }
