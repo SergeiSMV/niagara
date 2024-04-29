@@ -9,6 +9,7 @@ import 'package:niagara_app/features/location/data/cities/local/tables/cities_ta
 import 'package:niagara_app/features/location/data/locations/local/dao/location_dao.dart';
 import 'package:niagara_app/features/location/data/locations/local/tables/location_table.dart';
 import 'package:niagara_app/features/location/data/shops/local/dao/shops_dao.dart';
+import 'package:niagara_app/features/location/data/shops/local/entities/shop_entity.dart';
 import 'package:niagara_app/features/location/data/shops/local/tables/shops_table.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';

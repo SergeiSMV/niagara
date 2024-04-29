@@ -16,13 +16,19 @@ class ShopsTable extends Table {
 }
 
 class ShopWorkTimeEntityConverter
-    extends TypeConverter<ShopWorkTimeEntity, String> {
+    extends TypeConverter<List<ShopWorkTimeEntity>, String> {
   const ShopWorkTimeEntityConverter();
 
   @override
-  ShopWorkTimeEntity fromSql(String fromDb) =>
-      ShopWorkTimeEntity.fromJson(jsonDecode(fromDb) as Map<String, dynamic>);
+  List<ShopWorkTimeEntity> fromSql(String fromDb) {
+    if (fromDb.isEmpty) return [];
+
+    return (jsonDecode(fromDb) as List)
+        .map((e) => ShopWorkTimeEntity.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
 
   @override
-  String toSql(ShopWorkTimeEntity value) => jsonEncode(value.toJson());
+  String toSql(List<ShopWorkTimeEntity> value) =>
+      jsonEncode(value.map((e) => e.toJson()).toList());
 }

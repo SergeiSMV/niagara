@@ -1,3 +1,5 @@
+// ignore_for_file: sort_constructors_first
+
 import 'package:niagara_app/core/core.dart';
 
 /// Сущность магазина для работы с базой данных
@@ -40,13 +42,6 @@ class ShopWorkTimeEntity extends Equatable {
   final String timeStart;
   final String timeEnd;
 
-  @override
-  List<Object?> get props => [
-        day,
-        timeStart,
-        timeEnd,
-      ];
-
   factory ShopWorkTimeEntity.fromJson(Map<String, dynamic> json) {
     return ShopWorkTimeEntity(
       day: json['day'] as int,
@@ -62,4 +57,11 @@ class ShopWorkTimeEntity extends Equatable {
       'timeEnd': timeEnd,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        day,
+        timeStart,
+        timeEnd,
+      ];
 }
