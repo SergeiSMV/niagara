@@ -20,7 +20,7 @@ class ShopDto extends Equatable {
       _$ShopDtoFromJson(json);
 
   @JsonKey(name: 'STORE_ID')
-  final String id;
+  final int id;
 
   @JsonKey(name: 'STORE_ADRESS')
   final String address;
@@ -41,22 +41,22 @@ class ShopDto extends Equatable {
   final String? storeTimeEnd;
 
   @JsonKey(name: 'STORE_TIME_WORK')
-  final List<StoreWorkTime>? workTimes;
+  final List<StoreWorkTimeDto>? workTimes;
 
   @override
   List<Object?> get props => throw UnimplementedError();
 }
 
 @JsonSerializable()
-class StoreWorkTime extends Equatable {
-  const StoreWorkTime({
+class StoreWorkTimeDto extends Equatable {
+  const StoreWorkTimeDto({
     required this.storeDay,
     required this.storeTimeBegin,
     required this.storeTimeEnd,
   });
 
-  factory StoreWorkTime.fromJson(Map<String, dynamic> json) =>
-      _$StoreWorkTimeFromJson(json);
+  factory StoreWorkTimeDto.fromJson(Map<String, dynamic> json) =>
+      _$StoreWorkTimeDtoFromJson(json);
 
   @JsonKey(name: 'STORE_DAY')
   final int storeDay;
