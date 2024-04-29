@@ -7,4 +7,8 @@ extension MapIndexed<E> on Iterable<E> {
       index++;
     }
   }
+
+  Iterable<E> whereNotNull() {
+    return where((item) => item != null).cast<E>();
+  }
 }
