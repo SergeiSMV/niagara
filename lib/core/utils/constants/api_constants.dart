@@ -29,4 +29,7 @@ abstract final class ApiConst {
 
   /// -GET- Запрос на получение списка локаций
   static const String kGetLocations = '/location';
+
+  /// -GET- Запрос на получение списка магазинов
+  static const String kGetShops = '/sotres';
 }

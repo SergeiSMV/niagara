@@ -122,3 +122,11 @@ class LocationsRemoteDataFailure extends Failure {
 class ShopsRepositoryFailure extends Failure {
   const ShopsRepositoryFailure([super.error = 'Shops repo failure']);
 }
+
+class ShopsLocalDataFailure extends Failure {
+  const ShopsLocalDataFailure([super.error = 'Shops local data failure']);
+}
+
+class ShopsRemoteDataFailure extends Failure {
+  const ShopsRemoteDataFailure([super.error = 'Shops remote data failure']);
+}
