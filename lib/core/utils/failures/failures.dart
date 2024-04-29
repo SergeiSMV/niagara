@@ -117,3 +117,8 @@ class LocationsRemoteDataFailure extends Failure {
     super.error = 'Locations remote data failure',
   ]);
 }
+
+// ! ------------------------------- Shops ------------------------------- ! //
+class ShopsRepositoryFailure extends Failure {
+  const ShopsRepositoryFailure([super.error = 'Shops repo failure']);
+}
