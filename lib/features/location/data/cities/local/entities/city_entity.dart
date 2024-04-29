@@ -16,8 +16,6 @@ class CityEntity extends Equatable {
   final double latitude;
   final double longitude;
 
-
-
   @override
   List<Object?> get props => [
         id,
