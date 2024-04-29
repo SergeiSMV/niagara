@@ -23,14 +23,17 @@ class CityDto extends Equatable {
 
   final String city;
 
-  @JsonKey(name: 'LAT', fromJson: double.parse)
+  @JsonKey(name: 'LAT', fromJson: _getCoordinate)
   final double latitude;
 
-  @JsonKey(name: 'LAN', fromJson: double.parse)
+  @JsonKey(name: 'LAN', fromJson: _getCoordinate)
   final double longitude;
 
   factory CityDto.fromJson(Map<String, dynamic> json) =>
       _$CityDtoFromJson(json);
+
+  static double _getCoordinate(String value) =>
+      double.parse(value.replaceAll(',', '.'));
 
   @override
   List<Object?> get props => [

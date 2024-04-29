@@ -28,9 +28,8 @@ class ShopsLocalDataSource implements IShopsLocalDataSource {
   Future<Either<Failure, void>> setShops(List<ShopEntity> shops) => _execute(
         () async {
           await _database.allShops.clearShops();
-          await Future.forEach(shops, (shop) async {
-            await _database.allShops.insertShop(shop.toCompanion());
-          });
+          await _database.allShops
+              .insertShops(shops.map((e) => e.toCompanion()).toList());
         },
       );
 

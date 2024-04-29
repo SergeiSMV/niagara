@@ -1,3 +1,5 @@
+// ignore_for_file: sort_constructors_first
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
 
@@ -17,19 +19,16 @@ class ShopDto extends Equatable {
     this.workTimes,
   });
 
-  factory ShopDto.fromJson(Map<String, dynamic> json) =>
-      _$ShopDtoFromJson(json);
-
-  @JsonKey(name: 'STORE_ID')
+  @JsonKey(name: 'STORE_ID', fromJson: int.parse)
   final int id;
 
   @JsonKey(name: 'STORE_ADRESS')
   final String address;
 
-  @JsonKey(name: 'STORE_LAT', fromJson: double.parse)
+  @JsonKey(name: 'STORE_LAT', fromJson: _getCoordinate)
   final double latitude;
 
-  @JsonKey(name: 'STORE_LON', fromJson: double.parse)
+  @JsonKey(name: 'STORE_LON', fromJson: _getCoordinate)
   final double longitude;
 
   @JsonKey(name: 'STORE_DAY')
@@ -43,6 +42,12 @@ class ShopDto extends Equatable {
 
   @JsonKey(name: 'STORE_TIME_WORK')
   final List<StoreWorkTimeDto>? workTimes;
+
+  factory ShopDto.fromJson(Map<String, dynamic> json) =>
+      _$ShopDtoFromJson(json);
+
+  static double _getCoordinate(String value) =>
+      double.parse(value.replaceAll(',', '.'));
 
   @override
   List<Object?> get props => throw UnimplementedError();

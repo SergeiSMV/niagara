@@ -8,6 +8,7 @@ import 'package:niagara_app/features/location/data/shops/remote/dto/shop_dto.dar
 import 'package:niagara_app/features/location/domain/models/shop.dart';
 import 'package:niagara_app/features/location/domain/repositories/shops_repository.dart';
 
+@LazySingleton(as: IShopsRepository)
 class ShopsRepository extends BaseRepository implements IShopsRepository {
   ShopsRepository({
     required IShopsLocalDataSource localDataSource,

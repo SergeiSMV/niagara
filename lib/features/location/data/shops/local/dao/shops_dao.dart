@@ -11,6 +11,11 @@ class AllShops extends DatabaseAccessor<AppDatabase> with _$AllShopsMixin {
 
   Future<List<ShopsTableData>> getShops() async => select(shopsTable).get();
 
+  Future<void> insertShops(
+    List<ShopsTableCompanion> companions,
+  ) async =>
+      batch((batch) => batch.insertAll(shopsTable, companions));
+
   Future<int> insertShop(ShopsTableCompanion companion) =>
       into(shopsTable).insert(companion);
 

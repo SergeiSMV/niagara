@@ -12,6 +12,7 @@ import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/location/presentation/locations/bloc/locations_bloc.dart';
+import 'package:niagara_app/features/location/presentation/shops/bloc/shops_bloc.dart';
 
 @RoutePage()
 class LocationsWrapperPage extends StatelessWidget implements AutoRouteWrapper {
@@ -21,6 +22,7 @@ class LocationsWrapperPage extends StatelessWidget implements AutoRouteWrapper {
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => getIt<LocationsBloc>()),
+          BlocProvider(create: (_) => getIt<ShopsBloc>()),
         ],
         child: this,
       );
