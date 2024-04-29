@@ -3,6 +3,7 @@ import 'package:niagara_app/core/core.dart';
 
 part 'shop_dto.g.dart';
 
+/// DTO для магазина с удаленного сервера.
 @JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class ShopDto extends Equatable {
   const ShopDto({
