@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/pages/map_yandex/cubit/map_cubit.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
@@ -21,6 +22,7 @@ class LocationsWrapperPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(
         providers: [
+          BlocProvider(create: (_) => getIt<MapCubit>()),
           BlocProvider(create: (_) => getIt<LocationsBloc>()),
           BlocProvider(create: (_) => getIt<ShopsBloc>()),
         ],
@@ -43,6 +45,7 @@ class LocationsWrapperPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) => AutoTabsRouter.tabBar(
         routes: _tabs.map((e) => e.route).toList(),
+        physics: const NeverScrollableScrollPhysics(),
         builder: (_, child, ctrl) => Scaffold(
           appBar: const AppBarWidget(),
           body: Column(

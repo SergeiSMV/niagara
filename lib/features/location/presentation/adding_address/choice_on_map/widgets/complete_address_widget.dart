@@ -42,6 +42,6 @@ class CompleteAddressWidget extends StatelessWidget {
         ).paddingSymmetric(vertical: AppConst.kCommon12),
         AppConst.kCommon12.verticalBox,
       ],
-    );
+    ).paddingSymmetric(horizontal: AppConst.kCommon16);
   }
 }

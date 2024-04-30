@@ -5,6 +5,8 @@ import 'package:niagara_app/core/core.dart';
 
 part 'shop_dto.g.dart';
 
+// ! ВАЖНО: Перепутаны координаты на бэке! 
+
 /// DTO для магазина с удаленного сервера.
 @JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class ShopDto extends Equatable {
@@ -25,10 +27,10 @@ class ShopDto extends Equatable {
   @JsonKey(name: 'STORE_ADRESS')
   final String address;
 
-  @JsonKey(name: 'STORE_LAT', fromJson: _getCoordinate)
+  @JsonKey(name: 'STORE_LON', fromJson: _getCoordinate)
   final double latitude;
 
-  @JsonKey(name: 'STORE_LON', fromJson: _getCoordinate)
+  @JsonKey(name: 'STORE_LAT', fromJson: _getCoordinate)
   final double longitude;
 
   @JsonKey(name: 'STORE_DAY')
