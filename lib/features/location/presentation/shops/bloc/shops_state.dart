@@ -18,4 +18,6 @@ class ShopsState with _$ShopsState {
         selectShop: (_, shops) => shops,
         orElse: () => <Shop>[],
       );
+
+  bool get hasShops => shops.isNotEmpty;
 }

@@ -33,35 +33,38 @@ class ShopsListModal extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => BlocListener<MapCubit, MapState>(
-        listenWhen: (prev, curr) => prev.finished != curr.finished,
-        listener: (_, state) => state.finished ? _anchor() : _hide(),
-        child: DraggableScrollableSheet(
-          key: _sheetKey,
-          controller: _controller,
-          initialChildSize: _minSize,
-          maxChildSize: _maxSize,
-          minChildSize: _minSize,
-          snap: true,
-          snapSizes: const [_snapSize],
-          builder: (_, scrollCtrl) => ModalBackgroundWidget(
-            child: CustomScrollView(
-              controller: scrollCtrl,
-              slivers: [
-                const DraggablePinWidget(),
-                BlocBuilder<ShopsBloc, ShopsState>(
-                  buildWhen: (prev, curr) => prev != curr,
-                  builder: (_, state) => state.maybeWhen(
-                    loaded: (shops) => ShopsListWidget(shops: shops),
-                    selectShop: (shop, _) => SelectedShopWidget(shop: shop),
-                    orElse: () => const SliverToBoxAdapter(
-                      child: SizedBox.shrink(),
-                    ),
+  Widget build(BuildContext context) {
+    final hasShops = context.read<ShopsBloc>().state.hasShops;
+    return BlocListener<MapCubit, MapState>(
+      listenWhen: (prev, curr) => prev.finished != curr.finished && hasShops,
+      listener: (_, state) => state.finished ? _anchor() : _hide(),
+      child: DraggableScrollableSheet(
+        key: _sheetKey,
+        controller: _controller,
+        initialChildSize: _minSize,
+        maxChildSize: _maxSize,
+        minChildSize: _minSize,
+        snap: true,
+        snapSizes: const [_snapSize],
+        builder: (_, scrollCtrl) => ModalBackgroundWidget(
+          child: CustomScrollView(
+            controller: scrollCtrl,
+            slivers: [
+              const DraggablePinWidget(),
+              BlocBuilder<ShopsBloc, ShopsState>(
+                buildWhen: (prev, curr) => prev != curr,
+                builder: (_, state) => state.maybeWhen(
+                  loaded: (shops) => ShopsListWidget(shops: shops),
+                  selectShop: (shop, _) => SelectedShopWidget(shop: shop),
+                  orElse: () => const SliverToBoxAdapter(
+                    child: SizedBox.shrink(),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }
