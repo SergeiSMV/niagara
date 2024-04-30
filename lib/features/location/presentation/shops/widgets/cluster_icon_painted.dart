@@ -82,7 +82,7 @@ class ClusterIconPainter {
       text: TextSpan(
         text: text,
         style: context.textStyle.headingTypo.h1.withColor(
-          context.colors.mainColors.primary,
+          context.colors.textColors.main,
         ),
       ),
       textDirection: TextDirection.ltr,

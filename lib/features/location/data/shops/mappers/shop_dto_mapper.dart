@@ -4,20 +4,23 @@ import 'package:niagara_app/features/location/data/shops/remote/dto/shop_dto.dar
 extension ShopDtoMapper on ShopDto {
   ShopEntity toEntity() => ShopEntity(
         id: id,
-        latitude: latitude,
-        longitude: longitude,
         province: '',
         locality: address,
-        workTime: workTimes != null
+        latitude: latitude,
+        longitude: longitude,
+        storeDays: storeDay ?? 0,
+        openTime: storeTimeBegin ?? '',
+        closeTime: storeTimeEnd ?? '',
+        schedule: workTimes != null
             ? workTimes!.map((time) => time.toEntity()).toList()
             : [],
       );
 }
 
 extension ShopWorkTimeDtoMapper on StoreWorkTimeDto {
-  ShopWorkTimeEntity toEntity() => ShopWorkTimeEntity(
+  ShopScheduleEntity toEntity() => ShopScheduleEntity(
         day: storeDay,
-        timeStart: storeTimeBegin,
-        timeEnd: storeTimeEnd,
+        openTime: storeTimeBegin,
+        closeTime: storeTimeEnd,
       );
 }

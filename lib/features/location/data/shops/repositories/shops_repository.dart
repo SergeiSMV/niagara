@@ -53,7 +53,7 @@ class ShopsRepository extends BaseRepository implements IShopsRepository {
 
     return _remoteDatasource.getShops(city: city).fold(
           (failure) => throw failure,
-          (dtos) => dtos.map((dto) => dto).toList(),
+          (dtos) => dtos,
         );
   }
 }

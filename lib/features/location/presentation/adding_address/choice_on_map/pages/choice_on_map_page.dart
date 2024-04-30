@@ -11,6 +11,7 @@ class ChoiceOnMapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBarWidget(
           actions: [RequestLocationButton()],
         ),

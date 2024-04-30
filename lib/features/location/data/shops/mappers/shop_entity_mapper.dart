@@ -9,40 +9,49 @@ extension ShopEntityMapper on ShopEntity {
         coordinates: (latitude, longitude),
         province: province,
         locality: locality,
-        workTime: workTime.map((e) => e.toModel()).toList(),
+        storeDays: storeDays,
+        openTime: openTime,
+        closeTime: closeTime,
+        schedule: schedule.map((e) => e.toModel()).toList(),
       );
 
   ShopsTableCompanion toCompanion() => ShopsTableCompanion(
         id: Value(id),
-        latitude: Value(latitude),
-        longitude: Value(longitude),
         province: Value(province),
         locality: Value(locality),
-        workTime: Value(workTime),
+        latitude: Value(latitude),
+        longitude: Value(longitude),
+        storeDays: Value(storeDays),
+        openTime: Value(openTime),
+        closeTime: Value(closeTime),
+        schedule: Value(schedule),
       );
 }
 
-extension ShopWorkTimeEntityMapper on ShopWorkTimeEntity {
-  ShopWorkTime toModel() => ShopWorkTime(
+extension ShopWorkTimeEntityMapper on ShopScheduleEntity {
+  ShopSchedule toModel() => ShopSchedule(
         day: day,
-        timeStart: timeStart,
-        timeEnd: timeEnd,
+        openTime: openTime,
+        closeTime: closeTime,
       );
 
-  ShopWorkTimeEntity toEntity() => ShopWorkTimeEntity(
+  ShopScheduleEntity toEntity() => ShopScheduleEntity(
         day: day,
-        timeStart: timeStart,
-        timeEnd: timeEnd,
+        openTime: openTime,
+        closeTime: closeTime,
       );
 }
 
 extension ShopsTableExtension on ShopsTableData {
   ShopEntity toEntity() => ShopEntity(
         id: id,
-        latitude: latitude,
-        longitude: longitude,
         province: province,
         locality: locality,
-        workTime: workTime.map((e) => e.toEntity()).toList(),
+        latitude: latitude,
+        longitude: longitude,
+        storeDays: storeDays,
+        openTime: openTime,
+        closeTime: closeTime,
+        schedule: schedule.map((e) => e.toEntity()).toList(),
       );
 }

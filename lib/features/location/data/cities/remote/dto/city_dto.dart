@@ -14,6 +14,7 @@ class CityDto extends Equatable {
     required this.city,
     required this.latitude,
     required this.longitude,
+    required this.phone,
   });
 
   final String region;
@@ -29,6 +30,8 @@ class CityDto extends Equatable {
   @JsonKey(name: 'LAN', fromJson: _getCoordinate)
   final double longitude;
 
+  final String phone;
+
   factory CityDto.fromJson(Map<String, dynamic> json) =>
       _$CityDtoFromJson(json);
 
@@ -42,5 +45,6 @@ class CityDto extends Equatable {
         city,
         latitude,
         longitude,
+        phone,
       ];
 }

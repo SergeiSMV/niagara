@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 
-class DraggablePinWidget extends SliverPersistentHeaderDelegate {
-  const DraggablePinWidget();
+class DraggablePinWidget extends StatelessWidget {
+  const DraggablePinWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) => const SliverPersistentHeader(
+        delegate: _DraggablePinWidget(),
+      );
+}
+
+class _DraggablePinWidget extends SliverPersistentHeaderDelegate {
+  const _DraggablePinWidget();
 
   @override
   Widget build(

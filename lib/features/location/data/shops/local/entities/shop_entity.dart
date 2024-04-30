@@ -10,7 +10,10 @@ class ShopEntity extends Equatable {
     required this.locality,
     required this.latitude,
     required this.longitude,
-    required this.workTime,
+    required this.storeDays,
+    required this.openTime,
+    required this.closeTime,
+    required this.schedule,
   });
 
   final int id;
@@ -18,7 +21,10 @@ class ShopEntity extends Equatable {
   final String locality;
   final double latitude;
   final double longitude;
-  final List<ShopWorkTimeEntity> workTime;
+  final int storeDays;
+  final String openTime;
+  final String closeTime;
+  final List<ShopScheduleEntity> schedule;
 
   @override
   List<Object?> get props => [
@@ -27,41 +33,45 @@ class ShopEntity extends Equatable {
         locality,
         latitude,
         longitude,
-        workTime,
+        storeDays,
+        openTime,
+        closeTime,
+        schedule,
       ];
 }
 
-class ShopWorkTimeEntity extends Equatable {
-  const ShopWorkTimeEntity({
+
+class ShopScheduleEntity extends Equatable {
+  const ShopScheduleEntity({
     required this.day,
-    required this.timeStart,
-    required this.timeEnd,
+    required this.openTime,
+    required this.closeTime,
   });
 
   final int day;
-  final String timeStart;
-  final String timeEnd;
+  final String openTime;
+  final String closeTime;
 
-  factory ShopWorkTimeEntity.fromJson(Map<String, dynamic> json) {
-    return ShopWorkTimeEntity(
+  factory ShopScheduleEntity.fromJson(Map<String, dynamic> json) {
+    return ShopScheduleEntity(
       day: json['day'] as int,
-      timeStart: json['timeStart'] as String,
-      timeEnd: json['timeEnd'] as String,
+      openTime: json['openTime'] as String,
+      closeTime: json['closeTime'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'day': day,
-      'timeStart': timeStart,
-      'timeEnd': timeEnd,
+      'openTime': openTime,
+      'closeTime': closeTime,
     };
   }
 
   @override
   List<Object?> get props => [
         day,
-        timeStart,
-        timeEnd,
+        openTime,
+        openTime,
       ];
 }

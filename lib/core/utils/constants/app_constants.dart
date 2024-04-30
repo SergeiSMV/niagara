@@ -69,7 +69,9 @@ abstract final class AppConst {
   static const String kSearchTextFieldName = 'searchField';
 
   // * ------------------------------ Shadow ----------------------------- * //
-  static const Offset kShadowOffset = Offset(0, -4);
+  static const Offset kShadowTop = Offset(0, -4);
+
+  static const Offset kShadowBottom = Offset(0, 4);
 
   static const double kShadowBlur = 12;
 

@@ -37,8 +37,6 @@ class MapCubit extends Cubit<MapState> {
   final GetCityUseCase _getCityUseCase;
 
   bool isPermissionGranted = false;
-  ScreenRect? focusRect;
-  ({double x, double y})? markerPosition;
 
   static ({
     double latitude,
@@ -52,12 +50,9 @@ class MapCubit extends Cubit<MapState> {
   }
 
   /// Отображает текущее местоположение пользователя
-  Future<UserLocationView>? onUserLocationUpdated(
-    UserLocationView view, {
-    bool showUserPosition = true,
-  }) async {
+  Future<UserLocationView>? onUserLocationUpdated(UserLocationView view) async {
     /// Найти положение пользователя или установить дефолтное местоположение
-    showUserPosition ? await _getUserPosition() : await _setDefaultLocation();
+    // showUserPosition ? await getUserPosition() : await setDefaultLocation();
 
     return view.copyWith(
       pin: view.pin.copyWith(opacity: 0),
@@ -77,43 +72,11 @@ class MapCubit extends Cubit<MapState> {
     bool finished,
     VisibleRegion visibleRegion,
   ) async {
-    if (isClosed) return;
-
     final point = cameraPosition.target;
-
-    /// Если фокус не задан, то устанавливаем его в относительных координатах
-    if (focusRect == null) {
-      final screenPoint = await _controller.getScreenPoint(point);
-
-      focusRect = ScreenRect(
-        topLeft: const ScreenPoint(x: 0, y: 0),
-        bottomRight: ScreenPoint(x: screenPoint!.x * 2, y: screenPoint.y),
-      );
-    }
-
-    /// Устанавливаем маркер в точку, где находится пользователь
-    if (markerPosition == null) {
-      final topLeft = visibleRegion.topLeft;
-      final bottomRight = visibleRegion.bottomRight;
-
-      final markerPositionX = (point.longitude - topLeft.longitude) /
-          (bottomRight.longitude - topLeft.longitude);
-
-      final markerPositionY = (topLeft.latitude - point.latitude) /
-          (topLeft.latitude - bottomRight.latitude);
-
-      markerPosition = (x: markerPositionX, y: markerPositionY);
-    }
     final manualReaching = reason == CameraUpdateReason.gestures;
 
-    /// Устанавливаем новую позицию
-    if (isPermissionGranted) {
-      emit(
-        (
-          point: point,
-          finished: finished && manualReaching,
-        ),
-      );
+    if (isPermissionGranted && manualReaching) {
+      _emit((point: point, finished: finished));
     }
   }
 
@@ -123,9 +86,9 @@ class MapCubit extends Cubit<MapState> {
 
     if (isPermissionGranted) {
       await _enableUserLayer();
-      await _getUserPosition();
+      await getUserPosition();
     } else {
-      await _setDefaultLocation();
+      await setDefaultLocation();
     }
   }
 
@@ -139,20 +102,16 @@ class MapCubit extends Cubit<MapState> {
       );
 
   /// Получает текущее местоположение пользователя
-  Future<void> _getUserPosition() async {
-    if (isClosed) return;
-
+  Future<void> getUserPosition() async {
     final point = await _controller.getUserCameraPosition();
     if (point != null) {
-      await _moveCameraToPoint(point: point.target);
-      emit((point: point.target, finished: true));
+      await moveCameraToPoint(point: point.target);
+      _emit((point: point.target, finished: true));
     }
   }
 
   // Устанавливает дефолтное местоположение
-  Future<void> _setDefaultLocation() async {
-    if (isClosed) return;
-
+  Future<void> setDefaultLocation() async {
     final point = await _getCityUseCase.call().fold(
           (_) => Point(
             latitude: defaultCity.latitude,
@@ -164,32 +123,31 @@ class MapCubit extends Cubit<MapState> {
           ),
         );
 
-    await _moveCameraToPoint(
+    await moveCameraToPoint(
       point: point,
       zoom: AppConst.kDefaultHighZoom,
     );
-    emit((point: point, finished: true));
+    _emit((point: point, finished: true));
   }
 
   /// Перемещает камеру к указанной точке
-  Future<void> _moveCameraToPoint({
+  Future<void> moveCameraToPoint({
     required Point point,
     double zoom = AppConst.kDefaultLowZoom,
   }) async {
-    final target = Point(
-      latitude: point.latitude,
-      longitude: point.longitude,
-    );
+    _emit((point: point, finished: false));
 
     await _controller.moveCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: target,
+          target: point,
           zoom: zoom,
         ),
       ),
       animation: const MapAnimation(),
     );
+
+    _emit((point: point, finished: true));
   }
 
   /// Проверяет разрешение на использование геолокации
@@ -198,4 +156,9 @@ class MapCubit extends Cubit<MapState> {
             (failure) => false,
             (status) => status.isGranted,
           );
+
+  void _emit(MapState state) {
+    if (isClosed) return;
+    emit(state);
+  }
 }

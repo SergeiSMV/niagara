@@ -7,6 +7,8 @@ import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widge
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/location/presentation/locations/bloc/locations_bloc.dart';
 import 'package:niagara_app/features/location/presentation/locations/widgets/list_locations_widget.dart';
@@ -19,25 +21,27 @@ class LocationsPage extends StatelessWidget {
       context.read<LocationsBloc>().add(const LocationsEvent.loadLocations());
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<LocationsBloc, LocationsState>(
-        builder: (_, state) => state.when(
-          initial: SizedBox.shrink,
-          loading: () => const AppCenterLoader(),
-          loaded: (_, locations) => Column(
-            children: [
-              Expanded(child: ListLocationsWidget(locations: locations)),
-              BottomShadowWidget(
-                child: AppTextButton.primary(
-                  text: t.common.save,
-                  onTap: () => context.pushRoute(const ChoiceOnMapRoute()),
+  Widget build(BuildContext context) => SafeArea(
+        child: BlocBuilder<LocationsBloc, LocationsState>(
+          builder: (_, state) => state.when(
+            initial: SizedBox.shrink,
+            loading: () => const AppCenterLoader(),
+            loaded: (_, locations) => Column(
+              children: [
+                AppConst.kCommon48.verticalBox,
+                Expanded(child: ListLocationsWidget(locations: locations)),
+                BottomShadowWidget(
+                  child: AppTextButton.primary(
+                    text: t.common.save,
+                    onTap: () => context.pushRoute(const ChoiceOnMapRoute()),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          error: (_) => ErrorRefreshWidget(
-            error: t.locations.errorLoad,
-            onRefresh: () => _onRefresh(context),
+              ],
+            ),
+            error: (_) => ErrorRefreshWidget(
+              error: t.locations.errorLoad,
+              onRefresh: () => _onRefresh(context),
+            ),
           ),
         ),
       );

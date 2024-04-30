@@ -47,6 +47,7 @@ dependencies:
   talker_bloc_logger: ^4.1.0
   talker_dio_logger: ^4.1.0
   talker_flutter: ^4.1.0
+  url_launcher: ^6.2.6
   yandex_geocoder: ^2.3.1
   yandex_mapkit_lite: ^2.0.1
 

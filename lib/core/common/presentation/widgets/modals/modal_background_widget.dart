@@ -24,7 +24,7 @@ class ModalBackgroundWidget extends StatelessWidget {
           BoxShadow(
             color: context.colors.textColors.main.withOpacity(0.08),
             blurRadius: AppConst.kShadowBlur,
-            offset: AppConst.kShadowOffset,
+            offset: AppConst.kShadowTop,
           ),
         ],
       ),

@@ -9,26 +9,29 @@ class ShopsTable extends Table {
   TextColumn get locality => text()();
   RealColumn get latitude => real()();
   RealColumn get longitude => real()();
-  TextColumn get workTime => text().map(const ShopWorkTimeEntityConverter())();
+  IntColumn get storeDays => integer()();
+  TextColumn get openTime => text()();
+  TextColumn get closeTime => text()();
+  TextColumn get schedule => text().map(const ShopWorkTimeEntityConverter())();
 
   @override
   Set<Column> get primaryKey => {id};
 }
 
 class ShopWorkTimeEntityConverter
-    extends TypeConverter<List<ShopWorkTimeEntity>, String> {
+    extends TypeConverter<List<ShopScheduleEntity>, String> {
   const ShopWorkTimeEntityConverter();
 
   @override
-  List<ShopWorkTimeEntity> fromSql(String fromDb) {
+  List<ShopScheduleEntity> fromSql(String fromDb) {
     if (fromDb.isEmpty) return [];
 
     return (jsonDecode(fromDb) as List)
-        .map((e) => ShopWorkTimeEntity.fromJson(e as Map<String, dynamic>))
+        .map((e) => ShopScheduleEntity.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
   @override
-  String toSql(List<ShopWorkTimeEntity> value) =>
+  String toSql(List<ShopScheduleEntity> value) =>
       jsonEncode(value.map((e) => e.toJson()).toList());
 }

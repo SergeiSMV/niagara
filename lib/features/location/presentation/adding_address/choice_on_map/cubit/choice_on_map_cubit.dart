@@ -25,8 +25,8 @@ class ChoiceOnMapCubit extends Cubit<ChoiceOnMapState> {
   // Получает адрес по координатам
   Future<void> _getAddress({required Point point}) async {
     await _getAddressUseCase.call(point).fold(
-          (_) => emit(const _NoAddressFound()),
-          (location) => emit(_Complete(location: location)),
+          (_) => _emit(const _NoAddressFound()),
+          (location) => _emit(_Complete(location: location)),
         );
   }
 
@@ -42,22 +42,27 @@ class ChoiceOnMapCubit extends Cubit<ChoiceOnMapState> {
   /// Подтверждает адрес и переходит на экран редактирования
   Future<void> onAddendumAddress() async {
     final state = this.state as _Complete;
-    emit(_Approve(location: state.location));
+    _emit(_Approve(location: state.location));
   }
 
   /// Переходит на экран редактирования адреса
   Future<void> onEditAddress() async {
     final state = this.state as _Approve;
-    emit(_Complete(location: state.location));
+    _emit(_Complete(location: state.location));
   }
 
   /// Подтверждает адрес
   Future<void> onApproveAddress({required Location location}) async {
-    emit(_Approve(location: location));
+    _emit(_Approve(location: location));
   }
 
   // Устанавливает дефолтное местоположение
   Future<void> setDefaultLocation() async {
-    emit(const _Denied());
+    _emit(const _Denied());
+  }
+
+  void _emit(ChoiceOnMapState state) {
+    if (isClosed) return;
+    emit(state);
   }
 }

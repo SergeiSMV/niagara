@@ -28,6 +28,7 @@ void main() {
         region: 'Башкортостан республика',
         latitude: 54.735147,
         longitude: 55.958727,
+        phone: '+7 347 123-45-67',
       ),
       CityDto(
         id: 2,
@@ -35,6 +36,7 @@ void main() {
         region: 'Краснодарский край',
         latitude: 45.03547,
         longitude: 38.975313,
+        phone: '+7 861 123-45-67',
       ),
       CityDto(
         id: 3,
@@ -42,6 +44,7 @@ void main() {
         region: 'Курганская область',
         latitude: 55.441004,
         longitude: 65.341118,
+        phone: '+7 352 123-45-67', 
       ),
     ];
 

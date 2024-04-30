@@ -19,7 +19,7 @@ class BottomShadowWidget extends StatelessWidget {
             BoxShadow(
               color: context.colors.textColors.main
                   .withOpacity(AppConst.kShadowOpacity),
-              offset: AppConst.kShadowOffset,
+              offset: AppConst.kShadowTop,
               blurRadius: AppConst.kShadowBlur,
             ),
           ],

@@ -18,7 +18,6 @@ class ChoiceOnMapMapWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final choiceOnMapCubit = context.read<ChoiceOnMapCubit>();
     final mapCubit = context.watch<MapCubit>();
-    final markerPosition = mapCubit.markerPosition;
 
     return BlocListener<MapCubit, MapState>(
       listener: (_, state) async {
@@ -27,31 +26,35 @@ class ChoiceOnMapMapWidget extends StatelessWidget {
           finished: state.finished,
         );
       },
-      child: LayoutBuilder(
-        builder: (_, constraints) => Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            MapWidget(
-              key: _mapKey,
-              mapObjects: const [],
-              onControllerCreated: mapCubit.onControllerCreated,
-              onUserLocationUpdated: mapCubit.onUserLocationUpdated,
-              onCameraPositionChanged: mapCubit.onCameraPositionChanged,
-              focusRect: mapCubit.focusRect,
-              allowUserInteractions: mapCubit.isPermissionGranted,
-            ),
-            if (markerPosition != null)
-              Positioned(
-                left: markerPosition.x * constraints.maxWidth -
-                    _markerSize / AppConst.kCommon2,
-                top: markerPosition.y * constraints.maxHeight - _markerSize,
-                child: Assets.images.currentLocation.image(
-                  width: _markerSize,
-                  height: _markerSize,
+      child: Column(
+        children: [
+          Expanded(
+            flex: AppConst.kCommon32.toInt(),
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                MapWidget(
+                  key: _mapKey,
+                  mapObjects: const [],
+                  onControllerCreated: mapCubit.onControllerCreated,
+                  onUserLocationUpdated: (view) {
+                    mapCubit.getUserPosition();
+                    return mapCubit.onUserLocationUpdated(view);
+                  },
+                  onCameraPositionChanged: mapCubit.onCameraPositionChanged,
+                  allowUserInteractions: mapCubit.isPermissionGranted,
                 ),
-              ),
-          ],
-        ),
+                Center(
+                  child: Assets.images.currentLocation.image(
+                    width: _markerSize,
+                    height: _markerSize,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Spacer(flex: AppConst.kCommon2.toInt()),
+        ],
       ),
     );
   }

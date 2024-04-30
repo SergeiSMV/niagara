@@ -47,38 +47,49 @@ class LocationsWrapperPage extends StatelessWidget implements AutoRouteWrapper {
         routes: _tabs.map((e) => e.route).toList(),
         physics: const NeverScrollableScrollPhysics(),
         builder: (_, child, ctrl) => Scaffold(
+          extendBodyBehindAppBar: true,
           appBar: const AppBarWidget(),
-          body: Column(
+          body: Stack(
             children: [
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: context.colors.mainColors.bgCard,
-                  borderRadius: BorderRadius.circular(AppConst.kButtonRadius),
-                ),
-                child: TabBar(
-                  controller: ctrl,
-                  padding: AppConst.kCommon4.vertical,
-                  tabs: _tabs
-                      .map(
-                        (t) => _buildTab(
-                          context,
-                          icon: t.icon,
-                          title: t.title,
-                          isSelected: ctrl.index == _tabs.indexOf(t),
-                        ),
-                      )
-                      .toList(),
-                  dividerHeight: 0,
-                  splashFactory: NoSplash.splashFactory,
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppConst.kCommon8),
-                    color: context.colors.mainColors.white,
+              child,
+              SafeArea(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: context.colors.mainColors.bgCard,
+                    borderRadius: BorderRadius.circular(AppConst.kButtonRadius),
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.colors.textColors.main
+                            .withOpacity(AppConst.kShadowOpacity),
+                        offset: AppConst.kShadowBottom,
+                        blurRadius: AppConst.kShadowBlur,
+                      ),
+                    ],
                   ),
-                  indicatorPadding: AppConst.kCommon4.horizontal,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                ),
-              ).paddingSymmetric(horizontal: AppConst.kCommon16),
-              Expanded(child: child),
+                  child: TabBar(
+                    controller: ctrl,
+                    padding: AppConst.kCommon4.vertical,
+                    tabs: _tabs
+                        .map(
+                          (t) => _buildTab(
+                            context,
+                            icon: t.icon,
+                            title: t.title,
+                            isSelected: ctrl.index == _tabs.indexOf(t),
+                          ),
+                        )
+                        .toList(),
+                    dividerHeight: 0,
+                    splashFactory: NoSplash.splashFactory,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppConst.kCommon8),
+                      color: context.colors.mainColors.white,
+                    ),
+                    indicatorPadding: AppConst.kCommon4.horizontal,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                  ),
+                ).paddingSymmetric(horizontal: AppConst.kCommon16),
+              ),
             ],
           ),
         ),

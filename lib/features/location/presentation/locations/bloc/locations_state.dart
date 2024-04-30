@@ -13,6 +13,11 @@ class LocationsState with _$LocationsState {
     City? city,
   }) = _Error;
 
+  String get cityFullName => maybeWhen(
+        loaded: (city, _) => '${city.locality}, ${city.province}',
+        orElse: () => '',
+      );
+
   String get locationName => maybeWhen(
         loaded: (city, locations) {
           final primaryLocation = locations.firstWhereOrNull(
@@ -21,6 +26,11 @@ class LocationsState with _$LocationsState {
 
           return (primaryLocation ?? city).name;
         },
+        orElse: () => '',
+      );
+
+  String get phone => maybeWhen(
+        loaded: (city, _) => city.phone,
         orElse: () => '',
       );
 }

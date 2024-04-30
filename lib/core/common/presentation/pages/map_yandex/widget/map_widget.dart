@@ -9,7 +9,6 @@ class MapWidget extends StatelessWidget {
     this.onUserLocationUpdated,
     this.onCameraPositionChanged,
     this.allowUserInteractions = true,
-    this.focusRect,
     super.key,
   });
 
@@ -28,9 +27,6 @@ class MapWidget extends StatelessWidget {
   /// Разрешить ли пользовательские взаимодействия с картой
   final bool allowUserInteractions;
 
-  /// Смещение карты
-  final ScreenRect? focusRect;
-
   @override
   Widget build(BuildContext context) {
     return YandexMap(
@@ -43,7 +39,6 @@ class MapWidget extends StatelessWidget {
       mapObjects: mapObjects,
       onUserLocationAdded: onUserLocationUpdated,
       onCameraPositionChanged: onCameraPositionChanged,
-      focusRect: focusRect,
     );
   }
 }
