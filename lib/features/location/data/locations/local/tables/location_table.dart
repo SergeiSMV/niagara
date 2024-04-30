@@ -18,6 +18,7 @@ class LocationsTable extends Table {
   TextColumn get description => text()();
   IntColumn get precision => intEnum<LocationPrecision>()();
   BoolColumn get isDefault => boolean().withDefault(const Constant(false))();
+  TextColumn get locationId => text()();
 
   @override
   Set<Column> get primaryKey => {id};

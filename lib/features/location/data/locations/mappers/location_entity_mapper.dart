@@ -19,6 +19,7 @@ extension LocationEntityMapper on LocationEntity {
         description: description,
         precision: precision,
         isDefault: isDefault,
+        locationId: locationId,
       );
 
   LocationsTableCompanion toCompanion() => LocationsTableCompanion(
@@ -37,6 +38,7 @@ extension LocationEntityMapper on LocationEntity {
         description: Value(description),
         precision: Value(precision),
         isDefault: Value(isDefault),
+        locationId: Value(locationId),
       );
 }
 
@@ -57,6 +59,7 @@ extension LocationMapper on Location {
         description: description,
         precision: precision,
         isDefault: isDefault ?? this.isDefault,
+        locationId: locationId,
       );
 }
 
@@ -77,5 +80,6 @@ extension LocationsTableExtension on LocationsTableData {
         description: description,
         precision: precision,
         isDefault: isDefault,
+        locationId: locationId,
       );
 }

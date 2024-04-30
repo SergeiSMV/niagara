@@ -36,6 +36,7 @@ extension GeoObjectToLocationExt on GeoObject {
       flat: '',
       entrance: '',
       floor: '',
+      locationId: '',
     );
   }
 

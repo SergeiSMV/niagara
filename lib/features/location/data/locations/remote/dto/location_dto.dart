@@ -27,6 +27,7 @@ class LocationDto extends Equatable {
     required this.onlyRead,
     required this.isDefault,
     required this.isActive,
+    required this.locationId,
   });
 
   final String name;
@@ -71,6 +72,9 @@ class LocationDto extends Equatable {
   @JsonKey(name: 'ACTIVE')
   final bool isActive;
 
+  @JsonKey(name: 'ID')
+  final String locationId;
+
   factory LocationDto.fromJson(Map<String, dynamic> json) =>
       _$LocationDtoFromJson(json);
 
@@ -99,5 +103,6 @@ class LocationDto extends Equatable {
         onlyRead,
         isDefault,
         isActive,
+        locationId,
       ];
 }

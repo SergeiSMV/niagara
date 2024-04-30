@@ -25,5 +25,6 @@ extension LocationDtoMapper on LocationDto {
           house: build,
         ),
         isDefault: isDefault,
+        locationId: locationId,
       );
 }

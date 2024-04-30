@@ -17,6 +17,7 @@ class Location extends BaseLocality {
     required this.flat,
     required this.entrance,
     required this.floor,
+    required this.locationId,
     required String name,
     required String description,
     this.isDefault = false,
@@ -33,6 +34,7 @@ class Location extends BaseLocality {
   final String _description;
   final LocationPrecision precision;
   final bool isDefault;
+  final String locationId;
 
   @override
   String get name => _streetHouse.isNotEmpty ? _streetHouse : _name;
@@ -76,6 +78,7 @@ class Location extends BaseLocality {
         name: name,
         description: comment ?? description,
         isDefault: isDefault,
+        locationId: locationId,
       );
 
   @override
@@ -94,5 +97,6 @@ class Location extends BaseLocality {
         _name,
         _description,
         isDefault,
+        locationId,
       ];
 }
