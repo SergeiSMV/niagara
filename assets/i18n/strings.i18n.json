@@ -26,6 +26,14 @@
     "incorrectCode": "Incorrect code. Please try again",
     "limitSendCode": "Message sending limit exceeded. You can request the SMS code again when the timer expires."
   },
+  "bonuses": {
+    "levels": {
+      "none": "None",
+      "silver": "Silver",
+      "gold": "Gold",
+      "platinum": "Platinum"
+    }
+  },
   "locations": {
     "deliveryAddress": "Delivery address",
     "yeahThatsRight": "Yes, that's right",

@@ -9,6 +9,7 @@ import 'package:niagara_app/features/auth/domain/usecases/check_otp_code.dart';
 import 'package:niagara_app/features/auth/domain/usecases/resend_code.dart';
 import 'package:niagara_app/features/auth/domain/usecases/send_code.dart';
 import 'package:niagara_app/features/auth/domain/usecases/skip_auth.dart';
+import 'package:niagara_app/features/profile/domain/usecases/get_user_use_case.dart';
 
 part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
@@ -26,10 +27,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required SendPhoneUseCase sendPhoneUseCase,
     required ResendPhoneUseCase resendPhoneUseCase,
     required CheckOTPCodeUseCase checkOTPCodeUseCase,
+    required GetUserUseCase getUserUseCase,
   })  : _skipAuthUseCase = skipAuthUseCase,
         _sendPhoneUseCase = sendPhoneUseCase,
         _resendPhoneUseCase = resendPhoneUseCase,
         _checkOTPCodeUseCase = checkOTPCodeUseCase,
+        _getUserUseCase = getUserUseCase,
         super(const _Initial()) {
     on<_GetCodeEvent>(_onGetCode, transformer: droppable());
     on<_ResendCodeEvent>(_onResendCode, transformer: droppable());
@@ -42,6 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SendPhoneUseCase _sendPhoneUseCase;
   final ResendPhoneUseCase _resendPhoneUseCase;
   final CheckOTPCodeUseCase _checkOTPCodeUseCase;
+  final GetUserUseCase _getUserUseCase;
 
   /// Счетчик изменений OTP кода.
   int _attempts = 0;
@@ -81,9 +85,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _attempts++;
     emit(const _Loading());
     await _checkOTPCodeUseCase.call(CheckOTPParams(code: event.otp)).fold(
-          (_) => emit(const _OtpError()),
-          (_) => emit(const _OtpSuccess()),
-        );
+      (_) => emit(const _OtpError()),
+      (_) async {
+        emit(const _OtpSuccess());
+        await _getUserUseCase.call();
+      },
+    );
   }
 
   Future<void> _onAuthLater(_AuthLaterEvent event, _Emit emit) async {

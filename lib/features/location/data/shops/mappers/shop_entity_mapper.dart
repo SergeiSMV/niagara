@@ -52,6 +52,6 @@ extension ShopsTableExtension on ShopsTableData {
         storeDays: storeDays,
         openTime: openTime,
         closeTime: closeTime,
-        schedule: schedule.map((e) => e.toEntity()).toList(),
+        schedule: schedule,
       );
 }
