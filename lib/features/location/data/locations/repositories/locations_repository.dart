@@ -56,22 +56,45 @@ class LocationsRepository extends BaseRepository
       );
 
   @override
-  Future<Either<Failure, void>> addLocation(Location location) =>
-      execute(() async {
-        await _checkHasDefaultLocation(location);
-        await _localDatasource.addLocation(location.toEntity());
-      });
+  Future<Either<Failure, void>> addLocation(Location location) => execute(
+        () async => _remoteDatasource
+            .addLocation(
+          location: location.toDto(),
+          phone: '',
+        )
+            .fold(
+          (failure) => throw failure,
+          (success) async {
+            if (!success) throw const LocationsRepositoryFailure();
+            await _checkHasDefaultLocation(location);
+            await _localDatasource.addLocation(location.toEntity());
+          },
+        ),
+      );
 
   @override
-  Future<Either<Failure, void>> updateLocation(Location location) =>
-      execute(() async {
-        await _checkHasDefaultLocation(location);
-        await _localDatasource.updateLocation(location.toEntity());
-      });
+  Future<Either<Failure, void>> updateLocation(Location location) => execute(
+        () async =>
+            _remoteDatasource.addLocation(location: location.toDto()).fold(
+          (failure) => throw failure,
+          (success) async {
+            if (!success) throw const LocationsRepositoryFailure();
+            await _checkHasDefaultLocation(location);
+            await _localDatasource.updateLocation(location.toEntity());
+          },
+        ),
+      );
 
   @override
   Future<Either<Failure, void>> deleteLocation(Location location) => execute(
-        () => _localDatasource.deleteLocation(location.toEntity()),
+        () async =>
+            _remoteDatasource.deleteLocation(location: location.toDto()).fold(
+          (failure) => throw failure,
+          (success) async {
+            if (!success) throw const LocationsRepositoryFailure();
+            await _localDatasource.deleteLocation(location.toEntity());
+          },
+        ),
       );
 
   Future<List<Location>> _getLocalLocations() async =>

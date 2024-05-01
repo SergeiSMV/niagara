@@ -29,7 +29,7 @@ class RequestHandler {
       if (error != null && error.isNotEmpty) return Left(failure(error));
 
       // Получаем данные ответа сервера и конвертируем их в объект [T].
-      final responseData = data['response'] as T?;
+      final responseData = (data['response'] ?? data) as T?;
 
       if (responseData == null) return Left(failure('no data'));
 

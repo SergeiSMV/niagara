@@ -22,12 +22,12 @@ class LocationDto extends Equatable {
     required this.description,
     required this.latitude,
     required this.longitude,
-    required this.serviceLastDate,
-    required this.serviceNextDate,
-    required this.onlyRead,
     required this.isDefault,
-    required this.isActive,
     required this.locationId,
+    this.serviceLastDate,
+    this.serviceNextDate,
+    this.onlyRead,
+    this.isActive,
   });
 
   final String name;
@@ -60,17 +60,17 @@ class LocationDto extends Equatable {
   @JsonKey(name: 'LAN', fromJson: _getCoordinate)
   final double longitude;
 
-  final DateTime serviceLastDate;
+  final DateTime? serviceLastDate;
 
-  final DateTime serviceNextDate;
+  final DateTime? serviceNextDate;
 
-  final bool onlyRead;
+  final bool? onlyRead;
 
   @JsonKey(name: 'DEFAULT')
   final bool isDefault;
 
   @JsonKey(name: 'ACTIVE')
-  final bool isActive;
+  final bool? isActive;
 
   @JsonKey(name: 'ID')
   final String locationId;
