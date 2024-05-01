@@ -117,3 +117,21 @@ class LocationsRemoteDataFailure extends Failure {
     super.error = 'Locations remote data failure',
   ]);
 }
+
+// ! ------------------------------ Profile ------------------------------ ! //
+
+class ProfileRepositoryFailure extends Failure {
+  const ProfileRepositoryFailure([super.error = 'Profile repo failure']);
+}
+
+class ProfileRemoteDataFailure extends Failure {
+  const ProfileRemoteDataFailure([super.error = 'Profile remote data failure']);
+}
+
+class UserLocalDataFailure extends Failure {
+  const UserLocalDataFailure([super.error = 'User local data failure']);
+}
+
+class BonusesLocalDataFailure extends Failure {
+  const BonusesLocalDataFailure([super.error = 'Bonuses local data failure']);
+}
