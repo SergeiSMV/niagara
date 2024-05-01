@@ -27,7 +27,7 @@ class LocationGuard extends AutoRouteGuard {
     } else {
       // Если не авторизован, то переходим на страницу выбора города
       await resolver.redirect(
-        const LocationsNavigatorRoute(
+        const LocationsWrapperRoute(
           children: [CitiesRoute()],
         ),
       );

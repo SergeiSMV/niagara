@@ -17,9 +17,9 @@ class AppBarAddressButton extends StatelessWidget {
 
   void _navigateToLocations(BuildContext context) {
     context.pushRoute(
-      const LocationsNavigatorRoute(
+      const LocationsWrapperRoute(
         children: [
-          LocationsWrapperRoute(
+          LocationsNavigatorRoute(
             children: [
               LocationsRoute(),
             ],
@@ -35,8 +35,8 @@ class AppBarAddressButton extends StatelessWidget {
     final mainColor = context.colors.textColors.main;
     return InkWell(
       onTap: () => _navigateToLocations(context),
-      child: BlocProvider.value(
-        value: getIt<LocationsBloc>(),
+      child: BlocProvider(
+        create: (_) => getIt<LocationsBloc>(),
         child: BlocBuilder<LocationsBloc, LocationsState>(
           builder: (_, state) => state.maybeWhen(
             loaded: (_, __) => Row(
@@ -56,10 +56,13 @@ class AppBarAddressButton extends StatelessWidget {
                 ),
               ],
             ),
-            orElse: () => Assets.lottie.loadCircle.lottie(
-              repeat: true,
-              width: AppConst.kLoaderSmall,
-              height: AppConst.kLoaderSmall,
+            orElse: () => Align(
+              alignment: Alignment.centerLeft,
+              child: Assets.lottie.loadCircle.lottie(
+                repeat: true,
+                width: AppConst.kLoaderSmall,
+                height: AppConst.kLoaderSmall,
+              ),
             ),
           ),
         ),

@@ -12,6 +12,7 @@ import 'package:niagara_app/features/location/domain/models/location.dart';
 import 'package:niagara_app/features/location/presentation/adding_address/address_details/cubit/address_details_cubit.dart';
 import 'package:niagara_app/features/location/presentation/adding_address/address_details/widget/address_details_fields_widget.dart';
 import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/cubit/choice_on_map_cubit.dart';
+import 'package:niagara_app/features/location/presentation/locations/bloc/locations_bloc.dart';
 
 class ApproveAddressWidget extends StatelessWidget {
   const ApproveAddressWidget(
@@ -22,7 +23,9 @@ class ApproveAddressWidget extends StatelessWidget {
   final Location location;
 
   void onApproveAndGoBack(BuildContext context, Location location) {
-    context.maybePop();
+    context
+      ..read<LocationsBloc>().add(LocationsEvent.addLocation(location))
+      ..maybePop();
   }
 
   void editAddress(BuildContext context) =>

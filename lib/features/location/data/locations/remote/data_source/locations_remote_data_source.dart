@@ -6,7 +6,7 @@ import 'package:niagara_app/features/location/data/locations/remote/dto/location
 abstract interface class ILocationsRemoteDatasource {
   Future<Either<Failure, List<LocationDto>>> getLocations();
 
-  Future<Either<Failure, bool>> addLocation({
+  Future<Either<Failure, String>> addLocation({
     required LocationDto location,
     String? phone,
   });
@@ -43,11 +43,11 @@ class LocationsRemoteDatasource implements ILocationsRemoteDatasource {
       );
 
   @override
-  Future<Either<Failure, bool>> addLocation({
+  Future<Either<Failure, String>> addLocation({
     required LocationDto location,
     String? phone,
   }) async {
-    return _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+    return _requestHandler.sendRequest<String, Map<String, dynamic>>(
       request: (dio) => dio.post(
         ApiConst.kAddLocation,
         data: {
@@ -57,7 +57,13 @@ class LocationsRemoteDatasource implements ILocationsRemoteDatasource {
           if (location.locationId.isEmpty && phone != null) 'PHONE': phone,
         },
       ),
-      converter: (json) => json['susses'] as bool, // ! susses -> success
+      converter: (json) {
+        if (json['susses'] == false) {
+          throw const LocationsRemoteDataFailure();
+        }
+        return json['id'] as String; // ! susses -> success
+      },
+      useDecode: true,
       failure: LocationsRemoteDataFailure.new,
     );
   }
@@ -69,9 +75,12 @@ class LocationsRemoteDatasource implements ILocationsRemoteDatasource {
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.delete(
           ApiConst.kDeleteLocation,
-          data: location.toJson(),
+          data: {
+            'LOCATION_ID': location.locationId,
+          },
         ),
         converter: (json) => json['susses'] as bool, // ! susses -> success
+        useDecode: true,
         failure: LocationsRemoteDataFailure.new,
       );
 

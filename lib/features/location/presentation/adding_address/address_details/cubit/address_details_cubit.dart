@@ -11,6 +11,13 @@ class AddressDetailsCubit extends Cubit<Location> {
 
   final Location _location;
 
+  bool get hasChanges => _location != state;
+
+  String? _flat;
+  String? _entrance;
+  String? _floor;
+  String? _comment;
+
   /// Обновляет дополнительные данные адреса
   Future<void> updateAddressData({
     String? flat,
@@ -18,12 +25,17 @@ class AddressDetailsCubit extends Cubit<Location> {
     String? floor,
     String? comment,
   }) async {
+    _flat = flat;
+    _entrance = entrance;
+    _floor = floor;
+    _comment = comment;
+
     emit(
-      _location.copyWithoutDetails(
-        flat: flat ?? _location.flat,
-        entrance: entrance ?? _location.entrance,
-        floor: floor ?? _location.floor,
-        comment: comment ?? _location.description,
+      state.copyWithoutDetails(
+        flat: _flat,
+        entrance: _entrance,
+        floor: _floor,
+        comment: _comment,
       ),
     );
   }

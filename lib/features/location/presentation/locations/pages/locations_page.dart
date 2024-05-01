@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
@@ -23,17 +22,22 @@ class LocationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: BlocBuilder<LocationsBloc, LocationsState>(
+          buildWhen: (prev, current) => prev != current,
           builder: (_, state) => state.when(
             initial: SizedBox.shrink,
             loading: () => const AppCenterLoader(),
             loaded: (_, locations) => Column(
               children: [
                 AppConst.kCommon48.verticalBox,
-                Expanded(child: ListLocationsWidget(locations: locations)),
+                Expanded(
+                  child: ListLocationsWidget(
+                    locations: locations.reversed.toList(),
+                  ),
+                ),
                 BottomShadowWidget(
                   child: AppTextButton.primary(
                     text: t.common.save,
-                    onTap: () => context.pushRoute(const ChoiceOnMapRoute()),
+                    onTap: () => context.maybePop(),
                   ),
                 ),
               ],

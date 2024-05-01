@@ -46,6 +46,8 @@ class Location extends BaseLocality {
 
   bool get hasDetails => additional.isNotEmpty;
 
+  bool get hasHouse => house.isNotEmpty && precision.hasHouse;
+
   String get _streetHouse =>
       street.isNotEmpty && house.isNotEmpty ? '$street, $house' : '';
 
@@ -78,6 +80,24 @@ class Location extends BaseLocality {
         name: name,
         description: comment ?? description,
         isDefault: isDefault,
+        locationId: locationId,
+      );
+
+  Location setDefault() => Location(
+        id: id,
+        coordinates: coordinates,
+        province: province,
+        locality: locality,
+        precision: precision,
+        district: district,
+        street: street,
+        house: house,
+        flat: flat,
+        entrance: entrance,
+        floor: floor,
+        name: name,
+        description: description,
+        isDefault: true,
         locationId: locationId,
       );
 

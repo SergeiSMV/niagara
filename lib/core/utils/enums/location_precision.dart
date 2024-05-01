@@ -17,6 +17,9 @@ enum LocationPrecision {
   /// Не найдена улица, но найден, например, посёлок, район и т. п.
   other;
 
+  bool get hasHouse =>
+      this != LocationPrecision.street || this != LocationPrecision.other;
+
   static LocationPrecision fromString(String? value) =>
       LocationPrecision.values.firstWhere(
         (e) => e.toString().split('.').last == value,

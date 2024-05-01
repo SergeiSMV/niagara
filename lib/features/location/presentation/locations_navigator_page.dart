@@ -1,10 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/pages/map_yandex/cubit/map_cubit.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
@@ -12,22 +9,10 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/location/presentation/locations/bloc/locations_bloc.dart';
-import 'package:niagara_app/features/location/presentation/shops/bloc/shops_bloc.dart';
 
 @RoutePage()
-class LocationsWrapperPage extends StatelessWidget implements AutoRouteWrapper {
-  const LocationsWrapperPage({super.key});
-
-  @override
-  Widget wrappedRoute(BuildContext context) => MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => getIt<MapCubit>()),
-          BlocProvider(create: (_) => getIt<LocationsBloc>()),
-          BlocProvider(create: (_) => getIt<ShopsBloc>()),
-        ],
-        child: this,
-      );
+class LocationsNavigatorPage extends StatelessWidget {
+  const LocationsNavigatorPage({super.key});
 
   static final _tabs = [
     _TabItem(

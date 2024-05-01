@@ -43,7 +43,11 @@ extension LocationEntityMapper on LocationEntity {
 }
 
 extension LocationMapper on Location {
-  LocationEntity toEntity({bool? isDefault}) => LocationEntity(
+  LocationEntity toEntity({
+    bool? isDefault,
+    String? locationId,
+  }) =>
+      LocationEntity(
         id: id,
         latitude: coordinates.$1,
         longitude: coordinates.$2,
@@ -59,7 +63,7 @@ extension LocationMapper on Location {
         description: description,
         precision: precision,
         isDefault: isDefault ?? this.isDefault,
-        locationId: locationId,
+        locationId: locationId ?? this.locationId,
       );
 }
 
