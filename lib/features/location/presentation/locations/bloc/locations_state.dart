@@ -9,7 +9,14 @@ class LocationsState with _$LocationsState {
     required City city,
     required List<Location> locations,
   }) = _Loaded;
-  const factory LocationsState.error() = _Error;
+  const factory LocationsState.error({
+    City? city,
+  }) = _Error;
+
+  String get cityFullName => maybeWhen(
+        loaded: (city, _) => '${city.locality}, ${city.province}',
+        orElse: () => '',
+      );
 
   String get locationName => maybeWhen(
         loaded: (city, locations) {
@@ -19,6 +26,11 @@ class LocationsState with _$LocationsState {
 
           return (primaryLocation ?? city).name;
         },
+        orElse: () => '',
+      );
+
+  String get phone => maybeWhen(
+        loaded: (city, _) => city.phone,
         orElse: () => '',
       );
 }

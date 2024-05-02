@@ -4,8 +4,6 @@ part of 'choice_on_map_cubit.dart';
 class ChoiceOnMapState with _$ChoiceOnMapState {
   const factory ChoiceOnMapState.initial() = _Initial;
 
-  const factory ChoiceOnMapState.searching() = _Searching;
-
   const factory ChoiceOnMapState.complete({
     required Location location,
   }) = _Complete;

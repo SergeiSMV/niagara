@@ -7,5 +7,6 @@ extension CityDtoMapper on CityDto {
         coordinates: (latitude, longitude),
         province: region,
         locality: city,
+        phone: phone,
       );
 }

@@ -25,6 +25,7 @@ void main() {
     longitude: -122.4194,
     province: 'California',
     locality: 'San Francisco',
+    phone: '+1 415-555-5555',
   );
 
   setUpAll(() {
