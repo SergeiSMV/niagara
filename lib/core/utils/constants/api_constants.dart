@@ -36,4 +36,6 @@ abstract final class ApiConst {
 
   /// -PUT- Запрос на обновление профиля
   static const String kUpdateProfile = '/users';
+  /// -GET- Запрос на получение списка магазинов
+  static const String kGetShops = '/sotres';
 }

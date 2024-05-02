@@ -70,6 +70,11 @@
   },
   "shops": {
     "shops": "Магазины",
-    "buildRoute": "Проложить маршрут"
+    "buildRoute": "Проложить маршрут",
+    "workTime": "Работает с ${startTime} до ${endTime}",
+    "worksDaysWorkTime": "Понедельник-пятница с ${startTime} до ${endTime}",
+    "weekendDaysWorkTime": "Суббота-воскресенье с ${startTime} до ${endTime}",
+    "workSchedule": "График работы",
+    "errorLoad": "Не удалось загрузить магазины"
   }
 }

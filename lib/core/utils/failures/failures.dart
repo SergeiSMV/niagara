@@ -135,3 +135,16 @@ class UserLocalDataFailure extends Failure {
 class BonusesLocalDataFailure extends Failure {
   const BonusesLocalDataFailure([super.error = 'Bonuses local data failure']);
 }
+
+// ! ------------------------------- Shops ------------------------------- ! //
+class ShopsRepositoryFailure extends Failure {
+  const ShopsRepositoryFailure([super.error = 'Shops repo failure']);
+}
+
+class ShopsLocalDataFailure extends Failure {
+  const ShopsLocalDataFailure([super.error = 'Shops local data failure']);
+}
+
+class ShopsRemoteDataFailure extends Failure {
+  const ShopsRemoteDataFailure([super.error = 'Shops remote data failure']);
+}

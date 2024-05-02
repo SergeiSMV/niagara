@@ -9,6 +9,7 @@ extension CityEntityMapper on CityEntity {
         coordinates: (latitude, longitude),
         province: province,
         locality: locality,
+        phone: phone,
       );
 
   CitiesTableCompanion toCompanion() => CitiesTableCompanion(
@@ -17,6 +18,7 @@ extension CityEntityMapper on CityEntity {
         locality: Value(locality),
         latitude: Value(latitude),
         longitude: Value(longitude),
+        phone: Value(phone),
       );
 }
 
@@ -27,6 +29,7 @@ extension CityMapper on City {
         locality: locality,
         latitude: coordinates.$1,
         longitude: coordinates.$2,
+        phone: phone,
       );
 }
 
@@ -37,5 +40,6 @@ extension CitiesTableExtension on CitiesTableData {
         locality: locality,
         latitude: latitude,
         longitude: longitude,
+        phone: phone,
       );
 }

@@ -24,6 +24,9 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
         _getCityUseCase = getCityUseCase,
         super(const _Initial()) {
     on<_LoadLocations>(_onLoadLocations, transformer: debounce());
+
+    /// При инициализации блока загружаем список локаций
+    add(const _LoadLocations());
   }
 
   final GetLocationsUseCase _getLocations;
@@ -36,7 +39,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
     if (city == null) return emit(const _Error());
 
     await _getLocations().fold(
-      (_) => emit(const _Error()),
+      (_) => emit(_Error(city: city)),
       (locations) => emit(_Loaded(city: city, locations: locations)),
     );
   }

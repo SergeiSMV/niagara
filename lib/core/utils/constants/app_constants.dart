@@ -69,7 +69,9 @@ abstract final class AppConst {
   static const String kSearchTextFieldName = 'searchField';
 
   // * ------------------------------ Shadow ----------------------------- * //
-  static const Offset kShadowOffset = Offset(0, -4);
+  static const Offset kShadowTop = Offset(0, -4);
+
+  static const Offset kShadowBottom = Offset(0, 4);
 
   static const double kShadowBlur = 12;
 
@@ -87,7 +89,8 @@ abstract final class AppConst {
   static const ({double latitude, double longitude}) kDefaultCity =
       (latitude: 55.1609, longitude: 61.4026); // Челябинск
 
-  static const double kDefaultZoom = 16;
+  static const double kDefaultLowZoom = 16;
+  static const double kDefaultHighZoom = 10;
 
   // ? ---------------------- Bottom Navigation Bar ---------------------- ? //
   static const double kNavBarIconSize = 24;

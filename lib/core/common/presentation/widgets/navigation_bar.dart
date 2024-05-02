@@ -11,10 +11,12 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 class BottomNavigationBarWidget extends StatelessWidget {
   const BottomNavigationBarWidget({
     required this.tabsRouter,
+    this.fullScreenTabs,
     super.key,
   });
 
   final TabsRouter tabsRouter;
+  final Map<int, PageRouteInfo>? fullScreenTabs;
 
   $AssetsIconsBottomBarGen get _bottomIcons => Assets.icons.bottomBar;
 
@@ -64,7 +66,14 @@ class BottomNavigationBarWidget extends StatelessWidget {
         ),
         child: BottomNavigationBar(
           currentIndex: tabsRouter.activeIndex,
-          onTap: tabsRouter.setActiveIndex,
+          onTap: (index) {
+            if (fullScreenTabs?.containsKey(index) ?? false) {
+              context.pushRoute(fullScreenTabs![index]!);
+              return;
+            }
+
+            tabsRouter.setActiveIndex(index);
+          },
           items: _items.map(_buildItem).toList(),
         ),
       );

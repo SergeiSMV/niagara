@@ -1,4 +1,6 @@
 import 'package:niagara_app/core/utils/enums/location_precision.dart';
+import 'package:niagara_app/core/utils/extensions/iterable_ext.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/location/domain/models/base_locality.dart';
 
 /// Модель местоположения для доставки
@@ -33,10 +35,25 @@ class Location extends BaseLocality {
   final bool isDefault;
 
   @override
-  String get name =>
-      street.isNotEmpty && house.isNotEmpty ? '$street $house' : _name;
+  String get name => _streetHouse.isNotEmpty ? _streetHouse : _name;
 
   String get description => _description;
+
+  String get additional =>
+      [_flat, _entrance, _floor].whereNotNull().join(', ').toLowerCase();
+
+  bool get hasDetails => additional.isNotEmpty;
+
+  String get _streetHouse =>
+      street.isNotEmpty && house.isNotEmpty ? '$street, $house' : '';
+
+  String? get _flat =>
+      flat.isNotEmpty ? '${t.locations.flatOffice_short} $flat' : null;
+
+  String? get _entrance =>
+      entrance.isNotEmpty ? '${t.locations.entrance} $entrance' : null;
+
+  String? get _floor => floor.isNotEmpty ? '${t.locations.floor} $floor' : null;
 
   Location copyWithoutDetails({
     String? flat,

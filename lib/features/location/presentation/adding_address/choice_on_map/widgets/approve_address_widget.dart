@@ -59,7 +59,7 @@ class ApproveAddressWidget extends StatelessWidget {
             ),
           ).paddingSymmetric(vertical: AppConst.kCommon24),
         ],
-      ),
+      ).paddingSymmetric(horizontal: AppConst.kCommon16),
     );
   }
 }
