@@ -30,6 +30,12 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение списка локаций
   static const String kGetLocations = '/location';
 
+  // ? ------------------------------- User ------------------------------- ? //
+  /// -GET- Запрос на получение профиля
+  static const String kGetProfile = '/users';
+
+  /// -PUT- Запрос на обновление профиля
+  static const String kUpdateProfile = '/users';
   /// -GET- Запрос на получение списка магазинов
   static const String kGetShops = '/sotres';
 }
