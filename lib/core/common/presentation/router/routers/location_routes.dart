@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/location/domain/usecases/cities/get_city_use_case.dart';
-import 'package:niagara_app/features/location/presentation/location_guard.dart';
+import 'package:niagara_app/features/location/presentation/locations/location_guard.dart';
+import 'package:niagara_app/features/location/presentation/select_city/city_guard.dart';
 
 abstract final class LocationsRouters {
   static AutoRoute get routers => AutoRoute(
@@ -20,6 +20,7 @@ abstract final class LocationsRouters {
                 page: LocationsRoute.page,
                 initial: true,
                 title: (_, __) => t.locations.myAddresses,
+                guards: [locationGuard],
               ),
               AutoRoute(
                 page: ShopsRoute.page,
@@ -44,7 +45,6 @@ abstract final class LocationsRouters {
         ],
       );
 
-  static LocationGuard get locationGuard => LocationGuard(
-        getCityUseCase: getIt<GetCityUseCase>(),
-      );
+  static CityGuard get cityGuard => getIt<CityGuard>();
+  static LocationGuard get locationGuard => getIt<LocationGuard>();
 }

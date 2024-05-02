@@ -11,6 +11,7 @@ import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/location/presentation/locations/bloc/locations_bloc.dart';
 import 'package:niagara_app/features/location/presentation/locations/widgets/list_locations_widget.dart';
+import 'package:niagara_app/features/location/presentation/locations/widgets/unauthorized_location_widget.dart';
 
 @RoutePage()
 class LocationsPage extends StatelessWidget {
@@ -42,6 +43,7 @@ class LocationsPage extends StatelessWidget {
                 ),
               ],
             ),
+            unauthorized: (_) => const UnauthorizedLocationWidget(),
             error: (_) => ErrorRefreshWidget(
               error: t.locations.errorLoad,
               onRefresh: () => _onRefresh(context),

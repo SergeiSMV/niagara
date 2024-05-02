@@ -1,5 +1,7 @@
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/core/utils/extensions/iterable_ext.dart';
+import 'package:niagara_app/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:niagara_app/features/location/data/locations/local/data_source/location_locale_data_source.dart';
 import 'package:niagara_app/features/location/data/locations/mappers/location_dto_mapper.dart';
 import 'package:niagara_app/features/location/data/locations/mappers/location_entity_mapper.dart';
@@ -13,14 +15,17 @@ import 'package:niagara_app/features/profile/data/local/data_source/user_local_d
 class LocationsRepository extends BaseRepository
     implements ILocationsRepository {
   LocationsRepository({
+    required IAuthLocalDataSource authLocalDataSource,
     required ILocationsLocalDatasource localDatasource,
     required ILocationsRemoteDatasource remoteDatasource,
     required IUserLocalDataSource userLocalDataSource,
     required super.logger,
-  })  : _localDatasource = localDatasource,
+  })  : _authLocalDataSource = authLocalDataSource,
+        _localDatasource = localDatasource,
         _remoteDatasource = remoteDatasource,
         _userLocalDataSource = userLocalDataSource;
 
+  final IAuthLocalDataSource _authLocalDataSource;
   final ILocationsLocalDatasource _localDatasource;
   final ILocationsRemoteDatasource _remoteDatasource;
   final IUserLocalDataSource _userLocalDataSource;
@@ -31,6 +36,12 @@ class LocationsRepository extends BaseRepository
   @override
   Future<Either<Failure, List<Location>>> getLocations() => execute(
         () async {
+          final hasAuth = await _authLocalDataSource
+              .checkAuthStatus()
+              .then((value) => AuthenticatedStatus.values[value].hasAuth);
+
+          if (!hasAuth) return [];
+
           final local = await _getLocalLocations();
           if (local.isNotEmpty) return local;
 

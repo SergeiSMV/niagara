@@ -31,32 +31,13 @@ class AppBarAddressButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = context.textStyle.textTypo.tx2SemiBold;
-    final mainColor = context.colors.textColors.main;
-    return InkWell(
-      onTap: () => _navigateToLocations(context),
-      child: BlocProvider(
-        create: (_) => getIt<LocationsBloc>(),
+    return BlocProvider(
+      create: (_) => getIt<LocationsBloc>(),
+      child: InkWell(
+        onTap: () => _navigateToLocations(context),
         child: BlocBuilder<LocationsBloc, LocationsState>(
           builder: (_, state) => state.maybeWhen(
-            loaded: (_, __) => Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    state.locationName,
-                    style: textStyle.withColor(mainColor),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                AppConst.kCommon4.horizontalBox,
-                Assets.icons.arrowRight.svg(
-                  width: AppConst.kIconSmall,
-                  height: AppConst.kIconSmall,
-                  colorFilter: ColorFilter.mode(mainColor, BlendMode.srcIn),
-                ),
-              ],
-            ),
-            orElse: () => Align(
+            loading: () => Align(
               alignment: Alignment.centerLeft,
               child: Assets.lottie.loadCircle.lottie(
                 repeat: true,
@@ -64,9 +45,43 @@ class AppBarAddressButton extends StatelessWidget {
                 height: AppConst.kLoaderSmall,
               ),
             ),
+            loaded: (_, __) => _buildLocationName(
+              context,
+              name: state.locationName,
+            ),
+            unauthorized: (_) => _buildLocationName(
+              context,
+              name: state.locationName,
+            ),
+            orElse: SizedBox.shrink,
           ),
         ),
       ),
+    );
+  }
+
+  Row _buildLocationName(
+    BuildContext context, {
+    required String name,
+  }) {
+    final textStyle = context.textStyle.textTypo.tx2SemiBold;
+    final mainColor = context.colors.textColors.main;
+    return Row(
+      children: [
+        Flexible(
+          child: Text(
+            name,
+            style: textStyle.withColor(mainColor),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        AppConst.kCommon4.horizontalBox,
+        Assets.icons.arrowRight.svg(
+          width: AppConst.kIconSmall,
+          height: AppConst.kIconSmall,
+          colorFilter: ColorFilter.mode(mainColor, BlendMode.srcIn),
+        ),
+      ],
     );
   }
 }

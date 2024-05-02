@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/pages/map_yandex/cubit/map_cubit.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
+import 'package:niagara_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:niagara_app/features/auth/presentation/bloc/validate_phone_cubit/validate_phone_cubit.dart';
 import 'package:niagara_app/features/location/presentation/locations/bloc/locations_bloc.dart';
 import 'package:niagara_app/features/location/presentation/shops/bloc/shops_bloc.dart';
 
@@ -15,7 +17,9 @@ class LocationsWrapperPage implements AutoRouteWrapper {
         providers: [
           BlocProvider(create: (_) => getIt<MapCubit>()),
           BlocProvider(create: (_) => getIt<ShopsBloc>()),
-          BlocProvider.value(value: getIt<LocationsBloc>()),
+          BlocProvider(create: (_) => getIt<LocationsBloc>()),
+          BlocProvider(create: (_) => getIt<AuthBloc>()),
+          BlocProvider(create: (_) => getIt<ValidatePhoneCubit>()),
         ],
         child: const AutoRouter(),
       );

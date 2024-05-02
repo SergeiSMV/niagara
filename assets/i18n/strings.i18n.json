@@ -4,7 +4,9 @@
     "refresh": "Refresh",
     "save": "Save",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "login": "Login",
+    "next": "Next"
   },
   "routes": {
     "home": "Home",
@@ -58,7 +60,8 @@
     "addNewAddress": "Add new address",
     "editAddress": "Edit address",
     "errorLoad": "Error loading addresses",
-    "deleteAddress": "Delete address?"
+    "deleteAddress": "Delete address?",
+    "loginDescription": "to add shipping addresses and make purchases"
   },
   "search": {
     "inputField": "Input field",

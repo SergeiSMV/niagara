@@ -4,5 +4,7 @@ enum AuthenticatedStatus {
 
   unauthenticated,
 
-  authenticated
+  authenticated;
+
+  bool get hasAuth => this == authenticated;
 }

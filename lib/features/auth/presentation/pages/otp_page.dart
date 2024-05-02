@@ -13,7 +13,7 @@ import 'package:niagara_app/features/auth/presentation/widgets/resend_code_widge
 
 /// Страница для ввода кода подтверждения.
 @RoutePage()
-class OTPPage extends StatelessWidget {
+class OTPPage extends StatelessWidget implements AutoRouteWrapper {
   const OTPPage({
     required String phoneNumber,
     super.key,
@@ -26,6 +26,12 @@ class OTPPage extends StatelessWidget {
 
   void _resetTimer(BuildContext context) =>
       context.read<CountdownTimerCubit>().startTimer();
+
+  @override
+  Widget wrappedRoute(BuildContext context) => BlocProvider(
+        create: (_) => CountdownTimerCubit()..startTimer(),
+        child: this,
+      );
 
   @override
   Widget build(BuildContext context) {
