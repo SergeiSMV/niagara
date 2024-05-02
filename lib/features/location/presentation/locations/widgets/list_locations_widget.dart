@@ -29,7 +29,7 @@ class ListLocationsWidget extends StatelessWidget {
               .read<LocationsBloc>()
               .add(LocationsEvent.setDefaultLocation(location));
 
-  SvgGenImage _buildRadioIcon(BuildContext context, Location location) =>
+  SvgGenImage _buildRadioIcon(Location location) =>
       location.isDefault
           ? Assets.icons.radio.radioTrue
           : Assets.icons.radio.radioFalse;
@@ -47,7 +47,7 @@ class ListLocationsWidget extends StatelessWidget {
           final location = locations[index];
           return ListTile(
             contentPadding: AppConst.kCommon16.horizontal,
-            leading: _buildRadioIcon(context, location).svg(
+            leading: _buildRadioIcon(location).svg(
               width: AppConst.kIconMedium,
               height: AppConst.kIconMedium,
             ),
