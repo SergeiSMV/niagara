@@ -67,7 +67,8 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
               latitude: city.latitude,
               longitude: city.longitude,
             ),
-            results: 25,
+            results: 20,
+            lang: geo.Lang.ru,
           ),
         );
 

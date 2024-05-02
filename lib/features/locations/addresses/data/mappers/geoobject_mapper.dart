@@ -4,12 +4,13 @@ import 'package:yandex_geocoder/yandex_geocoder.dart' hide Address;
 
 extension GeoObjectToLocationExt on GeoObject {
   Address toLocation() {
-    final id = '${this.name} $description'.hashCode;
+    final id = '${this.name} ${this.description}'.hashCode;
 
     final lat = point?.latitude ?? 0;
     final lon = point?.longitude ?? 0;
 
     final name = this.name ?? '';
+    final description = this.description ?? '';
 
     final precision = LocationPrecision.fromString(
       metaDataProperty?.geocoderMetaData?.precision,
@@ -25,7 +26,7 @@ extension GeoObjectToLocationExt on GeoObject {
       id: id,
       coordinates: (lat, lon),
       name: name,
-      description: '',
+      description: description,
       precision: precision,
       province: province,
       locality: locality,

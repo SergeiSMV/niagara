@@ -39,49 +39,46 @@ class ChoiceOnMapModal extends StatelessWidget {
     return BlocListener<MapCubit, MapState>(
       listenWhen: (previous, current) => previous.finished != current.finished,
       listener: (_, state) => state.finished ? null : _min(),
-      child: LayoutBuilder(
-        builder: (_, constraints) {
-          return DraggableScrollableSheet(
-            key: _sheetKey,
-            controller: _controller,
-            initialChildSize: _minSize,
-            maxChildSize: _maxSize,
-            minChildSize: _minSize,
-            snap: true,
-            snapSizes: const [_snapSize],
-            builder: (_, scrollController) => ModalBackgroundWidget(
-              child: CustomScrollView(
-                controller: scrollController,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: BlocConsumer<ChoiceOnMapCubit, ChoiceOnMapState>(
-                      listenWhen: (previous, current) => previous != current,
-                      listener: (_, state) {
-                        state.maybeWhen(
-                          complete: (_) => _middle(),
-                          approve: (_) => _max(),
-                          noAddressFound: _middle,
-                          orElse: () {},
-                        );
-                      },
-                      buildWhen: (previous, current) => previous != current,
-                      builder: (_, state) => AnimatedSwitcher(
-                        duration: Durations.short3,
-                        child: state.when(
-                          initial: SizedBox.shrink,
-                          complete: CompleteAddressWidget.new,
-                          approve: ApproveAddressWidget.new,
-                          denied: NoAddressFoundWidget.new,
-                          noAddressFound: NoAddressFoundWidget.new,
-                        ),
-                      ),
+      child: DraggableScrollableSheet(
+        key: _sheetKey,
+        controller: _controller,
+        initialChildSize: _minSize,
+        maxChildSize: _maxSize,
+        minChildSize: _minSize,
+        snap: true,
+        expand: false,
+        snapSizes: const [_snapSize],
+        builder: (_, scrollController) => ModalBackgroundWidget(
+          child: BlocConsumer<ChoiceOnMapCubit, ChoiceOnMapState>(
+            listenWhen: (previous, current) => previous != current,
+            listener: (_, state) {
+              state.maybeWhen(
+                complete: (_) => _middle(),
+                approve: (_) => _max(),
+                noAddressFound: _middle,
+                orElse: () {},
+              );
+            },
+            buildWhen: (previous, current) => previous != current,
+            builder: (_, state) => CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: AnimatedSwitcher(
+                    duration: Durations.short3,
+                    child: state.when(
+                      initial: SizedBox.shrink,
+                      complete: CompleteAddressWidget.new,
+                      approve: ApproveAddressWidget.new,
+                      denied: NoAddressFoundWidget.new,
+                      noAddressFound: NoAddressFoundWidget.new,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
