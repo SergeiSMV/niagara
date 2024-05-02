@@ -4,10 +4,10 @@ import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/features/location/domain/usecases/cities/get_city_use_case.dart';
 
-/// Гард для проверки наличия основного местоположения.
+/// Гард для проверки выбранного города.
 @injectable
-class LocationGuard extends AutoRouteGuard {
-  LocationGuard({
+class CityGuard extends AutoRouteGuard {
+  CityGuard({
     required GetCityUseCase getCityUseCase,
   }) : _getCityUseCase = getCityUseCase;
 
@@ -18,16 +18,16 @@ class LocationGuard extends AutoRouteGuard {
     NavigationResolver resolver,
     StackRouter router,
   ) async {
-    // Проверка на наличие основного местоположения
-    final hasPrimary = await _getCityUseCase.call().isRight;
+    // Проверка на наличие города
+    final hasSetted = await _getCityUseCase.call().isRight;
 
     // Если имеется, то продолжаем
-    if (hasPrimary) {
+    if (hasSetted) {
       resolver.next();
     } else {
-      // Если не авторизован, то переходим на страницу выбора города
+      // Если не выбран, то переходим на страницу выбора города
       await resolver.redirect(
-        const LocationsNavigatorRoute(
+        const LocationsWrapperRoute(
           children: [CitiesRoute()],
         ),
       );

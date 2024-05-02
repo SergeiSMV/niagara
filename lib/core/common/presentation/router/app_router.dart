@@ -22,7 +22,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: NavigationRoute.page,
           guards: [
-            LocationsRouters.locationGuard,
+            LocationsRouters.cityGuard,
           ],
           children: [
             HomeRouters.routers,

@@ -9,6 +9,9 @@ import 'package:niagara_app/features/location/data/cities/local/dao/cities_dao.d
 import 'package:niagara_app/features/location/data/cities/local/tables/cities_table.dart';
 import 'package:niagara_app/features/location/data/locations/local/dao/location_dao.dart';
 import 'package:niagara_app/features/location/data/locations/local/tables/location_table.dart';
+import 'package:niagara_app/features/location/data/shops/local/dao/shops_dao.dart';
+import 'package:niagara_app/features/location/data/shops/local/entities/shop_entity.dart';
+import 'package:niagara_app/features/location/data/shops/local/tables/shops_table.dart';
 import 'package:niagara_app/features/profile/data/local/dao/bonuses_dao.dart';
 import 'package:niagara_app/features/profile/data/local/dao/user_dao.dart';
 import 'package:niagara_app/features/profile/data/local/entities/bonuses_entity.dart';
@@ -28,6 +31,9 @@ part 'app_database.g.dart';
   tables: [
     LocationsTable,
     CitiesTable,
+    ShopsTable,
+    UsersTable,
+    BonusesTable,
     UsersTable,
     BonusesTable,
     ShopsTable,
@@ -35,12 +41,12 @@ part 'app_database.g.dart';
   daos: [
     AllLocations,
     AllCities,
+    AllShops,
+    AllUsers,
     AllUsers,
     AllBonuses,
-    AllShops,
   ],
 )
-@Singleton()
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 

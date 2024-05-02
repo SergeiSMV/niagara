@@ -2,7 +2,11 @@
   "common": {
     "cancel": "Cancel",
     "refresh": "Refresh",
-    "save": "Save"
+    "save": "Save",
+    "yes": "Yes",
+    "no": "No",
+    "login": "Login",
+    "next": "Next"
   },
   "routes": {
     "home": "Home",
@@ -55,7 +59,9 @@
     "delivery": "Delivery",
     "addNewAddress": "Add new address",
     "editAddress": "Edit address",
-    "errorLoad": "Error loading addresses"
+    "errorLoad": "Error loading addresses",
+    "deleteAddress": "Delete address?",
+    "loginDescription": "to add shipping addresses and make purchases"
   },
   "search": {
     "inputField": "Input field",

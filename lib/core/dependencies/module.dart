@@ -47,6 +47,7 @@ abstract class AppModule {
           baseUrl: url,
           connectTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 10),
+          contentType: Headers.jsonContentType,
         ),
       )
         ..interceptors.add(errorInterceptor)

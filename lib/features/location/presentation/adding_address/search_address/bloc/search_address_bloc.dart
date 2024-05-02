@@ -14,7 +14,7 @@ part 'search_address_state.dart';
 
 typedef _Emit = Emitter<SearchAddressState>;
 
-@lazySingleton
+@injectable
 class SearchAddressBloc extends Bloc<SearchAddressEvent, SearchAddressState> {
   SearchAddressBloc({
     required SearchByTextUseCase searchByTextUseCase,

@@ -30,8 +30,8 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
 
   @override
   Future<Either<Failure, User>> getUser() => execute(() async {
-        final localUser = await _userLocalDataSource.getUser();
-        if (localUser.isRight) return localUser.right.toModel();
+        final localUser = await _getLocalUser();
+        if (localUser != null) return localUser;
 
         final remoteProfile = await _getRemoteUser();
 
@@ -41,10 +41,8 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
         await _userLocalDataSource.saveUser(user.toEntity());
         await _bonusesLocalDataSource.saveBonuses(bonuses.toEntity());
 
-        final savedUser = await _userLocalDataSource.getUser().fold(
-              (failure) => throw failure,
-              (user) => user.toModel(),
-            );
+        final savedUser = await _getLocalUser();
+        if (savedUser == null) throw failure;
 
         return savedUser;
       });
@@ -58,6 +56,11 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
           },
         );
       });
+
+  Future<User?> _getLocalUser() async => _userLocalDataSource.getUser().fold(
+        (failure) => throw failure,
+        (userEntity) => userEntity?.toModel(),
+      );
 
   Future<ProfileDto> _getRemoteUser() async =>
       _profileRemoteDataSource.getProfile().fold(

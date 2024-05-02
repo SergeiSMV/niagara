@@ -19,6 +19,7 @@ class LocationEntity extends Equatable {
     required this.description,
     required this.precision,
     required this.isDefault,
+    required this.locationId,
   });
 
   final int id;
@@ -36,6 +37,7 @@ class LocationEntity extends Equatable {
   final String description;
   final LocationPrecision precision;
   final bool isDefault;
+  final String locationId;
 
   @override
   List<Object?> get props => [
@@ -54,5 +56,6 @@ class LocationEntity extends Equatable {
         description,
         precision,
         isDefault,
+        locationId,
       ];
 }

@@ -29,7 +29,8 @@ class BonusesLocalDataSource implements IBonusesLocalDataSource {
       );
 
   @override
-  Future<Either<Failure, void>> updateBonuses(BonusesEntity bonuses) => _execute(
+  Future<Either<Failure, void>> updateBonuses(BonusesEntity bonuses) =>
+      _execute(
         () => _database.allBonuses.updateBonuses(bonuses.toCompanion()),
       );
 

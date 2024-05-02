@@ -17,6 +17,7 @@ class Location extends BaseLocality {
     required this.flat,
     required this.entrance,
     required this.floor,
+    required this.locationId,
     required String name,
     required String description,
     this.isDefault = false,
@@ -33,6 +34,7 @@ class Location extends BaseLocality {
   final String _description;
   final LocationPrecision precision;
   final bool isDefault;
+  final String locationId;
 
   @override
   String get name => _streetHouse.isNotEmpty ? _streetHouse : _name;
@@ -43,6 +45,8 @@ class Location extends BaseLocality {
       [_flat, _entrance, _floor].whereNotNull().join(', ').toLowerCase();
 
   bool get hasDetails => additional.isNotEmpty;
+
+  bool get hasHouse => house.isNotEmpty && precision.hasHouse;
 
   String get _streetHouse =>
       street.isNotEmpty && house.isNotEmpty ? '$street, $house' : '';
@@ -76,6 +80,25 @@ class Location extends BaseLocality {
         name: name,
         description: comment ?? description,
         isDefault: isDefault,
+        locationId: locationId,
+      );
+
+  Location setDefault() => Location(
+        id: id,
+        coordinates: coordinates,
+        province: province,
+        locality: locality,
+        precision: precision,
+        district: district,
+        street: street,
+        house: house,
+        flat: flat,
+        entrance: entrance,
+        floor: floor,
+        name: name,
+        description: description,
+        isDefault: true,
+        locationId: locationId,
       );
 
   @override
@@ -94,5 +117,6 @@ class Location extends BaseLocality {
         _name,
         _description,
         isDefault,
+        locationId,
       ];
 }

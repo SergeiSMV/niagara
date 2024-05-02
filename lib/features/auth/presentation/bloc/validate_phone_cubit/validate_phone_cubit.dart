@@ -4,7 +4,7 @@ import 'package:niagara_app/core/utils/constants/app_constants.dart';
 
 /// Кубит для валидации номера телефона. 
 /// Возвращает bool-значение, является ли номер телефона валидным.
-@lazySingleton
+@injectable
 class ValidatePhoneCubit extends Cubit<bool> {
   ValidatePhoneCubit() : super(false);
 

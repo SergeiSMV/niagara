@@ -40,7 +40,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       automaticallyImplyLeading: automaticallyImplyLeading,
-      leading: automaticallyImplyLeading ? const AutoLeadingButton() : null,
+      leading: automaticallyImplyLeading
+          ? AutoLeadingButton(color: context.colors.mainColors.white)
+          : null,
       title: body ?? (_showTitle ? title : null),
       centerTitle: _centerTitle,
       titleTextStyle: context.textStyle.textTypo.tx1SemiBold

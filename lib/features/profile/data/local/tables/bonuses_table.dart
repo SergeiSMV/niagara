@@ -15,14 +15,14 @@ class BonusesTable extends Table {
   IntColumn get nextLevel => intEnum<BonusLevel>()();
   DateTimeColumn get endDate => dateTime()();
   IntColumn get revThisMonth => integer()();
-  TextColumn get bonuses => text().map(const _BonusEntityConverter())();
+  TextColumn get bonuses => text().map(const BonusEntityConverter())();
 
   @override
   Set<Column> get primaryKey => {id};
 }
 
-class _BonusEntityConverter extends TypeConverter<List<BonusEntity>, String> {
-  const _BonusEntityConverter();
+class BonusEntityConverter extends TypeConverter<List<BonusEntity>, String> {
+  const BonusEntityConverter();
 
   @override
   List<BonusEntity> fromSql(String fromDb) {

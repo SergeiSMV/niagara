@@ -8,7 +8,8 @@ part 'user_dao.g.dart';
 class AllUsers extends DatabaseAccessor<AppDatabase> with _$AllUsersMixin {
   AllUsers(super.attachedDatabase);
 
-  Future<UsersTableData> getUser() async => select(usersTable).getSingle();
+  Future<UsersTableData?> getUser() async =>
+      select(usersTable).getSingleOrNull();
 
   Future<int> insertUser(UsersTableCompanion companion) =>
       into(usersTable).insert(companion);

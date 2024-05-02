@@ -3,7 +3,7 @@ import 'package:niagara_app/features/profile/data/local/entities/user_entity.dar
 import 'package:niagara_app/features/profile/data/mappers/user_entity_mapper.dart';
 
 abstract interface class IUserLocalDataSource {
-  Future<Either<Failure, UserEntity>> getUser();
+  Future<Either<Failure, UserEntity?>> getUser();
 
   Future<Either<Failure, void>> saveUser(UserEntity userEntity);
 
@@ -19,8 +19,8 @@ class UserLocalDataSource implements IUserLocalDataSource {
   final AppDatabase _database;
 
   @override
-  Future<Either<Failure, UserEntity>> getUser() => _execute(
-        () async => (await _database.allUsers.getUser()).toEntity(),
+  Future<Either<Failure, UserEntity?>> getUser() => _execute(
+        () async => (await _database.allUsers.getUser())?.toEntity(),
       );
 
   @override

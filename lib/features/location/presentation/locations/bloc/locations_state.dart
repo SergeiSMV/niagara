@@ -4,14 +4,21 @@ part of 'locations_bloc.dart';
 class LocationsState with _$LocationsState {
   const LocationsState._();
   const factory LocationsState.initial() = _Initial;
+
   const factory LocationsState.loading() = _Loading;
+
   const factory LocationsState.loaded({
     required City city,
     required List<Location> locations,
   }) = _Loaded;
+
   const factory LocationsState.error({
     City? city,
   }) = _Error;
+
+  const factory LocationsState.unauthorized({
+    required City city,
+  }) = _Unauthorized;
 
   String get cityFullName => maybeWhen(
         loaded: (city, _) => '${city.locality}, ${city.province}',
@@ -26,6 +33,7 @@ class LocationsState with _$LocationsState {
 
           return (primaryLocation ?? city).name;
         },
+        unauthorized: (city) => city.name,
         orElse: () => '',
       );
 

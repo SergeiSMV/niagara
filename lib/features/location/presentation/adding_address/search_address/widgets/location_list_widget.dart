@@ -1,7 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/pages/map_yandex/cubit/map_cubit.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/features/location/domain/models/location.dart';
+import 'package:niagara_app/features/location/presentation/adding_address/choice_on_map/cubit/choice_on_map_cubit.dart';
+import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
 
 class LocationListWidget extends StatelessWidget {
   const LocationListWidget(
@@ -10,6 +16,25 @@ class LocationListWidget extends StatelessWidget {
   });
 
   final List<Location> locations;
+
+  void _onTap(BuildContext context, Location location) {
+    final mapCubit = context.read<MapCubit>();
+    final choiceOnMapCubit = context.read<ChoiceOnMapCubit>();
+
+    final point = Point(
+      latitude: location.coordinates.$1,
+      longitude: location.coordinates.$2,
+    );
+
+    context.navigateTo(const ChoiceOnMapRoute());
+
+    mapCubit.moveCameraToPoint(point: point).whenComplete(
+          () => choiceOnMapCubit.searchAddress(
+            point: point,
+            finished: true,
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +54,7 @@ class LocationListWidget extends StatelessWidget {
             style:
                 textStyle.descriptionTypo.des3.withColor(textColors.secondary),
           ),
-          onTap: () {},
+          onTap: () => _onTap(context, location),
         );
       },
     );

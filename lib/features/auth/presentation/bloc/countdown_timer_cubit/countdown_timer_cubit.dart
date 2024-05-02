@@ -6,13 +6,12 @@ import 'package:niagara_app/core/utils/constants/app_constants.dart';
 
 /// Кубит для работы с таймером обратного отсчета.
 /// Возвращает текущее значение таймера.
-@lazySingleton
+@injectable
 class CountdownTimerCubit extends Cubit<int> {
   CountdownTimerCubit() : super(0);
 
   StreamSubscription<int>? _timerSubscription;
 
-  @disposeMethod
   @override
   Future<void> close() {
     _timerSubscription?.cancel();

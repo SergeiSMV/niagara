@@ -30,12 +30,21 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение списка локаций
   static const String kGetLocations = '/location';
 
+  /// -POST- Запрос на добавление локации
+  static const String kAddLocation = '/location';
+
+  /// -DELETE- Запрос на удаление локации
+  static const String kDeleteLocation = '/location';
+
+  /// -POST- Проверка на зону доставки локации
+  static const String kCheckLocation = '/check_location';
+
+  /// -GET- Запрос на получение списка магазинов
+  static const String kGetShops = '/sotres';
   // ? ------------------------------- User ------------------------------- ? //
   /// -GET- Запрос на получение профиля
   static const String kGetProfile = '/users';
 
   /// -PUT- Запрос на обновление профиля
   static const String kUpdateProfile = '/users';
-  /// -GET- Запрос на получение списка магазинов
-  static const String kGetShops = '/sotres';
 }

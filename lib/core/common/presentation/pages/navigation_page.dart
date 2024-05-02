@@ -18,9 +18,9 @@ class NavigationPage extends StatelessWidget {
       ];
 
   static Map<int, PageRouteInfo> get _fullScreenTabs => {
-        3: const LocationsNavigatorRoute(
+        3: const LocationsWrapperRoute(
           children: [
-            LocationsWrapperRoute(
+            LocationsNavigatorRoute(
               children: [ShopsRoute()],
             ),
           ],

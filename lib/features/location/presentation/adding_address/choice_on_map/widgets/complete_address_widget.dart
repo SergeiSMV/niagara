@@ -34,7 +34,7 @@ class CompleteAddressWidget extends StatelessWidget {
         ).paddingSymmetric(vertical: AppConst.kCommon24),
         AppTextButton.primary(
           text: t.locations.yeahThatsRight,
-          onTap: cubit.onAddendumAddress,
+          onTap: location.hasHouse ? cubit.onAddendumAddress : null,
         ),
         AppTextButton.secondary(
           text: t.locations.enterManually,

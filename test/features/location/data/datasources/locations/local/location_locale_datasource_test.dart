@@ -36,6 +36,7 @@ void main() {
     flat: 'random flat',
     entrance: 'random entrance',
     isDefault: true,
+    locationId: 'random location id',
   );
 
   const locations = [
@@ -58,6 +59,7 @@ void main() {
       flat: 'random flat',
       entrance: 'random entrance',
       isDefault: false,
+      locationId: 'random location id',
     ),
   ];
 

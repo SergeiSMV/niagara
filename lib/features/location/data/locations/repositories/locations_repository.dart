@@ -1,5 +1,7 @@
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/core/utils/extensions/iterable_ext.dart';
+import 'package:niagara_app/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:niagara_app/features/location/data/locations/local/data_source/location_locale_data_source.dart';
 import 'package:niagara_app/features/location/data/locations/mappers/location_dto_mapper.dart';
 import 'package:niagara_app/features/location/data/locations/mappers/location_entity_mapper.dart';
@@ -7,19 +9,26 @@ import 'package:niagara_app/features/location/data/locations/remote/data_source/
 import 'package:niagara_app/features/location/data/locations/remote/dto/location_dto.dart';
 import 'package:niagara_app/features/location/domain/models/location.dart';
 import 'package:niagara_app/features/location/domain/repositories/locations_repository.dart';
+import 'package:niagara_app/features/profile/data/local/data_source/user_local_data_source.dart';
 
 @LazySingleton(as: ILocationsRepository)
 class LocationsRepository extends BaseRepository
     implements ILocationsRepository {
   LocationsRepository({
+    required IAuthLocalDataSource authLocalDataSource,
     required ILocationsLocalDatasource localDatasource,
     required ILocationsRemoteDatasource remoteDatasource,
+    required IUserLocalDataSource userLocalDataSource,
     required super.logger,
-  })  : _localDatasource = localDatasource,
-        _remoteDatasource = remoteDatasource;
+  })  : _authLocalDataSource = authLocalDataSource,
+        _localDatasource = localDatasource,
+        _remoteDatasource = remoteDatasource,
+        _userLocalDataSource = userLocalDataSource;
 
+  final IAuthLocalDataSource _authLocalDataSource;
   final ILocationsLocalDatasource _localDatasource;
   final ILocationsRemoteDatasource _remoteDatasource;
+  final IUserLocalDataSource _userLocalDataSource;
 
   @override
   Failure get failure => const LocationsRepositoryFailure();
@@ -27,6 +36,12 @@ class LocationsRepository extends BaseRepository
   @override
   Future<Either<Failure, List<Location>>> getLocations() => execute(
         () async {
+          final hasAuth = await _authLocalDataSource
+              .checkAuthStatus()
+              .then((value) => AuthenticatedStatus.values[value].hasAuth);
+
+          if (!hasAuth) return [];
+
           final local = await _getLocalLocations();
           if (local.isNotEmpty) return local;
 
@@ -47,7 +62,6 @@ class LocationsRepository extends BaseRepository
                 ),
               );
             }
-
             return _getLocalLocations();
           }
 
@@ -58,20 +72,32 @@ class LocationsRepository extends BaseRepository
   @override
   Future<Either<Failure, void>> addLocation(Location location) =>
       execute(() async {
-        await _checkHasDefaultLocation(location);
-        await _localDatasource.addLocation(location.toEntity());
+        // Получить телефон пользователя из локального источника данных
+        final phone = await _getUserPhone();
+        if (phone == null) throw const LocationsRepositoryFailure();
+
+        // Добавить местоположение в удаленный источник данных и локальную БД
+        await _addLocation(location, phone);
+
+        // Обновить дефолтное местоположение
+        await _updateDefaultLocation(location);
       });
 
   @override
   Future<Either<Failure, void>> updateLocation(Location location) =>
-      execute(() async {
-        await _checkHasDefaultLocation(location);
-        await _localDatasource.updateLocation(location.toEntity());
-      });
+      execute(() async => _updateLocation(location));
 
   @override
-  Future<Either<Failure, void>> deleteLocation(Location location) => execute(
-        () => _localDatasource.deleteLocation(location.toEntity()),
+  Future<Either<Failure, void>> deleteLocation(Location location) =>
+      execute(() async => _deleteLocation(location));
+
+  @override
+  Future<Either<Failure, void>> setDefaultLocation(Location location) =>
+      execute(() async => _updateDefaultLocation(location));
+
+  Future<String?> _getUserPhone() async => _userLocalDataSource.getUser().fold(
+        (failure) => throw failure,
+        (user) => user?.phone,
       );
 
   Future<List<Location>> _getLocalLocations() async =>
@@ -86,19 +112,45 @@ class LocationsRepository extends BaseRepository
             (locations) => locations,
           );
 
-  Future<void> _checkHasDefaultLocation(Location location) async {
-    if (location.isDefault) {
-      final locations = await getLocations().fold(
+  Future<void> _addLocation(Location location, String phone) async =>
+      _remoteDatasource
+          .addLocation(location: location.toDto(), phone: phone)
+          .fold(
+            (failure) => throw failure,
+            (locationId) async => _localDatasource.addLocation(
+              location.toEntity(
+                isDefault: true,
+                locationId: locationId,
+              ),
+            ),
+          );
+
+  Future<void> _updateLocation(Location location) async =>
+      _remoteDatasource.addLocation(location: location.toDto()).fold(
         (failure) => throw failure,
-        (locations) => locations,
+        (locationId) async {
+          await _localDatasource.updateLocation(location.toEntity());
+        },
       );
 
-      for (final l in locations) {
-        if (l.isDefault && l != location) {
-          await _localDatasource.updateLocation(
-            location.toEntity(isDefault: false),
-          );
-        }
+  Future<void> _deleteLocation(Location location) async =>
+      _remoteDatasource.deleteLocation(location: location.toDto()).fold(
+        (failure) => throw failure,
+        (success) async {
+          if (!success) throw const LocationsRepositoryFailure();
+          await _localDatasource.deleteLocation(location.toEntity());
+        },
+      );
+
+  Future<void> _updateDefaultLocation(Location location) async {
+    final locations = await _getLocalLocations();
+    for (final loc in locations) {
+      if (loc.isDefault) {
+        await _localDatasource.updateLocation(loc.toEntity(isDefault: false));
+      }
+
+      if (loc.id == location.id) {
+        await _localDatasource.updateLocation(loc.toEntity(isDefault: true));
       }
     }
   }
