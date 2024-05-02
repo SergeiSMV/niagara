@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:niagara_app/core/common/data/datasources/device_id_datasource.dart';
-import 'package:niagara_app/core/common/data/datasources/token_local_datasource.dart';
-import 'package:niagara_app/core/common/data/datasources/token_remote_datasource.dart';
-import 'package:niagara_app/core/common/data/repositories/token_repository.dart';
+import 'package:niagara_app/features/authorization/base_token/domain/repositories/token_repository.dart';
+import 'package:niagara_app/core/common/data/services/device_id_service.dart';
+import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
+import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_remote_data_source.dart';
+import 'package:niagara_app/features/authorization/base_token/data/repositories/token_repository.dart';
 import 'package:niagara_app/core/core.dart' hide test;
 import 'package:niagara_app/core/dependencies/di.dart';
 
@@ -13,14 +14,14 @@ import 'token_repository_test.mocks.dart';
 @GenerateNiceMocks([
   MockSpec<ITokenRemoteDataSource>(),
   MockSpec<ITokenLocalDataSource>(),
-  MockSpec<IDeviceIdDatasource>(),
+  MockSpec<IDeviceIdService>(),
   MockSpec<IAppLogger>(),
 ])
 void main() {
-  late TokenRepository tokenRepository;
+  late ITokenRepository tokenRepository;
   late MockITokenRemoteDataSource mockTokenRemoteDataSource;
   late MockITokenLocalDataSource mockTokenLocalDataSource;
-  late MockIDeviceIdDatasource mockDeviceIdDatasource;
+  late MockIDeviceIdService mockDeviceIdService;
   late IAppLogger mockLogger;
 
   provideDummy<Either<Failure, void>>(const Right(null));
@@ -33,13 +34,13 @@ void main() {
     getIt.registerSingleton<IAppLogger>(MockIAppLogger());
     mockTokenRemoteDataSource = MockITokenRemoteDataSource();
     mockTokenLocalDataSource = MockITokenLocalDataSource();
-    mockDeviceIdDatasource = MockIDeviceIdDatasource();
+    mockDeviceIdService = MockIDeviceIdService();
     mockLogger = getIt.get<IAppLogger>();
     tokenRepository = TokenRepository(
-      remoteDataSource: mockTokenRemoteDataSource,
-      localDataSource: mockTokenLocalDataSource,
-      deviceIdProvider: mockDeviceIdDatasource,
-      logger: mockLogger,
+      mockLogger,
+      mockTokenRemoteDataSource,
+      mockTokenLocalDataSource,
+      mockDeviceIdService,
     );
   });
 
@@ -51,7 +52,7 @@ void main() {
       final result = await tokenRepository.getToken();
 
       expect(result, const Right<Failure, String>('cached_token'));
-      verifyNever(mockDeviceIdDatasource.getOrCreateUniqueId());
+      verifyNever(mockDeviceIdService.getUniqueId());
       verifyNever(
           mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
       verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
@@ -64,20 +65,20 @@ void main() {
       final result = await tokenRepository.getToken();
 
       expect(result, const Left<Failure, String>(GetTokenFailure()));
-      verifyNever(mockDeviceIdDatasource.getOrCreateUniqueId());
+      verifyNever(mockDeviceIdService.getUniqueId());
       verifyNever(
           mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
       verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
     });
 
     test('createToken throws DeviceIdFailure if device id fails', () async {
-      when(mockDeviceIdDatasource.getOrCreateUniqueId())
+      when(mockDeviceIdService.getUniqueId())
           .thenAnswer((_) async => const Left(DeviceIdFailure()));
 
       final result = await tokenRepository.createToken();
 
       expect(result, const Left<Failure, void>(TokenRepositoryFailure()));
-      verify(mockDeviceIdDatasource.getOrCreateUniqueId()).called(1);
+      verify(mockDeviceIdService.getUniqueId()).called(1);
       verifyNever(
           mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
       verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
@@ -85,7 +86,7 @@ void main() {
 
     test('createToken throws GetTokenFailure if remote token fetch fails',
         () async {
-      when(mockDeviceIdDatasource.getOrCreateUniqueId())
+      when(mockDeviceIdService.getUniqueId())
           .thenAnswer((_) async => const Right('test_device_id'));
 
       when(mockTokenRemoteDataSource.getToken(deviceId: 'test_device_id'))
@@ -94,7 +95,7 @@ void main() {
       final result = await tokenRepository.createToken();
 
       expect(result, const Left<Failure, void>(TokenRepositoryFailure()));
-      verify(mockDeviceIdDatasource.getOrCreateUniqueId()).called(1);
+      verify(mockDeviceIdService.getUniqueId()).called(1);
       verify(mockTokenRemoteDataSource.getToken(deviceId: 'test_device_id'))
           .called(1);
       verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));

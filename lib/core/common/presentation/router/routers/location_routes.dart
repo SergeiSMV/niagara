@@ -2,22 +2,22 @@ import 'package:auto_route/auto_route.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/location/presentation/locations/location_guard.dart';
-import 'package:niagara_app/features/location/presentation/select_city/city_guard.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/addresses/addresses_guard.dart';
+import 'package:niagara_app/features/locations/cities/presentation/city_guard.dart';
 
 abstract final class LocationsRouters {
   static AutoRoute get routers => AutoRoute(
-        page: LocationsWrapperRoute.page,
+        page: LocationsWrapper.page,
         children: [
           AutoRoute(
             page: CitiesRoute.page,
             title: (_, __) => t.cities.yourCity,
           ),
           AutoRoute(
-            page: LocationsNavigatorRoute.page,
+            page: LocationsTabRoute.page,
             children: [
               AutoRoute(
-                page: LocationsRoute.page,
+                page: AddressesRoute.page,
                 initial: true,
                 title: (_, __) => t.locations.myAddresses,
                 guards: [locationGuard],
@@ -39,12 +39,13 @@ abstract final class LocationsRouters {
             ],
           ),
           AutoRoute(
-            page: EditLocationRoute.page,
+            page: EditAddressRoute.page,
             title: (_, __) => t.locations.editAddress,
           ),
         ],
       );
 
   static CityGuard get cityGuard => getIt<CityGuard>();
-  static LocationGuard get locationGuard => getIt<LocationGuard>();
+
+  static AddressesGuard get locationGuard => getIt<AddressesGuard>();
 }

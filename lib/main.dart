@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/app.dart';
+import 'package:niagara_app/core/common/presentation/app.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.dart';
 import 'package:niagara_app/core/common/presentation/theme/app_theme.dart';
 import 'package:niagara_app/core/core.dart';

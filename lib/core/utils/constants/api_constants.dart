@@ -41,6 +41,7 @@ abstract final class ApiConst {
 
   /// -GET- Запрос на получение списка магазинов
   static const String kGetShops = '/sotres';
+  
   // ? ------------------------------- User ------------------------------- ? //
   /// -GET- Запрос на получение профиля
   static const String kGetProfile = '/users';

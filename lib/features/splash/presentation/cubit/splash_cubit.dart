@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/features/auth/domain/usecases/check_auth_status.dart';
+import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/check_auth_status_use_case.dart';
 
 part './splash_state.dart';
 part 'splash_cubit.freezed.dart';
@@ -13,10 +13,9 @@ part 'splash_cubit.freezed.dart';
 /// авторизации и уведомляет о завершении загрузки.
 @lazySingleton
 class SplashCubit extends Cubit<SplashState> {
-  SplashCubit({
-    required CheckAuthStatusUseCase checkAuthStatusUseCase,
-  })  : _checkAuthStatusUseCase = checkAuthStatusUseCase,
-        super(const SplashState.initial());
+  SplashCubit(
+    this._checkAuthStatusUseCase,
+  ) : super(const SplashState.initial());
 
   final CheckAuthStatusUseCase _checkAuthStatusUseCase;
 

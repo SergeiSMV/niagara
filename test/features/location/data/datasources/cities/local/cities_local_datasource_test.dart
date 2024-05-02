@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:niagara_app/core/core.dart' hide test;
-import 'package:niagara_app/features/location/data/cities/local/dao/cities_dao.dart';
-import 'package:niagara_app/features/location/data/cities/local/data_source/cities_local_data_source.dart';
-import 'package:niagara_app/features/location/data/cities/local/entities/city_entity.dart';
-import 'package:niagara_app/features/location/data/cities/mappers/city_entity_mapper.dart';
+import 'package:niagara_app/features/locations/cities/data/local/dao/cities_dao.dart';
+import 'package:niagara_app/features/locations/cities/data/local/data_source/cities_local_data_source.dart';
+import 'package:niagara_app/features/locations/cities/data/local/entities/city_entity.dart';
+import 'package:niagara_app/features/locations/cities/data/mappers/city_entity_mapper.dart';
 
 import 'cities_local_datasource_test.mocks.dart';
 
@@ -16,7 +16,7 @@ import 'cities_local_datasource_test.mocks.dart';
 ])
 void main() {
   late MockAppDatabase mockDatabase;
-  late ICitiesLocalDatasource datasource;
+  late ICitiesLocalDataSource datasource;
   late MockAllCities allCities;
 
   const city = CitiesTableData(
@@ -30,7 +30,7 @@ void main() {
 
   setUpAll(() {
     mockDatabase = MockAppDatabase();
-    datasource = CitiesLocalDatasource(database: mockDatabase);
+    datasource = CitiesLocalDatasource( mockDatabase);
     allCities = MockAllCities();
     when(mockDatabase.allCities).thenReturn(allCities);
   });

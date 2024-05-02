@@ -3,8 +3,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:niagara_app/core/common/data/datasources/device_id_datasource.dart';
 import 'package:niagara_app/core/core.dart' hide test;
+import 'package:niagara_app/core/common/data/services/device_id_service.dart';
 
 import 'device_id_datasource_test.mocks.dart';
 
@@ -15,15 +15,12 @@ import 'device_id_datasource_test.mocks.dart';
 void main() {
   late MockDeviceInfoPlugin mockDeviceInfoPlugin;
   late MockFlutterSecureStorage mockSecureStorage;
-  late DeviceIdDatasource datasource;
+  late IDeviceIdService datasource;
 
   setUp(() {
     mockDeviceInfoPlugin = MockDeviceInfoPlugin();
     mockSecureStorage = MockFlutterSecureStorage();
-    datasource = DeviceIdDatasource(
-      deviceInfoPlugin: mockDeviceInfoPlugin,
-      secureStorage: mockSecureStorage,
-    );
+    datasource = DeviceIdService(mockDeviceInfoPlugin);
   });
 
   group('getOrCreateUniqueId', () {
@@ -34,7 +31,7 @@ void main() {
           .thenAnswer((_) async => deviceId);
 
       // Act
-      final result = await datasource.getOrCreateUniqueId();
+      final result = await datasource.getUniqueId();
 
       // Assert
       expect(result, const Right<dynamic, String>(deviceId));
@@ -50,7 +47,7 @@ void main() {
       when(mockDeviceInfoPlugin.deviceInfo).thenThrow(Exception('Error'));
 
       // Act
-      final result = await datasource.getOrCreateUniqueId();
+      final result = await datasource.getUniqueId();
 
       // Assert
       expect(result, isA<Left<Failure, String>>());

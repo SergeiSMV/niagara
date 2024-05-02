@@ -14,20 +14,6 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 /// Абстрактный класс базового текстового поля [BaseTextField]. Поддерживает
 /// различные состояния и валидацию.
 abstract class BaseTextField extends HookWidget {
-  /// Принимает параметры:
-  /// - [key] - ключ виджета,
-  /// - [name] - название поля,
-  /// - [initialText] - текст при инициализации,
-  /// - [label] - заголовок поля,
-  /// - [hint] - подсказка поля,
-  /// - [prefix] - префикс (текст),
-  /// - [prefixWidget] - префикс (виджет),
-  /// - [keyboardType] - тип клавиатуры,
-  /// - [state] - состояние поля,
-  /// - [isRequired] - флаг, указывающий, что поле обязательно для заполнения,
-  /// - [maxLength] - максимальная длина поля,
-  /// - [mask] - маска для поля,
-  /// - [onChanged] - функция, которая вызывается при изменении значения в поле
   const BaseTextField({
     required this.name,
     super.key,
@@ -120,7 +106,7 @@ abstract class BaseTextField extends HookWidget {
         labelText: label,
         hintText: hint,
         prefixIcon: prefixWidget?.padding(
-          left: AppConst.kTextFieldVerticalPadding,
+          left: AppConst.kCommon8,
           right: AppConst.kCommon4,
         ),
         prefixText: prefix,
@@ -129,9 +115,8 @@ abstract class BaseTextField extends HookWidget {
         suffixIconConstraints: const BoxConstraints(),
         isDense: true,
         contentPadding: label != null
-            ? AppConst.kTextFieldPadding.horizontal +
-                AppConst.kTextFieldVerticalPadding.vertical
-            : AppConst.kTextFieldPadding.all,
+            ? AppConst.kCommon16.horizontal + AppConst.kCommon8.vertical
+            : AppConst.kCommon16.all,
         focusedBorder:
             context.theme.inputDecorationTheme.focusedBorder?.copyWith(
           borderSide: BorderSide(
@@ -188,6 +173,6 @@ class _IconWidget extends StatelessWidget {
           height: AppConst.kIconLarge,
           colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
         )
-        .padding(right: AppConst.kTextFieldVerticalPadding);
+        .padding(right: AppConst.kCommon8);
   }
 }
