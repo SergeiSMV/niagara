@@ -3,7 +3,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:niagara_app/core/utils/constants/keys_constants.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:niagara_app/features/authorization/phone_auth/data/data_sources/auth_local_data_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_local_data_source_test.mocks.dart';
@@ -18,7 +18,7 @@ void main() {
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
     dataSource = AuthLocalDataSource(
-      sharedPreferences: mockSharedPreferences,
+      mockSharedPreferences,
     );
   });
 

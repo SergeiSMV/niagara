@@ -3,9 +3,7 @@ part of '../../../core.dart';
 /// Обработчик запросов.
 @injectable
 class RequestHandler {
-  const RequestHandler({
-    required Dio dio,
-  }) : _dio = dio;
+  const RequestHandler(this._dio);
 
   final Dio _dio;
 

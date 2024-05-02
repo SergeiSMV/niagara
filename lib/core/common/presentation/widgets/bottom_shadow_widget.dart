@@ -20,7 +20,7 @@ class BottomShadowWidget extends StatelessWidget {
               color: context.colors.textColors.main
                   .withOpacity(AppConst.kShadowOpacity),
               offset: AppConst.kShadowTop,
-              blurRadius: AppConst.kShadowBlur,
+              blurRadius: AppConst.kCommon12,
             ),
           ],
         ),

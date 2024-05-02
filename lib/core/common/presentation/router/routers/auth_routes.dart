@@ -5,7 +5,7 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 /// Класс роутера для модуля авторизации
 abstract final class AuthRouters {
   static AutoRoute get routers => AutoRoute(
-        page: AuthWrapperRoute.page,
+        page: AuthWrapper.page,
         maintainState: false,
         children: [
           AutoRoute(

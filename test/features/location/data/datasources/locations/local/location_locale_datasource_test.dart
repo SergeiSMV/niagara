@@ -3,24 +3,24 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:niagara_app/core/core.dart' hide test;
 import 'package:niagara_app/core/utils/enums/location_precision.dart';
-import 'package:niagara_app/features/location/data/locations/local/dao/location_dao.dart';
-import 'package:niagara_app/features/location/data/locations/local/data_source/location_locale_data_source.dart';
-import 'package:niagara_app/features/location/data/locations/local/entities/location_entity.dart';
-import 'package:niagara_app/features/location/data/locations/mappers/location_entity_mapper.dart';
+import 'package:niagara_app/features/locations/addresses/data/local/dao/addresses_dao.dart';
+import 'package:niagara_app/features/locations/addresses/data/local/data_source/addresses_local_data_source.dart';
+import 'package:niagara_app/features/locations/addresses/data/local/entities/addresses_entity.dart';
+import 'package:niagara_app/features/locations/addresses/data/mappers/address_entity_mapper.dart';
 
 import 'location_locale_datasource_test.mocks.dart';
 
 @GenerateNiceMocks([
   MockSpec<AppDatabase>(),
-  MockSpec<LocationsLocalDatasource>(),
-  MockSpec<AllLocations>(),
+  MockSpec<AddressesLocalDatasource>(),
+  MockSpec<AllAddresses>(),
 ])
 void main() {
-  late ILocationsLocalDatasource datasource;
+  late IAddressesLocalDatasource datasource;
   late MockAppDatabase mockDatabase;
-  late MockAllLocations allLocations;
+  late MockAllAddresses allAddresses;
 
-  const location = LocationsTableData(
+  const location = AddressesTableData(
     id: 1,
     latitude: 37.7749,
     longitude: -122.4194,
@@ -43,7 +43,7 @@ void main() {
     location,
 
     // Los Angeles
-    LocationsTableData(
+    AddressesTableData(
       id: 2,
       latitude: 34.0522,
       longitude: -118.2437,
@@ -65,55 +65,53 @@ void main() {
 
   setUpAll(() {
     mockDatabase = MockAppDatabase();
-    datasource = LocationsLocalDatasource(database: mockDatabase);
-    allLocations = MockAllLocations();
+    datasource = AddressesLocalDatasource(mockDatabase);
+    allAddresses = MockAllAddresses();
 
-    when(mockDatabase.allLocations).thenReturn(allLocations);
+    when(mockDatabase.allAddresses).thenReturn(allAddresses);
   });
 
   group('getLocations', () {
     test('should return a list of locations', () async {
-      when(allLocations.getLocations()).thenAnswer((_) async => locations);
+      when(allAddresses.getAddresses()).thenAnswer((_) async => locations);
 
-      final result = await datasource.getLocations();
+      final result = await datasource.getAddresses();
 
-      expect(result, isA<Right<Failure, List<LocationEntity>>>());
-      verify(allLocations.getLocations()).called(1);
+      expect(result, isA<Right<Failure, List<AddressEntity>>>());
+      verify(allAddresses.getAddresses()).called(1);
     });
 
     test('should return a LocalDataFailure when an exception is thrown',
         () async {
-      when(allLocations.getLocations()).thenThrow(Exception('Error'));
+      when(allAddresses.getAddresses()).thenThrow(Exception('Error'));
 
-      final result = await datasource.getLocations();
+      final result = await datasource.getAddresses();
 
-      expect(result, isA<Left<Failure, List<LocationEntity>>>());
-      verify(allLocations.getLocations()).called(1);
+      expect(result, isA<Left<Failure, List<AddressEntity>>>());
+      verify(allAddresses.getAddresses()).called(1);
     });
   });
 
   group('storeLocation', () {
     test('should store the location', () async {
-      when(allLocations.insertLocation(location.toCompanion(false)))
+      when(allAddresses.insertAddress(location.toCompanion(false)))
           .thenAnswer((_) async => 1);
 
-      final result = await datasource.addLocation(location.toEntity());
+      final result = await datasource.addAddress(location.toEntity());
 
       expect(result, const Right<Failure, void>(null));
-      verify(allLocations.insertLocation(location.toCompanion(false)))
-          .called(1);
+      verify(allAddresses.insertAddress(location.toCompanion(false))).called(1);
     });
 
     test('should return a LocalDataFailure when an exception is thrown',
         () async {
-      when(allLocations.insertLocation(location.toCompanion(false)))
+      when(allAddresses.insertAddress(location.toCompanion(false)))
           .thenThrow(Exception('Error'));
 
-      final result = await datasource.addLocation(location.toEntity());
+      final result = await datasource.addAddress(location.toEntity());
 
       expect(result, isA<Left<Failure, void>>());
-      verify(allLocations.insertLocation(location.toCompanion(false)))
-          .called(1);
+      verify(allAddresses.insertAddress(location.toCompanion(false))).called(1);
     });
   });
 }

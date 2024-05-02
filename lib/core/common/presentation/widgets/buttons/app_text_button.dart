@@ -130,7 +130,7 @@ class _TextButtonWidget extends StatelessWidget {
 
     return Text(text, style: style.withColor(color)).paddingSymmetric(
       vertical: size.verticalPadding,
-      horizontal: AppConst.kButtonHorizontalPadding,
+      horizontal: AppConst.kCommon24,
     );
   }
 }

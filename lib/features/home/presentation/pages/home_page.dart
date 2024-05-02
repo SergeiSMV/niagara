@@ -2,15 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/home/presentation/widgets/action_button.dart';
-import 'package:niagara_app/features/home/presentation/widgets/address_button.dart';
+import 'package:niagara_app/features/home/presentation/widgets/notifications_button.dart';
+import 'package:niagara_app/features/home/presentation/widgets/support_button.dart';
+import 'package:niagara_app/features/locations/_common/presentation/widgets/address_button.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonuses_home_widget.dart';
 
 /// Главная страница приложения.
 @RoutePage()
 class HomePage extends StatelessWidget {
-  /// Создает виджет главной страницы.
   const HomePage({super.key});
 
   @override
@@ -18,26 +19,18 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBarWidget(
         automaticallyImplyLeading: false,
-        body: const AppBarAddressButton(),
+        body: const AddressButton(),
         actions: [
-          AppBarActionButton(
-            icon: Assets.icons.notifications,
-            // TODO(Oleg): Реализовать переход на экран уведомлений
-            onTap: () => debugPrint('Notifications'),
-          ),
-          AppBarActionButton(
-            icon: Assets.icons.support,
-            // TODO(Oleg): Реализовать переход на экран поддержки
-            onTap: () => debugPrint('Support'),
-          ),
+          const NotificationsButton(),
+          const SupportButton(),
           AppConst.kCommon8.horizontalBox,
         ],
       ),
-      body: Center(
+      backgroundColor: context.colors.mainColors.bgCard,
+      body: const SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            
+            HomeBonusesWidget(),
           ],
         ),
       ),

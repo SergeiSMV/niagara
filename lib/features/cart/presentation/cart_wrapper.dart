@@ -1,0 +1,10 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/widgets.dart';
+
+@RoutePage()
+class CartWrapper implements AutoRouteWrapper {
+  const CartWrapper();
+
+  @override
+  Widget wrappedRoute(BuildContext context) => const AutoRouter();
+}

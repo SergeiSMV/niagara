@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:niagara_app/core/core.dart' hide test;
-import 'package:niagara_app/features/location/data/cities/remote/data_source/cities_remote_data_source.dart';
-import 'package:niagara_app/features/location/data/cities/remote/dto/city_dto.dart';
+import 'package:niagara_app/features/locations/cities/data/remote/data_source/cities_remote_data_source.dart';
+import 'package:niagara_app/features/locations/cities/data/remote/dto/city_dto.dart';
 
 import 'cities_remote_datasource_test.mocks.dart';
 
@@ -13,11 +13,11 @@ import 'cities_remote_datasource_test.mocks.dart';
 ])
 void main() {
   late MockRequestHandler mockRequestHandler;
-  late ICitiesRemoteDatasource dataSource;
+  late ICitiesRemoteDataSource dataSource;
 
   setUp(() {
     mockRequestHandler = MockRequestHandler();
-    dataSource = CitiesRemoteDatasource(requestHandler: mockRequestHandler);
+    dataSource = CitiesRemoteDatasource( mockRequestHandler);
   });
 
   group('getCities', () {

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:niagara_app/core/common/data/datasources/token_remote_datasource.dart';
+import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_remote_data_source.dart';
 import 'package:niagara_app/core/core.dart' hide test;
 
 import 'token_remote_datasource_test.mocks.dart';
@@ -21,9 +21,9 @@ void main() {
       basicLogin = 'test_login';
       basicPassword = 'test_password';
       tokenRemoteDataSource = TokenRemoteDataSource(
-        requestHandler: mockRequestHandler,
-        basicLogin: basicLogin,
-        basicPassword: basicPassword,
+        mockRequestHandler,
+        basicLogin,
+        basicPassword,
       );
     });
 

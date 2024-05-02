@@ -59,24 +59,26 @@ class BottomNavigationBarWidget extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) => ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(AppConst.kNavBarRadius),
-          topRight: Radius.circular(AppConst.kNavBarRadius),
-        ),
-        child: BottomNavigationBar(
-          currentIndex: tabsRouter.activeIndex,
-          onTap: (index) {
-            if (fullScreenTabs?.containsKey(index) ?? false) {
-              context.pushRoute(fullScreenTabs![index]!);
-              return;
-            }
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(AppConst.kCommon16),
+        topRight: Radius.circular(AppConst.kCommon16),
+      ),
+      child: BottomNavigationBar(
+        currentIndex: tabsRouter.activeIndex,
+        onTap: (index) {
+          if (fullScreenTabs?.containsKey(index) ?? false) {
+            context.pushRoute(fullScreenTabs![index]!);
+            return;
+          }
 
-            tabsRouter.setActiveIndex(index);
-          },
-          items: _items.map(_buildItem).toList(),
-        ),
-      );
+          tabsRouter.setActiveIndex(index);
+        },
+        items: _items.map(_buildItem).toList(),
+      ),
+    );
+  }
 }
 
 /// Виджет иконки нижней навигации
@@ -94,11 +96,10 @@ class _NavBarIconWidget extends StatelessWidget {
     final unselectedColor =
         context.theme.bottomNavigationBarTheme.unselectedItemColor;
     return Padding(
-      padding: (AppConst.kNavBarIconPadding * 2).top +
-          AppConst.kNavBarIconPadding.bottom,
+      padding: AppConst.kCommon8.top + AppConst.kCommon4.bottom,
       child: icon.svg(
-        width: AppConst.kNavBarIconSize,
-        height: AppConst.kNavBarIconSize,
+        width: AppConst.kIconLarge,
+        height: AppConst.kIconLarge,
         colorFilter: inactive && unselectedColor != null
             ? ColorFilter.mode(unselectedColor, BlendMode.srcIn)
             : null,

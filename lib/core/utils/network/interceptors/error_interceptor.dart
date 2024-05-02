@@ -3,9 +3,7 @@ part of '../../../core.dart';
 /// Экземпляр [ErrorInterceptor] для обработки ошибок HTTP-запросов.
 @lazySingleton
 class ErrorInterceptor extends InterceptorsWrapper {
-  ErrorInterceptor({
-    required IAppLogger logger,
-  }) : _logger = logger;
+  ErrorInterceptor(this._logger);
 
   final IAppLogger _logger;
 

@@ -4,20 +4,20 @@ import 'package:niagara_app/core/utils/constants/app_constants.dart';
 enum BaseButtonSize {
   small(
     height: AppConst.kButtonSmall,
-    verticalPadding: AppConst.kButtonSmallVerticalPadding,
-    borderRadius: AppConst.kButtonSmallRadius,
+    verticalPadding: AppConst.kCommon8,
+    borderRadius: AppConst.kCommon8,
   ),
 
   medium(
     height: AppConst.kButtonMedium,
-    verticalPadding: AppConst.kButtonVerticalPadding,
-    borderRadius: AppConst.kButtonRadius,
+    verticalPadding: AppConst.kCommon12,
+    borderRadius: AppConst.kCommon12,
   ),
 
   large(
     height: AppConst.kButtonLarge,
-    verticalPadding: AppConst.kButtonVerticalPadding,
-    borderRadius: AppConst.kButtonRadius,
+    verticalPadding: AppConst.kCommon12,
+    borderRadius: AppConst.kCommon12,
   );
 
   /// Высота кнопки

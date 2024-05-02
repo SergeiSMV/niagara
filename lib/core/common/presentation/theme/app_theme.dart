@@ -14,11 +14,7 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 /// производятся в этом классе.
 @singleton
 class AppTheme {
-  AppTheme({
-    required AppColors colors,
-    required AppTypo typography,
-  })  : _appColors = colors,
-        _appTypo = typography;
+  AppTheme(this._appColors, this._appTypo);
 
   final AppColors _appColors;
   final AppTypo _appTypo;
@@ -101,7 +97,7 @@ class AppTheme {
 
   static CustomOutlineInputBorder _buildBorder(Color color) {
     return CustomOutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppConst.kTextFieldRadius),
+      borderRadius: BorderRadius.circular(AppConst.kCommon12),
       borderSide: BorderSide(color: color),
     );
   }

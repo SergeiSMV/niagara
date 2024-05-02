@@ -20,11 +20,12 @@ class SplashPage extends HookWidget {
   Widget build(BuildContext context) {
     // Контроллер анимации
     final mainAnimationCtrl = useAnimationController();
+
     // Управление прозрачностью
     final opacity = useState<double>(0);
 
-    // Запускаем анимацию прозрачности спустя определенное время после начала
-    // основной анимации
+    // Запускаем анимацию прозрачности спустя определенное
+    // время после начала основной анимации
     useEffect(
       () {
         final timer = Timer(
@@ -40,7 +41,7 @@ class SplashPage extends HookWidget {
       ..duration = composition.duration
       ..forward().whenComplete(context.read<SplashCubit>().onCheckAuth);
 
-    void readyToAuth() => context.replaceRoute(const AuthWrapperRoute());
+    void readyToAuth() => context.replaceRoute(const AuthWrapper());
 
     void readyToMain() => context.replaceRoute(const NavigationRoute());
 

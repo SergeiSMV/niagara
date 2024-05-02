@@ -1,6 +1,5 @@
 part of 'splash_cubit.dart';
 
-/// Состояние загрузки приложения
 @freezed
 sealed class SplashState with _$SplashState {
   const factory SplashState.initial() = _SplashInitial;

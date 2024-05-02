@@ -1,0 +1,39 @@
+import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/constants/api_constants.dart';
+import 'package:niagara_app/features/profile/user/data/remote/dto/profile_dto.dart';
+
+abstract interface class IProfileRemoteDataSource {
+  Future<Either<Failure, ProfileDto>> getProfile();
+  Future<Either<Failure, bool>> updateProfile(ProfileDto userDto);
+}
+
+@LazySingleton(as: IProfileRemoteDataSource)
+class ProfileRemoteDataSource implements IProfileRemoteDataSource {
+  ProfileRemoteDataSource(this._requestHandler);
+
+  final RequestHandler _requestHandler;
+
+  @override
+  Future<Either<Failure, ProfileDto>> getProfile() =>
+      _requestHandler.sendRequest<ProfileDto, Map<String, dynamic>>(
+        request: (dio) => dio.get(
+          ApiConst.kGetProfile,
+        ),
+        converter: ProfileDto.fromJson,
+        failure: ProfileRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, bool>> updateProfile(ProfileDto userDto) =>
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+        request: (dio) => dio.put(
+          ApiConst.kUpdateProfile,
+          data: {
+            ...userDto.toJson(),
+            'PHONE': userDto.login,
+          },
+        ),
+        converter: (json) => json['susses'] as bool, // ! susses -> success
+        failure: ProfileRemoteDataFailure.new,
+      );
+}

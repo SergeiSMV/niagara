@@ -11,7 +11,7 @@ class BottomLoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: AppConst.kLoaderBottomOffset,
+      bottom: AppConst.kCommon8,
       child: BlocBuilder<SplashCubit, SplashState>(
         builder: (context, state) => state.maybeWhen(
           readyToMain: () => const _SpinnerLoader(),

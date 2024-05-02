@@ -100,20 +100,20 @@ class SearchAddressFailure extends Failure {
   const SearchAddressFailure([super.error = 'Search address failure']);
 }
 
-class LocationsLocalDataFailure extends Failure {
-  const LocationsLocalDataFailure([
+class AddressesLocalDataFailure extends Failure {
+  const AddressesLocalDataFailure([
     super.error = 'Locations local data failure',
   ]);
 }
 
-class LocationsRepositoryFailure extends Failure {
-  const LocationsRepositoryFailure([
+class AddressesRepositoryFailure extends Failure {
+  const AddressesRepositoryFailure([
     super.error = 'Locations repository failure',
   ]);
 }
 
-class LocationsRemoteDataFailure extends Failure {
-  const LocationsRemoteDataFailure([
+class AddressesRemoteDataFailure extends Failure {
+  const AddressesRemoteDataFailure([
     super.error = 'Locations remote data failure',
   ]);
 }
@@ -147,4 +147,8 @@ class UserLocalDataFailure extends Failure {
 
 class BonusesLocalDataFailure extends Failure {
   const BonusesLocalDataFailure([super.error = 'Bonuses local data failure']);
+}
+
+class BonusesRepositoryFailure extends Failure {
+  const BonusesRepositoryFailure([super.error = 'Bonuses repo data failure']);
 }

@@ -1,7 +1,7 @@
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 enum BonusLevel {
-  none,
   silver,
   gold,
   platinum;
@@ -10,13 +10,18 @@ enum BonusLevel {
         'silver' => BonusLevel.silver,
         'gold' => BonusLevel.gold,
         'platinum' => BonusLevel.platinum,
-        _ => BonusLevel.none
+        _ => BonusLevel.silver
       };
 
   String toLocale() => switch (this) {
         BonusLevel.silver => t.bonuses.levels.silver,
         BonusLevel.gold => t.bonuses.levels.gold,
         BonusLevel.platinum => t.bonuses.levels.platinum,
-        _ => t.bonuses.levels.none
+      };
+
+  AssetGenImage get cardImage => switch (this) {
+        BonusLevel.silver => Assets.images.bonusStatus.silver,
+        BonusLevel.gold => Assets.images.bonusStatus.gold,
+        BonusLevel.platinum => Assets.images.bonusStatus.platinum,
       };
 }

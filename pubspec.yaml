@@ -75,6 +75,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/bonus_status/
     - assets/icons/
     - assets/icons/bottom_bar/
     - assets/icons/radio/
