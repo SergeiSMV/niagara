@@ -39,6 +39,7 @@ class AddressesState with _$AddressesState {
 
   String get phone => maybeWhen(
         loaded: (city, _) => city.phone,
+        unauthorized: (city) => city.phone,
         orElse: () => '',
       );
 }
