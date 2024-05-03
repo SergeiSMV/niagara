@@ -13,7 +13,6 @@ class RequestHandler {
     required Future<Response<dynamic>> Function(Dio dio) request,
     required D Function(T) converter,
     required Failure Function(String error) failure,
-    bool useCompute = false,
     bool useDecode = false,
   }) async {
     try {
@@ -35,9 +34,7 @@ class RequestHandler {
 
       if (responseData == null) return Left(failure('no data'));
 
-      final res = useCompute
-          ? await compute<T, D>(converter, responseData)
-          : converter(responseData);
+      final res = await compute<T, D>(converter, responseData);
       return Right(res);
     } catch (e) {
       return Left(failure(e.toString()));
