@@ -7,6 +7,7 @@ import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 import 'package:niagara_app/features/locations/cities/domain/models/city.dart';
 import 'package:niagara_app/features/locations/cities/presentation/cubit/cities_cubit.dart';
 import 'package:niagara_app/features/locations/cities/presentation/widgets/list_separator_widget.dart';
@@ -17,8 +18,9 @@ class CitiesListWidget extends StatelessWidget {
   void _onSelectCity(BuildContext context, {required City city}) =>
       context.read<CitiesCubit>().selectCity(city);
 
-  void _navigateToMain(BuildContext context) =>
-      context.router.replace(const NavigationRoute());
+  void _navigateToMain(BuildContext context) => context
+    ..replaceRoute(const NavigationRoute())
+    ..read<AddressesBloc>().add(const AddressesEvent.initial());
 
   void _onRefresh(BuildContext context) =>
       context.read<CitiesCubit>().getCities();
