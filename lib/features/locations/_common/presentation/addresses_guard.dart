@@ -26,22 +26,22 @@ class AddressesGuard extends AutoRouteGuard {
         .call()
         .fold((_) => false, (authState) => authState.hasAuth);
 
-    // Если авторизован, то...
-    if (hasAuth) {
-      // ... проверяем на наличие хотя бы одного адреса доставки
-      final hasLocations = await _hasAddresses.call().isRight;
+    // Если не авторизован, то продолжаем без проверки на адреса
+    if (!hasAuth) return resolver.next();
 
-      // Если адреса есть, то продолжаем
-      if (hasLocations) {
-        resolver.next();
-      } else {
-        // Если отсутствует, то переходим на страницу поиска адреса
-        await resolver.redirect(
-          const AddingAddressWrapperRoute(
-            children: [ChoiceOnMapRoute()],
-          ),
-        );
-      }
+    // Иначе проверяем на наличие хотя бы одного адреса доставки
+    final hasLocations = await _hasAddresses.call().isRight;
+
+    // Если адреса есть, то продолжаем
+    if (hasLocations) {
+      return resolver.next();
+    } else {
+      // Если отсутствует, то переходим на страницу поиска адреса
+      await resolver.redirect(
+        const AddingAddressWrapperRoute(
+          children: [ChoiceOnMapRoute()],
+        ),
+      );
     }
   }
 }

@@ -21,7 +21,7 @@ class CityGuard extends AutoRouteGuard {
 
     // Если имеется, то продолжаем
     if (hasSetted) {
-      resolver.next();
+      return resolver.next();
     } else {
       // Если не выбран, то переходим на страницу выбора города
       await resolver.redirect(

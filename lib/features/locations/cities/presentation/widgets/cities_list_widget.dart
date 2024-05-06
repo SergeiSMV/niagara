@@ -14,15 +14,11 @@ import 'package:niagara_app/features/locations/cities/presentation/widgets/list_
 class CitiesListWidget extends StatelessWidget {
   const CitiesListWidget({super.key});
 
-  void _onSelectCity(BuildContext context, {required City city}) {
-    context
-      ..read<CitiesCubit>().selectCity(city)
-      ..router.replace(const NavigationRoute());
-  }
+  void _onSelectCity(BuildContext context, {required City city}) =>
+      context.read<CitiesCubit>().selectCity(city);
 
-  void _navigateToMain(BuildContext context) {
-    context.router.replace(const NavigationRoute());
-  }
+  void _navigateToMain(BuildContext context) =>
+      context.router.replace(const NavigationRoute());
 
   void _onRefresh(BuildContext context) =>
       context.read<CitiesCubit>().getCities();
@@ -33,12 +29,10 @@ class CitiesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: BlocConsumer<CitiesCubit, CitiesState>(
-        listener: (context, state) {
-          state.maybeWhen(
-            selected: (_) => _navigateToMain(context),
-            orElse: () {},
-          );
-        },
+        listener: (context, state) => state.maybeWhen(
+          selected: (_) => _navigateToMain(context),
+          orElse: () => null,
+        ),
         builder: (_, state) => state.when(
           initial: SizedBox.shrink,
           loading: () => _loader,

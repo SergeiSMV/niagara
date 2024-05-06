@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/locations/addresses/presentation/addresses/addresses_guard.dart';
-import 'package:niagara_app/features/locations/cities/presentation/city_guard.dart';
+import 'package:niagara_app/features/locations/_common/presentation/addresses_guard.dart';
+import 'package:niagara_app/features/locations/_common/presentation/city_guard.dart';
 
 abstract final class LocationsRouters {
   static AutoRoute get routers => AutoRoute(
