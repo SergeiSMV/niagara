@@ -25,6 +25,8 @@ class CompleteAddressWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ChoiceOnMapCubit>();
+    final availableToAddendum = cubit.state.availableToAddendum;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,7 +36,7 @@ class CompleteAddressWidget extends StatelessWidget {
         ).paddingSymmetric(vertical: AppConst.kCommon24),
         AppTextButton.primary(
           text: t.locations.yeahThatsRight,
-          onTap: location.hasHouse ? cubit.onAddendumAddress : null,
+          onTap: availableToAddendum ? cubit.onAddendumAddress : null,
         ),
         AppTextButton.secondary(
           text: t.locations.enterManually,

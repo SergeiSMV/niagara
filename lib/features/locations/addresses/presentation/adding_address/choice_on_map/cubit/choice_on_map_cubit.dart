@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
+import 'package:niagara_app/features/locations/addresses/domain/use_cases/address/checking_for_deliverability.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/geocoder/get_address_by_point_use_case.dart';
 import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
 
@@ -17,16 +18,28 @@ part 'choice_on_map_state.dart';
 class ChoiceOnMapCubit extends Cubit<ChoiceOnMapState> {
   ChoiceOnMapCubit(
     this._getAddressUseCase,
+    this._checkingForDeliverabilityUseCase,
   ) : super(const _Initial());
 
   final GetAddressByPointUseCase _getAddressUseCase;
+  final CheckingForDeliverabilityUseCase _checkingForDeliverabilityUseCase;
 
   // Получает адрес по координатам
   Future<void> _getAddress({required Point point}) async {
-    await _getAddressUseCase.call(point).fold(
-          (_) => _emit(const _NoAddressFound()),
-          (location) => _emit(_Complete(location: location)),
-        );
+    final address = await _getAddressUseCase
+        .call(point)
+        .fold((_) => null, (address) => address);
+
+    if (address != null) {
+      final isAvailableDelivery = await _checkingForDeliverabilityUseCase
+          .call(address)
+          .fold((_) => false, (isAvailable) => isAvailable);
+      return isAvailableDelivery
+          ? _emit(_Complete(address: address))
+          : _emit(_NoDelivery(address: address));
+    }
+
+    _emit(const _NoAddressFound());
   }
 
   /// Отвечает за обновление адреса при изменении камеры/фокуса
@@ -41,18 +54,18 @@ class ChoiceOnMapCubit extends Cubit<ChoiceOnMapState> {
   /// Подтверждает адрес и переходит на экран редактирования
   Future<void> onAddendumAddress() async {
     final state = this.state as _Complete;
-    _emit(_Approve(location: state.location));
+    _emit(_Approve(address: state.address));
   }
 
   /// Переходит на экран редактирования адреса
   Future<void> onEditAddress() async {
     final state = this.state as _Approve;
-    _emit(_Complete(location: state.location));
+    _emit(_Complete(address: state.address));
   }
 
   /// Подтверждает адрес
-  Future<void> onApproveAddress({required Address location}) async {
-    _emit(_Approve(location: location));
+  Future<void> onApproveAddress({required Address address}) async {
+    _emit(_Approve(address: address));
   }
 
   // Устанавливает дефолтное местоположение

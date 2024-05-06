@@ -61,7 +61,10 @@
     "editAddress": "Редактирование адреса",
     "errorLoad": "Не удалось загрузить адреса доставки",
     "deleteAddress": "Удалить адрес?",
-    "loginDescription": "чтобы добавляться адреса доставки и совершать покупки"
+    "loginDescription": "чтобы добавляться адреса доставки и совершать покупки",
+    "addressOutsideDeliveryZone": "Адрес вне зоны доставки",
+    "addressOutsideDeliveryZoneDescription": "Извините, по данному адресу мы не сможем осуществить доставку",
+    "deliveryQuestions(rich)": "По вопросам доставки звоните:\n${phone(+7 (800) 505-10-21)}"
   },
   "search": {
     "inputField": "Поле ввода",

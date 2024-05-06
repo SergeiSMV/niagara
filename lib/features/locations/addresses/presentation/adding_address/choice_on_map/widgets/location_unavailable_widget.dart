@@ -33,6 +33,7 @@ class LocationUnavailableWidget extends StatelessWidget {
                 t.locations.yourGeoIsUnavailable,
                 style: context.textStyle.textTypo.tx2SemiBold,
               ),
+              AppConst.kCommon4.verticalBox,
               Text(
                 t.locations.yourGeoIsUnavailable,
                 style: context.textStyle.descriptionTypo.des3,

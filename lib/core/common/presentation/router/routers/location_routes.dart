@@ -20,7 +20,7 @@ abstract final class LocationsRouters {
                 page: AddressesRoute.page,
                 initial: true,
                 title: (_, __) => t.locations.myAddresses,
-                guards: [locationGuard],
+               
               ),
               AutoRoute(
                 page: ShopsRoute.page,
@@ -47,5 +47,5 @@ abstract final class LocationsRouters {
 
   static CityGuard get cityGuard => getIt<CityGuard>();
 
-  static AddressesGuard get locationGuard => getIt<AddressesGuard>();
+  static AddressesGuard get addressesGuard => getIt<AddressesGuard>();
 }

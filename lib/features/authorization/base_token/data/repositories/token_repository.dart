@@ -1,5 +1,5 @@
-import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/common/data/services/device_id_service.dart';
+import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_remote_data_source.dart';
 import 'package:niagara_app/features/authorization/base_token/domain/repositories/token_repository.dart';

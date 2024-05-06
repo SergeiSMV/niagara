@@ -147,4 +147,10 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> checkDelivery(Address address) async =>
+      _addressesRDS
+          .checkAddress(address: address.toDto())
+          .fold((failure) => throw failure, Right.new);
 }

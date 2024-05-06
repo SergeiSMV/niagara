@@ -27,6 +27,7 @@ class AppRouter extends $AppRouter {
               page: NavigationRoute.page,
               guards: [
                 LocationsRouters.cityGuard,
+                LocationsRouters.addressesGuard,
               ],
               children: [
                 HomeRouters.routers,

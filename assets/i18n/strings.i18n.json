@@ -61,7 +61,10 @@
     "editAddress": "Edit address",
     "errorLoad": "Error loading addresses",
     "deleteAddress": "Delete address?",
-    "loginDescription": "to add shipping addresses and make purchases"
+    "loginDescription": "to add shipping addresses and make purchases",
+    "addressOutsideDeliveryZone": "Address outside the delivery area",
+    "addressOutsideDeliveryZoneDescription": "Sorry, we are unable to deliver to this address",
+    "deliveryQuestions(rich)": "For delivery questions, please call:\n${phone(+7 (800) 505-10-21)}"
   },
   "search": {
     "inputField": "Input field",

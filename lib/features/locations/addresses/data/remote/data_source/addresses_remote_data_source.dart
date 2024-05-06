@@ -61,7 +61,6 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
         }
         return json['id'] as String; // ! susses -> success
       },
-      useDecode: true,
       failure: AddressesRemoteDataFailure.new,
     );
   }
@@ -78,7 +77,6 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
           },
         ),
         converter: (json) => json['susses'] as bool, // ! susses -> success
-        useDecode: true,
         failure: AddressesRemoteDataFailure.new,
       );
 
@@ -86,7 +84,7 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
   Future<Either<Failure, bool>> checkAddress({
     required AddressDto address,
   }) async =>
-      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+      _requestHandler.sendRequest<bool, bool>(
         request: (dio) => dio.post(
           ApiConst.kCheckLocation,
           data: {
@@ -95,7 +93,7 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
             'LON': address.longitude,
           },
         ),
-        converter: (json) => json as bool,
+        converter: (json) => json,
         failure: AddressesRemoteDataFailure.new,
       );
 }
