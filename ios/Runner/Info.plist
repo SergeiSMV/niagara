@@ -45,7 +45,6 @@
 	</array>
 	<key>CFBundleLocalizations</key>
 	<array>
-   	<string>en</string>
    	<string>ru</string>
 	</array>
 	<key>DART_DEFINES</key>

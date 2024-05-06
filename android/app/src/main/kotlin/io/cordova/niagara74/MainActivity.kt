@@ -10,6 +10,7 @@ class MainActivity: FlutterActivity() {
         try {
             val apiKey = getString(R.string.api_key)
             MapKitFactory.setApiKey(apiKey)
+            MapKitFactory.setLocale("ru_RU")
         } catch (e: AssertionError) {}
         GeneratedPluginRegistrant.registerWith(flutterEngine)
     }

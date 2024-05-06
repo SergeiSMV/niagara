@@ -31,6 +31,7 @@ import YandexMapsMobile
         }
         
         YMKMapKit.setApiKey(apiKey)
+        YMKMapKit.setLocale("ru_RU")
         GeneratedPluginRegistrant.register(with: self)
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }

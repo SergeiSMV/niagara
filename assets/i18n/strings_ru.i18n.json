@@ -1,5 +1,6 @@
 {
   "common": {
+    "rub": "₽",
     "cancel": "Отменить",
     "refresh": "Обновить",
     "save": "Сохранить",
@@ -36,7 +37,30 @@
       "silver": "Серебряный",
       "gold": "Золотой",
       "platinum": "Платиновый"
-    }
+    },
+    "status": "статус",
+    "bonuses": "Бонусы",
+    "waterBalance": "Баланс воды",
+    "temporary": "Временные",
+    "bonusCard": "Бонусная карта",
+    "showQR": "Покажите QR-код на кассе, чтобы начислить бонусы",
+    "myCard": "Моя карта",
+    "accrualHistory": "История начислений",
+    "yourBenefits": "Ваши преимущества",
+    "bonusStory": "Бонусная история",
+    "aboutBonuses": "О бонусной программе",
+    "bonusesFaqs": "Частые вопросы и ответы",
+    "contactUs": "Связаться с нами",
+    "morePurchases": "Больше покупок — выше статус  — больше выгоды",
+    "willBeAccrued": "зачислятся",
+    "toNextStatus": "До следующего статуса - ${amount} @:common.rub",
+    "yourSpent": "Вы потратили ${amount} @:common.rub",
+    "days": "дней",
+    "hours": "часов",
+    "minutes": "минут",
+    "yearlyBonuses": "Ежегодные бонусы",
+    "youHaveNoBonuses": "У вас нет бонусов",
+    "placeOrderToEarnPoints": "Оформите заказ для начисления баллов"
   },
   "locations": {
     "deliveryAddress": "Адрес доставки",
@@ -64,7 +88,7 @@
     "loginDescription": "чтобы добавляться адреса доставки и совершать покупки",
     "addressOutsideDeliveryZone": "Адрес вне зоны доставки",
     "addressOutsideDeliveryZoneDescription": "Извините, по данному адресу мы не сможем осуществить доставку",
-    "deliveryQuestions(rich)": "По вопросам доставки звоните:\n${phone(+7 (800) 505-10-21)}"
+    "deliveryQuestions(rich)": "По вопросам доставки звоните:\n${phone(phone)}"
   },
   "search": {
     "inputField": "Поле ввода",
