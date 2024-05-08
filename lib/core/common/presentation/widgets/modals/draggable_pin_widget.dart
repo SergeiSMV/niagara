@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 
 class PinWidget extends StatelessWidget {
-  const PinWidget({
-    super.key,
-  });
+  const PinWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class PinWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppConst.kCommon2),
         ),
       ),
-    );
+    ).paddingSymmetric(vertical: AppConst.kCommon8);
   }
 }
 

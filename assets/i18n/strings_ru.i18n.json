@@ -61,7 +61,13 @@
     "yearlyBonuses": "Ежегодные бонусы",
     "yearlyBonusesDesc": "Начисляем 100% от накопленных вами бонусов за год. Успейте накопить больше бонусов!",
     "youHaveNoBonuses": "У вас нет бонусов",
-    "placeOrderToEarnPoints": "Оформите заказ для начисления баллов"
+    "placeOrderToEarnPoints": "Оформите заказ для начисления баллов",
+    "saveMoney": "Успей сэкономить",
+    "aboutToBurnUpBonus": {
+      "one": "$n бонус скоро сгорит",
+      "few": "$n бонуса скоро сгорят",
+      "other": "$n бонусов скоро сгорят"
+    }
   },
   "locations": {
     "deliveryAddress": "Адрес доставки",
