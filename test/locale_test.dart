@@ -6,7 +6,7 @@ void main() {
   group('i18n', () {
     test('Should compile', () {
       // Проверка, что файлы локализации скомпилировались без ошибок
-      expect(AppLocale.en.build().routes.home, 'Home');
+      expect(AppLocale.ru.build().routes.home, 'Home');
     });
 
     test('All locales should be supported by Flutter', () {

@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/cubit/map_cubit.dart';
-import 'package:niagara_app/features/locations/shops/presentation/bloc/shops_bloc.dart';
 
 class CloseModalButton extends StatelessWidget {
-  const CloseModalButton({super.key});
+  const CloseModalButton({
+    required this.onTap,
+    super.key,
+  });
 
-  void _onUnselectShop(BuildContext context) => context
-    ..read<ShopsBloc>().add(const ShopsEvent.unselectShop())
-    ..read<MapCubit>().setDefaultLocation();
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _onUnselectShop(context),
+      onTap: onTap,
       child: Container(
         width: AppConst.kIconLarge,
         height: AppConst.kIconLarge,

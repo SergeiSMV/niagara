@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
@@ -10,9 +11,10 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/cubit/map_cubit.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 import 'package:niagara_app/features/locations/shops/domain/models/shop.dart';
-import 'package:niagara_app/features/locations/shops/presentation/widgets/close_modal_button.dart';
+import 'package:niagara_app/features/locations/shops/presentation/bloc/shops_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SelectedShopWidget extends StatelessWidget {
@@ -38,6 +40,10 @@ class SelectedShopWidget extends StatelessWidget {
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 
+  void _onUnselectShop(BuildContext context) => context
+    ..read<ShopsBloc>().add(const ShopsEvent.unselectShop())
+    ..read<MapCubit>().setDefaultLocation();
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -60,7 +66,7 @@ class SelectedShopWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              const CloseModalButton(),
+              CloseModalButton(onTap: () => _onUnselectShop(context)),
             ],
           ),
           AppTextButton.primary(

@@ -1,12 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DeliveryUnavailableWidget extends StatelessWidget {
@@ -19,6 +21,7 @@ class DeliveryUnavailableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final phone = context.read<AddressesBloc>().state.phone;
     return Container(
       padding: const EdgeInsets.all(AppConst.kCommon12),
       decoration: BoxDecoration(
@@ -50,7 +53,7 @@ class DeliveryUnavailableWidget extends StatelessWidget {
                 AppConst.kCommon8.verticalBox,
                 Text.rich(
                   t.locations.deliveryQuestions(
-                    phone: (phone) => _buildTextButton(
+                    phone: (_) => _buildTextButton(
                       context,
                       text: phone,
                       onTap: () => _onTapNumber(phone),

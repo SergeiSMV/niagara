@@ -86,7 +86,7 @@ class _TextTypography extends TextTypography {
           tx2Medium: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            height: 20 / 14,
+            height: 16 / 14,
             fontFamily: FontFamily.montserrat,
           ),
           tx3SemiBold: const TextStyle(
@@ -122,6 +122,12 @@ class _CaptionTypography extends CaptionTypography {
           c2: const TextStyle(
             fontSize: 8,
             fontWeight: FontWeight.w600,
+            height: 10 / 8,
+            fontFamily: FontFamily.montserrat,
+          ),
+          c3: const TextStyle(
+            fontSize: 8,
+            fontWeight: FontWeight.w400,
             height: 10 / 8,
             fontFamily: FontFamily.montserrat,
           ),

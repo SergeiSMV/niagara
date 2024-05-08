@@ -13,11 +13,11 @@ enum BonusLevel {
         _ => BonusLevel.silver
       };
 
-  String toLocale() => switch (this) {
+  String toLocale() => '${switch (this) {
         BonusLevel.silver => t.bonuses.levels.silver,
         BonusLevel.gold => t.bonuses.levels.gold,
         BonusLevel.platinum => t.bonuses.levels.platinum,
-      };
+      }} ${t.bonuses.status.toLowerCase()}';
 
   AssetGenImage get cardImage => switch (this) {
         BonusLevel.silver => Assets.images.bonusStatus.silver,
