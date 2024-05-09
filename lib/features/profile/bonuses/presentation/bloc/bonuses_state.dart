@@ -10,4 +10,5 @@ class BonusesState with _$BonusesState {
   const factory BonusesState.error({
     required String message,
   }) = _Error;
+  const factory BonusesState.unauthorized() = _Unauthorized;
 }

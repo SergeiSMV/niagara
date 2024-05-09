@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
+import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/use_cases/get_bonuses_use_case.dart';
 
@@ -12,13 +13,17 @@ typedef _Emit = Emitter<BonusesState>;
 
 @injectable
 class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
-  BonusesBloc(this._getBonusesUseCase) : super(const _Initial()) {
+  BonusesBloc(
+    this._hasAuthStatusUseCase,
+    this._getBonusesUseCase,
+  ) : super(const _Initial()) {
     on<_StartedEvent>(_onStarted);
 
     // При первом обращении получаем бонусы
     add(const _StartedEvent());
   }
 
+  final HasAuthStatusUseCase _hasAuthStatusUseCase;
   final GetBonusesUseCase _getBonusesUseCase;
 
   Future<void> _onStarted(
@@ -26,9 +31,16 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
     _Emit emit,
   ) async {
     emit(const _Loading());
-    (await _getBonusesUseCase.call()).fold(
+    await _hasAuthStatusUseCase.call().fold(
       (failure) => emit(_Error(message: failure.error)),
-      (bonuses) => emit(_Loaded(bonuses: bonuses)),
+      (hasAuth) async {
+        if (!hasAuth) return emit(const _Unauthorized());
+
+        await _getBonusesUseCase.call().fold(
+          (failure) => emit(_Error(message: failure.error)),
+          (bonuses) => emit(_Loaded(bonuses: bonuses)),
+        );
+      },
     );
   }
 }
