@@ -31,9 +31,7 @@ class AuthPage extends StatelessWidget {
         orElse: () => null,
       ),
       child: Scaffold(
-        appBar: const AppBarWidget(
-          automaticallyImplyLeading: false,
-        ),
+        appBar: const AppBarWidget(),
         body: Column(
           children: [
             PhoneNumberField(formKey: formKey),
