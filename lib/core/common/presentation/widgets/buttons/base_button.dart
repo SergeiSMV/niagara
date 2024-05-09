@@ -68,7 +68,7 @@ abstract class BaseButton extends StatelessWidget {
       BaseButtonType.primary => context.colors.buttonColors.primary,
       BaseButtonType.accent => context.colors.buttonColors.accent,
       BaseButtonType.secondary => context.colors.buttonColors.secondary,
-      BaseButtonType.invisible => Colors.transparent,
+      BaseButtonType.invisible => context.colors.mainColors.white,
     };
 
     return InkWell(

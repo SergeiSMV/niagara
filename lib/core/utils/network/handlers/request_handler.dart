@@ -9,33 +9,42 @@ class RequestHandler {
 
   /// Отправляет запрос и возвращает результат.
   /// В случае ошибки возвращает [Failure].
-  Future<Either<Failure, D>> sendRequest<D, T>({
+  Future<Either<Failure, Result>> sendRequest<Result, Type>({
     required Future<Response<dynamic>> Function(Dio dio) request,
-    required D Function(T) converter,
+    required Result Function(Type) converter,
     required Failure Function(String error) failure,
-    bool useDecode = false,
   }) async {
     try {
-      final response = await request(_dio);
+      final data = (await request(_dio)).data;
+      if (data == null) return Left(failure('no data'));
 
-      if (response.data == null) return Left(failure('no data'));
+      Type? result;
 
-      final data = (useDecode
-          ? jsonDecode(response.data.toString())
-          : response.data!) as Map<String, dynamic>;
+      // Определяем тип данных ответа сервера и обрабатываем их.
+      if (data is Map<String, dynamic>) {
+        // Проверяем, есть ли ошибка в ответе сервера и возвращаем ее
+        // в виде объекта [Failure].
+        final error = data['error'] as String?;
+        if (error != null && error.isNotEmpty) return Left(failure(error));
 
-      // Проверяем, есть ли ошибка в ответе сервера и возвращаем ее
-      // в виде объекта [Failure].
-      final error = data['error'] as String?;
-      if (error != null && error.isNotEmpty) return Left(failure(error));
+        // Получаем данные ответа сервера и конвертируем их в объект [T].
+        final responseData = (data['response']) as Type?;
+        if (responseData == null) return Left(failure('no data'));
 
-      // Получаем данные ответа сервера и конвертируем их в объект [T].
-      final responseData = (data['response'] ?? data) as T?;
+        result = responseData;
+      } else if (data is String) {
+        // Если ответ сервера - строка, то декодируем ее и возвращаем.
+        result = jsonDecode(data) as Type;
+      } else if (data is bool) {
+        // Если ответ сервера - булево значение, то возвращаем его.
+        result = data as Type;
+      }
 
-      if (responseData == null) return Left(failure('no data'));
-
-      final res = await compute<T, D>(converter, responseData);
-      return Right(res);
+      if (result != null) {
+        return Right(await compute<Type, Result>(converter, result));
+      } else {
+        return Left(failure('failed to convert data'));
+      }
     } catch (e) {
       return Left(failure(e.toString()));
     }
