@@ -1,6 +1,6 @@
 // ignore_for_file: sort_constructors_first
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/core.dart';
 
 part 'shop_dto.g.dart';
