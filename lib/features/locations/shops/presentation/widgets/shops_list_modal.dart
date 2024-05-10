@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/draggable_pin_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/modal_background_widget.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/cubit/map_cubit.dart';
 import 'package:niagara_app/features/locations/shops/presentation/bloc/shops_bloc.dart';
 import 'package:niagara_app/features/locations/shops/presentation/widgets/selected_shop_widget.dart';
@@ -10,9 +11,9 @@ import 'package:niagara_app/features/locations/shops/presentation/widgets/shops_
 class ShopsListModal extends StatelessWidget {
   const ShopsListModal({super.key});
 
-  static const _minSize = .1;
-  static const _maxSize = .77;
-  static const _snapSize = .4;
+  static const _minSize = AppConst.kCommon01;
+  static const _maxSize = AppConst.kCommon075;
+  static const _snapSize = AppConst.kCommon04;
 
   static final _sheetKey = GlobalKey();
   static final _controller = DraggableScrollableController();

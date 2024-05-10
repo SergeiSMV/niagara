@@ -3,6 +3,22 @@ import 'dart:ui';
 /// Константы приложения
 abstract final class AppConst {
   // ? ----------------------------- General ----------------------------- ? //
+  static const double kCommon0 = 0;
+
+  static const double kCommon01 = 0.1;
+
+  static const double kCommon025 = 0.25;
+
+  static const double kCommon03 = 0.3;
+
+  static const double kCommon04 = 0.4;
+
+  static const double kCommon05 = 0.5;
+
+  static const double kCommon06 = 0.6;
+
+  static const double kCommon075 = 0.75;
+
   static const double kCommon1 = 1;
 
   static const double kCommon2 = 2;

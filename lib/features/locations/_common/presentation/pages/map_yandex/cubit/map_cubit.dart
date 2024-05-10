@@ -51,13 +51,17 @@ class MapCubit extends Cubit<MapState> {
 
   /// Отображает текущее местоположение пользователя
   Future<UserLocationView>? onUserLocationUpdated(UserLocationView view) async {
+    final pin = view.pin;
+    final arrow = view.arrow;
+    final accuracy = view.accuracyCircle;
+
     return view.copyWith(
-      pin: view.pin.copyWith(opacity: 0),
-      arrow: view.arrow.copyWith(opacity: 0),
-      accuracyCircle: view.accuracyCircle.copyWith(
-        fillColor: view.accuracyCircle.fillColor.withOpacity(0.3),
-        strokeColor: view.accuracyCircle.strokeColor.withOpacity(0.5),
-        strokeWidth: 0.5,
+      pin: pin.copyWith(opacity: AppConst.kCommon0),
+      arrow: arrow.copyWith(opacity: AppConst.kCommon0),
+      accuracyCircle: accuracy.copyWith(
+        fillColor: accuracy.fillColor.withOpacity(AppConst.kCommon03),
+        strokeColor: accuracy.strokeColor.withOpacity(AppConst.kCommon05),
+        strokeWidth: AppConst.kCommon05,
       ),
     );
   }
