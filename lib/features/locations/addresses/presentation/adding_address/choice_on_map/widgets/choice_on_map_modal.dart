@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/modal_background_widget.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/cubit/map_cubit.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/adding_address/choice_on_map/cubit/choice_on_map_cubit.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/adding_address/choice_on_map/widgets/approve_address_widget.dart';
@@ -12,9 +13,9 @@ import 'package:niagara_app/features/locations/addresses/presentation/adding_add
 class ChoiceOnMapModal extends StatelessWidget {
   const ChoiceOnMapModal({super.key});
 
-  static const _minSize = .1;
-  static const _maxSize = .5;
-  static const _snapSize = .3;
+  static const _minSize = AppConst.kCommon01;
+  static const _maxSize = AppConst.kCommon05;
+  static const _snapSize = AppConst.kCommon03;
 
   static final _sheetKey = GlobalKey();
   static final _controller = DraggableScrollableController();

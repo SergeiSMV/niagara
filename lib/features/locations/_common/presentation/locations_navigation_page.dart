@@ -65,7 +65,7 @@ class LocationsTabPage extends StatelessWidget {
                         ),
                       )
                       .toList(),
-                  dividerHeight: 0,
+                  dividerHeight: AppConst.kCommon0,
                   splashFactory: NoSplash.splashFactory,
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(AppConst.kCommon8),

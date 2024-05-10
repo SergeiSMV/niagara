@@ -53,8 +53,8 @@ class AppTheme {
   }) {
     return AppBarTheme(
       backgroundColor: colors.mainColors.white,
-      elevation: 0,
-      scrolledUnderElevation: 0,
+      elevation: AppConst.kCommon0,
+      scrolledUnderElevation: AppConst.kCommon0,
       titleTextStyle: typography.textTypo.tx1SemiBold.withColor(
         colors.textColors.main,
       ),
@@ -68,10 +68,11 @@ class AppTheme {
       BottomNavigationBarThemeData(
         backgroundColor: colors.mainColors.primary,
         selectedItemColor: colors.textColors.white,
-        unselectedItemColor: colors.textColors.white.withOpacity(0.6),
+        unselectedItemColor:
+            colors.textColors.white.withOpacity(AppConst.kCommon06),
         selectedLabelStyle: typography.textTypo.tx4Medium,
         unselectedLabelStyle: typography.textTypo.tx4Medium,
-        elevation: 0,
+        elevation: AppConst.kCommon0,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,

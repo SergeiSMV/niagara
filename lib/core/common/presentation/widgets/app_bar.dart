@@ -49,11 +49,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           .withColor(context.colors.textColors.main),
       actions: actions,
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(0),
+        preferredSize: const Size.fromHeight(AppConst.kCommon0),
         child: Divider(
           thickness: AppConst.kCommon1,
           color: context.colors.fieldBordersColors.inactive,
-          height: 0,
+          height: AppConst.kCommon0,
         ),
       ),
     );
