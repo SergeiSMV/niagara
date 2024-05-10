@@ -81,6 +81,7 @@ flutter:
     - assets/images/about_bonuses/
     - assets/images/banners/first/
     - assets/images/banners/second/
+    - assets/images/catalog/
     - assets/icons/
     - assets/icons/bottom_bar/
     - assets/icons/radio/
