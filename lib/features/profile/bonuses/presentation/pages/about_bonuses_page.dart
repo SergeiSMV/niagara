@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/modal_background_widget.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/about_bonus_program/bonuses_program_header_widget.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/about_bonus_program/f_a_q_bonuses_widget.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/about_bonus_program/joining_is_quick_and_easy_widget.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/about_bonus_program/two_types_bonuses_widget.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/about_bonus_program/what_bonus_program_gives_widget.dart';
 
 @RoutePage()
 class AboutBonusesPage extends StatelessWidget {
@@ -40,20 +38,15 @@ class AboutBonusesPage extends StatelessWidget {
             builder: (_, scrollCtrl) => SingleChildScrollView(
               controller: scrollCtrl,
               physics: const ClampingScrollPhysics(),
-              child: ModalBackgroundWidget(
+              child: const ModalBackgroundWidget(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppConst.kCommon24.verticalBox,
-                    Text(
-                      t.bonuses.aboutBonusesProgram.whatBonusProgramGives,
-                      style: context.textStyle.headingTypo.h3.withColor(
-                        context.colors.textColors.main,
-                      ),
-                    ),
-                    AppConst.kCommon48.verticalBox,
+                    WhatBonusProgramGivesWidget(),
+                    JoiningIsQuickAndEasyWidget(),
+                    TwoTypesBonusesWidget(),
+                    FAQBonusesWidget(),
                   ],
-                ).paddingSymmetric(horizontal: AppConst.kCommon16),
+                ),
               ),
             ),
           ),

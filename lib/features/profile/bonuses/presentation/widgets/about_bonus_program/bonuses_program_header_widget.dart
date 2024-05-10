@@ -25,8 +25,13 @@ class BonusesProgramHeaderWidget extends StatelessWidget {
                   .withColor(context.colors.mainColors.white),
             ),
             AppConst.kCommon16.verticalBox,
-            Text(
-              t.bonuses.aboutBonusesProgram.bonusProgramDescription,
+            Text.rich(
+              t.bonuses.aboutBonusesProgram.bonusProgramDescription(
+                paragraph: (text) => TextSpan(
+                  text: text,
+                  style: const TextStyle(height: .8),
+                ),
+              ),
               style: context.textStyle.textTypo.tx2Medium
                   .withColor(context.colors.mainColors.white),
             ),
