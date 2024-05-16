@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/enums/bonus_level_type.dart';
+import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/string_extension.dart';
@@ -17,6 +17,9 @@ class NextLevelWidget extends StatelessWidget {
   });
 
   final Bonuses bonuses;
+
+  int get currentAmount => 1230;
+  int get nextLevel => 1500;
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +43,12 @@ class NextLevelWidget extends StatelessWidget {
         children: [
           _NextLevelStatusWidget(
             nextLevel: bonuses.nextLevel,
-            toNextLevel: 1500,
+            toNextLevel: nextLevel,
           ),
           AppConst.kCommon16.verticalBox,
-          const _BonusNextLevelAmountSlider(
-            currentAmount: 1000,
-            maxAmount: 1500,
+          _BonusNextLevelAmountSlider(
+            currentAmount: currentAmount,
+            maxAmount: nextLevel,
           ),
         ],
       ),
@@ -134,7 +137,7 @@ class _NextLevelStatusWidget extends StatelessWidget {
     required this.toNextLevel,
   });
 
-  final BonusLevel nextLevel;
+  final StatusLevel nextLevel;
   final int toNextLevel;
 
   @override

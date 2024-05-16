@@ -1,5 +1,5 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/bonus_level_type.dart';
+import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 
 class Bonuses extends Equatable {
   const Bonuses({
@@ -22,8 +22,8 @@ class Bonuses extends Equatable {
   final int tempCount;
   final String tempLastDate;
   final int tempDays;
-  final BonusLevel level;
-  final BonusLevel nextLevel;
+  final StatusLevel level;
+  final StatusLevel nextLevel;
   final DateTime endDate;
   final int revThisMonth;
   final List<Bonus> bonuses;

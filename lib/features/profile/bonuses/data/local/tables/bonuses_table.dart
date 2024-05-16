@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
-import 'package:niagara_app/core/utils/enums/bonus_level_type.dart';
+import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 import 'package:niagara_app/features/profile/bonuses/data/local/entities/bonuses_entity.dart';
 
 class BonusesTable extends Table {
@@ -11,8 +11,8 @@ class BonusesTable extends Table {
   IntColumn get tempCount => integer()();
   TextColumn get tempLastDate => text()();
   IntColumn get tempDays => integer()();
-  IntColumn get level => intEnum<BonusLevel>()();
-  IntColumn get nextLevel => intEnum<BonusLevel>()();
+  IntColumn get level => intEnum<StatusLevel>()();
+  IntColumn get nextLevel => intEnum<StatusLevel>()();
   DateTimeColumn get endDate => dateTime()();
   IntColumn get revThisMonth => integer()();
   TextColumn get bonuses => text().map(const BonusEntityConverter())();

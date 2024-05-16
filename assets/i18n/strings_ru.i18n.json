@@ -39,9 +39,11 @@
       "platinum": "Платиновый"
     },
     "status": "статус",
+    "readMoreAboutStatus": "Подробнее о статусе",
     "bonuses": "Бонусы",
     "waterBalance": "Баланс воды",
     "temporary": "Временные",
+    "pieces": "шт.",
     "bonusCard": "Бонусная карта",
     "showQR": "Покажите QR-код на кассе, чтобы начислить бонусы",
     "myCard": "Моя карта",
@@ -155,5 +157,9 @@
     "weekendDaysWorkTime": "Суббота-воскресенье с ${startTime} до ${endTime}",
     "workSchedule": "График работы",
     "errorLoad": "Не удалось загрузить магазины"
+  },
+  "profile": {
+    "helloUser": "Привет, ${name}!",
+    "letsGetAcquainted": "Давайте познакомимся!"
   }
 }

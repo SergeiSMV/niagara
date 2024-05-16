@@ -84,7 +84,7 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
   Future<Either<Failure, bool>> checkAddress({
     required AddressDto address,
   }) async =>
-      _requestHandler.sendRequest<bool, bool>(
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kCheckLocation,
           data: {
@@ -93,7 +93,7 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
             'LON': address.longitude,
           },
         ),
-        converter: (json) => json,
+        converter: (json) => json['result'] as bool,
         failure: AddressesRemoteDataFailure.new,
       );
 }

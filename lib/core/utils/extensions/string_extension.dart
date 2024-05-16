@@ -1,3 +1,5 @@
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
+
 extension StringExtension on String {
   String spaceSeparateNumbers() {
     final result = replaceAllMapped(
@@ -31,5 +33,10 @@ extension StringExtension on String {
   String capitalizeFirst() {
     if (isEmpty) return '';
     return '${this[0].toUpperCase()}${substring(1)}';
+  }
+
+  String phoneFormat() {
+    if (isEmpty) return '';
+    return '${t.auth.ruPhoneCode} (${substring(1, 4)}) ${substring(4, 7)}-${substring(7, 9)}-${substring(9, 11)}';
   }
 }

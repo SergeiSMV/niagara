@@ -7,7 +7,11 @@ abstract final class ProfileRouters {
   static AutoRoute get routers => AutoRoute(
         page: ProfileWrapper.page,
         children: [
-          AutoRoute(page: ProfileRoute.page, initial: true),
+          AutoRoute(
+            page: ProfileRoute.page,
+            initial: true,
+            title: (_, __) => '',
+          ),
           AutoRoute(
             page: MyBonusesRoute.page,
             title: (_, __) => t.bonuses.myCard,

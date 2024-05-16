@@ -48,7 +48,7 @@ class YearlyBonusesWidget extends StatelessWidget {
           ),
           AppConst.kCommon24.verticalBox,
           TimerCountdown(
-            endTime: DateTime.now().add(const Duration(days: 18)),
+            endTime: DateTime.now().add(const Duration(days: 31)),
             daysDescription: t.bonuses.days,
             hoursDescription: t.bonuses.hours,
             minutesDescription: t.bonuses.minutes,

@@ -32,7 +32,7 @@ class BonusContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        BonusLevelStatusDataWidget(bonuses: bonuses),
+        const BonusLevelStatusDataWidget(),
         DraggableScrollableSheet(
           key: _sheetKey,
           controller: _controller,

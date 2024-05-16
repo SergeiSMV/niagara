@@ -67,7 +67,7 @@ class HomeBonusesWidget extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: Assets.images.bonusStatus.silver.provider(),
+                          image: bonuses.level.cardImage.provider(),
                           fit: BoxFit.fill,
                         ),
                         borderRadius: BorderRadius.circular(AppConst.kCommon12),
