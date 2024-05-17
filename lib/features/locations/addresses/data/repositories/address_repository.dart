@@ -119,7 +119,7 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
           );
 
   Future<void> _updateAddress(Address address) async =>
-      _addressesRDS.addAddress(address: address.toDto()).fold(
+      _addressesRDS.updateAddress(address: address.toDto()).fold(
         (failure) => throw failure,
         (locationId) async {
           await _addressesLDS.updateAddress(address.toEntity());

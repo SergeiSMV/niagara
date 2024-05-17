@@ -4,7 +4,6 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/profile/bonuses/presentation/widgets/history/_mock_data.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/history/bonuses_history_widget.dart';
 
 class AccrualHistoryButton extends StatelessWidget {
@@ -17,7 +16,7 @@ class AccrualHistoryButton extends StatelessWidget {
         backgroundColor: context.colors.mainColors.white,
         isScrollControlled: true,
         useSafeArea: true,
-        builder: (_) => BonusesHistoryWidget(bonusesHistory: mock),
+        builder: (_) => const BonusesHistoryWidget(bonusesHistory: []),
       );
 
   @override

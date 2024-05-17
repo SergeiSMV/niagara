@@ -26,4 +26,18 @@ enum StatusLevel {
       };
 }
 
-enum BenefitPicture { coin, cashback }
+enum BenefitPicture {
+  coin,
+  cashback;
+
+  static BenefitPicture fromString(String value) => switch (value) {
+        'coin' => BenefitPicture.coin,
+        'cashback' => BenefitPicture.cashback,
+        _ => BenefitPicture.coin
+      };
+
+  SvgGenImage get picture => switch (this) {
+        BenefitPicture.coin => Assets.icons.coinNiagara,
+        BenefitPicture.cashback => Assets.icons.cashback,
+      };
+}

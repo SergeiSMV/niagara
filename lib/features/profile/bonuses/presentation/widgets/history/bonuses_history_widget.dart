@@ -19,7 +19,7 @@ class BonusesHistoryWidget extends StatelessWidget {
     super.key,
   });
 
-  final List<Bonus> bonusesHistory;
+  final List<dynamic> bonusesHistory;
 
   bool get isNotEmpty => bonusesHistory.isNotEmpty;
 
@@ -34,20 +34,20 @@ class BonusesHistoryWidget extends StatelessWidget {
             Flexible(
               child: Stack(
                 children: [
-                  ListView.separated(
-                    itemCount: bonusesHistory.length,
-                    itemBuilder: (_, index) => BonusHistoryTile(
-                      title: bonusesHistory[index].programId,
-                      date: bonusesHistory[index].endDate,
-                      count: bonusesHistory[index].count,
-                      isTemp: bonusesHistory[index].isTemp,
-                    ),
-                    separatorBuilder: (_, __) => Divider(
-                      height: 0,
-                      color: context.colors.otherColors.separator30,
-                      thickness: AppConst.kCommon1,
-                    ),
-                  ),
+                  // ListView.separated(
+                  //   itemCount: bonusesHistory.length,
+                  //   itemBuilder: (_, index) => BonusHistoryTile(
+                  //     title: bonusesHistory[index].programId,
+                  //     date: bonusesHistory[index].endDate,
+                  //     count: bonusesHistory[index].count,
+                  //     isTemp: bonusesHistory[index].isTemp,
+                  //   ),
+                  //   separatorBuilder: (_, __) => Divider(
+                  //     height: 0,
+                  //     color: context.colors.otherColors.separator30,
+                  //     thickness: AppConst.kCommon1,
+                  //   ),
+                  // ),
                   const BurnBonusesWidget(),
                 ],
               ),

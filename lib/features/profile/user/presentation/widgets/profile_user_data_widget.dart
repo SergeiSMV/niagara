@@ -13,7 +13,6 @@ class ProfileUserDataWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (_, state) => state.maybeWhen(
-        orElse: SizedBox.shrink,
         loaded: (user) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -29,6 +28,8 @@ class ProfileUserDataWidget extends StatelessWidget {
             ),
           ],
         ),
+        unauthorized: () => Center(child: Text(t.routes.profile)),
+        orElse: SizedBox.shrink,
       ),
     );
   }

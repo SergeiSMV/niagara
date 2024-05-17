@@ -5,15 +5,19 @@ class StatusDescription extends Equatable {
   const StatusDescription({
     required this.level,
     required this.description,
+    required this.minSum,
+    required this.maxSum,
     required this.benefits,
   });
 
   final StatusLevel level;
   final String description;
+  final int minSum;
+  final int maxSum;
   final List<BenefitDescription> benefits;
 
   @override
-  List<Object?> get props => [level, description, benefits];
+  List<Object?> get props => [level, description, minSum, maxSum, benefits];
 }
 
 class BenefitDescription extends Equatable {

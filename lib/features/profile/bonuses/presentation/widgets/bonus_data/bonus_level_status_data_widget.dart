@@ -5,7 +5,7 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
-import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/horizontal_bonus_cards_data_widget.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/history/accrual_history_button.dart';
 
@@ -20,7 +20,7 @@ class BonusLevelStatusDataWidget extends StatelessWidget {
     return BlocBuilder<BonusesBloc, BonusesState>(
       builder: (_, state) => state.maybeWhen(
         orElse: SizedBox.shrink,
-        loaded: (bonuses) => Stack(
+        loaded: (bonuses, _) => Stack(
           children: [
             bonuses.level.cardImage.image(
               width: backImageWidth,
@@ -31,7 +31,7 @@ class BonusLevelStatusDataWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  bonuses.level.name,
+                  bonuses.level.toLocale(),
                   style: context.textStyle.headingTypo.h2
                       .withColor(context.colors.mainColors.white),
                 ),

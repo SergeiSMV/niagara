@@ -8,6 +8,7 @@ class BonusesState with _$BonusesState {
 
   const factory BonusesState.loaded({
     required Bonuses bonuses,
+    required StatusDescription statusDescription,
   }) = _Loaded;
 
   const factory BonusesState.error({

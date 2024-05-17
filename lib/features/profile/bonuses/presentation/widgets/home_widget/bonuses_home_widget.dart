@@ -8,10 +8,11 @@ import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc.dart';
-import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/bonus_data_widget.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/bonuses_data_widget.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/prepaid_water_data_widget.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/qr_code_button.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/unauthorized_bonuses_widget.dart';
 
 class HomeBonusesWidget extends StatelessWidget {
   const HomeBonusesWidget({super.key});
@@ -30,32 +31,26 @@ class HomeBonusesWidget extends StatelessWidget {
     return BlocBuilder<BonusesBloc, BonusesState>(
       builder: (_, state) => state
           .maybeWhen(
-            orElse: SizedBox.shrink,
-            loaded: (bonuses) => Row(
+            loaded: (bonuses, _) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  flex: 3,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      BonusDataWidget(
-                        title: t.bonuses.bonuses,
-                        value: bonuses.count.toString(),
-                        icon: Assets.icons.coinNiagara,
-                      ),
-                      AppConst.kCommon8.verticalBox,
-                      BonusDataWidget(
-                        title: t.bonuses.temporary,
-                        value: bonuses.tempCount.toString(),
-                        icon: Assets.icons.fire,
-                      ),
-                    ],
+                  flex: AppConst.kCommon4.toInt(),
+                  child: InkWell(
+                    onTap: () => _goToBonuses(context),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const BonusesDataWidget(),
+                        AppConst.kCommon8.verticalBox,
+                        const PrepaidWaterDataWidget(),
+                      ],
+                    ),
                   ),
                 ),
                 AppConst.kCommon8.horizontalBox,
                 Flexible(
-                  flex: 5,
+                  flex: AppConst.kCommon6.toInt(),
                   child: InkWell(
                     onTap: () => _goToBonuses(context),
                     child: Container(
@@ -97,6 +92,8 @@ class HomeBonusesWidget extends StatelessWidget {
                 ),
               ],
             ),
+            unauthorized: UnauthorizedBonusesWidget.new,
+            orElse: SizedBox.shrink,
           )
           .paddingSymmetric(
             vertical: AppConst.kCommon24,

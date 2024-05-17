@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -8,18 +9,10 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 
 class NextLevelWidget extends StatelessWidget {
-  const NextLevelWidget({
-    required this.bonuses,
-    super.key,
-  });
-
-  final Bonuses bonuses;
-
-  int get currentAmount => 1230;
-  int get nextLevel => 1500;
+  const NextLevelWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +32,23 @@ class NextLevelWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          _NextLevelStatusWidget(
-            nextLevel: bonuses.nextLevel,
-            toNextLevel: nextLevel,
+      child: BlocBuilder<BonusesBloc, BonusesState>(
+        builder: (_, state) => state.maybeWhen(
+          orElse: SizedBox.shrink,
+          loaded: (bonuses, statusDescription) => Column(
+            children: [
+              _NextLevelStatusWidget(
+                nextLevel: bonuses.nextLevel,
+                toNextLevel: statusDescription.maxSum,
+              ),
+              AppConst.kCommon16.verticalBox,
+              _BonusNextLevelAmountSlider(
+                currentAmount: bonuses.revThisMonth,
+                maxAmount: statusDescription.maxSum,
+              ),
+            ],
           ),
-          AppConst.kCommon16.verticalBox,
-          _BonusNextLevelAmountSlider(
-            currentAmount: currentAmount,
-            maxAmount: nextLevel,
-          ),
-        ],
+        ),
       ),
     );
   }

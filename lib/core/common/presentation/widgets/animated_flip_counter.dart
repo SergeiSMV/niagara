@@ -1,4 +1,5 @@
-// ignore_for_file: omit_local_variable_types
+// ignore_for_file: omit_local_variable_types,
+// ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
 import 'dart:math' as math;
 

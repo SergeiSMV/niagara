@@ -37,6 +37,8 @@ extension StringExtension on String {
 
   String phoneFormat() {
     if (isEmpty) return '';
-    return '${t.auth.ruPhoneCode} (${substring(1, 4)}) ${substring(4, 7)}-${substring(7, 9)}-${substring(9, 11)}';
+    final res =
+        '${t.auth.ruPhoneCode} (${substring(1, 4)}) ${substring(4, 7)}-${substring(7, 9)}-${substring(9, 11)}';
+    return res;
   }
 }

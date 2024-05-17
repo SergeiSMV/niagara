@@ -6,7 +6,7 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/profile/bonuses/presentation/widgets/about_bonus_program/unregistered_user_widget.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonuses_program/unregistered_user_widget.dart';
 
 class BonusesProgramHeaderWidget extends StatelessWidget {
   const BonusesProgramHeaderWidget({super.key});

@@ -7,7 +7,6 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/accrued_bonuses_widget.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/benefits/list_benefits_widget.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/about_bonus_program_button.dart';
@@ -17,12 +16,7 @@ import 'package:niagara_app/features/profile/bonuses/presentation/widgets/next_l
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/yearly_bonuses_widget.dart';
 
 class BonusContentWidget extends StatelessWidget {
-  const BonusContentWidget(
-    this.bonuses, {
-    super.key,
-  });
-
-  final Bonuses bonuses;
+  const BonusContentWidget({super.key});
 
   static final _sheetKey = GlobalKey();
   static final _controller = DraggableScrollableController();
@@ -69,7 +63,7 @@ class BonusContentWidget extends StatelessWidget {
                             .withColor(context.colors.textColors.main),
                       ),
                       AppConst.kCommon16.verticalBox,
-                      NextLevelWidget(bonuses: bonuses),
+                      const NextLevelWidget(),
                       AppConst.kCommon24.verticalBox,
                       const AboutBonusProgramButton(),
                     ],

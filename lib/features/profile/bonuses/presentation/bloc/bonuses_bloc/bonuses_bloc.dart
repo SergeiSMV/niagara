@@ -3,7 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
+import 'package:niagara_app/features/profile/bonuses/domain/models/status_description.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/use_cases/get_bonuses_use_case.dart';
+import 'package:niagara_app/features/profile/bonuses/domain/use_cases/get_status_description_use_case.dart';
 
 part 'bonuses_bloc.freezed.dart';
 part 'bonuses_event.dart';
@@ -16,6 +18,7 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
   BonusesBloc(
     this._hasAuthStatusUseCase,
     this._getBonusesUseCase,
+    this._getStatusDescriptionUseCase,
   ) : super(const _Initial()) {
     on<_StartedEvent>(_onStarted);
 
@@ -25,6 +28,7 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
 
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
   final GetBonusesUseCase _getBonusesUseCase;
+  final GetStatusDescriptionUseCase _getStatusDescriptionUseCase;
 
   Future<void> _onStarted(
     _StartedEvent event,
@@ -37,9 +41,18 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
         if (!hasAuth) return emit(const _Unauthorized());
 
         await _getBonusesUseCase.call().fold(
-          (failure) => emit(_Error(message: failure.error)),
-          (bonuses) => emit(_Loaded(bonuses: bonuses)),
-        );
+              (failure) => emit(_Error(message: failure.error)),
+              (bonuses) async =>
+                  _getStatusDescriptionUseCase.call(bonuses.level).fold(
+                        (failure) => emit(_Error(message: failure.error)),
+                        (statusDescription) => emit(
+                          _Loaded(
+                            bonuses: bonuses,
+                            statusDescription: statusDescription,
+                          ),
+                        ),
+                      ),
+            );
       },
     );
   }
