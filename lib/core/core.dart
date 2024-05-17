@@ -12,6 +12,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/api_constants.dart';
+import 'package:niagara_app/core/utils/crashlytics/crashlytics_observer.dart';
 import 'package:niagara_app/features/authorization/base_token/domain/repositories/token_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';

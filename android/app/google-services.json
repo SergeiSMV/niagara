@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "44499479443",
+    "project_id": "water-app-ff17a",
+    "storage_bucket": "water-app-ff17a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44499479443:android:ca4cdba7dd4cf4c708d666",
+        "android_client_info": {
+          "package_name": "io.cordova.niagara74"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "44499479443-e18f482cf0529t54tihhnhak67toui5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD20uR-QvFq1w9G1z4MUva3d0aDbPByQBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "44499479443-e18f482cf0529t54tihhnhak67toui5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "44499479443-c9qgie12ee44sioq7f0f6tn2rg3msk80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ru.cordova.niagara174"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

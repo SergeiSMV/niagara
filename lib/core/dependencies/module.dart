@@ -3,7 +3,9 @@ part of '../core.dart';
 @module
 abstract class AppModule {
   @lazySingleton
-  Talker get talker => TalkerFlutter.init();
+  Talker get talker => TalkerFlutter.init(
+        observer: const CrashlyticsTalkerObserver(),
+      );
 
   @lazySingleton
   TalkerBlocObserver get talkerBlocObserver => TalkerBlocObserver(
