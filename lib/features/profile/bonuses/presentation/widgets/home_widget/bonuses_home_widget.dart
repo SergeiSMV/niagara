@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/num_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/bonuses_data_widget.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/prepaid_water_data_widget.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/level_name_widget.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/qr_code_button.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/unauthorized_bonuses_widget.dart';
 
@@ -77,7 +76,7 @@ class HomeBonusesWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Flexible(
-                                child: _LevelNameWidget(
+                                child: LevelNameWidget(
                                   level: bonuses.level.toLocale(),
                                 ),
                               ),
@@ -99,38 +98,6 @@ class HomeBonusesWidget extends StatelessWidget {
             vertical: AppConst.kCommon24,
             horizontal: AppConst.kCommon16,
           ),
-    );
-  }
-}
-
-class _LevelNameWidget extends StatelessWidget {
-  const _LevelNameWidget({
-    required this.level,
-  });
-
-  final String level;
-
-  @override
-  Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        text: level,
-        style: context.textStyle.textTypo.tx3SemiBold
-            .withColor(context.colors.mainColors.white),
-        children: [
-          WidgetSpan(
-            child: Assets.icons.arrowRight.svg(
-              width: AppConst.kIconSmall,
-              height: AppConst.kIconSmall,
-              colorFilter: ColorFilter.mode(
-                context.colors.mainColors.white,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-        ],
-      ),
-      maxLines: AppConst.kCommon2.toInt(),
     );
   }
 }
