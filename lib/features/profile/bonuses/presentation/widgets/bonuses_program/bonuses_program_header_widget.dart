@@ -29,7 +29,7 @@ class BonusesProgramHeaderWidget extends StatelessWidget {
               t.bonuses.aboutBonusesProgram.bonusProgramDescription(
                 paragraph: (text) => TextSpan(
                   text: text,
-                  style: const TextStyle(height: .8),
+                  style: const TextStyle(height: AppConst.kCommon08),
                 ),
               ),
               style: context.textStyle.textTypo.tx2Medium

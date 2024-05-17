@@ -5,9 +5,11 @@ abstract final class AppConst {
   // ? ----------------------------- General ----------------------------- ? //
   static const double kCommon0 = 0;
 
+  static const double kCommon005 = 0.05;
+
   static const double kCommon01 = 0.1;
 
-  static const double kCommon025 = 0.25;
+  static const double kCommon02 = 0.2;
 
   static const double kCommon03 = 0.3;
 
@@ -17,7 +19,11 @@ abstract final class AppConst {
 
   static const double kCommon06 = 0.6;
 
-  static const double kCommon075 = 0.75;
+  static const double kCommon07 = 0.7;
+
+  static const double kCommon08 = 0.8;
+
+  static const double kCommon09 = 0.9;
 
   static const double kCommon1 = 1;
 

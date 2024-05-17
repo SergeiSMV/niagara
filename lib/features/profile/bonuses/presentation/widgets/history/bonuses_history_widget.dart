@@ -34,6 +34,8 @@ class BonusesHistoryWidget extends StatelessWidget {
             Flexible(
               child: Stack(
                 children: [
+
+                  // !!! ОЖИДАНИЕ БЭКА !!! //
                   // ListView.separated(
                   //   itemCount: bonusesHistory.length,
                   //   itemBuilder: (_, index) => BonusHistoryTile(

@@ -7,7 +7,6 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 class BonusDataWidget extends StatelessWidget {
   const BonusDataWidget({
-    
     required this.title,
     required this.value,
     required this.icon,

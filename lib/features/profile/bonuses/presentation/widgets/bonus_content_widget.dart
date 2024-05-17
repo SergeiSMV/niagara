@@ -20,7 +20,7 @@ class BonusContentWidget extends StatelessWidget {
 
   static final _sheetKey = GlobalKey();
   static final _controller = DraggableScrollableController();
-  static double get _sheetSize => .7;
+  static double get _sheetSize => AppConst.kCommon08;
 
   @override
   Widget build(BuildContext context) {

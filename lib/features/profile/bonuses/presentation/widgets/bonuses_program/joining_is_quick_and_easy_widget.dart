@@ -30,7 +30,7 @@ class JoiningIsQuickAndEasyWidget extends StatelessWidget {
             t.bonuses.aboutBonusesProgram.joiningIsQuickAndEasyDescription(
               paragraph: (text) => TextSpan(
                 text: text,
-                style: const TextStyle(height: .8),
+                style: const TextStyle(height: AppConst.kCommon08),
               ),
             ),
             style: context.textStyle.descriptionTypo.des2

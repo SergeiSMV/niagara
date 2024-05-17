@@ -11,7 +11,7 @@ class BonusesDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BonusesBloc, BonusesState>(
-      builder: (context, state) => state.maybeWhen(
+      builder: (_, state) => state.maybeWhen(
         orElse: () => const SizedBox.shrink(),
         loaded: (bonuses, _) => BonusDataWidget(
           title: t.bonuses.bonuses,

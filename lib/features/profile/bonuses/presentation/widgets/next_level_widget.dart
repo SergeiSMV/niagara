@@ -23,7 +23,8 @@ class NextLevelWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppConst.kCommon12),
         boxShadow: [
           BoxShadow(
-            color: context.colors.textColors.accent.withOpacity(.12),
+            color: context.colors.textColors.accent
+                .withOpacity(AppConst.kCommon01 + AppConst.kCommon005),
             blurRadius: AppConst.kCommon24,
             offset: const Offset(
               -AppConst.kCommon2,
