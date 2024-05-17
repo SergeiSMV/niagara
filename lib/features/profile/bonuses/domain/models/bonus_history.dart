@@ -1,8 +1,7 @@
 import 'package:niagara_app/core/core.dart';
 
-@Equatable()
-class BonusHistory {
-  BonusHistory({
+class BonusHistory extends Equatable {
+  const BonusHistory({
     required this.date,
     required this.value,
     required this.info,
@@ -13,4 +12,7 @@ class BonusHistory {
   final int value;
   final String info;
   final bool isTemp;
+
+  @override
+  List<Object?> get props => [date, value, info, isTemp];
 }

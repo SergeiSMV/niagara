@@ -3,10 +3,9 @@ import 'package:niagara_app/core/core.dart';
 
 part 'pagination_dto.g.dart';
 
-@Equatable()
 @JsonSerializable(createToJson: false)
-class PaginationDto {
-  PaginationDto({
+class PaginationDto extends Equatable {
+  const PaginationDto({
     required this.current,
     required this.total,
   });
@@ -19,4 +18,7 @@ class PaginationDto {
 
   factory PaginationDto.fromJson(Map<String, dynamic> json) =>
       _$PaginationDtoFromJson(json);
+
+  @override
+  List<Object?> get props => [current, total];
 }

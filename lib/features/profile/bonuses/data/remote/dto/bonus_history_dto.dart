@@ -3,10 +3,9 @@ import 'package:niagara_app/core/core.dart';
 
 part 'bonus_history_dto.g.dart';
 
-@Equatable()
 @JsonSerializable(createToJson: false)
-class BonusHistoryDto {
-  BonusHistoryDto({
+class BonusHistoryDto extends Equatable {
+  const BonusHistoryDto({
     required this.date,
     required this.value,
     required this.info,
@@ -27,4 +26,7 @@ class BonusHistoryDto {
 
   factory BonusHistoryDto.fromJson(Map<String, dynamic> json) =>
       _$BonusHistoryDtoFromJson(json);
+
+  @override
+  List<Object?> get props => [date, value, info, isTemp];
 }
