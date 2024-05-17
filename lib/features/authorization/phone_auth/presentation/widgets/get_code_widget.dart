@@ -20,8 +20,9 @@ class GetCodeWidget extends StatelessWidget {
 
   void onTapGetCode(BuildContext context) {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
-      final phoneNumber =
-          _formKey.currentState?.value[AppConst.kTextFieldPhoneName].toString();
+      final phoneNumber = _formKey
+          .currentState?.value[AppConstants.kTextFieldPhoneName]
+          .toString();
       if (phoneNumber == null || phoneNumber.isEmpty) return;
       context.read<AuthBloc>().add(AuthEvent.getCode(phoneNumber: phoneNumber));
     }

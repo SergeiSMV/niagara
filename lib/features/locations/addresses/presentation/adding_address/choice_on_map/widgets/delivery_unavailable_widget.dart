@@ -2,10 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
@@ -23,10 +23,11 @@ class DeliveryUnavailableWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final phone = context.read<AddressesBloc>().state.phone;
     return Container(
-      padding: const EdgeInsets.all(AppConst.kCommon12),
+      padding: const EdgeInsets.all(AppSizes.kGeneral12),
+      margin: AppInsets.kSymmetricV12 + AppInsets.kSymmetricH16,
       decoration: BoxDecoration(
         color: context.colors.infoColors.bgRed,
-        borderRadius: BorderRadius.circular(AppConst.kCommon12),
+        borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
       ),
       child: Row(
         children: [
@@ -36,7 +37,7 @@ class DeliveryUnavailableWidget extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          AppConst.kCommon8.horizontalBox,
+          AppBoxes.kBoxH8,
           Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,12 +46,12 @@ class DeliveryUnavailableWidget extends StatelessWidget {
                   t.locations.addressOutsideDeliveryZone,
                   style: context.textStyle.textTypo.tx2SemiBold,
                 ),
-                AppConst.kCommon4.verticalBox,
+                AppBoxes.kBoxV4,
                 Text(
                   t.locations.addressOutsideDeliveryZoneDescription,
                   style: context.textStyle.descriptionTypo.des3,
                 ),
-                AppConst.kCommon8.verticalBox,
+                AppBoxes.kBoxV8,
                 Text.rich(
                   t.locations.deliveryQuestions(
                     phone: (_) => _buildTextButton(
@@ -66,9 +67,6 @@ class DeliveryUnavailableWidget extends StatelessWidget {
           ),
         ],
       ),
-    ).paddingSymmetric(
-      vertical: AppConst.kCommon12,
-      horizontal: AppConst.kCommon16,
     );
   }
 

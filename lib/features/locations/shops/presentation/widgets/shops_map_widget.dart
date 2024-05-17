@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/cubit/map_cubit.dart';
 import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/widget/map_widget.dart';
@@ -41,7 +41,7 @@ class ShopsMapWidget extends StatelessWidget {
               latitude: shop.coordinates.$1,
               longitude: shop.coordinates.$2,
             ),
-            opacity: AppConst.kCommon1,
+            opacity: AppSizes.kGeneral1,
             icon: PlacemarkIcon.single(
               PlacemarkIconStyle(
                 image: BitmapDescriptor.fromAssetImage(
@@ -84,7 +84,7 @@ class ShopsMapWidget extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          flex: AppConst.kCommon32.toInt(),
+          flex: AppSizes.kGeneral32.toInt(),
           child: MapWidget(
             key: _mapKey,
             mapObjects: [
@@ -98,7 +98,7 @@ class ShopsMapWidget extends StatelessWidget {
             onCameraPositionChanged: mapCubit.onCameraPositionChanged,
           ),
         ),
-        Spacer(flex: AppConst.kCommon2.toInt()),
+        Spacer(flex: AppSizes.kGeneral2.toInt()),
       ],
     );
   }

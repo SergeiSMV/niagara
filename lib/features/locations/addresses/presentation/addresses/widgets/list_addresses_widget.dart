@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
@@ -34,7 +34,7 @@ class ListAddressesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView.builder(
-        padding: AppConst.kCommon12.vertical,
+        padding:  AppInsets.kSymmetricV12,
         itemCount: addresses.length + 1,
         shrinkWrap: true,
         itemBuilder: (_, index) {
@@ -42,10 +42,10 @@ class ListAddressesWidget extends StatelessWidget {
 
           final address = addresses[index];
           return ListTile(
-            contentPadding: AppConst.kCommon16.horizontal,
+            contentPadding:  AppInsets.kSymmetricH16,
             leading: _buildRadioIcon(address).svg(
-              width: AppConst.kIconMedium,
-              height: AppConst.kIconMedium,
+              width: AppSizes.kIconMedium,
+              height: AppSizes.kIconMedium,
             ),
             title: Text(
               address.name,
@@ -62,8 +62,8 @@ class ListAddressesWidget extends StatelessWidget {
             trailing: InkWell(
               onTap: () => _onEditAddress(context, address),
               child: Assets.icons.pen.svg(
-                width: AppConst.kIconMedium,
-                height: AppConst.kIconMedium,
+                width: AppSizes.kIconMedium,
+                height: AppSizes.kIconMedium,
               ),
             ),
             onTap: () => _onSetDefault(context, address),

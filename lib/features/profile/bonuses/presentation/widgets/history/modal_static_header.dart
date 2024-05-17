@@ -1,10 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 class ModalStaticHeader extends StatelessWidget {
@@ -12,19 +11,19 @@ class ModalStaticHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          t.bonuses.bonusStory,
-          style: context.textStyle.headingTypo.h3
-              .withColor(context.colors.textColors.main),
-        ),
-        CloseModalButton(onTap: () => context.maybePop()),
-      ],
-    ).paddingSymmetric(
-      horizontal: AppConst.kCommon16,
-      vertical: AppConst.kCommon8,
+    return Padding(
+      padding: AppInsets.kSymmetricH16 + AppInsets.kSymmetricV8,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            t.bonuses.bonusStory,
+            style: context.textStyle.headingTypo.h3
+                .withColor(context.colors.textColors.main),
+          ),
+          CloseModalButton(onTap: () => context.maybePop()),
+        ],
+      ),
     );
   }
 }

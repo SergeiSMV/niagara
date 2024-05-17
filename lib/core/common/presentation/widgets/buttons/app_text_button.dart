@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/base_button.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/enums/base_button_size.dart';
 import 'package:niagara_app/core/utils/enums/base_button_type.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 /// Кнопка с текстом [AppTextButton]. Поддерживает различные стили.
@@ -143,22 +143,25 @@ class _TextButtonWidget extends StatelessWidget {
       BaseButtonType.invisible => adaptiveColor(textColors.accent),
     };
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (icon != null) ...[
-          icon!.svg(
-            width: AppConst.kIconMedium,
-            height: AppConst.kIconMedium,
-            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+    return Padding(
+      padding: AppInsets.kSymmetricH24 +
+          EdgeInsets.symmetric(
+            vertical: size.verticalPadding,
           ),
-          AppConst.kCommon8.horizontalBox,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon != null) ...[
+            icon!.svg(
+              width: AppSizes.kIconMedium,
+              height: AppSizes.kIconMedium,
+              colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+            ),
+            AppBoxes.kBoxH8,
+          ],
+          Text(text, style: style.withColor(color)),
         ],
-        Text(text, style: style.withColor(color)),
-      ],
-    ).paddingSymmetric(
-      vertical: size.verticalPadding,
-      horizontal: AppConst.kCommon24,
+      ),
     );
   }
 }

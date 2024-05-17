@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
@@ -12,10 +12,11 @@ class LocationUnavailableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppConst.kCommon12),
+      padding: const EdgeInsets.all(AppSizes.kGeneral12),
+      margin: AppInsets.kSymmetricV12 + AppInsets.kSymmetricH16,
       decoration: BoxDecoration(
         color: context.colors.infoColors.bgRed,
-        borderRadius: BorderRadius.circular(AppConst.kCommon12),
+        borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
       ),
       child: Row(
         children: [
@@ -25,7 +26,7 @@ class LocationUnavailableWidget extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          AppConst.kCommon8.horizontalBox,
+          AppBoxes.kBoxH8,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -33,7 +34,7 @@ class LocationUnavailableWidget extends StatelessWidget {
                 t.locations.yourGeoIsUnavailable,
                 style: context.textStyle.textTypo.tx2SemiBold,
               ),
-              AppConst.kCommon4.verticalBox,
+              AppBoxes.kBoxV4,
               Text(
                 t.locations.yourGeoIsUnavailable,
                 style: context.textStyle.descriptionTypo.des3,
@@ -42,9 +43,6 @@ class LocationUnavailableWidget extends StatelessWidget {
           ),
         ],
       ),
-    ).paddingSymmetric(
-      vertical: AppConst.kCommon12,
-      horizontal: AppConst.kCommon16,
     );
   }
 }

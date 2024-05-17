@@ -5,7 +5,7 @@ import 'package:niagara_app/core/common/presentation/theme/app_typo.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/base_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/decorations/custom_outline_input_border.dart';
 import 'package:niagara_app/core/common/presentation/theme/typography/base_typography.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
@@ -53,8 +53,8 @@ class AppTheme {
   }) {
     return AppBarTheme(
       backgroundColor: colors.mainColors.white,
-      elevation: AppConst.kCommon0,
-      scrolledUnderElevation: AppConst.kCommon0,
+      elevation: 0,
+      scrolledUnderElevation: 0,
       titleTextStyle: typography.textTypo.tx1SemiBold.withColor(
         colors.textColors.main,
       ),
@@ -68,11 +68,10 @@ class AppTheme {
       BottomNavigationBarThemeData(
         backgroundColor: colors.mainColors.primary,
         selectedItemColor: colors.textColors.white,
-        unselectedItemColor:
-            colors.textColors.white.withOpacity(AppConst.kCommon06),
+        unselectedItemColor: colors.textColors.white.withOpacity(.6),
         selectedLabelStyle: typography.textTypo.tx4Medium,
         unselectedLabelStyle: typography.textTypo.tx4Medium,
-        elevation: AppConst.kCommon0,
+        elevation: 0,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
@@ -98,7 +97,7 @@ class AppTheme {
 
   static CustomOutlineInputBorder _buildBorder(Color color) {
     return CustomOutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppConst.kCommon12),
+      borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
       borderSide: BorderSide(color: color),
     );
   }

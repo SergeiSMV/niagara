@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/cubit/map_cubit.dart';
 import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/widget/map_widget.dart';
@@ -10,7 +10,7 @@ import 'package:niagara_app/features/locations/addresses/presentation/adding_add
 class ChoiceOnMapMapWidget extends StatelessWidget {
   const ChoiceOnMapMapWidget({super.key});
 
-  static const _markerSize = AppConst.kIconLarge;
+  static const _markerSize = AppSizes.kIconLarge;
 
   static final _mapKey = GlobalKey();
 
@@ -29,7 +29,7 @@ class ChoiceOnMapMapWidget extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            flex: AppConst.kCommon32.toInt(),
+            flex: AppSizes.kGeneral32.toInt(),
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -53,7 +53,7 @@ class ChoiceOnMapMapWidget extends StatelessWidget {
               ],
             ),
           ),
-          Spacer(flex: AppConst.kCommon2.toInt()),
+          Spacer(flex: AppSizes.kGeneral2.toInt()),
         ],
       ),
     );

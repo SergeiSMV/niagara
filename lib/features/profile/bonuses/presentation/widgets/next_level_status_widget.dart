@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
@@ -26,7 +26,7 @@ class NextLevelStatusWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
-          flex: AppConst.kCommon2.toInt(),
+          flex: AppSizes.kGeneral2.toInt(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -36,7 +36,7 @@ class NextLevelStatusWidget extends StatelessWidget {
                   context.colors.textColors.main,
                 ),
               ),
-              AppConst.kCommon4.verticalBox,
+              AppBoxes.kBoxV4,
               Text(
                 t.bonuses
                     .toNextStatus(amount: toNextLevel)
@@ -48,16 +48,17 @@ class NextLevelStatusWidget extends StatelessWidget {
             ],
           ),
         ),
-        AppConst.kCommon16.horizontalBox,
+        AppBoxes.kBoxH16,
         Flexible(
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(AppConst.kCommon6),
+            borderRadius: BorderRadius.circular(AppSizes.kGeneral6),
             child: Stack(
               children: [
                 nextLevel.cardImage.image(),
-                Assets.images.logo
-                    .svg(height: AppConst.kCommon8)
-                    .paddingAll(AppConst.kCommon6),
+                Padding(
+                  padding: AppInsets.kAll6,
+                  child: Assets.images.logo.svg(height: AppSizes.kGeneral8),
+                ),
               ],
             ),
           ),

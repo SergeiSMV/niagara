@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/features/home/presentation/widgets/notifications_button.dart';
 import 'package:niagara_app/features/home/presentation/widgets/static_banners_widget.dart';
 import 'package:niagara_app/features/home/presentation/widgets/support_button.dart';
@@ -18,13 +17,13 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(
+      appBar: const AppBarWidget(
         automaticallyImplyLeading: false,
-        body: const AddressButton(),
+        body: AddressButton(),
         actions: [
-          const NotificationsButton(),
-          const SupportButton(),
-          AppConst.kCommon8.horizontalBox,
+          NotificationsButton(),
+          SupportButton(),
+          AppBoxes.kBoxH8,
         ],
       ),
       backgroundColor: context.colors.mainColors.bgCard,

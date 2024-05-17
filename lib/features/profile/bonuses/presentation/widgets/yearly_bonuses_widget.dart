@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/widgets/coutndown_timer_widget.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/common/presentation/widgets/countdown_timer_widget.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
@@ -11,12 +12,10 @@ class YearlyBonusesWidget extends StatelessWidget {
   const YearlyBonusesWidget({super.key});
 
   EdgeInsetsGeometry get _padding =>
-      AppConst.kCommon16.horizontal +
-      AppConst.kCommon16.top +
-      AppConst.kCommon24.bottom;
+      AppInsets.kSymmetricH16 + AppInsets.kOnlyTop16 + AppInsets.kOnlyBottom24;
 
   BorderRadiusGeometry get _borderRadius =>
-      BorderRadius.circular(AppConst.kCommon12);
+      BorderRadius.circular(AppSizes.kGeneral12);
 
   ImageProvider<Object> get _image => Assets.images.yearlyBonuses.provider();
 
@@ -38,7 +37,7 @@ class YearlyBonusesWidget extends StatelessWidget {
             style: context.textStyle.headingTypo.h2
                 .withColor(context.colors.mainColors.white),
           ),
-          AppConst.kCommon12.verticalBox,
+          AppBoxes.kBoxV12,
           Text(
             t.bonuses.yearlyBonusesDesc,
             style: context.textStyle.textTypo.tx2Medium.withColor(
@@ -46,7 +45,7 @@ class YearlyBonusesWidget extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          AppConst.kCommon24.verticalBox,
+          AppBoxes.kBoxV24,
           TimerCountdown(
             endTime: DateTime.now().add(const Duration(days: 31)),
             daysDescription: t.bonuses.days,

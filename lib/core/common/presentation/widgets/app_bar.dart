@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 
@@ -49,11 +49,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           .withColor(context.colors.textColors.main),
       actions: actions,
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(AppConst.kCommon0),
+        preferredSize: const Size.fromHeight(0),
         child: Divider(
-          thickness: AppConst.kCommon1,
+          thickness: AppSizes.kGeneral1,
           color: context.colors.fieldBordersColors.inactive,
-          height: AppConst.kCommon0,
+          height: 0,
         ),
       ),
     );
@@ -61,5 +61,5 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      const Size.fromHeight(kToolbarHeight + AppConst.kCommon4);
+      const Size.fromHeight(kToolbarHeight + AppSizes.kGeneral4);
 }

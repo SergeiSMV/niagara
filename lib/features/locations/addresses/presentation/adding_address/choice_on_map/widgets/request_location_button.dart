@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/cubit/map_cubit.dart';
@@ -50,9 +50,13 @@ class RequestLocationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => onDeterminePosition(context),
-      child: Assets.icons.location
-          .svg(width: AppConst.kIconLarge, height: AppConst.kIconLarge)
-          .paddingSymmetric(horizontal: AppConst.kCommon16),
+      child: Padding(
+        padding: AppInsets.kSymmetricH16,
+        child: Assets.icons.location.svg(
+          width: AppSizes.kIconLarge,
+          height: AppSizes.kIconLarge,
+        ),
+      ),
     );
   }
 }

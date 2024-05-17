@@ -30,13 +30,13 @@ class AppTextField extends BaseTextField {
     void Function(String?)? onChanged,
     BaseTextFieldState? state,
   }) {
-    const mask = AppConst.kPhoneMask;
+    const mask = AppConstants.kPhoneMask;
     return AppTextField._(
-      name: AppConst.kTextFieldPhoneName,
+      name: AppConstants.kTextFieldPhoneName,
       key: key,
       initialText: initialText,
       prefixWidget: const _PrefixPhoneWidget(),
-      hint: AppConst.kPhoneHint,
+      hint: AppConstants.kPhoneHint,
       keyboardType: TextInputType.phone,
       state: state ?? BaseTextFieldState.idle,
       isRequired: true,
@@ -57,7 +57,7 @@ class AppTextField extends BaseTextField {
     int? maxLength,
   }) {
     return AppTextField._(
-      name: AppConst.kTextFieldTextName,
+      name: AppConstants.kTextFieldTextName,
       key: key,
       initialText: initialText,
       label: label,
@@ -81,7 +81,7 @@ class AppTextField extends BaseTextField {
     int? maxLength,
   }) {
     return AppTextField._(
-      name: AppConst.kNumberTextFieldName,
+      name: AppConstants.kNumberTextFieldName,
       key: key,
       initialText: initialText,
       label: label,
@@ -104,7 +104,7 @@ class AppTextField extends BaseTextField {
     int? maxLength,
   }) {
     return AppTextField._(
-      name: AppConst.kTextFieldTextName,
+      name: AppConstants.kTextFieldTextName,
       key: key,
       initialText: initialText,
       label: label,

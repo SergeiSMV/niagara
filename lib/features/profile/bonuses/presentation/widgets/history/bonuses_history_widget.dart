@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/draggable_pin_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/modal_background_widget.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_history_cubit/bonuses_history_cubit.dart';
@@ -56,14 +56,14 @@ class BonusesHistoryWidget extends HookWidget {
                         separatorBuilder: (_, __) => Divider(
                           height: 0,
                           color: context.colors.otherColors.separator30,
-                          thickness: AppConst.kCommon1,
+                          thickness: AppSizes.kGeneral1,
                         ),
                       ),
                     ),
                     if (hasMore)
                       Assets.lottie.loadCircle.lottie(
-                        width: AppConst.kCommon32,
-                        height: AppConst.kCommon32,
+                        width: AppSizes.kGeneral32,
+                        height: AppSizes.kGeneral32,
                         repeat: true,
                       ),
                   ],

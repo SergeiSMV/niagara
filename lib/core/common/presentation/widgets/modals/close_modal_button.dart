@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 class CloseModalButton extends StatelessWidget {
@@ -17,12 +17,12 @@ class CloseModalButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: AppConst.kIconLarge,
-        height: AppConst.kIconLarge,
-        padding: AppConst.kCommon2.horizontal,
+        width: AppSizes.kIconLarge,
+        height: AppSizes.kIconLarge,
+        padding: AppInsets.kSymmetricH2,
         decoration: BoxDecoration(
           color: context.colors.buttonColors.secondary,
-          borderRadius: BorderRadius.circular(AppConst.kCommon6),
+          borderRadius: BorderRadius.circular(AppSizes.kGeneral6),
         ),
         child: Assets.icons.close.svg(
           colorFilter: ColorFilter.mode(

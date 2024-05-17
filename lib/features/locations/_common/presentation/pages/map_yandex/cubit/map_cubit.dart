@@ -23,8 +23,8 @@ class MapCubit extends Cubit<MapState> {
         super(
           (
             point: Point(
-              latitude: AppConst.kDefaultCity.latitude,
-              longitude: AppConst.kDefaultCity.longitude,
+              latitude: AppConstants.kDefaultCity.$1,
+              longitude: AppConstants.kDefaultCity.$2,
             ),
             finished: false
           ),
@@ -37,11 +37,6 @@ class MapCubit extends Cubit<MapState> {
   final GetCityUseCase _getCityUseCase;
 
   bool isPermissionGranted = false;
-
-  static ({
-    double latitude,
-    double longitude,
-  }) get defaultCity => AppConst.kDefaultCity;
 
   /// Отвечает за инициализацию контроллера карты
   Future<void> onControllerCreated(YandexMapController controller) async {
@@ -56,12 +51,12 @@ class MapCubit extends Cubit<MapState> {
     final accuracy = view.accuracyCircle;
 
     return view.copyWith(
-      pin: pin.copyWith(opacity: AppConst.kCommon0),
-      arrow: arrow.copyWith(opacity: AppConst.kCommon0),
+      pin: pin.copyWith(opacity: 0),
+      arrow: arrow.copyWith(opacity: 0),
       accuracyCircle: accuracy.copyWith(
-        fillColor: accuracy.fillColor.withOpacity(AppConst.kCommon03),
-        strokeColor: accuracy.strokeColor.withOpacity(AppConst.kCommon05),
-        strokeWidth: AppConst.kCommon05,
+        fillColor: accuracy.fillColor.withOpacity(.3),
+        strokeColor: accuracy.strokeColor.withOpacity(.5),
+        strokeWidth: .5,
       ),
     );
   }
@@ -115,8 +110,8 @@ class MapCubit extends Cubit<MapState> {
   Future<void> setDefaultLocation() async {
     final point = await _getCityUseCase.call().fold(
           (_) => Point(
-            latitude: defaultCity.latitude,
-            longitude: defaultCity.longitude,
+            latitude: AppConstants.kDefaultCity.$1,
+            longitude: AppConstants.kDefaultCity.$2,
           ),
           (city) => Point(
             latitude: city.coordinates.$1,
@@ -126,7 +121,7 @@ class MapCubit extends Cubit<MapState> {
 
     await moveCameraToPoint(
       point: point,
-      zoom: AppConst.kDefaultHighZoom,
+      zoom: AppConstants.kDefaultHighZoom,
     );
     _emit((point: point, finished: true));
   }
@@ -134,7 +129,7 @@ class MapCubit extends Cubit<MapState> {
   /// Перемещает камеру к указанной точке
   Future<void> moveCameraToPoint({
     required Point point,
-    double zoom = AppConst.kDefaultLowZoom,
+    double zoom = AppConstants.kDefaultLowZoom,
   }) async {
     _emit((point: point, finished: false));
 

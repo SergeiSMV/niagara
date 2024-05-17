@@ -19,12 +19,12 @@ class CountdownTimerCubit extends Cubit<int> {
   }
 
   void startTimer() {
-    emit(AppConst.kOTPResendTime);
+    emit(AppConstants.kOTPResendTime);
     _timerSubscription?.cancel();
     _timerSubscription = Stream.periodic(
       const Duration(seconds: 1),
-      (x) => AppConst.kOTPResendTime - x - 1,
-    ).take(AppConst.kOTPResendTime).listen(emit);
+      (x) => AppConstants.kOTPResendTime - x - 1,
+    ).take(AppConstants.kOTPResendTime).listen(emit);
   }
 
   void stopTimer() {

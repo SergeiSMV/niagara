@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/features/locations/cities/presentation/cubit/cities_cubit.dart';
 import 'package:niagara_app/features/locations/cities/presentation/widgets/cities_list_widget.dart';
 import 'package:niagara_app/features/locations/cities/presentation/widgets/select_city_header_widget.dart';
@@ -21,11 +20,11 @@ class CitiesPage extends StatelessWidget {
         create: (_) => getIt<CitiesCubit>(),
         child: BlocBuilder<CitiesCubit, CitiesState>(
           builder: (_, state) {
-            return Column(
+            return const Column(
               children: [
-                AppConst.kCommon16.verticalBox,
-                const SelectCityHeaderWidget(),
-                const CitiesListWidget(),
+                AppBoxes.kBoxV16,
+                SelectCityHeaderWidget(),
+                CitiesListWidget(),
               ],
             );
           },

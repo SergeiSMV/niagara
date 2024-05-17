@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_tooltip.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
@@ -15,65 +15,68 @@ class JoiningIsQuickAndEasyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ColoredBox(
       color: context.colors.mainColors.bgCard,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AppConst.kCommon32.verticalBox,
-          Text(
-            t.bonuses.aboutBonusesProgram.joiningIsQuickAndEasyTitle,
-            style: context.textStyle.headingTypo.h3.withColor(
-              context.colors.textColors.main,
-            ),
-          ),
-          AppConst.kCommon16.verticalBox,
-          Text.rich(
-            t.bonuses.aboutBonusesProgram.joiningIsQuickAndEasyDescription(
-              paragraph: (text) => TextSpan(
-                text: text,
-                style: const TextStyle(height: AppConst.kCommon08),
+      child: Padding(
+        padding: AppInsets.kSymmetricH16,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppBoxes.kBoxV32,
+            Text(
+              t.bonuses.aboutBonusesProgram.joiningIsQuickAndEasyTitle,
+              style: context.textStyle.headingTypo.h3.withColor(
+                context.colors.textColors.main,
               ),
             ),
-            style: context.textStyle.descriptionTypo.des2
-                .withColor(context.colors.textColors.main),
-          ),
-          AppConst.kCommon32.verticalBox,
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Flexible(
-                flex: AppConst.kCommon16.toInt(),
-                child: Column(
-                  children: [
-                    AppConst.kCommon32.verticalBox,
-                    _buildTooltip(
-                      context,
-                      text: t.bonuses.aboutBonusesProgram
-                          .joiningIsQuickAndEasyDescriptionFirst,
-                    ),
-                    AppConst.kCommon16.verticalBox,
-                    _buildTooltip(
-                      context,
-                      text: t.bonuses.aboutBonusesProgram
-                          .joiningIsQuickAndEasyDescriptionSecond,
-                    ),
-                    AppConst.kCommon16.verticalBox,
-                    _buildTooltip(
-                      context,
-                      text: t.bonuses.aboutBonusesProgram
-                          .joiningIsQuickAndEasyDescriptionThird,
-                    ),
-                  ],
+            AppBoxes.kBoxV16,
+            Text.rich(
+              t.bonuses.aboutBonusesProgram.joiningIsQuickAndEasyDescription(
+                paragraph: (text) => TextSpan(
+                  text: text,
+                  style: const TextStyle(height: .8),
                 ),
               ),
-              AppConst.kCommon8.horizontalBox,
-              Flexible(
-                flex: (AppConst.kCommon16 - AppConst.kCommon1).toInt(),
-                child: Assets.images.aboutBonuses.aboutPhone.image(),
-              ),
-            ],
-          ),
-        ],
-      ).paddingSymmetric(horizontal: AppConst.kCommon16),
+              style: context.textStyle.descriptionTypo.des2
+                  .withColor(context.colors.textColors.main),
+            ),
+            AppBoxes.kBoxV32,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  flex: AppSizes.kGeneral16.toInt(),
+                  child: Column(
+                    children: [
+                      AppBoxes.kBoxV32,
+                      _buildTooltip(
+                        context,
+                        text: t.bonuses.aboutBonusesProgram
+                            .joiningIsQuickAndEasyDescriptionFirst,
+                      ),
+                      AppBoxes.kBoxV16,
+                      _buildTooltip(
+                        context,
+                        text: t.bonuses.aboutBonusesProgram
+                            .joiningIsQuickAndEasyDescriptionSecond,
+                      ),
+                      AppBoxes.kBoxV16,
+                      _buildTooltip(
+                        context,
+                        text: t.bonuses.aboutBonusesProgram
+                            .joiningIsQuickAndEasyDescriptionThird,
+                      ),
+                    ],
+                  ),
+                ),
+                AppBoxes.kBoxH8,
+                Flexible(
+                  flex: (AppSizes.kGeneral16 - AppSizes.kGeneral1).toInt(),
+                  child: Assets.images.aboutBonuses.aboutPhone.image(),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 

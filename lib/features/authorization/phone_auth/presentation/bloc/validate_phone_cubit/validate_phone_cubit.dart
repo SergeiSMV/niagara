@@ -10,7 +10,7 @@ class ValidatePhoneCubit extends Cubit<bool> {
 
   void validatePhone(String? phoneNumber) {
     final phone = phoneNumber?.replaceAll(RegExp(r'\D'), '');
-    final hasValid = phone != null && phone.length == AppConst.kPhoneDigits;
+    final hasValid = phone != null && phone.length == AppConstants.kPhoneDigits;
     emit(hasValid);
   }
 }

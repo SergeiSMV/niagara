@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 class SelectCityHeaderWidget extends StatelessWidget {
@@ -11,21 +10,25 @@ class SelectCityHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          t.cities.selectCity,
-          style: context.textStyle.headingTypo.h3
-              .withColor(context.colors.textColors.main),
-        ),
-        AppConst.kCommon12.verticalBox,
-        Text(
-          t.cities.description,
-          style: context.textStyle.textTypo.tx1Medium
-              .withColor(context.colors.textColors.secondary),
-        ),
-      ],
-    ).paddingAll(AppConst.kCommon16);
+    return Padding(
+      padding: AppInsets.kAll16,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            t.cities.selectCity,
+            style: context.textStyle.headingTypo.h3
+                .withColor(context.colors.textColors.main),
+          ),
+          AppBoxes.kBoxV12,
+          Text(
+            t.cities.description,
+            style: context.textStyle.textTypo.tx1Medium
+                .withColor(context.colors.textColors.secondary),
+          ),
+        ],
+      ),
+    );
+   
   }
 }

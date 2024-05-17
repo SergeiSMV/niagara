@@ -7,6 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:lottie/lottie.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:niagara_app/features/splash/presentation/widgets/bottom_loader_widget.dart';
@@ -29,8 +30,8 @@ class SplashPage extends HookWidget {
     useEffect(
       () {
         final timer = Timer(
-          AppConst.kSplashLogoDuration,
-          () => opacity.value = 1,
+          AppConstants.kSplashLogoDuration,
+          () => opacity.value = AppSizes.kGeneral1,
         );
         return timer.cancel;
       },

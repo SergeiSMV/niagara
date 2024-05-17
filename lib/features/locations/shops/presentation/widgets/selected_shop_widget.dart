@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/cubit/map_cubit.dart';
@@ -47,34 +47,37 @@ class SelectedShopWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _ShopName(name: shop.name),
-                    AppConst.kCommon24.verticalBox,
-                    _ShopSchedule(schedule: shop.schedule),
-                    AppConst.kCommon16.verticalBox,
-                    const _ShopPhone(),
-                    AppConst.kCommon48.verticalBox,
-                  ],
+      child: Padding(
+        padding: AppInsets.kSymmetricH16,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _ShopName(name: shop.name),
+                      AppBoxes.kBoxV24,
+                      _ShopSchedule(schedule: shop.schedule),
+                      AppBoxes.kBoxV16,
+                      const _ShopPhone(),
+                      AppBoxes.kBoxV48,
+                    ],
+                  ),
                 ),
-              ),
-              CloseModalButton(onTap: () => _onUnselectShop(context)),
-            ],
-          ),
-          AppTextButton.primary(
-            text: t.shops.buildRoute,
-            onTap: () => _onBuildMapRoute(context),
-          ),
-        ],
-      ).paddingSymmetric(horizontal: AppConst.kCommon16),
+                CloseModalButton(onTap: () => _onUnselectShop(context)),
+              ],
+            ),
+            AppTextButton.primary(
+              text: t.shops.buildRoute,
+              onTap: () => _onBuildMapRoute(context),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -89,10 +92,10 @@ class _ShopPhone extends StatelessWidget {
     return Row(
       children: [
         Assets.icons.phone.svg(
-          width: AppConst.kIconMedium,
-          height: AppConst.kIconMedium,
+          width: AppSizes.kIconMedium,
+          height: AppSizes.kIconMedium,
         ),
-        AppConst.kCommon8.horizontalBox,
+        AppBoxes.kBoxH8,
         Text(
           phone,
           style: context.textStyle.textTypo.tx2Medium.withColor(
@@ -116,13 +119,14 @@ class _ShopSchedule extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Assets.icons.time
-            .svg(
-              width: AppConst.kIconMedium,
-              height: AppConst.kIconMedium,
-            )
-            .paddingSymmetric(vertical: AppConst.kCommon2),
-        AppConst.kCommon8.horizontalBox,
+        Padding(
+          padding: AppInsets.kSymmetricV12,
+          child: Assets.icons.time.svg(
+            width: AppSizes.kIconMedium,
+            height: AppSizes.kIconMedium,
+          ),
+        ),
+        AppBoxes.kBoxH8,
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -163,14 +167,14 @@ class _ShopName extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppConst.kCommon12.verticalBox,
+        AppBoxes.kBoxV12,
         Text(
           name,
           style: context.textStyle.textTypo.tx1SemiBold.withColor(
             context.colors.textColors.main,
           ),
         ),
-        AppConst.kCommon2.verticalBox,
+        AppBoxes.kBoxV2,
         Text(
           city,
           style: context.textStyle.descriptionTypo.des3.withColor(

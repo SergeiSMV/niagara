@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
@@ -62,8 +62,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(AppConst.kCommon16),
-        topRight: Radius.circular(AppConst.kCommon16),
+        topLeft: Radius.circular(AppSizes.kGeneral16),
+        topRight: Radius.circular(AppSizes.kGeneral16),
       ),
       child: BottomNavigationBar(
         currentIndex: tabsRouter.activeIndex,
@@ -96,10 +96,10 @@ class _NavBarIconWidget extends StatelessWidget {
     final unselectedColor =
         context.theme.bottomNavigationBarTheme.unselectedItemColor;
     return Padding(
-      padding: AppConst.kCommon8.top + AppConst.kCommon4.bottom,
+      padding: AppInsets.kOnlyTop8 + AppInsets.kOnlyBottom4,
       child: icon.svg(
-        width: AppConst.kIconLarge,
-        height: AppConst.kIconLarge,
+        width: AppSizes.kIconLarge,
+        height: AppSizes.kIconLarge,
         colorFilter: inactive && unselectedColor != null
             ? ColorFilter.mode(unselectedColor, BlendMode.srcIn)
             : null,

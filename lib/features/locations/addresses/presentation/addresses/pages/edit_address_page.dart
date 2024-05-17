@@ -6,11 +6,11 @@ import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
@@ -40,16 +40,21 @@ class EditAddressPage extends StatelessWidget {
             Row(
               children: [
                 Flexible(
-                  child: Text(
-                    _address.name,
-                    style: context.textStyle.textTypo.tx1SemiBold
-                        .withColor(context.colors.textColors.main),
-                  ).paddingAll(AppConst.kCommon16),
+                  child: Padding(
+                    padding: AppInsets.kAll16,
+                    child: Text(
+                      _address.name,
+                      style: context.textStyle.textTypo.tx1SemiBold
+                          .withColor(context.colors.textColors.main),
+                    ),
+                  ),
                 ),
               ],
             ),
-            AddressDetailsFieldsWidget(location: _address)
-                .paddingAll(AppConst.kCommon16),
+            Padding(
+              padding: AppInsets.kAll16,
+              child: AddressDetailsFieldsWidget(location: _address),
+            ),
             const Spacer(),
           ],
         ),
@@ -74,15 +79,17 @@ class _DeleteLocationWidget extends StatelessWidget {
     showDialog<void>(
       context: context,
       useRootNavigator: false,
-      builder: (_) => Align(
+      builder: (_) => Container(
         alignment: Alignment.bottomCenter,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.colors.mainColors.white,
-            borderRadius: BorderRadius.circular(
-              AppConst.kCommon24 - AppConst.kCommon4,
-            ),
+        padding: AppInsets.kAll8,
+        decoration: BoxDecoration(
+          color: context.colors.mainColors.white,
+          borderRadius: BorderRadius.circular(
+            AppSizes.kGeneral24 - AppSizes.kGeneral4,
           ),
+        ),
+        child: Padding(
+          padding: AppInsets.kSymmetricV24 + AppInsets.kSymmetricH16,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -91,7 +98,7 @@ class _DeleteLocationWidget extends StatelessWidget {
                 style: context.textStyle.headingTypo.h3
                     .withColor(context.colors.textColors.main),
               ),
-              AppConst.kCommon24.verticalBox,
+              AppBoxes.kBoxV24,
               Material(
                 child: Row(
                   children: [
@@ -101,7 +108,7 @@ class _DeleteLocationWidget extends StatelessWidget {
                         onTap: () => context.maybePop(),
                       ),
                     ),
-                    AppConst.kCommon12.horizontalBox,
+                    AppBoxes.kBoxH12,
                     Expanded(
                       child: AppTextButton.primary(
                         text: t.common.yes,
@@ -112,20 +119,20 @@ class _DeleteLocationWidget extends StatelessWidget {
                 ),
               ),
             ],
-          ).paddingSymmetric(
-            vertical: AppConst.kCommon24,
-            horizontal: AppConst.kCommon16,
           ),
         ),
-      ).paddingAll(AppConst.kCommon8),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) => InkWell(
         onTap: () => _showDeleteDialog(context),
-        child: Assets.icons.delete.svg(),
-      ).padding(right: AppConst.kCommon16);
+        child: Padding(
+          padding: AppInsets.kOnlyRight16,
+          child: Assets.icons.delete.svg(),
+        ),
+      );
 }
 
 class _SaveChangesButton extends StatelessWidget {

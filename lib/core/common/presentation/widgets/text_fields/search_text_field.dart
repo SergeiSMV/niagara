@@ -2,8 +2,9 @@ import 'package:flutter/material.dart' hide OutlineInputBorder;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
@@ -19,7 +20,7 @@ class SearchTextField extends HookWidget {
   /// Функция, которая будет вызвана при изменении значения в поле
   final void Function(String?)? onChanged;
 
-  String get _fieldName => AppConst.kSearchTextFieldName;
+  String get _fieldName => AppConstants.kSearchTextFieldName;
 
   @override
   Widget build(BuildContext context) {
@@ -79,16 +80,19 @@ class _ClearButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Assets.icons.closeFilling.svg(
-        width: AppConst.kIconMedium,
-        height: AppConst.kIconMedium,
+    return Padding(
+      padding: AppInsets.kOnlyRight12,
+      child: InkWell(
+        child: Assets.icons.closeFilling.svg(
+          width: AppSizes.kIconMedium,
+          height: AppSizes.kIconMedium,
+        ),
+        onTap: () {
+          searchCtrl.clear();
+          if (onChanged != null) onChanged!.call(null);
+        },
       ),
-      onTap: () {
-        searchCtrl.clear();
-        if (onChanged != null) onChanged!.call(null);
-      },
-    ).padding(right: AppConst.kCommon12);
+    );
   }
 }
 
@@ -97,16 +101,15 @@ class _SearchIconWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Assets.icons.search
-        .svg(
-          width: AppConst.kIconMedium,
-          height: AppConst.kIconMedium,
-        )
-        .padding(
-          left: AppConst.kCommon12,
-          top: AppConst.kCommon12,
-          bottom: AppConst.kCommon12,
-          right: AppConst.kCommon6,
-        );
+    return Padding(
+      padding: AppInsets.kOnlyTop12 +
+          AppInsets.kOnlyBottom12 +
+          AppInsets.kOnlyLeft12 +
+          AppInsets.kOnlyRight6,
+      child: Assets.icons.search.svg(
+        width: AppSizes.kIconMedium,
+        height: AppSizes.kIconMedium,
+      ),
+    );
   }
 }
