@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
@@ -25,10 +25,10 @@ class BenefitBuilderWidget extends StatelessWidget {
         Row(
           children: [
             icon.svg(
-              width: AppConst.kIconMedium,
-              height: AppConst.kIconMedium,
+              width: AppSizes.kIconMedium,
+              height: AppSizes.kIconMedium,
             ),
-            AppConst.kCommon8.horizontalBox,
+            AppBoxes.kBoxH8,
             Text(
               title,
               style: context.textStyle.textTypo.tx1SemiBold
@@ -36,13 +36,13 @@ class BenefitBuilderWidget extends StatelessWidget {
             ),
           ],
         ),
-        AppConst.kCommon8.verticalBox,
+        AppBoxes.kBoxV8,
         Text(
           description,
           style: context.textStyle.textTypo.tx2Medium
               .withColor(context.colors.textColors.secondary),
         ),
-        AppConst.kCommon16.verticalBox,
+        AppBoxes.kBoxV16,
       ],
     );
   }

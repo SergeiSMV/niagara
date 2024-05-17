@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
+
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
@@ -17,8 +18,8 @@ class ReSendCodeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
       minimum: EdgeInsets.only(
-        top: AppConst.kCommon12,
-        bottom: AppConst.kCommon24,
+        top: AppSizes.kGeneral12,
+        bottom: AppSizes.kGeneral24,
       ),
       child: Column(
         children: [
@@ -61,8 +62,8 @@ class _ResendCodeButton extends StatelessWidget {
             style: context.textStyle.textTypo.tx1Medium.withColor(color),
           ),
           Assets.icons.arrowRight.svg(
-            width: AppConst.kIconMedium,
-            height: AppConst.kIconMedium,
+            width: AppSizes.kIconMedium,
+            height: AppSizes.kIconMedium,
             colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
           ),
         ],
@@ -83,11 +84,14 @@ class _ResendCodeTimer extends StatelessWidget {
     final minutesStr = ((time / 60) % 60).floor().toString().padLeft(2, '0');
     final secondsStr = (time % 60).toString().padLeft(2, '0');
 
-    return Text(
-      t.auth.through(time: '$minutesStr:$secondsStr'),
-      style: context.textStyle.textTypo.tx1Medium.withColor(
-        context.colors.textColors.secondary,
+    return Padding(
+      padding: AppInsets.kOnlyTop8,
+      child: Text(
+        t.auth.through(time: '$minutesStr:$secondsStr'),
+        style: context.textStyle.textTypo.tx1Medium.withColor(
+          context.colors.textColors.secondary,
+        ),
       ),
-    ).padding(top: AppConst.kCommon8);
+    );
   }
 }

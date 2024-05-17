@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/locations/_common/presentation/pages/map_yandex/cubit/map_cubit.dart';
@@ -37,8 +37,8 @@ class ShopTileWidget extends StatelessWidget {
       title: Text(shop.name),
       subtitle: Text(shop.description),
       trailing: Assets.icons.arrowRight.svg(
-        width: AppConst.kIconMedium,
-        height: AppConst.kIconMedium,
+        width: AppSizes.kIconMedium,
+        height: AppSizes.kIconMedium,
       ),
       onTap: () => _onTap(context, shop),
       titleTextStyle: context.textStyle.textTypo.tx1SemiBold
@@ -46,7 +46,7 @@ class ShopTileWidget extends StatelessWidget {
       subtitleTextStyle: context.textStyle.descriptionTypo.des3.withColor(
         context.colors.textColors.secondary,
       ),
-      contentPadding: AppConst.kCommon16.horizontal,
+      contentPadding: AppInsets.kSymmetricH16,
     );
   }
 }

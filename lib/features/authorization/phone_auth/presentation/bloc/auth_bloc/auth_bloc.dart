@@ -71,7 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onAuthNow(_AuthNowEvent event, _Emit emit) async {
-    final isNoChance = _attempts >= AppConst.kOTPChangeCount;
+    final isNoChance = _attempts >= AppConstants.kOTPChangeCount;
     if (isNoChance) {
       emit(const _OtpChangeError());
       return;

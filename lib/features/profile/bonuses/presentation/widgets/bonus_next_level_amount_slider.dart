@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 class BonusNextLevelAmountSlider extends StatelessWidget {
@@ -29,17 +29,20 @@ class BonusNextLevelAmountSlider extends StatelessWidget {
         Stack(
           alignment: Alignment.center,
           children: [
-            LinearProgressIndicator(
-              value: currentAmount / maxAmount,
-              color: activeColor,
-              backgroundColor: inactiveColor,
-              borderRadius: BorderRadius.circular(AppConst.kCommon8),
-              minHeight: AppConst.kCommon4,
-            ).paddingAll(AppConst.kCommon4),
+            Padding(
+              padding: AppInsets.kAll4,
+              child: LinearProgressIndicator(
+                value: currentAmount / maxAmount,
+                color: activeColor,
+                backgroundColor: inactiveColor,
+                borderRadius: BorderRadius.circular(AppSizes.kGeneral8),
+                minHeight: AppSizes.kGeneral4,
+              ),
+            ),
             Positioned(
               left: 0,
-              height: AppConst.kCommon8,
-              width: AppConst.kCommon8,
+              height: AppSizes.kGeneral8,
+              width: AppSizes.kGeneral8,
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: activeColor,
@@ -49,8 +52,8 @@ class BonusNextLevelAmountSlider extends StatelessWidget {
             ),
             Positioned(
               right: 0,
-              height: AppConst.kCommon8,
-              width: AppConst.kCommon8,
+              height: AppSizes.kGeneral8,
+              width: AppSizes.kGeneral8,
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: lastPointColor,
@@ -60,7 +63,7 @@ class BonusNextLevelAmountSlider extends StatelessWidget {
             ),
           ],
         ),
-        AppConst.kCommon4.verticalBox,
+        AppBoxes.kBoxV4,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_next_level_amount_slider.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/next_level_status_widget.dart';
@@ -13,18 +14,17 @@ class NextLevelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: AppConst.kCommon12.horizontal + AppConst.kCommon16.vertical,
+      padding: AppInsets.kSymmetricH12 + AppInsets.kSymmetricV16,
       decoration: BoxDecoration(
         color: context.colors.mainColors.white,
-        borderRadius: BorderRadius.circular(AppConst.kCommon12),
+        borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
         boxShadow: [
           BoxShadow(
-            color: context.colors.textColors.accent
-                .withOpacity(AppConst.kCommon01 + AppConst.kCommon005),
-            blurRadius: AppConst.kCommon24,
+            color: context.colors.textColors.accent.withOpacity(.15),
+            blurRadius: AppSizes.kGeneral24,
             offset: const Offset(
-              -AppConst.kCommon2,
-              AppConst.kCommon6,
+              -AppSizes.kGeneral2,
+              AppSizes.kGeneral6,
             ),
           ),
         ],
@@ -38,7 +38,7 @@ class NextLevelWidget extends StatelessWidget {
                 nextLevel: bonuses.nextLevel,
                 toNextLevel: statusDescription.maxSum,
               ),
-              AppConst.kCommon16.verticalBox,
+              AppBoxes.kBoxV16,
               BonusNextLevelAmountSlider(
                 currentAmount: bonuses.revThisMonth,
                 maxAmount: statusDescription.maxSum,

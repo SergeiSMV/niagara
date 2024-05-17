@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/text_fields/app_text_field.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/enums/base_text_filed_state.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/adding_address/address_details/cubit/address_details_cubit.dart';
@@ -56,7 +55,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
             flat: flat,
           ),
         ),
-        AppConst.kCommon12.verticalBox,
+        AppBoxes.kBoxV12,
         Row(
           children: [
             Expanded(
@@ -70,7 +69,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
                 ),
               ),
             ),
-            AppConst.kCommon12.horizontalBox,
+            AppBoxes.kBoxH12,
             Expanded(
               child: AppTextField.number(
                 label: t.locations.floor,
@@ -84,7 +83,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
             ),
           ],
         ),
-        AppConst.kCommon12.verticalBox,
+        AppBoxes.kBoxV12,
         AppTextField.text(
           label: t.locations.addressComment,
           initialText: _comment,
@@ -93,7 +92,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
             comment: comment,
           ),
         ),
-        AppConst.kCommon12.verticalBox,
+        AppBoxes.kBoxV12,
       ],
     );
   }

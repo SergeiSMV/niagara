@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
@@ -22,8 +22,8 @@ class LevelNameWidget extends StatelessWidget {
         children: [
           WidgetSpan(
             child: Assets.icons.arrowRight.svg(
-              width: AppConst.kIconSmall,
-              height: AppConst.kIconSmall,
+              width: AppSizes.kIconSmall,
+              height: AppSizes.kIconSmall,
               colorFilter: ColorFilter.mode(
                 context.colors.mainColors.white,
                 BlendMode.srcIn,
@@ -32,7 +32,7 @@ class LevelNameWidget extends StatelessWidget {
           ),
         ],
       ),
-      maxLines: AppConst.kCommon2.toInt(),
+      maxLines: AppSizes.kGeneral2.toInt(),
     );
   }
 }

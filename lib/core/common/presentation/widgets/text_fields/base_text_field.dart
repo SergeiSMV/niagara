@@ -4,11 +4,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/enums/base_text_filed_state.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Абстрактный класс базового текстового поля [BaseTextField]. Поддерживает
@@ -105,18 +104,20 @@ abstract class BaseTextField extends HookWidget {
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        prefixIcon: prefixWidget?.padding(
-          left: AppConst.kCommon8,
-          right: AppConst.kCommon4,
-        ),
+        prefixIcon: prefixWidget != null
+            ? Padding(
+                padding: AppInsets.kOnlyLeft8 + AppInsets.kOnlyRight4,
+                child: prefixWidget,
+              )
+            : null,
         prefixText: prefix,
         prefixIconConstraints: const BoxConstraints(),
         suffixIcon: !state.isIdle ? _IconWidget(state: state) : null,
         suffixIconConstraints: const BoxConstraints(),
         isDense: true,
         contentPadding: label != null
-            ? AppConst.kCommon16.horizontal + AppConst.kCommon8.vertical
-            : AppConst.kCommon16.all,
+            ? AppInsets.kSymmetricH16 + AppInsets.kSymmetricV8
+            : AppInsets.kAll16,
         focusedBorder:
             context.theme.inputDecorationTheme.focusedBorder?.copyWith(
           borderSide: BorderSide(
@@ -167,12 +168,13 @@ class _IconWidget extends StatelessWidget {
     final icon = state.iconWithColor(context)?.$1;
     final color = state.iconWithColor(context)?.$2;
     if (icon == null || color == null) return const SizedBox.shrink();
-    return icon
-        .svg(
-          width: AppConst.kIconLarge,
-          height: AppConst.kIconLarge,
-          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-        )
-        .padding(right: AppConst.kCommon8);
+    return Padding(
+      padding: AppInsets.kOnlyRight8,
+      child: icon.svg(
+        width: AppSizes.kIconLarge,
+        height: AppSizes.kIconLarge,
+        colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+      ),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 
 class ModalBackgroundWidget extends StatelessWidget {
@@ -17,14 +18,15 @@ class ModalBackgroundWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.colors.mainColors.white,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(AppConst.kCommon24),
-          topRight: Radius.circular(AppConst.kCommon24),
+          topLeft: Radius.circular(AppSizes.kGeneral24),
+          topRight: Radius.circular(AppSizes.kGeneral24),
         ),
         boxShadow: [
           BoxShadow(
-            color: context.colors.textColors.main.withOpacity(0.08),
-            blurRadius: AppConst.kCommon12,
-            offset: AppConst.kShadowTop,
+            color: context.colors.textColors.main
+                .withOpacity(AppSizes.kShadowOpacity),
+            blurRadius: AppSizes.kGeneral12,
+            offset: AppConstants.kShadowTop,
           ),
         ],
       ),

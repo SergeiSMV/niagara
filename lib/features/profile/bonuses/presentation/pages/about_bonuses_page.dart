@@ -6,7 +6,6 @@ import 'package:niagara_app/core/common/presentation/widgets/errors/error_refres
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/modal_background_widget.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_program_cubit/bonuses_program_cubit.dart';
@@ -31,8 +30,8 @@ class AboutBonusesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final modalSize = context.select(
       (BonusesBloc bloc) => bloc.state.maybeWhen(
-        unauthorized: () => AppConst.kCommon04 + AppConst.kCommon005,
-        orElse: () => AppConst.kCommon07,
+        unauthorized: () => .45,
+        orElse: () => .7,
       ),
     );
     return BlocProvider(

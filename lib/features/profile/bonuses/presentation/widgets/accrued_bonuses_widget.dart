@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
@@ -12,17 +13,17 @@ class AccruedBonusesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: AppConst.kCommon12.all,
+      padding: AppInsets.kAll12,
       decoration: BoxDecoration(
         color: context.colors.mainColors.bgCard,
-        borderRadius: BorderRadius.circular(AppConst.kCommon12),
+        borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
       ),
       child: Row(
         children: [
           Assets.images.coinX2.image(
-            height: AppConst.kCommon64,
+            height: AppSizes.kGeneral64,
           ),
-          AppConst.kCommon12.horizontalBox,
+          AppBoxes.kBoxH12,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -32,7 +33,7 @@ class AccruedBonusesWidget extends StatelessWidget {
                   context.colors.textColors.main,
                 ),
               ),
-              AppConst.kCommon4.verticalBox,
+              AppBoxes.kBoxV4,
               Text(
                 '${t.bonuses.willBeAccrued} 20 июня',
                 style: context.textStyle.textTypo.tx2Medium.withColor(

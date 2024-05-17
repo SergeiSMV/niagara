@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 
 enum NipPosition { left, right, top, bottom }
 
 class AppTooltip extends StatelessWidget {
   const AppTooltip({
     required this.child,
-    this.radius = AppConst.kCommon8,
-    this.offset = AppConst.kCommon16,
-    this.nipSize = AppConst.kCommon6,
+    this.radius = AppSizes.kGeneral8,
+    this.offset = AppSizes.kGeneral16,
+    this.nipSize = AppSizes.kGeneral6,
     this.nipPosition = NipPosition.right,
     super.key,
   });
@@ -35,7 +35,7 @@ class AppTooltip extends StatelessWidget {
       color: _color,
       child: Container(
         padding: _getPadding(),
-        margin: AppConst.kCommon12.all,
+        margin: AppInsets.kAll12,
         color: _color,
         child: child,
       ),
@@ -43,10 +43,10 @@ class AppTooltip extends StatelessWidget {
   }
 
   EdgeInsets _getPadding() => switch (nipPosition) {
-        NipPosition.left => nipSize.left,
-        NipPosition.top => nipSize.top,
-        NipPosition.right => nipSize.right,
-        NipPosition.bottom => nipSize.bottom,
+        NipPosition.left => EdgeInsets.only(left: nipSize),
+        NipPosition.top => EdgeInsets.only(top: nipSize),
+        NipPosition.right => EdgeInsets.only(right: nipSize),
+        NipPosition.bottom => EdgeInsets.only(bottom: nipSize),
       };
 }
 
@@ -74,9 +74,9 @@ class _ChatBubbleClipper extends CustomClipper<Path> {
           RRect.fromLTRBR(nipSize, 0, size.width, size.height, radius),
         );
         final path2 = Path()
-          ..moveTo(nipSize, size.height / AppConst.kCommon2 - nipSize)
-          ..lineTo(0, size.height / AppConst.kCommon2)
-          ..lineTo(nipSize, size.height / AppConst.kCommon2 + nipSize)
+          ..moveTo(nipSize, size.height / AppSizes.kGeneral2 - nipSize)
+          ..lineTo(0, size.height / AppSizes.kGeneral2)
+          ..lineTo(nipSize, size.height / AppSizes.kGeneral2 + nipSize)
           ..close();
         path.addPath(path2, Offset.zero);
 
@@ -87,12 +87,12 @@ class _ChatBubbleClipper extends CustomClipper<Path> {
         final path2 = Path()
           ..moveTo(
             size.width - nipSize,
-            size.height / AppConst.kCommon2 - nipSize,
+            size.height / AppSizes.kGeneral2 - nipSize,
           )
-          ..lineTo(size.width, size.height / AppConst.kCommon2)
+          ..lineTo(size.width, size.height / AppSizes.kGeneral2)
           ..lineTo(
             size.width - nipSize,
-            size.height / AppConst.kCommon2 + nipSize,
+            size.height / AppSizes.kGeneral2 + nipSize,
           )
           ..close();
         path.addPath(path2, Offset.zero);
@@ -102,9 +102,9 @@ class _ChatBubbleClipper extends CustomClipper<Path> {
           RRect.fromLTRBR(0, nipSize, size.width, size.height, radius),
         );
         final path2 = Path()
-          ..moveTo(size.width / AppConst.kCommon2 - nipSize, nipSize)
-          ..lineTo(size.width / AppConst.kCommon2, 0)
-          ..lineTo(size.width / AppConst.kCommon2 + nipSize, nipSize)
+          ..moveTo(size.width / AppSizes.kGeneral2 - nipSize, nipSize)
+          ..lineTo(size.width / AppSizes.kGeneral2, 0)
+          ..lineTo(size.width / AppSizes.kGeneral2 + nipSize, nipSize)
           ..close();
         path.addPath(path2, Offset.zero);
 
@@ -114,12 +114,12 @@ class _ChatBubbleClipper extends CustomClipper<Path> {
         );
         final path2 = Path()
           ..moveTo(
-            size.width / AppConst.kCommon2 - nipSize,
+            size.width / AppSizes.kGeneral2 - nipSize,
             size.height - nipSize,
           )
-          ..lineTo(size.width / AppConst.kCommon2, size.height)
+          ..lineTo(size.width / AppSizes.kGeneral2, size.height)
           ..lineTo(
-            size.width / AppConst.kCommon2 + nipSize,
+            size.width / AppSizes.kGeneral2 + nipSize,
             size.height - nipSize,
           )
           ..close();

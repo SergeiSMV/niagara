@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
@@ -34,7 +34,7 @@ class BonusHistoryTile extends StatelessWidget {
     final formattedDate = dateFormat.format(date);
 
     return ListTile(
-      contentPadding: AppConst.kCommon16.horizontal,
+      contentPadding: AppInsets.kSymmetricH16,
       title: Row(
         children: [
           Text(
@@ -44,12 +44,13 @@ class BonusHistoryTile extends StatelessWidget {
             ),
           ),
           if (isTemp)
-            Assets.icons.fire
-                .svg(
-                  width: AppConst.kIconMedium,
-                  height: AppConst.kIconMedium,
-                )
-                .padding(left: AppConst.kCommon4),
+            Padding(
+              padding: AppInsets.kOnlyLeft4,
+              child: Assets.icons.fire.svg(
+                width: AppSizes.kIconMedium,
+                height: AppSizes.kIconMedium,
+              ),
+            ),
         ],
       ),
       subtitle: Text(
@@ -65,10 +66,10 @@ class BonusHistoryTile extends StatelessWidget {
             '${isNegativeCount ? '' : '+'}$count',
             style: context.textStyle.textTypo.tx2Medium.withColor(countColor),
           ),
-          AppConst.kCommon6.horizontalBox,
+          AppBoxes.kBoxH6,
           Assets.icons.coinNiagara.svg(
-            width: AppConst.kIconMedium,
-            height: AppConst.kIconMedium,
+            width: AppSizes.kIconMedium,
+            height: AppSizes.kIconMedium,
           ),
         ],
       ),

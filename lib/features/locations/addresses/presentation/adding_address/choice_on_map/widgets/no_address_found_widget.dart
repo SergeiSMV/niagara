@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
@@ -12,33 +11,42 @@ class NoAddressFoundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Assets.icons.attention.svg(
-              colorFilter: ColorFilter.mode(
-                context.colors.infoColors.red,
-                BlendMode.srcIn,
+    return Padding(
+      padding: AppInsets.kSymmetricH16,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Assets.icons.attention.svg(
+                colorFilter: ColorFilter.mode(
+                  context.colors.infoColors.red,
+                  BlendMode.srcIn,
+                ),
               ),
+              AppBoxes.kBoxH12,
+              Padding(
+                padding: AppInsets.kSymmetricV24,
+                child: Text(
+                  t.locations.noAddressFound,
+                  style: context.textStyle.textTypo.tx1SemiBold,
+                ),
+              ),
+            ],
+          ),
+          AppTextButton.primary(
+            text: t.locations.yeahThatsRight,
+          ),
+          Padding(
+            padding: AppInsets.kSymmetricV12,
+            child: AppTextButton.secondary(
+              text: t.locations.enterManually,
+              onTap: () {},
             ),
-            AppConst.kCommon12.horizontalBox,
-            Text(
-              t.locations.noAddressFound,
-              style: context.textStyle.textTypo.tx1SemiBold,
-            ).paddingSymmetric(vertical: AppConst.kCommon24),
-          ],
-        ),
-        AppTextButton.primary(
-          text: t.locations.yeahThatsRight,
-        ),
-        AppTextButton.secondary(
-          text: t.locations.enterManually,
-          onTap: () {},
-        ).paddingSymmetric(vertical: AppConst.kCommon12),
-        AppConst.kCommon12.verticalBox,
-      ],
-    ).paddingSymmetric(horizontal: AppConst.kCommon16);
+          ),
+          AppBoxes.kBoxV12,
+        ],
+      ),
+    );
   }
 }

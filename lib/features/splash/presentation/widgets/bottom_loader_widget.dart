@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/splash/presentation/cubit/splash_cubit.dart';
 
@@ -11,7 +11,7 @@ class BottomLoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: AppConst.kCommon8,
+      bottom: AppSizes.kGeneral8,
       child: BlocBuilder<SplashCubit, SplashState>(
         builder: (context, state) => state.maybeWhen(
           readyToMain: () => const _SpinnerLoader(),
@@ -29,8 +29,8 @@ class _SpinnerLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Assets.lottie.loadCircleWhite.lottie(
       repeat: true,
-      width: AppConst.kLoaderSmall,
-      height: AppConst.kLoaderSmall,
+      width: AppSizes.kLoaderSmall,
+      height: AppSizes.kLoaderSmall,
     );
   }
 }

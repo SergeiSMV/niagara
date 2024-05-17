@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/auth_later_button.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/get_code_widget.dart';
@@ -38,7 +37,7 @@ class AuthPage extends StatelessWidget {
             const AuthLaterButton(),
             const Spacer(),
             const PrivacyPolicyTextButtons(),
-            AppConst.kCommon12.verticalBox,
+            AppBoxes.kBoxV12,
             GetCodeWidget(formKey: formKey),
           ],
         ),

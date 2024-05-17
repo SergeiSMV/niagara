@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:niagara_app/core/common/presentation/widgets/text_fields/app_text_field.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/enums/base_text_filed_state.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
+
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/validate_phone_cubit/validate_phone_cubit.dart';
 
 /// Поле для ввода номера телефона.
@@ -25,14 +26,17 @@ class PhoneNumberField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilder(
-      key: _formKey,
-      child: BlocBuilder<ValidatePhoneCubit, bool>(
-        builder: (context, isValid) => AppTextField.phone(
-          onChanged: (value) => onChangedPhoneInput(context, phone: value),
-          state: isValid ? BaseTextFieldState.success : null,
+    return Padding(
+      padding: AppInsets.kAll16,
+      child: FormBuilder(
+        key: _formKey,
+        child: BlocBuilder<ValidatePhoneCubit, bool>(
+          builder: (context, isValid) => AppTextField.phone(
+            onChanged: (value) => onChangedPhoneInput(context, phone: value),
+            state: isValid ? BaseTextFieldState.success : null,
+          ),
         ),
-      ).paddingAll(16),
+      ),
     );
   }
 }

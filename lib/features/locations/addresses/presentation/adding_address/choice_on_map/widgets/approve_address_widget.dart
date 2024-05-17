@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
@@ -35,34 +35,43 @@ class ApproveAddressWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<AddressDetailsCubit>(param1: location),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                location.name,
-                style: context.textStyle.textTypo.tx1SemiBold,
+      child: Padding(
+        padding: AppInsets.kSymmetricH16,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: AppInsets.kSymmetricV24,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    location.name,
+                    style: context.textStyle.textTypo.tx1SemiBold,
+                  ),
+                  InkWell(
+                    onTap: () => editAddress(context),
+                    child: Assets.icons.pen.svg(
+                      width: AppSizes.kIconMedium,
+                      height: AppSizes.kIconMedium,
+                    ),
+                  ),
+                ],
               ),
-              InkWell(
-                onTap: () => editAddress(context),
-                child: Assets.icons.pen.svg(
-                  width: AppConst.kIconMedium,
-                  height: AppConst.kIconMedium,
+            ),
+            const AddressDetailsFieldsWidget(),
+            BlocBuilder<AddressDetailsCubit, Address>(
+              builder: (_, location) => Padding(
+                padding: AppInsets.kSymmetricV24,
+                child: AppTextButton.primary(
+                  text: t.locations.continueButton,
+                  onTap: () => onApproveAndGoBack(context, location),
                 ),
               ),
-            ],
-          ).paddingSymmetric(vertical: AppConst.kCommon24),
-          const AddressDetailsFieldsWidget(),
-          BlocBuilder<AddressDetailsCubit, Address>(
-            builder: (_, location) => AppTextButton.primary(
-              text: t.locations.continueButton,
-              onTap: () => onApproveAndGoBack(context, location),
             ),
-          ).paddingSymmetric(vertical: AppConst.kCommon24),
-        ],
-      ).paddingSymmetric(horizontal: AppConst.kCommon16),
+          ],
+        ),
+      ),
     );
   }
 }

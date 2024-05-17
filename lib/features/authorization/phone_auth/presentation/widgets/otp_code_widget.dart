@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pinput/pinput.dart';
@@ -21,10 +21,10 @@ class OTPCodeWidget extends StatelessWidget {
   }
 
   PinTheme _buildPinTheme(BuildContext context) => PinTheme(
-        height: AppConst.kCommon72,
-        width: AppConst.kCommon64,
+        height: AppSizes.kGeneral72,
+        width: AppSizes.kGeneral64,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppConst.kCommon12),
+          borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
           border: Border.all(
             color: context.colors.fieldBordersColors.main,
           ),
@@ -33,8 +33,8 @@ class OTPCodeWidget extends StatelessWidget {
       );
 
   Widget _buildCursor(Color color) => Container(
-        height: AppConst.kCommon4,
-        width: AppConst.kCommon4,
+        height: AppSizes.kGeneral4,
+        width: AppSizes.kGeneral4,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: color,
@@ -57,31 +57,34 @@ class OTPCodeWidget extends StatelessWidget {
           orElse: () => '',
         );
 
-    return Pinput(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      defaultPinTheme: pinTheme,
-      focusedPinTheme: pinTheme.copyBorderWith(
-        border: Border.all(
-          color: context.colors.fieldBordersColors.accent,
+    return Padding(
+      padding: AppInsets.kAll8,
+      child: Pinput(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        defaultPinTheme: pinTheme,
+        focusedPinTheme: pinTheme.copyBorderWith(
+          border: Border.all(
+            color: context.colors.fieldBordersColors.accent,
+          ),
         ),
-      ),
-      errorPinTheme: pinTheme.copyBorderWith(
-        border: Border.all(
-          color: context.colors.fieldBordersColors.negative,
+        errorPinTheme: pinTheme.copyBorderWith(
+          border: Border.all(
+            color: context.colors.fieldBordersColors.negative,
+          ),
         ),
+        preFilledWidget: _buildCursor(context.colors.fieldBordersColors.main),
+        cursor: _buildCursor(context.colors.fieldBordersColors.accent),
+        errorText: errorOTPText,
+        errorTextStyle: context.textStyle.textTypo.tx3Medium
+            .withColor(context.colors.textColors.error),
+        androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
+        hapticFeedbackType: HapticFeedbackType.lightImpact,
+        autofocus: true,
+        onChanged: (_) => onCodeChanged(context),
+        onCompleted: (value) => onCodeEntered(context, value),
+        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+        forceErrorState: errorOTP,
       ),
-      preFilledWidget: _buildCursor(context.colors.fieldBordersColors.main),
-      cursor: _buildCursor(context.colors.fieldBordersColors.accent),
-      errorText: errorOTPText,
-      errorTextStyle: context.textStyle.textTypo.tx3Medium
-          .withColor(context.colors.textColors.error),
-      androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
-      hapticFeedbackType: HapticFeedbackType.lightImpact,
-      autofocus: true,
-      onChanged: (_) => onCodeChanged(context),
-      onCompleted: (value) => onCodeEntered(context, value),
-      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-      forceErrorState: errorOTP,
-    ).paddingAll(AppConst.kCommon8);
+    );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 class LocationLoaderWidget extends StatelessWidget {
@@ -8,11 +8,11 @@ class LocationLoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      heightFactor: AppConst.kCommon4,
+      heightFactor: AppSizes.kGeneral4,
       child: Assets.lottie.loadCircle.lottie(
         repeat: true,
-        width: AppConst.kLoaderBig,
-        height: AppConst.kLoaderBig,
+        width: AppSizes.kLoaderBig,
+        height: AppSizes.kLoaderBig,
       ),
     );
   }

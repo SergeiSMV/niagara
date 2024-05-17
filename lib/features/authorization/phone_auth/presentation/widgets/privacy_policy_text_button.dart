@@ -1,8 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 // TODO(Oleg): Добавить ссылки на пользовательское соглашение и оферту.
@@ -30,26 +29,29 @@ class PrivacyPolicyTextButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
-      t.auth.privacyPolicy(
-        userAgreement: (text) => _buildTextButton(
-          context,
-          text: text,
-          onTap: () => debugPrint('userAgreement'),
+    return Padding(
+      padding: AppInsets.kSymmetricH16,
+      child: Text.rich(
+        t.auth.privacyPolicy(
+          userAgreement: (text) => _buildTextButton(
+            context,
+            text: text,
+            onTap: () => debugPrint('userAgreement'),
+          ),
+          privacyPolicy: (text) => _buildTextButton(
+            context,
+            text: text,
+            onTap: () => debugPrint('privacyPolicy'),
+          ),
+          offer: (text) => _buildTextButton(
+            context,
+            text: text,
+            onTap: () => debugPrint('offer'),
+          ),
         ),
-        privacyPolicy: (text) => _buildTextButton(
-          context,
-          text: text,
-          onTap: () => debugPrint('privacyPolicy'),
-        ),
-        offer: (text) => _buildTextButton(
-          context,
-          text: text,
-          onTap: () => debugPrint('offer'),
-        ),
+        style: context.textStyle.textTypo.tx2Medium,
+        textAlign: TextAlign.center,
       ),
-      style: context.textStyle.textTypo.tx2Medium,
-      textAlign: TextAlign.center,
-    ).paddingSymmetric(horizontal: AppConst.kCommon16);
+    );
   }
 }

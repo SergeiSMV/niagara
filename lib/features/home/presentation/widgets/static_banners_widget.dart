@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 class StaticBannersWidget extends HookWidget {
@@ -28,23 +28,23 @@ class StaticBannersWidget extends HookWidget {
             items: _items
                 .map(
                   (item) => ClipRRect(
-                    borderRadius: BorderRadius.circular(AppConst.kCommon16),
+                    borderRadius: BorderRadius.circular(AppSizes.kGeneral16),
                     child: item,
                   ),
                 )
                 .toList(),
             options: CarouselOptions(
-              viewportFraction: AppConst.kCommon1,
+              viewportFraction: AppSizes.kGeneral1,
               autoPlay: _items.isNotEmpty,
-              autoPlayInterval: Duration(seconds: AppConst.kCommon12.toInt()),
+              autoPlayInterval: Duration(seconds: AppSizes.kGeneral12.toInt()),
               onPageChanged: (current, _) => active.value = current,
             ),
           ),
         ),
         Positioned(
-          bottom: AppConst.kCommon0,
-          left: AppConst.kCommon0,
-          right: AppConst.kCommon0,
+          bottom: 0,
+          left: 0,
+          right: 0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: _items.map((url) {
@@ -52,17 +52,16 @@ class StaticBannersWidget extends HookWidget {
               return AnimatedContainer(
                 duration: Durations.medium1,
                 width: active.value == index
-                    ? AppConst.kCommon32
-                    : AppConst.kCommon6,
-                height: AppConst.kCommon6,
-                margin:
-                    AppConst.kCommon12.vertical + AppConst.kCommon4.horizontal,
+                    ? AppSizes.kGeneral32
+                    : AppSizes.kGeneral6,
+                height: AppSizes.kGeneral6,
+                margin: AppInsets.kSymmetricV12 + AppInsets.kSymmetricH4,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppConst.kCommon4),
+                  borderRadius: BorderRadius.circular(AppSizes.kGeneral4),
                   color: context.colors.mainColors.white.withOpacity(
                     active.value == index
-                        ? AppConst.kCommon1
-                        : AppConst.kCommon8 / AppConst.kCommon12,
+                        ? AppSizes.kGeneral1
+                        : AppSizes.kGeneral8 / AppSizes.kGeneral12,
                   ),
                 ),
               );
@@ -87,21 +86,22 @@ class _FirstBanner extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         Positioned(
-          left: AppConst.kCommon16,
-          bottom: AppConst.kCommon0,
-          right: AppConst.kCommon16,
+          left: AppSizes.kGeneral16,
+          bottom: 0,
+          right: AppSizes.kGeneral16,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Flexible(
-                flex: AppConst.kCommon4.toInt(),
-                child: Assets.images.banners.first.text
-                    .image()
-                    .padding(bottom: AppConst.kCommon32),
+                flex: AppSizes.kGeneral4.toInt(),
+                child: Padding(
+                  padding: AppInsets.kOnlyBottom32,
+                  child: Assets.images.banners.first.text.image(),
+                ),
               ),
-              AppConst.kCommon32.horizontalBox,
+              AppBoxes.kBoxH32,
               Flexible(
-                flex: AppConst.kCommon2.toInt(),
+                flex: AppSizes.kGeneral2.toInt(),
                 child: Assets.images.banners.first.imageBottles.image(),
               ),
             ],
@@ -139,34 +139,33 @@ class _SecondBanner extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         Positioned(
-          top: AppConst.kCommon0,
-          bottom: AppConst.kCommon0,
-          right: AppConst.kCommon0,
+          top: 0,
+          bottom: 0,
+          right: 0,
           child: Assets.images.banners.second.image.image(),
         ),
         Positioned(
-          top: AppConst.kCommon16,
-          left: AppConst.kCommon16,
-          bottom: AppConst.kCommon32,
+          top: AppSizes.kGeneral16,
+          left: AppSizes.kGeneral16,
+          bottom: AppSizes.kGeneral32,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(child: Assets.images.banners.second.text.image()),
-              AppConst.kCommon48.verticalBox,
+              AppBoxes.kBoxV48,
               DecoratedBox(
                 decoration: BoxDecoration(
-                  color: context.colors.mainColors.white
-                      .withOpacity(AppConst.kCommon04),
-                  borderRadius: BorderRadius.circular(AppConst.kCommon4),
+                  color: context.colors.mainColors.white.withOpacity(.4),
+                  borderRadius: BorderRadius.circular(AppSizes.kGeneral4),
                 ),
-                child: Text(
-                  // TODO(Oleg): Уточнить по дате начисления годовых бонусов
-                  'Начислим 20.06',
-                  style: context.textStyle.captionTypo.c1
-                      .withColor(context.colors.textColors.white),
-                ).paddingSymmetric(
-                  vertical: AppConst.kCommon4,
-                  horizontal: AppConst.kCommon6,
+                child: Padding(
+                  padding: AppInsets.kSymmetricV4 + AppInsets.kSymmetricH6,
+                  child: Text(
+                    // TODO(Oleg): Уточнить по дате начисления годовых бонусов
+                    'Начислим 20.06',
+                    style: context.textStyle.captionTypo.c1
+                        .withColor(context.colors.textColors.white),
+                  ),
                 ),
               ),
             ],

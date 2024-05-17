@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/num_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 class BonusesFooterButton extends StatelessWidget {
@@ -22,26 +22,29 @@ class BonusesFooterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Row(
-        children: [
-          icon.svg(
-            width: AppConst.kIconMedium,
-            height: AppConst.kIconMedium,
-          ),
-          AppConst.kCommon12.horizontalBox,
-          Text(
-            title,
-            style: context.textStyle.textTypo.tx2Medium.withColor(
-              context.colors.textColors.main,
+      child: Padding(
+        padding: AppInsets.kSymmetricV16,
+        child: Row(
+          children: [
+            icon.svg(
+              width: AppSizes.kIconMedium,
+              height: AppSizes.kIconMedium,
             ),
-          ),
-          const Spacer(),
-          Assets.icons.arrowRight.svg(
-            width: AppConst.kIconMedium,
-            height: AppConst.kIconMedium,
-          ),
-        ],
+            AppBoxes.kBoxH12,
+            Text(
+              title,
+              style: context.textStyle.textTypo.tx2Medium.withColor(
+                context.colors.textColors.main,
+              ),
+            ),
+            const Spacer(),
+            Assets.icons.arrowRight.svg(
+              width: AppSizes.kIconMedium,
+              height: AppSizes.kIconMedium,
+            ),
+          ],
+        ),
       ),
-    ).paddingSymmetric(vertical: AppConst.kCommon16);
+    );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/extensions/widget_ext.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 /// Кнопка в AppBar для вызова действия (например, открытие экрана уведомлений)
@@ -25,9 +25,13 @@ class AppBarActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: icon
-          .svg(width: AppConst.kIconLarge, height: AppConst.kIconLarge)
-          .paddingSymmetric(horizontal: AppConst.kCommon8),
+      child: Padding(
+        padding: AppInsets.kSymmetricH16,
+        child: icon.svg(
+          width: AppSizes.kIconLarge,
+          height: AppSizes.kIconLarge,
+        ),
+      ),
     );
   }
 }
