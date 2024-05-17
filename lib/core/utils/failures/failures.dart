@@ -152,3 +152,23 @@ class BonusesLocalDataFailure extends Failure {
 class BonusesRepositoryFailure extends Failure {
   const BonusesRepositoryFailure([super.error = 'Bonuses repo data failure']);
 }
+
+// ! --------------------------- Bonus Program --------------------------- ! //
+
+class BonusProgramRepositoryFailure extends Failure {
+  const BonusProgramRepositoryFailure([
+    super.error = 'Bonus program repo failure',
+  ]);
+}
+
+class BonusProgramLocalDataFailure extends Failure {
+  const BonusProgramLocalDataFailure([
+    super.error = 'Bonus program local data failure',
+  ]);
+}
+
+class BonusProgramRemoteDataFailure extends Failure {
+  const BonusProgramRemoteDataFailure([
+    super.error = 'Bonus program remote data failure',
+  ]);
+}

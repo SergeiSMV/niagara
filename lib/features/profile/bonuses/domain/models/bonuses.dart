@@ -1,5 +1,5 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/bonus_level_type.dart';
+import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 
 class Bonuses extends Equatable {
   const Bonuses({
@@ -13,7 +13,7 @@ class Bonuses extends Equatable {
     required this.nextLevel,
     required this.endDate,
     required this.revThisMonth,
-    required this.bonuses,
+    required this.bottles,
   });
 
   final int id;
@@ -22,12 +22,11 @@ class Bonuses extends Equatable {
   final int tempCount;
   final String tempLastDate;
   final int tempDays;
-  final BonusLevel level;
-  final BonusLevel nextLevel;
+  final StatusLevel level;
+  final StatusLevel nextLevel;
   final DateTime endDate;
   final int revThisMonth;
-  final List<Bonus> bonuses;
-  // ? final List<dynamic> bottles;
+  final Bottles bottles;
 
   @override
   List<Object> get props => [
@@ -41,28 +40,36 @@ class Bonuses extends Equatable {
         nextLevel,
         endDate,
         revThisMonth,
-        bonuses,
+        bottles,
       ];
 }
 
-class Bonus extends Equatable {
-  const Bonus({
-    required this.programId,
-    required this.isTemp,
-    required this.endDate,
+class Bottles extends Equatable {
+  const Bottles({
     required this.count,
+    required this.bottles,
   });
 
-  final String programId;
-  final bool isTemp;
-  final DateTime endDate;
   final int count;
+  final List<Bottle> bottles;
 
   @override
-  List<Object?> get props => [
-        programId,
-        isTemp,
-        endDate,
-        count,
-      ];
+  List<Object?> get props => [count, bottles];
+}
+
+class Bottle extends Equatable {
+  const Bottle({
+    required this.id,
+    required this.name,
+    required this.count,
+    required this.offersId,
+  });
+
+  final String id;
+  final String name;
+  final int count;
+  final String offersId;
+
+  @override
+  List<Object?> get props => [id, name, count, offersId];
 }

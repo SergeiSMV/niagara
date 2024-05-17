@@ -1,0 +1,64 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:niagara_app/core/core.dart';
+
+part 'status_description_dto.g.dart';
+
+@JsonSerializable(createToJson: false)
+class StatusDescriptionDto extends Equatable {
+  const StatusDescriptionDto({
+    required this.name,
+    required this.title,
+    required this.description,
+    required this.minSum,
+    required this.maxSum,
+    required this.benefits,
+  });
+
+  @JsonKey(name: 'name')
+  final String name;
+  @JsonKey(name: 'title')
+  final String title;
+  @JsonKey(name: 'description')
+  final String description;
+  @JsonKey(name: 'sum_min')
+  final int minSum;
+  @JsonKey(name: 'sum_max')
+  final int maxSum;
+  @JsonKey(name: 'list')
+  final List<BenefitDto> benefits;
+
+  factory StatusDescriptionDto.fromJson(Map<String, dynamic> json) =>
+      _$StatusDescriptionDtoFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        name,
+        title,
+        description,
+        minSum,
+        maxSum,
+        benefits,
+      ];
+}
+
+@JsonSerializable(createToJson: false)
+class BenefitDto extends Equatable {
+  const BenefitDto({
+    required this.titleName,
+    required this.titleText,
+    required this.titlePict,
+  });
+
+  @JsonKey(name: 'title_name')
+  final String titleName;
+  @JsonKey(name: 'title_text')
+  final String titleText;
+  @JsonKey(name: 'title_pict')
+  final String titlePict;
+
+  factory BenefitDto.fromJson(Map<String, dynamic> json) =>
+      _$BenefitDtoFromJson(json);
+
+  @override
+  List<Object?> get props => [titleName, titleText, titlePict];
+}

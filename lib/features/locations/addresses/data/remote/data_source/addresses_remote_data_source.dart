@@ -8,7 +8,11 @@ abstract interface class IAddressesRemoteDatasource {
 
   Future<Either<Failure, String>> addAddress({
     required AddressDto address,
-    String? phone,
+    required String phone,
+  });
+
+  Future<Either<Failure, String>> updateAddress({
+    required AddressDto address,
   });
 
   Future<Either<Failure, bool>> deleteAddress({
@@ -43,23 +47,37 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
   @override
   Future<Either<Failure, String>> addAddress({
     required AddressDto address,
-    String? phone,
+    required String phone,
   }) async {
     return _requestHandler.sendRequest<String, Map<String, dynamic>>(
       request: (dio) => dio.post(
         ApiConst.kAddLocation,
         data: {
-          // ? Для обновления адреса нужен locationId
           ...address.toJson(),
           // ? Для добавления нового адреса нужен номер телефона/логин
-          if (address.locationId.isEmpty && phone != null) 'PHONE': phone,
+          'PHONE': phone,
         },
       ),
       converter: (json) {
-        if (json['susses'] == false) {
-          throw const AddressesRemoteDataFailure();
-        }
-        return json['id'] as String; // ! susses -> success
+        if (json['success'] == false) throw const AddressesRemoteDataFailure();
+        return json['id'] as String;
+      },
+      failure: AddressesRemoteDataFailure.new,
+    );
+  }
+
+  @override
+  Future<Either<Failure, String>> updateAddress({
+    required AddressDto address,
+  }) async {
+    return _requestHandler.sendRequest<String, Map<String, dynamic>>(
+      request: (dio) => dio.post(
+        ApiConst.kUpdateLocation,
+        data: address.toJson(),
+      ),
+      converter: (json) {
+        if (json['success'] == false) throw const AddressesRemoteDataFailure();
+        return json['id'] as String;
       },
       failure: AddressesRemoteDataFailure.new,
     );
@@ -84,7 +102,7 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
   Future<Either<Failure, bool>> checkAddress({
     required AddressDto address,
   }) async =>
-      _requestHandler.sendRequest<bool, bool>(
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kCheckLocation,
           data: {
@@ -93,7 +111,7 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
             'LON': address.longitude,
           },
         ),
-        converter: (json) => json,
+        converter: (json) => json['result'] as bool,
         failure: AddressesRemoteDataFailure.new,
       );
 }

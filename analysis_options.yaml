@@ -4,6 +4,8 @@ linter:
     public_member_api_docs: false
     one_member_abstracts: false
 analyzer:
+  errors:
+    sort_constructors_first: ignore
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"

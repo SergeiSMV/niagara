@@ -30,25 +30,37 @@ class AddressDto extends Equatable {
     this.isActive,
   });
 
+  @JsonKey(name: 'ID')
+  final String locationId;
+
+  @JsonKey(name: 'NAME', includeToJson: false)
   final String name;
 
+  @JsonKey(name: 'REGION')
   final String region;
 
+  @JsonKey(name: 'DISTRICT')
   final String district;
 
+  @JsonKey(name: 'CITY')
   final String city;
 
+  @JsonKey(name: 'LOCATION')
   final String location;
 
+  @JsonKey(name: 'STREET')
   final String street;
 
+  @JsonKey(name: 'BUILD')
   final String build;
 
+  @JsonKey(name: 'FLOOR')
   final String floor;
 
   @JsonKey(name: 'FLAT_OFFICE_NUMBER')
   final String flat;
 
+  @JsonKey(name: 'ENTRANCE')
   final String entrance;
 
   @JsonKey(name: 'ADDITIONAL_INFO')
@@ -60,20 +72,20 @@ class AddressDto extends Equatable {
   @JsonKey(name: 'LAN', fromJson: _getCoordinate)
   final double longitude;
 
+  @JsonKey(name: 'SERVICE_LAST_DATE', includeToJson: false)
   final DateTime? serviceLastDate;
 
+  @JsonKey(name: 'SERVICE_NEXT_DATE', includeToJson: false)
   final DateTime? serviceNextDate;
 
+  @JsonKey(name: 'ONLY_READ', includeToJson: false)
   final bool? onlyRead;
 
-  @JsonKey(name: 'DEFAULT')
+  @JsonKey(name: 'DEFAULT', includeToJson: false)
   final bool isDefault;
 
-  @JsonKey(name: 'ACTIVE')
+  @JsonKey(name: 'ACTIVE', includeToJson: false)
   final bool? isActive;
-
-  @JsonKey(name: 'ID')
-  final String locationId;
 
   factory AddressDto.fromJson(Map<String, dynamic> json) =>
       _$AddressDtoFromJson(json);

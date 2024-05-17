@@ -33,6 +33,9 @@ abstract final class ApiConst {
   /// -POST- Запрос на добавление локации
   static const String kAddLocation = '/location';
 
+  /// -PUT- Запрос на добавление локации
+  static const String kUpdateLocation = '/location';
+
   /// -DELETE- Запрос на удаление локации
   static const String kDeleteLocation = '/location';
 
@@ -41,11 +44,27 @@ abstract final class ApiConst {
 
   /// -GET- Запрос на получение списка магазинов
   static const String kGetShops = '/sotres';
-  
+
   // ? ------------------------------- User ------------------------------- ? //
   /// -GET- Запрос на получение профиля
   static const String kGetProfile = '/users';
 
   /// -PUT- Запрос на обновление профиля
   static const String kUpdateProfile = '/users';
+
+  // ? --------------------------- BonusProgram --------------------------- ? //
+  /// -GET- Запрос на получение описания программы бонусов
+  static const String kGetBonusProgram = '/bonus_program';
+
+  /// -GET- Запрос на получение FAQ программы бонусов
+  static const String kGetFaqBonusProgram = '/faq';
+
+  /// -GET- Запрос на получение описания статусов
+  static const String kGetStatusesDescriptions = '/bonus_program_status';
+
+  /// -GET- Запрос на получение описания статуса
+  static const String kGetStatusDescription = '/status_users';
+
+  /// -GET- Запрос на получение истории бонусов
+  static const String kGetBonusesHistory = '/history';
 }

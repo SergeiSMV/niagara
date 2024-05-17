@@ -1,8 +1,6 @@
-// ignore_for_file: sort_constructors_first
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/bonus_level_type.dart';
+import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 
 part 'bonuses_entity.g.dart';
 
@@ -18,7 +16,7 @@ class BonusesEntity extends Equatable {
     required this.nextLevel,
     required this.endDate,
     required this.revThisMonth,
-    required this.bonuses,
+    required this.bottles,
   });
 
   final int id;
@@ -27,11 +25,11 @@ class BonusesEntity extends Equatable {
   final int tempCount;
   final String tempLastDate;
   final int tempDays;
-  final BonusLevel level;
-  final BonusLevel nextLevel;
+  final StatusLevel level;
+  final StatusLevel nextLevel;
   final DateTime endDate;
   final int revThisMonth;
-  final List<BonusEntity> bonuses;
+  final BottlesEntity bottles;
 
   @override
   List<Object> get props => [
@@ -45,34 +43,56 @@ class BonusesEntity extends Equatable {
         nextLevel,
         endDate,
         revThisMonth,
-        bonuses,
+        bottles,
       ];
 }
 
 @JsonSerializable()
-class BonusEntity extends Equatable {
-  const BonusEntity({
-    required this.programId,
-    required this.isTemp,
-    required this.endDate,
+class BottlesEntity extends Equatable {
+  const BottlesEntity({
     required this.count,
+    required this.bottles,
   });
 
-  final String programId;
-  final bool isTemp;
-  final DateTime endDate;
   final int count;
+  final List<BottleEntity> bottles;
 
-  factory BonusEntity.fromJson(Map<String, dynamic> json) =>
-      _$BonusEntityFromJson(json);
+  factory BottlesEntity.fromJson(Map<String, dynamic> json) =>
+      _$BottlesEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BonusEntityToJson(this);
+  Map<String, dynamic> toJson() => _$BottlesEntityToJson(this);
 
   @override
   List<Object?> get props => [
-        programId,
-        isTemp,
-        endDate,
         count,
+        bottles,
+      ];
+}
+
+@JsonSerializable()
+class BottleEntity extends Equatable {
+  const BottleEntity({
+    required this.productId,
+    required this.name,
+    required this.count,
+    required this.offersId,
+  });
+
+  final String productId;
+  final String name;
+  final int count;
+  final String offersId;
+
+  factory BottleEntity.fromJson(Map<String, dynamic> json) =>
+      _$BottleEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BottleEntityToJson(this);
+
+  @override
+  List<Object?> get props => [
+        productId,
+        name,
+        count,
+        offersId,
       ];
 }

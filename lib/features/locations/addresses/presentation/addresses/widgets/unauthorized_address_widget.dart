@@ -37,7 +37,7 @@ class UnauthorizedAddressWidget extends StatelessWidget {
             children: [
               AppConst.kCommon32.verticalBox,
               Text(
-                t.common.login,
+                t.locations.login,
                 style: context.textStyle.headingTypo.h3
                     .withColor(context.colors.textColors.main),
               ),

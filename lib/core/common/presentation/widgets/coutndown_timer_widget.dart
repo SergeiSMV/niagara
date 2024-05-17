@@ -40,7 +40,8 @@ class TimerCountdown extends StatefulWidget {
     this.spacerWidth = 10,
   });
 
-  /// Format for the timer coundtown, choose between different `CountDownTimerFormat`s
+  /// Format for the timer countdown,
+  /// choose between different `CountDownTimerFormat`s
   final CountDownTimerFormat format;
 
   /// Defines the time when the timer is over.
@@ -58,7 +59,7 @@ class TimerCountdown extends StatefulWidget {
   /// `TextStyle` for the time numbers.
   final TextStyle? timeTextStyle;
 
-  /// `TextStyle` for the colons betwenn the time numbers.
+  /// `TextStyle` for the colons between the time numbers.
   final TextStyle? colonsTextStyle;
 
   /// `TextStyle` for the description

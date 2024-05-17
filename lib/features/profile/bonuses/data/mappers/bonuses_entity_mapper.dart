@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:niagara_app/core/common/data/database/app_database.dart';
+import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/profile/bonuses/data/local/entities/bonuses_entity.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
 
@@ -15,7 +16,7 @@ extension BonusesEntityMapper on BonusesEntity {
         nextLevel: nextLevel,
         endDate: endDate,
         revThisMonth: revThisMonth,
-        bonuses: bonuses.map((bonusEntity) => bonusEntity.toEntity()).toList(),
+        bottles: bottles.toModel(),
       );
 
   BonusesTableCompanion toCompanion() => BonusesTableCompanion(
@@ -29,7 +30,7 @@ extension BonusesEntityMapper on BonusesEntity {
         nextLevel: Value(nextLevel),
         endDate: Value(endDate),
         revThisMonth: Value(revThisMonth),
-        bonuses: Value(bonuses),
+        bottles: Value(bottles),
       );
 }
 
@@ -45,7 +46,7 @@ extension BonusesMapper on Bonuses {
         nextLevel: nextLevel,
         endDate: endDate,
         revThisMonth: revThisMonth,
-        bonuses: bonuses.map((bonus) => bonus.toEntity()).toList(),
+        bottles: bottles.toEntity(),
       );
 }
 
@@ -61,24 +62,38 @@ extension BonusesTableMapper on BonusesTableData {
         nextLevel: nextLevel,
         endDate: endDate,
         revThisMonth: revThisMonth,
-        bonuses: bonuses,
+        bottles: bottles,
       );
 }
 
-extension BonusMapper on Bonus {
-  BonusEntity toEntity() => BonusEntity(
-        programId: programId,
-        isTemp: isTemp,
-        endDate: endDate,
+extension BottlesMapper on Bottles {
+  BottlesEntity toEntity() => BottlesEntity(
+        bottles: bottles.map((bottle) => bottle.toEntity()).toList(),
         count: count,
       );
 }
 
-extension BonusEntityMapper on BonusEntity {
-  Bonus toEntity() => Bonus(
-        programId: programId,
-        isTemp: isTemp,
-        endDate: endDate,
+extension BottleMapper on Bottle {
+  BottleEntity toEntity() => BottleEntity(
+        productId: id,
+        name: name,
         count: count,
+        offersId: offersId,
+      );
+}
+
+extension BottleEntityMapper on BottleEntity {
+  Bottle toModel() => Bottle(
+        id: productId,
+        name: name,
+        count: count,
+        offersId: offersId,
+      );
+}
+
+extension BottlesEntityMapper on BottlesEntity {
+  Bottles toModel() => Bottles(
+        count: count,
+        bottles: bottles.map((bottle) => bottle.toModel()).toList(),
       );
 }

@@ -12,7 +12,7 @@ class ShopsListModal extends StatelessWidget {
   const ShopsListModal({super.key});
 
   static const _minSize = AppConst.kCommon01;
-  static const _maxSize = AppConst.kCommon075;
+  static const _maxSize = AppConst.kCommon07 + AppConst.kCommon005;
   static const _snapSize = AppConst.kCommon04;
 
   static final _sheetKey = GlobalKey();
