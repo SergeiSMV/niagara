@@ -16,7 +16,7 @@ class AccrualHistoryButton extends StatelessWidget {
         backgroundColor: context.colors.mainColors.white,
         isScrollControlled: true,
         useSafeArea: true,
-        builder: (_) => const BonusesHistoryWidget(bonusesHistory: []),
+        builder: (_) => const BonusesHistoryWidget(),
       );
 
   @override
