@@ -23,7 +23,7 @@ class BonusesFooterButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: AppInsets.kSymmetricH16,
+        padding: AppInsets.kSymmetricV16,
         child: Row(
           children: [
             icon.svg(

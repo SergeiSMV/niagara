@@ -104,10 +104,12 @@ abstract class BaseTextField extends HookWidget {
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        prefixIcon: Padding(
-          padding: AppInsets.kOnlyLeft8 + AppInsets.kOnlyRight4,
-          child: prefixWidget,
-        ),
+        prefixIcon: prefixWidget != null
+            ? Padding(
+                padding: AppInsets.kOnlyLeft8 + AppInsets.kOnlyRight4,
+                child: prefixWidget,
+              )
+            : null,
         prefixText: prefix,
         prefixIconConstraints: const BoxConstraints(),
         suffixIcon: !state.isIdle ? _IconWidget(state: state) : null,

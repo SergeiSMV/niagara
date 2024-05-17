@@ -43,6 +43,7 @@ class SearchTextField extends HookWidget {
       },
       onTapOutside: (_) => FocusScope.of(context).unfocus(),
       decoration: InputDecoration(
+        contentPadding: AppInsets.kSymmetricV12,
         hintText: t.search.inputField,
         prefixIconConstraints: const BoxConstraints(),
         suffixIconConstraints: const BoxConstraints(),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -22,7 +23,7 @@ class CountdownTimerCubit extends Cubit<int> {
     emit(AppConstants.kOTPResendTime);
     _timerSubscription?.cancel();
     _timerSubscription = Stream.periodic(
-      const Duration(seconds: 1),
+      Durations.extralong4,
       (x) => AppConstants.kOTPResendTime - x - 1,
     ).take(AppConstants.kOTPResendTime).listen(emit);
   }
