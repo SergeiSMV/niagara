@@ -13,8 +13,8 @@ import 'package:niagara_app/features/profile/bonuses/domain/repositories/bonuses
 class BonusesProgramRepository extends BaseRepository
     implements IBonusesProgramRepository {
   BonusesProgramRepository(
+    super._logger,
     this._bonusProgramRDS,
-    super.logger,
   );
 
   final IBonusProgramRemoteDataSource _bonusProgramRDS;

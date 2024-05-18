@@ -9,7 +9,7 @@ import 'package:niagara_app/features/locations/cities/domain/repositories/cities
 @LazySingleton(as: ICitiesRepository)
 class CitiesRepository extends BaseRepository implements ICitiesRepository {
   CitiesRepository(
-    super.logger,
+    super._logger,
     this._citiesRDS,
     this._citiesLDS,
   );

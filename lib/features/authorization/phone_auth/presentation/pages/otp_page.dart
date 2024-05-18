@@ -9,7 +9,6 @@ import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/otp_code_widget.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/otp_title_widget.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/resend_code_widget.dart';
-import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 
 /// Страница для ввода кода подтверждения.
 @RoutePage()
@@ -21,9 +20,8 @@ class OTPPage extends StatelessWidget implements AutoRouteWrapper {
 
   final String _phoneNumber;
 
-  void _navigateToMain(BuildContext context) => context
-    ..replaceRoute(const NavigationRoute())
-    ..read<AddressesBloc>().add(const AddressesEvent.initial());
+  void _navigateToMain(BuildContext context) =>
+      context.replaceRoute(const NavigationRoute());
 
   void _resetTimer(BuildContext context) =>
       context.read<CountdownTimerCubit>().startTimer();

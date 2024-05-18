@@ -35,7 +35,7 @@ class RequestHandler {
 
       final res = await compute<T, D>(converter, responseData);
       return Right(res);
-    } catch (e) {
+    } on Failure catch (e) {
       return Left(failure(e.toString()));
     }
   }

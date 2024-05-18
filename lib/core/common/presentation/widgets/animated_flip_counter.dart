@@ -221,7 +221,7 @@ class AnimatedFlipCounter extends StatelessWidget {
               // Animate the negative sign (-) appearing and disappearing
               duration: negativeSignDuration,
               tween: Tween(end: value < 0 ? 1.0 : 0.0),
-              builder: (_, double v, __) => Center(
+              builder: (_, v, __) => Center(
                 widthFactor: v,
                 child: Opacity(opacity: v, child: const Text('-')),
               ),
@@ -277,7 +277,7 @@ class _SingleDigitFlipCounter extends StatelessWidget {
       tween: Tween(end: value),
       duration: duration,
       curve: curve,
-      builder: (_, double value, __) {
+      builder: (_, value, __) {
         final whole = value ~/ 1;
         final decimal = value - whole;
         final w = size.width + padding.horizontal;

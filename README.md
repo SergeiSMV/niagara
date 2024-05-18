@@ -46,7 +46,7 @@
   - Для flutter: [talker_flutter](https://pub.dev/packages/talker_flutter)
   - Для bloc: [talker_bloc_logger](https://pub.dev/packages/talker_bloc_logger)
   - Для dio: [talker_dio_logger](https://pub.dev/packages/talker_dio_logger)
-- Анализатор: [very_good_analysis](https://pub.dev/packages/very_good_analysis)
+- Анализатор: [flutter_lints](https://pub.dev/packages/flutter_lints)
 - Сетевые изображения: [cached_network_image](https://pub.dev/packages/cached_network_image)
 - SVG-изображения: [flutter_svg](https://pub.dev/packages/flutter_svg)
 - Build-генератор: [build_runner](https://pub.dev/packages/build_runner)

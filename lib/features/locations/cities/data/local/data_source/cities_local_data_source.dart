@@ -39,7 +39,7 @@ class CitiesLocalDatasource implements ICitiesLocalDataSource {
     try {
       final result = await action();
       return Right(result);
-    } catch (e) {
+    } on Failure catch (e) {
       return Left(CitiesLocalDataFailure(e.toString()));
     }
   }

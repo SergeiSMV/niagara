@@ -57,7 +57,7 @@ class AddressesLocalDatasource implements IAddressesLocalDatasource {
     try {
       final result = await action();
       return Right(result);
-    } catch (e) {
+    } on Failure catch (e) {
       return Left(AddressesLocalDataFailure(e.toString()));
     }
   }

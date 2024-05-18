@@ -28,8 +28,8 @@ class AboutBonusesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final modalSize = context.select(
-      (BonusesBloc bloc) => bloc.state.maybeWhen(
+    final modalSize = context.select<BonusesBloc, double>(
+      (bloc) => bloc.state.maybeWhen(
         unauthorized: () => .45,
         orElse: () => .7,
       ),

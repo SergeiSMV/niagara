@@ -73,6 +73,12 @@ class BottomNavigationBarWidget extends StatelessWidget {
             return;
           }
 
+          // переход к корневому экрану если текущий индекс совпадает
+          // с индексом навигационной панели
+          if (tabsRouter.activeIndex == index) {
+            context.router.navigateNamed(tabsRouter.stack[index].name ?? '');
+          }
+
           tabsRouter.setActiveIndex(index);
         },
         items: _items.map(_buildItem).toList(),

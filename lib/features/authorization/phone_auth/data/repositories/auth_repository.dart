@@ -7,7 +7,7 @@ import 'package:niagara_app/features/authorization/phone_auth/domain/repositorie
 @LazySingleton(as: IAuthRepository)
 class AuthRepository extends BaseRepository implements IAuthRepository {
   AuthRepository(
-    super.logger,
+    super._logger,
     this._authLDS,
     this._authRDS,
   );

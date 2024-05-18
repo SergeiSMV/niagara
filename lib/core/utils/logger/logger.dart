@@ -9,7 +9,7 @@ abstract interface class IAppLogger {
     StackTrace? stackTrace,
   });
 
-  void handle(Object error, [StackTrace? stackTrace, dynamic msg]);
+  void handle(Object error, [StackTrace? stackTrace, String msg]);
 }
 
 /// Реализация логгера приложения на основе [Talker].
@@ -38,6 +38,6 @@ class AppLogger implements IAppLogger {
       };
 
   @override
-  void handle(Object error, [StackTrace? stackTrace, dynamic msg]) =>
+  void handle(Object error, [StackTrace? stackTrace, String? msg]) =>
       _talker.handle(error, stackTrace, msg);
 }

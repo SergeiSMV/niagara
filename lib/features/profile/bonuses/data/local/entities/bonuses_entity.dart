@@ -1,3 +1,5 @@
+// ignore_for_file: sort_constructors_first
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/status_level_type.dart';

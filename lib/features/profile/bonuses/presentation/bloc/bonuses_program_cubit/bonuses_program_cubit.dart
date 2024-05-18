@@ -15,12 +15,17 @@ class BonusesProgramCubit extends Cubit<BonusesProgramState> {
   final GetBonusesProgramUseCase _bonusesProgramUseCase;
 
   Future<void> getAboutBonusProgram() async {
-    emit(const BonusesProgramState.loading());
+    _emit(const BonusesProgramState.loading());
 
     (await _bonusesProgramUseCase.call()).fold(
-      (_) => emit(const BonusesProgramState.error()),
+      (_) => _emit(const BonusesProgramState.error()),
       (bonusesProgram) =>
-          emit(BonusesProgramState.loaded(bonusesProgram: bonusesProgram)),
+          _emit(BonusesProgramState.loaded(bonusesProgram: bonusesProgram)),
     );
+  }
+
+  void _emit(BonusesProgramState state) {
+    if (isClosed) return;
+    emit(state);
   }
 }

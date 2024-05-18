@@ -30,7 +30,7 @@ class DeviceIdService implements IDeviceIdService {
       } else {
         return const Left(DeviceIdFailure());
       }
-    } catch (e) {
+    } on Exception catch (e) {
       return Left(DeviceIdFailure(e.toString()));
     }
   }

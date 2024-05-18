@@ -14,7 +14,7 @@ import 'package:niagara_app/features/profile/user/domain/repositories/profile_re
 @LazySingleton(as: IProfileRepository)
 class ProfileRepository extends BaseRepository implements IProfileRepository {
   ProfileRepository(
-    super.logger,
+    super._logger,
     this._userLDS,
     this._bonusesLDS,
     this._profileRDS,

@@ -24,7 +24,7 @@ abstract class BaseRepository {
     try {
       final result = await action();
       return Right(result);
-    } catch (e, st) {
+    } on Exception catch (e, st) {
       return Left(_logError(failure, e, st));
     }
   }

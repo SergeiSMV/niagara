@@ -2,8 +2,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
 import 'package:niagara_app/core/utils/constants/keys_constants.dart';
+import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
 
 import 'token_local_datasource_test.mocks.dart';
 

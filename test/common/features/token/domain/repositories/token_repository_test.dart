@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:niagara_app/features/authorization/base_token/domain/repositories/token_repository.dart';
 import 'package:niagara_app/core/common/data/services/device_id_service.dart';
+import 'package:niagara_app/core/core.dart' hide test;
+import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_remote_data_source.dart';
 import 'package:niagara_app/features/authorization/base_token/data/repositories/token_repository.dart';
-import 'package:niagara_app/core/core.dart' hide test;
-import 'package:niagara_app/core/dependencies/di.dart';
+import 'package:niagara_app/features/authorization/base_token/domain/repositories/token_repository.dart';
 
 import 'token_repository_test.mocks.dart';
 
@@ -54,7 +54,8 @@ void main() {
       expect(result, const Right<Failure, String>('cached_token'));
       verifyNever(mockDeviceIdService.getUniqueId());
       verifyNever(
-          mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
+        mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')),
+      );
       verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
     });
 
@@ -67,7 +68,8 @@ void main() {
       expect(result, const Left<Failure, String>(GetTokenFailure()));
       verifyNever(mockDeviceIdService.getUniqueId());
       verifyNever(
-          mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
+        mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')),
+      );
       verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
     });
 
@@ -80,7 +82,8 @@ void main() {
       expect(result, const Left<Failure, void>(TokenRepositoryFailure()));
       verify(mockDeviceIdService.getUniqueId()).called(1);
       verifyNever(
-          mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')));
+        mockTokenRemoteDataSource.getToken(deviceId: anyNamed('deviceId')),
+      );
       verifyNever(mockTokenLocalDataSource.setToken(token: anyNamed('token')));
     });
 

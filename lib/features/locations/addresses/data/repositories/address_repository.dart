@@ -15,7 +15,7 @@ import 'package:niagara_app/features/profile/user/data/local/data_source/user_lo
 @LazySingleton(as: IAddressRepository)
 class AddressesRepository extends BaseRepository implements IAddressRepository {
   AddressesRepository(
-    super.logger,
+    super._logger,
     this._authLDS,
     this._addressesLDS,
     this._addressesRDS,

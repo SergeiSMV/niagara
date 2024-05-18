@@ -70,8 +70,8 @@ dev_dependencies:
   freezed: ^2.5.2
   injectable_generator: ^2.5.1
   json_serializable: ^6.7.1
+  lint: ^2.3.0
   slang_build_runner: ^3.30.0
-  very_good_analysis: ^5.1.0
 
 flutter_gen:
   output: lib/core/utils/gen/

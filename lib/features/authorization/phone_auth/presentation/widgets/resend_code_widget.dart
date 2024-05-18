@@ -44,7 +44,10 @@ class _ResendCodeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final time = context.select((CountdownTimerCubit cubit) => cubit.state);
+    final time = context.select<CountdownTimerCubit, int>(
+      (cubit) => cubit.state,
+    );
+    
     final isDisabled = time != 0;
 
     final color = isDisabled
@@ -77,7 +80,9 @@ class _ResendCodeTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final time = context.select((CountdownTimerCubit cubit) => cubit.state);
+    final time = context.select<CountdownTimerCubit, int>(
+      (cubit) => cubit.state,
+    );
 
     if (time == 0) return const SizedBox.shrink();
 

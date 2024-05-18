@@ -11,7 +11,7 @@ import 'package:niagara_app/features/locations/shops/domain/repositories/shops_r
 @LazySingleton(as: IShopsRepository)
 class ShopsRepository extends BaseRepository implements IShopsRepository {
   ShopsRepository(
-    super.logger,
+    super._logger,
     this._shopsLDS,
     this._shopsRDS,
     this._cityLDS,
