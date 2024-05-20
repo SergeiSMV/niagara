@@ -35,7 +35,7 @@ class AboutBonusesPage extends StatelessWidget {
       ),
     );
     return BlocProvider(
-      create: (_) => getIt<BonusesProgramCubit>()..getAboutBonusProgram(),
+      create: (_) => getIt<BonusesProgramCubit>(),
       child: Scaffold(
         appBar: const AppBarWidget(),
         body: BlocBuilder<BonusesProgramCubit, BonusesProgramState>(

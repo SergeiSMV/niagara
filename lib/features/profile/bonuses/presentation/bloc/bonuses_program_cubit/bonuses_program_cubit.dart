@@ -10,7 +10,10 @@ part 'bonuses_program_state.dart';
 @injectable
 class BonusesProgramCubit extends Cubit<BonusesProgramState> {
   BonusesProgramCubit(this._bonusesProgramUseCase)
-      : super(const BonusesProgramState.initial());
+      : super(const BonusesProgramState.initial()) {
+    /// Получение информации о программе бонусов
+    getAboutBonusProgram();
+  }
 
   final GetBonusesProgramUseCase _bonusesProgramUseCase;
 

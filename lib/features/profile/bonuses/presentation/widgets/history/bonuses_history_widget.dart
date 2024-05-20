@@ -37,7 +37,7 @@ class BonusesHistoryWidget extends HookWidget {
     );
 
     return BlocProvider(
-      create: (_) => getIt<BonusesHistoryCubit>()..load(),
+      create: (_) => getIt<BonusesHistoryCubit>(),
       child: BlocConsumer<BonusesHistoryCubit, BonusesHistoryState>(
         listener: (_, state) => state.maybeWhen(
           orElse: () => null,
