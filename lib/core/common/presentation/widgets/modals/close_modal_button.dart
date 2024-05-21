@@ -19,7 +19,7 @@ class CloseModalButton extends StatelessWidget {
       child: Container(
         width: AppSizes.kIconLarge,
         height: AppSizes.kIconLarge,
-        padding: AppInsets.kSymmetricH2,
+        padding: AppInsets.kHorizontal2,
         decoration: BoxDecoration(
           color: context.colors.buttonColors.secondary,
           borderRadius: BorderRadius.circular(AppSizes.kGeneral6),

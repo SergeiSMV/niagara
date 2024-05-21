@@ -22,7 +22,7 @@ class CitiesPage extends StatelessWidget {
           builder: (_, state) {
             return const Column(
               children: [
-                AppBoxes.kBoxV16,
+                AppBoxes.kHeight16,
                 SelectCityHeaderWidget(),
                 CitiesListWidget(),
               ],

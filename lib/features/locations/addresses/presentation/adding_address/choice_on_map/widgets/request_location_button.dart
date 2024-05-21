@@ -51,7 +51,7 @@ class RequestLocationButton extends StatelessWidget {
     return InkWell(
       onTap: () => onDeterminePosition(context),
       child: Padding(
-        padding: AppInsets.kSymmetricH16,
+        padding: AppInsets.kHorizontal16,
         child: Assets.icons.location.svg(
           width: AppSizes.kIconLarge,
           height: AppSizes.kIconLarge,

@@ -37,7 +37,7 @@ class AuthPage extends StatelessWidget {
             const AuthLaterButton(),
             const Spacer(),
             const PrivacyPolicyTextButtons(),
-            AppBoxes.kBoxV12,
+            AppBoxes.kHeight12,
             GetCodeWidget(formKey: formKey),
           ],
         ),

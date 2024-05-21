@@ -55,7 +55,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
             flat: flat,
           ),
         ),
-        AppBoxes.kBoxV12,
+        AppBoxes.kHeight12,
         Row(
           children: [
             Expanded(
@@ -69,7 +69,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
                 ),
               ),
             ),
-            AppBoxes.kBoxH12,
+            AppBoxes.kWidth12,
             Expanded(
               child: AppTextField.number(
                 label: t.locations.floor,
@@ -83,7 +83,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
             ),
           ],
         ),
-        AppBoxes.kBoxV12,
+        AppBoxes.kHeight12,
         AppTextField.text(
           label: t.locations.addressComment,
           initialText: _comment,
@@ -92,7 +92,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
             comment: comment,
           ),
         ),
-        AppBoxes.kBoxV12,
+        AppBoxes.kHeight12,
       ],
     );
   }

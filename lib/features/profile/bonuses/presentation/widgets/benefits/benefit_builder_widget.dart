@@ -28,7 +28,7 @@ class BenefitBuilderWidget extends StatelessWidget {
               width: AppSizes.kIconMedium,
               height: AppSizes.kIconMedium,
             ),
-            AppBoxes.kBoxH8,
+            AppBoxes.kWidth8,
             Text(
               title,
               style: context.textStyle.textTypo.tx1SemiBold
@@ -36,13 +36,13 @@ class BenefitBuilderWidget extends StatelessWidget {
             ),
           ],
         ),
-        AppBoxes.kBoxV8,
+        AppBoxes.kHeight8,
         Text(
           description,
           style: context.textStyle.textTypo.tx2Medium
               .withColor(context.colors.textColors.secondary),
         ),
-        AppBoxes.kBoxV16,
+        AppBoxes.kHeight16,
       ],
     );
   }

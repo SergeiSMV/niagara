@@ -23,7 +23,7 @@ class AccruedBonusesWidget extends StatelessWidget {
           Assets.images.coinX2.image(
             height: AppSizes.kGeneral64,
           ),
-          AppBoxes.kBoxH12,
+          AppBoxes.kWidth12,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -33,7 +33,7 @@ class AccruedBonusesWidget extends StatelessWidget {
                   context.colors.textColors.main,
                 ),
               ),
-              AppBoxes.kBoxV4,
+              AppBoxes.kHeight4,
               Text(
                 '${t.bonuses.willBeAccrued} 20 июня',
                 style: context.textStyle.textTypo.tx2Medium.withColor(

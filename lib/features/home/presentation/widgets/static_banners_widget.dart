@@ -22,23 +22,20 @@ class StaticBannersWidget extends HookWidget {
 
     return Stack(
       children: [
-        ColoredBox(
-          color: context.colors.mainColors.bgCard,
-          child: CarouselSlider(
-            items: _items
-                .map(
-                  (item) => ClipRRect(
-                    borderRadius: BorderRadius.circular(AppSizes.kGeneral16),
-                    child: item,
-                  ),
-                )
-                .toList(),
-            options: CarouselOptions(
-              viewportFraction: AppSizes.kGeneral1,
-              autoPlay: _items.isNotEmpty,
-              autoPlayInterval: Duration(seconds: AppSizes.kGeneral12.toInt()),
-              onPageChanged: (current, _) => active.value = current,
-            ),
+        CarouselSlider(
+          items: _items
+              .map(
+                (item) => ClipRRect(
+                  borderRadius: BorderRadius.circular(AppSizes.kGeneral16),
+                  child: item,
+                ),
+              )
+              .toList(),
+          options: CarouselOptions(
+            viewportFraction: AppSizes.kGeneral1,
+            autoPlay: _items.isNotEmpty,
+            autoPlayInterval: Duration(seconds: AppSizes.kGeneral12.toInt()),
+            onPageChanged: (current, _) => active.value = current,
           ),
         ),
         Positioned(
@@ -55,7 +52,7 @@ class StaticBannersWidget extends HookWidget {
                     ? AppSizes.kGeneral32
                     : AppSizes.kGeneral6,
                 height: AppSizes.kGeneral6,
-                margin: AppInsets.kSymmetricV12 + AppInsets.kSymmetricH4,
+                margin: AppInsets.kVertical12 + AppInsets.kHorizontal4,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSizes.kGeneral4),
                   color: context.colors.mainColors.white.withOpacity(
@@ -95,11 +92,11 @@ class _FirstBanner extends StatelessWidget {
               Flexible(
                 flex: AppSizes.kGeneral4.toInt(),
                 child: Padding(
-                  padding: AppInsets.kOnlyBottom32,
+                  padding: AppInsets.kBottom32,
                   child: Assets.images.banners.first.text.image(),
                 ),
               ),
-              AppBoxes.kBoxH32,
+              AppBoxes.kWidth32,
               Flexible(
                 flex: AppSizes.kGeneral2.toInt(),
                 child: Assets.images.banners.first.imageBottles.image(),
@@ -152,14 +149,14 @@ class _SecondBanner extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(child: Assets.images.banners.second.text.image()),
-              AppBoxes.kBoxV48,
+              AppBoxes.kHeight48,
               DecoratedBox(
                 decoration: BoxDecoration(
                   color: context.colors.mainColors.white.withOpacity(.4),
                   borderRadius: BorderRadius.circular(AppSizes.kGeneral4),
                 ),
                 child: Padding(
-                  padding: AppInsets.kSymmetricV4 + AppInsets.kSymmetricH6,
+                  padding: AppInsets.kVertical4 + AppInsets.kHorizontal6,
                   child: Text(
                     // TODO(Oleg): Уточнить по дате начисления годовых бонусов
                     'Начислим 20.06',

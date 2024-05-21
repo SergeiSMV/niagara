@@ -19,14 +19,14 @@ class OTPTitleWidget extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: AppInsets.kOnlyBottom12,
+            padding: AppInsets.kBottom12,
             child: Text(
               t.auth.enterCode,
               style: context.textStyle.headingTypo.h3,
             ),
           ),
           Padding(
-            padding: AppInsets.kSymmetricH32,
+            padding: AppInsets.kHorizontal32,
             child: Text(
               t.auth.weSentCode(phoneNumber: _phoneNumber),
               style: context.textStyle.textTypo.tx1Medium,

@@ -46,7 +46,7 @@ class ShopTileWidget extends StatelessWidget {
       subtitleTextStyle: context.textStyle.descriptionTypo.des3.withColor(
         context.colors.textColors.secondary,
       ),
-      contentPadding: AppInsets.kSymmetricH16,
+      contentPadding: AppInsets.kHorizontal16,
     );
   }
 }

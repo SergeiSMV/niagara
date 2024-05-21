@@ -16,9 +16,9 @@ class NoBonusesWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Assets.images.coins.image(),
-          AppBoxes.kBoxV24,
+          AppBoxes.kHeight24,
           Padding(
-            padding: AppInsets.kSymmetricH48 + AppInsets.kSymmetricV8,
+            padding: AppInsets.kHorizontal48 + AppInsets.kVertical8,
             child: Column(
               children: [
                 Text(
@@ -27,7 +27,7 @@ class NoBonusesWidget extends StatelessWidget {
                       .withColor(context.colors.textColors.main),
                   textAlign: TextAlign.center,
                 ),
-                AppBoxes.kBoxV8,
+                AppBoxes.kHeight8,
                 Text(
                   t.bonuses.placeOrderToEarnPoints,
                   style: context.textStyle.textTypo.tx1Medium
@@ -37,7 +37,7 @@ class NoBonusesWidget extends StatelessWidget {
               ],
             ),
           ),
-          AppBoxes.kBoxV64,
+          AppBoxes.kHeight64,
         ],
       ),
     );

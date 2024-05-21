@@ -17,7 +17,7 @@ class ShopsListWidget extends StatelessWidget {
         itemCount: shops.length + 1,
         itemBuilder: (_, index) {
           if (index == shops.length) {
-            return AppBoxes.kBoxV12;
+            return AppBoxes.kHeight12;
           } else {
             final shop = shops[index];
             return ShopTileWidget(shop: shop);

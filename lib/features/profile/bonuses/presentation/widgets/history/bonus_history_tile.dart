@@ -34,7 +34,7 @@ class BonusHistoryTile extends StatelessWidget {
     final formattedDate = dateFormat.format(date);
 
     return ListTile(
-      contentPadding: AppInsets.kSymmetricH16,
+      contentPadding: AppInsets.kHorizontal16,
       title: Row(
         children: [
           Text(
@@ -45,7 +45,7 @@ class BonusHistoryTile extends StatelessWidget {
           ),
           if (isTemp)
             Padding(
-              padding: AppInsets.kOnlyLeft4,
+              padding: AppInsets.kLeft4,
               child: Assets.icons.fire.svg(
                 width: AppSizes.kIconMedium,
                 height: AppSizes.kIconMedium,
@@ -66,7 +66,7 @@ class BonusHistoryTile extends StatelessWidget {
             '${isNegativeCount ? '' : '+'}$count',
             style: context.textStyle.textTypo.tx2Medium.withColor(countColor),
           ),
-          AppBoxes.kBoxH6,
+          AppBoxes.kWidth6,
           Assets.icons.coinNiagara.svg(
             width: AppSizes.kIconMedium,
             height: AppSizes.kIconMedium,

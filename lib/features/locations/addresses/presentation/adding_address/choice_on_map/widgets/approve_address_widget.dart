@@ -36,12 +36,12 @@ class ApproveAddressWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<AddressDetailsCubit>(param1: location),
       child: Padding(
-        padding: AppInsets.kSymmetricH16,
+        padding: AppInsets.kHorizontal16,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: AppInsets.kSymmetricV24,
+              padding: AppInsets.kVertical24,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -62,7 +62,7 @@ class ApproveAddressWidget extends StatelessWidget {
             const AddressDetailsFieldsWidget(),
             BlocBuilder<AddressDetailsCubit, Address>(
               builder: (_, location) => Padding(
-                padding: AppInsets.kSymmetricV24,
+                padding: AppInsets.kVertical24,
                 child: AppTextButton.primary(
                   text: t.locations.continueButton,
                   onTap: () => onApproveAndGoBack(context, location),

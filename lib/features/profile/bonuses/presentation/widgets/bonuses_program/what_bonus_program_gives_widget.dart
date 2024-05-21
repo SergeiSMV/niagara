@@ -23,7 +23,7 @@ class WhatBonusProgramGivesWidget extends StatelessWidget {
     return BlocBuilder<BonusesProgramCubit, BonusesProgramState>(
       builder: (_, state) => state.maybeWhen(
         loaded: (aboutBonuses) => Padding(
-          padding: AppInsets.kSymmetricV24 + AppInsets.kSymmetricH16,
+          padding: AppInsets.kVertical24 + AppInsets.kHorizontal16,
           child: Column(
             children: [
               Text(
@@ -32,11 +32,11 @@ class WhatBonusProgramGivesWidget extends StatelessWidget {
                   context.colors.textColors.main,
                 ),
               ),
-              AppBoxes.kBoxV4,
+              AppBoxes.kHeight4,
               ...List.generate(
                 aboutBonuses.aboutBonusProgram.privileges.length,
                 (index) => Padding(
-                  padding: AppInsets.kSymmetricV12,
+                  padding: AppInsets.kVertical12,
                   child: AboutBonusesDescriptionBuildWidget(
                     title:
                         aboutBonuses.aboutBonusProgram.privileges[index].title,

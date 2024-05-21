@@ -21,7 +21,7 @@ class BonusesTypesBuildWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppInsets.kSymmetricV8,
+      padding: AppInsets.kVertical8,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: context.colors.mainColors.bgCard,
@@ -34,7 +34,7 @@ class BonusesTypesBuildWidget extends StatelessWidget {
               child: Row(
                 children: [
                   image.image(height: AppSizes.kGeneral48),
-                  AppBoxes.kBoxH12,
+                  AppBoxes.kWidth12,
                   Text(
                     title,
                     style: context.textStyle.textTypo.tx1SemiBold.withColor(
@@ -54,7 +54,7 @@ class BonusesTypesBuildWidget extends StatelessWidget {
             ...List.generate(
               descriptions.length,
               (index) => Padding(
-                padding: AppInsets.kSymmetricH12 + AppInsets.kSymmetricV6,
+                padding: AppInsets.kHorizontal12 + AppInsets.kVertical6,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -65,7 +65,7 @@ class BonusesTypesBuildWidget extends StatelessWidget {
                         height: .6,
                       ),
                     ),
-                    AppBoxes.kBoxH8,
+                    AppBoxes.kWidth8,
                     Flexible(
                       child: Text(
                         descriptions[index],
@@ -77,7 +77,7 @@ class BonusesTypesBuildWidget extends StatelessWidget {
                 ),
               ),
             ),
-            AppBoxes.kBoxV8,
+            AppBoxes.kHeight8,
           ],
         ),
       ),

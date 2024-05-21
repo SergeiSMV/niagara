@@ -21,7 +21,7 @@ class AboutBonusesDescriptionBuildWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppInsets.kSymmetricH24,
+      padding: AppInsets.kHorizontal24,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -29,7 +29,7 @@ class AboutBonusesDescriptionBuildWidget extends StatelessWidget {
             height: AppSizes.kGeneral64,
             width: AppSizes.kGeneral64,
           ),
-          AppBoxes.kBoxV16,
+          AppBoxes.kHeight16,
           Text(
             title,
             style: context.textStyle.textTypo.tx1SemiBold.withColor(
@@ -37,7 +37,7 @@ class AboutBonusesDescriptionBuildWidget extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          AppBoxes.kBoxV8,
+          AppBoxes.kHeight8,
           Text(
             description,
             style: context.textStyle.textTypo.tx2Medium.withColor(

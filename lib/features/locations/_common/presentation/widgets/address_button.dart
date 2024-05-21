@@ -42,7 +42,7 @@ class AddressButton extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                AppBoxes.kBoxH4,
+                AppBoxes.kWidth4,
                 Assets.icons.arrowRight.svg(
                   width: AppSizes.kIconSmall,
                   height: AppSizes.kIconSmall,

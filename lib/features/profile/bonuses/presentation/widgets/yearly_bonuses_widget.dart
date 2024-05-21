@@ -12,7 +12,7 @@ class YearlyBonusesWidget extends StatelessWidget {
   const YearlyBonusesWidget({super.key});
 
   EdgeInsetsGeometry get _padding =>
-      AppInsets.kSymmetricH16 + AppInsets.kOnlyTop16 + AppInsets.kOnlyBottom24;
+      AppInsets.kHorizontal16 + AppInsets.kTop16 + AppInsets.kBottom24;
 
   BorderRadiusGeometry get _borderRadius =>
       BorderRadius.circular(AppSizes.kGeneral12);
@@ -37,7 +37,7 @@ class YearlyBonusesWidget extends StatelessWidget {
             style: context.textStyle.headingTypo.h2
                 .withColor(context.colors.mainColors.white),
           ),
-          AppBoxes.kBoxV12,
+          AppBoxes.kHeight12,
           Text(
             t.bonuses.yearlyBonusesDesc,
             style: context.textStyle.textTypo.tx2Medium.withColor(
@@ -45,7 +45,7 @@ class YearlyBonusesWidget extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          AppBoxes.kBoxV24,
+          AppBoxes.kHeight24,
           TimerCountdown(
             endTime: DateTime.now().add(const Duration(days: 31)),
             daysDescription: t.bonuses.days,

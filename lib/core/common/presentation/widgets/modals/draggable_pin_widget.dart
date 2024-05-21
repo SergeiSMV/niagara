@@ -9,7 +9,7 @@ class PinWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppInsets.kSymmetricV8,
+      padding: AppInsets.kVertical8,
       child: Center(
         child: Container(
           height: AppSizes.kGeneral4,

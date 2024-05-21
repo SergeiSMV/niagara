@@ -38,31 +38,31 @@ class BonusContentWidget extends StatelessWidget {
             physics: const ClampingScrollPhysics(),
             child: ModalBackgroundWidget(
               child: Padding(
-                padding: AppInsets.kSymmetricH16,
+                padding: AppInsets.kHorizontal16,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppBoxes.kBoxV24,
+                    AppBoxes.kHeight24,
                     Text(
                       t.bonuses.yourBenefits,
                       style: context.textStyle.headingTypo.h3.withColor(
                         context.colors.textColors.main,
                       ),
                     ),
-                    AppBoxes.kBoxV16,
+                    AppBoxes.kHeight16,
                     const ListBenefitsWidget(),
                     const Padding(
-                      padding: AppInsets.kSymmetricV16,
+                      padding: AppInsets.kVertical16,
                       child: Column(
                         children: [
                           YearlyBonusesWidget(),
-                          AppBoxes.kBoxV12,
+                          AppBoxes.kHeight12,
                           AccruedBonusesWidget(),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: AppInsets.kSymmetricV16,
+                      padding: AppInsets.kVertical16,
                       child: Column(
                         children: [
                           Text(
@@ -70,9 +70,9 @@ class BonusContentWidget extends StatelessWidget {
                             style: context.textStyle.headingTypo.h3
                                 .withColor(context.colors.textColors.main),
                           ),
-                          AppBoxes.kBoxV16,
+                          AppBoxes.kHeight16,
                           const NextLevelWidget(),
-                          AppBoxes.kBoxV24,
+                          AppBoxes.kHeight24,
                           const AboutBonusProgramButton(),
                         ],
                       ),
@@ -99,7 +99,7 @@ class BonusContentWidget extends StatelessWidget {
                           color: context.colors.otherColors.separator30,
                           thickness: AppSizes.kGeneral1,
                         ),
-                        AppBoxes.kBoxV48,
+                        AppBoxes.kHeight48,
                       ],
                     ),
                   ],

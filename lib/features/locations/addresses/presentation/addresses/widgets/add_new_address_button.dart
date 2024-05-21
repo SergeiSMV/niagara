@@ -15,12 +15,12 @@ class AddNewAddressButton extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
         onTap: () => context.pushRoute(const ChoiceOnMapRoute()),
         child: Padding(
-          padding: AppInsets.kSymmetricH16,
+          padding: AppInsets.kHorizontal16,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: AppInsets.kSymmetricV12,
+                padding: AppInsets.kVertical12,
                 child: Text(
                   t.locations.addNewAddress,
                   style: context.textStyle.textTypo.tx1Medium

@@ -28,7 +28,7 @@ class BonusLevelStatusDataWidget extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             Padding(
-              padding: AppInsets.kSymmetricH16 + AppInsets.kSymmetricV32,
+              padding: AppInsets.kHorizontal16 + AppInsets.kVertical32,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -37,9 +37,9 @@ class BonusLevelStatusDataWidget extends StatelessWidget {
                     style: context.textStyle.headingTypo.h2
                         .withColor(context.colors.mainColors.white),
                   ),
-                  AppBoxes.kBoxV16,
+                  AppBoxes.kHeight16,
                   const HorizontalBonusCardsDataWidget(),
-                  AppBoxes.kBoxV16,
+                  AppBoxes.kHeight16,
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

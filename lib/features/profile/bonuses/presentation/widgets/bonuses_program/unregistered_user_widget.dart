@@ -21,13 +21,13 @@ class UnregisteredUserWidget extends StatelessWidget {
       builder: (_, state) => state.maybeWhen(
         unauthorized: () => Column(
           children: [
-            AppBoxes.kBoxV16,
+            AppBoxes.kHeight16,
             Text(
               t.bonuses.aboutBonusesProgram.unregistered,
               style: context.textStyle.textTypo.tx2Medium
                   .withColor(context.colors.mainColors.white),
             ),
-            AppBoxes.kBoxV32,
+            AppBoxes.kHeight32,
             AppTextButton.invisible(
               text: t.bonuses.aboutBonusesProgram.signInOrRegister,
               onTap: () => _goToAuthPage(context),

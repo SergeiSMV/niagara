@@ -21,9 +21,9 @@ class StatusesDescriptionWidget extends StatelessWidget {
         orElse: SizedBox.shrink,
         loaded: (bonusesProgram) => Column(
           children: [
-            AppBoxes.kBoxV32,
+            AppBoxes.kHeight32,
             Padding(
-              padding: AppInsets.kSymmetricH16,
+              padding: AppInsets.kHorizontal16,
               child: Text(
                 t.bonuses.aboutBonusesProgram.morePurchases,
                 style: context.textStyle.headingTypo.h3.withColor(
@@ -31,9 +31,9 @@ class StatusesDescriptionWidget extends StatelessWidget {
                 ),
               ),
             ),
-            AppBoxes.kBoxV24,
+            AppBoxes.kHeight24,
             SingleChildScrollView(
-              padding: AppInsets.kSymmetricH16,
+              padding: AppInsets.kHorizontal16,
               scrollDirection: Axis.horizontal,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +46,7 @@ class StatusesDescriptionWidget extends StatelessWidget {
                     width: _cardWidth,
                     child: Padding(
                       padding:
-                          !isLast ? AppInsets.kOnlyRight24 : EdgeInsets.zero,
+                          !isLast ? AppInsets.kRight24 : EdgeInsets.zero,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -66,7 +66,7 @@ class StatusesDescriptionWidget extends StatelessWidget {
                               children: [
                                 Assets.images.logo
                                     .svg(height: AppSizes.kGeneral16),
-                                AppBoxes.kBoxV72,
+                                AppBoxes.kHeight72,
                                 Text(
                                   t.bonuses.bonusCard,
                                   style: context.textStyle.textTypo.tx3SemiBold
@@ -77,7 +77,7 @@ class StatusesDescriptionWidget extends StatelessWidget {
                               ],
                             ),
                           ),
-                          AppBoxes.kBoxV16,
+                          AppBoxes.kHeight16,
                           Text(
                             status.level.toLocale(),
                             style: context.textStyle.textTypo.tx1SemiBold
@@ -85,7 +85,7 @@ class StatusesDescriptionWidget extends StatelessWidget {
                               context.colors.textColors.main,
                             ),
                           ),
-                          AppBoxes.kBoxV8,
+                          AppBoxes.kHeight8,
                           Text(
                             status.description,
                             style:
@@ -93,11 +93,11 @@ class StatusesDescriptionWidget extends StatelessWidget {
                               context.colors.textColors.secondary,
                             ),
                           ),
-                          AppBoxes.kBoxV16,
+                          AppBoxes.kHeight16,
                           ...List.generate(
                             status.benefits.length,
                             (index) => Padding(
-                              padding: AppInsets.kSymmetricV8,
+                              padding: AppInsets.kVertical8,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -109,7 +109,7 @@ class StatusesDescriptionWidget extends StatelessWidget {
                                       context.colors.textColors.main,
                                     ),
                                   ),
-                                  AppBoxes.kBoxV4,
+                                  AppBoxes.kHeight4,
                                   Text(
                                     status.benefits[index].description,
                                     style: context.textStyle.textTypo.tx3Medium
@@ -128,7 +128,7 @@ class StatusesDescriptionWidget extends StatelessWidget {
                 }),
               ),
             ),
-            AppBoxes.kBoxV8,
+            AppBoxes.kHeight8,
           ],
         ),
       ),

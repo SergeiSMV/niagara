@@ -14,7 +14,7 @@ class NextLevelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: AppInsets.kSymmetricH12 + AppInsets.kSymmetricV16,
+      padding: AppInsets.kHorizontal12 + AppInsets.kVertical16,
       decoration: BoxDecoration(
         color: context.colors.mainColors.white,
         borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
@@ -38,7 +38,7 @@ class NextLevelWidget extends StatelessWidget {
                 nextLevel: bonuses.nextLevel,
                 toNextLevel: statusDescription.maxSum,
               ),
-              AppBoxes.kBoxV16,
+              AppBoxes.kHeight16,
               BonusNextLevelAmountSlider(
                 currentAmount: bonuses.revThisMonth,
                 maxAmount: statusDescription.maxSum,

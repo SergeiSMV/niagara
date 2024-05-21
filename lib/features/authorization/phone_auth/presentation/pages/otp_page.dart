@@ -43,7 +43,7 @@ class OTPPage extends StatelessWidget implements AutoRouteWrapper {
       child: Scaffold(
         appBar: const AppBarWidget(),
         body: Padding(
-          padding: AppInsets.kSymmetricH16,
+          padding: AppInsets.kHorizontal16,
           child: Column(
             children: [
               OTPTitleWidget(phoneNumber: _phoneNumber),

@@ -14,7 +14,7 @@ class BottomShadowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: AppInsets.kSymmetricH16 + AppInsets.kSymmetricV12,
+        padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: context.colors.mainColors.white,

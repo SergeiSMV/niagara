@@ -16,7 +16,7 @@ class BonusesProgramHeaderWidget extends StatelessWidget {
       children: [
         Assets.images.aboutBonuses.aboutBonusProgram.image(),
         Padding(
-          padding: AppInsets.kSymmetricV32 + AppInsets.kSymmetricH16,
+          padding: AppInsets.kVertical32 + AppInsets.kHorizontal16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -25,7 +25,7 @@ class BonusesProgramHeaderWidget extends StatelessWidget {
                 style: context.textStyle.headingTypo.h2
                     .withColor(context.colors.mainColors.white),
               ),
-              AppBoxes.kBoxV16,
+              AppBoxes.kHeight16,
               Text.rich(
                 t.bonuses.aboutBonusesProgram.bonusProgramDescription(
                   paragraph: (text) => TextSpan(

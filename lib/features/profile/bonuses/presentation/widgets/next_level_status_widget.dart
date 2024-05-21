@@ -36,7 +36,7 @@ class NextLevelStatusWidget extends StatelessWidget {
                   context.colors.textColors.main,
                 ),
               ),
-              AppBoxes.kBoxV4,
+              AppBoxes.kHeight4,
               Text(
                 t.bonuses
                     .toNextStatus(amount: toNextLevel)
@@ -48,7 +48,7 @@ class NextLevelStatusWidget extends StatelessWidget {
             ],
           ),
         ),
-        AppBoxes.kBoxH16,
+        AppBoxes.kWidth16,
         Flexible(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(AppSizes.kGeneral6),

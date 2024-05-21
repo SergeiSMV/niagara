@@ -90,7 +90,7 @@ class _ResendCodeTimer extends StatelessWidget {
     final secondsStr = (time % 60).toString().padLeft(2, '0');
 
     return Padding(
-      padding: AppInsets.kOnlyTop8,
+      padding: AppInsets.kTop8,
       child: Text(
         t.auth.through(time: '$minutesStr:$secondsStr'),
         style: context.textStyle.textTypo.tx1Medium.withColor(

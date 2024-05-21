@@ -102,7 +102,7 @@ class _NavBarIconWidget extends StatelessWidget {
     final unselectedColor =
         context.theme.bottomNavigationBarTheme.unselectedItemColor;
     return Padding(
-      padding: AppInsets.kOnlyTop8 + AppInsets.kOnlyBottom4,
+      padding: AppInsets.kTop8 + AppInsets.kBottom4,
       child: icon.svg(
         width: AppSizes.kIconLarge,
         height: AppSizes.kIconLarge,

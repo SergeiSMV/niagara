@@ -12,7 +12,7 @@ class NoAddressFoundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppInsets.kSymmetricH16,
+      padding: AppInsets.kHorizontal16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -24,9 +24,9 @@ class NoAddressFoundWidget extends StatelessWidget {
                   BlendMode.srcIn,
                 ),
               ),
-              AppBoxes.kBoxH12,
+              AppBoxes.kWidth12,
               Padding(
-                padding: AppInsets.kSymmetricV24,
+                padding: AppInsets.kVertical24,
                 child: Text(
                   t.locations.noAddressFound,
                   style: context.textStyle.textTypo.tx1SemiBold,
@@ -38,13 +38,13 @@ class NoAddressFoundWidget extends StatelessWidget {
             text: t.locations.yeahThatsRight,
           ),
           Padding(
-            padding: AppInsets.kSymmetricV12,
+            padding: AppInsets.kVertical12,
             child: AppTextButton.secondary(
               text: t.locations.enterManually,
               onTap: () {},
             ),
           ),
-          AppBoxes.kBoxV12,
+          AppBoxes.kHeight12,
         ],
       ),
     );

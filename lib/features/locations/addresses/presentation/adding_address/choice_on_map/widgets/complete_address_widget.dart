@@ -27,12 +27,12 @@ class CompleteAddressWidget extends StatelessWidget {
     final availableToAddendum = cubit.state.availableToAddendum;
 
     return Padding(
-      padding: AppInsets.kSymmetricH16,
+      padding: AppInsets.kHorizontal16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: AppInsets.kSymmetricV24,
+            padding: AppInsets.kVertical24,
             child: Text(
               location.name,
               style: context.textStyle.textTypo.tx1SemiBold,
@@ -43,13 +43,13 @@ class CompleteAddressWidget extends StatelessWidget {
             onTap: availableToAddendum ? cubit.onAddendumAddress : null,
           ),
           Padding(
-            padding: AppInsets.kSymmetricV12,
+            padding: AppInsets.kVertical12,
             child: AppTextButton.secondary(
               text: t.locations.enterManually,
               onTap: () => _onManualInput(context),
             ),
           ),
-          AppBoxes.kBoxV12,
+          AppBoxes.kHeight12,
         ],
       ),
     );

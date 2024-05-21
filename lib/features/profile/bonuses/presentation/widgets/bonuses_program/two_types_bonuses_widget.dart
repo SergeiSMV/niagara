@@ -18,17 +18,17 @@ class TwoTypesBonusesWidget extends StatelessWidget {
       builder: (_, state) => state.maybeWhen(
         orElse: SizedBox.shrink,
         loaded: (bonusesProgram) => Padding(
-          padding: AppInsets.kSymmetricH16,
+          padding: AppInsets.kHorizontal16,
           child: Column(
             children: [
-              AppBoxes.kBoxV32,
+              AppBoxes.kHeight32,
               Text(
                 t.bonuses.aboutBonusesProgram.twoTypesBonuses,
                 style: context.textStyle.headingTypo.h3.withColor(
                   context.colors.textColors.main,
                 ),
               ),
-              AppBoxes.kBoxV8,
+              AppBoxes.kHeight8,
               BonusesTypesBuildWidget(
                 image: Assets.images.aboutBonuses.aboutFour,
                 title: t.bonuses.aboutBonusesProgram.primaryBonusesTitle,
@@ -47,7 +47,7 @@ class TwoTypesBonusesWidget extends StatelessWidget {
                       bonusesProgram.aboutBonusProgram.temporaryBonuses[index],
                 ),
               ),
-              AppBoxes.kBoxV8,
+              AppBoxes.kHeight8,
             ],
           ),
         ),

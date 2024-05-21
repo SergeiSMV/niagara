@@ -20,7 +20,7 @@ class ProfilePage extends StatelessWidget {
         body: ProfileUserDataWidget(),
         actions: [
           EditUserDataButton(),
-          AppBoxes.kBoxH8,
+          AppBoxes.kWidth8,
         ],
       ),
       backgroundColor: context.colors.mainColors.bgCard,

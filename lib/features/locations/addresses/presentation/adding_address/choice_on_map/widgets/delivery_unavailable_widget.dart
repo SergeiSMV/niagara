@@ -24,7 +24,7 @@ class DeliveryUnavailableWidget extends StatelessWidget {
     final phone = context.read<AddressesBloc>().state.phone;
     return Container(
       padding: const EdgeInsets.all(AppSizes.kGeneral12),
-      margin: AppInsets.kSymmetricV12 + AppInsets.kSymmetricH16,
+      margin: AppInsets.kVertical12 + AppInsets.kHorizontal16,
       decoration: BoxDecoration(
         color: context.colors.infoColors.bgRed,
         borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
@@ -37,7 +37,7 @@ class DeliveryUnavailableWidget extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          AppBoxes.kBoxH8,
+          AppBoxes.kWidth8,
           Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,12 +46,12 @@ class DeliveryUnavailableWidget extends StatelessWidget {
                   t.locations.addressOutsideDeliveryZone,
                   style: context.textStyle.textTypo.tx2SemiBold,
                 ),
-                AppBoxes.kBoxV4,
+                AppBoxes.kHeight4,
                 Text(
                   t.locations.addressOutsideDeliveryZoneDescription,
                   style: context.textStyle.descriptionTypo.des3,
                 ),
-                AppBoxes.kBoxV8,
+                AppBoxes.kHeight8,
                 Text.rich(
                   t.locations.deliveryQuestions(
                     phone: (_) => _buildTextButton(

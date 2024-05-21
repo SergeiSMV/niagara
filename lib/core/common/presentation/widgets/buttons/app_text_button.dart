@@ -144,7 +144,7 @@ class _TextButtonWidget extends StatelessWidget {
     };
 
     return Padding(
-      padding: AppInsets.kSymmetricH24 +
+      padding: AppInsets.kHorizontal24 +
           EdgeInsets.symmetric(
             vertical: size.verticalPadding,
           ),
@@ -157,7 +157,7 @@ class _TextButtonWidget extends StatelessWidget {
               height: AppSizes.kIconMedium,
               colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
             ),
-            AppBoxes.kBoxH8,
+            AppBoxes.kWidth8,
           ],
           Text(text, style: style.withColor(color)),
         ],

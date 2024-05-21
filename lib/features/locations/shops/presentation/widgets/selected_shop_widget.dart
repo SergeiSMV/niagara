@@ -48,7 +48,7 @@ class SelectedShopWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: AppInsets.kSymmetricH16,
+        padding: AppInsets.kHorizontal16,
         child: Column(
           children: [
             Row(
@@ -60,11 +60,11 @@ class SelectedShopWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _ShopName(name: shop.name),
-                      AppBoxes.kBoxV24,
+                      AppBoxes.kHeight24,
                       _ShopSchedule(schedule: shop.schedule),
-                      AppBoxes.kBoxV16,
+                      AppBoxes.kHeight16,
                       const _ShopPhone(),
-                      AppBoxes.kBoxV48,
+                      AppBoxes.kHeight48,
                     ],
                   ),
                 ),
@@ -95,7 +95,7 @@ class _ShopPhone extends StatelessWidget {
           width: AppSizes.kIconMedium,
           height: AppSizes.kIconMedium,
         ),
-        AppBoxes.kBoxH8,
+        AppBoxes.kWidth8,
         Text(
           phone,
           style: context.textStyle.textTypo.tx2Medium.withColor(
@@ -120,13 +120,13 @@ class _ShopSchedule extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: AppInsets.kSymmetricV12,
+          padding: AppInsets.kVertical12,
           child: Assets.icons.time.svg(
             width: AppSizes.kIconMedium,
             height: AppSizes.kIconMedium,
           ),
         ),
-        AppBoxes.kBoxH8,
+        AppBoxes.kWidth8,
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -167,14 +167,14 @@ class _ShopName extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppBoxes.kBoxV12,
+        AppBoxes.kHeight12,
         Text(
           name,
           style: context.textStyle.textTypo.tx1SemiBold.withColor(
             context.colors.textColors.main,
           ),
         ),
-        AppBoxes.kBoxV2,
+        AppBoxes.kHeight2,
         Text(
           city,
           style: context.textStyle.descriptionTypo.des3.withColor(

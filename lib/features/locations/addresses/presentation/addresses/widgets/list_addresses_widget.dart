@@ -34,7 +34,7 @@ class ListAddressesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView.builder(
-        padding:  AppInsets.kSymmetricV12,
+        padding:  AppInsets.kVertical12,
         itemCount: addresses.length + 1,
         shrinkWrap: true,
         itemBuilder: (_, index) {
@@ -42,7 +42,7 @@ class ListAddressesWidget extends StatelessWidget {
 
           final address = addresses[index];
           return ListTile(
-            contentPadding:  AppInsets.kSymmetricH16,
+            contentPadding:  AppInsets.kHorizontal16,
             leading: _buildRadioIcon(address).svg(
               width: AppSizes.kIconMedium,
               height: AppSizes.kIconMedium,

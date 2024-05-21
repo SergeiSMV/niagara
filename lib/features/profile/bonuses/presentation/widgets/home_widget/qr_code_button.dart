@@ -23,15 +23,15 @@ class QRCodeButton extends StatelessWidget {
         useRootNavigator: true,
         backgroundColor: context.colors.mainColors.white,
         builder: (ctx) => Padding(
-          padding: AppInsets.kSymmetricH16,
+          padding: AppInsets.kHorizontal16,
           child: Column(
             children: [
               const PinWidget(),
-              AppBoxes.kBoxV12,
+              AppBoxes.kHeight12,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppBoxes.kBoxH16,
+                  AppBoxes.kWidth16,
                   Text(
                     t.bonuses.bonusCard,
                     style: context.textStyle.headingTypo.h3
@@ -40,16 +40,16 @@ class QRCodeButton extends StatelessWidget {
                   CloseModalButton(onTap: () => ctx.maybePop()),
                 ],
               ),
-              AppBoxes.kBoxV12,
+              AppBoxes.kHeight12,
               Text(
                 t.bonuses.showQR,
                 style: context.textStyle.textTypo.tx1Medium
                     .withColor(context.colors.textColors.secondary),
                 textAlign: TextAlign.center,
               ),
-              AppBoxes.kBoxV24,
+              AppBoxes.kHeight24,
               Padding(
-                padding: AppInsets.kSymmetricH48,
+                padding: AppInsets.kHorizontal48,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: context.colors.mainColors.bgCard,

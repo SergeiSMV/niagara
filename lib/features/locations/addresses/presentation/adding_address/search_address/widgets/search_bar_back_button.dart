@@ -15,7 +15,7 @@ class SearchBarBackButton extends StatelessWidget {
     return InkWell(
       onTap: () => context.maybePop(),
       child: Padding(
-        padding: AppInsets.kOnlyRight16,
+        padding: AppInsets.kRight16,
         child: Text(
           t.common.cancel,
           style: context.textStyle.textTypo.tx3SemiBold

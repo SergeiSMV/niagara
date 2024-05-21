@@ -13,7 +13,7 @@ class LocationUnavailableWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(AppSizes.kGeneral12),
-      margin: AppInsets.kSymmetricV12 + AppInsets.kSymmetricH16,
+      margin: AppInsets.kVertical12 + AppInsets.kHorizontal16,
       decoration: BoxDecoration(
         color: context.colors.infoColors.bgRed,
         borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
@@ -26,7 +26,7 @@ class LocationUnavailableWidget extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          AppBoxes.kBoxH8,
+          AppBoxes.kWidth8,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -34,7 +34,7 @@ class LocationUnavailableWidget extends StatelessWidget {
                 t.locations.yourGeoIsUnavailable,
                 style: context.textStyle.textTypo.tx2SemiBold,
               ),
-              AppBoxes.kBoxV4,
+              AppBoxes.kHeight4,
               Text(
                 t.locations.yourGeoIsUnavailable,
                 style: context.textStyle.descriptionTypo.des3,

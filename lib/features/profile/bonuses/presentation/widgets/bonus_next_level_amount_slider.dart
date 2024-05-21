@@ -63,7 +63,7 @@ class BonusNextLevelAmountSlider extends StatelessWidget {
             ),
           ],
         ),
-        AppBoxes.kBoxV4,
+        AppBoxes.kHeight4,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

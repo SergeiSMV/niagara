@@ -12,7 +12,7 @@ class ModalStaticHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppInsets.kSymmetricH16 + AppInsets.kSymmetricV8,
+      padding: AppInsets.kHorizontal16 + AppInsets.kVertical8,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

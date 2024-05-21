@@ -23,14 +23,14 @@ class BonusesFooterButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: AppInsets.kSymmetricV16,
+        padding: AppInsets.kVertical16,
         child: Row(
           children: [
             icon.svg(
               width: AppSizes.kIconMedium,
               height: AppSizes.kIconMedium,
             ),
-            AppBoxes.kBoxH12,
+            AppBoxes.kWidth12,
             Text(
               title,
               style: context.textStyle.textTypo.tx2Medium.withColor(

@@ -30,19 +30,19 @@ class UnauthorizedAddressWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          AppBoxes.kBoxV48,
+          AppBoxes.kHeight48,
           Padding(
-            padding: AppInsets.kSymmetricH16,
+            padding: AppInsets.kHorizontal16,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppBoxes.kBoxV32,
+                AppBoxes.kHeight32,
                 Text(
                   t.locations.login,
                   style: context.textStyle.headingTypo.h3
                       .withColor(context.colors.textColors.main),
                 ),
-                AppBoxes.kBoxV12,
+                AppBoxes.kHeight12,
                 Text(
                   t.locations.loginDescription,
                   style: context.textStyle.textTypo.tx1Medium
@@ -54,7 +54,7 @@ class UnauthorizedAddressWidget extends StatelessWidget {
           PhoneNumberField(formKey: formKey),
           const Spacer(),
           const PrivacyPolicyTextButtons(),
-          AppBoxes.kBoxV12,
+          AppBoxes.kHeight12,
           GetCodeWidget(formKey: formKey),
         ],
       ),

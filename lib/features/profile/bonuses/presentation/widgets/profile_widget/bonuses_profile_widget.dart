@@ -25,14 +25,14 @@ class BonusesProfileWidget extends StatelessWidget {
     return BlocBuilder<BonusesBloc, BonusesState>(
       builder: (_, state) => state.maybeWhen(
         loaded: (bonuses, _) => Padding(
-          padding: AppInsets.kSymmetricH16 + AppInsets.kSymmetricV24,
+          padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
                 onTap: () => _goToBonuses(context),
                 child: Container(
-                  padding: AppInsets.kSymmetricH12 + AppInsets.kSymmetricV16,
+                  padding: AppInsets.kHorizontal12 + AppInsets.kVertical16,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: bonuses.level.cardImage.provider(),
@@ -55,7 +55,7 @@ class BonusesProfileWidget extends StatelessWidget {
                                 context.colors.textColors.white,
                               ),
                             ),
-                            AppBoxes.kBoxV24,
+                            AppBoxes.kHeight24,
                             Row(
                               children: [
                                 Text(
@@ -79,13 +79,13 @@ class BonusesProfileWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      AppBoxes.kBoxH12,
+                      AppBoxes.kWidth12,
                       QRCodeButton(data: bonuses.cardNumber),
                     ],
                   ),
                 ),
               ),
-              AppBoxes.kBoxV8,
+              AppBoxes.kHeight8,
               const HorizontalBonusCardsDataWidget(),
             ],
           ),
@@ -97,7 +97,7 @@ class BonusesProfileWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: AppInsets.kSymmetricH16 + AppInsets.kSymmetricV48,
+                  padding: AppInsets.kHorizontal16 + AppInsets.kVertical48,
                   child: Assets.images.logo.svg(),
                 ),
                 const UnauthorizedBonusesWidget(),

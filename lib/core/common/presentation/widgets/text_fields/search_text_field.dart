@@ -43,7 +43,7 @@ class SearchTextField extends HookWidget {
       },
       onTapOutside: (_) => FocusScope.of(context).unfocus(),
       decoration: InputDecoration(
-        contentPadding: AppInsets.kSymmetricV12,
+        contentPadding: AppInsets.kVertical12,
         hintText: t.search.inputField,
         prefixIconConstraints: const BoxConstraints(),
         suffixIconConstraints: const BoxConstraints(),
@@ -82,7 +82,7 @@ class _ClearButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppInsets.kOnlyRight12,
+      padding: AppInsets.kRight12,
       child: InkWell(
         child: Assets.icons.closeFilling.svg(
           width: AppSizes.kIconMedium,
@@ -103,10 +103,10 @@ class _SearchIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppInsets.kOnlyTop12 +
-          AppInsets.kOnlyBottom12 +
-          AppInsets.kOnlyLeft12 +
-          AppInsets.kOnlyRight6,
+      padding: AppInsets.kTop12 +
+          AppInsets.kBottom12 +
+          AppInsets.kLeft12 +
+          AppInsets.kRight6,
       child: Assets.icons.search.svg(
         width: AppSizes.kIconMedium,
         height: AppSizes.kIconMedium,

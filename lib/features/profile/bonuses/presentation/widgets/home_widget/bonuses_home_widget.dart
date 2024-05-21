@@ -28,9 +28,17 @@ class HomeBonusesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppInsets.kSymmetricH16 + AppInsets.kSymmetricV24,
+      padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
       child: BlocBuilder<BonusesBloc, BonusesState>(
         builder: (_, state) => state.maybeWhen(
+          loading: () => Padding(
+            padding: AppInsets.kVertical32 + AppInsets.kVertical2,
+            child: Assets.lottie.loadCircle.lottie(
+              width: AppSizes.kGeneral64,
+              height: AppSizes.kGeneral64,
+              repeat: true,
+            ),
+          ),
           loaded: (bonuses, _) => Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -42,13 +50,13 @@ class HomeBonusesWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BonusesDataWidget(),
-                      AppBoxes.kBoxV8,
+                      AppBoxes.kHeight8,
                       PrepaidWaterDataWidget(),
                     ],
                   ),
                 ),
               ),
-              AppBoxes.kBoxH8,
+              AppBoxes.kWidth8,
               Flexible(
                 flex: AppSizes.kGeneral6.toInt(),
                 child: InkWell(
@@ -71,7 +79,7 @@ class HomeBonusesWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Assets.images.logo.svg(height: AppSizes.kGeneral16),
-                        AppBoxes.kBoxV24,
+                        AppBoxes.kHeight24,
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +89,7 @@ class HomeBonusesWidget extends StatelessWidget {
                                 level: bonuses.level.toLocale(),
                               ),
                             ),
-                            AppBoxes.kBoxH12,
+                            AppBoxes.kWidth12,
                             QRCodeButton(data: bonuses.cardNumber),
                           ],
                         ),

@@ -17,17 +17,17 @@ class FAQBonusesWidget extends StatelessWidget {
         orElse: SizedBox.shrink,
         loaded: (bonusesProgram) => Column(
           children: [
-            AppBoxes.kBoxV24,
+            AppBoxes.kHeight24,
             Text(
               t.bonuses.aboutBonusesProgram.faq,
               style: context.textStyle.headingTypo.h3.withColor(
                 context.colors.textColors.main,
               ),
             ),
-            AppBoxes.kBoxV8,
+            AppBoxes.kHeight8,
             ...bonusesProgram.faqBonuses.map(
               (e) => Padding(
-                padding: AppInsets.kSymmetricH16,
+                padding: AppInsets.kHorizontal16,
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
                   title: Text(
@@ -49,12 +49,12 @@ class FAQBonusesWidget extends StatelessWidget {
                       style: context.textStyle.descriptionTypo.des2
                           .withColor(context.colors.textColors.main),
                     ),
-                    AppBoxes.kBoxV8,
+                    AppBoxes.kHeight8,
                   ],
                 ),
               ),
             ),
-            AppBoxes.kBoxV48,
+            AppBoxes.kHeight48,
           ],
         ),
       ),

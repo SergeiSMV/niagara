@@ -11,7 +11,7 @@ class HorizontalBonusCardsDataWidget extends StatelessWidget {
     return const Row(
       children: [
         Expanded(child: BonusesDataWidget()),
-        AppBoxes.kBoxH8,
+        AppBoxes.kWidth8,
         Expanded(child: PrepaidWaterDataWidget()),
       ],
     );

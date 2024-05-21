@@ -79,46 +79,50 @@ class _DeleteLocationWidget extends StatelessWidget {
     showDialog<void>(
       context: context,
       useRootNavigator: false,
-      builder: (_) => Container(
+      builder: (_) => Align(
         alignment: Alignment.bottomCenter,
-        padding: AppInsets.kAll8,
-        decoration: BoxDecoration(
-          color: context.colors.mainColors.white,
-          borderRadius: BorderRadius.circular(
-            AppSizes.kGeneral24 - AppSizes.kGeneral4,
-          ),
-        ),
         child: Padding(
-          padding: AppInsets.kSymmetricV24 + AppInsets.kSymmetricH16,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                t.locations.deleteAddress,
-                style: context.textStyle.headingTypo.h3
-                    .withColor(context.colors.textColors.main),
+          padding: AppInsets.kAll8,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: context.colors.mainColors.white,
+              borderRadius: BorderRadius.circular(
+                AppSizes.kGeneral24 - AppSizes.kGeneral4,
               ),
-              AppBoxes.kBoxV24,
-              Material(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: AppTextButton.secondary(
-                        text: t.common.no,
-                        onTap: () => context.maybePop(),
-                      ),
+            ),
+            child: Padding(
+              padding: AppInsets.kVertical24 + AppInsets.kHorizontal16,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    t.locations.deleteAddress,
+                    style: context.textStyle.headingTypo.h3
+                        .withColor(context.colors.textColors.main),
+                  ),
+                  AppBoxes.kHeight24,
+                  Material(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: AppTextButton.secondary(
+                            text: t.common.no,
+                            onTap: () => context.maybePop(),
+                          ),
+                        ),
+                        AppBoxes.kWidth12,
+                        Expanded(
+                          child: AppTextButton.primary(
+                            text: t.common.yes,
+                            onTap: () => _onDelete(context),
+                          ),
+                        ),
+                      ],
                     ),
-                    AppBoxes.kBoxH12,
-                    Expanded(
-                      child: AppTextButton.primary(
-                        text: t.common.yes,
-                        onTap: () => _onDelete(context),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -129,7 +133,7 @@ class _DeleteLocationWidget extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
         onTap: () => _showDeleteDialog(context),
         child: Padding(
-          padding: AppInsets.kOnlyRight16,
+          padding: AppInsets.kRight16,
           child: Assets.icons.delete.svg(),
         ),
       );

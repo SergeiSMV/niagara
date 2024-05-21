@@ -33,14 +33,14 @@ class BonusDataWidget extends StatelessWidget {
               title,
               style: context.textStyle.textTypo.tx4Medium,
             ),
-            AppBoxes.kBoxV8,
+            AppBoxes.kHeight8,
             Row(
               children: [
                 icon.svg(
                   width: AppSizes.kIconMedium,
                   height: AppSizes.kIconMedium,
                 ),
-                AppBoxes.kBoxH6,
+                AppBoxes.kWidth6,
                 Text(
                   value,
                   style: context.textStyle.textTypo.tx2SemiBold,

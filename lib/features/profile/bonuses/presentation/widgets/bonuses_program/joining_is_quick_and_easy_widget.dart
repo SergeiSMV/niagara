@@ -16,18 +16,18 @@ class JoiningIsQuickAndEasyWidget extends StatelessWidget {
     return ColoredBox(
       color: context.colors.mainColors.bgCard,
       child: Padding(
-        padding: AppInsets.kSymmetricH16,
+        padding: AppInsets.kHorizontal16,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AppBoxes.kBoxV32,
+            AppBoxes.kHeight32,
             Text(
               t.bonuses.aboutBonusesProgram.joiningIsQuickAndEasyTitle,
               style: context.textStyle.headingTypo.h3.withColor(
                 context.colors.textColors.main,
               ),
             ),
-            AppBoxes.kBoxV16,
+            AppBoxes.kHeight16,
             Text.rich(
               t.bonuses.aboutBonusesProgram.joiningIsQuickAndEasyDescription(
                 paragraph: (text) => TextSpan(
@@ -38,7 +38,7 @@ class JoiningIsQuickAndEasyWidget extends StatelessWidget {
               style: context.textStyle.descriptionTypo.des2
                   .withColor(context.colors.textColors.main),
             ),
-            AppBoxes.kBoxV32,
+            AppBoxes.kHeight32,
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,19 +46,19 @@ class JoiningIsQuickAndEasyWidget extends StatelessWidget {
                   flex: AppSizes.kGeneral16.toInt(),
                   child: Column(
                     children: [
-                      AppBoxes.kBoxV32,
+                      AppBoxes.kHeight32,
                       _buildTooltip(
                         context,
                         text: t.bonuses.aboutBonusesProgram
                             .joiningIsQuickAndEasyDescriptionFirst,
                       ),
-                      AppBoxes.kBoxV16,
+                      AppBoxes.kHeight16,
                       _buildTooltip(
                         context,
                         text: t.bonuses.aboutBonusesProgram
                             .joiningIsQuickAndEasyDescriptionSecond,
                       ),
-                      AppBoxes.kBoxV16,
+                      AppBoxes.kHeight16,
                       _buildTooltip(
                         context,
                         text: t.bonuses.aboutBonusesProgram
@@ -67,7 +67,7 @@ class JoiningIsQuickAndEasyWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                AppBoxes.kBoxH8,
+                AppBoxes.kWidth8,
                 Flexible(
                   flex: (AppSizes.kGeneral16 - AppSizes.kGeneral1).toInt(),
                   child: Assets.images.aboutBonuses.aboutPhone.image(),

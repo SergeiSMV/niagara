@@ -106,7 +106,7 @@ abstract class BaseTextField extends HookWidget {
         hintText: hint,
         prefixIcon: prefixWidget != null
             ? Padding(
-                padding: AppInsets.kOnlyLeft8 + AppInsets.kOnlyRight4,
+                padding: AppInsets.kLeft8 + AppInsets.kRight4,
                 child: prefixWidget,
               )
             : null,
@@ -116,7 +116,7 @@ abstract class BaseTextField extends HookWidget {
         suffixIconConstraints: const BoxConstraints(),
         isDense: true,
         contentPadding: label != null
-            ? AppInsets.kSymmetricH16 + AppInsets.kSymmetricV8
+            ? AppInsets.kHorizontal16 + AppInsets.kVertical8
             : AppInsets.kAll16,
         focusedBorder:
             context.theme.inputDecorationTheme.focusedBorder?.copyWith(
@@ -169,7 +169,7 @@ class _IconWidget extends StatelessWidget {
     final color = state.iconWithColor(context)?.$2;
     if (icon == null || color == null) return const SizedBox.shrink();
     return Padding(
-      padding: AppInsets.kOnlyRight8,
+      padding: AppInsets.kRight8,
       child: icon.svg(
         width: AppSizes.kIconLarge,
         height: AppSizes.kIconLarge,

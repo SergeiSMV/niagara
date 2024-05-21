@@ -29,7 +29,7 @@ class AddressesPage extends StatelessWidget {
           loading: () => const AppCenterLoader(),
           loaded: (_, addresses) => Column(
             children: [
-              AppBoxes.kBoxV48,
+              AppBoxes.kHeight48,
               Expanded(
                 child: ListAddressesWidget(
                   addresses: addresses.reversed.toList(),

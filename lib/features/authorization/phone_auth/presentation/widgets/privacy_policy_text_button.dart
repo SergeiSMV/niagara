@@ -30,7 +30,7 @@ class PrivacyPolicyTextButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppInsets.kSymmetricH16,
+      padding: AppInsets.kHorizontal16,
       child: Text.rich(
         t.auth.privacyPolicy(
           userAgreement: (text) => _buildTextButton(
