@@ -6,7 +6,6 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 abstract final class HomeRouters {
   static AutoRoute get routers => AutoRoute(
         page: HomeWrapperRoute.page,
-        initial: true,
         children: [
           AutoRoute(
             page: HomeRoute.page,
@@ -18,7 +17,6 @@ abstract final class HomeRouters {
             children: [
               AutoRoute(
                 page: AllPromotionsRoute.page,
-                initial: true,
                 title: (_, __) => t.promos.promotions,
               ),
               AutoRoute(

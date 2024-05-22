@@ -24,6 +24,14 @@ class BonusesProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BonusesBloc, BonusesState>(
       builder: (_, state) => state.maybeWhen(
+        loading: () => Padding(
+          padding: AppInsets.kVertical32 + AppInsets.kVertical2,
+          child: Assets.lottie.loadCircle.lottie(
+            width: AppSizes.kGeneral64,
+            height: AppSizes.kGeneral64,
+            repeat: true,
+          ),
+        ),
         loaded: (bonuses, _) => Padding(
           padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
           child: Column(
