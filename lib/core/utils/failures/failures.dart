@@ -172,3 +172,17 @@ class BonusProgramRemoteDataFailure extends Failure {
     super.error = 'Bonus program remote data failure',
   ]);
 }
+
+// ! ---------------------------- Promotions ------------------------------ ! //
+
+class PromotionsRepositoryFailure extends Failure {
+  const PromotionsRepositoryFailure([
+    super.error = 'Promotions repo failure',
+  ]);
+}
+
+class PromotionsRemoteDataFailure extends Failure {
+  const PromotionsRemoteDataFailure([
+    super.error = 'Promotions remote data failure',
+  ]);
+}

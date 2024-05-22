@@ -8,6 +8,7 @@ import 'package:niagara_app/features/home/presentation/widgets/static_banners_wi
 import 'package:niagara_app/features/home/presentation/widgets/support_button.dart';
 import 'package:niagara_app/features/locations/_common/presentation/widgets/address_button.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/bonuses_home_widget.dart';
+import 'package:niagara_app/features/promotions/presentation/widgets/promos_home_widget.dart';
 
 /// Главная страница приложения.
 @RoutePage()
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
         actions: [
           NotificationsButton(),
           SupportButton(),
-          AppBoxes.kBoxH8,
+          AppBoxes.kWidth8,
         ],
       ),
       backgroundColor: context.colors.mainColors.bgCard,
@@ -32,6 +33,8 @@ class HomePage extends StatelessWidget {
           children: [
             HomeBonusesWidget(),
             StaticBannersWidget(),
+            PromosHomeWidget(),
+            SizedBox(height: kBottomNavigationBarHeight),
           ],
         ),
       ),
