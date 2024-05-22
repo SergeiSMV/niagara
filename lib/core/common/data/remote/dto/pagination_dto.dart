@@ -12,10 +12,10 @@ class PaginationDto extends Equatable {
     required this.total,
   });
 
-  @JsonKey(name: 'current')
+  @JsonKey(name: 'CURRENT')
   final int current;
 
-  @JsonKey(name: 'total')
+  @JsonKey(name: 'TOTAL')
   final int total;
 
   factory PaginationDto.fromJson(Map<String, dynamic> json) =>

@@ -19,7 +19,7 @@ class BonusHistoryTile extends StatelessWidget {
 
   final String title;
   final DateTime date;
-  final int count;
+  final double count;
   final bool isTemp;
 
   @override

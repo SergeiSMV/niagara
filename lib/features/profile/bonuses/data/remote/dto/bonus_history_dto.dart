@@ -18,7 +18,7 @@ class BonusHistoryDto extends Equatable {
   final String date;
 
   @JsonKey(name: 'VALUE')
-  final int value;
+  final double value;
 
   @JsonKey(name: 'INFO')
   final String info;

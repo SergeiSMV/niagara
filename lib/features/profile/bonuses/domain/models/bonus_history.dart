@@ -9,7 +9,7 @@ class BonusHistory extends Equatable {
   });
 
   final DateTime date;
-  final int value;
+  final double value;
   final String info;
   final bool isTemp;
 
