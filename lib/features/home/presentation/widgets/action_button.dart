@@ -26,7 +26,7 @@ class AppBarActionButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: AppInsets.kHorizontal16,
+        padding: AppInsets.kHorizontal8,
         child: icon.svg(
           width: AppSizes.kIconLarge,
           height: AppSizes.kIconLarge,

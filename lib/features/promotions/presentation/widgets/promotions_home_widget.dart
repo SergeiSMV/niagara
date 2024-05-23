@@ -18,44 +18,47 @@ class PromotionsHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBoxes.kHeight32,
-        Padding(
-          padding: AppInsets.kHorizontal16,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                t.promos.promotions,
-                style: context.textStyle.headingTypo.h3
-                    .withColor(context.colors.textColors.main),
-              ),
-              InkWell(
-                onTap: () => _navigateToAllPromotions(context),
-                child: Row(
-                  children: [
-                    Text(
-                      t.common.all,
-                      style: context.textStyle.buttonTypo.btn3semiBold
-                          .withColor(context.colors.textColors.accent),
-                    ),
-                    Assets.icons.arrowRight.svg(
-                      width: AppSizes.kIconSmall,
-                      height: AppSizes.kIconSmall,
-                      colorFilter: ColorFilter.mode(
-                        context.colors.textColors.accent,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ],
+    return ColoredBox(
+      color: context.colors.mainColors.white,
+      child: Column(
+        children: [
+          AppBoxes.kHeight32,
+          Padding(
+            padding: AppInsets.kHorizontal16,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  t.promos.promotions,
+                  style: context.textStyle.headingTypo.h3
+                      .withColor(context.colors.textColors.main),
                 ),
-              ),
-            ],
+                InkWell(
+                  onTap: () => _navigateToAllPromotions(context),
+                  child: Row(
+                    children: [
+                      Text(
+                        t.common.all,
+                        style: context.textStyle.buttonTypo.btn3semiBold
+                            .withColor(context.colors.textColors.accent),
+                      ),
+                      Assets.icons.arrowRight.svg(
+                        width: AppSizes.kIconSmall,
+                        height: AppSizes.kIconSmall,
+                        colorFilter: ColorFilter.mode(
+                          context.colors.textColors.accent,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        const PromotionsWidget(),
-      ],
+          const PromotionsWidget(),
+        ],
+      ),
     );
   }
 }

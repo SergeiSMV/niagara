@@ -150,5 +150,8 @@
     "promotions": "Акции",
     "discountForYou": "Скидки для вас",
     "more": "Подробнее"
+  },
+  "catalog": {
+    "categories": "Категории"
   }
 }

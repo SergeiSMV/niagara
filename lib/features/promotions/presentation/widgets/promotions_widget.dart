@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -17,23 +16,20 @@ class PromotionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: getIt<PromotionsCubit>(param1: false),
-      child: BlocBuilder<PromotionsCubit, PromotionsState>(
-        builder: (_, state) => state.maybeWhen(
-          orElse: SizedBox.shrink,
-          loading: () => Center(
-            child: Padding(
-              padding: AppInsets.kVertical64 + AppInsets.kVertical2,
-              child: Assets.lottie.loadCircle.lottie(
-                width: AppSizes.kGeneral64,
-                height: AppSizes.kGeneral64,
-                repeat: true,
-              ),
+    return BlocBuilder<PromotionsCubit, PromotionsState>(
+      builder: (_, state) => state.maybeWhen(
+        orElse: SizedBox.shrink,
+        loading: () => Center(
+          child: Padding(
+            padding: AppInsets.kVertical64 + AppInsets.kVertical2,
+            child: Assets.lottie.loadCircle.lottie(
+              width: AppSizes.kGeneral64,
+              height: AppSizes.kGeneral64,
+              repeat: true,
             ),
           ),
-          loaded: _PromotionsContent.new,
         ),
+        loaded: _PromotionsContent.new,
       ),
     );
   }
