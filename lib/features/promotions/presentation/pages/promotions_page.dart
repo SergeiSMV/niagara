@@ -11,8 +11,13 @@ import 'package:niagara_app/features/promotions/presentation/cubit/promotions_cu
 import 'package:niagara_app/features/promotions/presentation/widgets/promotion_widget.dart';
 
 @RoutePage()
-class AllPromotionsPage extends StatelessWidget {
-  const AllPromotionsPage({super.key});
+class PromotionsPage extends StatelessWidget {
+  const PromotionsPage({
+    super.key,
+    required this.isPersonal,
+  });
+
+  final bool isPersonal;
 
   void _loadMore(BuildContext context) =>
       context.read<PromotionsCubit>().getMorePromotions();
@@ -21,7 +26,7 @@ class AllPromotionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocProvider.value(
-        value: getIt<PromotionsCubit>(param1: false),
+        value: getIt<PromotionsCubit>(param1: isPersonal),
         child: BlocBuilder<PromotionsCubit, PromotionsState>(
           builder: (ctx, state) {
             final hasMore = ctx.read<PromotionsCubit>().hasMore;

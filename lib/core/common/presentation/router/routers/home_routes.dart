@@ -16,12 +16,8 @@ abstract final class HomeRouters {
             page: PromotionsTabRoute.page,
             children: [
               AutoRoute(
-                page: AllPromotionsRoute.page,
+                page: PromotionsRoute.page,
                 title: (_, __) => t.promos.promotions,
-              ),
-              AutoRoute(
-                page: YourDiscountsRoute.page,
-                title: (_, __) => t.promos.discountForYou,
               ),
             ],
           ),

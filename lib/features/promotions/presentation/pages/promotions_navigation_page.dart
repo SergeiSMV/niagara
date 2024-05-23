@@ -10,11 +10,11 @@ class PromotionsTabPage extends StatelessWidget {
 
   static final _tabs = [
     AppTabItem(
-      route: const AllPromotionsRoute(),
+      route: PromotionsRoute(isPersonal: false),
       title: t.promos.promotions,
     ),
     AppTabItem(
-      route: const YourDiscountsRoute(),
+      route: PromotionsRoute(isPersonal: true),
       title: t.promos.discountForYou,
     ),
   ];
