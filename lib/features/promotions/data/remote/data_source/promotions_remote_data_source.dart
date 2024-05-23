@@ -1,6 +1,5 @@
 import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/constants/api_constants.dart';
 import 'package:niagara_app/features/promotions/data/remote/dto/promotion_dto.dart';
 
 typedef PromotionsDto = ({List<PromotionDto> promos, PaginationDto pagination});

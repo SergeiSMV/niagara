@@ -1,5 +1,4 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/constants/api_constants.dart';
 import 'package:niagara_app/features/profile/bonuses/data/remote/dto/about_bonus_program_dto.dart';
 import 'package:niagara_app/features/profile/bonuses/data/remote/dto/faq_bonuses_dto.dart';
 import 'package:niagara_app/features/profile/bonuses/data/remote/dto/status_description_dto.dart';

@@ -1,5 +1,4 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/constants/api_constants.dart';
 import 'package:niagara_app/features/profile/user/data/remote/dto/profile_dto.dart';
 
 abstract interface class IProfileRemoteDataSource {

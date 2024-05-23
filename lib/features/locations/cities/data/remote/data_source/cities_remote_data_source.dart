@@ -1,5 +1,4 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/constants/api_constants.dart';
 import 'package:niagara_app/features/locations/cities/data/remote/dto/city_dto.dart';
 
 /// Интерфейс для реализации удаленного источника данных локаций.
