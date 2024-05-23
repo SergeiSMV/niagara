@@ -5,7 +5,7 @@ import 'package:niagara_app/core/common/presentation/theme/app_typo.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/base_colors.dart';
 import 'package:niagara_app/core/common/presentation/theme/decorations/custom_outline_input_border.dart';
 import 'package:niagara_app/core/common/presentation/theme/typography/base_typography.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
@@ -97,7 +97,7 @@ class AppTheme {
 
   static CustomOutlineInputBorder _buildBorder(Color color) {
     return CustomOutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
+      borderRadius: AppBorders.kCircular12,
       borderSide: BorderSide(color: color),
     );
   }

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/draggable_pin_widget.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -53,7 +54,7 @@ class QRCodeButton extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: context.colors.mainColors.bgCard,
-                    borderRadius: BorderRadius.circular(AppSizes.kGeneral16),
+                    borderRadius: AppBorders.kCircular16,
                   ),
                   child: Padding(
                     padding: AppInsets.kAll24,

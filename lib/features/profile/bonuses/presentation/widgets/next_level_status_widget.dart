@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -51,7 +52,7 @@ class NextLevelStatusWidget extends StatelessWidget {
         AppBoxes.kWidth16,
         Flexible(
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(AppSizes.kGeneral6),
+            borderRadius: AppBorders.kCircular6,
             child: Stack(
               children: [
                 nextLevel.cardImage.image(),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -77,7 +78,7 @@ class _PromotionsContent extends HookWidget {
               height: AppSizes.kGeneral6,
               margin: AppInsets.kHorizontal4,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSizes.kGeneral4),
+                borderRadius: AppBorders.kCircular4,
                 color: active.value == index
                     ? context.colors.mainColors.primary
                     : context.colors.mainColors.light,

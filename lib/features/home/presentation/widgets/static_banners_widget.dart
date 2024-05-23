@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -26,7 +27,7 @@ class StaticBannersWidget extends HookWidget {
           items: _items
               .map(
                 (item) => ClipRRect(
-                  borderRadius: BorderRadius.circular(AppSizes.kGeneral16),
+                  borderRadius: AppBorders.kCircular16,
                   child: item,
                 ),
               )
@@ -54,7 +55,7 @@ class StaticBannersWidget extends HookWidget {
                 height: AppSizes.kGeneral6,
                 margin: AppInsets.kVertical12 + AppInsets.kHorizontal4,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSizes.kGeneral4),
+                  borderRadius: AppBorders.kCircular4,
                   color: context.colors.mainColors.white.withOpacity(
                     active.value == index
                         ? AppSizes.kGeneral1
@@ -153,7 +154,7 @@ class _SecondBanner extends StatelessWidget {
               DecoratedBox(
                 decoration: BoxDecoration(
                   color: context.colors.mainColors.white.withOpacity(.4),
-                  borderRadius: BorderRadius.circular(AppSizes.kGeneral4),
+                  borderRadius: AppBorders.kCircular4,
                 ),
                 child: Padding(
                   padding: AppInsets.kVertical4 + AppInsets.kHorizontal6,

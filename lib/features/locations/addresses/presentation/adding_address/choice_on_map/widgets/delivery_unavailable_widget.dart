@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -27,7 +28,7 @@ class DeliveryUnavailableWidget extends StatelessWidget {
       margin: AppInsets.kVertical12 + AppInsets.kHorizontal16,
       decoration: BoxDecoration(
         color: context.colors.infoColors.bgRed,
-        borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
+        borderRadius: AppBorders.kCircular12,
       ),
       child: Row(
         children: [

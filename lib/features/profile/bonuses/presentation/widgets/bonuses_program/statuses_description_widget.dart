@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -45,8 +46,7 @@ class StatusesDescriptionWidget extends StatelessWidget {
                   return SizedBox(
                     width: _cardWidth,
                     child: Padding(
-                      padding:
-                          !isLast ? AppInsets.kRight24 : EdgeInsets.zero,
+                      padding: !isLast ? AppInsets.kRight24 : EdgeInsets.zero,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -58,8 +58,7 @@ class StatusesDescriptionWidget extends StatelessWidget {
                                 image: status.level.cardImage.provider(),
                                 fit: BoxFit.fill,
                               ),
-                              borderRadius:
-                                  BorderRadius.circular(AppSizes.kGeneral12),
+                              borderRadius: AppBorders.kCircular12,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

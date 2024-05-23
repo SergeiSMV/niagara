@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
@@ -17,7 +18,7 @@ class PromotionImageWidget extends StatelessWidget {
     return Padding(
       padding: AppInsets.kAll16,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppSizes.kGeneral16),
+        borderRadius: AppBorders.kCircular16,
         child: CachedNetworkImage(
           imageUrl: imageUrl,
           fit: BoxFit.fill,

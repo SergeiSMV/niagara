@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -16,7 +17,7 @@ class LocationUnavailableWidget extends StatelessWidget {
       margin: AppInsets.kVertical12 + AppInsets.kHorizontal16,
       decoration: BoxDecoration(
         color: context.colors.infoColors.bgRed,
-        borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
+        borderRadius: AppBorders.kCircular12,
       ),
       child: Row(
         children: [

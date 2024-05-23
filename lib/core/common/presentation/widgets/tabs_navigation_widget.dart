@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -45,7 +46,7 @@ class TabsNavigationWidget extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: context.colors.mainColors.bgCard,
-                    borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
+                    borderRadius: AppBorders.kCircular12,
                     boxShadow: [
                       BoxShadow(
                         color: context.colors.textColors.main
@@ -71,7 +72,7 @@ class TabsNavigationWidget extends StatelessWidget {
                     dividerHeight: 0,
                     splashFactory: NoSplash.splashFactory,
                     indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSizes.kGeneral8),
+                      borderRadius: AppBorders.kCircular8,
                       color: context.colors.mainColors.white,
                     ),
                     indicatorPadding: AppInsets.kHorizontal4,
@@ -95,8 +96,8 @@ class TabsNavigationWidget extends StatelessWidget {
     return Padding(
       padding: AppInsets.kVertical12,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
+        decoration: const BoxDecoration(
+          borderRadius: AppBorders.kCircular12,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

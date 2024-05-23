@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -16,7 +17,7 @@ class PinWidget extends StatelessWidget {
           width: AppSizes.kGeneral32 + AppSizes.kGeneral8,
           decoration: BoxDecoration(
             color: context.colors.fieldBordersColors.main,
-            borderRadius: BorderRadius.circular(AppSizes.kGeneral2),
+            borderRadius: AppBorders.kCircular2,
           ),
         ),
       ),

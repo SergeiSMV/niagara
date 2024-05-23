@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/countdown_timer_widget.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
@@ -14,8 +14,7 @@ class YearlyBonusesWidget extends StatelessWidget {
   EdgeInsetsGeometry get _padding =>
       AppInsets.kHorizontal16 + AppInsets.kTop16 + AppInsets.kBottom24;
 
-  BorderRadiusGeometry get _borderRadius =>
-      BorderRadius.circular(AppSizes.kGeneral12);
+  BorderRadiusGeometry get _borderRadius => AppBorders.kCircular12;
 
   ImageProvider<Object> get _image => Assets.images.yearlyBonuses.provider();
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -35,7 +36,7 @@ class BonusNextLevelAmountSlider extends StatelessWidget {
                 value: currentAmount / maxAmount,
                 color: activeColor,
                 backgroundColor: inactiveColor,
-                borderRadius: BorderRadius.circular(AppSizes.kGeneral8),
+                borderRadius: AppBorders.kCircular8,
                 minHeight: AppSizes.kGeneral4,
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -24,7 +25,7 @@ class OTPCodeWidget extends StatelessWidget {
         height: AppSizes.kGeneral72,
         width: AppSizes.kGeneral64,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSizes.kGeneral12),
+          borderRadius: AppBorders.kCircular12,
           border: Border.all(
             color: context.colors.fieldBordersColors.main,
           ),

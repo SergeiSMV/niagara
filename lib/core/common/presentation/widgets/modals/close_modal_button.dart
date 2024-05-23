@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -22,7 +23,7 @@ class CloseModalButton extends StatelessWidget {
         padding: AppInsets.kHorizontal2,
         decoration: BoxDecoration(
           color: context.colors.buttonColors.secondary,
-          borderRadius: BorderRadius.circular(AppSizes.kGeneral6),
+          borderRadius: AppBorders.kCircular6,
         ),
         child: Assets.icons.close.svg(
           colorFilter: ColorFilter.mode(

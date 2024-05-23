@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 
 enum CountDownTimerFormat {
@@ -194,7 +194,7 @@ class TimerCountdownState extends State<TimerCountdown> {
                   margin: const EdgeInsets.symmetric(horizontal: 2),
                   decoration: BoxDecoration(
                     color: context.colors.mainColors.white.withOpacity(.9),
-                    borderRadius: BorderRadius.circular(AppSizes.kGeneral8),
+                    borderRadius: AppBorders.kCircular8,
                   ),
                   child: Text(s, style: widget.timeTextStyle),
                 ),
