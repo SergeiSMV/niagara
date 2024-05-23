@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/features/catalog/presentation/widget/groups_home_widget.dart';
 import 'package:niagara_app/features/home/presentation/widgets/notifications_button.dart';
 import 'package:niagara_app/features/home/presentation/widgets/static_banners_widget.dart';
 import 'package:niagara_app/features/home/presentation/widgets/support_button.dart';
@@ -17,8 +18,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppBarWidget(
+    return const Scaffold(
+      appBar: AppBarWidget(
         automaticallyImplyLeading: false,
         body: AddressButton(),
         actions: [
@@ -27,15 +28,42 @@ class HomePage extends StatelessWidget {
           AppBoxes.kWidth8,
         ],
       ),
-      backgroundColor: context.colors.mainColors.bgCard,
-      body: const SingleChildScrollView(
-        child: Column(
-          children: [
-            HomeBonusesWidget(),
-            StaticBannersWidget(),
-            PromotionsHomeWidget(),
-            SizedBox(height: kBottomNavigationBarHeight),
-          ],
+      body: Stack(
+        children: [
+          _HomeBackgroundColorsWidget(),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                HomeBonusesWidget(),
+                StaticBannersWidget(),
+                PromotionsHomeWidget(),
+                GroupsHomeWidget(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HomeBackgroundColorsWidget extends StatelessWidget {
+  const _HomeBackgroundColorsWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = [
+      context.colors.mainColors.bgCard,
+      context.colors.mainColors.white,
+    ];
+
+    return Column(
+      children: List.generate(
+        colors.length,
+        (index) => Expanded(
+          child: SizedBox.expand(
+            child: ColoredBox(color: colors[index]),
+          ),
         ),
       ),
     );

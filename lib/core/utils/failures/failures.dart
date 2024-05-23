@@ -186,3 +186,17 @@ class PromotionsRemoteDataFailure extends Failure {
     super.error = 'Promotions remote data failure',
   ]);
 }
+
+// ! ------------------------------ Groups -------------------------------- ! //
+
+class GroupsRepositoryFailure extends Failure {
+  const GroupsRepositoryFailure([super.error = 'Groups repo failure']);
+}
+
+class GroupsLocalDataFailure extends Failure {
+  const GroupsLocalDataFailure([super.error = 'Groups local data failure']);
+}
+
+class GroupsRemoteDataFailure extends Failure {
+  const GroupsRemoteDataFailure([super.error = 'Groups remote data failure']);
+}

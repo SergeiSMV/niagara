@@ -12,6 +12,10 @@ abstract final class CatalogRouters {
             initial: true,
             title: (_, __) => t.routes.catalog,
           ),
+          AutoRoute(
+            page: GroupsRoute.page,
+            title: (_, __) => t.catalog.categories,
+          ),
         ],
       );
 }
