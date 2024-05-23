@@ -30,7 +30,7 @@ class PromotionsRemoteDataSource implements IPromotionsRemoteDataSource {
           queryParameters: {
             'city': city,
             'page': page,
-            'personal': isPersonal, // TODO(Oleg): wait for new API
+            'personal': isPersonal,
           },
         ),
         converter: (json) {
