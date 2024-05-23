@@ -19,14 +19,15 @@ class PromotionImageWidget extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(AppSizes.kGeneral16),
         child: CachedNetworkImage(
-          fit: BoxFit.cover,
           imageUrl: imageUrl,
+          fit: BoxFit.fill,
           progressIndicatorBuilder: (_, __, ___) =>
               Assets.lottie.loadCircle.lottie(
             width: AppSizes.kGeneral64,
             height: AppSizes.kGeneral64,
             repeat: true,
           ),
+          errorWidget: (_, __, ___) => const Icon(Icons.error_outlined),
         ),
       ),
     );

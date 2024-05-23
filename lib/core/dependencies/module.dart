@@ -47,8 +47,8 @@ abstract class AppModule {
       Dio(
         BaseOptions(
           baseUrl: url,
-          connectTimeout: const Duration(seconds: 5),
-          receiveTimeout: const Duration(seconds: 10),
+          connectTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 30),
           contentType: Headers.jsonContentType,
         ),
       )

@@ -3,9 +3,12 @@ import 'package:niagara_app/features/promotions/domain/models/promotion.dart';
 
 extension PromotionsMapper on PromotionDto {
   Promotion toModel() => Promotion(
-        title: offersName ?? '',
-        description: offersDescription ?? '',
-        image: offersImage ?? '',
-        endDate: offersDateEnd,
+        id: id ?? '',
+        title: name ?? '',
+        description: description ?? '',
+        image: image ?? '',
+        startDate: DateTime.parse(dateBegin ?? ''),
+        endDate: DateTime.parse(dateEnd ?? ''),
+        isPersonal: personal ?? false,
       );
 }

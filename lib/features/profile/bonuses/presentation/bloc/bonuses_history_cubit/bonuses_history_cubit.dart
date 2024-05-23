@@ -53,6 +53,8 @@ class BonusesHistoryCubit extends Cubit<BonusesHistoryState> {
   }
 
   void loadMore() {
+    if (state is _Loading) return;
+    
     if (_hasMore) {
       _current++;
       load();

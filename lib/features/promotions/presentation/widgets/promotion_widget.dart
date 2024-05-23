@@ -87,49 +87,50 @@ class PromotionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => _showPromotionDetails(context, _promotion),
-      child: Column(
-        children: [
-          PromotionImageWidget(
-            imageUrl: _promotion.image,
-          ),
-          if (withTitle)
-            Padding(
-              padding: AppInsets.kHorizontal16,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      _promotion.title,
-                      style: context.textStyle.textTypo.tx1SemiBold.withColor(
-                        context.colors.textColors.main,
-                      ),
-                    ),
-                  ),
-                  AppBoxes.kWidth8,
-                  Row(
+      child: withTitle
+          ? Column(
+              children: [
+                PromotionImageWidget(imageUrl: _promotion.image),
+                Padding(
+                  padding: AppInsets.kHorizontal16,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        t.promos.more,
-                        style: context.textStyle.textTypo.tx3SemiBold.withColor(
-                          context.colors.mainColors.primary,
+                      Flexible(
+                        child: Text(
+                          _promotion.title,
+                          style:
+                              context.textStyle.textTypo.tx1SemiBold.withColor(
+                            context.colors.textColors.main,
+                          ),
                         ),
                       ),
-                      Assets.icons.arrowRight.svg(
-                        width: AppSizes.kIconSmall,
-                        height: AppSizes.kIconSmall,
-                        colorFilter: ColorFilter.mode(
-                          context.colors.mainColors.primary,
-                          BlendMode.srcIn,
-                        ),
+                      AppBoxes.kWidth8,
+                      Row(
+                        children: [
+                          Text(
+                            t.promos.more,
+                            style: context.textStyle.textTypo.tx3SemiBold
+                                .withColor(
+                              context.colors.mainColors.primary,
+                            ),
+                          ),
+                          Assets.icons.arrowRight.svg(
+                            width: AppSizes.kIconSmall,
+                            height: AppSizes.kIconSmall,
+                            colorFilter: ColorFilter.mode(
+                              context.colors.mainColors.primary,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-        ],
-      ),
+                ),
+              ],
+            )
+          : PromotionImageWidget(imageUrl: _promotion.image),
     );
   }
 }
