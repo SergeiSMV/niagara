@@ -1,6 +1,5 @@
 import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/constants/api_constants.dart';
 import 'package:niagara_app/features/profile/bonuses/data/remote/dto/bonus_history_dto.dart';
 
 typedef BonusesHistoryDto = ({
