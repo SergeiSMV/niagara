@@ -1,3 +1,5 @@
+part of '../../core.dart';
+
 /// Константы для API
 abstract final class ApiConst {
   // ? ----------------------------- General ----------------------------- ? //
@@ -71,4 +73,8 @@ abstract final class ApiConst {
   // ? ------------------------------ Promos ------------------------------ ? //
   /// -GET- Запрос на получение списка акции
   static const String kGetPromos = '/offers';
+
+  // ? ------------------------------ Catalog ----------------------------- ? //
+  /// -GET- Запрос на получение списка групп
+  static const String kGetGroups = '/product_groups';
 }
