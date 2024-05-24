@@ -16,6 +16,9 @@ abstract final class CatalogRouters {
             page: GroupsRoute.page,
             title: (_, __) => t.catalog.categories,
           ),
+          AutoRoute(
+            page: CategoryRoute.page,
+          ),
         ],
       );
 }
