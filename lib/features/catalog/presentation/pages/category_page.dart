@@ -1,17 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_widget.dart';
+import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/catalog/domain/model/group.dart';
-import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/groups_cubit.dart';
+import 'package:niagara_app/features/catalog/presentation/bloc/products_bloc/products_bloc.dart';
+import 'package:niagara_app/features/catalog/presentation/widget/category/interaction_category_widget.dart';
+import 'package:niagara_app/features/catalog/presentation/widget/groups/groups_buttons_widget.dart';
 
 @RoutePage()
 class CategoryPage extends StatelessWidget {
@@ -22,132 +22,69 @@ class CategoryPage extends StatelessWidget {
 
   final Group group;
 
-  void _onRefresh(BuildContext context) {}
+  Future<void> _onRefresh(BuildContext context) async =>
+      context.read<ProductsBloc>().add(const ProductsEvent.loading());
 
-  void _navigateToAllGroups(BuildContext context) => context.navigateTo(
-        CatalogWrapper(
-          children: [
-            const CatalogRoute(),
-            CategoryRoute(group: group),
-            const GroupsRoute(),
-          ],
-        ),
-      );
+  Future<void> _onLoadMore(BuildContext context) async =>
+      context.read<ProductsBloc>().add(const ProductsEvent.loadMore());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(
-        title: group.name,
-      ),
+      appBar: AppBarWidget(title: group.name),
       body: Column(
         children: [
-          BlocBuilder<GroupsCubit, GroupsState>(
-            builder: (_, state) => state.maybeWhen(
-              loaded: (groups) => SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: AppInsets.kVertical12,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: AppInsets.kHorizontal4 + AppInsets.kLeft12,
-                        child: InkWell(
-                          onTap: () => _navigateToAllGroups(context),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              borderRadius: AppBorders.kCircular6,
-                              color: context.colors.mainColors.bgCard,
-                            ),
-                            child: Padding(
-                              padding: AppInsets.kHorizontal12 +
-                                  AppInsets.kVertical4,
-                              child: Assets.icons.list.svg(
-                                width: AppSizes.kIconLarge,
-                                height: AppSizes.kIconLarge,
-                                colorFilter: ColorFilter.mode(
-                                  context.colors.textColors.main,
-                                  BlendMode.srcIn,
-                                ),
+          GroupsButtonsWidget(group: group),
+          Expanded(
+            child: BlocProvider(
+              key: Key(group.id),
+              create: (_) => getIt<ProductsBloc>(param1: group),
+              child: Column(
+                children: [
+                  const InteractionCategoryWidget(),
+                  BlocBuilder<ProductsBloc, ProductsState>(
+                    buildWhen: (previous, current) => previous != current,
+                    builder: (ctx, state) => state.maybeWhen(
+                      loading: AppCenterLoader.new,
+                      loaded: (products) => Expanded(
+                        child: RefreshIndicator.adaptive(
+                          onRefresh: () => _onRefresh(ctx),
+                          child: NotificationListener(
+                            onNotification: (ScrollEndNotification notification) {
+                              if (notification.metrics.pixels ==
+                                  notification.metrics.maxScrollExtent / 2) {
+                                _onLoadMore(ctx);
+                              }
+                              return true;
+                            },
+                            child: GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: AppSizes.kGeneral8,
+                                crossAxisSpacing: AppSizes.kGeneral8,
+                                childAspectRatio: context.screenWidth /
+                                    context.screenHeight /
+                                    .8,
+                              ),
+                              padding:
+                                  AppInsets.kHorizontal16 + AppInsets.kVertical12,
+                              itemCount: products.length,
+                              itemBuilder: (_, index) => ProductWidget(
+                                product: products[index],
                               ),
                             ),
                           ),
                         ),
                       ),
-                      ...List.generate(groups.length, (index) {
-                        final hasCurrentGroup = groups[index].id == group.id;
-                        return GroupButton(
-                          group: groups[index],
-                          isSelected: hasCurrentGroup,
-                        );
-                      }),
-                      AppBoxes.kWidth12,
-                    ],
+                      orElse: () => const SizedBox(),
+                    ),
                   ),
-                ),
+                ],
               ),
-              orElse: SizedBox.shrink,
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class GroupButton extends StatelessWidget {
-  const GroupButton({
-    super.key,
-    required this.group,
-    required this.isSelected,
-  });
-
-  final Group group;
-  final bool isSelected;
-
-  void _navigateToGroup(
-    BuildContext context, {
-    required Group group,
-  }) =>
-      context.navigateTo(
-        CatalogWrapper(
-          children: [
-            const CatalogRoute(),
-            CategoryRoute(group: group),
-          ],
-        ),
-      );
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: AppInsets.kHorizontal4,
-      child: InkWell(
-        onTap: isSelected
-            ? null
-            : () => _navigateToGroup(
-                  context,
-                  group: group,
-                ),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: AppBorders.kCircular6,
-            color: isSelected
-                ? context.colors.buttonColors.primary
-                : context.colors.mainColors.bgCard,
-          ),
-          child: Padding(
-            padding: AppInsets.kHorizontal12 + AppInsets.kVertical8,
-            child: Text(
-              group.name,
-              style: context.textStyle.textTypo.tx2Medium.withColor(
-                isSelected
-                    ? context.colors.mainColors.white
-                    : context.colors.textColors.main,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
