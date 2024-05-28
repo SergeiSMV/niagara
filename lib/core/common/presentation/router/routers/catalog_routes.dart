@@ -19,6 +19,9 @@ abstract final class CatalogRouters {
           AutoRoute(
             page: CategoryRoute.page,
           ),
+          AutoRoute(
+            page: ProductRoute.page,
+          ),
         ],
       );
 }
