@@ -33,11 +33,17 @@ class SelectedShopWidget extends StatelessWidget {
         Uri.parse('maps:$latitude,$longitude?q=$latitude,$longitude');
 
     final androidUrl = Uri.parse(
-      'geo:$latitude,$longitude?q=$latitude,$longitude($shop.name)',
+      'geo:$latitude,$longitude', //?q=$latitude,$longitude($shop.name)
     );
 
+    // TODO(Oleg): Проверить на яндексе
+    // final yandexMap =
+    //     Uri.parse('yandexmaps://maps.yandex.ru/?ll=$latitude,$longitude&z=12');
+
     final url = Platform.isIOS ? iosUrl : androidUrl;
-    if (await canLaunchUrl(url)) await launchUrl(url);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    }
   }
 
   void _onUnselectShop(BuildContext context) => context
