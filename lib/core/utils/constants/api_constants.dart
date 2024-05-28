@@ -77,4 +77,7 @@ abstract final class ApiConst {
   // ? ------------------------------ Catalog ----------------------------- ? //
   /// -GET- Запрос на получение списка групп
   static const String kGetGroups = '/product_groups';
+
+  /// -GET- Запрос на получение списка товаров
+  static const String kGetCategory = '/products';
 }

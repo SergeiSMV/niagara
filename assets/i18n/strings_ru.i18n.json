@@ -152,6 +152,11 @@
     "more": "Подробнее"
   },
   "catalog": {
-    "categories": "Категории"
+    "categories": "Категории",
+    "sort": "Сортировать",
+    "sorting": "Сортировка",
+    "byPopularity": "По популярности",
+    "inDescendingOrder": "По убыванию цен",
+    "inAscendingOrder": "По возрастанию цен"
   }
 }

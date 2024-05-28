@@ -1,0 +1,76 @@
+import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
+import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
+import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
+import 'package:niagara_app/features/catalog/data/remote/dto/group_dto.dart';
+import 'package:niagara_app/features/catalog/data/repositories/catalog_repositories.dart';
+
+abstract interface class ICatalogRemoteDataSource {
+  Future<Either<Failure, List<GroupDto>>> getGroups({
+    required String city,
+  });
+
+  Future<Either<Failure, ProductsDto>> getCategory({
+    required String city,
+    required String groupId,
+    required int page,
+    required ProductsSortType sort,
+  });
+}
+
+@LazySingleton(as: ICatalogRemoteDataSource)
+class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
+  CatalogRemoteDataSource(this._requestHandler);
+
+  final RequestHandler _requestHandler;
+
+  @override
+  Future<Either<Failure, List<GroupDto>>> getGroups({
+    required String city,
+  }) =>
+      _requestHandler.sendRequest<List<GroupDto>, List<dynamic>>(
+        request: (dio) => dio.get(
+          ApiConst.kGetGroups,
+          queryParameters: {
+            'city': city,
+          },
+        ),
+        converter: (json) => json
+            .map((e) => e as Map<String, dynamic>)
+            .toList()
+            .map(GroupDto.fromJson)
+            .toList(),
+        failure: GroupsRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, ProductsDto>> getCategory({
+    required String city,
+    required String groupId,
+    required int page,
+    required ProductsSortType sort,
+  }) =>
+      _requestHandler.sendRequest<ProductsDto, Map<String, dynamic>>(
+        request: (dio) => dio.get(
+          ApiConst.kGetCategory,
+          queryParameters: {
+            'city': city,
+            'product_group': groupId,
+            'page': page,
+            if (sort != ProductsSortType.none) 'sort': sort.name,
+          },
+        ),
+        converter: (json) {
+          final products = (json['data'] as List<dynamic>)
+              .map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+
+          final pagination = PaginationDto.fromJson(
+            json['pagination'] as Map<String, dynamic>,
+          );
+
+          return (products: products, pagination: pagination);
+        },
+        failure: GroupsRemoteDataFailure.new,
+      );
+}

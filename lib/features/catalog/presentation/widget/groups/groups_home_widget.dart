@@ -4,7 +4,7 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/catalog/presentation/widget/groups_widget.dart';
+import 'package:niagara_app/features/catalog/presentation/widget/groups/groups_widget.dart';
 
 class GroupsHomeWidget extends StatelessWidget {
   const GroupsHomeWidget({super.key});
@@ -22,7 +22,7 @@ class GroupsHomeWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  t.promos.promotions,
+                  t.catalog.categories,
                   style: context.textStyle.headingTypo.h3
                       .withColor(context.colors.textColors.main),
                 ),
