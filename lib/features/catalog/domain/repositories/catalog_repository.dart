@@ -14,4 +14,8 @@ abstract interface class ICatalogRepository {
     required int page,
     required ProductsSortType sort,
   });
+
+  Future<Either<Failure, List<Product>>> getRecommends({
+    required Product product,
+  });
 }

@@ -9,6 +9,7 @@ import 'package:niagara_app/core/common/presentation/widgets/product/product_ima
 import 'package:niagara_app/core/common/presentation/widgets/product/product_tag_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_title_with_prices_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_to_card_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/recommend_products_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -72,6 +73,8 @@ class ProductPage extends StatelessWidget {
             ProductTitleWithPricesWidget(product: product),
             AppBoxes.kHeight12,
             ProductDescriptionWithPropertiesWidget(product: product),
+            AppBoxes.kHeight12,
+            RecommendProductsWidget(product: product),
             AppBoxes.kHeight24,
           ],
         ),

@@ -28,7 +28,10 @@ class ProductWidget extends StatelessWidget {
   void _navigateToProductPage(BuildContext context) => context.navigateTo(
         CatalogWrapper(
           children: [
-            ProductRoute(product: product),
+            ProductRoute(
+              key: ValueKey(product.id),
+              product: product,
+            ),
           ],
         ),
       );
@@ -71,7 +74,8 @@ class ProductWidget extends StatelessWidget {
                         children: [
                           if (product.label.isNotEmpty)
                             Padding(
-                              padding: AppInsets.kHorizontal6 + AppInsets.kVertical4,
+                              padding:
+                                  AppInsets.kHorizontal6 + AppInsets.kVertical4,
                               child: ProductTagWidget(
                                 label: product.label,
                                 labelColor: product.labelColor,
