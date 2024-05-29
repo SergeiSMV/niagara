@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_coins_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_favorite_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_tag_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -62,32 +64,17 @@ class ProductWidget extends StatelessWidget {
                             const AppCenterLoader(),
                       ),
                     ),
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      left: 0,
+                    Positioned.fill(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (product.label.isNotEmpty)
                             Padding(
-                              padding: AppInsets.kAll6,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  borderRadius: AppBorders.kCircular4,
-                                  color: product.labelColor,
-                                ),
-                                child: Padding(
-                                  padding: AppInsets.kHorizontal8 +
-                                      AppInsets.kVertical4,
-                                  child: Text(
-                                    product.label,
-                                    style: context.textStyle.captionTypo.c1
-                                        .withColor(
-                                      context.colors.textColors.white,
-                                    ),
-                                  ),
-                                ),
+                              padding: AppInsets.kHorizontal6 + AppInsets.kVertical4,
+                              child: ProductTagWidget(
+                                label: product.label,
+                                labelColor: product.labelColor,
                               ),
                             ),
                           const Spacer(),
@@ -95,34 +82,12 @@ class ProductWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (product.discountOfCount.isNotEmpty)
+                    if (product.bonus > 0)
                       Positioned(
                         bottom: 0,
                         left: 0,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: context.colors.mainColors.bgCard,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(AppSizes.kGeneral6),
-                              bottomLeft: Radius.circular(AppSizes.kGeneral6),
-                              topRight: Radius.circular(AppSizes.kGeneral6),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Assets.icons.coinNiagara.svg(
-                                width: AppSizes.kIconSmall,
-                                height: AppSizes.kIconSmall,
-                              ),
-                              AppBoxes.kWidth4,
-                              Text(
-                                product.discountOfCount,
-                                style: context.textStyle.captionTypo.c1
-                                    .withColor(context.colors.textColors.main),
-                              ),
-                              AppBoxes.kWidth6,
-                            ],
-                          ),
+                        child: ProductCoinsWidget(
+                          count: product.bonus,
                         ),
                       ),
                   ],
@@ -150,8 +115,9 @@ class ProductWidget extends StatelessWidget {
                         Text(
                           '${product.description} • ',
                           style:
-                              context.textStyle.descriptionTypo.des3.withColor(
-                            context.colors.textColors.secondary,
+                              context.textStyle.descriptionTypo.des3.copyWith(
+                            color: context.colors.textColors.secondary,
+                            height: .1,
                           ),
                         ),
                       if (product.discountOfCount.isNotEmpty)

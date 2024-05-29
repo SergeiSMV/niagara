@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_coins_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_description_with_properties_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_favorite_button.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_images_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_tag_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_title_with_prices_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -35,76 +36,44 @@ class ProductPage extends StatelessWidget {
           AppBoxes.kWidth12,
         ],
       ),
-      body: Column(
-        children: [
-          AppBoxes.kHeight4,
-          Flexible(
-            child: Padding(
-              padding: AppInsets.kAll8,
-              child: Stack(
-                children: [
-                  ProductImagesWidget(product: product),
-                ],
-              ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            AppBoxes.kHeight4,
+            Stack(
+              children: [
+                ProductImagesWidget(product: product),
+                Positioned(
+                  top: AppSizes.kGeneral12,
+                  left: AppSizes.kGeneral8,
+                  right: AppSizes.kGeneral8,
+                  child: Padding(
+                    padding: AppInsets.kAll8,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ProductTagWidget(
+                          label: product.label,
+                          labelColor: product.labelColor,
+                          isBigSize: true,
+                        ),
+                        ProductCoinsWidget(
+                          count: product.bonus,
+                          size: AppSizes.kIconLarge,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+            AppBoxes.kHeight12,
+            ProductTitleWithPricesWidget(product: product),
+            AppBoxes.kHeight12,
+            ProductDescriptionWithPropertiesWidget(product: product),
+          ],
+        ),
       ),
-    );
-  }
-}
-
-class ProductImagesWidget extends HookWidget {
-  const ProductImagesWidget({
-    super.key,
-    required this.product,
-  });
-
-  final Product product;
-
-  bool get _isScrollable => product.additionalImages.isNotEmpty;
-  List<String> get _images =>
-      [product.imageUrl, product.imageUrl, ...product.additionalImages];
-
-  @override
-  Widget build(BuildContext context) {
-    final active = useState(0);
-    return Column(
-      children: [
-        CarouselSlider.builder(
-          itemCount: _images.length,
-          itemBuilder: (_, index, __) => CachedNetworkImage(
-            imageUrl: product.imageUrl,
-            fit: BoxFit.cover,
-          ),
-          options: CarouselOptions(
-            viewportFraction: 1,
-            enableInfiniteScroll: _isScrollable,
-            onPageChanged: (index, _) => active.value = index,
-          ),
-        ),
-        AppBoxes.kHeight8,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: _images.map((url) {
-            final index = _images.indexOf(url);
-            return AnimatedContainer(
-              duration: Durations.medium1,
-              width: active.value == index
-                  ? AppSizes.kGeneral32
-                  : AppSizes.kGeneral6,
-              height: AppSizes.kGeneral6,
-              margin: AppInsets.kHorizontal4,
-              decoration: BoxDecoration(
-                borderRadius: AppBorders.kCircular4,
-                color: active.value == index
-                    ? context.colors.mainColors.primary
-                    : context.colors.mainColors.light,
-              ),
-            );
-          }).toList(),
-        ),
-      ],
     );
   }
 }
