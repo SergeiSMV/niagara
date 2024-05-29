@@ -27,6 +27,7 @@ abstract class BaseTextField extends HookWidget {
     this.maxLength,
     this.mask,
     this.onChanged,
+    this.showCounter = false,
   });
 
   /// Название поля
@@ -65,6 +66,9 @@ abstract class BaseTextField extends HookWidget {
   /// Функция, которая будет вызвана при изменении значения в поле
   final void Function(String?)? onChanged;
 
+  /// Показывать счетчик числа символов
+  final bool showCounter;
+
   /// Проверка на то, что в поле можно вводить только цифры
   bool get _isNumbers => keyboardType == TextInputType.number;
 
@@ -101,6 +105,7 @@ abstract class BaseTextField extends HookWidget {
       name: name,
       initialValue: mask != null ? maskedText : initialText,
       enabled: !state.isDisabled,
+      maxLength: maxLength,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -131,6 +136,7 @@ abstract class BaseTextField extends HookWidget {
                 state.color(context) ?? context.colors.fieldBordersColors.main,
           ),
         ),
+        counter: showCounter ? null : const SizedBox.shrink(),
       ),
       inputFormatters: [
         if (_isOnlyDigits) FilteringTextInputFormatter.digitsOnly,
