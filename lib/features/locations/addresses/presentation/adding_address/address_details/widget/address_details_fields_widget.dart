@@ -25,6 +25,9 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
   String? get _floor => _hasFloor ? _location!.floor : null;
   String? get _comment => _hasComment ? _location!.description : null;
 
+  int get _maxShortTextLength => 8;
+  int get _maxLongTextLength => 255;
+
   BaseTextFieldState _state(bool hasData) =>
       hasData ? BaseTextFieldState.disabled : BaseTextFieldState.idle;
 
@@ -49,6 +52,8 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
         AppTextField.number(
           label: t.locations.flatOffice,
           initialText: _flat,
+          maxLength: _maxShortTextLength,
+          showCounter: false,
           state: _state(_hasFlat),
           onChanged: (flat) => _onUpdate(
             context,
@@ -62,6 +67,8 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
               child: AppTextField.number(
                 label: t.locations.entrance,
                 initialText: _entrance,
+                maxLength: _maxShortTextLength,
+                showCounter: false,
                 state: _state(_hasEntrance),
                 onChanged: (entrance) => _onUpdate(
                   context,
@@ -74,6 +81,8 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
               child: AppTextField.number(
                 label: t.locations.floor,
                 initialText: _floor,
+                maxLength: _maxShortTextLength,
+                showCounter: false,
                 state: _state(_hasFloor),
                 onChanged: (floor) => _onUpdate(
                   context,
@@ -87,6 +96,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
         AppTextField.text(
           label: t.locations.addressComment,
           initialText: _comment,
+          maxLength: _maxLongTextLength,
           onChanged: (comment) => _onUpdate(
             context,
             comment: comment,
