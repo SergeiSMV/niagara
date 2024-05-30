@@ -16,6 +16,11 @@ abstract interface class ICatalogRemoteDataSource {
     required int page,
     required ProductsSortType sort,
   });
+
+  Future<Either<Failure, List<ProductDto>>> getRecommend({
+    required String city,
+    required String productId,
+  });
 }
 
 @LazySingleton(as: ICatalogRemoteDataSource)
@@ -71,6 +76,27 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
 
           return (products: products, pagination: pagination);
         },
+        failure: GroupsRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, List<ProductDto>>> getRecommend({
+    required String city,
+    required String productId,
+  }) =>
+      _requestHandler.sendRequest<List<ProductDto>, List<dynamic>>(
+        request: (dio) => dio.get(
+          ApiConst.kGetRecommend,
+          queryParameters: {
+            'city': city,
+            'product': productId,
+          },
+        ),
+        converter: (json) => json
+            .map((e) => e as Map<String, dynamic>)
+            .toList()
+            .map(ProductDto.fromJson)
+            .toList(),
         failure: GroupsRemoteDataFailure.new,
       );
 }

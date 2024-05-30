@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
+import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
 import 'package:niagara_app/features/catalog/domain/model/group.dart';
 import 'package:niagara_app/features/catalog/domain/use_cases/get_products_use_case.dart';
 
@@ -19,11 +20,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     @factoryParam required Group group,
   })  : _group = group,
         super(const _Loading()) {
-    on<_LoadingEvent>(_onLoadProducts);
-    on<_LoadMoreEvent>(_onLoadMoreProducts);
+    on<_LoadingEvent>(_onLoadProducts, transformer: debounce());
+    on<_LoadMoreEvent>(_onLoadMoreProducts, transformer: debounce());
     on<_SetSortEvent>(_onSortChanged);
 
-    add(const _LoadingEvent());
+    add(const _LoadingEvent(isForceUpdate: true));
   }
 
   final Group _group;
@@ -31,7 +32,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   int _current = 1;
   int _total = 0;
-  bool get _hasMore => _total > _current;
+  bool get hasMore => _total > _current;
 
   ProductsSortType _sort = ProductsSortType.none;
   ProductsSortType get sort => _sort;
@@ -40,7 +41,17 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     _LoadingEvent event,
     _Emit emit,
   ) async {
-    emit(const _Loading());
+    if (event.isForceUpdate) {
+      emit(const _Loading());
+      _current = 0;
+    }
+
+    final products = state.maybeMap(
+      loaded: (state) => state.products,
+      orElse: () => const <Product>[],
+    );
+
+    _current++;
     final result = await _getProductsUseCase.call(
       ProductsParams(
         page: _current,
@@ -48,12 +59,20 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         sort: _sort,
       ),
     );
+
     result.fold(
       (_) => emit(const _Error()),
       (data) {
         _current = data.pagination.current;
         _total = data.pagination.total;
-        return emit(_Loaded(products: data.products));
+
+        return emit(
+          _Loaded(
+            products: event.isForceUpdate
+                ? data.products
+                : [...products, ...data.products],
+          ),
+        );
       },
     );
   }
@@ -63,10 +82,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     _Emit emit,
   ) async {
     if (state is _Loading) return;
-    if (_hasMore) {
-      _current++;
-      add(const _LoadingEvent());
-    }
+    if (hasMore) add(const _LoadingEvent(isForceUpdate: false));
   }
 
   Future<void> _onSortChanged(
@@ -74,6 +90,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     _Emit emit,
   ) async {
     _sort = event.sort;
-    add(const _LoadingEvent());
+    add(const _LoadingEvent(isForceUpdate: true));
   }
 }

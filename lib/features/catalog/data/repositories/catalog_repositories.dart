@@ -2,6 +2,7 @@ import 'package:niagara_app/core/common/data/mappers/pagination_mapper.dart';
 import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
 import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
+import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
 import 'package:niagara_app/features/catalog/data/mappers/group_mapper_dto.dart';
@@ -68,6 +69,27 @@ class CatalogRepositories extends BaseRepository implements ICatalogRepository {
                 products: dto.products.map((e) => e.toModel()).toList(),
                 pagination: dto.pagination.toModel(),
               ),
+            );
+      });
+
+  @override
+  Future<Either<Failure, List<Product>>> getRecommends({
+    required Product product,
+  }) =>
+      execute(() async {
+        final currentCity = await _citiesLDS.getCity().fold(
+              (failure) => throw failure,
+              (city) => city,
+            );
+
+        return _groupsRDS
+            .getRecommend(
+              city: currentCity.locality,
+              productId: product.id,
+            )
+            .fold(
+              (failure) => throw failure,
+              (dtos) => dtos.map((dto) => dto.toModel()).toList(),
             );
       });
 }

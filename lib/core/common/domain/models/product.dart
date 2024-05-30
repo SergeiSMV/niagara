@@ -46,6 +46,10 @@ class Product extends Equatable {
   final String discountOfCount;
   final int bonus;
 
+  bool get hasDiscount => priceOld > 0 && price < priceOld;
+
+  bool get hasVIPDiscount => priceVip > 0 && priceVip < price;
+
   @override
   List<Object?> get props => [
         id,

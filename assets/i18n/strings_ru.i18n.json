@@ -157,6 +157,19 @@
     "sorting": "Сортировка",
     "byPopularity": "По популярности",
     "inDescendingOrder": "По убыванию цен",
-    "inAscendingOrder": "По возрастанию цен"
+    "inAscendingOrder": "По возрастанию цен",
+    "upBonus": {
+      "one": "от $n бонуса",
+      "other": "от $n бонусов"
+    },
+    "article": "Артикул",
+    "withoutVIP": "без VIP подписки",
+    "withVIP": "с VIP подпиской",
+    "description": "Описание",
+    "showFull": "Показать полностью",
+    "showLess": "Скрыть",
+    "properties": "Характеристики",
+    "toCard": "В корзину",
+    "recommendedViewing": "Рекомендуем посмотреть"
   }
 }

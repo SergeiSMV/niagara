@@ -80,4 +80,7 @@ abstract final class ApiConst {
 
   /// -GET- Запрос на получение списка товаров
   static const String kGetCategory = '/products';
+
+  /// -GET- Запрос на получение списка рекомендаций
+  static const String kGetRecommend = '/recommend';
 }
