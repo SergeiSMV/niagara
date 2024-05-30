@@ -53,7 +53,6 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
           label: t.locations.flatOffice,
           initialText: _flat,
           maxLength: _maxShortTextLength,
-          showCounter: false,
           state: _state(_hasFlat),
           onChanged: (flat) => _onUpdate(
             context,
@@ -68,7 +67,6 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
                 label: t.locations.entrance,
                 initialText: _entrance,
                 maxLength: _maxShortTextLength,
-                showCounter: false,
                 state: _state(_hasEntrance),
                 onChanged: (entrance) => _onUpdate(
                   context,
@@ -82,7 +80,6 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
                 label: t.locations.floor,
                 initialText: _floor,
                 maxLength: _maxShortTextLength,
-                showCounter: false,
                 state: _state(_hasFloor),
                 onChanged: (floor) => _onUpdate(
                   context,
@@ -97,6 +94,7 @@ class AddressDetailsFieldsWidget extends StatelessWidget {
           label: t.locations.addressComment,
           initialText: _comment,
           maxLength: _maxLongTextLength,
+          showCounter: true,
           onChanged: (comment) => _onUpdate(
             context,
             comment: comment,
