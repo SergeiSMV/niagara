@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
@@ -35,50 +35,10 @@ class ProductImagesWidget extends HookWidget {
         barrierColor: context.colors.mainColors.white,
         isScrollControlled: true,
         useSafeArea: true,
-        builder: (ctx) => SafeArea(
-          child: Scaffold(
-            appBar: AppBarWidget(
-              automaticallyImplyLeading: false,
-              automaticallyImplyTitle: false,
-              actions: [
-                InkWell(
-                  onTap: () => ctx.maybePop(),
-                  child: Container(
-                    width: AppSizes.kIconLarge,
-                    height: AppSizes.kIconLarge,
-                    padding: AppInsets.kHorizontal2,
-                    child: Assets.icons.close.svg(
-                      colorFilter: ColorFilter.mode(
-                        context.colors.textColors.main,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
-                ),
-                AppBoxes.kWidth16,
-              ],
-            ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: _ImagesCarouselWidget(
-                    images: images,
-                    product: product,
-                    isScrollable: false,
-                    active: ValueNotifier(index),
-                  ),
-                ),
-                if (_isScrollable)
-                  Padding(
-                    padding: AppInsets.kVertical32,
-                    child: _PaginationImagesWidget(
-                      images: _images,
-                      active: ValueNotifier(index),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+        builder: (ctx) => _FullScreenImages(
+          images: _images,
+          product: product,
+          isScrollable: _isScrollable,
         ),
       );
 
@@ -105,6 +65,82 @@ class ProductImagesWidget extends HookWidget {
             active: active,
           ),
       ],
+    );
+  }
+}
+
+class _FullScreenImages extends HookWidget {
+  const _FullScreenImages({
+    required List<String> images,
+    required this.product,
+    required bool isScrollable,
+  })  : _images = images,
+        _isScrollable = isScrollable;
+
+  final List<String> _images;
+  final Product product;
+  final bool _isScrollable;
+
+  @override
+  Widget build(BuildContext context) {
+    final active = useState(0);
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBarWidget(
+          automaticallyImplyLeading: false,
+          automaticallyImplyTitle: false,
+          actions: [
+            InkWell(
+              onTap: () => context.maybePop(),
+              child: Container(
+                width: AppSizes.kIconLarge,
+                height: AppSizes.kIconLarge,
+                padding: AppInsets.kHorizontal2,
+                child: Assets.icons.close.svg(
+                  colorFilter: ColorFilter.mode(
+                    context.colors.textColors.main,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ),
+            ),
+            AppBoxes.kWidth16,
+          ],
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: CarouselSlider.builder(
+                itemCount: _images.length,
+                itemBuilder: (_, index, __) => Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  padding: AppInsets.kAll8,
+                  child: ExtendedImage.network(
+                    product.imageUrl,
+                    fit: BoxFit.fitHeight,
+                    mode: ExtendedImageMode.gesture,
+                  ),
+                ),
+                options: CarouselOptions(
+                  aspectRatio: 1,
+                  viewportFraction: 1,
+                  enableInfiniteScroll: _isScrollable,
+                  onPageChanged: (index, _) => active.value = index,
+                ),
+              ),
+            ),
+            if (_isScrollable)
+              Padding(
+                padding: AppInsets.kVertical32,
+                child: _PaginationImagesWidget(
+                  images: _images,
+                  active: active,
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -169,9 +205,10 @@ class _ImagesCarouselWidget extends StatelessWidget {
           padding: AppInsets.kAll8,
           child: ClipRRect(
             borderRadius: AppBorders.kCircular16 + AppBorders.kCircular2,
-            child: CachedNetworkImage(
-              imageUrl: product.imageUrl,
+            child: ExtendedImage.network(
+              product.imageUrl,
               fit: BoxFit.fitHeight,
+              mode: ExtendedImageMode.gesture,
             ),
           ),
         ),

@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hyphenatorx/widget/texthyphenated.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
@@ -61,14 +62,12 @@ class GroupsWidget extends StatelessWidget {
                   child: Stack(
                     children: [
                       if (groups[index].image.length > AppSizes.kGeneral8)
-                        CachedNetworkImage(
-                          imageUrl: groups[index].image,
-                          errorWidget: (_, __, ___) => const SizedBox.shrink(),
-                        ),
+                        ExtendedImage.network(groups[index].image),
                       Padding(
                         padding: AppInsets.kHorizontal8 + AppInsets.kTop6,
-                        child: Text(
+                        child: TextHyphenated(
                           groups[index].name,
+                          LocaleSettings.currentLocale.languageCode,
                           style: context.textStyle.textTypo.tx3SemiBold
                               .withColor(context.colors.textColors.main),
                         ),

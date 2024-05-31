@@ -24,8 +24,13 @@ class RecommendsCubit extends Cubit<RecommendsState> {
   Future<void> getRecommends() async {
     final result = await _getRecommendsUseCase.call(_product);
     result.fold(
-      (_) => emit(const RecommendsState.error()),
-      (products) => emit(RecommendsState.loaded(products: products)),
+      (_) => _emit(const RecommendsState.error()),
+      (products) => _emit(RecommendsState.loaded(products: products)),
     );
+  }
+
+  void _emit(RecommendsState state) {
+    if (isClosed) return;
+    emit(state);
   }
 }

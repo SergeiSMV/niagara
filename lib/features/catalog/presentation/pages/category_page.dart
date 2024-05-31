@@ -23,10 +23,6 @@ class CategoryPage extends StatelessWidget {
 
   final Group group;
 
-  Future<void> _onRefresh(BuildContext context) async => context
-      .read<ProductsBloc>()
-      .add(const ProductsEvent.loading(isForceUpdate: true));
-
   Future<void> _onLoadMore(BuildContext context) async =>
       context.read<ProductsBloc>().add(const ProductsEvent.loadMore());
 
@@ -60,35 +56,41 @@ class CategoryPage extends StatelessWidget {
                               }
                               return true;
                             },
-                            child: RefreshIndicator.adaptive(
-                              onRefresh: () => _onRefresh(ctx),
-                              child: GridView.builder(
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: AppSizes.kGeneral8,
-                                  crossAxisSpacing: AppSizes.kGeneral8,
-                                  childAspectRatio: context.screenWidth /
-                                      context.screenHeight /
-                                      .8,
-                                ),
-                                padding: AppInsets.kHorizontal16 +
-                                    AppInsets.kVertical12,
-                                itemCount: products.length + (hasMore ? 2 : 0),
-                                itemBuilder: (_, index) {
-                                  if (index >= products.length) {
-                                    return Center(
-                                      child: Assets.lottie.loadCircle.lottie(
-                                        width: AppSizes.kLoaderBig,
-                                        height: AppSizes.kLoaderBig,
-                                      ),
-                                    );
-                                  }
-
-                                  return ProductWidget(
-                                    product: products[index],
-                                  );
-                                },
+                            child: Padding(
+                              padding: AppInsets.kHorizontal16 +
+                                  AppInsets.kVertical12,
+                              child: CustomScrollView(
+                                slivers: [
+                                  SliverGrid.builder(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: AppSizes.kGeneral8,
+                                      crossAxisSpacing: AppSizes.kGeneral8,
+                                      childAspectRatio: context.screenWidth /
+                                          context.screenHeight /
+                                          .8,
+                                    ),
+                                    itemCount: products.length,
+                                    itemBuilder: (_, index) => ProductWidget(
+                                      product: products[index],
+                                    ),
+                                  ),
+                                  SliverToBoxAdapter(
+                                    child: hasMore
+                                        ? Padding(
+                                            padding: AppInsets.kAll16,
+                                            child: Center(
+                                              child: Assets.lottie.loadCircle
+                                                  .lottie(
+                                                width: AppSizes.kLoaderBig,
+                                                height: AppSizes.kLoaderBig,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

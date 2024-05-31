@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
@@ -60,11 +60,13 @@ class ProductWidget extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: AppBorders.kCircular6,
-                      child: CachedNetworkImage(
-                        imageUrl: product.imageUrl,
+                      child: ExtendedImage.network(
+                        product.imageUrl,
                         fit: BoxFit.cover,
-                        progressIndicatorBuilder: (_, __, ___) =>
-                            const AppCenterLoader(),
+                        loadStateChanged: (state) =>
+                            state.extendedImageLoadState == LoadState.loading
+                                ? const AppCenterLoader()
+                                : null,
                       ),
                     ),
                     Positioned.fill(

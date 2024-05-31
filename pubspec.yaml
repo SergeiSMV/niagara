@@ -2,7 +2,7 @@ name: niagara_app
 description: A new Flutter project from Niagara
 publish_to: "none"
 
-version: 1.2.1+4
+version: 1.2.2+5
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -10,13 +10,13 @@ environment:
 dependencies:
   auto_route: ^8.0.0
   bloc_concurrency: ^0.2.4
-  cached_network_image: ^3.3.1
   carousel_slider: ^4.2.1
   device_info_plus: ^10.0.1
   dio: ^5.4.1
   drift: ^2.17.0
   either_dart: ^1.0.0
   equatable: ^2.0.5
+  extended_image: ^8.2.0
   firebase_analytics: ^10.10.5
   firebase_core: ^2.31.0
   firebase_crashlytics: ^3.5.5
@@ -29,13 +29,10 @@ dependencies:
     sdk: flutter
   flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.10+1
-  # form_builder_validators: ^9.1.0
-  form_builder_validators:
-    git:
-      url: https://github.com/ariefsn/form_builder_validators
-      ref: intl-v0.19.0
+  form_builder_validators: ^10.0.1
   freezed_annotation: ^2.4.1
   get_it: ^7.6.7
+  hyphenatorx: ^1.5.11
   injectable: ^2.4.0
   intl: ^0.19.0
   json_annotation: ^4.9.0
