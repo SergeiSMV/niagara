@@ -7,7 +7,7 @@ enum ProductsSortType {
 
   String toLocale() => switch (this) {
         ProductsSortType.none => t.catalog.byPopularity,
-        ProductsSortType.min => t.catalog.inDescendingOrder,
-        ProductsSortType.max => t.catalog.inAscendingOrder,
+        ProductsSortType.min => t.catalog.inAscendingOrder,
+        ProductsSortType.max => t.catalog.inDescendingOrder,
       };
 }
