@@ -21,7 +21,7 @@ class AppTextField extends BaseTextField {
     super.maxLength,
     super.mask,
     super.onChanged,
-    super.showCounter = true,
+    super.showCounter = false,
   });
 
   /// Текстовое поле для ввода номера телефона
@@ -93,30 +93,6 @@ class AppTextField extends BaseTextField {
       keyboardType: TextInputType.number,
       state: state ?? BaseTextFieldState.idle,
       isRequired: isRequired,
-      maxLength: maxLength,
-      showCounter: showCounter,
-      onChanged: onChanged,
-    );
-  }
-
-  factory AppTextField.search({
-    Key? key,
-    String? initialText,
-    void Function(String?)? onChanged,
-    BaseTextFieldState? state,
-    String? label,
-    String? hint,
-    int? maxLength,
-    bool showCounter = false,
-  }) {
-    return AppTextField._(
-      name: AppConstants.kTextFieldTextName,
-      key: key,
-      initialText: initialText,
-      label: label,
-      hint: hint,
-      keyboardType: TextInputType.text,
-      state: state ?? BaseTextFieldState.idle,
       maxLength: maxLength,
       showCounter: showCounter,
       onChanged: onChanged,
