@@ -61,7 +61,7 @@ class BonusesProgramRepository extends BaseRepository
   Future<Either<Failure, StatusDescription>> getStatus(StatusLevel status) =>
       execute(() async {
         final dto = await _bonusProgramRDS.getStatusDescription(
-          status: status.name,
+          status: status.convertStatusLevelToString,
         );
         return dto.fold(
           (failure) => throw failure,

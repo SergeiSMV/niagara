@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -8,6 +9,7 @@ import 'package:niagara_app/features/home/presentation/widgets/notifications_but
 import 'package:niagara_app/features/home/presentation/widgets/static_banners_widget.dart';
 import 'package:niagara_app/features/home/presentation/widgets/support_button.dart';
 import 'package:niagara_app/features/locations/_common/presentation/widgets/address_button.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/bonuses_home_widget.dart';
 import 'package:niagara_app/features/promotions/presentation/widgets/promotions_home_widget.dart';
 
@@ -57,14 +59,34 @@ class _HomeBackgroundColorsWidget extends StatelessWidget {
       context.colors.mainColors.white,
     ];
 
-    return Column(
-      children: List.generate(
-        colors.length,
-        (index) => Expanded(
-          child: SizedBox.expand(
-            child: ColoredBox(color: colors[index]),
+    return BlocBuilder<BonusesBloc, BonusesState>(
+      builder: (_, state) => state.maybeWhen(
+        orElse: () => Column(
+          children: List.generate(
+            colors.length,
+            (index) => Expanded(
+              child: SizedBox.expand(
+                child: ColoredBox(color: colors[index]),
+              ),
+            ),
           ),
         ),
+        loaded: (bonuses, _) {
+          if (bonuses.level.isVIPStatus) {
+            return bonuses.level.cardImage.image();
+          } else {
+            return Column(
+              children: List.generate(
+                colors.length,
+                (index) => Expanded(
+                  child: SizedBox.expand(
+                    child: ColoredBox(color: colors[index]),
+                  ),
+                ),
+              ),
+            );
+          }
+        },
       ),
     );
   }

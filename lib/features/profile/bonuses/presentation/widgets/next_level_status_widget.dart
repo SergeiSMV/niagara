@@ -32,7 +32,7 @@ class NextLevelStatusWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                nextLevel.toLocale(),
+                '${nextLevel.toLocale} ${t.bonuses.status.toLowerCase()}',
                 style: context.textStyle.textTypo.tx1SemiBold.withColor(
                   context.colors.textColors.main,
                 ),
