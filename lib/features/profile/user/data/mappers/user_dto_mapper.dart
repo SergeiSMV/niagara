@@ -4,15 +4,15 @@ import 'package:niagara_app/features/profile/user/domain/models/user.dart';
 extension UserDtoMapper on ProfileDto {
   User toUserModel() => User(
         id: id.hashCode,
-        userId: id,
-        name: name,
-        surname: lastName,
-        patronymic: secondName,
-        login: login,
-        phone: login,
-        email: email,
-        birthday: birthday,
-        defaultLocationId: locationDefault,
+        userId: id ?? '',
+        name: name ?? '',
+        surname: lastName ?? '',
+        patronymic: secondName ?? '',
+        login: login ?? '',
+        phone: login ?? '',
+        email: email ?? '',
+        birthday: birthday ?? '',
+        defaultLocationId: locationDefault ?? '',
       );
 }
 

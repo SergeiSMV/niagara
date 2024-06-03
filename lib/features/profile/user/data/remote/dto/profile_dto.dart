@@ -8,87 +8,87 @@ part 'profile_dto.g.dart';
 @JsonSerializable()
 class ProfileDto extends Equatable {
   const ProfileDto({
-    required this.id,
-    required this.name,
-    required this.lastName,
-    required this.secondName,
-    required this.login,
-    required this.email,
-    required this.city,
-    required this.birthday,
-    required this.bonusesCardNumber,
-    required this.bonusesCount,
-    required this.bonusesTempCount,
-    required this.bonusesTempLastDate,
-    required this.bonusesTempDays,
-    required this.bonusesLevel,
-    required this.bonusesLevelNext,
-    required this.bonusesDateEnd,
-    required this.revThisMonth,
-    required this.bottlesCount,
-    required this.bottles,
-    required this.locationDefault,
+    this.id,
+    this.name,
+    this.lastName,
+    this.secondName,
+    this.login,
+    this.email,
+    this.city,
+    this.birthday,
+    this.bonusesCardNumber,
+    this.bonusesCount,
+    this.bonusesTempCount,
+    this.bonusesTempLastDate,
+    this.bonusesTempDays,
+    this.bonusesLevel,
+    this.bonusesLevelNext,
+    this.bonusesDateEnd,
+    this.revThisMonth,
+    this.bottlesCount,
+    this.bottles,
+    this.locationDefault,
   });
 
   @JsonKey(name: 'ID')
-  final String id;
+  final String? id;
 
   @JsonKey(name: 'NAME')
-  final String name;
+  final String? name;
 
   @JsonKey(name: 'LAST_NAME')
-  final String lastName;
+  final String? lastName;
 
   @JsonKey(name: 'SECOND_NAME')
-  final String secondName;
+  final String? secondName;
 
   @JsonKey(name: 'LOGIN')
-  final String login;
+  final String? login;
 
   @JsonKey(name: 'EMAIL')
-  final String email;
+  final String? email;
 
   @JsonKey(name: 'CITY')
-  final String city;
+  final String? city;
 
   @JsonKey(includeToJson: false, name: 'BIRTHDAY')
-  final String birthday;
+  final String? birthday;
 
   @JsonKey(includeToJson: false, name: 'BONUSES_CARD_NUMBER')
-  final String bonusesCardNumber;
+  final String? bonusesCardNumber;
 
   @JsonKey(includeToJson: false, name: 'BONUSES_COUNT')
-  final String bonusesCount;
+  final String? bonusesCount;
 
   @JsonKey(includeToJson: false, name: 'BONUSES_TEMP_COUNT')
-  final String bonusesTempCount;
+  final String? bonusesTempCount;
 
   @JsonKey(includeToJson: false, name: 'BONUSES_TEMP_LAST_DATE')
-  final String bonusesTempLastDate;
+  final String? bonusesTempLastDate;
 
   @JsonKey(includeToJson: false, name: 'BONUSES_TEMP_DAYS')
-  final String bonusesTempDays;
+  final String? bonusesTempDays;
 
   @JsonKey(includeToJson: false, name: 'BONUSES_LEVEL')
-  final String bonusesLevel;
+  final String? bonusesLevel;
 
   @JsonKey(includeToJson: false, name: 'BONUSES_LEVEL_NEXT')
-  final String bonusesLevelNext;
+  final String? bonusesLevelNext;
 
   @JsonKey(includeToJson: false, name: 'BONUSES_DATE_END')
-  final DateTime bonusesDateEnd;
+  final DateTime? bonusesDateEnd;
 
   @JsonKey(includeToJson: false, name: 'REV_THIS_MONTH')
-  final int revThisMonth;
+  final int? revThisMonth;
 
   @JsonKey(includeToJson: false, name: 'BOTTELS_COUNT')
-  final int bottlesCount;
+  final int? bottlesCount;
 
   @JsonKey(includeToJson: false, name: 'BOTTELS')
-  final List<BottlesDto> bottles;
+  final List<BottlesDto>? bottles;
 
   @JsonKey(includeToJson: false, name: 'LOCATION_DEFAULT')
-  final String locationDefault;
+  final String? locationDefault;
 
   factory ProfileDto.fromJson(Map<String, dynamic> json) =>
       _$ProfileDtoFromJson(json);

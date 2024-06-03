@@ -37,5 +37,10 @@ class Application extends StatelessWidget {
             TalkerRouteObserver(_talker),
           ],
         ),
+        scrollBehavior: ScrollConfiguration.of(context).copyWith(
+          physics: const ClampingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
+        ),
       );
 }

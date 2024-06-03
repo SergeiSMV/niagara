@@ -95,7 +95,13 @@
       "temporaryBonusesTitle": "Временные бонусы",
       "morePurchases": "Больше покупок — выше статус — больше выгоды",
       "faq": "Часто задаваемые вопросы"
-    }
+    },
+    "personalizedPrices ": "Персональные цены",
+    "specialPricesGoods": "Специальные цены на товары",
+    "prepaidWater": "Предоплатная вода",
+    "prepaidWaterBalance": "На балансе ${count} шт.",
+    "activeTo": "Активен до ${date}",
+    "showQRcode": "Показать QR-код на кассе"
   },
   "locations": {
     "deliveryAddress": "Адрес доставки",

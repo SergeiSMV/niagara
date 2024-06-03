@@ -45,7 +45,7 @@ abstract final class ApiConst {
   static const String kCheckLocation = '/check_location';
 
   /// -GET- Запрос на получение списка магазинов
-  static const String kGetShops = '/sotres';
+  static const String kGetShops = '/stores';
 
   // ? ------------------------------- User ------------------------------- ? //
   /// -GET- Запрос на получение профиля
