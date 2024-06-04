@@ -7,29 +7,34 @@ enum StatusLevel {
   platinum,
   vip,
   partner,
-  employer, 
+  employee,
   social;
 
-  static StatusLevel fromString(String value) => switch (value) {
+  static StatusLevel parseStatusLevel(String value) => switch (value) {
         'silver' => StatusLevel.silver,
         'gold' => StatusLevel.gold,
         'platinum' => StatusLevel.platinum,
         'vip' => StatusLevel.vip,
-        'corp' => StatusLevel.partner,
-        'np' => StatusLevel.employer,
+        'partner' => StatusLevel.partner,
+        'np' => StatusLevel.employee,
         'social' => StatusLevel.social,
         _ => StatusLevel.silver
       };
 
-  String toLocale() => '${switch (this) {
+  String get convertStatusLevelToString => switch (this) {
+        StatusLevel.employee => 'np',
+        _ => name,
+      };
+
+  String get toLocale => switch (this) {
         StatusLevel.silver => t.bonuses.levels.silver,
         StatusLevel.gold => t.bonuses.levels.gold,
         StatusLevel.platinum => t.bonuses.levels.platinum,
         StatusLevel.vip => t.bonuses.levels.vip,
         StatusLevel.partner => t.bonuses.levels.partner,
-        StatusLevel.employer => t.bonuses.levels.employer,
+        StatusLevel.employee => t.bonuses.levels.employer,
         StatusLevel.social => t.bonuses.levels.social,
-      }} ${t.bonuses.status.toLowerCase()}';
+      };
 
   AssetGenImage get cardImage => switch (this) {
         StatusLevel.silver => Assets.images.bonusStatus.silver,
@@ -37,9 +42,28 @@ enum StatusLevel {
         StatusLevel.platinum => Assets.images.bonusStatus.platinum,
         StatusLevel.vip => Assets.images.bonusStatus.statusVIP,
         StatusLevel.partner => Assets.images.bonusStatus.partner,
-        StatusLevel.employer => Assets.images.bonusStatus.employer,
+        StatusLevel.employee => Assets.images.bonusStatus.employer,
         StatusLevel.social => Assets.images.bonusStatus.social,
       };
+
+  AssetGenImage get statusIcon => switch (this) {
+        StatusLevel.partner => Assets.images.aboutBonuses.briefcase,
+        StatusLevel.employee => Assets.images.aboutBonuses.staff,
+        StatusLevel.social => Assets.images.aboutBonuses.social,
+        _ => Assets.images.aboutBonuses.social,
+      };
+
+  bool get isBasicStatus =>
+      this == StatusLevel.silver ||
+      this == StatusLevel.gold ||
+      this == StatusLevel.platinum;
+
+  bool get isSpecialStatus =>
+      this == StatusLevel.partner ||
+      this == StatusLevel.employee ||
+      this == StatusLevel.social;
+
+  bool get isVIPStatus => this == StatusLevel.vip;
 }
 
 enum BenefitPicture {

@@ -14,7 +14,7 @@ class PrepaidWaterDataWidget extends StatelessWidget {
       builder: (context, state) => state.maybeWhen(
         orElse: SizedBox.shrink,
         loaded: (bonuses, _) => BonusDataWidget(
-          title: t.bonuses.temporary,
+          title: t.bonuses.waterBalance,
           value: '${bonuses.bottles.count} ${t.bonuses.pieces}',
           icon: Assets.icons.waterFill,
         ),

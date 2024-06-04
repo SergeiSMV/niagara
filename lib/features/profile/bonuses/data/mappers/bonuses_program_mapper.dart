@@ -24,7 +24,7 @@ extension PrivilegeMapper on PrivilegeDto {
 
 extension StatusesDescriptionMapper on StatusDescriptionDto {
   StatusDescription toModel() => StatusDescription(
-        level: StatusLevel.fromString(name.toLowerCase()),
+        level: StatusLevel.parseStatusLevel(name.toLowerCase()),
         description: description,
         minSum: minSum,
         maxSum: maxSum,

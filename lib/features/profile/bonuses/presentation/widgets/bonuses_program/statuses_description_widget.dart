@@ -78,7 +78,7 @@ class StatusesDescriptionWidget extends StatelessWidget {
                           ),
                           AppBoxes.kHeight16,
                           Text(
-                            status.level.toLocale(),
+                            '${status.level.toLocale} ${t.bonuses.status.toLowerCase()}',
                             style: context.textStyle.textTypo.tx1SemiBold
                                 .withColor(
                               context.colors.textColors.main,
