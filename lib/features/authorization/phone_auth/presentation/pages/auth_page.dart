@@ -30,15 +30,30 @@ class AuthPage extends StatelessWidget {
         orElse: () => null,
       ),
       child: Scaffold(
-        appBar: const AppBarWidget(),
-        body: Column(
-          children: [
-            PhoneNumberField(formKey: formKey),
-            const AuthLaterButton(),
-            const Spacer(),
-            const PrivacyPolicyTextButtons(),
-            AppBoxes.kHeight12,
-            GetCodeWidget(formKey: formKey),
+        body: CustomScrollView(
+          slivers: [
+            const SliverAppBarWidget(),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      PhoneNumberField(formKey: formKey),
+                      const AuthLaterButton(),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const PrivacyPolicyTextButtons(),
+                      AppBoxes.kHeight12,
+                      GetCodeWidget(formKey: formKey),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -14,19 +14,23 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(
-        automaticallyImplyLeading: false,
-        automaticallyImplyTitle: false,
-        body: ProfileUserDataWidget(),
-        actions: [
-          EditUserDataButton(),
-          AppBoxes.kWidth8,
-        ],
-      ),
       backgroundColor: context.colors.mainColors.bgCard,
-      body: const Column(
-        children: [
-          BonusesProfileWidget(),
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBarWidget(
+            automaticallyImplyLeading: false,
+            automaticallyImplyTitle: false,
+            body: ProfileUserDataWidget(),
+            actions: [
+              EditUserDataButton(),
+              AppBoxes.kWidth8,
+            ],
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const BonusesProfileWidget(),
+            ]),
+          ),
         ],
       ),
     );

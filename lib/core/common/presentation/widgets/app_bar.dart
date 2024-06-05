@@ -63,3 +63,61 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize =>
       const Size.fromHeight(kToolbarHeight + AppSizes.kGeneral4);
 }
+
+class SliverAppBarWidget extends StatelessWidget {
+  const SliverAppBarWidget({
+    super.key,
+    this.automaticallyImplyLeading = true,
+    this.automaticallyImplyTitle = true,
+    this.title,
+    this.body,
+    this.actions,
+  });
+
+  /// Заголовок AppBar.
+  final String? title;
+
+  /// Виджет вместо заголовка AppBar.
+  final Widget? body;
+
+  /// Флаг, показывать ли кнопку назад.
+  final bool automaticallyImplyLeading;
+
+  /// Флаг, показывать ли заголовок у текущего экрана.
+  final bool automaticallyImplyTitle;
+
+  /// Виджеты справа от заголовка.
+  final List<Widget>? actions;
+
+  bool get _showTitle => title != null || automaticallyImplyTitle;
+
+  bool get _centerTitle => _showTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final title = Text(this.title ?? context.topRoute.title(context));
+
+    return SliverAppBar(
+      pinned: true,
+      stretch: true,
+      expandedHeight: kToolbarHeight,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      leading: automaticallyImplyLeading
+          ? AutoLeadingButton(color: context.colors.mainColors.white)
+          : null,
+      title: body ?? (_showTitle ? title : null),
+      centerTitle: _centerTitle,
+      titleTextStyle: context.textStyle.textTypo.tx1SemiBold
+          .withColor(context.colors.textColors.main),
+      actions: actions,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(0),
+        child: Divider(
+          thickness: AppSizes.kGeneral1,
+          color: context.colors.fieldBordersColors.inactive,
+          height: 0,
+        ),
+      ),
+    );
+  }
+}

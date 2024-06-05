@@ -49,6 +49,7 @@ class GroupsWidget extends StatelessWidget {
             ),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
             itemCount: groups.length,
             itemBuilder: (_, index) => InkWell(
               onTap: () => _navigateToCategory(
@@ -80,7 +81,6 @@ class GroupsWidget extends StatelessWidget {
           ),
         ),
         error: () => ErrorRefreshWidget(
-          error: t.common.commonError,
           onRefresh: () => _onRefresh(ctx),
         ),
       ),

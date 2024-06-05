@@ -19,7 +19,7 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
     this._hasAuthStatusUseCase,
     this._getBonusesUseCase,
     this._getStatusDescriptionUseCase,
-  ) : super(const _Initial()) {
+  ) : super(const _Loading()) {
     on<_StartedEvent>(_onStarted);
 
     // При первом обращении получаем бонусы

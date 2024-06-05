@@ -6,7 +6,6 @@ import 'package:niagara_app/core/common/presentation/widgets/errors/error_refres
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/modal_background_widget.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_program_cubit/bonuses_program_cubit.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonuses_program/bonuses_program_header_widget.dart';
@@ -20,8 +19,24 @@ import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonuse
 class AboutBonusesPage extends StatelessWidget {
   const AboutBonusesPage({super.key});
 
-  static final _sheetKey = GlobalKey();
-  static final _controller = DraggableScrollableController();
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => getIt<BonusesProgramCubit>(),
+      child: const Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBarWidget(),
+            SliverToBoxAdapter(child: _Content()),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content();
 
   void _onRefresh(BuildContext context) =>
       context.read<BonusesProgramCubit>().getAboutBonusProgram();
@@ -30,49 +45,37 @@ class AboutBonusesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final modalSize = context.select<BonusesBloc, double>(
       (bloc) => bloc.state.maybeWhen(
-        unauthorized: () => .45,
-        orElse: () => .7,
+        unauthorized: () => 320,
+        orElse: () => 180,
       ),
     );
-    return BlocProvider(
-      create: (_) => getIt<BonusesProgramCubit>(),
-      child: Scaffold(
-        appBar: const AppBarWidget(),
-        body: BlocBuilder<BonusesProgramCubit, BonusesProgramState>(
-          builder: (_, state) => state.when(
-            initial: SizedBox.shrink,
-            loading: AppCenterLoader.new,
-            loaded: (_) => Stack(
+    return BlocBuilder<BonusesProgramCubit, BonusesProgramState>(
+      builder: (_, state) => state.when(
+        initial: SizedBox.shrink,
+        loading: AppCenterLoader.new,
+        loaded: (_) => Stack(
+          children: [
+            const BonusesProgramHeaderWidget(),
+            Column(
               children: [
-                const BonusesProgramHeaderWidget(),
-                DraggableScrollableSheet(
-                  key: _sheetKey,
-                  controller: _controller,
-                  initialChildSize: modalSize,
-                  minChildSize: modalSize,
-                  builder: (_, scrollCtrl) => SingleChildScrollView(
-                    controller: scrollCtrl,
-                    physics: const ClampingScrollPhysics(),
-                    child: const ModalBackgroundWidget(
-                      child: Column(
-                        children: [
-                          WhatBonusProgramGivesWidget(),
-                          JoiningIsQuickAndEasyWidget(),
-                          TwoTypesBonusesWidget(),
-                          StatusesDescriptionWidget(),
-                          FAQBonusesWidget(),
-                        ],
-                      ),
-                    ),
+                SizedBox(height: modalSize),
+                const ModalBackgroundWidget(
+                  child: Column(
+                    children: [
+                      WhatBonusProgramGivesWidget(),
+                      JoiningIsQuickAndEasyWidget(),
+                      TwoTypesBonusesWidget(),
+                      StatusesDescriptionWidget(),
+                      FAQBonusesWidget(),
+                    ],
                   ),
                 ),
               ],
             ),
-            error: () => ErrorRefreshWidget(
-              error: t.common.commonError,
-              onRefresh: () => _onRefresh(context),
-            ),
-          ),
+          ],
+        ),
+        error: () => ErrorRefreshWidget(
+          onRefresh: () => _onRefresh(context),
         ),
       ),
     );

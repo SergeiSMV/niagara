@@ -7,35 +7,37 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 class ErrorRefreshWidget extends StatelessWidget {
   const ErrorRefreshWidget({
-    required this.error,
+    this.error,
     required this.onRefresh,
     super.key,
   });
 
-  final String error;
+  final String? error;
   final VoidCallback onRefresh;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Spacer(),
-        Text(
-          error,
-          style: context.textStyle.textTypo.tx1Medium
-              .withColor(context.colors.textColors.secondary),
-        ),
-        const Spacer(flex: 2),
-        SafeArea(
-          child: Padding(
+    return SizedBox(
+      height: context.screenHeight * .7,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Spacer(),
+          Text(
+            error ?? t.common.commonError,
+            style: context.textStyle.textTypo.tx1Medium
+                .withColor(context.colors.textColors.main),
+          ),
+          const Spacer(),
+          Padding(
             padding: AppInsets.kAll16,
             child: AppTextButton.primary(
               text: t.common.refresh,
               onTap: onRefresh,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

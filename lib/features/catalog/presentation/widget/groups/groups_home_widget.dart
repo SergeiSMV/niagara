@@ -14,19 +14,15 @@ class GroupsHomeWidget extends StatelessWidget {
     return ColoredBox(
       color: context.colors.mainColors.white,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppBoxes.kHeight32,
           Padding(
             padding: AppInsets.kHorizontal16,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  t.catalog.categories,
-                  style: context.textStyle.headingTypo.h3
-                      .withColor(context.colors.textColors.main),
-                ),
-              ],
+            child: Text(
+              t.catalog.categories,
+              style: context.textStyle.headingTypo.h3
+                  .withColor(context.colors.textColors.main),
             ),
           ),
           const GroupsWidget(),

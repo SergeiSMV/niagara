@@ -20,28 +20,37 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: AppBarWidget(
-        automaticallyImplyLeading: false,
-        body: AddressButton(),
-        actions: [
-          NotificationsButton(),
-          SupportButton(),
-          AppBoxes.kWidth8,
-        ],
-      ),
-      body: Stack(
-        children: [
-          _HomeBackgroundColorsWidget(),
-          SingleChildScrollView(
-            child: Column(
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBarWidget(
+            automaticallyImplyLeading: false,
+            body: AddressButton(),
+            actions: [
+              NotificationsButton(),
+              AppBoxes.kWidth16,
+              SupportButton(),
+              AppBoxes.kWidth16,
+            ],
+          ),
+          const SliverToBoxAdapter(
+            child: Stack(
               children: [
-                HomeBonusesWidget(),
-                StaticBannersWidget(),
-                PromotionsHomeWidget(),
-                GroupsHomeWidget(),
+                _HomeBackgroundColorsWidget(),
+                Column(
+                  children: [
+                    HomeBonusesWidget(),
+                    StaticBannersWidget(),
+                  ],
+                ),
               ],
             ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const PromotionsHomeWidget(),
+              const GroupsHomeWidget(),
+            ]),
           ),
         ],
       ),
@@ -54,39 +63,15 @@ class _HomeBackgroundColorsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = [
-      context.colors.mainColors.bgCard,
-      context.colors.mainColors.white,
-    ];
-
     return BlocBuilder<BonusesBloc, BonusesState>(
       builder: (_, state) => state.maybeWhen(
-        orElse: () => Column(
-          children: List.generate(
-            colors.length,
-            (index) => Expanded(
-              child: SizedBox.expand(
-                child: ColoredBox(color: colors[index]),
+        orElse: () => const SizedBox.shrink(),
+        loaded: (bonuses, _) => bonuses.level.isVIPStatus
+            ? bonuses.level.cardImage.image()
+            : Container(
+                height: context.screenHeight / 3,
+                color: context.colors.mainColors.bgCard,
               ),
-            ),
-          ),
-        ),
-        loaded: (bonuses, _) {
-          if (bonuses.level.isVIPStatus) {
-            return bonuses.level.cardImage.image();
-          } else {
-            return Column(
-              children: List.generate(
-                colors.length,
-                (index) => Expanded(
-                  child: SizedBox.expand(
-                    child: ColoredBox(color: colors[index]),
-                  ),
-                ),
-              ),
-            );
-          }
-        },
       ),
     );
   }

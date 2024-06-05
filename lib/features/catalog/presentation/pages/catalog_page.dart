@@ -12,16 +12,20 @@ class CatalogPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: AppBarWidget(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            AppBoxes.kHeight4,
-            PromotionsWidget(),
-            AppBoxes.kHeight12,
-            GroupsWidget(),
-          ],
-        ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBarWidget(),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                AppBoxes.kHeight4,
+                PromotionsWidget(),
+                AppBoxes.kHeight12,
+                GroupsWidget(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

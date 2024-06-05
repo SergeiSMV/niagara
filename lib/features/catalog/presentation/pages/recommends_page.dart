@@ -19,19 +19,27 @@ class RecommendsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(
-        automaticallyImplyTitle: false,
-      ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: AppSizes.kGeneral8,
-          crossAxisSpacing: AppSizes.kGeneral8,
-          childAspectRatio: context.screenWidth / context.screenHeight / .8,
-        ),
-        padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
-        itemCount: products.length,
-        itemBuilder: (_, index) => ProductWidget(product: products[index]),
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBarWidget(automaticallyImplyTitle: false),
+          SliverToBoxAdapter(
+            child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: AppSizes.kGeneral8,
+                crossAxisSpacing: AppSizes.kGeneral8,
+                childAspectRatio:
+                    context.screenWidth / context.screenHeight / .8,
+              ),
+              padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
+              itemCount: products.length,
+              itemBuilder: (_, index) =>
+                  ProductWidget(product: products[index]),
+            ),
+          ),
+        ],
       ),
     );
   }

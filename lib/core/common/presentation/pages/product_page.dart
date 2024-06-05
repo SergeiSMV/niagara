@@ -28,56 +28,60 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.colors.mainColors.bgCard,
-      appBar: AppBarWidget(
-        automaticallyImplyTitle: false,
-        actions: [
-          ProductFavoriteButton(
-            product: product,
-            size: AppSizes.kIconLarge,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBarWidget(
+            automaticallyImplyTitle: false,
+            actions: [
+              ProductFavoriteButton(
+                product: product,
+                size: AppSizes.kIconLarge,
+              ),
+              AppBoxes.kWidth12,
+            ],
           ),
-          AppBoxes.kWidth12,
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            AppBoxes.kHeight4,
-            Stack(
+          SliverToBoxAdapter(
+            child: Column(
               children: [
-                ProductImagesWidget(product: product),
-                Positioned(
-                  top: AppSizes.kGeneral12,
-                  left: AppSizes.kGeneral8,
-                  right: AppSizes.kGeneral8,
-                  child: Padding(
-                    padding: AppInsets.kAll8,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ProductTagWidget(
-                          label: product.label,
-                          labelColor: product.labelColor,
-                          isBigSize: true,
+                AppBoxes.kHeight4,
+                Stack(
+                  children: [
+                    ProductImagesWidget(product: product),
+                    Positioned(
+                      top: AppSizes.kGeneral12,
+                      left: AppSizes.kGeneral8,
+                      right: AppSizes.kGeneral8,
+                      child: Padding(
+                        padding: AppInsets.kAll8,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ProductTagWidget(
+                              label: product.label,
+                              labelColor: product.labelColor,
+                              isBigSize: true,
+                            ),
+                            ProductCoinsWidget(
+                              count: product.bonus,
+                              size: AppSizes.kIconLarge,
+                            ),
+                          ],
                         ),
-                        ProductCoinsWidget(
-                          count: product.bonus,
-                          size: AppSizes.kIconLarge,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
+                AppBoxes.kHeight12,
+                ProductTitleWithPricesWidget(product: product),
+                AppBoxes.kHeight12,
+                ProductDescriptionWithPropertiesWidget(product: product),
+                AppBoxes.kHeight12,
+                RecommendProductsWidget(product: product),
+                AppBoxes.kHeight24,
               ],
             ),
-            AppBoxes.kHeight12,
-            ProductTitleWithPricesWidget(product: product),
-            AppBoxes.kHeight12,
-            ProductDescriptionWithPropertiesWidget(product: product),
-            AppBoxes.kHeight12,
-            RecommendProductsWidget(product: product),
-            AppBoxes.kHeight24,
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: const ProductToCardButton(),
     );

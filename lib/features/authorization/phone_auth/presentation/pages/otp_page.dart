@@ -41,17 +41,24 @@ class OTPPage extends StatelessWidget implements AutoRouteWrapper {
         orElse: () => null,
       ),
       child: Scaffold(
-        appBar: const AppBarWidget(),
-        body: Padding(
-          padding: AppInsets.kHorizontal16,
-          child: Column(
-            children: [
-              OTPTitleWidget(phoneNumber: _phoneNumber),
-              const OTPCodeWidget(),
-              const Spacer(),
-              const ReSendCodeWidget(),
-            ],
-          ),
+        body: CustomScrollView(
+          slivers: [
+            const SliverAppBarWidget(),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Padding(
+                padding: AppInsets.kHorizontal16,
+                child: Column(
+                  children: [
+                    OTPTitleWidget(phoneNumber: _phoneNumber),
+                    const OTPCodeWidget(),
+                    const Spacer(),
+                    const ReSendCodeWidget(),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

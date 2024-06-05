@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
@@ -25,12 +24,9 @@ class AppBarActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Padding(
-        padding: AppInsets.kHorizontal8,
-        child: icon.svg(
-          width: AppSizes.kIconLarge,
-          height: AppSizes.kIconLarge,
-        ),
+      child: icon.svg(
+        width: AppSizes.kIconLarge,
+        height: AppSizes.kIconLarge,
       ),
     );
   }

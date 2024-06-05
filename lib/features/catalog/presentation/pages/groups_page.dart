@@ -9,7 +9,6 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/catalog/domain/model/group.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/groups_cubit.dart';
 import 'package:niagara_app/features/locations/cities/presentation/widgets/list_separator_widget.dart';
@@ -30,34 +29,42 @@ class GroupsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(),
-      body: BlocBuilder<GroupsCubit, GroupsState>(
-        builder: (_, state) => state.when(
-          loading: AppCenterLoader.new,
-          loaded: (groups) => ListView.separated(
-            itemCount: groups.length,
-            itemBuilder: (_, index) => ListTile(
-              title: Text(
-                groups[index].name,
-                style: context.textStyle.textTypo.tx1SemiBold
-                    .withColor(context.colors.textColors.main),
-              ),
-              trailing: Assets.icons.arrowRight.svg(
-                width: AppSizes.kIconMedium,
-                height: AppSizes.kIconMedium,
-              ),
-              onTap: () => _navigateToCategory(
-                context,
-                group: groups[index],
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBarWidget(),
+          SliverToBoxAdapter(
+            child: BlocBuilder<GroupsCubit, GroupsState>(
+              builder: (_, state) => state.when(
+                loading: AppCenterLoader.new,
+                loaded: (groups) => ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemCount: groups.length,
+                  itemBuilder: (_, index) => ListTile(
+                    title: Text(
+                      groups[index].name,
+                      style: context.textStyle.textTypo.tx1SemiBold
+                          .withColor(context.colors.textColors.main),
+                    ),
+                    trailing: Assets.icons.arrowRight.svg(
+                      width: AppSizes.kIconMedium,
+                      height: AppSizes.kIconMedium,
+                    ),
+                    onTap: () => _navigateToCategory(
+                      context,
+                      group: groups[index],
+                    ),
+                  ),
+                  separatorBuilder: (_, __) => const ListSeparatorWidget(),
+                ),
+                error: () => ErrorRefreshWidget(
+                  onRefresh: () => _onRefresh(context),
+                ),
               ),
             ),
-            separatorBuilder: (_, __) => const ListSeparatorWidget(),
           ),
-          error: () => ErrorRefreshWidget(
-            error: t.common.commonError,
-            onRefresh: () => _onRefresh(context),
-          ),
-        ),
+        ],
       ),
     );
   }

@@ -80,12 +80,13 @@ class BasicStatusWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
+                        flex: AppSizes.kGeneral8.toInt(),
                         child: LevelNameWidget(
                           level:
                               '${bonuses.level.toLocale} ${t.bonuses.status.toLowerCase()}',
                         ),
                       ),
-                      AppBoxes.kWidth12,
+                      const Spacer(),
                       QRCodeButton(data: bonuses.cardNumber),
                     ],
                   ),

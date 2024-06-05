@@ -38,89 +38,87 @@ class BonusContentWidget extends StatelessWidget {
                 controller: _controller,
                 initialChildSize: sheetSize,
                 minChildSize: sheetSize,
-                builder: (_, scrollCtrl) => SingleChildScrollView(
-                  controller: scrollCtrl,
-                  child: ModalBackgroundWidget(
-                    child: Padding(
-                      padding: AppInsets.kHorizontal16,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AppBoxes.kHeight24,
-                          Text(
-                            t.bonuses.yourBenefits,
-                            style: context.textStyle.headingTypo.h3.withColor(
-                              context.colors.textColors.main,
-                            ),
+                builder: (_, scrollCtrl) => ModalBackgroundWidget(
+                  child: Padding(
+                    padding: AppInsets.kHorizontal16,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppBoxes.kHeight24,
+                        Text(
+                          t.bonuses.yourBenefits,
+                          style: context.textStyle.headingTypo.h3.withColor(
+                            context.colors.textColors.main,
                           ),
-                          AppBoxes.kHeight16,
-                          const ListBenefitsWidget(),
-                          if (bonuses.level.isBasicStatus)
-                            Column(
-                              children: [
-                                const Padding(
-                                  padding: AppInsets.kVertical16,
-                                  child: Column(
-                                    children: [
-                                      YearlyBonusesWidget(),
-                                      AppBoxes.kHeight12,
-                                      AccruedBonusesWidget(),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: AppInsets.kVertical16,
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        t.bonuses.morePurchases,
-                                        style: context.textStyle.headingTypo.h3
-                                            .withColor(
-                                          context.colors.textColors.main,
-                                        ),
-                                      ),
-                                      AppBoxes.kHeight16,
-                                      const NextLevelWidget(),
-                                      AppBoxes.kHeight24,
-                                      const AboutBonusProgramButton(),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                        ),
+                        AppBoxes.kHeight16,
+                        const ListBenefitsWidget(),
+                        if (bonuses.level.isBasicStatus)
                           Column(
                             children: [
-                              if (bonuses.level.isBasicStatus)
-                                Column(
+                              const Padding(
+                                padding: AppInsets.kVertical16,
+                                child: Column(
                                   children: [
-                                    BonusesFooterButton(
-                                      icon: Assets.icons.info,
-                                      title: t.bonuses.bonusesFaqs,
-                                      onTap: () {},
-                                    ),
-                                    Divider(
-                                      height: 0,
-                                      color: context
-                                          .colors.otherColors.separator30,
-                                      thickness: AppSizes.kGeneral1,
-                                    ),
+                                    YearlyBonusesWidget(),
+                                    AppBoxes.kHeight12,
+                                    AccruedBonusesWidget(),
                                   ],
                                 ),
-                              BonusesFooterButton(
-                                icon: Assets.icons.support,
-                                title: t.bonuses.contactUs,
-                                onTap: () {},
                               ),
-                              Divider(
-                                height: 0,
-                                color: context.colors.otherColors.separator30,
-                                thickness: AppSizes.kGeneral1,
+                              Padding(
+                                padding: AppInsets.kVertical16,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      t.bonuses.morePurchases,
+                                      style: context.textStyle.headingTypo.h3
+                                          .withColor(
+                                        context.colors.textColors.main,
+                                      ),
+                                    ),
+                                    AppBoxes.kHeight16,
+                                    const NextLevelWidget(),
+                                    AppBoxes.kHeight24,
+                                    const AboutBonusProgramButton(),
+                                  ],
+                                ),
                               ),
-                              AppBoxes.kHeight48,
                             ],
                           ),
-                        ],
-                      ),
+                        Column(
+                          children: [
+                            if (bonuses.level.isBasicStatus)
+                              Column(
+                                children: [
+                                  BonusesFooterButton(
+                                    icon: Assets.icons.info,
+                                    title: t.bonuses.bonusesFaqs,
+                                    onTap: () {},
+                                  ),
+                                  Divider(
+                                    height: 0,
+                                    color:
+                                        context.colors.otherColors.separator30,
+                                    thickness: AppSizes.kGeneral1,
+                                  ),
+                                ],
+                              ),
+                            BonusesFooterButton(
+                              icon: Assets.icons.support,
+                              title: t.bonuses.contactUs,
+                              onTap: () {},
+                            ),
+                            Divider(
+                              height: 0,
+                              color: context.colors.otherColors.separator30,
+                              thickness: AppSizes.kGeneral1,
+                            ),
+                            AppBoxes.kHeight48,
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),

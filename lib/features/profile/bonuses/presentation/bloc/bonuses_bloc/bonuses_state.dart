@@ -2,7 +2,6 @@ part of 'bonuses_bloc.dart';
 
 @freezed
 class BonusesState with _$BonusesState {
-  const factory BonusesState.initial() = _Initial;
 
   const factory BonusesState.loading() = _Loading;
 

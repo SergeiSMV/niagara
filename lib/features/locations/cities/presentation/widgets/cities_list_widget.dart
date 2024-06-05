@@ -29,35 +29,36 @@ class CitiesListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: BlocConsumer<CitiesCubit, CitiesState>(
-        listener: (context, state) => state.maybeWhen(
-          selected: (_) => _navigateToMain(context),
-          orElse: () => null,
+    return BlocConsumer<CitiesCubit, CitiesState>(
+      listener: (context, state) => state.maybeWhen(
+        selected: (_) => _navigateToMain(context),
+        orElse: () => null,
+      ),
+      builder: (_, state) => state.when(
+        initial: SizedBox.shrink,
+        loading: () => _loader,
+        loaded: (cities) => ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          itemCount: cities.length,
+          itemBuilder: (_, index) {
+            final city = cities[index];
+            return ListTile(
+              title: Text(
+                city.name,
+                style: context.textStyle.textTypo.tx1SemiBold
+                    .withColor(context.colors.textColors.main),
+              ),
+              onTap: () => _onSelectCity(context, city: city),
+            );
+          },
+          separatorBuilder: (_, __) => const ListSeparatorWidget(),
         ),
-        builder: (_, state) => state.when(
-          initial: SizedBox.shrink,
-          loading: () => _loader,
-          loaded: (cities) => ListView.separated(
-            itemCount: cities.length,
-            itemBuilder: (_, index) {
-              final city = cities[index];
-              return ListTile(
-                title: Text(
-                  city.name,
-                  style: context.textStyle.textTypo.tx1SemiBold
-                      .withColor(context.colors.textColors.main),
-                ),
-                onTap: () => _onSelectCity(context, city: city),
-              );
-            },
-            separatorBuilder: (_, __) => const ListSeparatorWidget(),
-          ),
-          selected: (_) => _loader,
-          error: () => ErrorRefreshWidget(
-            error: t.cities.errorLoad,
-            onRefresh: () => _onRefresh(context),
-          ),
+        selected: (_) => _loader,
+        error: () => ErrorRefreshWidget(
+          error: t.cities.errorLoad,
+          onRefresh: () => _onRefresh(context),
         ),
       ),
     );
