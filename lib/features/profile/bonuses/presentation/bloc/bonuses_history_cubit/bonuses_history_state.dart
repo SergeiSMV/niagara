@@ -2,7 +2,6 @@ part of 'bonuses_history_cubit.dart';
 
 @freezed
 class BonusesHistoryState with _$BonusesHistoryState {
-  const factory BonusesHistoryState.initial() = _Initial;
   const factory BonusesHistoryState.loading() = _Loading;
   const factory BonusesHistoryState.loaded({
     required List<BonusHistory> history,

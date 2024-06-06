@@ -11,7 +11,7 @@ part 'bonuses_history_state.dart';
 class BonusesHistoryCubit extends Cubit<BonusesHistoryState> {
   BonusesHistoryCubit(
     this._getBonusesHistoryUseCase,
-  ) : super(const BonusesHistoryState.initial()) {
+  ) : super(const _Loading()) {
     /// Получаем историю бонусов при инициализации
     load();
   }
@@ -26,17 +26,17 @@ class BonusesHistoryCubit extends Cubit<BonusesHistoryState> {
   Future<void> load() async {
     if (state is _Loading) return;
 
-    emit(const _Loading());
+    _emit(const _Loading());
 
     await _getBonusesHistoryUseCase.call(_current).fold(
-      (failure) => emit(const BonusesHistoryState.error()),
+      (failure) => _emit(const BonusesHistoryState.error()),
       (bonuses) {
         final data = bonuses.history;
         final pagination = bonuses.pagination;
         _current = pagination.current;
         _total = pagination.total;
 
-        emit(
+        _emit(
           _Loaded(
             history: [
               ...state.maybeWhen(
@@ -54,10 +54,15 @@ class BonusesHistoryCubit extends Cubit<BonusesHistoryState> {
 
   void loadMore() {
     if (state is _Loading) return;
-    
+
     if (_hasMore) {
       _current++;
       load();
     }
+  }
+
+  void _emit(BonusesHistoryState state) {
+    if (isClosed) return;
+    emit(state);
   }
 }
