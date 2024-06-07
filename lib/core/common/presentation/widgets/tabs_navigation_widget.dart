@@ -25,9 +25,11 @@ class TabsNavigationWidget extends StatelessWidget {
   const TabsNavigationWidget({
     super.key,
     required this.tabs,
+    this.showAppBar = true,
   });
 
   final List<AppTabItem> tabs;
+  final bool showAppBar;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class TabsNavigationWidget extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       builder: (_, child, ctrl) => Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: const AppBarWidget(),
+        appBar: showAppBar ? const AppBarWidget() : null,
         body: Stack(
           children: [
             child,

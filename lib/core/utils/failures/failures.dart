@@ -200,3 +200,21 @@ class GroupsLocalDataFailure extends Failure {
 class GroupsRemoteDataFailure extends Failure {
   const GroupsRemoteDataFailure([super.error = 'Groups remote data failure']);
 }
+
+// ! ----------------------------- Favorites ------------------------------ ! //
+
+class FavoritesRepositoryFailure extends Failure {
+  const FavoritesRepositoryFailure([super.error = 'Favorites repo failure']);
+}
+
+class FavoritesLocalDataFailure extends Failure {
+  const FavoritesLocalDataFailure([
+    super.error = 'Favorites local data failure',
+  ]);
+}
+
+class FavoritesRemoteDataFailure extends Failure {
+  const FavoritesRemoteDataFailure([
+    super.error = 'Favorites remote data failure',
+  ]);
+}
