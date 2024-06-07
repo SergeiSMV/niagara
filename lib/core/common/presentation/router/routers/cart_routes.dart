@@ -6,7 +6,14 @@ abstract final class CartRouters {
   static AutoRoute get routers => AutoRoute(
         page: CartWrapper.page,
         children: [
-          AutoRoute(page: CartRoute.page, initial: true),
+          AutoRoute(
+            page: CartNavigationRoute.page,
+            initial: true,
+            children: [
+              AutoRoute(page: CartRoute.page),
+              AutoRoute(page: FavoritesRoute.page),
+            ],
+          ),
         ],
       );
 }

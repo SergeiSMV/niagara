@@ -9,6 +9,7 @@ part 'app_database.g.dart';
     ShopsTable,
     UsersTable,
     BonusesTable,
+    FavoritesTable,
   ],
   daos: [
     AllAddresses,
@@ -16,6 +17,7 @@ part 'app_database.g.dart';
     AllShops,
     AllUsers,
     AllBonuses,
+    AllFavorites,
   ],
 )
 @Singleton()

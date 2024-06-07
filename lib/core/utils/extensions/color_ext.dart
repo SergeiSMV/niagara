@@ -9,4 +9,9 @@ extension HexColor on Color {
     buffer.write(hexString.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
   }
+
+  static String toHex(Color color) {
+    if (color == Colors.transparent) return '';
+    return '#${color.value.toRadixString(16).substring(2)}';
+  }
 }
