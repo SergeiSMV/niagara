@@ -168,6 +168,7 @@
     "byPopularity": "По популярности",
     "inDescendingOrder": "По убыванию цен",
     "inAscendingOrder": "По возрастанию цен",
+    "filter": "Фильтр",
     "upBonus": {
       "one": "от $n бонуса",
       "other": "от $n бонусов"
