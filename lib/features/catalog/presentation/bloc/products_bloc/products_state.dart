@@ -6,6 +6,7 @@ class ProductsState with _$ProductsState {
 
   const factory ProductsState.loaded({
    required List<Product> products,
+   required List<Filter> filters,
   }) = _Loaded;
 
   const factory ProductsState.error() = _Error;

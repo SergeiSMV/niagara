@@ -20,6 +20,10 @@ abstract final class CatalogRouters {
             page: CategoryRoute.page,
           ),
           AutoRoute(
+            page: FiltersRoute.page,
+            title: (_, __) => t.catalog.filter,
+          ),
+          AutoRoute(
             page: ProductRoute.page,
           ),
           AutoRoute(

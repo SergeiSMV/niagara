@@ -4,7 +4,9 @@ import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
 import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
+import 'package:niagara_app/features/catalog/domain/model/filter.dart';
 import 'package:niagara_app/features/catalog/domain/model/group.dart';
+import 'package:niagara_app/features/catalog/domain/use_cases/get_filters_use_case.dart';
 import 'package:niagara_app/features/catalog/domain/use_cases/get_products_use_case.dart';
 
 part 'products_bloc.freezed.dart';
@@ -16,7 +18,8 @@ typedef _Emit = Emitter<ProductsState>;
 @injectable
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc(
-    this._getProductsUseCase, {
+    this._getProductsUseCase,
+    this._getFiltersUseCase, {
     @factoryParam required Group group,
   })  : _group = group,
         super(const _Loading()) {
@@ -29,6 +32,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   final Group _group;
   final GetProductsUseCase _getProductsUseCase;
+  final GetFiltersUseCase _getFiltersUseCase;
 
   int _current = 1;
   int _total = 0;
@@ -52,29 +56,43 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
 
     _current++;
-    final result = await _getProductsUseCase.call(
+
+    final loadedProducts = await _getProductsUseCase
+        .call(
       ProductsParams(
         page: _current,
         group: _group,
         sort: _sort,
       ),
-    );
-
-    result.fold(
-      (_) => emit(const _Error()),
+    )
+        .fold(
+      (failure) => throw failure,
       (data) {
         _current = data.pagination.current;
         _total = data.pagination.total;
-
-        return emit(
-          _Loaded(
-            products: event.isForceUpdate
-                ? data.products
-                : [...products, ...data.products],
-          ),
-        );
+        return data.products;
       },
     );
+
+    final filters = event.isForceUpdate
+        ? await _getFiltersUseCase.call(_group).fold(
+              (failure) => throw failure,
+              (data) => data,
+            )
+        : state.maybeMap(
+            loaded: (state) => state.filters,
+            orElse: () => const <Filter>[],
+          );
+
+    emit(
+      _Loaded(
+        products: event.isForceUpdate
+            ? loadedProducts
+            : [...products, ...loadedProducts],
+        filters: filters,
+      ),
+    );
+    return;
   }
 
   Future<void> _onLoadMoreProducts(

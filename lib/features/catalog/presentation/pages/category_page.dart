@@ -33,13 +33,15 @@ class CategoryPage extends HookWidget implements AutoRouteWrapper {
 
     useEffect(
       () {
-        scrollController.addListener(() {
+        void onScroll() {
           if (scrollController.position.pixels ==
               scrollController.position.maxScrollExtent) {
             _onLoadMore(context);
           }
-        });
-        return scrollController.dispose;
+        }
+
+        scrollController.addListener(onScroll);
+        return () => scrollController.removeListener(onScroll);
       },
       const [],
     );
@@ -52,72 +54,64 @@ class CategoryPage extends HookWidget implements AutoRouteWrapper {
           SliverAppBar(
             automaticallyImplyLeading: false,
             primary: false,
-            pinned: true,
-            expandedHeight: 120,
-            collapsedHeight: 60,
+            expandedHeight: 30,
             titleSpacing: 0,
             title: GroupsButtonsWidget(group: group),
-            bottom: const PreferredSize(
-              preferredSize: Size.fromHeight(0),
-              child: Column(
-                children: [
-                  InteractionCategoryWidget(),
-                ],
+          ),
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            primary: false,
+            pinned: true,
+            expandedHeight: 30,
+            titleSpacing: 0,
+            title: InteractionCategoryWidget(group: group),
+          ),
+          SliverToBoxAdapter(
+            child: BlocBuilder<ProductsBloc, ProductsState>(
+              buildWhen: (previous, current) => previous != current,
+              builder: (ctx, state) => state.maybeWhen(
+                loading: AppCenterLoader.new,
+                loaded: (products, _) {
+                  final hasMore = ctx.read<ProductsBloc>().hasMore;
+                  return Padding(
+                    padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
+                    child: Column(
+                      children: [
+                        GridView.count(
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          mainAxisSpacing: AppSizes.kGeneral8,
+                          crossAxisSpacing: AppSizes.kGeneral8,
+                          childAspectRatio:
+                              context.screenWidth / context.screenHeight / .8,
+                          padding: EdgeInsets.zero,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: List.generate(
+                            products.length,
+                            (index) => ProductWidget(
+                              product: products[index],
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: hasMore,
+                          child: Padding(
+                            padding: AppInsets.kAll16,
+                            child: Center(
+                              child: Assets.lottie.loadCircle.lottie(
+                                width: AppSizes.kLoaderBig,
+                                height: AppSizes.kLoaderBig,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                orElse: () => const SizedBox.shrink(),
               ),
             ),
-          ),
-          SliverMainAxisGroup(
-            slivers: [
-              SliverToBoxAdapter(
-                child: BlocBuilder<ProductsBloc, ProductsState>(
-                  buildWhen: (previous, current) => previous != current,
-                  builder: (ctx, state) => state.maybeWhen(
-                    loading: AppCenterLoader.new,
-                    loaded: (products) {
-                      final hasMore = ctx.read<ProductsBloc>().hasMore;
-                      return Padding(
-                        padding:
-                            AppInsets.kHorizontal16 + AppInsets.kVertical12,
-                        child: Column(
-                          children: [
-                            GridView.count(
-                              crossAxisCount: 2,
-                              shrinkWrap: true,
-                              mainAxisSpacing: AppSizes.kGeneral8,
-                              crossAxisSpacing: AppSizes.kGeneral8,
-                              childAspectRatio: context.screenWidth /
-                                  context.screenHeight /
-                                  .8,
-                              padding: EdgeInsets.zero,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: List.generate(
-                                products.length,
-                                (index) => ProductWidget(
-                                  product: products[index],
-                                ),
-                              ),
-                            ),
-                            Visibility(
-                              visible: hasMore,
-                              child: Padding(
-                                padding: AppInsets.kAll16,
-                                child: Center(
-                                  child: Assets.lottie.loadCircle.lottie(
-                                    width: AppSizes.kLoaderBig,
-                                    height: AppSizes.kLoaderBig,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    orElse: () => const SizedBox.shrink(),
-                  ),
-                ),
-              ),
-            ],
           ),
         ],
       ),
