@@ -86,8 +86,18 @@ class FavoritesRepository extends BaseRepository
       });
 
   @override
-  Future<Either<Failure, void>> removeAllFavorites() =>
-      execute(() => _favoriteLDS.clearFavorites());
+  Future<Either<Failure, void>> removeAllFavorites() => execute(() async {
+        final login = await _getUserPhone();
+        return _favoriteRDS
+            .clearFavorite(
+              login: login,
+            )
+            .fold(
+              (failure) => throw failure,
+              (isCleared) =>
+                  isCleared ? _favoriteLDS.clearFavorites() : throw failure,
+            );
+      });
 
   Future<String> _getUserPhone() async => _userLDS.getUser().fold(
         (failure) => throw failure,
