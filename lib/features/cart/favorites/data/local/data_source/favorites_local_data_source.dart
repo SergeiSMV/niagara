@@ -7,6 +7,8 @@ abstract interface class IFavoritesLocalDataSource {
 
   Future<Either<Failure, void>> addFavorite(ProductEntity favorite);
 
+  Future<Either<Failure, void>> addAllFavorites(List<ProductEntity> favorites);
+
   Future<Either<Failure, void>> deleteFavorite(ProductEntity favorite);
 
   Future<Either<Failure, void>> clearFavorites();
@@ -28,6 +30,16 @@ class FavoritesLocalDataSource implements IFavoritesLocalDataSource {
   @override
   Future<Either<Failure, void>> addFavorite(ProductEntity favorite) => _execute(
         () => _database.allFavorites.insertFavorite(favorite.toCompanion()),
+      );
+
+  @override
+  Future<Either<Failure, void>> addAllFavorites(
+    List<ProductEntity> favorites,
+  ) =>
+      _execute(
+        () => _database.allFavorites.insertFavorites(
+          favorites.map((favorite) => favorite.toCompanion()).toList(),
+        ),
       );
 
   @override

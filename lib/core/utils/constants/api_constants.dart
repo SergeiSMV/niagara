@@ -83,4 +83,17 @@ abstract final class ApiConst {
 
   /// -GET- Запрос на получение списка рекомендаций
   static const String kGetRecommend = '/recommend';
+
+  // ? ---------------------------- Favorite ------------------------------ ? //
+  /// -GET- Запрос на получение списка избранных товаров
+  static const String kGetFavorites = '/favourites';
+
+  /// -POST- Запрос на добавление товара в избранное
+  static const String kAddFavorite = '/favourites';
+
+  /// -DELETE- Запрос на удаление товара из избранного
+  static const String kRemoveFavorite = '/favourites';
+
+  /// -DELETE- Запрос на очистку избранного
+  static const String kClearFavorite = '/favourites_clear';
 }
