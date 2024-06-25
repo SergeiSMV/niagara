@@ -2,8 +2,11 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 
 part 'product_dto.g.dart';
+
+typedef ProductsDto = ({List<ProductDto> products, PaginationDto pagination});
 
 @JsonSerializable()
 class ProductDto extends Equatable {
