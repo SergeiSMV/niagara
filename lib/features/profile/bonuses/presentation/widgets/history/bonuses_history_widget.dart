@@ -26,14 +26,18 @@ class BonusesHistoryWidget extends HookWidget {
 
     useEffect(
       () {
-        scrollController.addListener(() {
+        void onScroll() {
           if (scrollController.position.pixels ==
               scrollController.position.maxScrollExtent) {
             _loadMore(context);
           }
-        });
-        return scrollController.dispose;
+        }
+
+        scrollController.addListener(onScroll);
+
+        return () => scrollController.removeListener(onScroll);
       },
+      [scrollController],
     );
 
     return BlocProvider(

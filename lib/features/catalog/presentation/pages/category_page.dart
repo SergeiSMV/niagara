@@ -33,15 +33,18 @@ class CategoryPage extends HookWidget implements AutoRouteWrapper {
 
     useEffect(
       () {
-        scrollController.addListener(() {
+        void onScroll() {
           if (scrollController.position.pixels ==
               scrollController.position.maxScrollExtent) {
             _onLoadMore(context);
           }
-        });
-        return scrollController.dispose;
+        }
+
+        scrollController.addListener(onScroll);
+
+        return () => scrollController.removeListener(onScroll);
       },
-      const [],
+      [scrollController],
     );
 
     return Scaffold(
