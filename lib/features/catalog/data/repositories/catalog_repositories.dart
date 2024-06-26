@@ -1,7 +1,5 @@
 import 'package:niagara_app/core/common/data/mappers/pagination_mapper.dart';
 import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
-import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
-import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
@@ -10,8 +8,6 @@ import 'package:niagara_app/features/catalog/data/remote/data_source/catalog_rem
 import 'package:niagara_app/features/catalog/domain/model/group.dart';
 import 'package:niagara_app/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:niagara_app/features/locations/cities/data/local/data_source/cities_local_data_source.dart';
-
-typedef ProductsDto = ({List<ProductDto> products, PaginationDto pagination});
 
 @LazySingleton(as: ICatalogRepository)
 class CatalogRepositories extends BaseRepository implements ICatalogRepository {

@@ -3,7 +3,6 @@ import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
 import 'package:niagara_app/features/catalog/data/remote/dto/group_dto.dart';
-import 'package:niagara_app/features/catalog/data/repositories/catalog_repositories.dart';
 
 abstract interface class ICatalogRemoteDataSource {
   Future<Either<Failure, List<GroupDto>>> getGroups({
