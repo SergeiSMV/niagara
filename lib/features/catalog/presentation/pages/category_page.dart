@@ -43,7 +43,7 @@ class CategoryPage extends HookWidget implements AutoRouteWrapper {
         scrollController.addListener(onScroll);
         return () => scrollController.removeListener(onScroll);
       },
-      const [],
+      [scrollController],
     );
 
     return Scaffold(
@@ -71,7 +71,7 @@ class CategoryPage extends HookWidget implements AutoRouteWrapper {
               buildWhen: (previous, current) => previous != current,
               builder: (ctx, state) => state.maybeWhen(
                 loading: AppCenterLoader.new,
-                loaded: (products, _) {
+                loaded: (products) {
                   final hasMore = ctx.read<ProductsBloc>().hasMore;
                   return Padding(
                     padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,

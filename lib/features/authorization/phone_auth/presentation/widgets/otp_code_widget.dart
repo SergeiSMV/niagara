@@ -78,7 +78,6 @@ class OTPCodeWidget extends StatelessWidget {
         errorText: errorOTPText,
         errorTextStyle: context.textStyle.textTypo.tx3Medium
             .withColor(context.colors.textColors.error),
-        androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
         hapticFeedbackType: HapticFeedbackType.lightImpact,
         autofocus: true,
         onChanged: (_) => onCodeChanged(context),
