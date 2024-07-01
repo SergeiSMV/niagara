@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/empty_cart_widget.dart';
 
 @RoutePage()
 class CartPage extends StatelessWidget {
@@ -8,9 +9,7 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Cart page'),
-      ),
+      body: EmptyCartWidget(),
     );
   }
 }

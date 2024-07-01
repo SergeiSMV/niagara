@@ -9,10 +9,9 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
-import 'package:niagara_app/features/cart/favorites/presentation/widgets/go_shopping_button.dart';
+import 'package:niagara_app/features/cart/favorites/presentation/widgets/empty_favorites_widget.dart';
 
 @RoutePage()
 class FavoritesPage extends StatelessWidget {
@@ -91,33 +90,8 @@ class FavoritesPage extends StatelessWidget {
           builder: (ctx, state) => state.maybeWhen(
             loading: AppCenterLoader.new,
             loaded: (products) {
-              if (products.isEmpty) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Spacer(),
-                      Column(
-                        children: [
-                          Assets.images.bell.image(
-                            width: 170,
-                            height: 170,
-                          ),
-                          AppBoxes.kHeight16,
-                          Text(
-                            t.favorites.empty,
-                            style: context.textStyle.headingTypo.h3
-                                .withColor(context.colors.textColors.main),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      const GoShoppingButton(),
-                    ],
-                  ),
-                );
-              }
+              if (products.isEmpty) return const EmptyFavoritesWidget();
+
               return Padding(
                 padding: AppInsets.kHorizontal16 +
                     AppInsets.kVertical12 +
