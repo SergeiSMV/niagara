@@ -22,7 +22,6 @@ abstract class AppModule {
         talker: talker,
         settings: const TalkerDioLoggerSettings(
           printRequestHeaders: true,
-          printResponseHeaders: true,
         ),
       );
 
@@ -48,7 +47,7 @@ abstract class AppModule {
         BaseOptions(
           baseUrl: url,
           connectTimeout: const Duration(seconds: 10),
-          receiveTimeout: const Duration(seconds: 30),
+          receiveTimeout: const Duration(seconds: 60),
           contentType: Headers.jsonContentType,
         ),
       )

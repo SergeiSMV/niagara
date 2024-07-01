@@ -17,7 +17,14 @@ abstract final class CatalogRouters {
             title: (_, __) => t.catalog.categories,
           ),
           AutoRoute(
-            page: CategoryRoute.page,
+            page: CategoryWrapperRoute.page,
+            children: [
+              AutoRoute(page: CategoryRoute.page),
+              AutoRoute(
+                page: FiltersRoute.page,
+                title: (_, __) => t.catalog.filter,
+              ),
+            ],
           ),
           AutoRoute(
             page: ProductRoute.page,

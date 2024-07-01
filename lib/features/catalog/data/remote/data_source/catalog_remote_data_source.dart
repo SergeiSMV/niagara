@@ -2,6 +2,7 @@ import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
+import 'package:niagara_app/features/catalog/data/remote/dto/filter_dto.dart';
 import 'package:niagara_app/features/catalog/data/remote/dto/group_dto.dart';
 
 abstract interface class ICatalogRemoteDataSource {
@@ -14,11 +15,16 @@ abstract interface class ICatalogRemoteDataSource {
     required String groupId,
     required int page,
     required ProductsSortType sort,
+    List<String>? filters,
   });
 
   Future<Either<Failure, List<ProductDto>>> getRecommend({
     required String city,
     required String productId,
+  });
+
+  Future<Either<Failure, List<FilterDto>>> getFilters({
+    required String groupId,
   });
 }
 
@@ -53,6 +59,7 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
     required String groupId,
     required int page,
     required ProductsSortType sort,
+    List<String>? filters,
   }) =>
       _requestHandler.sendRequest<ProductsDto, Map<String, dynamic>>(
         request: (dio) => dio.get(
@@ -62,6 +69,8 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
             'product_group': groupId,
             'page': page,
             if (sort != ProductsSortType.none) 'sort': sort.name,
+            if (filters != null && filters.isNotEmpty)
+              'filters': filters.join(','),
           },
         ),
         converter: (json) {
@@ -95,6 +104,25 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
             .map((e) => e as Map<String, dynamic>)
             .toList()
             .map(ProductDto.fromJson)
+            .toList(),
+        failure: GroupsRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, List<FilterDto>>> getFilters({
+    required String groupId,
+  }) =>
+      _requestHandler.sendRequest<List<FilterDto>, List<dynamic>>(
+        request: (dio) => dio.get(
+          ApiConst.kGetFilters,
+          queryParameters: {
+            'product_group': groupId,
+          },
+        ),
+        converter: (json) => json
+            .map((e) => e as Map<String, dynamic>)
+            .toList()
+            .map(FilterDto.fromJson)
             .toList(),
         failure: GroupsRemoteDataFailure.new,
       );

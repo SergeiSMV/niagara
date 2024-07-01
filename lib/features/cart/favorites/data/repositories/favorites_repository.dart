@@ -1,6 +1,8 @@
 import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
+import 'package:niagara_app/features/authorization/phone_auth/data/data_sources/auth_local_data_source.dart';
 import 'package:niagara_app/features/cart/favorites/data/local/data_source/favorites_local_data_source.dart';
 import 'package:niagara_app/features/cart/favorites/data/remote/data_source/favorites_remote_data_source.dart';
 import 'package:niagara_app/features/cart/favorites/domain/repositories/favorites_repository.dart';
@@ -14,12 +16,14 @@ class FavoritesRepository extends BaseRepository
     super.logger,
     this._favoriteLDS,
     this._favoriteRDS,
+    this._authLDS,
     this._userLDS,
     this._citiesLDS,
   );
 
   final IFavoritesLocalDataSource _favoriteLDS;
   final IFavoritesRemoteDataSource _favoriteRDS;
+  final IAuthLocalDataSource _authLDS;
   final IUserLocalDataSource _userLDS;
   final ICitiesLocalDataSource _citiesLDS;
 
@@ -34,6 +38,9 @@ class FavoritesRepository extends BaseRepository
         final localFavorites = await _getLocalFavorites();
 
         if (localFavorites.isEmpty) {
+          final hasAuth = await _hasAuth();
+          if (!hasAuth) return [];
+
           final remoteFavorites = await _getAllRemoteFavorites().fold(
             (failure) => throw failure,
             (remoteFavorites) => remoteFavorites,
@@ -54,55 +61,76 @@ class FavoritesRepository extends BaseRepository
   @override
   Future<Either<Failure, void>> addFavorite(Product product) =>
       execute(() async {
-        final login = await _getUserPhone();
-        return await _favoriteRDS
-            .addFavorite(
-              login: login,
-              productId: product.id,
-            )
-            .fold(
-              (failure) => throw failure,
-              (isAdded) => isAdded
-                  ? _favoriteLDS.addFavorite(product.toEntity())
-                  : throw failure,
-            );
+        final hasAuth = await _hasAuth();
+
+        if (!hasAuth) {
+          _favoriteLDS.addFavorite(product.toEntity());
+        } else {
+          final login = await _getUserPhone();
+          await _favoriteRDS
+              .addFavorite(
+                login: login,
+                productId: product.id,
+              )
+              .fold(
+                (failure) => throw failure,
+                (isAdded) => isAdded
+                    ? _favoriteLDS.addFavorite(product.toEntity())
+                    : throw failure,
+              );
+        }
       });
 
   @override
   Future<Either<Failure, void>> removeFavorite(Product product) =>
       execute(() async {
-        final login = await _getUserPhone();
-        return _favoriteRDS
-            .removeFavorite(
-              login: login,
-              productId: product.id,
-            )
-            .fold(
-              (failure) => throw failure,
-              (isRemoved) => isRemoved
-                  ? _favoriteLDS.deleteFavorite(product.toEntity())
-                  : throw failure,
-            );
+        final hasAuth = await _hasAuth();
+
+        if (!hasAuth) {
+          _favoriteLDS.deleteFavorite(product.toEntity());
+        } else {
+          final login = await _getUserPhone();
+          _favoriteRDS
+              .removeFavorite(
+                login: login,
+                productId: product.id,
+              )
+              .fold(
+                (failure) => throw failure,
+                (isRemoved) => isRemoved
+                    ? _favoriteLDS.deleteFavorite(product.toEntity())
+                    : throw failure,
+              );
+        }
       });
 
   @override
   Future<Either<Failure, void>> removeAllFavorites() => execute(() async {
-        final login = await _getUserPhone();
-        return _favoriteRDS
-            .clearFavorite(
-              login: login,
-            )
-            .fold(
-              (failure) => throw failure,
-              (isCleared) =>
-                  isCleared ? _favoriteLDS.clearFavorites() : throw failure,
-            );
+        final hasAuth = await _hasAuth();
+        if (!hasAuth) {
+          _favoriteLDS.clearFavorites();
+        } else {
+          final login = await _getUserPhone();
+          return _favoriteRDS
+              .clearFavorite(
+                login: login,
+              )
+              .fold(
+                (failure) => throw failure,
+                (isCleared) =>
+                    isCleared ? _favoriteLDS.clearFavorites() : throw failure,
+              );
+        }
       });
 
   Future<String> _getUserPhone() async => _userLDS.getUser().fold(
         (failure) => throw failure,
         (user) => user != null ? user.phone : throw failure,
       );
+
+  Future<bool> _hasAuth() async => await _authLDS
+      .checkAuthStatus()
+      .then((value) => AuthenticatedStatus.values[value].hasAuth);
 
   Future<List<Product>> _getLocalFavorites() async =>
       await _favoriteLDS.getFavorites().fold(
