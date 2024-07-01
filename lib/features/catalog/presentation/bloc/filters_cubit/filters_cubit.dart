@@ -56,8 +56,6 @@ class FiltersCubit extends Cubit<FiltersState> {
         ? selectedFilters.where((e) => e != property).toList()
         : [...selectedFilters, property];
 
-      debugPrint('selectedFilters1: $newFilters');
-
     _emit(
       FiltersState.loaded(
         filters: filters,
