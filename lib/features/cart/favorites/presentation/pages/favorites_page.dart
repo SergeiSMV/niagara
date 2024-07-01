@@ -129,7 +129,7 @@ class FavoritesPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          t.favorites.product(n: products.length),
+                          t.product(n: products.length),
                           style: context.textStyle.textTypo.tx2Medium.withColor(
                             context.colors.textColors.main,
                           ),

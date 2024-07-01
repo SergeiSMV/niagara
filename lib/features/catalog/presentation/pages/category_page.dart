@@ -5,30 +5,33 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_widget.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/catalog/domain/model/group.dart';
+import 'package:niagara_app/features/catalog/domain/model/filter.dart';
+import 'package:niagara_app/features/catalog/presentation/bloc/filters_cubit/filters_cubit.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:niagara_app/features/catalog/presentation/widget/category/interaction_category_widget.dart';
 import 'package:niagara_app/features/catalog/presentation/widget/groups/groups_buttons_widget.dart';
 
 @RoutePage()
-class CategoryPage extends HookWidget implements AutoRouteWrapper {
-  const CategoryPage({
-    super.key,
-    required this.group,
-  });
+class CategoryPage extends HookWidget {
+  const CategoryPage({super.key});
 
-  final Group group;
-
-  Future<void> _onLoadMore(BuildContext context) async =>
-      context.read<ProductsBloc>().add(const ProductsEvent.loadMore());
+  Future<void> _onLoadMore(BuildContext context) async {
+    final selectFilters = context.read<FiltersCubit>().state.maybeWhen(
+          loaded: (_, selectedFilters) => selectedFilters,
+          orElse: () => <FilterProperty>[],
+        );
+    context
+        .read<ProductsBloc>()
+        .add(ProductsEvent.loadMore(filters: selectFilters));
+  }
 
   @override
   Widget build(BuildContext context) {
+    final group = context.read<ProductsBloc>().group;
     final scrollController = useScrollController();
 
     useEffect(
@@ -71,7 +74,7 @@ class CategoryPage extends HookWidget implements AutoRouteWrapper {
               buildWhen: (previous, current) => previous != current,
               builder: (ctx, state) => state.maybeWhen(
                 loading: AppCenterLoader.new,
-                loaded: (products) {
+                loaded: (products, _) {
                   final hasMore = ctx.read<ProductsBloc>().hasMore;
                   return Padding(
                     padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
@@ -115,15 +118,6 @@ class CategoryPage extends HookWidget implements AutoRouteWrapper {
           ),
         ],
       ),
-    );
-  }
-
-  @override
-  Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      key: Key(group.id),
-      create: (_) => getIt<ProductsBloc>(param1: group),
-      child: this,
     );
   }
 }

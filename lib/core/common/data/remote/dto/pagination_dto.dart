@@ -5,18 +5,17 @@ import 'package:niagara_app/core/core.dart';
 
 part 'pagination_dto.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable(createToJson: false, fieldRename: FieldRename.screamingSnake)
 class PaginationDto extends Equatable {
   const PaginationDto({
     required this.current,
     required this.total,
+    required this.items,
   });
 
-  @JsonKey(name: 'CURRENT')
   final int current;
-
-  @JsonKey(name: 'TOTAL')
   final int total;
+  final int items;
 
   factory PaginationDto.fromJson(Map<String, dynamic> json) =>
       _$PaginationDtoFromJson(json);

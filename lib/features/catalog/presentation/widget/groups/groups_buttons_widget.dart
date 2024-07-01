@@ -24,7 +24,10 @@ class GroupsButtonsWidget extends StatelessWidget {
         CatalogWrapper(
           children: [
             const CatalogRoute(),
-            CategoryRoute(group: group),
+            CategoryWrapperRoute(
+              group: group,
+              children: const [CategoryRoute()],
+            ),
             const GroupsRoute(),
           ],
         ),

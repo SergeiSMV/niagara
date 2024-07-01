@@ -69,7 +69,8 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
             'product_group': groupId,
             'page': page,
             if (sort != ProductsSortType.none) 'sort': sort.name,
-            if (filters != null) 'filters': filters,
+            if (filters != null && filters.isNotEmpty)
+              'filters': filters.join(','),
           },
         ),
         converter: (json) {

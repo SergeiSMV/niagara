@@ -12,6 +12,8 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/catalog/domain/model/filter.dart';
+import 'package:niagara_app/features/catalog/presentation/bloc/filters_cubit/filters_cubit.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/products_bloc/products_bloc.dart';
 
 class SortProductsButton extends StatelessWidget {
@@ -19,8 +21,19 @@ class SortProductsButton extends StatelessWidget {
     super.key,
   });
 
-  Future<void> _onSetSort(BuildContext context, ProductsSortType sort) async =>
-      context.read<ProductsBloc>().add(ProductsEvent.setSort(sort: sort));
+  Future<void> _onSetSort(BuildContext context, ProductsSortType sort) async {
+    final selectFilters = context.read<FiltersCubit>().state.maybeWhen(
+          loaded: (_, selectedFilters) => selectedFilters,
+          orElse: () => <FilterProperty>[],
+        );
+        
+    context.read<ProductsBloc>().add(
+          ProductsEvent.setSort(
+            sort: sort,
+            filters: selectFilters,
+          ),
+        );
+  }
 
   Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
 

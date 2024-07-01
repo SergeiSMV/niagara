@@ -24,7 +24,12 @@ class GroupsPage extends StatelessWidget {
     BuildContext context, {
     required Group group,
   }) =>
-      context.navigateTo(CategoryRoute(group: group));
+      context.navigateTo(
+        CategoryWrapperRoute(
+          group: group,
+          children: const [CategoryRoute()],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {

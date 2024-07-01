@@ -5,5 +5,6 @@ extension PaginationMapper on PaginationDto {
   Pagination toModel() => Pagination(
         current: current,
         total: total,
+        items: items,
       );
 }
