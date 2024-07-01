@@ -59,11 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBMmVHptEUrrp8zeln5DObYJdHlfw1aP6g',
-    appId: '1:44499479443:ios:2908d90c6a3684f108d666',
+    appId: '1:44499479443:ios:d8259c8d5b247c2908d666',
     messagingSenderId: '44499479443',
     projectId: 'water-app-ff17a',
     storageBucket: 'water-app-ff17a.appspot.com',
-    iosClientId: '44499479443-ufq5cdja2obaa5sr8kbkr4gnhdgge8t1.apps.googleusercontent.com',
-    iosBundleId: 'io.cordova.niagara74',
+    iosClientId:
+        '44499479443-c9qgie12ee44sioq7f0f6tn2rg3msk80.apps.googleusercontent.com',
+    iosBundleId: 'ru.cordova.niagara174',
   );
 }
