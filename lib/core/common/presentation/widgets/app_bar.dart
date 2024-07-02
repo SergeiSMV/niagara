@@ -72,6 +72,7 @@ class SliverAppBarWidget extends StatelessWidget {
     this.title,
     this.body,
     this.actions,
+    this.bottom = true,
   });
 
   /// Заголовок AppBar.
@@ -88,6 +89,9 @@ class SliverAppBarWidget extends StatelessWidget {
 
   /// Виджеты справа от заголовка.
   final List<Widget>? actions;
+
+  /// Флаг, показывать ли разделитель.
+  final bool bottom;
 
   bool get _showTitle => title != null || automaticallyImplyTitle;
 
@@ -110,14 +114,16 @@ class SliverAppBarWidget extends StatelessWidget {
       titleTextStyle: context.textStyle.textTypo.tx1SemiBold
           .withColor(context.colors.textColors.main),
       actions: actions,
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(0),
-        child: Divider(
-          thickness: AppSizes.kGeneral1,
-          color: context.colors.fieldBordersColors.inactive,
-          height: 0,
-        ),
-      ),
+      bottom: bottom
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Divider(
+                thickness: AppSizes.kGeneral1,
+                color: context.colors.fieldBordersColors.inactive,
+                height: 0,
+              ),
+            )
+          : null,
     );
   }
 }

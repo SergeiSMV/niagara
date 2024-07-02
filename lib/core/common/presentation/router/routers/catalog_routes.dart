@@ -32,6 +32,9 @@ abstract final class CatalogRouters {
           AutoRoute(
             page: RecommendsRoute.page,
           ),
+          AutoRoute(
+            page: CatalogSearchRoute.page,
+          ),
         ],
       );
 }
