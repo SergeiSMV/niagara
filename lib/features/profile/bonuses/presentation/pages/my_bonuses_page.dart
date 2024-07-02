@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
@@ -47,6 +48,9 @@ class _Content extends StatelessWidget {
 
   void _onRefresh(BuildContext context) =>
       context.read<BonusesBloc>().add(const BonusesEvent.started());
+
+  void _onBonusesFaq(BuildContext context) =>
+      context.navigateTo(const BonusesFaqRoute());
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +124,7 @@ class _Content extends StatelessWidget {
                                       BonusesFooterButton(
                                         icon: Assets.icons.info,
                                         title: t.bonuses.bonusesFaqs,
-                                        onTap: () {},
+                                        onTap: () => _onBonusesFaq(context),
                                       ),
                                       Divider(
                                         height: 0,
@@ -130,16 +134,6 @@ class _Content extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                BonusesFooterButton(
-                                  icon: Assets.icons.support,
-                                  title: t.bonuses.contactUs,
-                                  onTap: () {},
-                                ),
-                                Divider(
-                                  height: 0,
-                                  color: context.colors.otherColors.separator30,
-                                  thickness: AppSizes.kGeneral1,
-                                ),
                                 AppBoxes.kHeight48,
                               ],
                             ),
