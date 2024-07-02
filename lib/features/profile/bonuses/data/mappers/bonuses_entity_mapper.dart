@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:niagara_app/core/common/data/database/app_database.dart';
+import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/profile/bonuses/data/local/entities/bonuses_entity.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
@@ -70,24 +71,6 @@ extension BottlesMapper on Bottles {
   BottlesEntity toEntity() => BottlesEntity(
         bottles: bottles.map((bottle) => bottle.toEntity()).toList(),
         count: count,
-      );
-}
-
-extension BottleMapper on Bottle {
-  BottleEntity toEntity() => BottleEntity(
-        productId: id,
-        name: name,
-        count: count,
-        offersId: offersId,
-      );
-}
-
-extension BottleEntityMapper on BottleEntity {
-  Bottle toModel() => Bottle(
-        id: productId,
-        name: name,
-        count: count,
-        offersId: offersId,
       );
 }
 

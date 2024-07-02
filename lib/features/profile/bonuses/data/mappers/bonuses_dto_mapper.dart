@@ -1,3 +1,4 @@
+import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
 import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
 import 'package:niagara_app/features/profile/user/data/remote/dto/profile_dto.dart';
@@ -18,14 +19,5 @@ extension BonusesDtoMapper on ProfileDto {
           count: bottlesCount ?? 0,
           bottles: bottles?.map((bottle) => bottle.toModel()).toList() ?? [],
         ),
-      );
-}
-
-extension BottleDtoMapper on BottlesDto {
-  Bottle toModel() => Bottle(
-        id: productId,
-        name: productName,
-        count: int.parse(count),
-        offersId: offersId,
       );
 }
