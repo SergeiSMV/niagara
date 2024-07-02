@@ -6,17 +6,20 @@ class Cart extends Equatable {
     required this.products,
     required this.unavailableProducts,
     required this.cartData,
+    required this.minLimit,
   });
 
   final List<Product> products;
   final List<Product> unavailableProducts;
   final CartData cartData;
+  final CartMinAmount minLimit;
 
   @override
   List<Object?> get props => [
         products,
         unavailableProducts,
         cartData,
+        minLimit,
       ];
 }
 
@@ -66,20 +69,20 @@ class CartData extends Equatable {
       ];
 }
 
-class CartLimit extends Equatable {
-  const CartLimit({
-    required this.minPrice,
-    required this.remain,
+class CartMinAmount extends Equatable {
+  const CartMinAmount({
+    required this.minAmount,
+    required this.minAmountLeft,
   });
 
-  final double minPrice;
-  final double remain;
+  final double minAmount;
+  final double minAmountLeft;
 
-  bool get isLimitReached => remain <= 0;
+  bool get readyToOrder => minAmountLeft >= minAmount;
 
   @override
   List<Object?> get props => [
-        minPrice,
-        remain,
+        minAmount,
+        minAmountLeft,
       ];
 }
