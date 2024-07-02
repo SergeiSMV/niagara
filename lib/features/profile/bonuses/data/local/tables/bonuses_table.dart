@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:drift/drift.dart';
-import 'package:niagara_app/core/utils/enums/status_level_type.dart';
-import 'package:niagara_app/features/profile/bonuses/data/local/entities/bonuses_entity.dart';
+import 'package:niagara_app/core/common/data/database/_imports.dart';
 
 class BonusesTable extends Table {
   IntColumn get id => integer()();
@@ -35,19 +33,19 @@ class BottlesEntityConverter extends TypeConverter<BottlesEntity, String> {
   String toSql(BottlesEntity value) => jsonEncode(value.toJson());
 }
 
-class BottleEntityConverter extends TypeConverter<List<BottleEntity>, String> {
+class BottleEntityConverter extends TypeConverter<List<ProductEntity>, String> {
   const BottleEntityConverter();
 
   @override
-  List<BottleEntity> fromSql(String fromDb) {
+  List<ProductEntity> fromSql(String fromDb) {
     if (fromDb.isEmpty) return [];
 
     return (jsonDecode(fromDb) as List)
-        .map((e) => BottleEntity.fromJson(e as Map<String, dynamic>))
+        .map((e) => ProductEntity.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
   @override
-  String toSql(List<BottleEntity> value) =>
+  String toSql(List<ProductEntity> value) =>
       jsonEncode(value.map((e) => e.toJson()).toList());
 }

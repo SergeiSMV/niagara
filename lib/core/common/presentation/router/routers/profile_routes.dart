@@ -17,6 +17,10 @@ abstract final class ProfileRouters {
             title: (_, __) => t.bonuses.myCard,
           ),
           AutoRoute(
+            page: BonusesFaqRoute.page,
+            title: (_, __) => t.bonuses.bonusesFaqs,
+          ),
+          AutoRoute(
             page: AboutBonusesRoute.page,
             title: (_, __) => t.bonuses.aboutBonuses,
           ),
