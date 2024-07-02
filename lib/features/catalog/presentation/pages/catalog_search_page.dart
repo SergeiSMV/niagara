@@ -27,11 +27,7 @@ class CatalogSearchPage extends StatelessWidget {
             titleSpacing: 0,
             title: SortAndCountWidget(),
           ),
-          SliverToBoxAdapter(
-            child: SearchContentWidget(
-              products: [],
-            ),
-          ),
+          SliverToBoxAdapter(child: SearchContentWidget()),
         ],
       ),
     );

@@ -26,6 +26,10 @@ abstract interface class ICatalogRemoteDataSource {
   Future<Either<Failure, List<FilterDto>>> getFilters({
     required String groupId,
   });
+
+  Future<Either<Failure, List<ProductDto>>> getProductsBySearch({
+    required String text,
+  });
 }
 
 @LazySingleton(as: ICatalogRemoteDataSource)
@@ -123,6 +127,23 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
             .map((e) => e as Map<String, dynamic>)
             .toList()
             .map(FilterDto.fromJson)
+            .toList(),
+        failure: GroupsRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, List<ProductDto>>> getProductsBySearch({
+    required String text,
+  }) =>
+      _requestHandler.sendRequest<List<ProductDto>, List<dynamic>>(
+        request: (Dio dio) => dio.get(
+          ApiConst.kGetProductSearch,
+          queryParameters: {'search_text': text},
+        ),
+        converter: (json) => json
+            .map((e) => e as Map<String, dynamic>)
+            .toList()
+            .map(ProductDto.fromJson)
             .toList(),
         failure: GroupsRemoteDataFailure.new,
       );

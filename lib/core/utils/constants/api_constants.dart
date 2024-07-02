@@ -87,6 +87,9 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение списка фильтров
   static const String kGetFilters = '/filters';
 
+  /// -GET- Запрос на получение списка товаров по поиску
+  static const String kGetProductSearch = '/product_search';
+
   // ? ---------------------------- Favorite ------------------------------ ? //
   /// -GET- Запрос на получение списка избранных товаров
   static const String kGetFavorites = '/favourites';
