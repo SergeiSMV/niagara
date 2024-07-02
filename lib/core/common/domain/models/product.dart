@@ -23,6 +23,7 @@ class Product extends Equatable {
     required this.labelColor,
     required this.discountOfCount,
     required this.bonus,
+    this.count,
   });
 
   final String id;
@@ -45,6 +46,7 @@ class Product extends Equatable {
   final Color labelColor;
   final String discountOfCount;
   final int bonus;
+  final int? count;
 
   bool get hasDiscount => priceOld > 0 && price < priceOld;
 
@@ -72,6 +74,7 @@ class Product extends Equatable {
         labelColor,
         discountOfCount,
         bonus,
+        count,
       ];
 }
 
