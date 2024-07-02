@@ -2,6 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 
 part 'profile_dto.g.dart';
 
@@ -85,7 +86,7 @@ class ProfileDto extends Equatable {
   final int? bottlesCount;
 
   @JsonKey(includeToJson: false, name: 'BOTTELS')
-  final List<BottlesDto>? bottles;
+  final List<ProductDto>? bottles;
 
   @JsonKey(includeToJson: false, name: 'LOCATION_DEFAULT')
   final String? locationDefault;
@@ -117,33 +118,5 @@ class ProfileDto extends Equatable {
         bottlesCount,
         bottles,
         locationDefault,
-      ];
-}
-
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
-class BottlesDto extends Equatable {
-  const BottlesDto({
-    required this.productId,
-    required this.productName,
-    required this.count,
-    required this.offersId,
-  });
-
-  final String productId;
-  final String productName;
-  final String count;
-  final String offersId;
-
-  factory BottlesDto.fromJson(Map<String, dynamic> json) =>
-      _$BottlesDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BottlesDtoToJson(this);
-
-  @override
-  List<Object?> get props => [
-        productId,
-        productName,
-        count,
-        offersId,
       ];
 }

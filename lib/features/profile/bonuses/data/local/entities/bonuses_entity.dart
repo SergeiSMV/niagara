@@ -1,8 +1,8 @@
 // ignore_for_file: sort_constructors_first
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:niagara_app/core/common/data/database/_imports.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 
 part 'bonuses_entity.g.dart';
 
@@ -57,7 +57,7 @@ class BottlesEntity extends Equatable {
   });
 
   final int count;
-  final List<BottleEntity> bottles;
+  final List<ProductEntity> bottles;
 
   factory BottlesEntity.fromJson(Map<String, dynamic> json) =>
       _$BottlesEntityFromJson(json);
@@ -68,33 +68,5 @@ class BottlesEntity extends Equatable {
   List<Object?> get props => [
         count,
         bottles,
-      ];
-}
-
-@JsonSerializable()
-class BottleEntity extends Equatable {
-  const BottleEntity({
-    required this.productId,
-    required this.name,
-    required this.count,
-    required this.offersId,
-  });
-
-  final String productId;
-  final String name;
-  final int count;
-  final String offersId;
-
-  factory BottleEntity.fromJson(Map<String, dynamic> json) =>
-      _$BottleEntityFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BottleEntityToJson(this);
-
-  @override
-  List<Object?> get props => [
-        productId,
-        name,
-        count,
-        offersId,
       ];
 }

@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'product_entity.g.dart';
 
+@JsonSerializable()
 class ProductEntity extends Equatable {
   const ProductEntity({
     required this.id,
@@ -47,9 +48,19 @@ class ProductEntity extends Equatable {
   final List<String> additionalImages;
   final List<ProductPropertyEntity> properties;
   final String label;
+  @JsonKey(fromJson: colorFromJson, toJson: colorToJson)
   final Color labelColor;
   final String discountOfCount;
   final int bonus;
+
+  factory ProductEntity.fromJson(Map<String, dynamic> json) =>
+      _$ProductEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductEntityToJson(this);
+
+  static Color colorFromJson(int colorValue) => Color(colorValue);
+
+  static int colorToJson(Color color) => color.value;
 
   @override
   List<Object?> get props => [

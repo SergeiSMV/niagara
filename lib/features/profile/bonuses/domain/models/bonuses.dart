@@ -1,3 +1,4 @@
+import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 
@@ -51,25 +52,8 @@ class Bottles extends Equatable {
   });
 
   final int count;
-  final List<Bottle> bottles;
+  final List<Product> bottles;
 
   @override
   List<Object?> get props => [count, bottles];
-}
-
-class Bottle extends Equatable {
-  const Bottle({
-    required this.id,
-    required this.name,
-    required this.count,
-    required this.offersId,
-  });
-
-  final String id;
-  final String name;
-  final int count;
-  final String offersId;
-
-  @override
-  List<Object?> get props => [id, name, count, offersId];
 }
