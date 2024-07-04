@@ -11,11 +11,18 @@ import 'package:niagara_app/features/catalog/presentation/bloc/catalog_search_bl
 class SearchAppBarWidget extends StatelessWidget {
   const SearchAppBarWidget({super.key});
 
-  void search(BuildContext cxt, String? val) {
+  void _search(BuildContext cxt, String? val) {
     if ((val ?? '').isNotEmpty) {
-      cxt.read<CatalogSearchBloc>().add(CatalogSearchEvent.search(text: val!));
+      cxt.read<CatalogSearchBloc>().add(
+            CatalogSearchEvent.search(
+              text: val!,
+              isForceUpdate: true,
+            ),
+          );
     }
   }
+
+  void _back(BuildContext context) => context.maybePop();
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +30,12 @@ class SearchAppBarWidget extends StatelessWidget {
       children: [
         Expanded(
           child: SearchTextField(
-            onChanged: (val) => search(context, val),
+            onChanged: (val) => _search(context, val),
           ),
         ),
         AppBoxes.kWidth8,
         InkWell(
-          onTap: () => context.maybePop(),
+          onTap: () => _back(context),
           child: Text(
             t.common.cancel,
             style: context.textStyle.buttonTypo.btn3semiBold.withColor(

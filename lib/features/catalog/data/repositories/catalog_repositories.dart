@@ -130,17 +130,24 @@ class CatalogRepositories extends BaseRepository implements ICatalogRepository {
       });
 
   @override
-  Future<Either<Failure, List<Product>>> getProductsBySearch({
+  Future<Either<Failure, Products>> getProductsBySearch({
     required String text,
+    required int page,
+    required ProductsSortType sort,
   }) =>
       execute(() async {
         return _groupsRDS
             .getProductsBySearch(
               text: text,
+              page: page,
+              sort: sort,
             )
             .fold(
               (failure) => throw failure,
-              (dtos) => dtos.map((dto) => dto.toModel()).toList(),
+              (dto) => (
+                products: dto.products.map((e) => e.toModel()).toList(),
+                pagination: dto.pagination.toModel(),
+              ),
             );
       });
 }

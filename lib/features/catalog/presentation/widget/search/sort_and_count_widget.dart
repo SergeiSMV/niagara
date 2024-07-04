@@ -12,7 +12,7 @@ class SortAndCountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CatalogSearchBloc, CatalogSearchState>(
-      builder: (context, state) => state.maybeWhen(
+      builder: (_, state) => state.maybeWhen(
         loaded: (products) => Padding(
           padding: AppInsets.kHorizontal16 + AppInsets.kVertical8,
           child: Row(

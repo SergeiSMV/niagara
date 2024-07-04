@@ -1,14 +1,16 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
+
 import 'package:niagara_app/core/common/domain/models/product.dart';
+import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
+import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
 import 'package:niagara_app/features/catalog/domain/use_cases/get_products_by_search_use_case.dart';
 
+part 'catalog_search_bloc.freezed.dart';
 part 'catalog_search_event.dart';
 part 'catalog_search_state.dart';
-part 'catalog_search_bloc.freezed.dart';
 
 typedef _Emit = Emitter<CatalogSearchState>;
 
@@ -17,54 +19,80 @@ class CatalogSearchBloc extends Bloc<CatalogSearchEvent, CatalogSearchState> {
   CatalogSearchBloc(
     this._getProductsBySearchUseCase,
   ) : super(const _Initial()) {
-    on<_Search>(_onSearchTextChanged, transformer: sequential());
-    on<_Sort>(_sort);
+    on<_Search>(_onSearchTextChanged, transformer: debounce());
+    on<_LoadMore>(_onLoadMore);
+    on<_Sort>(_sort, transformer: debounce());
   }
 
   final GetProductsBySearchUseCase _getProductsBySearchUseCase;
-
-  final List<Product> _products = [];
-  final List<Product> _sortProducts = [];
-  List<Product> get products => _sortProducts;
 
   ProductsSortType _sortType = ProductsSortType.none;
   ProductsSortType get sortType => _sortType;
 
   String _searchText = '';
 
+  int _current = 1;
+  int _total = 0;
+  bool get hasMore => _total > _current;
+
   Future<void> _onSearchTextChanged(_Search event, _Emit emit) async {
     if (event.text.isEmpty && _searchText.isEmpty) return;
 
-    _products.clear();
-    _sortType = ProductsSortType.none;
+    if (event.isForceUpdate) {
+      emit(const _Loading());
+      _current = 0;
+    }
+
+    final products = state.maybeMap(
+      loaded: (state) => state.products,
+      orElse: () => const <Product>[],
+    );
+
+    _current++;
     _searchText = event.text;
-    emit(const _Loading());
-    await _getProductsBySearchUseCase(ProductsBySearchParams(_searchText)).fold(
-      (failure) => emit(const _Error()),
-      (data) {
-        _products.addAll(data);
-        emit(_Loaded(products: _products));
-      },
+
+    final data = await _getProductsBySearchUseCase(
+      ProductsBySearchParams(
+        text: _searchText,
+        page: _current,
+        sort: _sortType,
+      ),
+    ).fold(
+      (failure) => throw failure,
+      (data) => data,
+    );
+
+    _current = data.pagination.current;
+    _total = data.pagination.total;
+
+    emit(
+      _Loaded(
+        products: event.isForceUpdate
+            ? data.products
+            : [...products, ...data.products],
+      ),
     );
   }
 
-  void _sort(_Sort event, _Emit emit) {
-    if (event.sortType == _sortType) return;
-
-    _sortType = event.sortType;
-    _sortProducts.clear();
-    switch (event.sortType) {
-      case ProductsSortType.none:
-        _sortProducts.addAll(_products);
-      case ProductsSortType.min:
-        _sortProducts.addAll(
-          _products.toList()..sort((a, b) => a.price.compareTo(b.price)),
-        );
-      case ProductsSortType.max:
-        _sortProducts.addAll(
-          _products.toList()..sort((a, b) => b.price.compareTo(a.price)),
-        );
+  Future<void> _onLoadMore(_LoadMore event, _Emit emit) async {
+    if (state is _Loading) return;
+    if (hasMore) {
+      add(
+        _Search(
+          text: _searchText,
+          isForceUpdate: false,
+        ),
+      );
     }
-    emit(_Loaded(products: _sortProducts));
+  }
+
+  void _sort(_Sort event, _Emit emit) {
+    _sortType = event.sortType;
+    add(
+      _Search(
+        text: _searchText,
+        isForceUpdate: true,
+      ),
+    );
   }
 }

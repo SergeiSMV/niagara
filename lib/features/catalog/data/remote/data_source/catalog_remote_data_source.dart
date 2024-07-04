@@ -27,8 +27,10 @@ abstract interface class ICatalogRemoteDataSource {
     required String groupId,
   });
 
-  Future<Either<Failure, List<ProductDto>>> getProductsBySearch({
+  Future<Either<Failure, ProductsDto>> getProductsBySearch({
     required String text,
+    required int page,
+    required ProductsSortType sort,
   });
 }
 
@@ -132,19 +134,31 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
       );
 
   @override
-  Future<Either<Failure, List<ProductDto>>> getProductsBySearch({
+  Future<Either<Failure, ProductsDto>> getProductsBySearch({
     required String text,
+    required int page,
+    required ProductsSortType sort,
   }) =>
-      _requestHandler.sendRequest<List<ProductDto>, List<dynamic>>(
+      _requestHandler.sendRequest<ProductsDto, Map<String, dynamic>>(
         request: (Dio dio) => dio.get(
           ApiConst.kGetProductSearch,
-          queryParameters: {'search_text': text},
+          queryParameters: {
+            'search_text': text,
+            'page': page,
+            if (sort != ProductsSortType.none) 'sort': sort.name,
+          },
         ),
-        converter: (json) => json
-            .map((e) => e as Map<String, dynamic>)
-            .toList()
-            .map(ProductDto.fromJson)
-            .toList(),
+        converter: (json) {
+          final products = (json['data'] as List<dynamic>)
+              .map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+
+          final pagination = PaginationDto.fromJson(
+            json['pagination'] as Map<String, dynamic>,
+          );
+
+          return (products: products, pagination: pagination);
+        },
         failure: GroupsRemoteDataFailure.new,
       );
 }

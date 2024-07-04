@@ -1,27 +1,36 @@
-// get_products_by_search_use_case
-import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
 import 'package:niagara_app/features/catalog/domain/repositories/catalog_repository.dart';
 
 @injectable
 class GetProductsBySearchUseCase
-    extends BaseUseCase<List<Product>, ProductsBySearchParams> {
+    extends BaseUseCase<Products, ProductsBySearchParams> {
   const GetProductsBySearchUseCase(this._groupsRepository);
 
   final ICatalogRepository _groupsRepository;
 
   @override
-  Future<Either<Failure, List<Product>>> call(
+  Future<Either<Failure, Products>> call(
     ProductsBySearchParams params,
   ) async =>
-      _groupsRepository.getProductsBySearch(text: params.text);
+      _groupsRepository.getProductsBySearch(
+        text: params.text,
+        page: params.page,
+        sort: params.sort,
+      );
 }
 
 class ProductsBySearchParams extends Equatable {
-  const ProductsBySearchParams(this.text);
+  const ProductsBySearchParams({
+    required this.text,
+    required this.page,
+    required this.sort,
+  });
 
   final String text;
+  final int page;
+  final ProductsSortType sort;
 
   @override
-  List<Object?> get props => [text];
+  List<Object?> get props => [text, page];
 }

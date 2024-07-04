@@ -72,7 +72,7 @@ class SliverAppBarWidget extends StatelessWidget {
     this.title,
     this.body,
     this.actions,
-    this.bottom = true,
+    this.isShowDivider = true,
   });
 
   /// Заголовок AppBar.
@@ -91,7 +91,7 @@ class SliverAppBarWidget extends StatelessWidget {
   final List<Widget>? actions;
 
   /// Флаг, показывать ли разделитель.
-  final bool bottom;
+  final bool isShowDivider;
 
   bool get _showTitle => title != null || automaticallyImplyTitle;
 
@@ -114,7 +114,7 @@ class SliverAppBarWidget extends StatelessWidget {
       titleTextStyle: context.textStyle.textTypo.tx1SemiBold
           .withColor(context.colors.textColors.main),
       actions: actions,
-      bottom: bottom
+      bottom: isShowDivider
           ? PreferredSize(
               preferredSize: const Size.fromHeight(0),
               child: Divider(
