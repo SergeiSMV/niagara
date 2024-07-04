@@ -11,6 +11,7 @@ import 'package:niagara_app/features/locations/addresses/data/remote/dto/address
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
 import 'package:niagara_app/features/locations/addresses/domain/repositories/address_repository.dart';
 import 'package:niagara_app/features/profile/user/data/local/data_source/user_local_data_source.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 @LazySingleton(as: IAddressRepository)
 class AddressesRepository extends BaseRepository implements IAddressRepository {
@@ -90,6 +91,23 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
   Future<Either<Failure, void>> setDefaultAddress(Address address) =>
       execute(() async => _updateDefaultAddress(address));
 
+  @override
+  Future<Either<Failure, Address>> getDefaultAddress() async =>
+      execute(() async {
+        final addresses = await _getLocalAddresses();
+        final defaultAddress =
+            addresses.firstWhereOrNull((address) => address.isDefault);
+        if (defaultAddress == null) throw failure;
+
+        return defaultAddress;
+      });
+
+  @override
+  Future<Either<Failure, bool>> checkDelivery(Address address) async =>
+      _addressesRDS
+          .checkAddress(address: address.toDto())
+          .fold((failure) => throw failure, Right.new);
+
   Future<String?> _getUserPhone() async => _userLDS.getUser().fold(
         (failure) => throw failure,
         (user) => user?.phone,
@@ -147,10 +165,4 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
       }
     }
   }
-
-  @override
-  Future<Either<Failure, bool>> checkDelivery(Address address) async =>
-      _addressesRDS
-          .checkAddress(address: address.toDto())
-          .fold((failure) => throw failure, Right.new);
 }

@@ -9,15 +9,15 @@ part 'cart_dto.g.dart';
 @JsonSerializable(fieldRename: FieldRename.screamingSnake)
 class CartDto extends Equatable {
   const CartDto({
-    this.products,
-    this.outOfStock,
-    this.data,
+    required this.products,
+    required this.outOfStock,
+    required this.data,
     this.sumLimit,
   });
 
-  final List<ProductDto>? products;
-  final List<ProductDto>? outOfStock;
-  final CartDataDto? data;
+  final List<ProductDto> products;
+  final List<ProductDto> outOfStock;
+  final CartDataDto data;
   final CartSumLimitDto? sumLimit;
 
   factory CartDto.fromJson(Map<String, dynamic> json) =>
@@ -88,8 +88,8 @@ class CartSumLimitDto extends Equatable {
     this.sumRemain,
   });
 
-  final int? sumMin;
-  final int? sumRemain;
+  final double? sumMin;
+  final double? sumRemain;
 
   factory CartSumLimitDto.fromJson(Map<String, dynamic> json) =>
       _$CartSumLimitDtoFromJson(json);

@@ -6,13 +6,15 @@ class Cart extends Equatable {
     required this.products,
     required this.unavailableProducts,
     required this.cartData,
-    required this.minLimit,
+    this.minLimit,
   });
 
   final List<Product> products;
   final List<Product> unavailableProducts;
   final CartData cartData;
-  final CartMinAmount minLimit;
+  final CartMinAmount? minLimit;
+
+  bool get isEmpty => products.isEmpty && unavailableProducts.isEmpty;
 
   @override
   List<Object?> get props => [

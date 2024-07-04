@@ -11,9 +11,9 @@ abstract interface class ICartRemoteDataSource {
     required bool allTare,
   });
 
-  Future<Either<Failure, bool>> addProductToCart(ProductDto product);
+  Future<Either<Failure, bool>> addProductToCart(String productId);
 
-  Future<Either<Failure, bool>> removeProductFromCart(ProductDto product);
+  Future<Either<Failure, bool>> removeProductFromCart(String productId);
 
   Future<Either<Failure, bool>> clearCart();
 
@@ -35,7 +35,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
     required bool allTare,
   }) =>
       _requestHandler.sendRequest<CartDto, Map<String, dynamic>>(
-        request: (dio) => dio.get(
+        request: (dio) => dio.post(
           ApiConst.kGetCart,
           data: {
             'LOCATION': locationId,
@@ -50,22 +50,26 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
       );
 
   @override
-  Future<Either<Failure, bool>> addProductToCart(ProductDto product) =>
+  Future<Either<Failure, bool>> addProductToCart(String productId) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kAddProductToCart,
-          data: product.toJson(),
+          data: {
+            'product_id': productId,
+          },
         ),
         converter: (json) => json['success'] as bool,
         failure: CartRemoteDataFailure.new,
       );
 
   @override
-  Future<Either<Failure, bool>> removeProductFromCart(ProductDto product) =>
+  Future<Either<Failure, bool>> removeProductFromCart(String productId) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kRemoveProductFromCart,
-          data: product.toJson(),
+          data: {
+            'product_id': productId,
+          },
         ),
         converter: (json) => json['success'] as bool,
         failure: CartRemoteDataFailure.new,
@@ -83,17 +87,13 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
 
   @override
   Future<Either<Failure, List<ProductDto>>> getRecommendedProducts() async =>
-      _requestHandler.sendRequest<List<ProductDto>, Map<String, dynamic>>(
+      _requestHandler.sendRequest<List<ProductDto>, List<dynamic>>(
         request: (dio) => dio.get(
           ApiConst.kGetRecommendedProducts,
         ),
-        converter: (json) {
-          final products = (json as List<dynamic>)
-              .map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
-              .toList();
-
-          return products;
-        },
+        converter: (json) => json
+            .map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
+            .toList(),
         failure: CartRemoteDataFailure.new,
       );
 }

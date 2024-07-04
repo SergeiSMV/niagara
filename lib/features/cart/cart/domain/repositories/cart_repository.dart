@@ -3,7 +3,13 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 
 abstract interface class ICartRepository {
-  Future<Either<Failure, Cart>> getCartData();
+  Future<Either<Failure, Cart>> getCartData({
+    required String locationId,
+    required int bonuses,
+    required String promocode,
+    required int tareCount,
+    required bool allTare,
+  });
 
   Future<Either<Failure, bool>> addProductToCart(Product product);
 
