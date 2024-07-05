@@ -4,6 +4,8 @@ import 'package:niagara_app/features/locations/cities/data/remote/dto/city_dto.d
 /// Интерфейс для реализации удаленного источника данных локаций.
 abstract interface class ICitiesRemoteDataSource {
   Future<Either<Failure, List<CityDto>>> getCities();
+
+  Future<Either<Failure, bool>> setCity({required CityDto city});
 }
 
 @LazySingleton(as: ICitiesRemoteDataSource)
@@ -23,6 +25,21 @@ class CitiesRemoteDatasource implements ICitiesRemoteDataSource {
             .toList()
             .map(CityDto.fromJson)
             .toList(),
+        failure: CitiesRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, bool>> setCity({
+    required CityDto city,
+  }) =>
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+        request: (dio) => dio.post(
+          ApiConst.kSetCity,
+          data: {
+            'CITY': city.id,
+          },
+        ),
+        converter: (json) => json['success'] as bool,
         failure: CitiesRemoteDataFailure.new,
       );
 }

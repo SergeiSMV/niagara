@@ -1,5 +1,4 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/locations/cities/data/local/data_source/cities_local_data_source.dart';
 import 'package:niagara_app/features/locations/shops/data/local/data_source/shops_local_data_source.dart';
 import 'package:niagara_app/features/locations/shops/data/mappers/shop_dto_mapper.dart';
 import 'package:niagara_app/features/locations/shops/data/mappers/shop_entity_mapper.dart';
@@ -14,12 +13,10 @@ class ShopsRepository extends BaseRepository implements IShopsRepository {
     super._logger,
     this._shopsLDS,
     this._shopsRDS,
-    this._cityLDS,
   );
 
   final IShopsLocalDataSource _shopsLDS;
   final IShopsRemoteDataSource _shopsRDS;
-  final ICitiesLocalDataSource _cityLDS;
 
   @override
   Failure get failure => const ShopsRepositoryFailure();
@@ -44,14 +41,8 @@ class ShopsRepository extends BaseRepository implements IShopsRepository {
         (entities) => entities.map((entity) => entity.toModel()).toList(),
       );
 
-  Future<List<ShopDto>> _getRemoteShops() async {
-    final city = await _cityLDS
-        .getCity()
-        .fold((failure) => throw failure, (city) => city.locality);
-
-    return _shopsRDS.getShops(city: city).fold(
+  Future<List<ShopDto>> _getRemoteShops() async => _shopsRDS.getShops().fold(
           (failure) => throw failure,
           (dtos) => dtos,
         );
-  }
 }

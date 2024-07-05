@@ -184,7 +184,10 @@
     "showLess": "Скрыть",
     "properties": "Характеристики",
     "toCard": "В корзину",
-    "recommendedViewing": "Рекомендуем посмотреть"
+    "recommendedViewing": "Рекомендуем посмотреть",
+    "foundProducts": "Найдено",
+    "nothingWasFound": "Ничего не найдено",
+    "changingQueryOrGoToCatalog": "Попробуйте изменить запрос или перейдите в каталог"
   },
   "favorites": {
     "favorites": "Избранное",

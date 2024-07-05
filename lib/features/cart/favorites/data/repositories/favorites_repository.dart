@@ -6,7 +6,6 @@ import 'package:niagara_app/features/authorization/phone_auth/data/data_sources/
 import 'package:niagara_app/features/cart/favorites/data/local/data_source/favorites_local_data_source.dart';
 import 'package:niagara_app/features/cart/favorites/data/remote/data_source/favorites_remote_data_source.dart';
 import 'package:niagara_app/features/cart/favorites/domain/repositories/favorites_repository.dart';
-import 'package:niagara_app/features/locations/cities/data/local/data_source/cities_local_data_source.dart';
 import 'package:niagara_app/features/profile/user/data/local/data_source/user_local_data_source.dart';
 
 @LazySingleton(as: IFavoritesRepository)
@@ -18,14 +17,12 @@ class FavoritesRepository extends BaseRepository
     this._favoriteRDS,
     this._authLDS,
     this._userLDS,
-    this._citiesLDS,
   );
 
   final IFavoritesLocalDataSource _favoriteLDS;
   final IFavoritesRemoteDataSource _favoriteRDS;
   final IAuthLocalDataSource _authLDS;
   final IUserLocalDataSource _userLDS;
-  final ICitiesLocalDataSource _citiesLDS;
 
   int _currentPage = 0;
   int _totalPages = 0;
@@ -149,14 +146,10 @@ class FavoritesRepository extends BaseRepository
       _currentPage = 1;
       _totalPages = 0;
 
-      final currentCity = await _citiesLDS.getCity().fold(
-            (failure) => throw failure,
-            (city) => city,
-          );
-
+     
       do {
         final response = await _favoriteRDS.getFavorites(
-          city: currentCity.locality,
+       
           page: _currentPage,
         );
         response.fold(
