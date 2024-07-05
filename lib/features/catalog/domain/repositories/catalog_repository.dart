@@ -24,4 +24,10 @@ abstract interface class ICatalogRepository {
   Future<Either<Failure, List<Filter>>> getFilters({
     required Group group,
   });
+
+  Future<Either<Failure, Products>> getProductsBySearch({
+    required String text,
+    required int page,
+    required ProductsSortType sort,
+  });
 }

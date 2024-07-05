@@ -128,4 +128,26 @@ class CatalogRepositories extends BaseRepository implements ICatalogRepository {
 
         return filtersMap.values.toList();
       });
+
+  @override
+  Future<Either<Failure, Products>> getProductsBySearch({
+    required String text,
+    required int page,
+    required ProductsSortType sort,
+  }) =>
+      execute(() async {
+        return _groupsRDS
+            .getProductsBySearch(
+              text: text,
+              page: page,
+              sort: sort,
+            )
+            .fold(
+              (failure) => throw failure,
+              (dto) => (
+                products: dto.products.map((e) => e.toModel()).toList(),
+                pagination: dto.pagination.toModel(),
+              ),
+            );
+      });
 }
