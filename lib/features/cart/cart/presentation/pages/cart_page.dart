@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cart_widget.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_bonuses_widget.dart';
@@ -25,13 +26,10 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<CartBloc, CartState>(
-        builder: (_, state) => state.when(
+        builder: (_, state) => state.maybeWhen(
           empty: EmptyCartWidget.new,
-          loading: AppCenterLoader.new,
           loaded: _Content.new,
-          error: () => ErrorRefreshWidget(
-            onRefresh: () => onRefresh(context),
-          ),
+          orElse: () => ErrorRefreshWidget(onRefresh: () => onRefresh(context)),
         ),
       );
 }
@@ -53,8 +51,30 @@ class _Content extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  ...cart.products.map(
-                    (product) => ProductCartWidget(product: product),
+                  Padding(
+                    padding: AppInsets.kHorizontal16,
+                    child: Column(
+                      children: cart.products
+                          .map(
+                            (product) => Padding(
+                              padding: AppInsets.kVertical4,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: context.colors.mainColors.bgCard,
+                                  borderRadius: AppBorders.kCircular12,
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox.square(
+                                      dimension: 100,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
                   CartPromocodeWidget(cart: cart),
                   AppBoxes.kHeight16,
