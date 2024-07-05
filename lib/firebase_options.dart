@@ -63,8 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '44499479443',
     projectId: 'water-app-ff17a',
     storageBucket: 'water-app-ff17a.appspot.com',
-    iosClientId:
-        '44499479443-c9qgie12ee44sioq7f0f6tn2rg3msk80.apps.googleusercontent.com',
+    iosClientId: '44499479443-c9qgie12ee44sioq7f0f6tn2rg3msk80.apps.googleusercontent.com',
     iosBundleId: 'ru.cordova.niagara174',
   );
+
 }

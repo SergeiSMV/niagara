@@ -76,7 +76,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
           // переход к корневому экрану если текущий индекс совпадает
           // с индексом навигационной панели
           if (tabsRouter.activeIndex == index) {
-            context.router.navigateNamed(tabsRouter.stack[index].name ?? '');
+            context.router.replaceNamed(tabsRouter.stack[index].name ?? '');
           }
 
           tabsRouter.setActiveIndex(index);
