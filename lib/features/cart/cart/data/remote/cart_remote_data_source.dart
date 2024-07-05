@@ -65,7 +65,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
   @override
   Future<Either<Failure, bool>> removeProductFromCart(String productId) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
-        request: (dio) => dio.post(
+        request: (dio) => dio.delete(
           ApiConst.kRemoveProductFromCart,
           data: {
             'product_id': productId,
@@ -78,7 +78,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
   @override
   Future<Either<Failure, bool>> clearCart() =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
-        request: (dio) => dio.post(
+        request: (dio) => dio.delete(
           ApiConst.kClearCart,
         ),
         converter: (json) => json['success'] as bool,

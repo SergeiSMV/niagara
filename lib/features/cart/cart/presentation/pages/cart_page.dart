@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
@@ -27,10 +28,27 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) => BlocBuilder<CartBloc, CartState>(
         builder: (_, state) => state.maybeWhen(
           empty: EmptyCartWidget.new,
+          loading: _Loading.new,
           loaded: _Content.new,
           orElse: () => ErrorRefreshWidget(onRefresh: () => onRefresh(context)),
         ),
       );
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading(
+    this.cart,
+    this.recommends,
+  );
+
+  final Cart? cart;
+  final List<Product>? recommends;
+
+  bool get hasData => cart != null && recommends != null;
+
+  @override
+  Widget build(BuildContext context) =>
+      hasData ? _Content(cart!, recommends!) : const AppCenterLoader();
 }
 
 class _Content extends StatelessWidget {
@@ -51,6 +69,7 @@ class _Content extends StatelessWidget {
               child: Column(
                 children: [
                   CartProductsWidget(cart: cart),
+                  AppBoxes.kHeight16,
                   CartUnavailableProductsWidget(
                     unavailableProducts: cart.unavailableProducts,
                   ),

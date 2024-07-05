@@ -4,7 +4,10 @@ part of 'cart_bloc.dart';
 class CartState with _$CartState {
   const factory CartState.empty() = _Empty;
 
-  const factory CartState.loading() = _Loading;
+  const factory CartState.loading({
+     Cart? cart,
+     List<Product>? recommends,
+  }) = _Loading;
 
   const factory CartState.loaded({
     required Cart cart,

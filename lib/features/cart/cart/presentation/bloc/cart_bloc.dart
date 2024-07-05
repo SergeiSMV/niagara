@@ -50,8 +50,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   int _bonusesToPay = 0;
 
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
-    emit(const _Loading());
+    final (cart, recommends) = state.maybeWhen(
+      loaded: (cart, recommends) => (cart, recommends),
+      orElse: () => (null, null),
+    );
+
+    emit(_Loading(cart: cart, recommends: recommends));
+
     final locationId = await _getDefaultAddress();
+
     await _getCartUseCase
         .call(
       GetCartParams(
@@ -90,36 +97,29 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   ) async =>
       await _addToCartUseCase(event.product).fold(
         (_) => emit(const _Error()),
-        (success) async => success
-            ? await _onGetCart(const _GetCart(), emit)
-            : emit(const _Error()),
+        (success) async =>
+            success ? add(const _GetCart()) : emit(const _Error()),
       );
 
   Future<void> _onRemoveFromCart(
     _RemoveFromCart event,
     _Emit emit,
-  ) async {
-    final result = await _removeFromCartUseCase(event.product);
-    result.fold(
-      (_) => emit(const _Error()),
-      (success) async => success
-          ? await _onGetCart(const _GetCart(), emit)
-          : emit(const _Error()),
-    );
-  }
+  ) async =>
+      await _removeFromCartUseCase(event.product).fold(
+        (_) => emit(const _Error()),
+        (success) async =>
+            success ? add(const _GetCart()) : emit(const _Error()),
+      );
 
   Future<void> _onRemoveAllFromCart(
     _RemoveAllFromCart event,
     _Emit emit,
-  ) async {
-    final result = await _removeAllFromCartUseCase();
-    result.fold(
-      (_) => emit(const _Error()),
-      (success) async => success
-          ? await _onGetCart(const _GetCart(), emit)
-          : emit(const _Error()),
-    );
-  }
+  ) async =>
+      await _removeAllFromCartUseCase().fold(
+        (_) => emit(const _Error()),
+        (success) async =>
+            success ? add(const _GetCart()) : emit(const _Error()),
+      );
 
   Future<String> _getDefaultAddress() async =>
       await _getDefaultAddressUseCase.call().fold(

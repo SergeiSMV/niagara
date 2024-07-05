@@ -16,6 +16,8 @@ class CartPayButton extends StatelessWidget {
 
   final Cart cart;
 
+  bool get _inactive => cart.products.isEmpty;
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -35,15 +37,14 @@ class CartPayButton extends StatelessWidget {
             AppInsets.kVertical12 +
             AppInsets.kBottom12,
         child: InkWell(
-          onTap: () {}, // _inactive ? null : onTap,
+          onTap: _inactive ? null : () {},
           child: Container(
             alignment: Alignment.center,
             padding: AppInsets.kHorizontal16,
             decoration: BoxDecoration(
-              color: //_inactive
-                  // ? context.colors.buttonColors.inactive.withOpacity(0.5)
-                  //:
-                  context.colors.buttonColors.primary,
+              color: _inactive
+                  ? context.colors.buttonColors.inactive.withOpacity(0.5)
+                  : context.colors.buttonColors.primary,
               borderRadius: AppBorders.kCircular12,
             ),
             height: AppSizes.kButtonLarge,

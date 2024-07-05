@@ -83,7 +83,7 @@ class ProductPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const ProductToCardButton(),
+      bottomNavigationBar: ProductToCardButton(product: product),
     );
   }
 }
