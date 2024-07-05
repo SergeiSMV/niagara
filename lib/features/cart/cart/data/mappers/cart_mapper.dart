@@ -7,7 +7,7 @@ extension CartDtoMapper on CartDto {
         products: products.map((e) => e.toModel()).toList(),
         unavailableProducts: outOfStock.map((e) => e.toModel()).toList(),
         cartData: data.toModel(),
-        minLimit: sumLimit?.toModel(),
+        minLimit: sumLimit.toModel(),
       );
 }
 

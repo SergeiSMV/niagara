@@ -7,6 +7,8 @@ abstract final class AppConstants {
   static const String kTextFieldTextName = 'textField';
   static const String kNumberTextFieldName = 'numberField';
   static const String kSearchTextFieldName = 'searchField';
+  static const String kPromocodeTextFieldName = 'promocodeField';
+  static const String kBonusesTextFieldName = 'bonusesField';
 
   // * ------------------------------ Shadow ----------------------------- * //
   static const Offset kShadowTop = Offset(0, -4);

@@ -12,13 +12,13 @@ class CartDto extends Equatable {
     required this.products,
     required this.outOfStock,
     required this.data,
-    this.sumLimit,
+    required this.sumLimit,
   });
 
   final List<ProductDto> products;
   final List<ProductDto> outOfStock;
   final CartDataDto data;
-  final CartSumLimitDto? sumLimit;
+  final CartSumLimitDto sumLimit;
 
   factory CartDto.fromJson(Map<String, dynamic> json) =>
       _$CartDtoFromJson(json);
