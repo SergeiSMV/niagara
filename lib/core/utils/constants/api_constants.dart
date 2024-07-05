@@ -105,4 +105,20 @@ abstract final class ApiConst {
 
   /// -DELETE- Запрос на очистку избранного
   static const String kClearFavorite = '/favourites_clear';
+
+  // ? ------------------------------ Cart -------------------------------- ? //
+  /// -POST- Запрос на получение корзины
+  static const String kGetCart = '/cart_calculate';
+
+  /// -POST- Запрос на добавление товара в корзину
+  static const String kAddProductToCart = '/cart';
+
+  /// -POST- Запрос на удаление товара из корзины
+  static const String kRemoveProductFromCart = '/cart';
+
+  /// -POST- Запрос на очистку корзины
+  static const String kClearCart = '/cart_clear';
+
+  /// -GET- Запрос на получение рекомендаций
+  static const String kGetRecommendedProducts = '/cart_recommend';
 }

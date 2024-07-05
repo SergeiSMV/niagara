@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/text_fields/base_text_field.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/enums/base_text_filed_state.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Текстовое поле приложения [AppTextField]. Поддерживает различные состояния
@@ -22,6 +24,7 @@ class AppTextField extends BaseTextField {
     super.mask,
     super.onChanged,
     super.showCounter = false,
+    super.suffixWidget,
   });
 
   /// Текстовое поле для ввода номера телефона
@@ -98,6 +101,46 @@ class AppTextField extends BaseTextField {
       onChanged: onChanged,
     );
   }
+
+  factory AppTextField.bonuses({
+    Key? key,
+    void Function(String?)? onChanged,
+    BaseTextFieldState? state,
+    String? label,
+    int? maxLength,
+    VoidCallback? onTap,
+  }) {
+    return AppTextField._(
+      name: AppConstants.kBonusesTextFieldName,
+      key: key,
+      label: label,
+      keyboardType: TextInputType.number,
+      state: state ?? BaseTextFieldState.idle,
+      maxLength: maxLength,
+      onChanged: onChanged,
+      suffixWidget: _ApplyButton(onTap),
+    );
+  }
+
+  factory AppTextField.promocode({
+    Key? key,
+    void Function(String?)? onChanged,
+    BaseTextFieldState? state,
+    String? label,
+    int? maxLength,
+    VoidCallback? onTap,
+  }) {
+    return AppTextField._(
+      name: AppConstants.kPromocodeTextFieldName,
+      key: key,
+      label: label,
+      keyboardType: TextInputType.text,
+      state: state ?? BaseTextFieldState.idle,
+      maxLength: maxLength,
+      onChanged: onChanged,
+      suffixWidget: _ApplyButton(onTap),
+    );
+  }
 }
 
 /// Префикс для номера телефона
@@ -109,6 +152,30 @@ class _PrefixPhoneWidget extends StatelessWidget {
     return Text(
       t.auth.ruPhoneCode,
       style: context.textStyle.textTypo.tx1Medium,
+    );
+  }
+}
+
+/// Кнопка "Применить"
+class _ApplyButton extends StatelessWidget {
+  const _ApplyButton(this.onTap);
+
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = onTap != null
+        ? context.colors.buttonColors.primary
+        : context.colors.buttonColors.inactive;
+    return Padding(
+      padding: AppInsets.kHorizontal12,
+      child: InkWell(
+        onTap: onTap,
+        child: Text(
+          t.common.apply,
+          style: context.textStyle.textTypo.tx2SemiBold.withColor(color),
+        ),
+      ),
     );
   }
 }

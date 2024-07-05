@@ -31,6 +31,7 @@ class ProductDto extends Equatable {
     this.labelColor,
     this.discountOfCount,
     this.bonus,
+    this.productCount,
   });
 
   @JsonKey(name: 'PRODUCT_ID')
@@ -73,6 +74,9 @@ class ProductDto extends Equatable {
   final String? discountOfCount;
   @JsonKey(name: 'BONUS')
   final int? bonus;
+  @JsonKey(name: 'PRODUCT_COUNT')
+  final int? productCount;
+  
 
   factory ProductDto.fromJson(Map<String, dynamic> json) =>
       _$ProductDtoFromJson(json);
@@ -101,6 +105,7 @@ class ProductDto extends Equatable {
         labelColor,
         discountOfCount,
         bonus,
+        productCount,
       ];
 }
 

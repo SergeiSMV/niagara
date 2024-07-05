@@ -15,7 +15,7 @@ class PrepaidWaterDataWidget extends StatelessWidget {
         orElse: SizedBox.shrink,
         loaded: (bonuses, _) => BonusDataWidget(
           title: t.bonuses.waterBalance,
-          value: '${bonuses.bottles.count} ${t.bonuses.pieces}',
+          value: '${bonuses.bottles.count} ${t.pieces}',
           icon: Assets.icons.waterFill,
         ),
       ),

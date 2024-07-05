@@ -28,6 +28,7 @@ abstract class BaseTextField extends HookWidget {
     this.mask,
     this.onChanged,
     this.showCounter = false,
+    this.suffixWidget,
   });
 
   /// Название поля
@@ -68,6 +69,9 @@ abstract class BaseTextField extends HookWidget {
 
   /// Показывать счетчик числа символов
   final bool showCounter;
+
+  /// Виджет справа
+  final Widget? suffixWidget;
 
   /// Проверка на то, что в поле можно вводить только цифры
   bool get _isNumbers => keyboardType == TextInputType.number;
@@ -117,7 +121,7 @@ abstract class BaseTextField extends HookWidget {
             : null,
         prefixText: prefix,
         prefixIconConstraints: const BoxConstraints(),
-        suffixIcon: !state.isIdle ? _IconWidget(state: state) : null,
+        suffixIcon: !state.isIdle ? _IconWidget(state: state) : suffixWidget,
         suffixIconConstraints: const BoxConstraints(),
         isDense: true,
         contentPadding: label != null
@@ -144,17 +148,24 @@ abstract class BaseTextField extends HookWidget {
       ],
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: FormBuilderValidators.compose([
-        if (isRequired) FormBuilderValidators.required(),
-        if (maxLength != null) FormBuilderValidators.maxLength(maxLength!),
-        if (_isNumbers) FormBuilderValidators.numeric(),
-        if (_isEmail) FormBuilderValidators.email(),
-        if (mask != null)
-          FormBuilderValidators.minLength(
-            mask!.length,
-            errorText: _isPhoneNumber ? t.auth.incorrectNumberFormat : null,
-          ),
-      ]),
+      validator: FormBuilderValidators.compose(
+        [
+          if (isRequired) FormBuilderValidators.required(),
+          if (maxLength != null) FormBuilderValidators.maxLength(maxLength!),
+          if (_isNumbers) FormBuilderValidators.numeric(),
+          if (_isEmail) FormBuilderValidators.email(),
+          if (mask != null)
+            FormBuilderValidators.minLength(
+              mask!.length,
+              errorText: _isPhoneNumber ? t.auth.incorrectNumberFormat : null,
+            ),
+          if (_isOnlyDigits && maxLength != null)
+            FormBuilderValidators.max(
+              maxLength!,
+              errorText: t.cart.exceededLimit,
+            ),
+        ],
+      ),
       style: context.textStyle.textTypo.tx1Medium,
       textAlignVertical: TextAlignVertical.center,
       textCapitalization: TextCapitalization.sentences,
