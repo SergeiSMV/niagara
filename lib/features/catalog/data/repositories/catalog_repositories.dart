@@ -8,34 +8,22 @@ import 'package:niagara_app/features/catalog/data/remote/data_source/catalog_rem
 import 'package:niagara_app/features/catalog/domain/model/filter.dart';
 import 'package:niagara_app/features/catalog/domain/model/group.dart';
 import 'package:niagara_app/features/catalog/domain/repositories/catalog_repository.dart';
-import 'package:niagara_app/features/locations/cities/data/local/data_source/cities_local_data_source.dart';
 
 @LazySingleton(as: ICatalogRepository)
 class CatalogRepositories extends BaseRepository implements ICatalogRepository {
   CatalogRepositories(
     super._logger,
     this._groupsRDS,
-    this._citiesLDS,
   );
 
   final ICatalogRemoteDataSource _groupsRDS;
-  final ICitiesLocalDataSource _citiesLDS;
 
   @override
   Failure get failure => const GroupsRepositoryFailure();
 
   @override
   Future<Either<Failure, List<Group>>> getGroups() => execute(() async {
-        final currentCity = await _citiesLDS.getCity().fold(
-              (failure) => throw failure,
-              (city) => city,
-            );
-
-        return _groupsRDS
-            .getGroups(
-              city: currentCity.locality,
-            )
-            .fold(
+        return _groupsRDS.getGroups().fold(
               (failure) => throw failure,
               (dtos) => dtos.map((dto) => dto.toModel()).toList(),
             );
@@ -49,14 +37,8 @@ class CatalogRepositories extends BaseRepository implements ICatalogRepository {
     List<String>? filtersIDs,
   }) =>
       execute(() async {
-        final currentCity = await _citiesLDS.getCity().fold(
-              (failure) => throw failure,
-              (city) => city,
-            );
-
         return _groupsRDS
             .getCategory(
-              city: currentCity.locality,
               groupId: group.id,
               page: page,
               sort: sort,
@@ -76,14 +58,8 @@ class CatalogRepositories extends BaseRepository implements ICatalogRepository {
     required Product product,
   }) =>
       execute(() async {
-        final currentCity = await _citiesLDS.getCity().fold(
-              (failure) => throw failure,
-              (city) => city,
-            );
-
         return _groupsRDS
             .getRecommend(
-              city: currentCity.locality,
               productId: product.id,
             )
             .fold(

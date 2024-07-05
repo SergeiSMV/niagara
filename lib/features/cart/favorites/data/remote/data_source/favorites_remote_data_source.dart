@@ -4,7 +4,6 @@ import 'package:niagara_app/core/core.dart';
 
 abstract interface class IFavoritesRemoteDataSource {
   Future<Either<Failure, ProductsDto>> getFavorites({
-    required String city,
     required int page,
   });
 
@@ -31,14 +30,12 @@ class FavoritesRemoteDataSource implements IFavoritesRemoteDataSource {
 
   @override
   Future<Either<Failure, ProductsDto>> getFavorites({
-    required String city,
     required int page,
   }) =>
       _requestHandler.sendRequest<ProductsDto, Map<String, dynamic>>(
         request: (dio) => dio.get(
           ApiConst.kGetFavorites,
           queryParameters: {
-            'city': city,
             'page': page,
           },
         ),
