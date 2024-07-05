@@ -80,12 +80,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _attempts++;
     emit(const _Loading());
     await _checkOTPCodeUseCase.call(CheckOTPParams(code: event.otp)).fold(
-      (_) => emit(const _OtpError()),
-      (_) async {
-        emit(const _OtpSuccess());
-        await _getUserUseCase.call();
-      },
-    );
+          (_) => emit(const _OtpError()),
+          (_) async => await _getUserUseCase.call().fold(
+                (failure) => emit(_GetCodeError(failure.error)),
+                (_) => emit(const _OtpSuccess()),
+              ),
+        );
   }
 
   Future<void> _onAuthLater(_AuthLaterEvent event, _Emit emit) async {
