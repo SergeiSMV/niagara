@@ -32,5 +32,5 @@ class ProductsBySearchParams extends Equatable {
   final ProductsSortType sort;
 
   @override
-  List<Object?> get props => [text, page];
+  List<Object?> get props => [text, page, sort];
 }

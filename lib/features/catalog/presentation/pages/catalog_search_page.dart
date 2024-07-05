@@ -6,16 +6,12 @@ import 'package:niagara_app/features/catalog/presentation/bloc/catalog_search_bl
 import 'package:niagara_app/features/catalog/presentation/widget/search/catalog_search_content_widget.dart';
 
 @RoutePage()
-class CatalogSearchPage extends StatelessWidget {
-  const CatalogSearchPage({super.key});
-
+class CatalogSearchPage extends AutoRouteWrapper {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (_) => getIt<CatalogSearchBloc>(),
-        child: const CatalogSearchContentWidget(),
-      ),
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (_) => getIt<CatalogSearchBloc>(),
+      child: const CatalogSearchContentWidget(),
     );
   }
 }

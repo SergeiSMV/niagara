@@ -33,24 +33,26 @@ class CatalogSearchContentWidget extends HookWidget {
       [scrollController],
     );
 
-    return CustomScrollView(
-      controller: scrollController,
-      slivers: const [
-        SliverAppBarWidget(
-          automaticallyImplyLeading: false,
-          isShowDivider: false,
-          body: SearchAppBarWidget(),
-        ),
-        SliverAppBar(
-          automaticallyImplyLeading: false,
-          primary: false,
-          pinned: true,
-          expandedHeight: 30,
-          titleSpacing: 0,
-          title: SortAndCountWidget(),
-        ),
-        SliverToBoxAdapter(child: SearchContentWidget()),
-      ],
+    return Scaffold(
+      body: CustomScrollView(
+        controller: scrollController,
+        slivers: const [
+          SliverAppBarWidget(
+            automaticallyImplyLeading: false,
+            isShowDivider: false,
+            body: SearchAppBarWidget(),
+          ),
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            primary: false,
+            pinned: true,
+            expandedHeight: 30,
+            titleSpacing: 0,
+            title: SortAndCountWidget(),
+          ),
+          SliverToBoxAdapter(child: SearchContentWidget()),
+        ],
+      ),
     );
   }
 }
