@@ -32,7 +32,7 @@ class ProfileRemoteDataSource implements IProfileRemoteDataSource {
             'PHONE': userDto.login,
           },
         ),
-        converter: (json) => json['susses'] as bool, // ! susses -> success
+        converter: (json) => json['success'] as bool,
         failure: ProfileRemoteDataFailure.new,
       );
 }

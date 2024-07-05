@@ -6,7 +6,6 @@ typedef PromotionsDto = ({List<PromotionDto> promos, PaginationDto pagination});
 
 abstract interface class IPromotionsRemoteDataSource {
   Future<Either<Failure, PromotionsDto>> getPromotions({
-    required String city,
     required int page,
     required bool isPersonal,
   });
@@ -20,7 +19,6 @@ class PromotionsRemoteDataSource implements IPromotionsRemoteDataSource {
 
   @override
   Future<Either<Failure, PromotionsDto>> getPromotions({
-    required String city,
     required int page,
     required bool isPersonal,
   }) async =>
@@ -28,7 +26,6 @@ class PromotionsRemoteDataSource implements IPromotionsRemoteDataSource {
         request: (dio) => dio.get(
           ApiConst.kGetPromos,
           queryParameters: {
-            'city': city,
             'page': page,
             'personal': isPersonal,
           },

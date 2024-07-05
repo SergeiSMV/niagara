@@ -10,3 +10,14 @@ extension CityDtoMapper on CityDto {
         phone: phone,
       );
 }
+
+extension CityMapper on City {
+  CityDto toDto() => CityDto(
+        id: id,
+        latitude: coordinates.$1,
+        longitude: coordinates.$2,
+        region: province,
+        city: locality,
+        phone: phone,
+      );
+}

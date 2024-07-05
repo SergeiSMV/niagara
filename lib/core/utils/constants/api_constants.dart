@@ -29,6 +29,9 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение списка городов
   static const String kGetCities = '/region';
 
+  /// -POST- Запрос на добавление города
+  static const String kSetCity = '/city_check';
+
   /// -GET- Запрос на получение списка локаций
   static const String kGetLocations = '/location';
 

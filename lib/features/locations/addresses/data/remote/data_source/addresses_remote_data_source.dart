@@ -93,7 +93,7 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
             'LOCATION_ID': address.locationId,
           },
         ),
-        converter: (json) => json['susses'] as bool, // ! susses -> success
+        converter: (json) => json['success'] as bool,
         failure: AddressesRemoteDataFailure.new,
       );
 

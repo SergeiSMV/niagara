@@ -6,12 +6,9 @@ import 'package:niagara_app/features/catalog/data/remote/dto/filter_dto.dart';
 import 'package:niagara_app/features/catalog/data/remote/dto/group_dto.dart';
 
 abstract interface class ICatalogRemoteDataSource {
-  Future<Either<Failure, List<GroupDto>>> getGroups({
-    required String city,
-  });
+  Future<Either<Failure, List<GroupDto>>> getGroups();
 
   Future<Either<Failure, ProductsDto>> getCategory({
-    required String city,
     required String groupId,
     required int page,
     required ProductsSortType sort,
@@ -19,7 +16,6 @@ abstract interface class ICatalogRemoteDataSource {
   });
 
   Future<Either<Failure, List<ProductDto>>> getRecommend({
-    required String city,
     required String productId,
   });
 
@@ -41,15 +37,10 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
   final RequestHandler _requestHandler;
 
   @override
-  Future<Either<Failure, List<GroupDto>>> getGroups({
-    required String city,
-  }) =>
+  Future<Either<Failure, List<GroupDto>>> getGroups() =>
       _requestHandler.sendRequest<List<GroupDto>, List<dynamic>>(
         request: (dio) => dio.get(
           ApiConst.kGetGroups,
-          queryParameters: {
-            'city': city,
-          },
         ),
         converter: (json) => json
             .map((e) => e as Map<String, dynamic>)
@@ -61,7 +52,6 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
 
   @override
   Future<Either<Failure, ProductsDto>> getCategory({
-    required String city,
     required String groupId,
     required int page,
     required ProductsSortType sort,
@@ -71,7 +61,6 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
         request: (dio) => dio.get(
           ApiConst.kGetCategory,
           queryParameters: {
-            'city': city,
             'product_group': groupId,
             'page': page,
             if (sort != ProductsSortType.none) 'sort': sort.name,
@@ -95,14 +84,12 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
 
   @override
   Future<Either<Failure, List<ProductDto>>> getRecommend({
-    required String city,
     required String productId,
   }) =>
       _requestHandler.sendRequest<List<ProductDto>, List<dynamic>>(
         request: (dio) => dio.get(
           ApiConst.kGetRecommend,
           queryParameters: {
-            'city': city,
             'product': productId,
           },
         ),

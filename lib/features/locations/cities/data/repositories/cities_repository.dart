@@ -37,6 +37,12 @@ class CitiesRepository extends BaseRepository implements ICitiesRepository {
       );
 
   @override
-  Future<Either<Failure, void>> setCity({required City city}) =>
-      execute(() async => _citiesLDS.setCity(city.toEntity()));
+  Future<Either<Failure, void>> setCity({required City city}) => execute(
+        () async => _citiesRDS.setCity(city: city.toDto()).fold(
+              (failure) => throw failure,
+              (established) => established
+                  ? _citiesLDS.setCity(city.toEntity())
+                  : throw failure,
+            ),
+      );
 }
