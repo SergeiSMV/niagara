@@ -56,6 +56,7 @@ dependencies:
   url_launcher: ^6.2.6
   yandex_geocoder: ^2.3.1
   yandex_mapkit_lite: ^2.0.1
+  collection: ^1.18.0
 
 dev_dependencies:
   auto_route_generator: ^8.0.0

@@ -218,3 +218,23 @@ class FavoritesRemoteDataFailure extends Failure {
     super.error = 'Favorites remote data failure',
   ]);
 }
+
+// ! --------------------------- Notifications ---------------------------- ! //
+
+class NotificationsRepositoryFailure extends Failure {
+  const NotificationsRepositoryFailure([
+    super.error = 'Notifications repo failure',
+  ]);
+}
+
+// class NotificationsLocalDataFailure extends Failure {
+//   const NotificationsLocalDataFailure([
+//     super.error = 'Notifications local data failure',
+//   ]);
+// }
+
+class NotificationsRemoteDataFailure extends Failure {
+  const NotificationsRemoteDataFailure([
+    super.error = 'Notifications remote data failure',
+  ]);
+}

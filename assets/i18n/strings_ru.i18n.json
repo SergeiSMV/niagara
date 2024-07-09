@@ -203,5 +203,17 @@
   },
   "filters": {
     "show": "Показать"
+  },
+  "notifications": {
+    "notifications": "Уведомления",
+    "pushTypes": {
+      "all": "Все",
+      "orders": "Заказы",
+      "stocks": "Акции",
+      "system": "Системные"
+    },
+    "turnNotifications": "Включите пуш-уведомления",
+    "stayUpToDateWithLatest": "Будьте в курсе последних скидок и акций",
+    "yourNotifications": "Здесь будут ваши уведомления"
   }
 }

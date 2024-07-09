@@ -6,6 +6,7 @@ import 'package:niagara_app/core/common/presentation/widgets/navigation_bar.dart
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/groups_cubit.dart';
+import 'package:niagara_app/features/notifications/presentation/bloc/notifications_bloc/notifications_bloc.dart';
 import 'package:niagara_app/features/promotions/presentation/cubit/promotions_cubit.dart';
 
 /// Страница [NavigationPage] для внутренней навигации в приложении.
@@ -55,6 +56,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           ),
           BlocProvider(
             create: (_) => getIt<FavoritesBloc>(),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => getIt<NotificationsBloc>(),
             lazy: false,
           ),
         ],

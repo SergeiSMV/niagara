@@ -105,4 +105,8 @@ abstract final class ApiConst {
 
   /// -DELETE- Запрос на очистку избранного
   static const String kClearFavorite = '/favourites_clear';
+
+  // ? -------------------------- Notifications --------------------------- ? //
+  /// -GET- Запрос на получение списка уведомлений
+  static const String kGetNotifications = '/notification';
 }
