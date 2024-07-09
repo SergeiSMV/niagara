@@ -109,4 +109,7 @@ abstract final class ApiConst {
   // ? -------------------------- Notifications --------------------------- ? //
   /// -GET- Запрос на получение списка уведомлений
   static const String kGetNotifications = '/notification';
+
+  /// -POST- Запрос на получение уведомления
+  static const String kReadNotifications = '/notification_check';
 }

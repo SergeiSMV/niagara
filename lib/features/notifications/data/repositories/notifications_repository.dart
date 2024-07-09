@@ -16,6 +16,9 @@ class NotificationsRepository extends BaseRepository
   final INotificationRemoteDataSource _notificationsRDS;
 
   @override
+  Failure get failure => const NotificationsRepositoryFailure();
+
+  @override
   Future<Either<Failure, Notifications>> getNotifications({
     required int page,
     required NotificationsTypes type,
@@ -34,5 +37,11 @@ class NotificationsRepository extends BaseRepository
       });
 
   @override
-  Failure get failure => const NotificationsRepositoryFailure();
+  Future<Either<Failure, void>> readNotification({required String id}) =>
+      execute(() async {
+        return await _notificationsRDS.readNotification(id: id).fold(
+              (failure) => throw failure,
+              (result) => result,
+            );
+      });
 }

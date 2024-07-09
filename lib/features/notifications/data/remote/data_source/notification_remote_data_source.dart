@@ -8,6 +8,10 @@ abstract interface class INotificationRemoteDataSource {
     required int page,
     required NotificationsTypes type,
   });
+
+  Future<Either<Failure, bool>> readNotification({
+    required String id,
+  });
 }
 
 @LazySingleton(as: INotificationRemoteDataSource)
@@ -40,6 +44,19 @@ class NotificationRemoteDataSource implements INotificationRemoteDataSource {
 
           return (notifications: notifications, pagination: pagination);
         },
+        failure: NotificationsRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, bool>> readNotification({required String id}) =>
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+        request: (Dio dio) => dio.post(
+          ApiConst.kReadNotifications,
+          data: {
+            'ID': id,
+          },
+        ),
+        converter: (json) => json['response'] as bool,
         failure: NotificationsRemoteDataFailure.new,
       );
 }

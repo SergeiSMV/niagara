@@ -227,12 +227,6 @@ class NotificationsRepositoryFailure extends Failure {
   ]);
 }
 
-// class NotificationsLocalDataFailure extends Failure {
-//   const NotificationsLocalDataFailure([
-//     super.error = 'Notifications local data failure',
-//   ]);
-// }
-
 class NotificationsRemoteDataFailure extends Failure {
   const NotificationsRemoteDataFailure([
     super.error = 'Notifications remote data failure',

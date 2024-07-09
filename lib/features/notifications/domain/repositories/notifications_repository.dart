@@ -13,4 +13,8 @@ abstract interface class INotificationsRepository {
     required int page,
     required NotificationsTypes type,
   });
+
+  Future<Either<Failure, void>> readNotification({
+    required String id,
+  });
 }
