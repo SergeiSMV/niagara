@@ -39,9 +39,14 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       _current = 0;
     }
 
-    final notifications = state.maybeMap(
+    final groupedNotifications = state.maybeMap(
       loaded: (state) => state.groupedNotifications,
       orElse: () => const <GroupedNotifications>[],
+    );
+
+    final unreadNotifications = state.maybeMap(
+      loaded: (state) => state.unreadNotifications,
+      orElse: () => const <NotificationItem>[],
     );
 
     _current++;
@@ -62,8 +67,20 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     emit(
       _Loaded(
         groupedNotifications: event.isForceUpdate
-            ? _sortForDate(data.notifications)
-            : [...notifications, ..._sortForDate(data.notifications)],
+            ? _sortForDate(data.notifications.where((e) => !e.isNew).toList())
+            : [
+                ...groupedNotifications,
+                ..._sortForDate(
+                  data.notifications.where((e) => !e.isNew).toList(),
+                ),
+              ],
+        unreadNotifications: event.isForceUpdate
+            ? data.notifications.where((e) => e.isNew).toList()
+            : [
+                ...unreadNotifications,
+                ...data.notifications.where((e) => e.isNew),
+              ],
+        isNewNotifications: _thereAreNewNotifications(data.notifications),
       ),
     );
   }
@@ -80,6 +97,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     add(const _LoadingEvent(isForceUpdate: true));
   }
 
+  /// Разделение уведомлений по датам (по дням)
   List<GroupedNotifications> _sortForDate(
     List<NotificationItem> notifications,
   ) {
@@ -110,4 +128,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
     return groupedNotifications;
   }
+
+  /// Определяем есть ли новые уведомления
+  bool _thereAreNewNotifications(List<NotificationItem> notifications) =>
+      notifications.any((notification) => notification.isNew);
 }

@@ -38,6 +38,7 @@ class NotificationItem extends Equatable {
       ];
 }
 
+/// Этот класс разделитель всех уведомлений по группам по датам (по дням)
 class GroupedNotifications extends Equatable {
   const GroupedNotifications({
     required this.date,

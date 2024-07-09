@@ -6,6 +6,8 @@ class NotificationsState with _$NotificationsState {
 
   const factory NotificationsState.loaded({
     required List<GroupedNotifications> groupedNotifications,
+    required List<NotificationItem> unreadNotifications,
+    required bool isNewNotifications,
   }) = _Loaded;
 
   const factory NotificationsState.error() = _Error;

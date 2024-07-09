@@ -6,8 +6,8 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/features/notifications/domain/model/notification.dart';
 import 'package:niagara_app/features/notifications/presentation/widgets/notification_item_widget.dart';
 
-class NotificationsListWidget extends StatelessWidget {
-  const NotificationsListWidget({
+class ReadNotificationsListWidget extends StatelessWidget {
+  const ReadNotificationsListWidget({
     super.key,
     required this.date,
     required this.notificationsForDate,

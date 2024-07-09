@@ -214,6 +214,7 @@
     },
     "turnNotifications": "Включите пуш-уведомления",
     "stayUpToDateWithLatest": "Будьте в курсе последних скидок и акций",
-    "yourNotifications": "Здесь будут ваши уведомления"
+    "yourNotifications": "Здесь будут ваши уведомления",
+    "unread": "Непрочитанные"
   }
 }

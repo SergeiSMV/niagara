@@ -10,11 +10,12 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/notifications/presentation/bloc/notifications_bloc/notifications_bloc.dart';
+import 'package:niagara_app/features/notifications/presentation/widgets/all_notifications_widget.dart';
 import 'package:niagara_app/features/notifications/presentation/widgets/no_notifications_widget.dart';
 import 'package:niagara_app/features/notifications/presentation/widgets/notification_type_buttons_widget.dart';
 import 'package:niagara_app/features/notifications/presentation/widgets/notification_warning_widget.dart';
-import 'package:niagara_app/features/notifications/presentation/widgets/notifications_list_widget.dart';
 
+/// Страница с уведомлениями
 @RoutePage()
 class NotificationsPage extends HookWidget {
   const NotificationsPage({super.key});
@@ -29,6 +30,10 @@ class NotificationsPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    context
+        .read<NotificationsBloc>()
+        .add(const NotificationsEvent.loading(isForceUpdate: true));
+
     final scrollController = useScrollController();
 
     useEffect(
@@ -54,9 +59,7 @@ class NotificationsPage extends HookWidget {
           return CustomScrollView(
             controller: scrollController,
             slivers: [
-              SliverAppBarWidget(
-                title: t.notifications.notifications,
-              ),
+              SliverAppBarWidget(title: t.notifications.notifications),
               const SliverAppBar(
                 automaticallyImplyLeading: false,
                 primary: false,
@@ -69,19 +72,13 @@ class NotificationsPage extends HookWidget {
                 loading: () => const SliverToBoxAdapter(
                   child: AppCenterLoader(),
                 ),
-                loaded: (notifications) {
-                  return notifications.isNotEmpty
-                      ? SliverPadding(
-                          padding: AppInsets.kHorizontal16,
-                          sliver: SliverList.builder(
-                            itemCount: notifications.length,
-                            itemBuilder: (context, index) {
-                              return NotificationsListWidget(
-                                date: notifications[index].date,
-                                notificationsForDate:
-                                    notifications[index].groupedNotifications,
-                              );
-                            },
+                loaded: (groupedNotifications, unreadNotifications, _) {
+                  return groupedNotifications.isNotEmpty ||
+                          unreadNotifications.isNotEmpty
+                      ? SliverToBoxAdapter(
+                          child: AllNotificationsWidget(
+                            groupedNotifications: groupedNotifications,
+                            unreadNotifications: unreadNotifications,
                           ),
                         )
                       : const SliverToBoxAdapter(
@@ -93,25 +90,26 @@ class NotificationsPage extends HookWidget {
                 ),
               ),
               state.maybeWhen(
-                loaded: (notifications) => SliverToBoxAdapter(
-                  child: notifications.isNotEmpty
-                      ? Visibility(
-                          visible: hasMore,
-                          child: Padding(
-                            padding: AppInsets.kAll16,
-                            child: Center(
-                              child: Assets.lottie.loadCircle.lottie(
-                                width: AppSizes.kLoaderBig,
-                                height: AppSizes.kLoaderBig,
+                loaded: (groupedNotifications, unreadNotifications, __) {
+                  return SliverToBoxAdapter(
+                    child: groupedNotifications.isNotEmpty ||
+                            unreadNotifications.isNotEmpty
+                        ? Visibility(
+                            visible: hasMore,
+                            child: Padding(
+                              padding: AppInsets.kAll16,
+                              child: Center(
+                                child: Assets.lottie.loadCircle.lottie(
+                                  width: AppSizes.kLoaderBig,
+                                  height: AppSizes.kLoaderBig,
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                ),
-                orElse: () => const SliverToBoxAdapter(
-                  child: SizedBox.shrink(),
-                ),
+                          )
+                        : const SizedBox.shrink(),
+                  );
+                },
+                orElse: () => const SliverToBoxAdapter(),
               ),
             ],
           );
