@@ -25,9 +25,7 @@ class OneNotificationPage extends StatelessWidget {
 
   void _goShopping(BuildContext context) {
     if (notification.type == NotificationsTypes.offers) {
-      // context.navigateTo(const CategoryRoute());
-      // context.router.pushNamed(CategoryRoute.name);
-      context.router.popUntilRoot();
+      context.navigateTo(const CatalogWrapper());
     }
   }
 

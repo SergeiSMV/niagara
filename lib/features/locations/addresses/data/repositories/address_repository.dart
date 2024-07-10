@@ -17,6 +17,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 class AddressesRepository extends BaseRepository implements IAddressRepository {
   AddressesRepository(
     super._logger,
+    super._networkInfo,
     this._authLDS,
     this._addressesLDS,
     this._addressesRDS,

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/notifications/domain/model/notification.dart';
@@ -57,7 +58,9 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         type: _type,
       ),
     ).fold(
-      (failure) => emit(const _Error()),
+      (failure) => failure is NoInternetFailure
+          ? emit(const _NoInternet())
+          : emit(const _Error()),
       (data) {
         _current = data.pagination.current;
         _total = data.pagination.total;
@@ -66,7 +69,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
           _Loaded(
             groupedNotifications: event.isForceUpdate
                 ? _sortForDate(
-                    data.notifications.where((e) => !e.isNew).toList())
+                    data.notifications.where((e) => !e.isNew).toList(),
+                  )
                 : [
                     ...groupedNotifications,
                     ..._sortForDate(

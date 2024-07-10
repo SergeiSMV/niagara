@@ -43,7 +43,7 @@ class NoInternetConnectionWidget extends StatelessWidget {
             ),
           ),
           const Spacer(flex: 3),
-          const MakeOrderByPhoneWidget(),
+          if (showPhone) const MakeOrderByPhoneWidget(),
           Padding(
             padding: AppInsets.kAll16 + AppInsets.kBottom24,
             child: AppTextButton.primary(

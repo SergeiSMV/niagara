@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
+import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/no_internet_connection_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -85,8 +86,13 @@ class NotificationsPage extends HookWidget {
                           child: NoNotificationsWidget(),
                         );
                 },
-                error: () => SliverToBoxAdapter(
+                noInternet: () => SliverToBoxAdapter(
                   child: NoInternetConnectionWidget(
+                    onRefresh: () => _onRefresh(context),
+                  ),
+                ),
+                error: () => SliverToBoxAdapter(
+                  child: ErrorRefreshWidget(
                     onRefresh: () => _onRefresh(context),
                   ),
                 ),

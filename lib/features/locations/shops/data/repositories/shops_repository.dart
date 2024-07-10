@@ -11,6 +11,7 @@ import 'package:niagara_app/features/locations/shops/domain/repositories/shops_r
 class ShopsRepository extends BaseRepository implements IShopsRepository {
   ShopsRepository(
     super._logger,
+    super._networkInfo,
     this._shopsLDS,
     this._shopsRDS,
   );
@@ -42,7 +43,7 @@ class ShopsRepository extends BaseRepository implements IShopsRepository {
       );
 
   Future<List<ShopDto>> _getRemoteShops() async => _shopsRDS.getShops().fold(
-          (failure) => throw failure,
-          (dtos) => dtos,
-        );
+        (failure) => throw failure,
+        (dtos) => dtos,
+      );
 }

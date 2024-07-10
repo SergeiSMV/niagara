@@ -10,6 +10,7 @@ class NotificationsRepository extends BaseRepository
     implements INotificationsRepository {
   NotificationsRepository(
     super._logger,
+    super._networkInfo,
     this._notificationsRDS,
   );
 

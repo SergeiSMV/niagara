@@ -11,6 +11,7 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
     super._logger,
     this._geocoder,
     this._citiesLDS,
+    super._networkInfo,
   );
 
   final geo.YandexGeocoder _geocoder;

@@ -15,6 +15,12 @@ sealed class Failure with EquatableMixin implements Exception {
   List<Object?> get props => [error];
 }
 
+// ! ------------------------------- Base ------------------------------- ! //
+
+class NoInternetFailure extends Failure {
+  const NoInternetFailure([super.error = 'No internet connection']);
+}
+
 // ! ------------------------------- Token ------------------------------- ! //
 
 class TokenRepositoryFailure extends Failure {

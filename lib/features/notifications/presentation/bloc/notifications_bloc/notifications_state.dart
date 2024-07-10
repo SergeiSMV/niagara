@@ -11,4 +11,6 @@ class NotificationsState with _$NotificationsState {
   }) = _Loaded;
 
   const factory NotificationsState.error() = _Error;
+
+  const factory NotificationsState.noInternet() = _NoInternet;
 }
