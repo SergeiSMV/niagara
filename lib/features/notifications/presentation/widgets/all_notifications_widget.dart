@@ -24,12 +24,13 @@ class AllNotificationsWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            t.notifications.unread,
-            style: context.textStyle.textTypo.tx2Medium.withColor(
-              context.colors.textColors.main,
+          if (unreadNotifications.isNotEmpty)
+            Text(
+              t.notifications.unread,
+              style: context.textStyle.textTypo.tx2Medium.withColor(
+                context.colors.textColors.main,
+              ),
             ),
-          ),
           ...unreadNotifications.map(
             (e) => NotificationItemWidget(notification: e),
           ),

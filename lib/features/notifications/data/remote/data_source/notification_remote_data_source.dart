@@ -49,14 +49,14 @@ class NotificationRemoteDataSource implements INotificationRemoteDataSource {
 
   @override
   Future<Either<Failure, bool>> readNotification({required String id}) =>
-      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+      _requestHandler.sendRequest<bool, bool>(
         request: (Dio dio) => dio.post(
           ApiConst.kReadNotifications,
           data: {
             'ID': id,
           },
         ),
-        converter: (json) => json['response'] as bool,
+        converter: (json) => json,
         failure: NotificationsRemoteDataFailure.new,
       );
 }

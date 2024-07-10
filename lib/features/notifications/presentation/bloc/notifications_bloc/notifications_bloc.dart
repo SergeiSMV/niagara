@@ -51,37 +51,38 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
     _current++;
 
-    final data = await _getNotificationsUseCase(
+    await _getNotificationsUseCase(
       NotificationsParams(
         page: _current,
         type: _type,
       ),
     ).fold(
-      (failure) => throw failure,
-      (data) => data,
-    );
+      (failure) => emit(const _Error()),
+      (data) {
+        _current = data.pagination.current;
+        _total = data.pagination.total;
 
-    _current = data.pagination.current;
-    _total = data.pagination.total;
-
-    emit(
-      _Loaded(
-        groupedNotifications: event.isForceUpdate
-            ? _sortForDate(data.notifications.where((e) => !e.isNew).toList())
-            : [
-                ...groupedNotifications,
-                ..._sortForDate(
-                  data.notifications.where((e) => !e.isNew).toList(),
-                ),
-              ],
-        unreadNotifications: event.isForceUpdate
-            ? data.notifications.where((e) => e.isNew).toList()
-            : [
-                ...unreadNotifications,
-                ...data.notifications.where((e) => e.isNew),
-              ],
-        isNewNotifications: _thereAreNewNotifications(data.notifications),
-      ),
+        emit(
+          _Loaded(
+            groupedNotifications: event.isForceUpdate
+                ? _sortForDate(
+                    data.notifications.where((e) => !e.isNew).toList())
+                : [
+                    ...groupedNotifications,
+                    ..._sortForDate(
+                      data.notifications.where((e) => !e.isNew).toList(),
+                    ),
+                  ],
+            unreadNotifications: event.isForceUpdate
+                ? data.notifications.where((e) => e.isNew).toList()
+                : [
+                    ...unreadNotifications,
+                    ...data.notifications.where((e) => e.isNew),
+                  ],
+            isNewNotifications: _thereAreNewNotifications(data.notifications),
+          ),
+        );
+      },
     );
   }
 

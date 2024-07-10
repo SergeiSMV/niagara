@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
@@ -35,32 +37,29 @@ class NotificationItemWidget extends StatelessWidget {
 
 class _NotificationItemContent extends StatelessWidget {
   const _NotificationItemContent({
-    super.key,
     required this.notification,
   });
 
   final NotificationItem notification;
 
   void _goToPage(BuildContext context) {
-    if (notification.type == NotificationsTypes.offers) {
-      debugPrint(
-        'offers offers offers offers offers offers offers',
-      );
-    }
     context.read<ReadNotificationCubit>().readNotification(notification.id);
+    if (notification.type == NotificationsTypes.offers) {
+      context.navigateTo(OneNotificationRoute(notification: notification));
+    }
   }
 
-  void _onVisibility(VisibilityInfo visibilityInfo) {
-    final visiblePercentage = visibilityInfo.visibleFraction * 100;
-    debugPrint(
-        'VisibilityDetector Widget ${visibilityInfo.key} is ${visiblePercentage}% visible');
+  void _readIt(BuildContext context) {
+    if (notification.isNew && notification.type == NotificationsTypes.system) {
+      context.read<ReadNotificationCubit>().readNotification(notification.id);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
       key: Key(notification.id),
-      onVisibilityChanged: _onVisibility,
+      onVisibilityChanged: (_) => _readIt(context),
       child: Stack(
         children: [
           Container(
