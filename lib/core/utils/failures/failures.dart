@@ -232,3 +232,17 @@ class NotificationsRemoteDataFailure extends Failure {
     super.error = 'Notifications remote data failure',
   ]);
 }
+
+// ! -------------------------------- Cart ------------------------------- ! //
+
+class CartRepositoryFailure extends Failure {
+  const CartRepositoryFailure([super.error = 'Cart repo failure']);
+}
+
+class CartLocalDataFailure extends Failure {
+  const CartLocalDataFailure([super.error = 'Cart local data failure']);
+}
+
+class CartRemoteDataFailure extends Failure {
+  const CartRemoteDataFailure([super.error = 'Cart remote data failure']);
+}

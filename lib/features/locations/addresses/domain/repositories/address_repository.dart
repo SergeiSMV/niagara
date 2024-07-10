@@ -17,6 +17,9 @@ abstract interface class IAddressRepository {
   /// Устанавливает адрес по умолчанию.
   Future<Either<Failure, void>> setDefaultAddress(Address address);
 
+  /// Получает адрес по умолчанию.
+  Future<Either<Failure, Address>> getDefaultAddress();
+
   /// Проверка на возможность доставки в указанный адрес.
   Future<Either<Failure, bool>> checkDelivery(Address address);
 }

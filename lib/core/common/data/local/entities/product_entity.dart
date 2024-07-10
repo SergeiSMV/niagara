@@ -29,6 +29,7 @@ class ProductEntity extends Equatable {
     required this.labelColor,
     required this.discountOfCount,
     required this.bonus,
+    this.count,
   });
 
   final String id;
@@ -52,6 +53,7 @@ class ProductEntity extends Equatable {
   final Color labelColor;
   final String discountOfCount;
   final int bonus;
+  final int? count;
 
   factory ProductEntity.fromJson(Map<String, dynamic> json) =>
       _$ProductEntityFromJson(json);
@@ -84,6 +86,7 @@ class ProductEntity extends Equatable {
         labelColor,
         discountOfCount,
         bonus,
+        count,
       ];
 }
 

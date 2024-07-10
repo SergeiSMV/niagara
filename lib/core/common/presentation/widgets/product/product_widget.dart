@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/item_in_cart_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_coins_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_favorite_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_tag_widget.dart';
@@ -16,6 +18,7 @@ import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc.dart';
 
 class ProductWidget extends StatelessWidget {
   const ProductWidget({
@@ -36,9 +39,8 @@ class ProductWidget extends StatelessWidget {
         ),
       );
 
-  void _addToCart(BuildContext context) {
-    debugPrint('Add to cart');
-  }
+  void _addToCart(BuildContext context) =>
+      context.read<CartBloc>().add(CartEvent.addToCart(product: product));
 
   @override
   Widget build(BuildContext context) {
@@ -143,32 +145,73 @@ class ProductWidget extends StatelessWidget {
                     ),
                   ),
                   AppBoxes.kHeight8,
-                  InkWell(
-                    onTap: () => _addToCart(context),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: context.colors.buttonColors.accent,
-                        borderRadius: AppBorders.kCircular6,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: AppInsets.kVertical6,
-                              child: Assets.icons.shoppingCart.svg(
-                                width: AppSizes.kIconMedium,
-                                height: AppSizes.kIconMedium,
-                                colorFilter: ColorFilter.mode(
-                                  context.colors.textColors.white,
-                                  BlendMode.srcIn,
+                  BlocBuilder<CartBloc, CartState>(
+                    builder: (_, state) {
+                      final cartProducts = state.maybeWhen(
+                        loaded: (cart, recommends) => cart.products,
+                        orElse: () => <Product>[],
+                      );
+                      final productInCart =
+                          cartProducts.any((e) => e.id == product.id);
+                      final countInCart = cartProducts
+                          .firstWhere(
+                            (e) => e.id == product.id,
+                            orElse: () => product,
+                          )
+                          .count;
+                      return productInCart
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ItemInCartButton(
+                                  product: product,
+                                  cartAction: ItemInCartButtonIcon.minus,
+                                ),
+                                Padding(
+                                  padding: AppInsets.kHorizontal16,
+                                  child: Text(
+                                    '$countInCart ${t.pieces}',
+                                    style: context
+                                        .textStyle.textTypo.tx2SemiBold
+                                        .withColor(
+                                      context.colors.mainColors.primary,
+                                    ),
+                                  ),
+                                ),
+                                ItemInCartButton(
+                                  product: product,
+                                  cartAction: ItemInCartButtonIcon.plus,
+                                ),
+                              ],
+                            )
+                          : InkWell(
+                              onTap: () => _addToCart(context),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: context.colors.buttonColors.accent,
+                                  borderRadius: AppBorders.kCircular6,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: AppInsets.kVertical6,
+                                        child: Assets.icons.shoppingCart.svg(
+                                          width: AppSizes.kIconMedium,
+                                          height: AppSizes.kIconMedium,
+                                          colorFilter: ColorFilter.mode(
+                                            context.colors.textColors.white,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                            );
+                    },
+                  )
                 ],
               ),
             ),

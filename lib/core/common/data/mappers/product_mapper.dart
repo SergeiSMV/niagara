@@ -27,6 +27,7 @@ extension ProductDtoMapper on ProductDto {
         labelColor: HexColor.fromHex(labelColor ?? ''),
         discountOfCount: discountOfCount ?? '',
         bonus: bonus ?? 0,
+        count: productCount,
       );
 }
 
@@ -60,6 +61,7 @@ extension ProductTableMapper on FavoritesTableData {
         labelColor: HexColor.fromHex(labelColor),
         discountOfCount: discountOfCount,
         bonus: bonus,
+        count: count,
       );
 }
 
@@ -85,6 +87,7 @@ extension FavoritesEntityMapper on ProductEntity {
         labelColor: Value(HexColor.toHex(labelColor)),
         discountOfCount: Value(discountOfCount),
         bonus: Value(bonus),
+        count: Value(count),
       );
 
   Product toModel() => Product(
@@ -108,6 +111,7 @@ extension FavoritesEntityMapper on ProductEntity {
         labelColor: labelColor,
         discountOfCount: discountOfCount,
         bonus: bonus,
+        count: count,
       );
 }
 
@@ -133,6 +137,7 @@ extension ProductMapper on Product {
         labelColor: labelColor,
         discountOfCount: discountOfCount,
         bonus: bonus,
+        count: count,
       );
 }
 

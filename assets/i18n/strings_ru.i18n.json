@@ -14,7 +14,8 @@
     "clear": "Очистить",
     "noInternetConnection": "Нет интернета",
     "checkYourNetwork": "Проверьте доступ к сети и обновите страницу",
-    "makeOrderByPhone": "Сделайте заказ по телефону"
+    "makeOrderByPhone": "Сделайте заказ по телефону",
+    "apply": "Применить"
   },
   "routes": {
     "home": "Главная",
@@ -57,7 +58,6 @@
     "bonuses": "Бонусы",
     "waterBalance": "Баланс воды",
     "temporary": "Временные",
-    "pieces": "шт.",
     "bonusCard": "Бонусная карта",
     "showQR": "Покажите QR-код на кассе, чтобы начислить бонусы",
     "myCard": "Моя карта",
@@ -204,6 +204,7 @@
     "few": "$n товара",
     "other": "$n товаров"
   },
+  "pieces": "шт.",
   "filters": {
     "show": "Показать"
   },
@@ -219,5 +220,33 @@
     "stayUpToDateWithLatest": "Будьте в курсе последних скидок и акций",
     "yourNotifications": "Здесь будут ваши уведомления",
     "unread": "Непрочитанные"
+  },
+  "cart": {
+    "emptyCart": "Вы пока не добавили товары",
+    "yourCart": "Ваша корзина",
+    "tarePrice": "Стоимость тары",
+    "discount": "Скидка",
+    "promocode": "Промокод",
+    "bonusesPay": "Оплатить бонусами",
+    "yourBenefits": "Ваша выгода",
+    "deliveryFee": "Доставка",
+    "bonusesAdded": "Бонусы за заказ",
+    "total": "Итого",
+    "payable": "К оплате",
+    "availableBonuses": "Доступно бонусов к списанию",
+    "enterQuantity": "Введите количество",
+    "hasPromocode": "Есть промокод?",
+    "enterPromocode": "Введите промокод",
+    "returnEmptyTare": "Вернуть пустую тару",
+    "polycarbonateTare": "Поликарбонатная тара",
+    "deliveryCost": "Стоимость доставки",
+    "freeDelivery": "Бесплатная доставка от $n₽ или при заказе 19-литровой воды",
+    "minimumOrderAmount": "Минимальная сумма заказа $n₽",
+    "needToSelectMore": "Необходимо выбрать товары еще на $n₽",
+    "deliveryInfo": "Информация о доставке",
+    "minimumOrderAmountDescription(rich)": "Минимальная сумма для оформления заказа сопутствующих товаров ${withoutMainProduct(без основного товара (вода 19 литров))} составляет $n руб.\n\nВ случае покупки основного товара – размер минимальной суммы заказа отсутствует",
+    "exceededLimit": "Превышен лимит на списание",
+    "unavailableForOrder": "Товары недоступны к заказу",
+    "notAvailable": "Нет в наличии"
   }
 }

@@ -25,6 +25,7 @@ class FavoritesTable extends Table {
   TextColumn get labelColor => text()();
   TextColumn get discountOfCount => text()();
   IntColumn get bonus => integer()();
+  IntColumn get count => integer().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
