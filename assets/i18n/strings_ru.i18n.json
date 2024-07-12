@@ -243,6 +243,24 @@
       "onWay": "В пути",
       "received": "Получен",
       "cancelled": "Отменен"
-    }
+    },
+    "repeat": "Повторить",
+    "estimate": "Оценить",
+    "allOrders": "Все\nзаказы",
+    "paymentStatuses": {
+      "paidFor": "Оплачен",
+      "notPaidFor": "Не оплачен"
+    },
+    "paymentMethod": "Способ оплаты",
+    "deliveryDate": "Дата доставки",
+    "recipient": "Получатель",
+    "comment": "Комментарий",
+    "addBonusesForFirstOrder": "Начислим бонусы за первый заказ",
+    "firstOrderAndBonus": {
+      "placeYourFirstOrder": "Оформите свой первый заказ и получите ",
+      "fiftyBonuses": "50 бонусов"
+    },
+    "forShopping": "К покупкам",
+    "paymentWithBonuses": "Оплата бонусами"
   }
 }

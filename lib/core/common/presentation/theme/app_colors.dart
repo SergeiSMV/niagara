@@ -90,6 +90,8 @@ class _InfoColors extends InfoColors {
           blue: const Color(0xFF0F78FF),
           bgBlue: const Color(0xFFE5EFFF),
           yellow: const Color(0xFFFFD263),
+          lightGreen: const Color(0xFFDAF3ED),
+          lightRed: const Color(0xFFFFE2E5),
         );
 }
 

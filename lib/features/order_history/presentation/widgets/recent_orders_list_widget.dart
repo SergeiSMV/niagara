@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/recent_order.dart';
 import 'package:niagara_app/features/order_history/domain/models/recent_order_status.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/empty_orders_list_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/recent_order_item_widget.dart';
 
 class RecentOrdersListWidget extends StatelessWidget {
@@ -44,6 +47,8 @@ class RecentOrdersListWidget extends StatelessWidget {
         status: RecentOrderStatus.received,
       ),
     ];
+
+    // const EmptyOrdersListWidget(),
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -58,17 +63,59 @@ class RecentOrdersListWidget extends StatelessWidget {
         ),
         SizedBox(
           height: AppSizes.kListItemsHeight,
-          child: ListView.separated(
+          child: SingleChildScrollView(
             padding: AppInsets.kHorizontal16,
             scrollDirection: Axis.horizontal,
-            itemCount: list.length,
-            itemBuilder: (context, index) => RecentOrderItemWidget(
-              order: list[index],
+            child: Padding(
+              padding: AppInsets.kVertical20,
+              child: Row(
+                children: [
+                  ...List.generate(
+                    list.length,
+                    (index) => Padding(
+                      padding: AppInsets.kRight12,
+                      child: RecentOrderItemWidget(
+                        order: list[index],
+                      ),
+                    ),
+                  ),
+                  const _AllOrdersButtonWidget(),
+                ],
+              ),
             ),
-            separatorBuilder: (_, __) => AppBoxes.kWidth12,
           ),
         ),
       ],
+    );
+  }
+}
+
+class _AllOrdersButtonWidget extends StatelessWidget {
+  const _AllOrdersButtonWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: AppInsets.kHorizontal8,
+      decoration: BoxDecoration(
+        borderRadius: AppBorders.kCircular12,
+        color: context.colors.mainColors.accent,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Assets.icons.boxOrder.svg(
+            color: context.colors.mainColors.white,
+          ),
+          AppBoxes.kHeight8,
+          Text(
+            t.recentOrders.allOrders,
+            textAlign: TextAlign.center,
+            style: context.textStyle.buttonTypo.btn3bold
+                .withColor(context.colors.mainColors.white),
+          ),
+        ],
+      ),
     );
   }
 }
