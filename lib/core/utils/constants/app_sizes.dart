@@ -24,4 +24,7 @@ abstract final class AppSizes {
   static const double kLoaderBig = 128;
 
   static const double kShadowOpacity = 0.08;
+
+  static const double kListItemsHeight = 200;
+  static const double recentOrderItemWidth = 264;
 }

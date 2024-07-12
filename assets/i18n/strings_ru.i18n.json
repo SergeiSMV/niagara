@@ -232,5 +232,17 @@
     "exceededLimit": "Превышен лимит на списание",
     "unavailableForOrder": "Товары недоступны к заказу",
     "notAvailable": "Нет в наличии"
+  },
+  "recentOrders": {
+    "recentOrders": "Последние заказы",
+    "orderNumber": "Заказ №",
+    "costOfOrder": "Стоимость заказа",
+    "deliveryDateIn": "Дата доставки в",
+    "statuses": {
+      "goingTo": "Собирается",
+      "onWay": "В пути",
+      "received": "Получен",
+      "cancelled": "Отменен"
+    }
   }
 }
