@@ -69,7 +69,7 @@ class UserOrderDto extends Equatable {
   @JsonKey(name: 'ORDERS_BONUSES_PAY')
   final double ordersBonusesPay;
   @JsonKey(name: 'ORDERS_STATUS')
-  final OrderStatus ordersStatus;
+  final String ordersStatus;
   @JsonKey(name: 'ORDERS_PRODUCTS_COUNT')
   final int ordersProductsCount;
   @JsonKey(name: 'ORDERS_PRODUCTS_SUM')

@@ -1,4 +1,5 @@
 import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
+import 'package:niagara_app/core/utils/enums/order_status.dart';
 import 'package:niagara_app/features/order_history/data/remote/dto/user_order_dto.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 
@@ -20,7 +21,7 @@ extension UserOrderDtoMapper on UserOrderDto {
       ordersTaraSum: ordersTaraSum,
       ordersBonusesAdd: ordersBonusesAdd,
       ordersBonusesPay: ordersBonusesPay,
-      ordersStatus: ordersStatus,
+      ordersStatus: OrderStatus.toEnum(ordersStatus),
       ordersProductsCount: ordersProductsCount,
       ordersProductsSum: ordersProductsSum,
       ordersTotalBenefit: ordersTotalBenefit,

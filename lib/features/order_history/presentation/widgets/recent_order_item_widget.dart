@@ -6,12 +6,13 @@ import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/enums/order_status.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/recent_order.dart';
-import 'package:niagara_app/core/utils/enums/order_status.dart';
+import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/light_button_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 
@@ -22,7 +23,7 @@ class RecentOrderItemWidget extends StatelessWidget {
     this.inHorizontalList = false,
   });
 
-  final RecentOrder order;
+  final UserOrder order;
   final bool inHorizontalList;
 
   void _goToOrderPage(BuildContext context) => context.navigateTo(
@@ -30,14 +31,14 @@ class RecentOrderItemWidget extends StatelessWidget {
           children: [
             const ProfileRoute(),
             const OrdersRoute(),
-            OneOrderRoute(order: order),
+            // OneOrderRoute(order: order),
           ],
         ),
       );
 
-  Widget _returnBottomWidget() => switch (order.status) {
-        OrderStatus.goingTo => _BottomPriceWidget(price: order.price),
-        OrderStatus.onWay => _BottomPriceWidget(price: order.price),
+  Widget _returnBottomWidget() => switch (order.ordersStatus) {
+        OrderStatus.goingTo => _BottomPriceWidget(price: order.ordersTotalSum),
+        OrderStatus.onWay => _BottomPriceWidget(price: order.ordersTotalSum),
         OrderStatus.received => const _BottomButtonsWidget(),
         OrderStatus.cancelled => LightButtonWidget(
             text: t.recentOrders.repeat,
@@ -73,7 +74,7 @@ class RecentOrderItemWidget extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    '${t.recentOrders.orderNumber}${order.orderNumber}',
+                    '${t.recentOrders.orderNumber}${order.ordersDescription}',
                     style: context.textStyle.textTypo.tx1SemiBold.copyWith(
                       color: context.colors.buttonColors.accent,
                       overflow: TextOverflow.ellipsis,
@@ -81,7 +82,7 @@ class RecentOrderItemWidget extends StatelessWidget {
                   ),
                 ),
                 AppBoxes.kWidth12,
-                OrderStatusWidget(status: order.status),
+                OrderStatusWidget(status: order.ordersStatus),
               ],
             ),
             AppBoxes.kHeight12,
@@ -92,14 +93,14 @@ class RecentOrderItemWidget extends StatelessWidget {
               ),
             ),
             Text(
-              order.deliveryAddress,
+              order.ordersLocationName,
               style: context.textStyle.textTypo.tx3Medium.withColor(
                 context.colors.textColors.secondary,
               ),
             ),
             AppBoxes.kHeight8,
             Text(
-              '${t.recentOrders.deliveryDateIn} ${order.deliveryDate}',
+              '${t.recentOrders.deliveryDateIn} ${order.ordersDateDelivery}',
               style: context.textStyle.textTypo.tx3Medium.withColor(
                 context.colors.textColors.main,
               ),

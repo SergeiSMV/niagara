@@ -30,6 +30,7 @@ class UserOrder extends Equatable {
     required this.ordersPaymentComplited,
     required this.products,
   });
+
   final DateTime ordersDateDelivery;
   final DateTime ordersDate;
   final DateTime ordersTimeBegin;

@@ -266,7 +266,8 @@
     "ordersFilter": {
       "finish": "Полученные",
       "cancel": "Отмененные",
-      "delivery": "Доставляется"
-    }
+      "delivery": "Активные"
+    },
+    "cancelOrder": "Отменить заказ"
   }
 }

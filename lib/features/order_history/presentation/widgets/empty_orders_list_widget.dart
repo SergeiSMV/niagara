@@ -16,9 +16,9 @@ class EmptyOrdersListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160,
+      height: AppSizes.emptyOrdersWidgetHeight,
       width: double.infinity,
-      margin: AppInsets.kHorizontal16,
+      margin: AppInsets.kHorizontal16 + AppInsets.kTop16,
       decoration: BoxDecoration(
         color: context.colors.mainColors.white,
         borderRadius: AppBorders.kCircular12,

@@ -12,4 +12,12 @@ enum OrderStatus {
         received => t.recentOrders.statuses.received,
         cancelled => t.recentOrders.statuses.cancelled,
       };
+
+  static OrderStatus toEnum(String value) => switch (value) {
+        'Собирается' => OrderStatus.goingTo,
+        'В пути' => OrderStatus.onWay,
+        'Получен' => OrderStatus.received,
+        'Отменен' => OrderStatus.cancelled,
+        _ => OrderStatus.goingTo
+      };
 }

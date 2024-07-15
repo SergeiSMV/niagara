@@ -27,7 +27,7 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
           queryParameters: {
             'page': page,
             'sort': sort.name,
-          }, //OrderDto
+          },
         ),
         converter: (json) {
           final orders = (json['data'] as List<dynamic>)

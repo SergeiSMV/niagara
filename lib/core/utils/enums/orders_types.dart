@@ -1,9 +1,9 @@
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 enum OrdersTypes {
+  delivery,
   finish,
-  cancel,
-  delivery;
+  cancel;
 
   String toLocale() => switch (this) {
         finish => t.recentOrders.ordersFilter.finish,

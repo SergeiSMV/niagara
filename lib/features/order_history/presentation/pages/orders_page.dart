@@ -54,9 +54,10 @@ class OrdersPage extends StatelessWidget {
             padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
             sliver: SliverList.separated(
               itemCount: list.length,
-              itemBuilder: (context, index) => RecentOrderItemWidget(
-                order: list[index],
-              ),
+              itemBuilder: (context, index) => const SizedBox.shrink(),
+              // RecentOrderItemWidget(// TODO
+              //   order: list[index],
+              // ),
               separatorBuilder: (_, __) => AppBoxes.kHeight16,
             ),
           ),

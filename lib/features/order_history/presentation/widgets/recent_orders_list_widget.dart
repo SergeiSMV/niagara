@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -11,6 +12,8 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/recent_order.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/empty_orders_list_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/recent_order_item_widget.dart';
 
 class RecentOrdersListWidget extends StatelessWidget {
@@ -49,45 +52,56 @@ class RecentOrdersListWidget extends StatelessWidget {
       ),
     ];
 
-    // const EmptyOrdersListWidget(),
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppBoxes.kHeight32,
-        Padding(
-          padding: AppInsets.kHorizontal16,
-          child: Text(
-            t.recentOrders.recentOrders,
-            style: context.textStyle.headingTypo.h3
-                .withColor(context.colors.textColors.main),
-          ),
-        ),
-        SizedBox(
-          height: AppSizes.kListItemsHeight,
-          child: SingleChildScrollView(
-            padding: AppInsets.kHorizontal16,
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: AppInsets.kVertical20,
-              child: Row(
-                children: [
-                  ...List.generate(
-                    list.length,
-                    (index) => Padding(
-                      padding: AppInsets.kRight12,
-                      child: RecentOrderItemWidget(
-                        inHorizontalList: true,
-                        order: list[index],
+    return BlocBuilder<OrdersBloc, OrdersState>(
+      builder: (context, state) => state.maybeWhen(
+        loaded: (orders) {
+          final firstFourOrders =
+              orders.length <= 4 ? orders : orders.sublist(0, 4);
+
+          return orders.isEmpty
+              ? const EmptyOrdersListWidget()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppBoxes.kHeight32,
+                    Padding(
+                      padding: AppInsets.kHorizontal16,
+                      child: Text(
+                        t.recentOrders.recentOrders,
+                        style: context.textStyle.headingTypo.h3
+                            .withColor(context.colors.textColors.main),
                       ),
                     ),
-                  ),
-                  const _AllOrdersButtonWidget(),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
+                    SizedBox(
+                      height: AppSizes.kListItemsHeight,
+                      child: SingleChildScrollView(
+                        padding: AppInsets.kHorizontal16,
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                          padding: AppInsets.kVertical20,
+                          child: Row(
+                            children: [
+                              ...List.generate(
+                                firstFourOrders.length,
+                                (index) => Padding(
+                                  padding: AppInsets.kRight12,
+                                  child: RecentOrderItemWidget(
+                                    inHorizontalList: true,
+                                    order: firstFourOrders[index],
+                                  ),
+                                ),
+                              ),
+                              const _AllOrdersButtonWidget(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+        },
+        orElse: () => const SizedBox.shrink(),
+      ),
     );
   }
 }
