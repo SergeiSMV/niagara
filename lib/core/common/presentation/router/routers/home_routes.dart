@@ -21,9 +21,6 @@ abstract final class HomeRouters {
               ),
             ],
           ),
-          AutoRoute(
-            page: OneOrderRoute.page,
-          ),
         ],
       );
 }

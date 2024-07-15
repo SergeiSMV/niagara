@@ -1,5 +1,5 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/order_history/domain/models/recent_order_status.dart';
+import 'package:niagara_app/core/utils/enums/order_status.dart';
 
 class RecentOrder extends Equatable {
   const RecentOrder({
@@ -14,7 +14,7 @@ class RecentOrder extends Equatable {
   final String deliveryAddress;
   final String deliveryDate;
   final double price;
-  final RecentOrderStatus status;
+  final OrderStatus status;
 
   @override
   List<Object?> get props => [

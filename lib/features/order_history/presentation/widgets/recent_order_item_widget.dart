@@ -11,7 +11,7 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/recent_order.dart';
-import 'package:niagara_app/features/order_history/domain/models/recent_order_status.dart';
+import 'package:niagara_app/core/utils/enums/order_status.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/light_button_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 
@@ -19,18 +19,27 @@ class RecentOrderItemWidget extends StatelessWidget {
   const RecentOrderItemWidget({
     super.key,
     required this.order,
+    this.inHorizontalList = false,
   });
 
   final RecentOrder order;
+  final bool inHorizontalList;
 
-  void _goToPage(BuildContext context) =>
-      context.navigateTo(OneOrderRoute(order: order));
+  void _goToOrderPage(BuildContext context) => context.navigateTo(
+        ProfileWrapper(
+          children: [
+            const ProfileRoute(),
+            const OrdersRoute(),
+            OneOrderRoute(order: order),
+          ],
+        ),
+      );
 
   Widget _returnBottomWidget() => switch (order.status) {
-        RecentOrderStatus.goingTo => _BottomPriceWidget(price: order.price),
-        RecentOrderStatus.onWay => _BottomPriceWidget(price: order.price),
-        RecentOrderStatus.received => const _BottomButtonsWidget(),
-        RecentOrderStatus.cancelled => LightButtonWidget(
+        OrderStatus.goingTo => _BottomPriceWidget(price: order.price),
+        OrderStatus.onWay => _BottomPriceWidget(price: order.price),
+        OrderStatus.received => const _BottomButtonsWidget(),
+        OrderStatus.cancelled => LightButtonWidget(
             text: t.recentOrders.repeat,
             icon: Assets.icons.repeat,
             onTap: () {},
@@ -40,9 +49,9 @@ class RecentOrderItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _goToPage(context),
+      onTap: () => _goToOrderPage(context),
       child: Container(
-        width: AppSizes.recentOrderItemWidth,
+        width: inHorizontalList ? AppSizes.recentOrderItemWidth : null,
         padding: AppInsets.kAll12,
         decoration: BoxDecoration(
           color: context.colors.mainColors.white,
@@ -95,13 +104,13 @@ class RecentOrderItemWidget extends StatelessWidget {
                 context.colors.textColors.main,
               ),
             ),
-            const Spacer(),
+            if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
             Divider(
               height: AppSizes.kGeneral2,
               thickness: AppSizes.kGeneral1,
               color: context.colors.fieldBordersColors.main.withOpacity(0.3),
             ),
-            const Spacer(),
+            if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
             _returnBottomWidget(),
           ],
         ),

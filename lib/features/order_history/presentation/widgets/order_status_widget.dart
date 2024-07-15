@@ -3,7 +3,7 @@ import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/features/order_history/domain/models/recent_order_status.dart';
+import 'package:niagara_app/core/utils/enums/order_status.dart';
 
 class OrderStatusWidget extends StatelessWidget {
   const OrderStatusWidget({
@@ -11,7 +11,7 @@ class OrderStatusWidget extends StatelessWidget {
     this.padding = AppInsets.kHorizontal4,
   });
 
-  final RecentOrderStatus status;
+  final OrderStatus status;
   final EdgeInsets padding;
 
   @override
@@ -19,10 +19,10 @@ class OrderStatusWidget extends StatelessWidget {
     final colors = context.colors;
 
     final colorStatus = switch (status) {
-      RecentOrderStatus.goingTo => colors.buttonColors.accent,
-      RecentOrderStatus.onWay => colors.infoColors.blue,
-      RecentOrderStatus.received => colors.infoColors.green,
-      RecentOrderStatus.cancelled => colors.infoColors.red,
+      OrderStatus.goingTo => colors.buttonColors.accent,
+      OrderStatus.onWay => colors.infoColors.blue,
+      OrderStatus.received => colors.infoColors.green,
+      OrderStatus.cancelled => colors.infoColors.red,
     };
 
     return Container(

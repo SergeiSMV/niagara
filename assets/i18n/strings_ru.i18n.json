@@ -234,6 +234,7 @@
     "notAvailable": "Нет в наличии"
   },
   "recentOrders": {
+    "myOrders": "Мои заказы",
     "recentOrders": "Последние заказы",
     "orderNumber": "Заказ №",
     "costOfOrder": "Стоимость заказа",
@@ -261,6 +262,11 @@
       "fiftyBonuses": "50 бонусов"
     },
     "forShopping": "К покупкам",
-    "paymentWithBonuses": "Оплата бонусами"
+    "paymentWithBonuses": "Оплата бонусами",
+    "ordersFilter": {
+      "finish": "Полученные",
+      "cancel": "Отмененные",
+      "delivery": "Доставляется"
+    }
   }
 }

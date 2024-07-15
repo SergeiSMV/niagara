@@ -24,6 +24,13 @@ abstract final class ProfileRouters {
             page: AboutBonusesRoute.page,
             title: (_, __) => t.bonuses.aboutBonuses,
           ),
+          AutoRoute(
+            page: OrdersRoute.page,
+            title: (_, __) => t.recentOrders.myOrders,
+          ),
+          AutoRoute(
+            page: OneOrderRoute.page,
+          ),
         ],
       );
 }
