@@ -71,4 +71,8 @@ abstract class AppModule {
     @Named(ApiConst.kYandexGeo) String yandexGeoKey,
   ) =>
       YandexGeocoder(apiKey: yandexGeoKey);
+
+  @lazySingleton
+  InternetConnectionChecker get connectionChecker =>
+      InternetConnectionChecker();
 }

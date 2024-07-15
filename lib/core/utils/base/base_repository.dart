@@ -5,12 +5,15 @@ part of '../../core.dart';
 ///
 /// - [IAppLogger] - логгер для записи сообщений об ошибках.
 abstract class BaseRepository {
-  BaseRepository(this._logger);
+  BaseRepository(this._logger, this._networkInfo);
 
   final IAppLogger _logger;
 
   /// Возвращает объект ошибки, который будет возвращен в случае ошибки.
   Failure get failure;
+
+  final INetworkInfo _networkInfo;
+  //= getIt<INetworkInfo>();
 
   /// Выполняет асинхронное действие и возвращает результат в виде [Either].
   ///
@@ -22,6 +25,10 @@ abstract class BaseRepository {
   /// - [Left<Failure>] если произошла ошибка.
   Future<Either<Failure, T>> execute<T>(Future<T> Function() action) async {
     try {
+      final hasConnection = await _networkInfo.hasConnection;
+      if (!hasConnection) {
+        return const Left(NoInternetFailure());
+      }
       final result = await action();
       return Right(result);
     } on Exception catch (e, st) {

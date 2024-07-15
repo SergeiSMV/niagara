@@ -28,4 +28,7 @@ abstract final class AppConstants {
   // * ------------------------- OTP Code Widget ------------------------- * //
   static const int kOTPResendTime = 90;
   static const int kOTPChangeCount = 3;
+
+  // * --------------------------- Order Number --------------------------- * //
+  static const String orderNumber = '+7 (800) 505-10-21';
 }

@@ -13,6 +13,7 @@ class FavoritesRepository extends BaseRepository
     implements IFavoritesRepository {
   FavoritesRepository(
     super.logger,
+    super._networkInfo,
     this._favoriteLDS,
     this._favoriteRDS,
     this._authLDS,
@@ -146,10 +147,8 @@ class FavoritesRepository extends BaseRepository
       _currentPage = 1;
       _totalPages = 0;
 
-     
       do {
         final response = await _favoriteRDS.getFavorites(
-       
           page: _currentPage,
         );
         response.fold(

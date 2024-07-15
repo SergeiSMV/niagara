@@ -21,6 +21,12 @@ abstract final class HomeRouters {
               ),
             ],
           ),
+          AutoRoute(
+            page: NotificationsRoute.page,
+          ),
+          AutoRoute(
+            page: OneNotificationRoute.page,
+          ),
         ],
       );
 }

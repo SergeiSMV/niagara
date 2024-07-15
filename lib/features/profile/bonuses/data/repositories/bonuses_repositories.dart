@@ -13,6 +13,7 @@ class BonusesRepository extends BaseRepository implements IBonusesRepository {
     this._bonusesLDS,
     this._bonusesHistoryRDS,
     super._logger,
+    super._networkInfo,
   );
 
   final IBonusesLocalDataSource _bonusesLDS;

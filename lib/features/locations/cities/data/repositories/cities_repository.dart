@@ -10,6 +10,7 @@ import 'package:niagara_app/features/locations/cities/domain/repositories/cities
 class CitiesRepository extends BaseRepository implements ICitiesRepository {
   CitiesRepository(
     super._logger,
+    super._networkInfo,
     this._citiesRDS,
     this._citiesLDS,
   );

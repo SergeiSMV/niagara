@@ -9,6 +9,7 @@ class PromotionsRepository extends BaseRepository
     implements IPromotionsRepository {
   PromotionsRepository(
     super._logger,
+    super._networkInfo,
     this._promotionsRDS,
   );
 

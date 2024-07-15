@@ -12,6 +12,9 @@
     "all": "Все",
     "goShopping": "Перейти к покупкам",
     "clear": "Очистить",
+    "noInternetConnection": "Нет интернета",
+    "checkYourNetwork": "Проверьте доступ к сети и обновите страницу",
+    "makeOrderByPhone": "Сделайте заказ по телефону",
     "apply": "Применить"
   },
   "routes": {
@@ -204,6 +207,19 @@
   "pieces": "шт.",
   "filters": {
     "show": "Показать"
+  },
+  "notifications": {
+    "notifications": "Уведомления",
+    "pushTypes": {
+      "all": "Все",
+      "orders": "Заказы",
+      "stocks": "Акции",
+      "system": "Системные"
+    },
+    "turnNotifications": "Включите пуш-уведомления",
+    "stayUpToDateWithLatest": "Будьте в курсе последних скидок и акций",
+    "yourNotifications": "Здесь будут ваши уведомления",
+    "unread": "Непрочитанные"
   },
   "cart": {
     "emptyCart": "Вы пока не добавили товары",

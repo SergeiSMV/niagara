@@ -8,6 +8,7 @@ import 'package:niagara_app/features/authorization/base_token/domain/repositorie
 class TokenRepository extends BaseRepository implements ITokenRepository {
   TokenRepository(
     super._logger,
+    super._networkInfo,
     this._tokenRDS,
     this._tokenLDS,
     this._deviceIdService,
