@@ -11,22 +11,25 @@ class NoNotificationsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: AppInsets.kHorizontal72,
-            child: Assets.images.yourNotifications.image(),
-          ),
-          AppBoxes.kHeight16,
-          Text(
-            t.notifications.yourNotifications,
-            style: context.textStyle.headingTypo.h3.withColor(
-              context.colors.textColors.main,
+    return Padding(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 7),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: AppInsets.kHorizontal72,
+              child: Assets.images.yourNotifications.image(),
             ),
-          ),
-        ],
+            AppBoxes.kHeight16,
+            Text(
+              t.notifications.yourNotifications,
+              style: context.textStyle.headingTypo.h3.withColor(
+                context.colors.textColors.main,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
