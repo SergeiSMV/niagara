@@ -1,6 +1,7 @@
 import 'package:niagara_app/core/common/data/mappers/pagination_mapper.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/orders_types.dart';
+import 'package:niagara_app/features/order_history/data/local/data_source/orders_local_data_source.dart';
 import 'package:niagara_app/features/order_history/data/mappers/user_order_mapper.dart';
 import 'package:niagara_app/features/order_history/data/remote/data_source/orders_remote_datasource.dart';
 import 'package:niagara_app/features/order_history/domain/repositories/orders_repository.dart';
@@ -10,9 +11,11 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
   OrdersRepositories(
     super._logger,
     this._ordersRDS,
+    this._ordersLDS,
   );
 
   final IOrdersRemoteDatasource _ordersRDS;
+  final IOrdersLocalDatasource _ordersLDS;
 
   @override
   Failure get failure => const OrdersRepositoryFailure();
