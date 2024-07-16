@@ -4,6 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:niagara_app/core/common/data/services/device_id_service.dart';
 import 'package:niagara_app/core/core.dart' hide test;
 import 'package:niagara_app/core/dependencies/di.dart';
+import 'package:niagara_app/core/utils/network/network_info.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_remote_data_source.dart';
 import 'package:niagara_app/features/authorization/base_token/data/repositories/token_repository.dart';
@@ -16,6 +17,7 @@ import 'token_repository_test.mocks.dart';
   MockSpec<ITokenLocalDataSource>(),
   MockSpec<IDeviceIdService>(),
   MockSpec<IAppLogger>(),
+  MockSpec<INetworkInfo>(),
 ])
 void main() {
   late ITokenRepository tokenRepository;
@@ -23,6 +25,7 @@ void main() {
   late MockITokenLocalDataSource mockTokenLocalDataSource;
   late MockIDeviceIdService mockDeviceIdService;
   late IAppLogger mockLogger;
+  late INetworkInfo mockNetworkInfo;
 
   provideDummy<Either<Failure, void>>(const Right(null));
   provideDummy<Either<Failure, void>>(const Left(TokenRepositoryFailure()));
@@ -36,8 +39,10 @@ void main() {
     mockTokenLocalDataSource = MockITokenLocalDataSource();
     mockDeviceIdService = MockIDeviceIdService();
     mockLogger = getIt.get<IAppLogger>();
+    mockNetworkInfo = getIt.get<INetworkInfo>();
     tokenRepository = TokenRepository(
       mockLogger,
+      mockNetworkInfo,
       mockTokenRemoteDataSource,
       mockTokenLocalDataSource,
       mockDeviceIdService,
