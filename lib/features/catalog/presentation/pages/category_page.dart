@@ -12,9 +12,9 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/catalog/domain/model/filter.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/filters_cubit/filters_cubit.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/products_bloc/products_bloc.dart';
-import 'package:niagara_app/features/catalog/presentation/widget/search/catalog_search_button_widget.dart';
 import 'package:niagara_app/features/catalog/presentation/widget/category/interaction_category_widget.dart';
 import 'package:niagara_app/features/catalog/presentation/widget/groups/groups_buttons_widget.dart';
+import 'package:niagara_app/features/catalog/presentation/widget/search/catalog_search_button_widget.dart';
 
 @RoutePage()
 class CategoryPage extends HookWidget {

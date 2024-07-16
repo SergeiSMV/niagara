@@ -252,3 +252,14 @@ class CartLocalDataFailure extends Failure {
 class CartRemoteDataFailure extends Failure {
   const CartRemoteDataFailure([super.error = 'Cart remote data failure']);
 }
+
+// ! ---------------------------- New products ---------------------------- ! //
+class NewProductsDataFailure extends Failure {
+  const NewProductsDataFailure([super.error = 'New products data failure']);
+}
+
+class NewProductsRepositoryFailure extends Failure {
+  const NewProductsRepositoryFailure([
+    super.error = 'New products repo failure',
+  ]);
+}

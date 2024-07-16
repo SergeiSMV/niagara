@@ -128,4 +128,8 @@ abstract final class ApiConst {
 
   /// -GET- Запрос на получение рекомендаций
   static const String kGetRecommendedProducts = '/cart_recommend';
+
+  // ? -------------------------- New products ---------------------------- ? //
+  /// -GET- Запрос на получение новых товаров.
+  static const String kGetNewProducts = '/products_new';
 }
