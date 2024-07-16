@@ -10,14 +10,14 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/new_products/presentation/bloc/new_products_bloc.dart';
+import 'package:niagara_app/features/special_poducts/presentation/bloc/special_products_bloc.dart';
 
-class NewProductsHomeWidget extends StatelessWidget {
-  const NewProductsHomeWidget({super.key});
+class SpecialProductsHomeWidget extends StatelessWidget {
+  const SpecialProductsHomeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NewProductsBloc, NewProductsState>(
+    return BlocBuilder<SpecialProductsBloc, SpecialProductsState>(
       builder: (_, state) => state.map(
         error: (_) => const SizedBox.shrink(),
         loading: (_) => Center(
@@ -63,7 +63,7 @@ class NewProductsHomeWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            t.newProducts.newProducts,
+                            t.specialProducts.specialProducts,
                             style: context.textStyle.headingTypo.h3.withColor(
                               context.colors.textColors.main,
                             ),
@@ -96,8 +96,8 @@ class NewProductsHomeWidget extends StatelessWidget {
                           }
 
                           if (index == children.length - 3) {
-                            context.read<NewProductsBloc>().add(
-                                  const NewProductsEvent.loadMore(),
+                            context.read<SpecialProductsBloc>().add(
+                                  const SpecialProductsEvent.loadMore(),
                                 );
                           }
 

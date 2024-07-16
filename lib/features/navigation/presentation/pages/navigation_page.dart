@@ -10,6 +10,7 @@ import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/grou
 import 'package:niagara_app/features/new_products/presentation/bloc/new_products_bloc.dart';
 import 'package:niagara_app/features/notifications/presentation/bloc/notifications_bloc/notifications_bloc.dart';
 import 'package:niagara_app/features/promotions/presentation/cubit/promotions_cubit.dart';
+import 'package:niagara_app/features/special_poducts/presentation/bloc/special_products_bloc.dart';
 
 /// Страница [NavigationPage] для внутренней навигации в приложении.
 /// Содержит в себе все основные маршруты приложения.
@@ -70,6 +71,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           ),
           BlocProvider(
             create: (_) => getIt<NewProductsBloc>(),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => getIt<SpecialProductsBloc>(),
             lazy: false,
           ),
         ],

@@ -263,3 +263,16 @@ class NewProductsRepositoryFailure extends Failure {
     super.error = 'New products repo failure',
   ]);
 }
+
+// ! -------------------------- Special products -------------------------- ! //
+
+class SpecialProductsDataFailure extends Failure {
+  const SpecialProductsDataFailure(
+      [super.error = 'Special products data failure']);
+}
+
+class SpecialProductsRepositoryFailure extends Failure {
+  const SpecialProductsRepositoryFailure([
+    super.error = 'Special products repo failure',
+  ]);
+}

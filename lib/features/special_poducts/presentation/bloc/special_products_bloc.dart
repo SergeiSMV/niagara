@@ -3,34 +3,35 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
-import 'package:niagara_app/features/new_products/domain/use_cases/get_new_products_use_case.dart';
+import 'package:niagara_app/features/special_poducts/domain/use_cases/special_products_use_case.dart';
 
-part 'new_products_bloc.freezed.dart';
-part 'new_products_event.dart';
-part 'new_products_state.dart';
+part 'special_products_event.dart';
+part 'special_products_bloc.freezed.dart';
+part 'special_products_state.dart';
 
 @injectable
-class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
-  NewProductsBloc(this._useCase) : super(const _LoadingNewProducts()) {
-    on<_LoadingNewProductsEvent>(_onLoad, transformer: debounce());
-    on<_LoadingMoreNewProductsEvent>(_onLoadMore, transformer: debounce());
+class SpecialProductsBloc
+    extends Bloc<SpecialProductsEvent, SpecialProductsState> {
+  SpecialProductsBloc(this._useCase) : super(const _LoadingSpecialProducts()) {
+    on<_LoadingSpecialProductsEvent>(_onLoad, transformer: debounce());
+    on<_LoadingMoreSpecialProductsEvent>(_onLoadMore, transformer: debounce());
 
-    add(const _LoadingNewProductsEvent());
+    add(const _LoadingSpecialProductsEvent());
   }
 
-  final GetNewProductsUseCase _useCase;
+  final GetSpecialProductsUseCase _useCase;
   int _currentPage = 1;
   int _totalPages = 0;
   bool get hasMore => _totalPages > _currentPage;
 
   Future<void> _onLoad(
-    _LoadingNewProductsEvent event,
-    Emitter<NewProductsState> emit,
+    _LoadingSpecialProductsEvent event,
+    Emitter<SpecialProductsState> emit,
   ) async {
     // Если до этого были загружены какие-то другие товары, состояние "загрузка"
     // испускать не нужно.
-    if (state is! _LoadedNewProducts) {
-      emit(const _LoadingNewProducts());
+    if (state is! _LoadedSpecialProducts) {
+      emit(const _LoadingSpecialProducts());
     }
 
     final Products fetched = await _useCase
@@ -48,7 +49,7 @@ class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
     final List<Product> result = [...current, ...fetched.products];
 
     return emit(
-      _LoadedNewProducts(
+      _LoadedSpecialProducts(
         products: result,
         totalItems: fetched.pagination.items,
         // Если загружена ещё не последняя страница, загрузка будет запущена в
@@ -59,12 +60,12 @@ class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
   }
 
   Future<void> _onLoadMore(
-    _LoadingMoreNewProductsEvent event,
-    Emitter<NewProductsState> emit,
+    _LoadingMoreSpecialProductsEvent event,
+    Emitter<SpecialProductsState> emit,
   ) async {
-    if (state is _LoadingNewProducts || !hasMore) return;
+    if (state is _LoadingSpecialProducts || !hasMore) return;
 
     _currentPage++;
-    add(const _LoadingNewProductsEvent());
+    add(const _LoadingSpecialProductsEvent());
   }
 }

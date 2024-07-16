@@ -3,23 +3,12 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/new_products/domain/repositories/new_products_repository.dart';
 
 @injectable
-class GetNewProductsUseCase extends BaseUseCase<Products, NewProductsParams> {
-  const GetNewProductsUseCase(this._groupsRepository);
+class GetNewProductsUseCase extends BaseUseCase<Products, int> {
+  const GetNewProductsUseCase(this._repo);
 
-  final INewProductsRepository _groupsRepository;
-
-  @override
-  Future<Either<Failure, Products>> call(NewProductsParams params) async =>
-      _groupsRepository.getNewProducts(
-        page: params.page,
-      );
-}
-
-class NewProductsParams extends Equatable {
-  const NewProductsParams({required this.page});
-
-  final int page;
+  final INewProductsRepository _repo;
 
   @override
-  List<Object?> get props => [page];
+  Future<Either<Failure, Products>> call(int page) async =>
+      _repo.getNewProducts(page: page);
 }
