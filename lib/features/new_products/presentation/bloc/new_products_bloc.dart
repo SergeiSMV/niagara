@@ -27,7 +27,11 @@ class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
     _LoadingNewProductsEvent event,
     Emitter<NewProductsState> emit,
   ) async {
-    emit(const _LoadingNewProducts());
+    // Если до этого были загружены какие-то другие товары, состояние "загрузка"
+    // испускать не нужно.
+    if (state is! _LoadedNewProducts) {
+      emit(const _LoadingNewProducts());
+    }
 
     final Products fetched = await _useCase
         .call(NewProductsParams(page: _currentPage))
@@ -47,6 +51,9 @@ class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
       _LoadedNewProducts(
         products: result,
         totalItems: fetched.pagination.items,
+        // Если загружена ещё не последняя страница, загрузка будет запущена в
+        // любом случае.
+        loadingMore: hasMore,
       ),
     );
   }
@@ -57,6 +64,7 @@ class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
   ) async {
     if (state is _LoadingNewProducts || !hasMore) return;
 
+    _currentPage++;
     add(const _LoadingNewProductsEvent());
   }
 }

@@ -7,6 +7,7 @@ class NewProductsState with _$NewProductsState {
   const factory NewProductsState.loaded({
     required List<Product> products,
     required int totalItems,
+    required bool loadingMore,
   }) = _LoadedNewProducts;
 
   const factory NewProductsState.error() = _ErrorNewProducts;
