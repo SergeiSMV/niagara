@@ -8,6 +8,7 @@ import 'package:niagara_app/features/authorization/phone_auth/domain/repositorie
 class AuthRepository extends BaseRepository implements IAuthRepository {
   AuthRepository(
     super._logger,
+    super._networkInfo,
     this._authLDS,
     this._authRDS,
   );

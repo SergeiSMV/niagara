@@ -6,10 +6,9 @@ import 'package:niagara_app/features/cart/cart/data/remote/cart_remote_data_sour
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/domain/repositories/cart_repository.dart';
 
-
 @LazySingleton(as: ICartRepository)
 class CartRepository extends BaseRepository implements ICartRepository {
-  CartRepository(super.logger, this._cartRDS);
+  CartRepository(super.logger, super._networkInfo, this._cartRDS);
 
   final ICartRemoteDataSource _cartRDS;
 

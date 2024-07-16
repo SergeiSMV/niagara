@@ -14,6 +14,7 @@ class BonusesProgramRepository extends BaseRepository
     implements IBonusesProgramRepository {
   BonusesProgramRepository(
     super._logger,
+    super._networkInfo,
     this._bonusProgramRDS,
   );
 

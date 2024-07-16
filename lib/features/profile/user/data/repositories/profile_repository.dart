@@ -15,6 +15,7 @@ import 'package:niagara_app/features/profile/user/domain/repositories/profile_re
 class ProfileRepository extends BaseRepository implements IProfileRepository {
   ProfileRepository(
     super._logger,
+    super._networkInfo,
     this._userLDS,
     this._bonusesLDS,
     this._profileRDS,

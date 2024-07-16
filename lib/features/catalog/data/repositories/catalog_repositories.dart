@@ -13,6 +13,7 @@ import 'package:niagara_app/features/catalog/domain/repositories/catalog_reposit
 class CatalogRepositories extends BaseRepository implements ICatalogRepository {
   CatalogRepositories(
     super._logger,
+    super._networkInfo,
     this._groupsRDS,
   );
 

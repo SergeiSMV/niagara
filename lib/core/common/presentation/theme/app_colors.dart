@@ -122,5 +122,6 @@ class _OtherColors extends OtherColors {
       : super(
           background70: const Color(0x70000000),
           separator30: const Color(0x30C6C9CB),
+          itemShadow: const Color(0xFFEEEEEE),
         );
 }
