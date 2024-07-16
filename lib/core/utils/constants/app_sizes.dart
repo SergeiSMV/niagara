@@ -29,4 +29,5 @@ abstract final class AppSizes {
   static const double kListItemsHeight = 200;
   static const double recentOrderItemWidth = 264;
   static const double emptyOrdersWidgetHeight = 160;
+  static const double kOrderHistoryProductHeight = 116;
 }

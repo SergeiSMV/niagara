@@ -26,7 +26,7 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
           ApiConst.kGetOrders,
           queryParameters: {
             'page': page,
-            'sort': sort.name,
+            'status': sort.name,
           },
         ),
         converter: (json) {

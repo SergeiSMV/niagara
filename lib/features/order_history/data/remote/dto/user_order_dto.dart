@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/order_status.dart';
 
 part 'user_order_dto.g.dart';
 
@@ -11,17 +10,20 @@ typedef OrdersDto = ({List<UserOrderDto> orders, PaginationDto pagination});
 @JsonSerializable(createToJson: false)
 class UserOrderDto extends Equatable {
   const UserOrderDto({
+    required this.ordersNumber,
     required this.ordersDateDelivery,
     required this.ordersDate,
     required this.ordersTimeBegin,
     required this.ordersTimeEnd,
+    required this.ordersCustomerName,
+    required this.ordersCustomerPhone,
     required this.ordersLocationId,
     required this.ordersLocationName,
     required this.ordersDescription,
     required this.ordersSumDelivery,
     required this.ordersSumDiscont,
-    required this.ordersPromocode,
-    required this.ordersPromocodeSum,
+    required this.ordersPromoCode,
+    required this.ordersPromoCodeSum,
     required this.ordersTaraCount,
     required this.ordersTaraSum,
     required this.ordersBonusesAdd,
@@ -34,10 +36,15 @@ class UserOrderDto extends Equatable {
     required this.ordersRating,
     required this.ordersRatingDescription,
     required this.ordersPaymentType,
-    required this.ordersPaymentComplited,
+    required this.ordersPaymentCompleted,
     required this.products,
   });
 
+  factory UserOrderDto.fromJson(Map<String, dynamic> json) =>
+      _$UserOrderDtoFromJson(json);
+
+  @JsonKey(name: 'ORDERS_NUMBER')
+  final String ordersNumber;
   @JsonKey(name: 'ORDERS_DATE_DELIVERY')
   final DateTime ordersDateDelivery;
   @JsonKey(name: 'ORDERS_DATE')
@@ -46,6 +53,10 @@ class UserOrderDto extends Equatable {
   final DateTime ordersTimeBegin;
   @JsonKey(name: 'ORDERS_TIME_END')
   final DateTime ordersTimeEnd;
+  @JsonKey(name: 'ORDERS_CUSTOMER_NAME')
+  final String ordersCustomerName;
+  @JsonKey(name: 'ORDERS_CUSTOMER_PHONE')
+  final String ordersCustomerPhone;
   @JsonKey(name: 'ORDERS_LOCATION_ID')
   final String ordersLocationId;
   @JsonKey(name: 'ORDERS_LOCATION_NAME')
@@ -57,9 +68,9 @@ class UserOrderDto extends Equatable {
   @JsonKey(name: 'ORDERS_SUM_DISCONT')
   final double ordersSumDiscont;
   @JsonKey(name: 'ORDERS_PROMOCODE')
-  final String ordersPromocode;
+  final String ordersPromoCode;
   @JsonKey(name: 'ORDERS_PROMOCODE_SUM')
-  final double ordersPromocodeSum;
+  final double ordersPromoCodeSum;
   @JsonKey(name: 'ORDERS_TARA_COUNT')
   final int ordersTaraCount;
   @JsonKey(name: 'ORDERS_TARA_SUM')
@@ -85,12 +96,9 @@ class UserOrderDto extends Equatable {
   @JsonKey(name: 'ORDERS_PAYMENT_TYPE')
   final String ordersPaymentType;
   @JsonKey(name: 'ORDERS_PAYMENT_COMPLITED')
-  final bool ordersPaymentComplited;
+  final bool ordersPaymentCompleted;
   @JsonKey(name: 'PRODUCTS')
   final List<ProductDto> products;
-
-  factory UserOrderDto.fromJson(Map<String, dynamic> json) =>
-      _$UserOrderDtoFromJson(json);
 
   @override
   List<Object?> get props => [
@@ -98,13 +106,15 @@ class UserOrderDto extends Equatable {
         ordersDate,
         ordersTimeBegin,
         ordersTimeEnd,
+        ordersCustomerName,
+        ordersCustomerPhone,
         ordersLocationId,
         ordersLocationName,
         ordersDescription,
         ordersSumDelivery,
         ordersSumDiscont,
-        ordersPromocode,
-        ordersPromocodeSum,
+        ordersPromoCode,
+        ordersPromoCodeSum,
         ordersTaraCount,
         ordersTaraSum,
         ordersBonusesAdd,
@@ -117,7 +127,7 @@ class UserOrderDto extends Equatable {
         ordersRating,
         ordersRatingDescription,
         ordersPaymentType,
-        ordersPaymentComplited,
+        ordersPaymentCompleted,
         products,
       ];
 }

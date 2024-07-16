@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -9,11 +10,11 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/order_history/domain/models/recent_order.dart';
+import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/list_products_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_data_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/prices_and_bonuses_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/product_item_widget.dart';
 
 @RoutePage()
 class OneOrderPage extends StatelessWidget {
@@ -22,9 +23,9 @@ class OneOrderPage extends StatelessWidget {
     required this.order,
   });
 
-  final RecentOrder order;
+  final UserOrder order;
 
-  Widget _returnBottomButtons() => switch (order.status) {
+  Widget _returnBottomButtons() => switch (order.orderStatus) {
         OrderStatus.cancelled => AppTextButton.secondary(
             text: "t.recentOrders.cancelOrder",
             onTap: () {},
@@ -71,13 +72,13 @@ class OneOrderPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Создан Пн. 07.02, 14:00 ',
+                    '${t.recentOrders.created} ${DateFormat('EE. dd.MM, HH:mm', 'ru_RU').format(order.date)}',
                     style: context.textStyle.textTypo.tx2Medium.withColor(
                       context.colors.textColors.main,
                     ),
                   ),
                   OrderStatusWidget(
-                    status: order.status,
+                    status: order.orderStatus,
                     padding: AppInsets.kHorizontal14,
                   ),
                 ],
@@ -85,28 +86,21 @@ class OneOrderPage extends StatelessWidget {
             ),
           ),
           const SliverToBoxAdapter(child: AppBoxes.kHeight28),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
               padding: AppInsets.kHorizontal16,
-              child: OrderDataWidget(),
+              child: OrderDataWidget(order: order),
             ),
           ),
           const SliverToBoxAdapter(child: AppBoxes.kHeight32),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
               padding: AppInsets.kHorizontal16,
-              child: PricesAndBonusesWidget(),
+              child: PricesAndBonusesWidget(order: order),
             ),
           ),
           const SliverToBoxAdapter(child: AppBoxes.kHeight16),
-          SliverPadding(
-            padding: AppInsets.kHorizontal16,
-            sliver: SliverList.separated(
-              itemCount: 4,
-              itemBuilder: (context, index) => const ProductItemWidget(),
-              separatorBuilder: (_, __) => AppBoxes.kHeight8,
-            ),
-          ),
+          ListProductsWidget(products: order.products),
           const SliverToBoxAdapter(child: BottomButtonsWidget()),
         ],
       ),

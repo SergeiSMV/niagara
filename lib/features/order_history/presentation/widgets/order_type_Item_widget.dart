@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/enums/orders_types.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 
 class OrderTypeItemWidget extends StatelessWidget {
   const OrderTypeItemWidget({
@@ -15,19 +17,17 @@ class OrderTypeItemWidget extends StatelessWidget {
   final bool isSelected;
   final OrdersTypes name;
 
-  // void _setSort(BuildContext context) {
-  //   if (isSelected) return;
-  //   context
-  //       .read<NotificationsBloc>()
-  //       .add(NotificationsEvent.setSort(sort: name));
-  // }
+  void _setSort(BuildContext context) {
+    if (isSelected) return;
+    context.read<OrdersBloc>().add(OrdersEvent.setSort(sort: name));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: AppInsets.kHorizontal4,
       child: InkWell(
-        onTap: () {},
+        onTap: () => _setSort(context),
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: AppBorders.kCircular6,

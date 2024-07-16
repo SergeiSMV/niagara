@@ -1,90 +1,97 @@
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/order_status.dart';
+import 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
 
 class UserOrder extends Equatable {
   const UserOrder({
-    required this.ordersDateDelivery,
-    required this.ordersDate,
-    required this.ordersTimeBegin,
-    required this.ordersTimeEnd,
-    required this.ordersLocationId,
-    required this.ordersLocationName,
-    required this.ordersDescription,
-    required this.ordersSumDelivery,
-    required this.ordersSumDiscont,
-    required this.ordersPromocode,
-    required this.ordersPromocodeSum,
-    required this.ordersTaraCount,
-    required this.ordersTaraSum,
-    required this.ordersBonusesAdd,
-    required this.ordersBonusesPay,
-    required this.ordersStatus,
-    required this.ordersProductsCount,
-    required this.ordersProductsSum,
-    required this.ordersTotalBenefit,
-    required this.ordersTotalSum,
-    required this.ordersRating,
-    required this.ordersRatingDescription,
-    required this.ordersPaymentType,
-    required this.ordersPaymentComplited,
+    required this.orderNumber,
+    required this.dateDelivery,
+    required this.date,
+    required this.timeBegin,
+    required this.timeEnd,
+    required this.customerName,
+    required this.customerPhone,
+    required this.locationId,
+    required this.locationName,
+    required this.description,
+    required this.sumDelivery,
+    required this.sumDiscont,
+    required this.promoCode,
+    required this.promoCodeSum,
+    required this.taraCount,
+    required this.taraSum,
+    required this.bonusesAdd,
+    required this.bonusesPay,
+    required this.orderStatus,
+    required this.orderProductsCount,
+    required this.orderProductsSum,
+    required this.totalBenefit,
+    required this.totalSum,
+    required this.rating,
+    required this.ratingDescription,
+    required this.paymentType,
+    required this.paymentCompleted,
     required this.products,
   });
 
-  final DateTime ordersDateDelivery;
-  final DateTime ordersDate;
-  final DateTime ordersTimeBegin;
-  final DateTime ordersTimeEnd;
-  final String ordersLocationId;
-  final String ordersLocationName;
-  final String ordersDescription;
-  final double ordersSumDelivery;
-  final double ordersSumDiscont;
-  final String ordersPromocode;
-  final double ordersPromocodeSum;
-  final int ordersTaraCount;
-  final double ordersTaraSum;
-  final double ordersBonusesAdd;
-  final double ordersBonusesPay;
-  final OrderStatus ordersStatus;
-  final int ordersProductsCount;
-  final double ordersProductsSum;
-  final double ordersTotalBenefit;
-  final double ordersTotalSum;
-  final int ordersRating;
-  final String ordersRatingDescription;
-  final String ordersPaymentType; //TODO
-  final bool ordersPaymentComplited;
+  final String orderNumber;
+  final DateTime dateDelivery;
+  final DateTime date;
+  final DateTime timeBegin;
+  final DateTime timeEnd;
+  final String customerName;
+  final String customerPhone;
+  final String locationId;
+  final String locationName;
+  final String description;
+  final double sumDelivery;
+  final double sumDiscont;
+  final String promoCode;
+  final double promoCodeSum;
+  final int taraCount;
+  final double taraSum;
+  final double bonusesAdd;
+  final double bonusesPay;
+  final OrderStatus orderStatus;
+  final int orderProductsCount;
+  final double orderProductsSum;
+  final double totalBenefit;
+  final double totalSum;
+  final int rating;
+  final String ratingDescription;
+  final OrdersPaymentTypes paymentType;
+  final bool paymentCompleted;
   final List<Product> products;
-
-  // ORDERS_PAYMENT_TYPE– тип опплаты (CASH-наличными, CARD-картой курьеру, ONLINE-онлай через приложение)
 
   @override
   List<Object?> get props => [
-        ordersDateDelivery,
-        ordersDate,
-        ordersTimeBegin,
-        ordersTimeEnd,
-        ordersLocationId,
-        ordersLocationName,
-        ordersDescription,
-        ordersSumDelivery,
-        ordersSumDiscont,
-        ordersPromocode,
-        ordersPromocodeSum,
-        ordersTaraCount,
-        ordersTaraSum,
-        ordersBonusesAdd,
-        ordersBonusesPay,
-        ordersStatus,
-        ordersProductsCount,
-        ordersProductsSum,
-        ordersTotalBenefit,
-        ordersTotalSum,
-        ordersRating,
-        ordersRatingDescription,
-        ordersPaymentType,
-        ordersPaymentComplited,
+        dateDelivery,
+        date,
+        timeBegin,
+        timeEnd,
+        customerName,
+        customerPhone,
+        locationId,
+        locationName,
+        description,
+        sumDelivery,
+        sumDiscont,
+        promoCode,
+        promoCodeSum,
+        taraCount,
+        taraSum,
+        bonusesAdd,
+        bonusesPay,
+        orderStatus,
+        orderProductsCount,
+        orderProductsSum,
+        totalBenefit,
+        totalSum,
+        rating,
+        ratingDescription,
+        paymentType,
+        paymentCompleted,
         products,
       ];
 }

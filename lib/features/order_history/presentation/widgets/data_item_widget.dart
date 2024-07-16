@@ -4,7 +4,6 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/order_history/domain/models/payment_statuses.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/payment_status_widget.dart';
 
 class DataItemWidget extends StatelessWidget {
@@ -14,14 +13,14 @@ class DataItemWidget extends StatelessWidget {
     required this.title,
     required this.subtitle,
     this.phone,
-    this.paymentStatus = false,
+    this.paymentCompleted,
   });
 
   final SvgGenImage icon;
   final String title;
   final String subtitle;
   final String? phone;
-  final bool paymentStatus;
+  final bool? paymentCompleted;
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +45,15 @@ class DataItemWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    subtitle,
-                    style: context.textStyle.descriptionTypo.des2
-                        .withColor(context.colors.textColors.main),
+                  Expanded(
+                    child: Text(
+                      subtitle,
+                      style: context.textStyle.descriptionTypo.des2
+                          .withColor(context.colors.textColors.main),
+                    ),
                   ),
-                  if (paymentStatus)
-                    const PaymentStatusWidget(status: PaymentStatuses.paidFor),
+                  if (paymentCompleted != null)
+                    PaymentStatusWidget(paymentCompleted: paymentCompleted!),
                 ],
               ),
               if ((phone ?? '').isNotEmpty)

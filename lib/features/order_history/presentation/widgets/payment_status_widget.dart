@@ -3,29 +3,27 @@ import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/features/order_history/domain/models/payment_statuses.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 class PaymentStatusWidget extends StatelessWidget {
   const PaymentStatusWidget({
     super.key,
-    required this.status,
+    required this.paymentCompleted,
   });
 
-  final PaymentStatuses status;
+  final bool paymentCompleted;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors.infoColors;
 
-    final widgetColor = switch (status) {
-      PaymentStatuses.paidFor => colors.lightGreen,
-      PaymentStatuses.notPaidFor => colors.lightRed,
-    };
+    final widgetColor = paymentCompleted ? colors.lightGreen : colors.lightRed;
 
-    final textColor = switch (status) {
-      PaymentStatuses.paidFor => colors.green,
-      PaymentStatuses.notPaidFor => colors.red,
-    };
+    final textColor = paymentCompleted ? colors.green : colors.red;
+
+    final statusText = paymentCompleted
+        ? t.recentOrders.paymentStatuses.paidFor
+        : t.recentOrders.paymentStatuses.notPaidFor;
 
     return Container(
       padding: AppInsets.kVertical2 + AppInsets.kHorizontal4,
@@ -34,7 +32,7 @@ class PaymentStatusWidget extends StatelessWidget {
         color: widgetColor,
       ),
       child: Text(
-        status.toLocale(),
+        statusText,
         style: context.textStyle.textTypo.tx3SemiBold.withColor(textColor),
       ),
     );
