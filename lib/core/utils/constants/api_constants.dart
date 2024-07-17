@@ -136,4 +136,11 @@ abstract final class ApiConst {
   // ? ----------------------- Special products -------------------------- ? //
   /// -GET- Запрос на получение новых товаров.
   static const String kGetSpeialProducts = '/products_special';
+
+  // ? ----------------------- Stories -------------------------- ? //
+  /// -GET- Запрос на получение списка сториз.
+  static const String kGetStories = '/stories';
+
+  /// -POST- Запрос на отметку просмотренной сториз.
+  static const String kMarkStorySeen = '/stories_check';
 }
