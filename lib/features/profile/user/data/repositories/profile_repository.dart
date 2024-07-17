@@ -66,4 +66,27 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
         (failure) => throw failure,
         (profile) => profile,
       );
+
+  @override
+  Future<Either<Failure, void>> deleteUser(User user) => execute(() async {
+        _profileRDS.deleteAccount().fold(
+          (failure) => throw failure,
+          (success) async {
+            if (success) {
+              await _userLDS.deleteUser(user.toEntity());
+            } else {
+              // TODO: Точно ли это именно ошибка репозитория?
+              throw failure;
+            }
+          },
+        );
+      });
+
+  @override
+  Future<Either<Failure, void>> logout() => execute(() async {
+        _profileRDS.logout().fold(
+              (failure) => throw failure,
+              (success) => success,
+            );
+      });
 }
