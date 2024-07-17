@@ -49,23 +49,24 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
     _current++;
 
-    final data = await _getOrdersUseCase(
+    await _getOrdersUseCase(
       OrdersParams(
         page: _current,
         sort: _sort,
       ),
     ).fold(
-      (failure) => throw failure,
-      (data) => data,
-    );
+      (failure) => emit(const _Error()),
+      (data) {
+        _current = data.pagination.current;
+        _total = data.pagination.total;
 
-    _current = data.pagination.current;
-    _total = data.pagination.total;
-
-    emit(
-      _Loaded(
-        orders: event.isForceUpdate ? data.orders : [...orders, ...data.orders],
-      ),
+        emit(
+          _Loaded(
+            orders:
+                event.isForceUpdate ? data.orders : [...orders, ...data.orders],
+          ),
+        );
+      },
     );
   }
 

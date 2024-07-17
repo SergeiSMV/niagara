@@ -9,6 +9,7 @@ part 'user_order_entity.g.dart';
 @JsonSerializable()
 class UserOrderEntity extends Equatable {
   const UserOrderEntity({
+    required this.id,
     required this.orderNumber,
     required this.dateDelivery,
     required this.date,
@@ -39,6 +40,7 @@ class UserOrderEntity extends Equatable {
     required this.products,
   });
 
+  final String id;
   final String orderNumber;
   final DateTime dateDelivery;
   final DateTime date;
@@ -70,6 +72,7 @@ class UserOrderEntity extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         dateDelivery,
         date,
         timeBegin,

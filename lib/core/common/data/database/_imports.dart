@@ -5,6 +5,8 @@ export 'package:drift/native.dart';
 export 'package:injectable/injectable.dart';
 export 'package:niagara_app/core/common/data/local/entities/product_entity.dart';
 export 'package:niagara_app/core/utils/enums/location_precision.dart';
+export 'package:niagara_app/core/utils/enums/order_status.dart';
+export 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
 export 'package:niagara_app/core/utils/enums/status_level_type.dart';
 export 'package:niagara_app/features/cart/favorites/data/local/dao/favorites_dao.dart';
 export 'package:niagara_app/features/cart/favorites/data/local/tables/favorites_table.dart';

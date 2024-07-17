@@ -5,6 +5,7 @@ import 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
 
 class UserOrder extends Equatable {
   const UserOrder({
+    required this.id,
     required this.orderNumber,
     required this.dateDelivery,
     required this.date,
@@ -35,6 +36,7 @@ class UserOrder extends Equatable {
     required this.products,
   });
 
+  final String id;
   final String orderNumber;
   final DateTime dateDelivery;
   final DateTime date;
@@ -66,6 +68,7 @@ class UserOrder extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         dateDelivery,
         date,
         timeBegin,

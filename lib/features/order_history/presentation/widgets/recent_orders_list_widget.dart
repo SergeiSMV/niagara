@@ -76,14 +76,19 @@ class RecentOrdersListWidget extends StatelessWidget {
 class _AllOrdersButtonWidget extends StatelessWidget {
   const _AllOrdersButtonWidget();
 
-  void _goToOrders(BuildContext context) => context.navigateTo(
-        const ProfileWrapper(
-          children: [
-            ProfileRoute(),
-            OrdersRoute(),
-          ],
-        ),
-      );
+  void _goToOrders(BuildContext context) {
+    context
+        .read<OrdersBloc>()
+        .add(const OrdersEvent.loading(isForceUpdate: true));
+    context.navigateTo(
+      const ProfileWrapper(
+        children: [
+          ProfileRoute(),
+          OrdersRoute(),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

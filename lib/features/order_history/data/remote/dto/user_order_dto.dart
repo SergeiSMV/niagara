@@ -10,6 +10,7 @@ typedef OrdersDto = ({List<UserOrderDto> orders, PaginationDto pagination});
 @JsonSerializable(createToJson: false)
 class UserOrderDto extends Equatable {
   const UserOrderDto({
+    required this.ordersId,
     required this.ordersNumber,
     required this.ordersDateDelivery,
     required this.ordersDate,
@@ -43,6 +44,8 @@ class UserOrderDto extends Equatable {
   factory UserOrderDto.fromJson(Map<String, dynamic> json) =>
       _$UserOrderDtoFromJson(json);
 
+  @JsonKey(name: 'ORDERS_ID')
+  final String ordersId;
   @JsonKey(name: 'ORDERS_NUMBER')
   final String ordersNumber;
   @JsonKey(name: 'ORDERS_DATE_DELIVERY')
@@ -102,6 +105,7 @@ class UserOrderDto extends Equatable {
 
   @override
   List<Object?> get props => [
+        ordersId,
         ordersDateDelivery,
         ordersDate,
         ordersTimeBegin,

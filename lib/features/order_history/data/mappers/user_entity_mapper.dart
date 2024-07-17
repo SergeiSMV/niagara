@@ -1,9 +1,44 @@
 import 'package:drift/drift.dart';
 import 'package:niagara_app/core/common/data/database/app_database.dart';
+import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
 import 'package:niagara_app/features/order_history/data/local/entities/user_order_entity.dart';
+import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 
 extension AddressEntityMapper on UserOrderEntity {
+  UserOrder toModel() => UserOrder(
+        id: id,
+        orderNumber: orderNumber,
+        dateDelivery: dateDelivery,
+        date: date,
+        timeBegin: timeBegin,
+        timeEnd: timeEnd,
+        customerName: customerName,
+        customerPhone: customerPhone,
+        locationId: locationId,
+        locationName: locationName,
+        description: description,
+        sumDelivery: sumDelivery,
+        sumDiscont: sumDiscont,
+        promoCode: promoCode,
+        promoCodeSum: promoCodeSum,
+        taraCount: taraCount,
+        taraSum: taraSum,
+        bonusesAdd: bonusesAdd,
+        bonusesPay: bonusesPay,
+        orderStatus: orderStatus,
+        orderProductsCount: orderProductsCount,
+        orderProductsSum: orderProductsSum,
+        totalBenefit: totalBenefit,
+        totalSum: totalSum,
+        rating: rating,
+        ratingDescription: ratingDescription,
+        paymentType: paymentType,
+        paymentCompleted: paymentCompleted,
+        products: products.map((e) => e.toModel()).toList(),
+      );
+
   UserOrdersTableCompanion toCompanion() => UserOrdersTableCompanion(
+        id: Value(id),
         orderNumber: Value(orderNumber),
         dateDelivery: Value(dateDelivery),
         date: Value(date),
@@ -37,6 +72,7 @@ extension AddressEntityMapper on UserOrderEntity {
 
 extension UserOrdersTableExtension on UserOrdersTableData {
   UserOrderEntity toEntity() => UserOrderEntity(
+        id: id,
         orderNumber: orderNumber,
         dateDelivery: dateDelivery,
         date: date,

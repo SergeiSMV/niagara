@@ -3,15 +3,11 @@ import 'package:niagara_app/features/order_history/data/local/entities/user_orde
 import 'package:niagara_app/features/order_history/data/mappers/user_entity_mapper.dart';
 
 abstract interface class IOrdersLocalDatasource {
-  Future<Either<Failure, List<UserOrderEntity>>> getAddresses();
+  Future<Either<Failure, List<UserOrderEntity>>> getOrders();
 
-  Future<Either<Failure, void>> saveOrders(List<UserOrderEntity> orders);
+  Future<Either<Failure, void>> saveOrder(UserOrderEntity order);
 
-  Future<Either<Failure, void>> addOrders(UserOrderEntity order);
-
-  Future<Either<Failure, void>> updateOrders(UserOrderEntity order);
-
-  Future<Either<Failure, void>> deleteOrders(UserOrderEntity order);
+  Future<Either<Failure, void>> updateOrder(UserOrderEntity order);
 }
 
 @LazySingleton(as: IOrdersLocalDatasource)
@@ -21,33 +17,20 @@ class OrdersLocalDatasource implements IOrdersLocalDatasource {
   final AppDatabase _database;
 
   @override
-  Future<Either<Failure, List<UserOrderEntity>>> getAddresses() => _execute(
+  Future<Either<Failure, List<UserOrderEntity>>> getOrders() => _execute(
         () async => (await _database.allOrders.getOrders())
             .map((table) => table.toEntity())
             .toList(),
       );
 
   @override
-  Future<Either<Failure, void>> saveOrders(List<UserOrderEntity> orders) =>
-      _execute(
-        () => _database.allOrders.insertOrders(
-          orders.map((entity) => entity.toCompanion()).toList(),
-        ),
-      );
-
-  @override
-  Future<Either<Failure, void>> addOrders(UserOrderEntity order) => _execute(
+  Future<Either<Failure, void>> saveOrder(UserOrderEntity order) => _execute(
         () => _database.allOrders.insertOrder(order.toCompanion()),
       );
 
   @override
-  Future<Either<Failure, void>> updateOrders(UserOrderEntity order) => _execute(
+  Future<Either<Failure, void>> updateOrder(UserOrderEntity order) => _execute(
         () => _database.allOrders.updateOrder(order.toCompanion()),
-      );
-
-  @override
-  Future<Either<Failure, void>> deleteOrders(UserOrderEntity order) => _execute(
-        () => _database.allOrders.deleteOrder(order.toCompanion()),
       );
 
   Future<Either<Failure, T>> _execute<T>(Future<T> Function() action) async {
@@ -55,7 +38,7 @@ class OrdersLocalDatasource implements IOrdersLocalDatasource {
       final result = await action();
       return Right(result);
     } on Failure catch (e) {
-      return Left(AddressesLocalDataFailure(e.toString()));
+      return Left(OrdersLocalDataFailure(e.toString()));
     }
   }
 }

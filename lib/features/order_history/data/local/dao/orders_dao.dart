@@ -12,17 +12,9 @@ class AllOrders extends DatabaseAccessor<AppDatabase> with _$AllOrdersMixin {
   Future<List<UserOrdersTableData>> getOrders() async =>
       select(userOrdersTable).get();
 
-  Future<void> insertOrders(
-    List<UserOrdersTableCompanion> companions,
-  ) async =>
-      batch((batch) => batch.insertAll(userOrdersTable, companions));
-
   Future<int> insertOrder(UserOrdersTableCompanion companion) =>
       into(userOrdersTable).insert(companion);
 
   Future<bool> updateOrder(UserOrdersTableCompanion companion) =>
       update(userOrdersTable).replace(companion);
-
-  Future<int> deleteOrder(UserOrdersTableCompanion companion) =>
-      delete(userOrdersTable).delete(companion);
 }

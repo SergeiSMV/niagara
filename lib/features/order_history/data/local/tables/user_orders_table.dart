@@ -6,7 +6,7 @@ import 'package:niagara_app/core/utils/enums/order_status.dart';
 import 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
 
 class UserOrdersTable extends Table {
-  IntColumn get id => integer()();
+  TextColumn get id => text()();
   TextColumn get orderNumber => text()();
   DateTimeColumn get dateDelivery => dateTime()();
   DateTimeColumn get date => dateTime()();
