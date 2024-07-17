@@ -9,11 +9,14 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/enums/order_status.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/double_price_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/light_button_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/estimate_modal_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/estimate_sent_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 
 class RecentOrderItemWidget extends StatelessWidget {
@@ -35,17 +38,6 @@ class RecentOrderItemWidget extends StatelessWidget {
           ],
         ),
       );
-
-  Widget _returnBottomWidget() => switch (order.orderStatus) {
-        OrderStatus.goingTo => _BottomPriceWidget(price: order.totalSum),
-        OrderStatus.onWay => _BottomPriceWidget(price: order.totalSum),
-        OrderStatus.received => const _BottomButtonsWidget(),
-        OrderStatus.cancelled => LightButtonWidget(
-            text: t.recentOrders.repeat,
-            icon: Assets.icons.repeat,
-            onTap: () {},
-          ),
-      };
 
   String _returnFormattedDateDelivery() {
     final dayAndMonth =
@@ -93,7 +85,7 @@ class RecentOrderItemWidget extends StatelessWidget {
                 OrderStatusWidget(status: order.orderStatus),
               ],
             ),
-            AppBoxes.kHeight12,
+            if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
             Text(
               t.locations.deliveryAddress,
               style: context.textStyle.textTypo.tx3Medium.withColor(
@@ -120,7 +112,9 @@ class RecentOrderItemWidget extends StatelessWidget {
               color: context.colors.fieldBordersColors.main.withOpacity(0.3),
             ),
             if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
-            _returnBottomWidget(),
+            _BottomPriceWidget(price: order.totalSum),
+            if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
+            _BottomButtonsWidget(status: order.orderStatus),
           ],
         ),
       ),
@@ -147,7 +141,7 @@ class _BottomPriceWidget extends StatelessWidget {
           ),
         ),
         Text(
-          '$price ${t.common.rub}',
+          '${price.priceString} ${t.common.rub}',
           style: context.textStyle.textTypo.tx2SemiBold.withColor(
             context.colors.textColors.main,
           ),
@@ -158,27 +152,74 @@ class _BottomPriceWidget extends StatelessWidget {
 }
 
 class _BottomButtonsWidget extends StatelessWidget {
-  const _BottomButtonsWidget();
+  const _BottomButtonsWidget({
+    required this.status,
+  });
+
+  final OrderStatus status;
+
+  Future<void> _showEstimateModal(BuildContext context) async =>
+      showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        useRootNavigator: true,
+        backgroundColor: context.colors.mainColors.white,
+        useSafeArea: true,
+        builder: (ctx) => EstimateModalWidget(
+          onTap: () {
+            _showEstimateSentModal(context);
+          },
+        ),
+      );
+
+  Future<void> _showEstimateSentModal(BuildContext context) async =>
+      showModalBottomSheet(
+        context: context,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        useSafeArea: true,
+        builder: (ctx) => const EstimateSentModalWidget(),
+      );
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          child: LightButtonWidget(
-            text: t.recentOrders.estimate,
-            icon: Assets.icons.star,
+        if (status == OrderStatus.goingTo) ...[
+          LightButtonWidget(
+            text: t.common.cancel,
+            icon: Assets.icons.close,
             onTap: () {},
           ),
-        ),
-        AppBoxes.kWidth4,
-        Expanded(
-          child: LightButtonWidget(
+        ],
+        if (status == OrderStatus.received) ...[
+          Row(
+            children: [
+              Expanded(
+                child: LightButtonWidget(
+                  text: t.recentOrders.estimate,
+                  icon: Assets.icons.star,
+                  onTap: () => _showEstimateModal(context),
+                ),
+              ),
+              AppBoxes.kWidth4,
+              Expanded(
+                child: LightButtonWidget(
+                  text: t.recentOrders.repeat,
+                  icon: Assets.icons.repeat,
+                  onTap: () {},
+                ),
+              ),
+            ],
+          ),
+        ],
+        if (status == OrderStatus.cancelled) ...[
+          LightButtonWidget(
             text: t.recentOrders.repeat,
             icon: Assets.icons.repeat,
             onTap: () {},
           ),
-        ),
+        ],
       ],
     );
   }

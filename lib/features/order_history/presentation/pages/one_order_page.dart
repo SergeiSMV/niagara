@@ -25,28 +25,6 @@ class OneOrderPage extends StatelessWidget {
 
   final UserOrder order;
 
-  Widget _returnBottomButtons() => switch (order.orderStatus) {
-        OrderStatus.cancelled => AppTextButton.secondary(
-            text: "t.recentOrders.cancelOrder",
-            onTap: () {},
-          ),
-        OrderStatus.goingTo => Padding(
-            padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
-            child: AppTextButton.secondary(
-              text: t.recentOrders.cancelOrder,
-              onTap: () {},
-            ),
-          ),
-        OrderStatus.onWay => AppTextButton.secondary(
-            text: "t.recentOrders.markAsDelivered",
-            onTap: () {},
-          ),
-        OrderStatus.received => AppTextButton.secondary(
-            text: "t.recentOrders.markAsInProgress",
-            onTap: () {},
-          ),
-      };
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,44 +79,77 @@ class OneOrderPage extends StatelessWidget {
           ),
           const SliverToBoxAdapter(child: AppBoxes.kHeight16),
           ListProductsWidget(products: order.products),
-          const SliverToBoxAdapter(child: BottomButtonsWidget()),
+          _BottomButtonsWidget(status: order.orderStatus),
         ],
       ),
     );
   }
 }
 
-class BottomButtonsWidget extends StatelessWidget {
-  const BottomButtonsWidget({super.key});
+class _BottomButtonsWidget extends StatelessWidget {
+  const _BottomButtonsWidget({
+    required this.status,
+  });
+
+  final OrderStatus status;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: AppInsets.kHorizontal16,
-      child: Column(
-        children: [
-          AppBoxes.kHeight24,
-          AppTextButton.secondary(
-            text: t.recentOrders.cancelOrder,
-            onTap: () {},
-          ),
-          AppBoxes.kHeight24,
-        ],
-      ),
-    );
-  }
-}
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: AppInsets.kHorizontal16,
+        child: Column(
+          children: [
+            AppBoxes.kHeight24,
 
-class BottomButtonsWhenStatusIsGoingTo extends StatelessWidget {
-  const BottomButtonsWhenStatusIsGoingTo({super.key});
+            /// Отменить заказ (собирается)
+            if (status == OrderStatus.goingTo) ...[
+              AppTextButton.secondary(
+                text: t.recentOrders.cancelOrder,
+                onTap: () {},
+              ),
+            ],
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
-      child: AppTextButton.secondary(
-        text: t.recentOrders.cancelOrder,
-        onTap: () {},
+            /// Связаться с водителем (в пути)
+            if (status == OrderStatus.onWay) ...[
+              AppTextButton.primary(
+                text: t.recentOrders.contactDriver,
+                onTap: () {},
+              ),
+            ],
+
+            /// Повторить заказ (Получен)
+            if (status == OrderStatus.received) ...[
+              AppTextButton.primary(
+                text: t.recentOrders.repeatOrder,
+                onTap: () {},
+              ),
+              AppBoxes.kHeight12,
+
+              /// Электронный чек (Получен)
+              AppTextButton.secondary(
+                text: t.recentOrders.electronicReceipt,
+                onTap: () {},
+              ),
+              AppBoxes.kHeight12,
+
+              /// Оценить заказ (Получен)
+              AppTextButton.secondary(
+                text: t.recentOrders.evaluateOrder,
+                onTap: () {},
+              ),
+            ],
+
+            /// Повторить заказ (Отменен)
+            if (status == OrderStatus.cancelled) ...[
+              AppTextButton.primary(
+                text: t.recentOrders.repeatOrder,
+                onTap: () {},
+              ),
+            ],
+            AppBoxes.kHeight24,
+          ],
+        ),
       ),
     );
   }

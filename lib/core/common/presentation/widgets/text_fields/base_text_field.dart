@@ -16,6 +16,7 @@ abstract class BaseTextField extends HookWidget {
   const BaseTextField({
     required this.name,
     super.key,
+    this.expandable = false,
     this.initialText,
     this.label,
     this.hint,
@@ -33,6 +34,8 @@ abstract class BaseTextField extends HookWidget {
 
   /// Название поля
   final String name;
+
+  final bool expandable;
 
   /// Текст при инициализации
   final String? initialText;
@@ -107,6 +110,7 @@ abstract class BaseTextField extends HookWidget {
     return FormBuilderTextField(
       key: formKey,
       name: name,
+      maxLines: expandable ? null : 1,
       initialValue: mask != null ? maskedText : initialText,
       enabled: !state.isDisabled,
       maxLength: maxLength,
