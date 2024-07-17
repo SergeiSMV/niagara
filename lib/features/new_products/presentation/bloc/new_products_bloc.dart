@@ -12,7 +12,7 @@ part 'new_products_state.dart';
 @injectable
 class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
   NewProductsBloc(this._useCase) : super(const _LoadingNewProducts()) {
-    on<_LoadingNewProductsEvent>(_onLoad, transformer: debounce());
+    on<_LoadingNewProductsEvent>(_onLoad);
     on<_LoadingMoreNewProductsEvent>(_onLoadMore, transformer: debounce());
 
     add(const _LoadingNewProductsEvent());

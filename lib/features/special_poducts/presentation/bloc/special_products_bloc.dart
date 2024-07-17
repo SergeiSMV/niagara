@@ -13,7 +13,7 @@ part 'special_products_state.dart';
 class SpecialProductsBloc
     extends Bloc<SpecialProductsEvent, SpecialProductsState> {
   SpecialProductsBloc(this._useCase) : super(const _LoadingSpecialProducts()) {
-    on<_LoadingSpecialProductsEvent>(_onLoad, transformer: debounce());
+    on<_LoadingSpecialProductsEvent>(_onLoad);
     on<_LoadingMoreSpecialProductsEvent>(_onLoadMore, transformer: debounce());
 
     add(const _LoadingSpecialProductsEvent());

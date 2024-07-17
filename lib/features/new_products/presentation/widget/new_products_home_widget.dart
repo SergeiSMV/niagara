@@ -19,17 +19,8 @@ class NewProductsHomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NewProductsBloc, NewProductsState>(
       builder: (_, state) => state.map(
+        loading: (_) => const SizedBox.shrink(),
         error: (_) => const SizedBox.shrink(),
-        loading: (_) => Center(
-          child: Padding(
-            padding: AppInsets.kVertical64 + AppInsets.kVertical2,
-            child: Assets.lottie.loadCircle.lottie(
-              width: AppSizes.kGeneral64,
-              height: AppSizes.kGeneral64,
-              repeat: true,
-            ),
-          ),
-        ),
         loaded: (state) {
           final List<Product> products = state.products;
           final List<Widget> children = products
