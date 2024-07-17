@@ -159,7 +159,16 @@
   },
   "profile": {
     "helloUser": "Привет, ${name}!",
-    "letsGetAcquainted": "Давайте познакомимся!"
+    "letsGetAcquainted": "Давайте познакомимся!",
+    "logoutAction": "Выйти из аккаунта",
+    "deleteAccountAction": "Удалить аккаунт",
+    "logoutConfirmationHeader": "Вы уверены, что хотите выйти?",
+    "logoutButton": "Подтвердить",
+    "logoutLaterButtom": "Позже",
+    "deleteConfirmationHeader": "Удалить учётную запись?",
+    "deleteAccountDescription": "Вы не сможете оформить заказ, а также воспользоваться бонусной картой и персональными скидами",
+    "deleteAccountButton": "Удалить",
+    "cancelDeletingButton": "Отмена"
   },
   "promos": {
     "promotions": "Акции",
