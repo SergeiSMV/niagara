@@ -57,6 +57,12 @@ abstract final class ApiConst {
   /// -PUT- Запрос на обновление профиля
   static const String kUpdateProfile = '/users';
 
+  /// -DELETE- Запрос на удаление профиля
+  static const String kDeleteProfile = '/users';
+
+  /// -POST- Запрос на выход из аккаунта
+  static const String kLogout = '/user_checkout';
+
   // ? --------------------------- BonusProgram --------------------------- ? //
   /// -GET- Запрос на получение описания программы бонусов
   static const String kGetBonusProgram = '/bonus_program';

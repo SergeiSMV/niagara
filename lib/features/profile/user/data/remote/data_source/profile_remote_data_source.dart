@@ -4,6 +4,8 @@ import 'package:niagara_app/features/profile/user/data/remote/dto/profile_dto.da
 abstract interface class IProfileRemoteDataSource {
   Future<Either<Failure, ProfileDto>> getProfile();
   Future<Either<Failure, bool>> updateProfile(ProfileDto userDto);
+  Future<Either<Failure, bool>> logout();
+  Future<Either<Failure, bool>> deleteAccount();
 }
 
 @LazySingleton(as: IProfileRemoteDataSource)
@@ -31,6 +33,26 @@ class ProfileRemoteDataSource implements IProfileRemoteDataSource {
             ...userDto.toJson(),
             'PHONE': userDto.login,
           },
+        ),
+        converter: (json) => json['success'] as bool,
+        failure: ProfileRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, bool>> deleteAccount() =>
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+        request: (dio) => dio.delete(
+          ApiConst.kDeleteProfile,
+        ),
+        converter: (json) => json['success'] as bool,
+        failure: ProfileRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, bool>> logout() =>
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+        request: (dio) => dio.post(
+          ApiConst.kLogout,
         ),
         converter: (json) => json['success'] as bool,
         failure: ProfileRemoteDataFailure.new,
