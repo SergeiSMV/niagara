@@ -175,6 +175,12 @@
     "discountForYou": "Скидки для вас",
     "more": "Подробнее"
   },
+  "newProducts": {
+    "newProducts": "Новинки"
+  },
+  "specialProducts": {
+    "specialProducts": "Специально для Вас"
+  },
   "catalog": {
     "categories": "Категории",
     "sort": "Сортировать",

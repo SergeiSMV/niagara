@@ -1,3 +1,4 @@
+import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
 import 'package:niagara_app/features/catalog/domain/model/filter.dart';
