@@ -2,10 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
+import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/logout_use_case.dart';
 import 'package:niagara_app/features/profile/user/domain/models/user.dart';
 import 'package:niagara_app/features/profile/user/domain/usecases/delete_user_use_case.dart';
 import 'package:niagara_app/features/profile/user/domain/usecases/get_user_use_case.dart';
-import 'package:niagara_app/features/profile/user/domain/usecases/logout_use_case.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -52,7 +52,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Future<void> _onLogout(_LogoutEvent event, _Emit emit) async {
     if (state is! _Loaded) return;
 
-    await _logoutUseCase.call(null).fold(
+    await _logoutUseCase.call(NoParams()).fold(
           (failure) => emit(const _Error()),
           (_) => emit(const _Unauthorized()),
         );

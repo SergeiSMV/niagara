@@ -70,6 +70,10 @@ class PhoneNotFoundFailure extends Failure {
   const PhoneNotFoundFailure([super.error = 'Phone not found']);
 }
 
+class LogoutFailure extends Failure {
+  const LogoutFailure([super.error = 'Logout failure']);
+}
+
 // ! -------------------------------- City -------------------------------- ! //
 
 class CitiesRepositoryFailure extends Failure {

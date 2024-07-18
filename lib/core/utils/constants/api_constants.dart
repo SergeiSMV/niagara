@@ -25,6 +25,9 @@ abstract final class ApiConst {
   /// -POST- Запрос на проверку кода для авторизации
   static const String kConfirmCode = '/code_confirm_check';
 
+  /// -POST- Запрос на выход из аккаунта
+  static const String kLogout = '/user_checkout';
+
   // ? ----------------------------- Location ----------------------------- ? //
   /// -GET- Запрос на получение списка городов
   static const String kGetCities = '/region';
@@ -59,9 +62,6 @@ abstract final class ApiConst {
 
   /// -DELETE- Запрос на удаление профиля
   static const String kDeleteProfile = '/users';
-
-  /// -POST- Запрос на выход из аккаунта
-  static const String kLogout = '/user_checkout';
 
   // ? --------------------------- BonusProgram --------------------------- ? //
   /// -GET- Запрос на получение описания программы бонусов

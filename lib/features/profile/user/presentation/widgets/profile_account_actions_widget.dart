@@ -1,6 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -22,8 +25,8 @@ class ProfileAccountActionsWidget extends StatelessWidget {
         return Dialog(
           alignment: Alignment.bottomCenter,
           insetPadding: AppInsets.kAll8 + AppInsets.kBottom16,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+          shape: const RoundedRectangleBorder(
+            borderRadius: AppBorders.kCircular20,
           ),
           child: Padding(
             padding: AppInsets.kAll16 + AppInsets.kVertical8,
@@ -45,10 +48,13 @@ class ProfileAccountActionsWidget extends StatelessWidget {
                 ProfileActionTile(
                   onTap: () => _showFloatingDialog(
                     context,
-                    LogoutConfirmationWidget(
-                      onSubmit: () => context.read<UserBloc>().add(
-                            const UserEvent.logout(),
-                          ),
+                    _LogoutConfirmationWidget(
+                      onSubmit: () {
+                        context.read<UserBloc>().add(
+                              const UserEvent.logout(),
+                            );
+                        context.router.replaceAll([const SplashWrapper()]);
+                      },
                     ),
                   ),
                   title: t.profile.logoutAction,
@@ -57,10 +63,13 @@ class ProfileAccountActionsWidget extends StatelessWidget {
                 ProfileActionTile(
                   onTap: () => _showFloatingDialog(
                     context,
-                    DeleteAccountConfirmationWidget(
-                      onSubmit: () => context.read<UserBloc>().add(
-                            const UserEvent.deleteAccount(),
-                          ),
+                    _DeleteAccountConfirmationWidget(
+                      onSubmit: () {
+                        context.read<UserBloc>().add(
+                              const UserEvent.deleteAccount(),
+                            );
+                        context.router.replaceAll([const SplashWrapper()]);
+                      },
                     ),
                   ),
                   title: t.profile.deleteAccountAction,
@@ -76,8 +85,8 @@ class ProfileAccountActionsWidget extends StatelessWidget {
   }
 }
 
-class DeleteAccountConfirmationWidget extends StatelessWidget {
-  const DeleteAccountConfirmationWidget({super.key, required this.onSubmit});
+class _DeleteAccountConfirmationWidget extends StatelessWidget {
+  const _DeleteAccountConfirmationWidget({required this.onSubmit});
 
   final VoidCallback onSubmit;
 
@@ -122,8 +131,8 @@ class DeleteAccountConfirmationWidget extends StatelessWidget {
   }
 }
 
-class LogoutConfirmationWidget extends StatelessWidget {
-  const LogoutConfirmationWidget({super.key, required this.onSubmit});
+class _LogoutConfirmationWidget extends StatelessWidget {
+  const _LogoutConfirmationWidget({required this.onSubmit});
 
   final VoidCallback onSubmit;
 

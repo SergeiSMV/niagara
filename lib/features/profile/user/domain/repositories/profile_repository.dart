@@ -5,5 +5,4 @@ abstract interface class IProfileRepository {
   Future<Either<Failure, User>> getUser();
   Future<Either<Failure, void>> updateUser(User user);
   Future<Either<Failure, void>> deleteUser(User user);
-  Future<Either<Failure, void>> logout();
 }
