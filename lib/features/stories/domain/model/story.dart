@@ -24,4 +24,14 @@ class Story extends Equatable {
         open,
         image,
       ];
+
+  Story copyWithOpen(bool newOpen) {
+    return Story(
+      id: id,
+      title: title,
+      slides: slides,
+      image: image,
+      open: newOpen,
+    );
+  }
 }
