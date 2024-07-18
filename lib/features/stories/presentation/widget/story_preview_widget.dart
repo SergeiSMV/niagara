@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 /// Виджет для отображения квадратного закрулённого блока-превью сториз.
@@ -20,47 +21,62 @@ class StoryPreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          width: 92,
-          height: 92,
-          child: DecoratedBox(
+    return SizedBox(
+      width: 94,
+      height: 94,
+      child: Stack(
+        children: [
+          // Image with the background linear gradient.
+          Container(
+            padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
+              border: Border.all(
+                width: 2,
+                color: seen ? const Color(0x00d7e2e9) : const Color(0x001b6a99),
+              ),
               borderRadius: BorderRadius.circular(14.0),
-              border: Border.all(width: 2, color: Colors.red),
             ),
-            child: Center(
-              child: SizedBox(
-                width: 90,
-                height: 90,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFF52B0CE),
-                        Color(0xFF00348F),
-                      ],
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                    ),
-                  ),
-                  child: imageUrl != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(12.0),
-                          child: Image.network(
-                            imageUrl!,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF52B0CE),
+                    Color(0xFF00348F),
+                  ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
                 ),
+              ),
+              child: SizedBox.expand(
+                child: imageUrl != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12.0),
+                        child: Image.network(
+                          imageUrl!,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ),
             ),
           ),
-        ),
-      ],
+          // Title of the story.
+          Positioned(
+            top: 8,
+            left: 10,
+            right: 8,
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
