@@ -11,4 +11,8 @@ class OrdersEvent with _$OrdersEvent {
   const factory OrdersEvent.setSort({
     required OrdersTypes sort,
   }) = _SetSortEvent;
+
+  const factory OrdersEvent.orderEvaluation({
+    required String orderId, required int rating,
+  }) = _OrderEvaluationEvent;
 }

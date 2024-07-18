@@ -302,6 +302,10 @@
     "yourComment": "Ваш комментарий",
     "well": "Хорошо",
     "reviewHasBeenSent": "Отзыв отправлен",
-    "thankYouForYourAssessment": "Спасибо за вашу оценку"
+    "thankYouForYourAssessment": "Спасибо за вашу оценку",
+    "heading": "Заголовок",
+    "otherOptions": "Другие варианты",
+    "sendingError": "Ошибка отправки",
+    "failedSendRating": "Не удалось отправить оценку"
   }
 }

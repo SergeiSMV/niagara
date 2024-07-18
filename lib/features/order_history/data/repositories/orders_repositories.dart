@@ -4,9 +4,11 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/order_status.dart';
 import 'package:niagara_app/core/utils/enums/orders_types.dart';
 import 'package:niagara_app/features/order_history/data/local/data_source/orders_local_data_source.dart';
+import 'package:niagara_app/features/order_history/data/mappers/order_evaluation_option_mapper.dart';
 import 'package:niagara_app/features/order_history/data/mappers/user_entity_mapper.dart';
 import 'package:niagara_app/features/order_history/data/mappers/user_order_mapper.dart';
 import 'package:niagara_app/features/order_history/data/remote/data_source/orders_remote_datasource.dart';
+import 'package:niagara_app/features/order_history/domain/models/order_evaluation_option.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/domain/repositories/orders_repository.dart';
 
@@ -30,20 +32,14 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
     required int page,
     required OrdersTypes sort,
   }) =>
-      execute(() async {
-        return await _ordersRDS
+      execute(
+        () async => await _ordersRDS
             .getOrders(
           page: page,
           sort: sort,
         )
             .fold(
-          (failure) async {
-            if (failure is NoInternetFailure) {
-              return await _getOrdersIfNoInternet(sort);
-            } else {
-              throw failure;
-            }
-          },
+          (failure) async => await _getOrdersIfNoInternet(sort),
           (dto) async {
             final orders = (
               orders: dto.orders.map((e) => e.toModel()).toList(),
@@ -52,8 +48,8 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
             await _saveOrders(orders.orders);
             return orders;
           },
-        );
-      });
+        ),
+      );
 
   Future<List<UserOrder>> _getLocalOrders() async =>
       await _ordersLDS.getOrders().fold(
@@ -77,9 +73,7 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
           shouldAdd = item.orderStatus == OrderStatus.received;
       }
 
-      if (shouldAdd) {
-        sortedLocalOrders.add(item);
-      }
+      if (shouldAdd) sortedLocalOrders.add(item);
     }
 
     return (
@@ -98,4 +92,35 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, List<OrderEvaluationOption>>>
+      getOrderEvaluationOptions({required String rating}) => execute(
+            () async =>
+                _ordersRDS.getOrderEvaluationOptions(rating: rating).fold(
+                      (failure) => throw failure,
+                      (dto) => dto.map((e) => e.toModel()).toList(),
+                    ),
+          );
+
+  @override
+  Future<Either<Failure, bool>> evaluateOrder({
+    required String id,
+    required String rating,
+    required String description,
+    required List<String> optionsIds,
+  }) =>
+      execute(
+        () async => _ordersRDS
+            .evaluateOrder(
+              id: id,
+              rating: rating,
+              description: description,
+              optionsIds: optionsIds,
+            )
+            .fold(
+              (failure) => throw failure,
+              (result) => result,
+            ),
+      );
 }

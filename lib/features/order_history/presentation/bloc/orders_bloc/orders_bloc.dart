@@ -12,7 +12,7 @@ part 'orders_state.dart';
 
 typedef _Emit = Emitter<OrdersState>;
 
-@injectable
+@lazySingleton
 class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   OrdersBloc(
     this._getOrdersUseCase,
@@ -20,6 +20,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     on<_LoadingEvent>(_onLoadOrders, transformer: debounce());
     on<_LoadMoreEvent>(_onLoadMoreOrders, transformer: debounce());
     on<_SetSortEvent>(_onSortChanged);
+    on<_OrderEvaluationEvent>(_orderEvaluation);
 
     add(const _LoadingEvent(isForceUpdate: true));
   }
@@ -33,10 +34,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   OrdersTypes _sort = OrdersTypes.delivery;
   OrdersTypes get sort => _sort;
 
-  Future<void> _onLoadOrders(
-    _LoadingEvent event,
-    _Emit emit,
-  ) async {
+  Future<void> _onLoadOrders(_LoadingEvent event, _Emit emit) async {
     if (event.isForceUpdate) {
       emit(const _Loading());
       _current = 0;
@@ -70,10 +68,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     );
   }
 
-  Future<void> _onLoadMoreOrders(
-    _LoadMoreEvent event,
-    _Emit emit,
-  ) async {
+  Future<void> _onLoadMoreOrders(_LoadMoreEvent event, _Emit emit) async {
     if (state is _Loading) return;
     if (hasMore) {
       add(const _LoadingEvent(isForceUpdate: false));
@@ -86,5 +81,21 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   ) async {
     _sort = event.sort;
     add(const _LoadingEvent(isForceUpdate: true));
+  }
+
+  void _orderEvaluation(_OrderEvaluationEvent event, _Emit emit) {
+    final orders = state.maybeMap(
+      loaded: (state) => state.orders,
+      orElse: () => const <UserOrder>[],
+    );
+
+    final updatedOrders = orders.map((order) {
+      if (order.id == event.orderId) {
+        return order.copyWith(rating: event.rating);
+      }
+      return order;
+    }).toList();
+
+    emit(_Loaded(orders: updatedOrders));
   }
 }

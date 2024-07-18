@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
@@ -25,6 +26,10 @@ class OneOrderPage extends StatelessWidget {
 
   final UserOrder order;
 
+  Future<void> _copyOrderNumber() async => await Clipboard.setData(
+        ClipboardData(text: order.orderNumber),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +39,7 @@ class OneOrderPage extends StatelessWidget {
             title: '${t.recentOrders.orderNumber}${order.orderNumber}',
             actions: [
               InkWell(
-                onTap: () {},
+                onTap: () => _copyOrderNumber(),
                 child: Padding(
                   padding: AppInsets.kRight16,
                   child: Assets.icons.copy.svg(),

@@ -16,7 +16,6 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/light_button_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/estimate_modal_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/estimate_sent_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 
 class RecentOrderItemWidget extends StatelessWidget {
@@ -114,7 +113,7 @@ class RecentOrderItemWidget extends StatelessWidget {
             if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
             _BottomPriceWidget(price: order.totalSum),
             if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
-            _BottomButtonsWidget(status: order.orderStatus),
+            _BottomButtonsWidget(order: order),
           ],
         ),
       ),
@@ -153,10 +152,10 @@ class _BottomPriceWidget extends StatelessWidget {
 
 class _BottomButtonsWidget extends StatelessWidget {
   const _BottomButtonsWidget({
-    required this.status,
+    required this.order,
   });
 
-  final OrderStatus status;
+  final UserOrder order;
 
   Future<void> _showEstimateModal(BuildContext context) async =>
       showModalBottomSheet(
@@ -165,43 +164,31 @@ class _BottomButtonsWidget extends StatelessWidget {
         useRootNavigator: true,
         backgroundColor: context.colors.mainColors.white,
         useSafeArea: true,
-        builder: (ctx) => EstimateModalWidget(
-          onTap: () {
-            _showEstimateSentModal(context);
-          },
-        ),
-      );
-
-  Future<void> _showEstimateSentModal(BuildContext context) async =>
-      showModalBottomSheet(
-        context: context,
-        useRootNavigator: true,
-        backgroundColor: Colors.transparent,
-        useSafeArea: true,
-        builder: (ctx) => const EstimateSentModalWidget(),
+        builder: (ctx) => EstimateModalWidget(orderId: order.id),
       );
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (status == OrderStatus.goingTo) ...[
+        if (order.orderStatus == OrderStatus.goingTo) ...[
           LightButtonWidget(
             text: t.common.cancel,
             icon: Assets.icons.close,
             onTap: () {},
           ),
         ],
-        if (status == OrderStatus.received) ...[
+        if (order.orderStatus == OrderStatus.received) ...[
           Row(
             children: [
-              Expanded(
-                child: LightButtonWidget(
-                  text: t.recentOrders.estimate,
-                  icon: Assets.icons.star,
-                  onTap: () => _showEstimateModal(context),
+              if (order.rating == 0)
+                Expanded(
+                  child: LightButtonWidget(
+                    text: t.recentOrders.estimate,
+                    icon: Assets.icons.star,
+                    onTap: () => _showEstimateModal(context),
+                  ),
                 ),
-              ),
               AppBoxes.kWidth4,
               Expanded(
                 child: LightButtonWidget(
@@ -213,7 +200,7 @@ class _BottomButtonsWidget extends StatelessWidget {
             ],
           ),
         ],
-        if (status == OrderStatus.cancelled) ...[
+        if (order.orderStatus == OrderStatus.cancelled) ...[
           LightButtonWidget(
             text: t.recentOrders.repeat,
             icon: Assets.icons.repeat,
