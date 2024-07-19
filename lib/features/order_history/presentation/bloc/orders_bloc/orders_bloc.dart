@@ -20,7 +20,6 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     on<_LoadingEvent>(_onLoadOrders, transformer: debounce());
     on<_LoadMoreEvent>(_onLoadMoreOrders, transformer: debounce());
     on<_SetSortEvent>(_onSortChanged);
-    on<_OrderEvaluationEvent>(_orderEvaluation);
 
     add(const _LoadingEvent(isForceUpdate: true));
   }
@@ -81,21 +80,5 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   ) async {
     _sort = event.sort;
     add(const _LoadingEvent(isForceUpdate: true));
-  }
-
-  void _orderEvaluation(_OrderEvaluationEvent event, _Emit emit) {
-    final orders = state.maybeMap(
-      loaded: (state) => state.orders,
-      orElse: () => const <UserOrder>[],
-    );
-
-    final updatedOrders = orders.map((order) {
-      if (order.id == event.orderId) {
-        return order.copyWith(rating: event.rating);
-      }
-      return order;
-    }).toList();
-
-    emit(_Loaded(orders: updatedOrders));
   }
 }

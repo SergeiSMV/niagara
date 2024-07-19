@@ -17,7 +17,6 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/order_evaluation_option.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/evaluate_order_cubit.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/order_evaluations_options_cubit/order_evaluations_options_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/estimate_sent_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/list_options_widget.dart';
 
@@ -108,7 +107,7 @@ class EstimateModalWidget extends StatelessWidget {
                     onChanged: (val) => _saveComment(context, val ?? ''),
                   ),
                   AppBoxes.kHeight24,
-                  _SendRating(
+                  _SendRatingButtonWidget(
                     orderId: orderId,
                     rating: cubit.rating,
                     description: cubit.comment,
@@ -125,8 +124,8 @@ class EstimateModalWidget extends StatelessWidget {
   }
 }
 
-class _SendRating extends StatelessWidget {
-  const _SendRating({
+class _SendRatingButtonWidget extends StatelessWidget {
+  const _SendRatingButtonWidget({
     required this.orderId,
     required this.rating,
     required this.description,
@@ -171,39 +170,28 @@ class _SendRating extends StatelessWidget {
         title: t.recentOrders.sendingError,
         subtitle: t.recentOrders.failedSendRating,
       ),
-      success: () {
-        _onCloseModal(context).then((_) => _showEstimateSentModal(context));
-        // context.read<OrdersBloc>()
-        getIt<OrdersBloc>().add(
-          OrdersEvent.orderEvaluation(
-            orderId: orderId,
-            rating: rating.toInt(),
-          ),
-        );
-      },
+      success: () =>
+          _onCloseModal(context).then((_) => _showEstimateSentModal(context)),
       orElse: () {},
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<EvaluateOrderCubit>(),
-      child: BlocBuilder<EvaluateOrderCubit, EvaluateOrderState>(
-        builder: (context, state) {
-          _evaluationOrderCompleted(context, state);
+    return BlocBuilder<EvaluateOrderCubit, EvaluateOrderState>(
+      builder: (context, state) {
+        _evaluationOrderCompleted(context, state);
 
-          final loading = state.maybeWhen(
-            loading: () => true,
-            orElse: () => false,
-          );
+        final loading = state.maybeWhen(
+          loading: () => true,
+          orElse: () => false,
+        );
 
-          return AppTextButton.primary(
-            text: !loading ? t.recentOrders.send : null,
-            onTap: () => _send(context),
-          );
-        },
-      ),
+        return AppTextButton.primary(
+          text: !loading ? t.recentOrders.send : null,
+          onTap: () => _send(context),
+        );
+      },
     );
   }
 }

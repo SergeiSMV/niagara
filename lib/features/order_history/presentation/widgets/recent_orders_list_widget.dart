@@ -12,7 +12,7 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/empty_orders_list_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/recent_order_item_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/order_item_widgets/order_item_widget.dart';
 
 class RecentOrdersListWidget extends StatelessWidget {
   const RecentOrdersListWidget({super.key});
@@ -52,7 +52,7 @@ class RecentOrdersListWidget extends StatelessWidget {
                                 firstFourOrders.length,
                                 (index) => Padding(
                                   padding: AppInsets.kRight12,
-                                  child: RecentOrderItemWidget(
+                                  child: OrderItemWidget(
                                     inHorizontalList: true,
                                     order: firstFourOrders[index],
                                   ),
