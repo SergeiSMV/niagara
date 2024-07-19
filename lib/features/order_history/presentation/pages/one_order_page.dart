@@ -87,11 +87,7 @@ class OneOrderPage extends StatelessWidget {
           ),
           const SliverToBoxAdapter(child: AppBoxes.kHeight16),
           ListProductsWidget(products: order.products),
-          _BottomButtonsWidget(
-            status: order.orderStatus,
-            rating: order.rating,
-            orderId: order.id,
-          ),
+          _BottomButtonsWidget(order: order),
         ],
       ),
     );
@@ -100,14 +96,10 @@ class OneOrderPage extends StatelessWidget {
 
 class _BottomButtonsWidget extends StatelessWidget {
   const _BottomButtonsWidget({
-    required this.status,
-    required this.rating,
-    required this.orderId,
+    required this.order,
   });
 
-  final OrderStatus status;
-  final int rating;
-  final String orderId;
+  final UserOrder order;
 
   Future<void> _showEstimateModal(BuildContext context) async {
     final evaluateOrderCubit = context.read<EvaluateOrderCubit>();
@@ -120,7 +112,7 @@ class _BottomButtonsWidget extends StatelessWidget {
       useSafeArea: true,
       builder: (ctx) => BlocProvider.value(
         value: evaluateOrderCubit,
-        child: EstimateModalWidget(orderId: orderId),
+        child: EstimateModalWidget(orderId: order.id),
       ),
     );
   }
@@ -135,7 +127,7 @@ class _BottomButtonsWidget extends StatelessWidget {
             AppBoxes.kHeight24,
 
             /// Отменить заказ (status = собирается)
-            if (status == OrderStatus.goingTo) ...[
+            if (order.orderStatus == OrderStatus.goingTo) ...[
               AppTextButton.secondary(
                 text: t.recentOrders.cancelOrder,
                 onTap: () {},
@@ -143,7 +135,7 @@ class _BottomButtonsWidget extends StatelessWidget {
             ],
 
             /// Связаться с водителем (status = в пути)
-            if (status == OrderStatus.onWay) ...[
+            if (order.orderStatus == OrderStatus.onWay) ...[
               AppTextButton.primary(
                 text: t.recentOrders.contactDriver,
                 onTap: () {},
@@ -151,12 +143,14 @@ class _BottomButtonsWidget extends StatelessWidget {
             ],
 
             /// Повторить заказ (status = Получен)
-            if (status == OrderStatus.received) ...[
-              AppTextButton.primary(
-                text: t.recentOrders.repeatOrder,
-                onTap: () {},
-              ),
-              AppBoxes.kHeight12,
+            if (order.orderStatus == OrderStatus.received) ...[
+              if (order.orderAgain) ...[
+                AppTextButton.primary(
+                  text: t.recentOrders.repeatOrder,
+                  onTap: () {},
+                ),
+                AppBoxes.kHeight12,
+              ],
 
               /// Электронный чек
               AppTextButton.secondary(
@@ -166,7 +160,7 @@ class _BottomButtonsWidget extends StatelessWidget {
               AppBoxes.kHeight12,
 
               /// Оценить заказ
-              if (rating == 0)
+              if (order.rating == 0)
                 AppTextButton.secondary(
                   text: t.recentOrders.evaluateOrder,
                   onTap: () => _showEstimateModal(context),
@@ -185,7 +179,8 @@ class _BottomButtonsWidget extends StatelessWidget {
             ],
 
             /// Повторить заказ (status = Отменен)
-            if (status == OrderStatus.cancelled) ...[
+            if (order.orderStatus == OrderStatus.cancelled &&
+                order.orderAgain) ...[
               AppTextButton.primary(
                 text: t.recentOrders.repeatOrder,
                 onTap: () {},

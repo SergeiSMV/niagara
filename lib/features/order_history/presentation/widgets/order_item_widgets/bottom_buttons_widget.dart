@@ -64,18 +64,19 @@ class BottomButtonsWidget extends StatelessWidget {
                           )
                         : const SizedBox.shrink(),
                 ],
-                Expanded(
-                  child: LightButtonWidget(
-                    text: t.recentOrders.repeat,
-                    icon: Assets.icons.repeat,
-                    onTap: () {},
+                if (order.orderAgain)
+                  Expanded(
+                    child: LightButtonWidget(
+                      text: t.recentOrders.repeat,
+                      icon: Assets.icons.repeat,
+                      onTap: () {},
+                    ),
                   ),
-                ),
               ],
             ),
           ),
         ],
-        if (order.orderStatus == OrderStatus.cancelled) ...[
+        if (order.orderStatus == OrderStatus.cancelled && order.orderAgain) ...[
           LightButtonWidget(
             text: t.recentOrders.repeat,
             icon: Assets.icons.repeat,

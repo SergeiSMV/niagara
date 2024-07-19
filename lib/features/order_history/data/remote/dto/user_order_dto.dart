@@ -36,6 +36,7 @@ class UserOrderDto extends Equatable {
     required this.ordersTotalSum,
     required this.ordersRating,
     required this.ordersRatingDescription,
+    required this.ordersRepeatEnable,
     required this.ordersPaymentType,
     required this.ordersPaymentCompleted,
     required this.products,
@@ -96,6 +97,8 @@ class UserOrderDto extends Equatable {
   final int ordersRating;
   @JsonKey(name: 'ORDERS_RATING_DESCRIPTION')
   final String ordersRatingDescription;
+  @JsonKey(name: 'ORDERS_REPEAT_ENABLE')
+  final bool ordersRepeatEnable;
   @JsonKey(name: 'ORDERS_PAYMENT_TYPE')
   final String ordersPaymentType;
   @JsonKey(name: 'ORDERS_PAYMENT_COMPLITED')
@@ -130,6 +133,7 @@ class UserOrderDto extends Equatable {
         ordersTotalSum,
         ordersRating,
         ordersRatingDescription,
+        ordersRepeatEnable,
         ordersPaymentType,
         ordersPaymentCompleted,
         products,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:niagara_app/core/common/data/database/_imports.dart';
 import 'package:niagara_app/core/common/data/local/entities/product_entity.dart';
 import 'package:niagara_app/core/utils/enums/order_status.dart';
 import 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
@@ -32,6 +33,7 @@ class UserOrdersTable extends Table {
   RealColumn get totalSum => real()();
   IntColumn get rating => integer()();
   TextColumn get ratingDescription => text()();
+  BoolColumn get orderAgain => boolean()();
   IntColumn get paymentType => intEnum<OrdersPaymentTypes>()();
   BoolColumn get paymentCompleted => boolean()();
   TextColumn get products => text().map(const ProductsEntityConverter())();

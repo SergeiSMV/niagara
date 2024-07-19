@@ -116,10 +116,6 @@ class OrderItemWidget extends StatelessWidget {
               BottomPriceWidget(price: order.totalSum),
               if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
               BottomButtonsWidget(order: order),
-              // BlocProvider(
-              //   create: (_) => getIt<EvaluateOrderCubit>(),
-              //   child: BottomButtonsWidget(order: order),
-              // ),
             ],
           ),
         ),

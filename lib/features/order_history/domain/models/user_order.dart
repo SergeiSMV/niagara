@@ -32,6 +32,7 @@ class UserOrder extends Equatable {
     required this.totalSum,
     required this.rating,
     required this.ratingDescription,
+    required this.orderAgain,
     required this.paymentType,
     required this.paymentCompleted,
     required this.products,
@@ -63,6 +64,7 @@ class UserOrder extends Equatable {
   final double totalSum;
   final int rating;
   final String ratingDescription;
+  final bool orderAgain;
   final OrdersPaymentTypes paymentType;
   final bool paymentCompleted;
   final List<Product> products;
@@ -94,72 +96,9 @@ class UserOrder extends Equatable {
         totalSum,
         rating,
         ratingDescription,
+        orderAgain,
         paymentType,
         paymentCompleted,
         products,
       ];
-
-  UserOrder copyWith({
-    String? id,
-    String? orderNumber,
-    DateTime? dateDelivery,
-    DateTime? date,
-    DateTime? timeBegin,
-    DateTime? timeEnd,
-    String? customerName,
-    String? customerPhone,
-    String? locationId,
-    String? locationName,
-    String? description,
-    double? sumDelivery,
-    double? sumDiscont,
-    String? promoCode,
-    double? promoCodeSum,
-    int? taraCount,
-    double? taraSum,
-    double? bonusesAdd,
-    double? bonusesPay,
-    OrderStatus? orderStatus,
-    int? orderProductsCount,
-    double? orderProductsSum,
-    double? totalBenefit,
-    double? totalSum,
-    int? rating,
-    String? ratingDescription,
-    OrdersPaymentTypes? paymentType,
-    bool? paymentCompleted,
-    List<Product>? products,
-  }) {
-    return UserOrder(
-      id: id ?? this.id,
-      orderNumber: orderNumber ?? this.orderNumber,
-      dateDelivery: dateDelivery ?? this.dateDelivery,
-      date: date ?? this.date,
-      timeBegin: timeBegin ?? this.timeBegin,
-      timeEnd: timeEnd ?? this.timeEnd,
-      customerName: customerName ?? this.customerName,
-      customerPhone: customerPhone ?? this.customerPhone,
-      locationId: locationId ?? this.locationId,
-      locationName: locationName ?? this.locationName,
-      description: description ?? this.description,
-      sumDelivery: sumDelivery ?? this.sumDelivery,
-      sumDiscont: sumDiscont ?? this.sumDiscont,
-      promoCode: promoCode ?? this.promoCode,
-      promoCodeSum: promoCodeSum ?? this.promoCodeSum,
-      taraCount: taraCount ?? this.taraCount,
-      taraSum: taraSum ?? this.taraSum,
-      bonusesAdd: bonusesAdd ?? this.bonusesAdd,
-      bonusesPay: bonusesPay ?? this.bonusesPay,
-      orderStatus: orderStatus ?? this.orderStatus,
-      orderProductsCount: orderProductsCount ?? this.orderProductsCount,
-      orderProductsSum: orderProductsSum ?? this.orderProductsSum,
-      totalBenefit: totalBenefit ?? this.totalBenefit,
-      totalSum: totalSum ?? this.totalSum,
-      rating: rating ?? this.rating,
-      ratingDescription: ratingDescription ?? this.ratingDescription,
-      paymentType: paymentType ?? this.paymentType,
-      paymentCompleted: paymentCompleted ?? this.paymentCompleted,
-      products: products ?? this.products,
-    );
-  }
 }
