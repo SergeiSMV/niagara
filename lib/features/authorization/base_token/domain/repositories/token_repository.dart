@@ -24,4 +24,14 @@ abstract interface class ITokenRepository {
   ///   - [Right<String>] содержащий сохраненный токен.
   ///   - [Left<Failure>] если токен не найден или произошла ошибка.
   Future<Either<Failure, String>> getToken();
+
+  /// Удаляет сохраненный токен аутентификации.
+  ///
+  /// Этот метод удаляет токен из локального источника данных.
+  ///
+  /// Возвращает:
+  ///   - [Right<void>] если токен был успешно удален.
+  ///   - [Left<Failure>] если произошла ошибка во время процесса удаления
+  ///     токена.
+  Future<Either<Failure, void>> deleteToken();
 }
