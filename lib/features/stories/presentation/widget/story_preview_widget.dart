@@ -1,5 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 
 /// Виджет для отображения квадратного закрулённого блока-превью сториз.
 class StoryPreviewWidget extends StatelessWidget {
@@ -32,7 +34,9 @@ class StoryPreviewWidget extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(
                 width: 2,
-                color: seen ? const Color(0x00d7e2e9) : const Color(0x001b6a99),
+                color: seen
+                    ? context.colors.fieldBordersColors.focus
+                    : context.colors.mainColors.accent,
               ),
               borderRadius: BorderRadius.circular(14.0),
             ),
@@ -49,11 +53,12 @@ class StoryPreviewWidget extends StatelessWidget {
                 ),
               ),
               child: SizedBox.expand(
-                child: imageUrl != null
+                child: imageUrl?.isNotEmpty ?? false
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(12.0),
-                        child: Image.network(
-                          imageUrl!,
+                        child: ExtendedImage.network(
+                          // TODO: убрать это!
+                          imageUrl!.replaceAll('stpries', 'stories'),
                           fit: BoxFit.cover,
                         ),
                       )
@@ -63,16 +68,13 @@ class StoryPreviewWidget extends StatelessWidget {
           ),
           // Title of the story.
           Positioned(
-            top: 8,
+            top: 10,
             left: 10,
-            right: 8,
+            right: 10,
             child: Text(
               title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-              ),
+              style: context.textStyle.textTypo.tx4Medium
+                  .withColor(context.colors.textColors.white),
             ),
           ),
         ],

@@ -5,24 +5,15 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'slide_dto.g.dart';
 
-@JsonEnum(fieldRename: FieldRename.screamingSnake)
-enum SlideAlign { top, center, bottom }
-
-@JsonEnum(fieldRename: FieldRename.screamingSnake)
-enum SlideTheme { dark, ligth }
-
-@JsonEnum(fieldRename: FieldRename.screamingSnake)
-enum LinkType { offer, product }
-
 @JsonSerializable(fieldRename: FieldRename.screamingSnake)
 class SlideDto extends Equatable {
   final String? id;
   final String? title;
   final String? description;
-  final SlideAlign? align;
+  final String? align;
   final String? backgroundImage;
-  final SlideTheme? themeImage;
-  final SlideTheme? themeText;
+  final String? themeImage;
+  final String? themeText;
   final String? labelTitle;
   final String? labelColor;
   final bool? buttonVisible;
@@ -30,7 +21,7 @@ class SlideDto extends Equatable {
   final String? buttonImage;
   final String? buttonColor;
   final String? buttonLink;
-  final LinkType? buttonLinkType;
+  final String? buttonLinkType;
   final String? productGroup;
   final String? note;
 

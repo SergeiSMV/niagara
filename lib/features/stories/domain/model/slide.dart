@@ -1,5 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:niagara_app/features/stories/data/remote/dto/slide_dto.dart';
+
+enum SlideAlign { top, center, bottom }
+
+enum SlideTheme { dark, ligth }
+
+enum LinkType { offer, product }
 
 class Slide extends Equatable {
   const Slide({

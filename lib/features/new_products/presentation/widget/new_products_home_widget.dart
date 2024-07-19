@@ -50,11 +50,16 @@ class NewProductsHomeWidget extends StatelessWidget {
                   children: [
                     Padding(
                       padding: AppInsets.kHorizontal16,
-                      child: Text(
-                        t.newProducts.newProducts,
-                        style: context.textStyle.headingTypo.h3.withColor(
-                          context.colors.textColors.main,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            t.newProducts.newProducts,
+                            style: context.textStyle.headingTypo.h3.withColor(
+                              context.colors.textColors.main,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     AppBoxes.kHeight12,

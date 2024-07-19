@@ -1,5 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/features/stories/domain/model/story.dart';
 import 'package:niagara_app/features/stories/presentation/bloc/stories_bloc.dart';
@@ -26,22 +29,36 @@ class StoriesHomeWidget extends StatelessWidget {
               return SizedBox(
                 width: double.infinity,
                 child: Padding(
-                  padding: AppInsets.kLeft16,
-                  child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      final Story story = stories[index];
-                      return InkWell(
-                        onTap: () {},
-                        child: StoryPreviewWidget(
-                          title: story.title,
-                          seen: story.open,
-                          imageUrl: story.image,
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 16),
-                    itemCount: stories.length,
+                  padding: AppInsets.kTop32,
+                  child: SizedBox(
+                    height: 98,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: stories.length,
+                      padding: AppInsets.kHorizontal16,
+                      separatorBuilder: (_, __) => AppBoxes.kWidth8,
+                      itemBuilder: (context, index) {
+                        final Story story = stories[index];
+                        return InkWell(
+                          onTap: () {
+                            context.pushRoute(
+                              StoriesWrapper(
+                                children: [
+                                  StoryRoute(storyId: story.id),
+                                ],
+                              ),
+                            );
+                          },
+                          child: StoryPreviewWidget(
+                            title: story.title,
+                            seen: story.open,
+                            // TODO: убрать это!
+                            imageUrl: index != 0 ? story.image : null,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               );

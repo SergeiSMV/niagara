@@ -6,10 +6,19 @@ extension SlideDtoMapper on SlideDto {
         id: id ?? '',
         title: title ?? '',
         description: description ?? '',
-        align: align ?? SlideAlign.top,
+        align: (align?.isNotEmpty ?? false)
+            ? SlideAlign.values.firstWhere(
+                (s) => s.toString() == 'SlideAlign.${align!.toLowerCase()}')
+            : SlideAlign.top,
         backgroundImage: backgroundImage ?? '',
-        themeImage: themeImage ?? SlideTheme.dark,
-        themeText: themeText ?? SlideTheme.dark,
+        themeImage: (themeImage?.isNotEmpty ?? false)
+            ? SlideTheme.values.firstWhere((s) =>
+                s.toString() == 'SlideTheme.${themeImage!.toLowerCase()}')
+            : SlideTheme.dark,
+        themeText: (themeText?.isNotEmpty ?? false)
+            ? SlideTheme.values.firstWhere(
+                (s) => s.toString() == 'SlideTheme.${themeText!.toLowerCase()}')
+            : SlideTheme.dark,
         labelTitle: labelTitle ?? '',
         labelColor: labelColor ?? '',
         buttonVisible: buttonVisible ?? false,
@@ -17,7 +26,10 @@ extension SlideDtoMapper on SlideDto {
         buttonImage: buttonImage ?? '',
         buttonColor: buttonColor ?? '',
         buttonLink: buttonLink ?? '',
-        buttonLinkType: buttonLinkType ?? LinkType.offer,
+        buttonLinkType: (buttonLinkType?.isNotEmpty ?? false)
+            ? LinkType.values.firstWhere((s) =>
+                s.toString() == 'LinkType.${buttonLinkType!.toLowerCase()}')
+            : LinkType.offer,
         productGroup: productGroup ?? '',
         note: note ?? '',
       );
