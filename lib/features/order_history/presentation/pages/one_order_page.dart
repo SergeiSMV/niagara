@@ -20,6 +20,7 @@ import 'package:niagara_app/features/order_history/presentation/widgets/order_da
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/prices_and_bonuses_widget.dart';
 
+/// Экран с одним заказом
 @RoutePage()
 class OneOrderPage extends StatelessWidget {
   const OneOrderPage({
@@ -99,6 +100,7 @@ class OneOrderPage extends StatelessWidget {
   }
 }
 
+/// Кнопки внизу экрана, с учетом статуса заказа
 class _BottomButtonsWidget extends StatelessWidget {
   const _BottomButtonsWidget({
     required this.order,
@@ -106,6 +108,7 @@ class _BottomButtonsWidget extends StatelessWidget {
 
   final UserOrder order;
 
+  /// Открывает модальное окно с оценкой заказа
   Future<void> _showEstimateModal(BuildContext context) async {
     final evaluateOrderCubit = context.read<EvaluateOrderCubit>();
 

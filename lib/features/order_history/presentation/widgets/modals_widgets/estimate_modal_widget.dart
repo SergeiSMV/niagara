@@ -149,6 +149,7 @@ class _SendRatingButtonWidget extends StatelessWidget {
         );
   }
 
+  /// Показывает модельное окно с успешной отправкой оценки
   Future<void> _showEstimateSentModal(BuildContext context) async =>
       showModalBottomSheet(
         context: context,

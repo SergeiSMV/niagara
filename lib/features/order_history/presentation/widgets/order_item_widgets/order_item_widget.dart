@@ -30,7 +30,6 @@ class OrderItemWidget extends StatelessWidget {
 
   void _goToOrderPage(BuildContext context) {
     final evaluateOrderCubit = BlocProvider.of<EvaluateOrderCubit>(context);
-    // final evaluateOrderCubit = context.read<EvaluateOrderCubit>();
 
     context.navigateTo(
       ProfileWrapper(

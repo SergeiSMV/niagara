@@ -17,6 +17,7 @@ class BottomButtonsWidget extends StatelessWidget {
 
   final UserOrder order;
 
+  /// Открывает модальное окно с оценкой заказа
   Future<void> _showEstimateModal(BuildContext context) async {
     final evaluateOrderCubit = context.read<EvaluateOrderCubit>();
 
