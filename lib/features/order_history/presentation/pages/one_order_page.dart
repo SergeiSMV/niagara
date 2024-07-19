@@ -25,9 +25,11 @@ class OneOrderPage extends StatelessWidget {
   const OneOrderPage({
     super.key,
     required this.order,
+    required this.evaluateOrderCubit,
   });
 
   final UserOrder order;
+  final EvaluateOrderCubit evaluateOrderCubit;
 
   Future<void> _copyOrderNumber() async => await Clipboard.setData(
         ClipboardData(text: order.orderNumber),
@@ -87,7 +89,10 @@ class OneOrderPage extends StatelessWidget {
           ),
           const SliverToBoxAdapter(child: AppBoxes.kHeight16),
           ListProductsWidget(products: order.products),
-          _BottomButtonsWidget(order: order),
+          BlocProvider.value(
+            value: evaluateOrderCubit,
+            child: _BottomButtonsWidget(order: order),
+          ),
         ],
       ),
     );
@@ -160,22 +165,17 @@ class _BottomButtonsWidget extends StatelessWidget {
               AppBoxes.kHeight12,
 
               /// Оценить заказ
-              if (order.rating == 0)
-                AppTextButton.secondary(
-                  text: t.recentOrders.evaluateOrder,
-                  onTap: () => _showEstimateModal(context),
-                ),
-              // BlocBuilder<EvaluateOrderCubit, EvaluateOrderState>(
-              //   builder: (context, state) {
-              //     return (state == const EvaluateOrderState.initial() ||
-              //             state == const EvaluateOrderState.loading())
-              //         ? AppTextButton.secondary(
-              //             text: t.recentOrders.evaluateOrder,
-              //             onTap: () => _showEstimateModal(context),
-              //           )
-              //         : const SizedBox.shrink();
-              //   },
-              // ),
+              BlocBuilder<EvaluateOrderCubit, EvaluateOrderState>(
+                builder: (context, state) {
+                  return (state == const EvaluateOrderState.initial() ||
+                          state == const EvaluateOrderState.loading())
+                      ? AppTextButton.secondary(
+                          text: t.recentOrders.evaluateOrder,
+                          onTap: () => _showEstimateModal(context),
+                        )
+                      : const SizedBox.shrink();
+                },
+              ),
             ],
 
             /// Повторить заказ (status = Отменен)
