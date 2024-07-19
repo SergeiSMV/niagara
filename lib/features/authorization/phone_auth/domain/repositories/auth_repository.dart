@@ -44,4 +44,14 @@ abstract interface class IAuthRepository {
   /// - [AuthenticatedStatus] если статус авторизации был получен.
   /// - [Failure] если статус авторизации не был получен.
   Future<Either<Failure, AuthenticatedStatus>> checkAuthStatus();
+
+  /// Производит выход из аккаунта.
+  ///
+  /// Этот метод отправляет запрос на выход из аккаунта на сервер и в случае
+  /// успеха меняет статус авторизации в локальном хранилище.
+  ///
+  /// Возвращает:
+  /// - [void] если операция прошла успешно.
+  /// - [Failure] если произошла ошибка.
+  Future<Either<Failure, void>> logout();
 }

@@ -8,6 +8,8 @@ abstract interface class IUserLocalDataSource {
   Future<Either<Failure, void>> saveUser(UserEntity userEntity);
 
   Future<Either<Failure, void>> updateUser(UserEntity userEntity);
+
+  Future<Either<Failure, void>> deleteUser(UserEntity userEntity);
 }
 
 @LazySingleton(as: IUserLocalDataSource)
@@ -28,6 +30,11 @@ class UserLocalDataSource implements IUserLocalDataSource {
   @override
   Future<Either<Failure, void>> updateUser(UserEntity userEntity) => _execute(
         () => _database.allUsers.updateUser(userEntity.toCompanion()),
+      );
+
+  @override
+  Future<Either<Failure, void>> deleteUser(UserEntity userEntity) => _execute(
+        () => _database.allUsers.deleteUser(userEntity.toCompanion()),
       );
 
   Future<Either<Failure, T>> _execute<T>(Future<T> Function() action) async {

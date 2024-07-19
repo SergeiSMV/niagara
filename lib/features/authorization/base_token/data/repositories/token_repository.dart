@@ -30,6 +30,9 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
   @override
   Future<Either<Failure, String>> getToken() => execute(_getToken);
 
+  @override
+  Future<Either<Failure, void>> deleteToken() => execute(_deleteToken);
+
   Future<void> _createToken() async {
     final deviceId = await _deviceIdService.getUniqueId();
 
@@ -55,5 +58,10 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
 
     _cachedToken = localToken;
     return localToken;
+  }
+
+  Future<void> _deleteToken() async {
+    await _tokenLDS.deleteToken();
+    _cachedToken = null;
   }
 }
