@@ -5,6 +5,6 @@ class UserState with _$UserState {
   const factory UserState.initial() = _Initial;
   const factory UserState.loading() = _Loading;
   const factory UserState.loaded(User user) = _Loaded;
-  const factory UserState.unauthorized() = _Unauthorized;
+  const factory UserState.unauthorized({bool? loggedOut}) = _Unauthorized;
   const factory UserState.error() = _Error;
 }

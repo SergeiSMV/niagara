@@ -37,11 +37,34 @@ class ProfileAccountActionsWidget extends StatelessWidget {
     );
   }
 
+  void _onDelete(BuildContext context) {
+    context.read<UserBloc>().add(
+          const UserEvent.deleteAccount(),
+        );
+  }
+
+  void _onLogout(BuildContext context) {
+    context.read<UserBloc>().add(
+          const UserEvent.logout(),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
+    return BlocConsumer<UserBloc, UserState>(
+      listener: (BuildContext context, UserState state) {
+        state.maybeWhen(
+          orElse: () {},
+          unauthorized: (loggedOut) {
+            if (loggedOut ?? false) {
+              context.router.replaceAll([const SplashWrapper()]);
+            }
+          },
+        );
+      },
       builder: (context, state) {
         return state.maybeWhen(
+          orElse: SizedBox.shrink,
           loaded: (user) {
             return ProfileActionsWidget(
               children: [
@@ -49,12 +72,7 @@ class ProfileAccountActionsWidget extends StatelessWidget {
                   onTap: () => _showFloatingDialog(
                     context,
                     _LogoutConfirmationWidget(
-                      onSubmit: () {
-                        context.read<UserBloc>().add(
-                              const UserEvent.logout(),
-                            );
-                        context.router.replaceAll([const SplashWrapper()]);
-                      },
+                      onSubmit: () => _onLogout(context),
                     ),
                   ),
                   title: t.profile.logoutAction,
@@ -64,12 +82,7 @@ class ProfileAccountActionsWidget extends StatelessWidget {
                   onTap: () => _showFloatingDialog(
                     context,
                     _DeleteAccountConfirmationWidget(
-                      onSubmit: () {
-                        context.read<UserBloc>().add(
-                              const UserEvent.deleteAccount(),
-                            );
-                        context.router.replaceAll([const SplashWrapper()]);
-                      },
+                      onSubmit: () => _onDelete(context),
                     ),
                   ),
                   title: t.profile.deleteAccountAction,
@@ -78,7 +91,6 @@ class ProfileAccountActionsWidget extends StatelessWidget {
               ],
             );
           },
-          orElse: SizedBox.shrink,
         );
       },
     );

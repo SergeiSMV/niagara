@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 
@@ -28,7 +29,7 @@ class StoryPreviewWidget extends StatelessWidget {
       height: 94,
       child: Stack(
         children: [
-          // Image with the background linear gradient.
+          // Изображение с линейным градиентом на фоне.
           Container(
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
@@ -38,12 +39,12 @@ class StoryPreviewWidget extends StatelessWidget {
                     ? context.colors.fieldBordersColors.focus
                     : context.colors.mainColors.accent,
               ),
-              borderRadius: BorderRadius.circular(14.0),
+              borderRadius: AppBorders.kCircular14,
             ),
             child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                gradient: const LinearGradient(
+              decoration: const BoxDecoration(
+                borderRadius: AppBorders.kCircular12,
+                gradient: LinearGradient(
                   colors: [
                     Color(0xFF52B0CE),
                     Color(0xFF00348F),
@@ -55,9 +56,10 @@ class StoryPreviewWidget extends StatelessWidget {
               child: SizedBox.expand(
                 child: imageUrl?.isNotEmpty ?? false
                     ? ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: AppBorders.kCircular12,
                         child: ExtendedImage.network(
-                          // TODO: убрать это!
+                          // TODO: Костыль, т.к. сейчас в тестовых данных там
+                          // ошибка.
                           imageUrl!.replaceAll('stpries', 'stories'),
                           fit: BoxFit.cover,
                         ),
@@ -66,7 +68,7 @@ class StoryPreviewWidget extends StatelessWidget {
               ),
             ),
           ),
-          // Title of the story.
+          // Заголовок истории.
           Positioned(
             top: 10,
             left: 10,

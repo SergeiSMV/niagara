@@ -104,6 +104,14 @@ class _GradientColors extends GradientColors {
             Color(0xFFFBAB7E),
             Color(0xFFF7CE68),
           ],
+          bgStoryDark: const [
+            Color(0xFF00348F),
+            Color(0xFF52B0CE),
+          ],
+          bgStoryLight: const [
+            Color(0xFF00348F),
+            Color(0xFF52B0CE),
+          ],
         );
 }
 

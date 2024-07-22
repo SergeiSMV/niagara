@@ -17,6 +17,7 @@ class SlideDto extends Equatable {
   final String? labelTitle;
   final String? labelColor;
   final bool? buttonVisible;
+
   final String? buttonText;
   final String? buttonImage;
   final String? buttonColor;

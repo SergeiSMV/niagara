@@ -28,22 +28,22 @@ class Slide extends Equatable {
   });
 
   final String id;
-  final String title;
-  final String description;
+  final String? title;
+  final String? description;
   final SlideAlign align;
-  final String backgroundImage;
+  final String? backgroundImage;
   final SlideTheme themeImage;
   final SlideTheme themeText;
-  final String labelTitle;
-  final String labelColor;
+  final String? labelTitle;
+  final String? labelColor;
   final bool buttonVisible;
-  final String buttonText;
-  final String buttonImage;
-  final String buttonColor;
-  final String buttonLink;
-  final LinkType buttonLinkType;
-  final String productGroup;
-  final String note;
+  final String? buttonText;
+  final String? buttonImage;
+  final String? buttonColor;
+  final String? buttonLink;
+  final LinkType? buttonLinkType;
+  final String? productGroup;
+  final String? note;
 
   @override
   List<Object?> get props => [
