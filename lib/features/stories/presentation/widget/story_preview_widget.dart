@@ -1,6 +1,8 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 
@@ -25,16 +27,16 @@ class StoryPreviewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 94,
-      height: 94,
+      width: AppSizes.kGeneral94,
+      height: AppSizes.kGeneral94,
       child: Stack(
         children: [
           // Изображение с линейным градиентом на фоне.
           Container(
-            padding: const EdgeInsets.all(2),
+            padding: AppInsets.kAll2,
             decoration: BoxDecoration(
               border: Border.all(
-                width: 2,
+                width: AppSizes.kGeneral2,
                 color: seen
                     ? context.colors.fieldBordersColors.focus
                     : context.colors.mainColors.accent,
@@ -42,13 +44,10 @@ class StoryPreviewWidget extends StatelessWidget {
               borderRadius: AppBorders.kCircular14,
             ),
             child: DecoratedBox(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 borderRadius: AppBorders.kCircular12,
                 gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF52B0CE),
-                    Color(0xFF00348F),
-                  ],
+                  colors: context.colors.gradientColors.storyPreview,
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                 ),

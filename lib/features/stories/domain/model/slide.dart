@@ -1,10 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-enum SlideAlign { top, center, bottom }
-
-enum SlideTheme { dark, ligth }
-
-enum LinkType { offer, product }
+import 'package:niagara_app/core/utils/enums/slide_enums.dart';
 
 class Slide extends Equatable {
   const Slide({
@@ -41,7 +36,7 @@ class Slide extends Equatable {
   final String? buttonImage;
   final String? buttonColor;
   final String? buttonLink;
-  final LinkType? buttonLinkType;
+  final String? buttonLinkType;
   final String? productGroup;
   final String? note;
 

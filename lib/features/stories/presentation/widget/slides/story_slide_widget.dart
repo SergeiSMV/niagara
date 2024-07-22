@@ -4,7 +4,9 @@ import 'package:niagara_app/core/common/presentation/theme/colors/text_colors.da
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/enums/slide_enums.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/features/stories/domain/model/slide.dart';
@@ -137,31 +139,54 @@ class StoryBackGroundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gradientColors = context.colors.gradientColors;
     return ColoredBox(
       color: context.colors.mainColors.accent,
       child: isDark
-          ? StoryBackGroundGradient.dark(align)
-          : StoryBackGroundGradient.ligth(align),
+          ? StoryBackGroundGradient.dark(
+              align,
+              gradientColors.bgStoryDark1,
+              gradientColors.bgStoryDark2,
+            )
+          : StoryBackGroundGradient.ligth(
+              align,
+              gradientColors.bgStoryLight1,
+              gradientColors.bgStoryLight2,
+            ),
     );
   }
 }
 
 /// Конструирует градиенты для фона слайда.
 abstract class StoryBackGroundGradient {
-  static DecoratedBox dark(SlideAlign align) {
-    return _construct(align, true);
+  static DecoratedBox dark(
+    SlideAlign align,
+    List<Color> colors1,
+    List<Color> colors2,
+  ) {
+    return _construct(align, true, colors1, colors2);
   }
 
-  static DecoratedBox ligth(SlideAlign align) {
-    return _construct(align, false);
+  static DecoratedBox ligth(
+    SlideAlign align,
+    List<Color> colors1,
+    List<Color> colors2,
+  ) {
+    return _construct(align, false, colors1, colors2);
   }
 
-  static DecoratedBox _construct(SlideAlign align, bool isDark) {
+  static DecoratedBox _construct(
+    SlideAlign align,
+    bool isDark,
+    List<Color> colors1,
+    List<Color> colors2,
+  ) {
     switch (align) {
       case SlideAlign.center:
         return const DecoratedBox(
           decoration: BoxDecoration(
-            color: Color.fromRGBO(0, 0, 0, 0.3),
+            // TODO: Получить из контекста и прокинуть сюда.
+            color: Color(0x4B000000),
           ),
         );
 
@@ -174,8 +199,10 @@ abstract class StoryBackGroundGradient {
             gradient: LinearGradient(
               begin: isTop ? Alignment.topCenter : Alignment.bottomCenter,
               end: isTop ? Alignment.bottomCenter : Alignment.topCenter,
-              colors: isDark ? _colorsDark1 : _colorsLight1,
-              stops: isDark ? _stopsDark1 : _stopsLight1,
+              colors: colors1,
+              stops: isDark
+                  ? AppConstants.darkSlideGradientStops1
+                  : AppConstants.lightSlideGradientStops1,
             ),
           ),
           child: DecoratedBox(
@@ -183,68 +210,16 @@ abstract class StoryBackGroundGradient {
               gradient: LinearGradient(
                 begin: isTop ? Alignment.topCenter : Alignment.bottomCenter,
                 end: isTop ? Alignment.bottomCenter : Alignment.topCenter,
-                colors: isDark ? _colorsDark2 : _colorsLigth2,
-                stops: isDark ? _stopsDark2 : _stopsLigth2,
+                colors: colors2,
+                stops: isDark
+                    ? AppConstants.darkSlideGradientStops2
+                    : AppConstants.lightSlideGradientStops2,
               ),
             ),
           ),
         );
     }
   }
-
-  static const _stopsDark1 = [
-    0.0,
-    0.578025,
-    0.578125,
-    1.0,
-  ];
-
-  static const _stopsDark2 = [
-    0.0,
-    0.497046,
-    0.769,
-    1.0,
-  ];
-
-  static const _colorsDark1 = [
-    Color.fromRGBO(0, 0, 0, 0.96),
-    Color.fromRGBO(0, 0, 0, 0.3),
-    Color.fromRGBO(0, 0, 0, 0.29),
-    Color.fromRGBO(0, 0, 0, 0.06),
-  ];
-
-  static const _colorsDark2 = [
-    Color.fromRGBO(0, 0, 0, 0.38),
-    Color.fromRGBO(0, 0, 0, 0.29),
-    Color.fromRGBO(0, 0, 0, 0.1),
-    Color.fromRGBO(0, 0, 0, 0.05),
-  ];
-
-  static const _stopsLight1 = [
-    0.0,
-    0.497,
-    0.8434,
-    1.0,
-  ];
-
-  static const _stopsLigth2 = [
-    0.0,
-    0.5781,
-    1.0,
-  ];
-
-  static const _colorsLight1 = [
-    Color.fromRGBO(255, 255, 255, 0.384),
-    Color.fromRGBO(255, 255, 255, 0.288),
-    Color.fromRGBO(255, 255, 255, 0.048),
-    Colors.transparent,
-  ];
-
-  static const _colorsLigth2 = [
-    Color.fromRGBO(255, 255, 255, 0.96),
-    Color.fromRGBO(255, 255, 255, 0.288),
-    Colors.transparent,
-  ];
 }
 
 /// Виджет для короткого тега слайда, отображающийся над заголовком.

@@ -1,3 +1,4 @@
+import 'package:niagara_app/core/utils/enums/slide_enums.dart';
 import 'package:niagara_app/features/stories/data/remote/dto/slide_dto.dart';
 import 'package:niagara_app/features/stories/domain/model/slide.dart';
 
@@ -29,10 +30,7 @@ extension SlideDtoMapper on SlideDto {
         buttonImage: buttonImage.nonEmpty,
         buttonColor: buttonColor.nonEmpty,
         buttonLink: buttonLink.nonEmpty,
-        buttonLinkType: buttonLinkType.nonEmpty != null
-            ? LinkType.values.firstWhere((s) =>
-                s.toString() == 'LinkType.${buttonLinkType!.toLowerCase()}')
-            : LinkType.product,
+        buttonLinkType: buttonLinkType.nonEmpty,
         productGroup: productGroup.nonEmpty,
         note: note.nonEmpty,
       );

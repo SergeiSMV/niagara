@@ -17,8 +17,8 @@ class CityGuard extends AutoRouteGuard {
     StackRouter router,
   ) async {
     final bool isSet = await _getCityUseCase.call().fold(
-          (l) => false,
-          (r) => true,
+          (left) => false,
+          (right) => true,
         );
 
     // Если имеется, то продолжаем

@@ -104,13 +104,32 @@ class _GradientColors extends GradientColors {
             Color(0xFFFBAB7E),
             Color(0xFFF7CE68),
           ],
-          bgStoryDark: const [
-            Color(0xFF00348F),
+          storyPreview: const [
             Color(0xFF52B0CE),
+            Color(0xFF00348F),
           ],
-          bgStoryLight: const [
-            Color(0xFF00348F),
-            Color(0xFF52B0CE),
+          bgStoryDark1: const [
+            Color.fromRGBO(0, 0, 0, 0.96),
+            Color.fromRGBO(0, 0, 0, 0.3),
+            Color.fromRGBO(0, 0, 0, 0.29),
+            Color.fromRGBO(0, 0, 0, 0.06),
+          ],
+          bgStoryDark2: const [
+            Color.fromRGBO(0, 0, 0, 0.38),
+            Color.fromRGBO(0, 0, 0, 0.29),
+            Color.fromRGBO(0, 0, 0, 0.1),
+            Color.fromRGBO(0, 0, 0, 0.05),
+          ],
+          bgStoryLight1: const [
+            Color.fromRGBO(255, 255, 255, 0.384),
+            Color.fromRGBO(255, 255, 255, 0.288),
+            Color.fromRGBO(255, 255, 255, 0.048),
+            Colors.transparent,
+          ],
+          bgStoryLight2: const [
+            Color.fromRGBO(255, 255, 255, 0.96),
+            Color.fromRGBO(255, 255, 255, 0.288),
+            Colors.transparent,
           ],
         );
 }
@@ -129,5 +148,6 @@ class _OtherColors extends OtherColors {
           background70: const Color(0x70000000),
           separator30: const Color(0x30C6C9CB),
           itemShadow: const Color(0xFFEEEEEE),
+          background30: const Color(0x4B000000),
         );
 }

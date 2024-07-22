@@ -31,4 +31,13 @@ abstract final class AppConstants {
 
   // * --------------------------- Order Number --------------------------- * //
   static const String orderNumber = '+7 (800) 505-10-21';
+
+  // * --------------------------- Stories --------------------------- * //
+  static const lightSlideGradientStops1 = [0.0, 0.497, 0.8434, 1.0];
+
+  static const lightSlideGradientStops2 = [0.0, 0.5781, 1.0];
+
+  static const darkSlideGradientStops1 = [0.0, 0.578025, 0.578125, 1.0];
+
+  static const darkSlideGradientStops2 = [0.0, 0.497046, 0.769, 1.0];
 }
