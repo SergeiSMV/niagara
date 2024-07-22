@@ -13,11 +13,13 @@ enum OrderStatus {
         cancelled => t.recentOrders.statuses.cancelled,
       };
 
-  static OrderStatus toEnum(String value) => switch (value) {
-        'Собирается' => OrderStatus.goingTo,
-        'В пути' => OrderStatus.onWay,
-        'Получен' => OrderStatus.received,
-        'Отменен' => OrderStatus.cancelled,
-        _ => OrderStatus.goingTo
-      };
+  static OrderStatus toEnum(String value) {
+    if (value == t.recentOrders.statuses.goingTo) return OrderStatus.goingTo;
+    if (value == t.recentOrders.statuses.onWay) return OrderStatus.onWay;
+    if (value == t.recentOrders.statuses.received) return OrderStatus.received;
+    if (value == t.recentOrders.statuses.cancelled) {
+      return OrderStatus.cancelled;
+    }
+    return OrderStatus.goingTo;
+  }
 }

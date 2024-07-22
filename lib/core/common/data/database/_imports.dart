@@ -18,7 +18,6 @@ export 'package:niagara_app/features/locations/shops/data/local/dao/shops_dao.da
 export 'package:niagara_app/features/locations/shops/data/local/entities/shop_entity.dart';
 export 'package:niagara_app/features/locations/shops/data/local/tables/shops_table.dart';
 export 'package:niagara_app/features/order_history/data/local/dao/orders_dao.dart';
-// export 'package:niagara_app/features/order_history/data/local/entities/order_entity.dart';
 export 'package:niagara_app/features/order_history/data/local/tables/user_orders_table.dart';
 export 'package:niagara_app/features/profile/bonuses/data/local/dao/bonuses_dao.dart';
 export 'package:niagara_app/features/profile/bonuses/data/local/entities/bonuses_entity.dart';

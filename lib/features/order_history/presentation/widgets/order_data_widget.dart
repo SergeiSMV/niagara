@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
@@ -48,12 +49,13 @@ class OrderDataWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DataItemWidget(
-          icon: Assets.icons.card,
-          title: t.recentOrders.paymentMethod,
-          subtitle: order.paymentType.toLocale(),
-          paymentCompleted: order.paymentCompleted,
-        ),
+        if (order.paymentType != OrdersPaymentTypes.unknown)
+          DataItemWidget(
+            icon: Assets.icons.card,
+            title: t.recentOrders.paymentMethod,
+            subtitle: order.paymentType.toLocale(),
+            paymentCompleted: order.paymentCompleted,
+          ),
         AppBoxes.kHeight16,
         DataItemWidget(
           icon: Assets.icons.calendar,

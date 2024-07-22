@@ -261,6 +261,11 @@
       "received": "Получен",
       "cancelled": "Отменен"
     },
+    "paymentTypes": {
+      "cash": "CASH",
+      "card": "CARD",
+      "online": "ONLINE"
+    },
     "repeat": "Повторить",
     "estimate": "Оценить",
     "allOrders": "Все\nзаказы",
