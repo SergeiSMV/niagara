@@ -6,6 +6,7 @@ abstract final class AppSizes {
   static const double kGeneral8 = 8;
   static const double kGeneral12 = 12;
   static const double kGeneral16 = 16;
+  static const double kGeneral20 = 20;
   static const double kGeneral24 = 24;
   static const double kGeneral32 = 32;
   static const double kGeneral48 = 48;
@@ -35,6 +36,8 @@ abstract final class AppSizes {
   static const double notificationIndicatorWidth = 12;
   static const double notificationIndicatorTopPadding = 12;
   static const double notificationIndicatorRightPadding = 8;
+
+  static const double kDividerIndent = 20;
 
   //* -------------------------------- Orders ------------------------------ *//
   static const double kListItemsHeight = 200;

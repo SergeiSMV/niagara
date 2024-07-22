@@ -7,6 +7,7 @@ abstract final class AppBorders {
   static const BorderRadius kCircular6 = BorderRadius.all(Radius.circular(6));
   static const BorderRadius kCircular8 = BorderRadius.all(Radius.circular(8));
   static const BorderRadius kCircular12 = BorderRadius.all(Radius.circular(12));
+  static const BorderRadius kCircular18 = BorderRadius.all(Radius.circular(18));
   static const BorderRadius kCircular14 = BorderRadius.all(Radius.circular(14));
   static const BorderRadius kCircular16 = BorderRadius.all(Radius.circular(16));
   static const BorderRadius kCircular20 = BorderRadius.all(Radius.circular(20));

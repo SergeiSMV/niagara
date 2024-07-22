@@ -160,15 +160,42 @@
   "profile": {
     "helloUser": "Привет, ${name}!",
     "letsGetAcquainted": "Давайте познакомимся!",
-    "logoutAction": "Выйти из аккаунта",
-    "deleteAccountAction": "Удалить аккаунт",
-    "logoutConfirmationHeader": "Вы уверены, что хотите выйти?",
-    "logoutButton": "Подтвердить",
-    "logoutLaterButtom": "Позже",
-    "deleteConfirmationHeader": "Удалить учётную запись?",
-    "deleteAccountDescription": "Вы не сможете оформить заказ, а также воспользоваться бонусной картой и персональными скидами",
-    "deleteAccountButton": "Удалить",
-    "cancelDeletingButton": "Отмена"
+    "authActions": {
+      "logoutAction": "Выйти из аккаунта",
+      "deleteAccountAction": "Удалить аккаунт",
+      "logoutConfirmationHeader": "Вы уверены, что хотите выйти?",
+      "logoutButton": "Подтвердить",
+      "logoutLaterButtom": "Позже",
+      "deleteConfirmationHeader": "Удалить учётную запись?",
+      "deleteAccountDescription": "Вы не сможете оформить заказ, а также воспользоваться бонусной картой и персональными скидами",
+      "deleteAccountButton": "Удалить",
+      "cancelDeletingButton": "Отмена"
+    },
+    "profileInfo": {
+      "profileInfoHeader": "Мои данные",
+      "orderHistory": "История заказов",
+      "equipment": "Мое оборудование",
+      "prepaidWater": "Предоплатная вода",
+      "deliveryAddresses": "Адреса доставки",
+      "paymentMethods": "Способы оплаты",
+      "notifications": "Уведомления"
+    },
+    "appInfo": {
+      "appInfoHeader": "Информация",
+      "aboutApp": "О приложении",
+      "suppoort": "Служба поддержки",
+      "appVersion": "Версия приложения: ${version}"
+    },
+    "banners": {
+      "bannersHeader": "Больше выгод с нами",
+      "more": "Подробнее",
+      "referralHeader": "Реферальная программа",
+      "referralDescription": "Приведи друга и заработай бонусы",
+      "promotionsHeader": "Скидки и акции",
+      "promotionsDescription": "Актуальные предложения для вас",
+      "vipHeader": "VIP подписка",
+      "vipDescription": "Получайте доступ к лучшим ценам"
+    }
   },
   "promos": {
     "promotions": "Акции",

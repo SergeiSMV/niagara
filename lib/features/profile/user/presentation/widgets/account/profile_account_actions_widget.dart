@@ -66,29 +66,32 @@ class ProfileAccountActionsWidget extends StatelessWidget {
         return state.maybeWhen(
           orElse: SizedBox.shrink,
           loaded: (user) {
-            return ProfileActionsWidget(
-              children: [
-                ProfileActionTile(
-                  onTap: () => _showFloatingDialog(
-                    context,
-                    _LogoutConfirmationWidget(
-                      onSubmit: () => _onLogout(context),
+            return Padding(
+              padding: AppInsets.kHorizontal16,
+              child: ProfileActionsWidget(
+                children: [
+                  ProfileActionTile(
+                    onTap: () => _showFloatingDialog(
+                      context,
+                      _LogoutConfirmationWidget(
+                        onSubmit: () => _onLogout(context),
+                      ),
                     ),
+                    title: t.profile.authActions.logoutAction,
+                    leadingIcon: Assets.icons.logout,
                   ),
-                  title: t.profile.logoutAction,
-                  leadingIcon: Assets.icons.logout,
-                ),
-                ProfileActionTile(
-                  onTap: () => _showFloatingDialog(
-                    context,
-                    _DeleteAccountConfirmationWidget(
-                      onSubmit: () => _onDelete(context),
+                  ProfileActionTile(
+                    onTap: () => _showFloatingDialog(
+                      context,
+                      _DeleteAccountConfirmationWidget(
+                        onSubmit: () => _onDelete(context),
+                      ),
                     ),
+                    title: t.profile.authActions.deleteAccountAction,
+                    leadingIcon: Assets.icons.delete,
                   ),
-                  title: t.profile.deleteAccountAction,
-                  leadingIcon: Assets.icons.delete,
-                ),
-              ],
+                ],
+              ),
             );
           },
         );
@@ -113,19 +116,19 @@ class _DeleteAccountConfirmationWidget extends StatelessWidget {
         ),
         AppBoxes.kHeight24,
         Text(
-          t.profile.deleteConfirmationHeader,
+          t.profile.authActions.deleteConfirmationHeader,
           style: context.textStyle.headingTypo.h3,
         ),
         AppBoxes.kHeight8,
         Text(
           textAlign: TextAlign.center,
-          t.profile.deleteAccountDescription,
+          t.profile.authActions.deleteAccountDescription,
           style: context.textStyle.textTypo.tx1Medium
               .withColor(context.colors.textColors.secondary),
         ),
         AppBoxes.kHeight24,
         AppTextButton.primary(
-          text: t.profile.deleteAccountButton,
+          text: t.profile.authActions.deleteAccountButton,
           onTap: () {
             onSubmit();
             Navigator.of(context).pop();
@@ -133,7 +136,7 @@ class _DeleteAccountConfirmationWidget extends StatelessWidget {
         ),
         AppBoxes.kHeight16,
         AppTextButton.secondary(
-          text: t.profile.cancelDeletingButton,
+          text: t.profile.authActions.cancelDeletingButton,
           onTap: () {
             Navigator.of(context).pop();
           },
@@ -155,12 +158,12 @@ class _LogoutConfirmationWidget extends StatelessWidget {
       children: [
         Text(
           textAlign: TextAlign.center,
-          t.profile.logoutConfirmationHeader,
+          t.profile.authActions.logoutConfirmationHeader,
           style: context.textStyle.headingTypo.h3,
         ),
         AppBoxes.kHeight24,
         AppTextButton.primary(
-          text: t.profile.logoutButton,
+          text: t.profile.authActions.logoutButton,
           onTap: () {
             onSubmit();
             Navigator.of(context).pop();
@@ -168,7 +171,7 @@ class _LogoutConfirmationWidget extends StatelessWidget {
         ),
         AppBoxes.kHeight8,
         AppTextButton.secondary(
-          text: t.profile.logoutLaterButtom,
+          text: t.profile.authActions.logoutLaterButtom,
           onTap: () {
             Navigator.of(context).pop();
           },
