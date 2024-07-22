@@ -8,7 +8,7 @@ import 'package:niagara_app/features/order_history/data/mappers/order_evaluation
 import 'package:niagara_app/features/order_history/data/mappers/user_entity_mapper.dart';
 import 'package:niagara_app/features/order_history/data/mappers/user_order_mapper.dart';
 import 'package:niagara_app/features/order_history/data/remote/data_source/orders_remote_datasource.dart';
-import 'package:niagara_app/features/order_history/domain/models/order_evaluation_option.dart';
+import 'package:niagara_app/features/order_history/domain/models/order_rate_option.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/domain/repositories/orders_repository.dart';
 
@@ -94,28 +94,28 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
   }
 
   @override
-  Future<Either<Failure, List<OrderEvaluationOption>>>
-      getOrderEvaluationOptions({required String rating}) => execute(
-            () async =>
-                _ordersRDS.getOrderEvaluationOptions(rating: rating).fold(
-                      (failure) => throw failure,
-                      (dto) => dto.map((e) => e.toModel()).toList(),
-                    ),
-          );
+  Future<Either<Failure, List<OrderRateOption>>> getOrderRateOptions(
+          {required int rating}) =>
+      execute(
+        () async => _ordersRDS.getOrderRateOptions(rating: rating).fold(
+              (failure) => throw failure,
+              (dto) => dto.map((e) => e.toModel()).toList(),
+            ),
+      );
 
   @override
-  Future<Either<Failure, bool>> evaluateOrder({
+  Future<Either<Failure, bool>> rateOrder({
     required String id,
-    required String rating,
-    required String description,
+    required int rating,
+    required String comment,
     required List<String> optionsIds,
   }) =>
       execute(
         () async => _ordersRDS
-            .evaluateOrder(
+            .rateOrder(
               id: id,
               rating: rating,
-              description: description,
+              comment: comment,
               optionsIds: optionsIds,
             )
             .fold(

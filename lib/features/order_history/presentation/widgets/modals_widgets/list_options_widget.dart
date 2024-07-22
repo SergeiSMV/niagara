@@ -6,18 +6,17 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/order_evaluations_options_cubit/order_evaluations_options_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/proposal_item_wIdget.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/order_evaluations_options_cubit/order_rate_options_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_option_item_widget.dart';
 
 class ListOptionsWidget extends StatelessWidget {
   const ListOptionsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OrderEvaluationsOptionsCubit,
-        OrderEvaluationsOptionsState>(
+    return BlocBuilder<OrderRateOptionsCubit, OrderRateOptionsState>(
       builder: (context, state) {
-        final rating = context.read<OrderEvaluationsOptionsCubit>().rating;
+        final rating = context.read<OrderRateOptionsCubit>().rating;
         return state.when(
           loading: () => const SizedBox(
             height: AppSizes.kGeneral64,
@@ -37,7 +36,7 @@ class ListOptionsWidget extends StatelessWidget {
                 AppBoxes.kHeight12,
                 Wrap(
                   children: options
-                      .map((e) => ProposalItemWidget(option: e))
+                      .map((e) => RateOptionItemWidget(option: e))
                       .toList(),
                 ),
                 AppBoxes.kHeight24,

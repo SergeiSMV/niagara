@@ -1,8 +1,8 @@
-import 'package:niagara_app/features/order_history/data/remote/dto/order_evaluation_option_dto.dart';
-import 'package:niagara_app/features/order_history/domain/models/order_evaluation_option.dart';
+import 'package:niagara_app/features/order_history/data/remote/dto/order_rate_option_dto.dart';
+import 'package:niagara_app/features/order_history/domain/models/order_rate_option.dart';
 
-extension OrderEvaluationOptionDtoMapper on OrderEvaluationOptionDto {
-  OrderEvaluationOption toModel() => OrderEvaluationOption(
+extension OrderRateOptionDtoMapper on OrderRateOptionDto {
+  OrderRateOption toModel() => OrderRateOption(
         id: id,
         name: name,
       );

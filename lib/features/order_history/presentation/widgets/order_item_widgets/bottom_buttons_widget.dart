@@ -6,8 +6,8 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/evaluate_order_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/estimate_modal_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/rate_order_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_item_widgets/light_button_widget.dart';
 
 class BottomButtonsWidget extends StatelessWidget {
@@ -19,7 +19,7 @@ class BottomButtonsWidget extends StatelessWidget {
 
   /// Открывает модальное окно с оценкой заказа
   Future<void> _showEstimateModal(BuildContext context) async {
-    final evaluateOrderCubit = context.read<EvaluateOrderCubit>();
+    final evaluateOrderCubit = context.read<RateOrderCubit>();
 
     return showModalBottomSheet(
       isScrollControlled: true,
@@ -29,7 +29,7 @@ class BottomButtonsWidget extends StatelessWidget {
       useSafeArea: true,
       builder: (ctx) => BlocProvider.value(
         value: evaluateOrderCubit,
-        child: EstimateModalWidget(orderId: order.id),
+        child: RateModalWidget(orderId: order.id),
       ),
     );
   }
@@ -46,12 +46,12 @@ class BottomButtonsWidget extends StatelessWidget {
           ),
         ],
         if (order.orderStatus == OrderStatus.received) ...[
-          BlocBuilder<EvaluateOrderCubit, EvaluateOrderState>(
+          BlocBuilder<RateOrderCubit, RateOrderState>(
             builder: (context, state) => Row(
               children: [
                 ...[
-                  if (state == const EvaluateOrderState.initial() ||
-                      state == const EvaluateOrderState.loading())
+                  if (state == const RateOrderState.initial() ||
+                      state == const RateOrderState.loading())
                     order.rating == 0
                         ? Expanded(
                             child: Padding(

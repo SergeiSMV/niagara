@@ -1,17 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/core.dart';
 
-part 'order_evaluation_option_dto.g.dart';
+part 'order_rate_option_dto.g.dart';
 
 @JsonSerializable(createToJson: false)
-class OrderEvaluationOptionDto extends Equatable {
-  const OrderEvaluationOptionDto({
+class OrderRateOptionDto extends Equatable {
+  const OrderRateOptionDto({
     required this.id,
     required this.name,
   });
 
-  factory OrderEvaluationOptionDto.fromJson(Map<String, dynamic> json) =>
-      _$OrderEvaluationOptionDtoFromJson(json);
+  factory OrderRateOptionDto.fromJson(Map<String, dynamic> json) =>
+      _$OrderRateOptionDtoFromJson(json);
 
   @JsonKey(name: 'ID')
   final String id;

@@ -14,14 +14,13 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/order_history/domain/models/order_evaluation_option.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/evaluate_order_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/order_evaluations_options_cubit/order_evaluations_options_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/estimate_sent_modal_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/rate_order_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/order_evaluations_options_cubit/order_rate_options_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_sent_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/list_options_widget.dart';
 
-class EstimateModalWidget extends StatelessWidget {
-  const EstimateModalWidget({
+class RateModalWidget extends StatelessWidget {
+  const RateModalWidget({
     super.key,
     required this.orderId,
   });
@@ -31,20 +30,18 @@ class EstimateModalWidget extends StatelessWidget {
   Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
 
   void _changeRating(BuildContext context, double rating) =>
-      context.read<OrderEvaluationsOptionsCubit>().changeRating(rating);
+      context.read<OrderRateOptionsCubit>().changeRating(rating);
 
   void _saveComment(BuildContext context, String comment) {
-    context.read<OrderEvaluationsOptionsCubit>().comment = comment;
+    context.read<OrderRateOptionsCubit>().comment = comment;
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          getIt<OrderEvaluationsOptionsCubit>()..getOrderEvaluationsOptions(),
+      create: (_) => getIt<OrderRateOptionsCubit>()..getOrderRateOptions(),
       child: Builder(
         builder: (context) {
-          final cubit = context.read<OrderEvaluationsOptionsCubit>();
           return Padding(
             padding: AppInsets.kHorizontal16 +
                 EdgeInsets.only(
@@ -86,11 +83,10 @@ class EstimateModalWidget extends StatelessWidget {
                   ),
                   AppBoxes.kHeight24,
                   const ListOptionsWidget(),
-                  BlocBuilder<OrderEvaluationsOptionsCubit,
-                      OrderEvaluationsOptionsState>(
+                  BlocBuilder<OrderRateOptionsCubit, OrderRateOptionsState>(
                     builder: (context, state) {
                       final rating =
-                          context.read<OrderEvaluationsOptionsCubit>().rating;
+                          context.read<OrderRateOptionsCubit>().rating;
                       return Text(
                         rating == 5.0
                             ? t.recentOrders.generalImpressions
@@ -107,12 +103,7 @@ class EstimateModalWidget extends StatelessWidget {
                     onChanged: (val) => _saveComment(context, val ?? ''),
                   ),
                   AppBoxes.kHeight24,
-                  _SendRatingButtonWidget(
-                    orderId: orderId,
-                    rating: cubit.rating,
-                    description: cubit.comment,
-                    options: cubit.options,
-                  ),
+                  _SendRatingButtonWidget(orderId: orderId),
                   AppBoxes.kHeight32,
                 ],
               ),
@@ -127,25 +118,18 @@ class EstimateModalWidget extends StatelessWidget {
 class _SendRatingButtonWidget extends StatelessWidget {
   const _SendRatingButtonWidget({
     required this.orderId,
-    required this.rating,
-    required this.description,
-    required this.options,
   });
 
   final String orderId;
-  final double rating;
-  final String description;
-  final List<OrderEvaluationOption> options;
 
   void _send(BuildContext context) {
-    context.read<EvaluateOrderCubit>().estimate(
+    final cubit = context.read<OrderRateOptionsCubit>();
+
+    context.read<RateOrderCubit>().rateOrder(
           id: orderId,
-          rating: rating.toInt().toString(),
-          description: description,
-          optionsIds: options
-              .where((option) => option.isSelected)
-              .map((option) => option.id)
-              .toList(),
+          rating: cubit.rating,
+          comment: cubit.comment,
+          optionsIds: cubit.returnOptionsIds(),
         );
   }
 
@@ -156,14 +140,14 @@ class _SendRatingButtonWidget extends StatelessWidget {
         useRootNavigator: true,
         backgroundColor: Colors.transparent,
         useSafeArea: true,
-        builder: (ctx) => const EstimateSentModalWidget(),
+        builder: (ctx) => const RateSentModalWidget(),
       );
 
   Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
 
   void _evaluationOrderCompleted(
     BuildContext context,
-    EvaluateOrderState state,
+    RateOrderState state,
   ) {
     state.maybeWhen(
       error: () => AppSnackBar.showErrorShackBar(
@@ -179,7 +163,7 @@ class _SendRatingButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EvaluateOrderCubit, EvaluateOrderState>(
+    return BlocBuilder<RateOrderCubit, RateOrderState>(
       builder: (context, state) {
         _evaluationOrderCompleted(context, state);
 

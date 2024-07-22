@@ -10,8 +10,8 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
-class EstimateSentModalWidget extends StatelessWidget {
-  const EstimateSentModalWidget({super.key});
+class RateSentModalWidget extends StatelessWidget {
+  const RateSentModalWidget({super.key});
   Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
 
   @override

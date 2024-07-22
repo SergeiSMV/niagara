@@ -1,17 +1,17 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/order_history/domain/models/order_evaluation_option.dart';
+import 'package:niagara_app/features/order_history/domain/models/order_rate_option.dart';
 import 'package:niagara_app/features/order_history/domain/repositories/orders_repository.dart';
 
 @injectable
-class GetOrderEvaluationsOptionsUseCase
-    extends BaseUseCase<List<OrderEvaluationOption>, String> {
-  const GetOrderEvaluationsOptionsUseCase(this._ordersRepository);
+class GetOrderRateOptionsUseCase
+    extends BaseUseCase<List<OrderRateOption>, int> {
+  const GetOrderRateOptionsUseCase(this._ordersRepository);
 
   final IOrdersRepositories _ordersRepository;
 
   @override
-  Future<Either<Failure, List<OrderEvaluationOption>>> call(
-    String rating,
+  Future<Either<Failure, List<OrderRateOption>>> call(
+    int rating,
   ) async =>
-      _ordersRepository.getOrderEvaluationOptions(rating: rating);
+      _ordersRepository.getOrderRateOptions(rating: rating);
 }

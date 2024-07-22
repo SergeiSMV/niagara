@@ -13,9 +13,9 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/evaluate_order_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/rate_order_cubit.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/list_products_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/estimate_modal_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_data_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/prices_and_bonuses_widget.dart';
@@ -30,7 +30,7 @@ class OneOrderPage extends StatelessWidget {
   });
 
   final UserOrder order;
-  final EvaluateOrderCubit evaluateOrderCubit;
+  final RateOrderCubit evaluateOrderCubit;
 
   Future<void> _copyOrderNumber() async => await Clipboard.setData(
         ClipboardData(text: order.orderNumber),
@@ -110,7 +110,7 @@ class _BottomButtonsWidget extends StatelessWidget {
 
   /// Открывает модальное окно с оценкой заказа
   Future<void> _showEstimateModal(BuildContext context) async {
-    final evaluateOrderCubit = context.read<EvaluateOrderCubit>();
+    final evaluateOrderCubit = context.read<RateOrderCubit>();
 
     return showModalBottomSheet(
       isScrollControlled: true,
@@ -120,7 +120,7 @@ class _BottomButtonsWidget extends StatelessWidget {
       useSafeArea: true,
       builder: (ctx) => BlocProvider.value(
         value: evaluateOrderCubit,
-        child: EstimateModalWidget(orderId: order.id),
+        child: RateModalWidget(orderId: order.id),
       ),
     );
   }
@@ -168,10 +168,10 @@ class _BottomButtonsWidget extends StatelessWidget {
               AppBoxes.kHeight12,
 
               /// Оценить заказ
-              BlocBuilder<EvaluateOrderCubit, EvaluateOrderState>(
+              BlocBuilder<RateOrderCubit, RateOrderState>(
                 builder: (context, state) {
-                  return (state == const EvaluateOrderState.initial() ||
-                          state == const EvaluateOrderState.loading())
+                  return (state == const RateOrderState.initial() ||
+                          state == const RateOrderState.loading())
                       ? AppTextButton.secondary(
                           text: t.recentOrders.evaluateOrder,
                           onTap: () => _showEstimateModal(context),

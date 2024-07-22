@@ -1,7 +1,7 @@
 import 'package:niagara_app/core/core.dart';
 
-class OrderEvaluationOption extends Equatable {
-  const OrderEvaluationOption({
+class OrderRateOption extends Equatable {
+  const OrderRateOption({
     required this.id,
     required this.name,
     this.isSelected = false,
@@ -18,12 +18,12 @@ class OrderEvaluationOption extends Equatable {
         isSelected,
       ];
 
-  OrderEvaluationOption copyWith({
+  OrderRateOption copyWith({
     String? id,
     String? name,
     bool? isSelected,
   }) {
-    return OrderEvaluationOption(
+    return OrderRateOption(
       id: id ?? this.id,
       name: name ?? this.name,
       isSelected: isSelected ?? this.isSelected,
