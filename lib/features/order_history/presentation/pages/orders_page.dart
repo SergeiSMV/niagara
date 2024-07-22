@@ -10,8 +10,8 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/order_item_widgets/order_item_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/orders_type_buttons_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/recent_order_item_widget.dart';
 
 @RoutePage()
 class OrdersPage extends HookWidget {
@@ -61,7 +61,7 @@ class OrdersPage extends HookWidget {
                     padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
                     sliver: SliverList.separated(
                       itemCount: orders.length,
-                      itemBuilder: (context, index) => RecentOrderItemWidget(
+                      itemBuilder: (context, index) => OrderItemWidget(
                         order: orders[index],
                       ),
                       separatorBuilder: (_, __) => AppBoxes.kHeight16,

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/order_status.dart';
@@ -31,6 +32,7 @@ class UserOrder extends Equatable {
     required this.totalSum,
     required this.rating,
     required this.ratingDescription,
+    required this.orderAgain,
     required this.paymentType,
     required this.paymentCompleted,
     required this.products,
@@ -62,6 +64,7 @@ class UserOrder extends Equatable {
   final double totalSum;
   final int rating;
   final String ratingDescription;
+  final bool orderAgain;
   final OrdersPaymentTypes paymentType;
   final bool paymentCompleted;
   final List<Product> products;
@@ -93,6 +96,7 @@ class UserOrder extends Equatable {
         totalSum,
         rating,
         ratingDescription,
+        orderAgain,
         paymentType,
         paymentCompleted,
         products,

@@ -289,6 +289,23 @@
       "inCash": "Наличными",
       "byBankCard": "Банковской картой"
     },
-    "created": "Создан"
+    "created": "Создан",
+    "contactDriver": "Связаться с водителем",
+    "repeatOrder": "Повторить заказ",
+    "electronicReceipt": "Электронный чек",
+    "evaluateOrder": "Оценить заказ",
+    "rateOrder": "Оцените заказ",
+    "generalAssessment": "Общая оценка",
+    "whatWouldYouLikeToImprove": "Что бы вы хотели улучшить?",
+    "generalImpressions": "Общие впечатления",
+    "send": "Отправить",
+    "yourComment": "Ваш комментарий",
+    "well": "Хорошо",
+    "reviewHasBeenSent": "Отзыв отправлен",
+    "thankYouForYourAssessment": "Спасибо за вашу оценку",
+    "heading": "Заголовок",
+    "otherOptions": "Другие варианты",
+    "sendingError": "Ошибка отправки",
+    "failedSendRating": "Не удалось отправить оценку"
   }
 }

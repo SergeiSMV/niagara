@@ -35,6 +35,7 @@ class UserOrderEntity extends Equatable {
     required this.totalSum,
     required this.rating,
     required this.ratingDescription,
+    required this.orderAgain,
     required this.paymentType,
     required this.paymentCompleted,
     required this.products,
@@ -66,6 +67,7 @@ class UserOrderEntity extends Equatable {
   final double totalSum;
   final int rating;
   final String ratingDescription;
+  final bool orderAgain;
   final OrdersPaymentTypes paymentType;
   final bool paymentCompleted;
   final List<ProductEntity> products;
@@ -97,6 +99,7 @@ class UserOrderEntity extends Equatable {
         totalSum,
         rating,
         ratingDescription,
+        orderAgain,
         paymentType,
         paymentCompleted,
         products,

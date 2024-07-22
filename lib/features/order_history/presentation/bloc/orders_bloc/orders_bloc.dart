@@ -12,7 +12,7 @@ part 'orders_state.dart';
 
 typedef _Emit = Emitter<OrdersState>;
 
-@injectable
+@lazySingleton
 class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   OrdersBloc(
     this._getOrdersUseCase,
@@ -33,10 +33,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   OrdersTypes _sort = OrdersTypes.delivery;
   OrdersTypes get sort => _sort;
 
-  Future<void> _onLoadOrders(
-    _LoadingEvent event,
-    _Emit emit,
-  ) async {
+  Future<void> _onLoadOrders(_LoadingEvent event, _Emit emit) async {
     if (event.isForceUpdate) {
       emit(const _Loading());
       _current = 0;
@@ -70,10 +67,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     );
   }
 
-  Future<void> _onLoadMoreOrders(
-    _LoadMoreEvent event,
-    _Emit emit,
-  ) async {
+  Future<void> _onLoadMoreOrders(_LoadMoreEvent event, _Emit emit) async {
     if (state is _Loading) return;
     if (hasMore) {
       add(const _LoadingEvent(isForceUpdate: false));

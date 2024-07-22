@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
@@ -11,41 +13,28 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/rate_order_cubit.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/list_products_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_data_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/prices_and_bonuses_widget.dart';
 
+/// Экран с одним заказом
 @RoutePage()
 class OneOrderPage extends StatelessWidget {
   const OneOrderPage({
     super.key,
     required this.order,
+    required this.evaluateOrderCubit,
   });
 
   final UserOrder order;
+  final RateOrderCubit evaluateOrderCubit;
 
-  Widget _returnBottomButtons() => switch (order.orderStatus) {
-        OrderStatus.cancelled => AppTextButton.secondary(
-            text: "t.recentOrders.cancelOrder",
-            onTap: () {},
-          ),
-        OrderStatus.goingTo => Padding(
-            padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
-            child: AppTextButton.secondary(
-              text: t.recentOrders.cancelOrder,
-              onTap: () {},
-            ),
-          ),
-        OrderStatus.onWay => AppTextButton.secondary(
-            text: "t.recentOrders.markAsDelivered",
-            onTap: () {},
-          ),
-        OrderStatus.received => AppTextButton.secondary(
-            text: "t.recentOrders.markAsInProgress",
-            onTap: () {},
-          ),
-      };
+  Future<void> _copyOrderNumber() async => await Clipboard.setData(
+        ClipboardData(text: order.orderNumber),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +45,7 @@ class OneOrderPage extends StatelessWidget {
             title: '${t.recentOrders.orderNumber}${order.orderNumber}',
             actions: [
               InkWell(
-                onTap: () {},
+                onTap: () => _copyOrderNumber(),
                 child: Padding(
                   padding: AppInsets.kRight16,
                   child: Assets.icons.copy.svg(),
@@ -101,44 +90,108 @@ class OneOrderPage extends StatelessWidget {
           ),
           const SliverToBoxAdapter(child: AppBoxes.kHeight16),
           ListProductsWidget(products: order.products),
-          const SliverToBoxAdapter(child: BottomButtonsWidget()),
-        ],
-      ),
-    );
-  }
-}
-
-class BottomButtonsWidget extends StatelessWidget {
-  const BottomButtonsWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: AppInsets.kHorizontal16,
-      child: Column(
-        children: [
-          AppBoxes.kHeight24,
-          AppTextButton.secondary(
-            text: t.recentOrders.cancelOrder,
-            onTap: () {},
+          BlocProvider.value(
+            value: evaluateOrderCubit,
+            child: _BottomButtonsWidget(order: order),
           ),
-          AppBoxes.kHeight24,
         ],
       ),
     );
   }
 }
 
-class BottomButtonsWhenStatusIsGoingTo extends StatelessWidget {
-  const BottomButtonsWhenStatusIsGoingTo({super.key});
+/// Кнопки внизу экрана, с учетом статуса заказа
+class _BottomButtonsWidget extends StatelessWidget {
+  const _BottomButtonsWidget({
+    required this.order,
+  });
+
+  final UserOrder order;
+
+  /// Открывает модальное окно с оценкой заказа
+  Future<void> _showEstimateModal(BuildContext context) async {
+    final evaluateOrderCubit = context.read<RateOrderCubit>();
+
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      useRootNavigator: true,
+      backgroundColor: context.colors.mainColors.white,
+      useSafeArea: true,
+      builder: (ctx) => BlocProvider.value(
+        value: evaluateOrderCubit,
+        child: RateModalWidget(orderId: order.id),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
-      child: AppTextButton.secondary(
-        text: t.recentOrders.cancelOrder,
-        onTap: () {},
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: AppInsets.kHorizontal16,
+        child: Column(
+          children: [
+            AppBoxes.kHeight24,
+
+            /// Отменить заказ (status = собирается)
+            if (order.orderStatus == OrderStatus.goingTo) ...[
+              AppTextButton.secondary(
+                text: t.recentOrders.cancelOrder,
+                onTap: () {},
+              ),
+            ],
+
+            /// Связаться с водителем (status = в пути)
+            if (order.orderStatus == OrderStatus.onWay) ...[
+              AppTextButton.primary(
+                text: t.recentOrders.contactDriver,
+                onTap: () {},
+              ),
+            ],
+
+            /// Повторить заказ (status = Получен)
+            if (order.orderStatus == OrderStatus.received) ...[
+              if (order.orderAgain) ...[
+                AppTextButton.primary(
+                  text: t.recentOrders.repeatOrder,
+                  onTap: () {},
+                ),
+                AppBoxes.kHeight12,
+              ],
+
+              /// Электронный чек
+              AppTextButton.secondary(
+                text: t.recentOrders.electronicReceipt,
+                onTap: () {},
+              ),
+              AppBoxes.kHeight12,
+
+              /// Оценить заказ
+              BlocBuilder<RateOrderCubit, RateOrderState>(
+                builder: (context, state) {
+                  return (state == const RateOrderState.initial() ||
+                          state == const RateOrderState.loading())
+                      ? AppTextButton.secondary(
+                          text: t.recentOrders.evaluateOrder,
+                          onTap: () => _showEstimateModal(context),
+                        )
+                      : const SizedBox.shrink();
+                },
+              ),
+            ],
+
+            /// Повторить заказ (status = Отменен)
+            if (order.orderStatus == OrderStatus.cancelled &&
+                order.orderAgain) ...[
+              AppTextButton.primary(
+                text: t.recentOrders.repeatOrder,
+                onTap: () {},
+              ),
+            ],
+            AppBoxes.kHeight24,
+          ],
+        ),
       ),
     );
   }
