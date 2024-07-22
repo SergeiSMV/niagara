@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
@@ -39,27 +40,62 @@ class ProductCartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => _navigateToProductPage(context),
-      child: Padding(
-        padding: AppInsets.kVertical4,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.colors.mainColors.bgCard,
-            borderRadius: AppBorders.kCircular12,
+    return Slidable(
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        children: [
+          Column(
+            children: [
+              Container(
+                height: 20,
+                width: 20,
+                color: Colors.red,
+              ),
+              Container(
+                height: 20,
+                width: 20,
+                color: Colors.green,
+              ),
+              // SlidableAction(
+              //   onPressed: null,
+              //   backgroundColor: Color(0xFF7BC043),
+              //   foregroundColor: Colors.white,
+              //   icon: Icons.archive,
+              //   label: 'Archive',
+              // ),
+              // SlidableAction(
+              //   onPressed: null,
+              //   backgroundColor: Color(0xFF0392CF),
+              //   foregroundColor: Colors.white,
+              //   icon: Icons.save,
+              //   label: 'Save',
+              // ),
+            ],
           ),
-          child: Padding(
-            padding: AppInsets.kAll8,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _CartProductImageWidget(product: product),
-                AppBoxes.kWidth12,
-                _CartProductDescriptionWidget(
-                  product: product,
-                  isAvailable: isAvailable,
-                ),
-              ],
+        ],
+      ),
+      child: InkWell(
+        onTap: () => _navigateToProductPage(context),
+        child: Padding(
+          padding: AppInsets.kVertical4,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: context.colors.mainColors.bgCard,
+              borderRadius: AppBorders.kCircular12,
+            ),
+            child: Padding(
+              padding: AppInsets.kAll8,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _CartProductImageWidget(product: product),
+                  AppBoxes.kWidth12,
+                  _CartProductDescriptionWidget(
+                    product: product,
+                    isAvailable: isAvailable,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
