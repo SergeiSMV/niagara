@@ -10,6 +10,7 @@ import 'package:niagara_app/features/home/presentation/widgets/static_banners_wi
 import 'package:niagara_app/features/home/presentation/widgets/support_button.dart';
 import 'package:niagara_app/features/locations/_common/presentation/widgets/address_button.dart';
 import 'package:niagara_app/features/new_products/presentation/widget/new_products_home_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/recent_orders_list_widget.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/bonuses_home_widget.dart';
 import 'package:niagara_app/features/promotions/presentation/widgets/promotions_home_widget.dart';
@@ -51,6 +52,7 @@ class HomePage extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
+              const RecentOrdersListWidget(),
               const StoriesHomeWidget(),
               const NewProductsHomeWidget(),
               const SpecialProductsHomeWidget(),

@@ -22,6 +22,7 @@ abstract final class AppBoxes {
   static const SizedBox kHeight12 = SizedBox(height: 12);
   static const SizedBox kHeight16 = SizedBox(height: 16);
   static const SizedBox kHeight24 = SizedBox(height: 24);
+  static const SizedBox kHeight28 = SizedBox(height: 28);
   static const SizedBox kHeight32 = SizedBox(height: 32);
   static const SizedBox kHeight48 = SizedBox(height: 48);
   static const SizedBox kHeight64 = SizedBox(height: 64);
