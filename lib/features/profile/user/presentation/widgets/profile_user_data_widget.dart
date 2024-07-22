@@ -28,7 +28,7 @@ class ProfileUserDataWidget extends StatelessWidget {
             ),
           ],
         ),
-        unauthorized: () => Center(child: Text(t.routes.profile)),
+        unauthorized: (_) => Center(child: Text(t.routes.profile)),
         orElse: SizedBox.shrink,
       ),
     );

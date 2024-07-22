@@ -16,11 +16,13 @@ class CityGuard extends AutoRouteGuard {
     NavigationResolver resolver,
     StackRouter router,
   ) async {
-    // Проверка на наличие города
-    final hasSetted = await _getCityUseCase.call().isRight;
+    final bool isSet = await _getCityUseCase.call().fold(
+          (left) => false,
+          (right) => true,
+        );
 
     // Если имеется, то продолжаем
-    if (hasSetted) {
+    if (isSet) {
       return resolver.next();
     } else {
       // Если не выбран, то переходим на страницу выбора города
