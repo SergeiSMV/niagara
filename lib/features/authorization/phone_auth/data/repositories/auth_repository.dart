@@ -23,6 +23,9 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
   Failure get failure => const AuthRepositoryFailure();
 
   @override
+  Future<Either<Failure, void>> logout() => execute(_logout);
+
+  @override
   Future<Either<Failure, AuthenticatedStatus>> checkAuthStatus() =>
       execute(_checkAuthStatus);
 
@@ -82,5 +85,14 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
     return _authLDS.setAuthStatus(
       status: AuthenticatedStatus.unauthenticated.index,
     );
+  }
+
+  Future<void> _logout() {
+    return _authRDS.logout().fold(
+          (failure) => throw AuthRepositoryFailure(failure.error),
+          (success) => _authLDS.setAuthStatus(
+            status: AuthenticatedStatus.unauthenticated.index,
+          ),
+        );
   }
 }

@@ -30,6 +30,13 @@ abstract interface class IAuthRemoteDatasource {
     required String phone,
     required String code,
   });
+
+  /// Метод `logout` производит выход из аккаунта.
+  ///
+  /// Возвращает:
+  /// - [bool] значение, указывающее, был ли выход из аккаунта успешным.
+  /// - [Failure] в случае ошибки.
+  Future<Either<Failure, bool>> logout();
 }
 
 @LazySingleton(as: IAuthRemoteDatasource)
@@ -75,5 +82,15 @@ class AuthRemoteDataSource implements IAuthRemoteDatasource {
         ),
         converter: (json) => json['valid'] as bool? ?? false,
         failure: ValidateCodeFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, bool>> logout() =>
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+        request: (dio) => dio.post(
+          ApiConst.kLogout,
+        ),
+        converter: (json) => json['success'] as bool,
+        failure: LogoutFailure.new,
       );
 }

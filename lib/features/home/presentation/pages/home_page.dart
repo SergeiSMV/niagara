@@ -9,9 +9,12 @@ import 'package:niagara_app/features/home/presentation/widgets/notifications_but
 import 'package:niagara_app/features/home/presentation/widgets/static_banners_widget.dart';
 import 'package:niagara_app/features/home/presentation/widgets/support_button.dart';
 import 'package:niagara_app/features/locations/_common/presentation/widgets/address_button.dart';
+import 'package:niagara_app/features/new_products/presentation/widget/new_products_home_widget.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/bonuses_home_widget.dart';
 import 'package:niagara_app/features/promotions/presentation/widgets/promotions_home_widget.dart';
+import 'package:niagara_app/features/special_poducts/presentation/widget/special_products_home_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/recent_orders_list_widget.dart';
 
 /// Главная страница приложения.
 @RoutePage()
@@ -48,6 +51,9 @@ class HomePage extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
+              const RecentOrdersListWidget(),
+              const NewProductsHomeWidget(),
+              const SpecialProductsHomeWidget(),
               const PromotionsHomeWidget(),
               const GroupsHomeWidget(),
             ]),

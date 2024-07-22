@@ -13,6 +13,7 @@ abstract final class AppConstants {
   // * ------------------------------ Shadow ----------------------------- * //
   static const Offset kShadowTop = Offset(0, -4);
   static const Offset kShadowBottom = Offset(0, 4);
+  static const Offset kShadowDiagonal = Offset(-2, 6);
 
   // * --------------------------- Regional Data -------------------------- * //
   static const int kPhoneDigits = 10;

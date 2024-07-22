@@ -13,7 +13,6 @@ abstract class BaseRepository {
   Failure get failure;
 
   final INetworkInfo _networkInfo;
-  //= getIt<INetworkInfo>();
 
   /// Выполняет асинхронное действие и возвращает результат в виде [Either].
   ///

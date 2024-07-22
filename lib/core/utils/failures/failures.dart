@@ -70,6 +70,10 @@ class PhoneNotFoundFailure extends Failure {
   const PhoneNotFoundFailure([super.error = 'Phone not found']);
 }
 
+class LogoutFailure extends Failure {
+  const LogoutFailure([super.error = 'Logout failure']);
+}
+
 // ! -------------------------------- City -------------------------------- ! //
 
 class CitiesRepositoryFailure extends Failure {
@@ -251,4 +255,42 @@ class CartLocalDataFailure extends Failure {
 
 class CartRemoteDataFailure extends Failure {
   const CartRemoteDataFailure([super.error = 'Cart remote data failure']);
+}
+
+// ! ---------------------------- New products ---------------------------- ! //
+class NewProductsDataFailure extends Failure {
+  const NewProductsDataFailure([super.error = 'New products data failure']);
+}
+
+class NewProductsRepositoryFailure extends Failure {
+  const NewProductsRepositoryFailure([
+    super.error = 'New products repo failure',
+  ]);
+}
+
+// ! -------------------------- Special products -------------------------- ! //
+
+class SpecialProductsDataFailure extends Failure {
+  const SpecialProductsDataFailure(
+      [super.error = 'Special products data failure']);
+}
+
+class SpecialProductsRepositoryFailure extends Failure {
+  const SpecialProductsRepositoryFailure([
+    super.error = 'Special products repo failure',
+  ]);
+}
+
+// ! ------------------------------- Orders ------------------------------ ! //
+
+class OrdersRepositoryFailure extends Failure {
+  const OrdersRepositoryFailure([super.error = 'Orders repo failure']);
+}
+
+class OrdersLocalDataFailure extends Failure {
+  const OrdersLocalDataFailure([super.error = 'Orders local data failure']);
+}
+
+class OrdersRemoteDataFailure extends Failure {
+  const OrdersRemoteDataFailure([super.error = 'Orders remote data failure']);
 }

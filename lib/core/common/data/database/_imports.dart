@@ -5,6 +5,8 @@ export 'package:drift/native.dart';
 export 'package:injectable/injectable.dart';
 export 'package:niagara_app/core/common/data/local/entities/product_entity.dart';
 export 'package:niagara_app/core/utils/enums/location_precision.dart';
+export 'package:niagara_app/core/utils/enums/order_status.dart';
+export 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
 export 'package:niagara_app/core/utils/enums/status_level_type.dart';
 export 'package:niagara_app/features/cart/favorites/data/local/dao/favorites_dao.dart';
 export 'package:niagara_app/features/cart/favorites/data/local/tables/favorites_table.dart';
@@ -15,6 +17,8 @@ export 'package:niagara_app/features/locations/cities/data/local/tables/cities_t
 export 'package:niagara_app/features/locations/shops/data/local/dao/shops_dao.dart';
 export 'package:niagara_app/features/locations/shops/data/local/entities/shop_entity.dart';
 export 'package:niagara_app/features/locations/shops/data/local/tables/shops_table.dart';
+export 'package:niagara_app/features/order_history/data/local/dao/orders_dao.dart';
+export 'package:niagara_app/features/order_history/data/local/tables/user_orders_table.dart';
 export 'package:niagara_app/features/profile/bonuses/data/local/dao/bonuses_dao.dart';
 export 'package:niagara_app/features/profile/bonuses/data/local/entities/bonuses_entity.dart';
 export 'package:niagara_app/features/profile/bonuses/data/local/tables/bonuses_table.dart';

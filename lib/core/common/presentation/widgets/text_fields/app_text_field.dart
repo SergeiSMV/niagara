@@ -13,6 +13,7 @@ class AppTextField extends BaseTextField {
   const AppTextField._({
     required super.name,
     super.key,
+    super.expandable,
     super.initialText,
     super.label,
     super.hint,
@@ -60,10 +61,12 @@ class AppTextField extends BaseTextField {
     bool isRequired = false,
     int? maxLength,
     bool showCounter = false,
+    bool expandable = false,
   }) {
     return AppTextField._(
       name: AppConstants.kTextFieldTextName,
       key: key,
+      expandable: expandable,
       initialText: initialText,
       label: label,
       hint: hint,
