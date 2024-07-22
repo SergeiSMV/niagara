@@ -11,7 +11,7 @@ part 'splash_cubit.freezed.dart';
 
 /// Кубит для управления состоянием загрузки приложения. Проверяет на пропуск
 /// авторизации и уведомляет о завершении загрузки.
-@lazySingleton
+@injectable
 class SplashCubit extends Cubit<SplashState> {
   SplashCubit(
     this._checkAuthStatusUseCase,

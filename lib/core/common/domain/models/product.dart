@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:niagara_app/core/common/domain/models/pagination.dart';
+
+typedef Products = ({List<Product> products, Pagination pagination});
 
 class Product extends Equatable {
   const Product({

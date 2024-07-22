@@ -25,6 +25,9 @@ abstract final class ApiConst {
   /// -POST- Запрос на проверку кода для авторизации
   static const String kConfirmCode = '/code_confirm_check';
 
+  /// -POST- Запрос на выход из аккаунта
+  static const String kLogout = '/user_checkout';
+
   // ? ----------------------------- Location ----------------------------- ? //
   /// -GET- Запрос на получение списка городов
   static const String kGetCities = '/region';
@@ -56,6 +59,9 @@ abstract final class ApiConst {
 
   /// -PUT- Запрос на обновление профиля
   static const String kUpdateProfile = '/users';
+
+  /// -DELETE- Запрос на удаление профиля
+  static const String kDeleteProfile = '/users';
 
   // ? --------------------------- BonusProgram --------------------------- ? //
   /// -GET- Запрос на получение описания программы бонусов
@@ -128,6 +134,14 @@ abstract final class ApiConst {
 
   /// -GET- Запрос на получение рекомендаций
   static const String kGetRecommendedProducts = '/cart_recommend';
+
+  // ? -------------------------- New products ---------------------------- ? //
+  /// -GET- Запрос на получение товаров "специально для вас".
+  static const String kGetNewProducts = '/products_new';
+
+  // ? ----------------------- Special products -------------------------- ? //
+  /// -GET- Запрос на получение новых товаров.
+  static const String kGetSpeialProducts = '/products_special';
 
   // ? ----------------------------- Orders ------------------------------- ? //
   /// -GET- Запрос на получение списка заказов
