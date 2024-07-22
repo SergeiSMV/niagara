@@ -263,5 +263,69 @@
     "exceededLimit": "Превышен лимит на списание",
     "unavailableForOrder": "Товары недоступны к заказу",
     "notAvailable": "Нет в наличии"
+  },
+  "recentOrders": {
+    "myOrders": "Мои заказы",
+    "recentOrders": "Последние заказы",
+    "orderNumber": "Заказ №",
+    "costOfOrder": "Стоимость заказа",
+    "deliveryDateIn": "Дата доставки в",
+    "statuses": {
+      "goingTo": "Собирается",
+      "onWay": "В пути",
+      "received": "Получен",
+      "cancelled": "Отменен"
+    },
+    "paymentTypes": {
+      "cash": "CASH",
+      "card": "CARD",
+      "online": "ONLINE"
+    },
+    "repeat": "Повторить",
+    "estimate": "Оценить",
+    "allOrders": "Все\nзаказы",
+    "paymentStatuses": {
+      "paidFor": "Оплачен",
+      "notPaidFor": "Не оплачен"
+    },
+    "paymentMethod": "Способ оплаты",
+    "deliveryDate": "Дата доставки",
+    "recipient": "Получатель",
+    "comment": "Комментарий",
+    "addBonusesForFirstOrder": "Начислим бонусы за первый заказ",
+    "firstOrderAndBonus": {
+      "placeYourFirstOrder": "Оформите свой первый заказ и получите ",
+      "fiftyBonuses": "50 бонусов"
+    },
+    "forShopping": "К покупкам",
+    "paymentWithBonuses": "Оплата бонусами",
+    "ordersFilter": {
+      "finish": "Полученные",
+      "cancel": "Отмененные",
+      "delivery": "Активные"
+    },
+    "cancelOrder": "Отменить заказ",
+    "ordersPaymentTypes": {
+      "inCash": "Наличными",
+      "byBankCard": "Банковской картой"
+    },
+    "created": "Создан",
+    "contactDriver": "Связаться с водителем",
+    "repeatOrder": "Повторить заказ",
+    "electronicReceipt": "Электронный чек",
+    "evaluateOrder": "Оценить заказ",
+    "rateOrder": "Оцените заказ",
+    "generalAssessment": "Общая оценка",
+    "whatWouldYouLikeToImprove": "Что бы вы хотели улучшить?",
+    "generalImpressions": "Общие впечатления",
+    "send": "Отправить",
+    "yourComment": "Ваш комментарий",
+    "well": "Хорошо",
+    "reviewHasBeenSent": "Отзыв отправлен",
+    "thankYouForYourAssessment": "Спасибо за вашу оценку",
+    "heading": "Заголовок",
+    "otherOptions": "Другие варианты",
+    "sendingError": "Ошибка отправки",
+    "failedSendRating": "Не удалось отправить оценку"
   }
 }

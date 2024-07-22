@@ -26,10 +26,18 @@ abstract final class AppSizes {
   static const double kShadowOpacity = 0.08;
   static const double kShadowOpacity0_8 = 0.8;
 
+  static const double kImageSize120 = 120;
+
   static const double notificationIconHeight = 26;
   static const double notificationIconWidth = 26;
   static const double notificationIndicatorHeight = 12;
   static const double notificationIndicatorWidth = 12;
   static const double notificationIndicatorTopPadding = 12;
   static const double notificationIndicatorRightPadding = 8;
+
+  //* -------------------------------- Orders ------------------------------ *//
+  static const double kListItemsHeight = 200;
+  static const double recentOrderItemWidth = 264;
+  static const double emptyOrdersWidgetHeight = 160;
+  static const double kOrderHistoryProductHeight = 116;
 }

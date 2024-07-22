@@ -14,6 +14,7 @@ import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_b
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/home_widget/bonuses_home_widget.dart';
 import 'package:niagara_app/features/promotions/presentation/widgets/promotions_home_widget.dart';
 import 'package:niagara_app/features/special_poducts/presentation/widget/special_products_home_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/recent_orders_list_widget.dart';
 
 /// Главная страница приложения.
 @RoutePage()
@@ -50,6 +51,7 @@ class HomePage extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
+              const RecentOrdersListWidget(),
               const NewProductsHomeWidget(),
               const SpecialProductsHomeWidget(),
               const PromotionsHomeWidget(),

@@ -280,3 +280,17 @@ class SpecialProductsRepositoryFailure extends Failure {
     super.error = 'Special products repo failure',
   ]);
 }
+
+// ! ------------------------------- Orders ------------------------------ ! //
+
+class OrdersRepositoryFailure extends Failure {
+  const OrdersRepositoryFailure([super.error = 'Orders repo failure']);
+}
+
+class OrdersLocalDataFailure extends Failure {
+  const OrdersLocalDataFailure([super.error = 'Orders local data failure']);
+}
+
+class OrdersRemoteDataFailure extends Failure {
+  const OrdersRemoteDataFailure([super.error = 'Orders remote data failure']);
+}

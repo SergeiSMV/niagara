@@ -142,4 +142,14 @@ abstract final class ApiConst {
   // ? ----------------------- Special products -------------------------- ? //
   /// -GET- Запрос на получение новых товаров.
   static const String kGetSpeialProducts = '/products_special';
+
+  // ? ----------------------------- Orders ------------------------------- ? //
+  /// -GET- Запрос на получение списка заказов
+  static const String kGetOrders = '/orders';
+
+  /// -GET- Запрос на получение списка опций оценки заказа
+  static const String kGetOrderRating = '/order_rating';
+
+  /// -POST- Запрос на оценку заказа
+  static const String kEvaluateOrder = '/order_rating';
 }
