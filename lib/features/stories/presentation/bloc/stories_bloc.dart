@@ -20,6 +20,7 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
 
   final GetStoriesUseCase _getCase;
   final MarkStorySeenUseCase _markCase;
+  final Set<String> seenStories = {};
 
   Future<void> _onLoad(
     _LoadStoriesEvent event,
@@ -41,17 +42,29 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
     final String storyId = event.id;
     final List<Story> stories = (state as _LoadedStories).stories;
 
+    // Если история уже открыта, то не нужно ее помечать
+    if (stories.any((s) => s.id == storyId && s.open)) return;
+
     final bool result = await _markCase
         .call(event.id)
         .fold((failure) => throw failure, (data) => data);
 
     if (result) {
-      final int index = stories.indexWhere((element) => element.id == storyId);
-      if (index != -1) {
-        stories[index] = stories[index].copyWithOpen(true);
-      }
-    }
+      // Добавить в список историй, которые были помечены прочитанными.
+      seenStories.add(storyId);
 
-    return emit(_LoadedStories(stories: stories));
+      final List<Story> newList = List.from(stories);
+
+      // Пройтись по всем прочитанным историям нужно, чтобы не возникало
+      // конкурентных гонок из-за асинхронных запросов.
+      for (final String id in seenStories) {
+        final int index = stories.indexWhere((s) => s.id == id);
+        if (index != -1) {
+          newList[index] = stories[index].copyWithOpen(true);
+        }
+      }
+
+      return emit(_LoadedStories(stories: newList));
+    }
   }
 }

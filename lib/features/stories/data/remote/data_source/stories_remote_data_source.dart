@@ -28,7 +28,7 @@ class StoriesRemoteDataSource implements IStoriesRemoteDataSource {
 
   @override
   Future<Either<Failure, bool>> markSeen({required String storyId}) =>
-      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+      _requestHandler.sendRequest<bool, dynamic>(
         request: (dio) => dio.post(
           ApiConst.kMarkStorySeen,
           data: {

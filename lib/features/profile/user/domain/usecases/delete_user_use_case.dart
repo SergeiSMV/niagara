@@ -22,7 +22,12 @@ class DeleteUserUseCase extends BaseUseCase<void, User> {
           (failure) => throw failure,
           (_) => _authRepository.logout().either(
                 (failure) => throw failure,
-                (_) => _tokenRepository.deleteToken(),
+                (_) => _tokenRepository.deleteToken().either(
+                      (failure) => throw failure,
+                      // Нужно создать токен заново, т.к. он потребуется сразу после
+                      // перезагрузки приложения.
+                      (_) => _tokenRepository.createToken(),
+                    ),
               ),
         );
   }

@@ -41,7 +41,7 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
     await _tokenRDS.getToken(deviceId: deviceId.right).fold(
       (failure) => throw GetTokenFailure(failure.error),
       (token) async {
-        _cachedToken = null;
+        _cachedToken = token;
         await _tokenLDS.setToken(token: token);
       },
     );
