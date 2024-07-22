@@ -32,4 +32,6 @@ abstract final class AppConstants {
 
   // * --------------------------- Order Number --------------------------- * //
   static const String orderNumber = '+7 (800) 505-10-21';
+
+  static const double slideExtentRatio = 0.2;
 }
