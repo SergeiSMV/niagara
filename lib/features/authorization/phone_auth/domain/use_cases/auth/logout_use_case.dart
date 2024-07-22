@@ -15,8 +15,13 @@ class LogoutUseCase extends BaseUseCase<void, NoParams> {
   @override
   Future<Either<Failure, void>> call(NoParams _) async {
     return _authRepository.logout().either(
-          (failure) => failure,
-          (_) => _tokenRepository.deleteToken(),
+          (failure) => throw failure,
+          (_) => _tokenRepository.deleteToken().either(
+                (failure) => throw failure,
+                // Нужно создать токен заново, т.к. он потребуется сразу после
+                // перезагрузки приложения.
+                (_) => _tokenRepository.createToken(),
+              ),
         );
   }
 }

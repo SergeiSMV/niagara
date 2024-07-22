@@ -54,7 +54,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     await _logoutUseCase.call(NoParams()).fold(
           (failure) => emit(const _Error()),
-          (_) => emit(const _Unauthorized()),
+          (_) => emit(const _Unauthorized(loggedOut: true)),
         );
   }
 
@@ -63,7 +63,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     await _deleteUserUseCase.call((state as _Loaded).user).fold(
           (failure) => emit(const _Error()),
-          (_) => emit(const _Unauthorized()),
+          (_) => emit(const _Unauthorized(loggedOut: true)),
         );
   }
 }

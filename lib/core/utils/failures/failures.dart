@@ -281,6 +281,17 @@ class SpecialProductsRepositoryFailure extends Failure {
   ]);
 }
 
+// ! ------------------------------ Stories ------------------------------- ! //
+
+class StoriesDataFailure extends Failure {
+  const StoriesDataFailure([super.error = 'Stories data failure']);
+}
+
+class StoriesRepositoryFailure extends Failure {
+  const StoriesRepositoryFailure([
+    super.error = 'Stories repo failure',
+  ]);
+}
 // ! ------------------------------- Orders ------------------------------ ! //
 
 class OrdersRepositoryFailure extends Failure {
