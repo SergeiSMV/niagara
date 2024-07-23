@@ -11,3 +11,6 @@ analyzer:
     - "**/*.freezed.dart"
     - "**/*.gen.dart"
     - "**/*.config.dart"
+    - "**/*.mocks.dart"     
+    - "build/**"             
+    - "test/**"               

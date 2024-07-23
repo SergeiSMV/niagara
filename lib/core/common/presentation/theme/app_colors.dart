@@ -133,6 +133,18 @@ class _GradientColors extends GradientColors {
             Color.fromRGBO(255, 255, 255, 0.288),
             Colors.transparent,
           ],
+          referralBanner: const [
+            Color(0xFF2194D8),
+            Color(0xFF044B75),
+          ],
+          promotionsBanner: const [
+            Color(0xFFFFC22C),
+            Color(0xFFFF7223),
+          ],
+          vipBanner: const [
+            Color(0xFF095C8E),
+            Color(0xFF041A28),
+          ],
         );
 }
 
