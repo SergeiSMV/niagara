@@ -1,10 +1,6 @@
 import 'dart:convert';
 
-import 'package:drift/drift.dart';
 import 'package:niagara_app/core/common/data/database/_imports.dart';
-import 'package:niagara_app/core/common/data/local/entities/product_entity.dart';
-import 'package:niagara_app/core/utils/enums/order_status.dart';
-import 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
 
 class UserOrdersTable extends Table {
   TextColumn get id => text()();

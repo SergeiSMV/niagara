@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -13,17 +14,18 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 class BannerWidget extends StatelessWidget {
   const BannerWidget({
     super.key,
-    required this.onTap,
+    this.onTap,
     required this.gradient,
     required this.title,
     required this.description,
     required this.image,
     required this.rightPositioning,
     required this.bottomPositioning,
+    this.redirectRoute,
   });
 
   /// Коллбек для навигации по нажатию на баннер.
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   /// Градиент для фона баннера.
   final LinearGradient gradient;
@@ -43,8 +45,17 @@ class BannerWidget extends StatelessWidget {
   /// Позиционирование изображения в баннере.
   final double bottomPositioning;
 
+  /// Страница, на которую необходимо перейти при нажатии на баннер.
+  final PageRouteInfo? redirectRoute;
+
   @override
   Widget build(BuildContext context) {
+    // Если onTap не передан явно, использовать redirectPage.
+    final VoidCallback? onTap = this.onTap ??
+        (redirectRoute != null
+            ? () => context.navigateTo(redirectRoute!)
+            : null);
+
     return InkWell(
       onTap: onTap,
       child: DecoratedBox(
