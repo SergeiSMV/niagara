@@ -24,9 +24,11 @@ class ProductWidget extends StatelessWidget {
   const ProductWidget({
     super.key,
     required this.product,
+    this.goToPage,
   });
 
   final Product product;
+  final VoidCallback? goToPage;
 
   void _navigateToProductPage(BuildContext context) => context.navigateTo(
         CatalogWrapper(
@@ -45,7 +47,8 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _navigateToProductPage(context),
+      onTap: () =>
+          goToPage != null ? goToPage!() : _navigateToProductPage(context),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: context.colors.mainColors.bgCard,

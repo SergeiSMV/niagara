@@ -77,6 +77,7 @@ abstract final class AppInsets {
   static const EdgeInsets kLeft12 = EdgeInsets.only(left: 12);
   static const EdgeInsets kLeft16 = EdgeInsets.only(left: 16);
   static const EdgeInsets kLeft24 = EdgeInsets.only(left: 24);
+  static const EdgeInsets kLeft22 = EdgeInsets.only(left: 22);
   static const EdgeInsets kLeft32 = EdgeInsets.only(left: 32);
   static const EdgeInsets kLeft48 = EdgeInsets.only(left: 48);
   static const EdgeInsets kLeft64 = EdgeInsets.only(left: 64);
