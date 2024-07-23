@@ -41,4 +41,7 @@ abstract final class AppConstants {
   static const darkSlideGradientStops1 = [0.0, 0.578025, 0.578125, 1.0];
 
   static const darkSlideGradientStops2 = [0.0, 0.497046, 0.769, 1.0];
+
+  // * --------------------------- Slides --------------------------- * //
+  static const double slideExtentRatio = 0.2;
 }

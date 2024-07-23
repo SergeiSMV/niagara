@@ -1,22 +1,26 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/item_in_cart_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_coins_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_tag_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/slide_buttons_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
-class ProductCartWidget extends StatelessWidget {
+class ProductCartWidget extends StatefulWidget {
   const ProductCartWidget({
     super.key,
     required this.product,
@@ -26,12 +30,26 @@ class ProductCartWidget extends StatelessWidget {
   final Product product;
   final bool isAvailable;
 
+  @override
+  State<ProductCartWidget> createState() => _ProductCartWidgetState();
+}
+
+class _ProductCartWidgetState extends State<ProductCartWidget>
+    with SingleTickerProviderStateMixin {
+  late final SlidableController slidableController;
+
+  @override
+  void initState() {
+    slidableController = SlidableController(this);
+    super.initState();
+  }
+
   void _navigateToProductPage(BuildContext context) => context.navigateTo(
         CatalogWrapper(
           children: [
             ProductRoute(
-              key: ValueKey(product.id),
-              product: product,
+              key: ValueKey(widget.product.id),
+              product: widget.product,
             ),
           ],
         ),
@@ -39,27 +57,42 @@ class ProductCartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => _navigateToProductPage(context),
-      child: Padding(
-        padding: AppInsets.kVertical4,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.colors.mainColors.bgCard,
-            borderRadius: AppBorders.kCircular12,
+    return Slidable(
+      controller: slidableController,
+      endActionPane: ActionPane(
+        extentRatio: AppConstants.slideExtentRatio,
+        motion: const ScrollMotion(),
+        children: [
+          SlideButtonsWidget(
+            product: widget.product,
+            addToFavorite: () => slidableController.close(),
+            removeFromCart: () => slidableController.close(),
           ),
-          child: Padding(
-            padding: AppInsets.kAll8,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _CartProductImageWidget(product: product),
-                AppBoxes.kWidth12,
-                _CartProductDescriptionWidget(
-                  product: product,
-                  isAvailable: isAvailable,
-                ),
-              ],
+        ],
+      ),
+      child: InkWell(
+        onTap: () => _navigateToProductPage(context),
+        child: Padding(
+          padding: AppInsets.kVertical4,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: context.colors.mainColors.bgCard,
+              borderRadius: AppBorders.kCircular12,
+            ),
+            child: Padding(
+              padding: AppInsets.kAll8,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _CartProductImageWidget(product: widget.product),
+                  AppBoxes.kWidth12,
+                  _CartProductDescriptionWidget(
+                    product: widget.product,
+                    isAvailable: widget.isAvailable,
+                    openSlideMenu: () => slidableController.openEndActionPane(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -72,10 +105,12 @@ class _CartProductDescriptionWidget extends StatelessWidget {
   const _CartProductDescriptionWidget({
     required this.product,
     required this.isAvailable,
+    required this.openSlideMenu,
   });
 
   final Product product;
   final bool isAvailable;
+  final VoidCallback openSlideMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +139,11 @@ class _CartProductDescriptionWidget extends StatelessWidget {
                     decorationColor: context.colors.textColors.secondary,
                   ),
                 ),
+              const Spacer(),
+              InkWell(
+                onTap: openSlideMenu,
+                child: Assets.icons.menuDots.svg(),
+              ),
             ],
           ),
           AppBoxes.kHeight8,

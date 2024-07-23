@@ -6,6 +6,7 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/delete_products_button_widget.dart';
 
 class CartUnavailableProductsWidget extends StatelessWidget {
   const CartUnavailableProductsWidget({
@@ -25,10 +26,23 @@ class CartUnavailableProductsWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            t.cart.unavailableForOrder,
-            style: context.textStyle.textTypo.tx1SemiBold
-                .withColor(context.colors.textColors.main),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                t.cart.unavailableForOrder,
+                style: context.textStyle.textTypo.tx1SemiBold
+                    .withColor(context.colors.textColors.main),
+              ),
+              DeleteProductsButtonWidget(
+                onTap: () {
+                  // TODO
+                  // context.read<CartBloc>().add(
+                  //       CartEvent.deleteUnavailableProducts(unavailableProducts),
+                  //     ),
+                },
+              ),
+            ],
           ),
           AppBoxes.kHeight12,
           ...unavailableProducts.map(
