@@ -64,6 +64,7 @@ abstract final class AppInsets {
   static const EdgeInsets kBottom16 = EdgeInsets.only(bottom: 16);
   static const EdgeInsets kBottom24 = EdgeInsets.only(bottom: 24);
   static const EdgeInsets kBottom32 = EdgeInsets.only(bottom: 32);
+  static const EdgeInsets kBottom44 = EdgeInsets.only(bottom: 44);
   static const EdgeInsets kBottom48 = EdgeInsets.only(bottom: 48);
   static const EdgeInsets kBottom64 = EdgeInsets.only(bottom: 64);
   static const EdgeInsets kBottom72 = EdgeInsets.only(bottom: 72);

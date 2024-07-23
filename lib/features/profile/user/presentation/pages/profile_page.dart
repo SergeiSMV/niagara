@@ -7,6 +7,9 @@ import 'package:niagara_app/features/profile/bonuses/presentation/widgets/profil
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/edit_user_data_button.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/profile_account_actions_widget.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/profile_user_data_widget.dart';
+import 'package:niagara_app/features/profile/user/presentation/widgets/app_info_widget.dart';
+import 'package:niagara_app/features/profile/user/presentation/widgets/app_version_widget.dart';
+import 'package:niagara_app/features/profile/user/presentation/widgets/banners_widget.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/profile_info/profile_info_widget.dart';
 
 @RoutePage()
@@ -32,7 +35,10 @@ class ProfilePage extends StatelessWidget {
             delegate: SliverChildListDelegate([
               const BonusesProfileWidget(),
               const ProfileInfoWidget(),
+              const BannersWidget(),
+              const AppInfoWidget(),
               const ProfileAccountActionsWidget(),
+              const AppVersionWidget(),
             ]),
           ),
         ],

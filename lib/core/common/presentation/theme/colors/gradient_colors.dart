@@ -9,6 +9,9 @@ abstract class GradientColors {
     required this.bgStoryLight1,
     required this.bgStoryLight2,
     required this.storyPreview,
+    required this.referralBanner,
+    required this.promotionsBanner,
+    required this.vipBanner,
   });
 
   final List<Color> bgGradient;
@@ -24,4 +27,10 @@ abstract class GradientColors {
   final List<Color> bgStoryLight1;
 
   final List<Color> bgStoryLight2;
+
+  final List<Color> referralBanner;
+
+  final List<Color> promotionsBanner;
+
+  final List<Color> vipBanner;
 }

@@ -67,7 +67,7 @@ class ProfileAccountActionsWidget extends StatelessWidget {
           orElse: SizedBox.shrink,
           loaded: (user) {
             return Padding(
-              padding: AppInsets.kHorizontal16,
+              padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
               child: ProfileActionsWidget(
                 children: [
                   ProfileActionTile(
