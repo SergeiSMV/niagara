@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -15,6 +17,19 @@ import 'package:niagara_app/features/special_poducts/presentation/bloc/special_p
 class SpecialProductsHomeWidget extends StatelessWidget {
   const SpecialProductsHomeWidget({super.key});
 
+  void _navigateToProductPage(BuildContext context, Product product) =>
+      context.navigateTo(
+        CatalogWrapper(
+          children: [
+            const CatalogRoute(),
+            ProductRoute(
+              key: ValueKey(product.id),
+              product: product,
+            ),
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SpecialProductsBloc, SpecialProductsState>(
@@ -25,7 +40,10 @@ class SpecialProductsHomeWidget extends StatelessWidget {
           final List<Product> products = state.products;
           final List<Widget> children = products
               .map(
-                (product) => ProductWidget(product: product),
+                (product) => ProductWidget(
+                  product: product,
+                  goToPage: () => _navigateToProductPage(context, product),
+                ),
               )
               .toList();
 

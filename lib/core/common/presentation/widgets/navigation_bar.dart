@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/common/presentation/widgets/cart_products_indicator_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -35,6 +36,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
           title: t.routes.cart,
           inactiveIcon: _bottomIcons.cartStroke,
           activeIcon: _bottomIcons.cartFilled,
+          cartIndicator: true,
         ),
         _BottomNavigationBarItem(
           title: t.routes.shops,
@@ -52,8 +54,15 @@ class BottomNavigationBarWidget extends StatelessWidget {
     _BottomNavigationBarItem item,
   ) =>
       BottomNavigationBarItem(
-        icon: _NavBarIconWidget(item.inactiveIcon, inactive: true),
-        activeIcon: _NavBarIconWidget(item.activeIcon),
+        icon: _NavBarIconWidget(
+          item.inactiveIcon,
+          inactive: true,
+          cartIndicator: item.cartIndicator,
+        ),
+        activeIcon: _NavBarIconWidget(
+          item.activeIcon,
+          cartIndicator: item.cartIndicator,
+        ),
         label: item.title,
         tooltip: item.title,
       );
@@ -92,24 +101,33 @@ class _NavBarIconWidget extends StatelessWidget {
   const _NavBarIconWidget(
     this.icon, {
     this.inactive = false,
+    this.cartIndicator = false,
   });
 
   final SvgGenImage icon;
   final bool inactive;
+  final bool cartIndicator;
 
   @override
   Widget build(BuildContext context) {
     final unselectedColor =
         context.theme.bottomNavigationBarTheme.unselectedItemColor;
-    return Padding(
-      padding: AppInsets.kTop8 + AppInsets.kBottom4,
-      child: icon.svg(
-        width: AppSizes.kIconLarge,
-        height: AppSizes.kIconLarge,
-        colorFilter: inactive && unselectedColor != null
-            ? ColorFilter.mode(unselectedColor, BlendMode.srcIn)
-            : null,
-      ),
+    return Stack(
+      children: [
+        Center(
+          child: Padding(
+            padding: AppInsets.kTop8 + AppInsets.kBottom4,
+            child: icon.svg(
+              width: AppSizes.kIconLarge,
+              height: AppSizes.kIconLarge,
+              colorFilter: inactive && unselectedColor != null
+                  ? ColorFilter.mode(unselectedColor, BlendMode.srcIn)
+                  : null,
+            ),
+          ),
+        ),
+        if (cartIndicator) const CartProductsIndicatorWidget(),
+      ],
     );
   }
 }
@@ -120,8 +138,10 @@ class _BottomNavigationBarItem {
     required this.title,
     required this.inactiveIcon,
     required this.activeIcon,
+    this.cartIndicator = false,
   });
   final String title;
   final SvgGenImage inactiveIcon;
   final SvgGenImage activeIcon;
+  final bool cartIndicator;
 }

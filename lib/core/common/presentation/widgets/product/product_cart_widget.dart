@@ -7,8 +7,8 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/item_in_cart_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_coins_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_slidable_button_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_tag_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/slide_buttons_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -63,31 +63,10 @@ class _ProductCartWidgetState extends State<ProductCartWidget>
         extentRatio: AppConstants.slideExtentRatio,
         motion: const ScrollMotion(),
         children: [
-          Expanded(
-            child: Padding(
-              padding: AppInsets.kVertical4 + AppInsets.kLeft4,
-              child: Column(
-                children: [
-                  ProductSlidableButtonWidget(
-                    buttonColor: context.colors.buttonColors.secondary,
-                    icon: Assets.icons.like,
-                    iconColor: context.colors.mapColors.borderEnabled,
-                    onTap: () {
-                      slidableController.close();
-                    },
-                  ),
-                  AppBoxes.kHeight4,
-                  ProductSlidableButtonWidget(
-                    buttonColor: context.colors.infoColors.bgRed,
-                    icon: Assets.icons.delete,
-                    iconColor: context.colors.mapColors.borderDisabled,
-                    onTap: () {
-                      slidableController.close();
-                    },
-                  ),
-                ],
-              ),
-            ),
+          SlideButtonsWidget(
+            product: widget.product,
+            addToFavorite: () => slidableController.close(),
+            removeFromCart: () => slidableController.close(),
           ),
         ],
       ),
