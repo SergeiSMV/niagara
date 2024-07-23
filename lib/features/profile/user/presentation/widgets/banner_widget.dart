@@ -8,6 +8,8 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
+/// Виджет, отображающий закругленный баннер с фоновым градиентом, текстовым
+/// содержимым и изображением справа.
 class BannerWidget extends StatelessWidget {
   const BannerWidget({
     super.key,
@@ -62,6 +64,8 @@ class BannerWidget extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+
+            // Текстовое содержимое баннера.
             Padding(
               padding: AppInsets.kAll12,
               child: Column(

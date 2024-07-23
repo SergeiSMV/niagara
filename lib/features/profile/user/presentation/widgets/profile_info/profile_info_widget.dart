@@ -40,7 +40,6 @@ class ProfileInfoWidget extends StatelessWidget {
                 ProfileActionTile(
                   leadingIcon: Assets.icons.purifier,
                   title: t.profile.profileInfo.equipment,
-                  notificationsCount: 100,
                   onTap: () {},
                 ),
                 ProfileActionTile(
@@ -61,6 +60,7 @@ class ProfileInfoWidget extends StatelessWidget {
                 ProfileActionTile(
                   leadingIcon: Assets.icons.notifications,
                   title: t.profile.profileInfo.notifications,
+                  notificationsCount: 100,
                   onTap: () {},
                 ),
               ],

@@ -12,7 +12,7 @@ class BannersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Градиенты, испольщуемые в баннерах.
+    // Градиенты, используемые в баннерах.
     final LinearGradient referralGradient = LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
