@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -10,24 +11,39 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 class ProfileActionTile extends StatelessWidget {
   const ProfileActionTile({
     super.key,
-    required this.onTap,
+    this.onTap,
     required this.leadingIcon,
     required this.title,
     this.notificationsCount,
+    this.redirectRoute,
   });
 
-  final VoidCallback onTap;
+  /// Обработчик нажатия на панель. Может быть заменён на [redirectRoute], если
+  /// необходимо перейти на другую страницу.
+  final VoidCallback? onTap;
 
   final SvgGenImage leadingIcon;
 
   final String title;
 
+  /// Число непрочитанных извещений. Если этот парментр не `null` и больше `0`,
+  /// виджет будет отображен с бейджиком.
   final int? notificationsCount;
+
+  /// Страница, на которую необходимо перейти при нажатии на панель.
+  final PageRouteInfo? redirectRoute;
 
   @override
   Widget build(BuildContext context) {
+    // Если onTap не передан явно, использовать redirectPage.
+    final VoidCallback? onTap = this.onTap ??
+        (redirectRoute != null
+            ? () => context.navigateTo(redirectRoute!)
+            : null);
+
     return ListTile(
       contentPadding: EdgeInsets.zero,
+      onTap: onTap,
       leading: leadingIcon.svg(
         width: AppSizes.kIconLarge,
         height: AppSizes.kIconLarge,
@@ -50,7 +66,6 @@ class ProfileActionTile extends StatelessWidget {
         style: context.textStyle.textTypo.tx2Medium
             .withColor(context.colors.textColors.main),
       ),
-      onTap: onTap,
     );
   }
 }

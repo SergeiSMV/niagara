@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -49,7 +50,7 @@ class BannersWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight12,
           BannerWidget(
-            onTap: () {},
+            redirectRoute: const PromotionsTabRoute(),
             gradient: promotionsGradient,
             title: t.profile.banners.promotionsHeader,
             description: t.profile.banners.promotionsDescription,

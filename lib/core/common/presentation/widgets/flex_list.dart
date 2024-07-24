@@ -176,7 +176,7 @@ class RenderFlexList extends RenderBox
 
   @override
   void performLayout() {
-    List<_RowMetrics> rows = [];
+    final List<_RowMetrics> rows = [];
     // Determine Widths
     var child = firstChild;
     var rowWidth = 0.0;
@@ -242,7 +242,7 @@ class RenderFlexList extends RenderBox
             eachChildAvailableWidth +
             lastItemPadding;
 
-        var consts = BoxConstraints.expand(
+        final consts = BoxConstraints.expand(
           width: finalChildWidth,
           height: childParentData._initSize.height,
         );

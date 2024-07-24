@@ -34,12 +34,10 @@ class AppInfoWidget extends StatelessWidget {
                 ProfileActionTile(
                   leadingIcon: Assets.icons.support,
                   title: t.profile.appInfo.suppoort,
-                  onTap: () {},
                 ),
                 ProfileActionTile(
                   leadingIcon: Assets.icons.info,
                   title: t.profile.appInfo.aboutApp,
-                  onTap: () {},
                 ),
               ],
             ),
