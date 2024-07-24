@@ -1,5 +1,6 @@
 import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
 import 'package:niagara_app/features/cart/cart/data/remote/cart_dto.dart';
 
 abstract interface class ICartRemoteDataSource {
@@ -15,7 +16,7 @@ abstract interface class ICartRemoteDataSource {
 
   Future<Either<Failure, bool>> removeProductFromCart(String productId);
 
-  Future<Either<Failure, bool>> clearCart();
+  Future<Either<Failure, bool>> clearCart({required CartClearTypes type});
 
   Future<Either<Failure, List<ProductDto>>> getRecommendedProducts();
 }
@@ -76,10 +77,13 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
       );
 
   @override
-  Future<Either<Failure, bool>> clearCart() =>
+  Future<Either<Failure, bool>> clearCart({required CartClearTypes type}) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.delete(
           ApiConst.kClearCart,
+          data: {
+            'type': type.typeToString(),
+          },
         ),
         converter: (json) => json['success'] as bool,
         failure: CartRemoteDataFailure.new,

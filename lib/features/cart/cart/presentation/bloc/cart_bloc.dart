@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/domain/use_cases/add_to_cart_use_case.dart';
 import 'package:niagara_app/features/cart/cart/domain/use_cases/get_cart_use_case.dart';
@@ -115,7 +116,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _RemoveAllFromCart event,
     _Emit emit,
   ) async =>
-      await _removeAllFromCartUseCase().fold(
+      await _removeAllFromCartUseCase(event.type).fold(
         (_) => emit(const _Error()),
         (success) async =>
             success ? add(const _GetCart()) : emit(const _Error()),
