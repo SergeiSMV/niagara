@@ -354,5 +354,8 @@
     "otherOptions": "Другие варианты",
     "sendingError": "Ошибка отправки",
     "failedSendRating": "Не удалось отправить оценку"
+  },
+  "equipments": {
+    "equipmentCleaningIsRequired": "Требуется чистка оборудования"
   }
 }
