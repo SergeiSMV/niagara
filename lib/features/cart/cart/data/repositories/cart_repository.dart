@@ -1,6 +1,7 @@
 import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
 import 'package:niagara_app/features/cart/cart/data/mappers/cart_mapper.dart';
 import 'package:niagara_app/features/cart/cart/data/remote/cart_remote_data_source.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
@@ -56,8 +57,10 @@ class CartRepository extends BaseRepository implements ICartRepository {
       );
 
   @override
-  Future<Either<Failure, bool>> removeAllFromCart() => execute(
-        () => _cartRDS.clearCart().fold(
+  Future<Either<Failure, bool>> removeAllFromCart(
+          {required CartClearTypes type}) =>
+      execute(
+        () => _cartRDS.clearCart(type: type).fold(
               (failure) => throw failure,
               (success) => success,
             ),
