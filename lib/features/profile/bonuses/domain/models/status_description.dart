@@ -1,5 +1,6 @@
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/status_level_type.dart';
+import 'package:niagara_app/features/profile/bonuses/domain/models/activation_option.dart';
 
 class StatusDescription extends Equatable {
   const StatusDescription({
@@ -8,6 +9,7 @@ class StatusDescription extends Equatable {
     required this.minSum,
     required this.maxSum,
     required this.benefits,
+    this.activationOptions,
   });
 
   final StatusLevel level;
@@ -15,6 +17,7 @@ class StatusDescription extends Equatable {
   final int minSum;
   final int maxSum;
   final List<BenefitDescription> benefits;
+  final List<ActivationOption>? activationOptions;
 
   @override
   List<Object?> get props => [level, description, minSum, maxSum, benefits];

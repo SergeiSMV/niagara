@@ -6,7 +6,7 @@ import 'package:niagara_app/features/stories/data/remote/dto/slide_dto.dart';
 
 part 'story_dto.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
+@JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class StoryDto extends Equatable {
   final String? id;
   final String? title;
@@ -24,8 +24,6 @@ class StoryDto extends Equatable {
 
   factory StoryDto.fromJson(Map<String, dynamic> json) =>
       _$StoryDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StoryDtoToJson(this);
 
   @override
   List<Object?> get props => [

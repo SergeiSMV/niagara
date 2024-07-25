@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'slide_dto.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
+@JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class SlideDto extends Equatable {
   final String? id;
   final String? title;
@@ -48,8 +48,6 @@ class SlideDto extends Equatable {
 
   factory SlideDto.fromJson(Map<String, dynamic> json) =>
       _$SlideDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SlideDtoToJson(this);
 
   @override
   List<Object?> get props => [
