@@ -356,6 +356,17 @@
     "failedSendRating": "Не удалось отправить оценку"
   },
   "equipments": {
-    "equipmentCleaningIsRequired": "Требуется чистка оборудования"
+    "equipmentCleaningIsRequired": "Требуется чистка оборудования",
+    "myEquipment": "Мое оборудование",
+    "address": "Адрес",
+    "lastCleaning": "Последняя чистка",
+    "scheduledCleaning": "Плановая чистка",
+    "nextCleaningIsThrough": "Следующая чистка через",
+    "orderCleaning": "Заказать чистку",
+    "cleaningStatuses": {
+      "cleaningIsRequired": "Требуется чистка",
+      "cleaningIsExpected": "Ожидается чистка"
+    },
+    "cleaningIsOverdueFor": "Чистка просрочена на"
   }
 }

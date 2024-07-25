@@ -46,6 +46,10 @@ abstract final class ProfileRouters {
               ),
             ],
           ),
+          AutoRoute(
+            page: EquipmentsRoute.page,
+            title: (_, __) => t.equipments.myEquipment,
+          ),
         ],
       );
 }
