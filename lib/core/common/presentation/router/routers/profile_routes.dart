@@ -46,6 +46,10 @@ abstract final class ProfileRouters {
               ),
             ],
           ),
+          AutoRoute(
+            page: VipRoute.page,
+            title: (_, __) => t.vip.pageTitle,
+          ),
         ],
       );
 }
