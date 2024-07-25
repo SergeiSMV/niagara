@@ -197,6 +197,13 @@
       "vipDescription": "Получайте доступ к лучшим ценам"
     }
   },
+  "vip": {
+    "pageTitle": "VIP-подписка",
+    "benefitsTitle": "Получайте больше скидок и персональных бонусов",
+    "chooseOption": "Выберите подписку",
+    "forMonth": "за месяц",
+    "subscribe": "Оформить подписку"
+  },
   "promos": {
     "promotions": "Акции",
     "discountForYou": "Скидки для вас",
