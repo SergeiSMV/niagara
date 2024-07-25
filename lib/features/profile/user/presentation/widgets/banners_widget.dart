@@ -40,7 +40,6 @@ class BannersWidget extends StatelessWidget {
       child: Column(
         children: [
           BannerWidget(
-            onTap: () {},
             gradient: referralGradient,
             title: t.profile.banners.referralHeader,
             description: t.profile.banners.referralDescription,
@@ -60,7 +59,7 @@ class BannersWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight12,
           BannerWidget(
-            onTap: () {},
+            redirectRoute: const VipRoute(),
             gradient: vipGradient,
             title: t.profile.banners.vipHeader,
             description: t.profile.banners.vipDescription,
