@@ -7,6 +7,7 @@ abstract class TextColors {
     required this.error,
     required this.secondary,
     required this.white,
+    required this.blue,
   });
 
   final Color main;
@@ -18,6 +19,8 @@ abstract class TextColors {
   final Color secondary;
 
   final Color white;
+
+  final Color blue;
 
   Color get white80 => white.withOpacity(0.8);
 }
