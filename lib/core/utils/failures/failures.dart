@@ -305,3 +305,13 @@ class OrdersLocalDataFailure extends Failure {
 class OrdersRemoteDataFailure extends Failure {
   const OrdersRemoteDataFailure([super.error = 'Orders remote data failure']);
 }
+
+// ! ------------------------------- Referral ------------------------------ ! //
+class ReferralRepositoryFailure extends Failure {
+  const ReferralRepositoryFailure([super.error = 'Referral repo failure']);
+}
+
+class ReferralRemoteDataFailure extends Failure {
+  const ReferralRemoteDataFailure(
+      [super.error = 'Referral remote data failure']);
+}
