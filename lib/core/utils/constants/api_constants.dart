@@ -159,4 +159,11 @@ abstract final class ApiConst {
 
   /// -POST- Запрос на оценку заказа
   static const String kEvaluateOrder = '/order_rating';
+
+  // ? ----------------------- Referral -------------------------- ? //
+  /// -GET- Запрос на получение описания реферальной программы
+  static const String kReferralInfo = '/referal_info';
+
+  /// -GET- Запрос на получение истории приглашений
+  static const String kReferralHistory = '/referal_history';
 }
