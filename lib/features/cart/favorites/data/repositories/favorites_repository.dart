@@ -62,7 +62,7 @@ class FavoritesRepository extends BaseRepository
         final hasAuth = await _hasAuth();
 
         if (!hasAuth) {
-          _favoriteLDS.addFavorite(product.toEntity());
+          await _favoriteLDS.addFavorite(product.toEntity());
         } else {
           final login = await _getUserPhone();
           await _favoriteRDS
@@ -85,10 +85,10 @@ class FavoritesRepository extends BaseRepository
         final hasAuth = await _hasAuth();
 
         if (!hasAuth) {
-          _favoriteLDS.deleteFavorite(product.toEntity());
+          await _favoriteLDS.deleteFavorite(product.toEntity());
         } else {
           final login = await _getUserPhone();
-          _favoriteRDS
+          await _favoriteRDS
               .removeFavorite(
                 login: login,
                 productId: product.id,
@@ -106,10 +106,10 @@ class FavoritesRepository extends BaseRepository
   Future<Either<Failure, void>> removeAllFavorites() => execute(() async {
         final hasAuth = await _hasAuth();
         if (!hasAuth) {
-          _favoriteLDS.clearFavorites();
+          await _favoriteLDS.clearFavorites();
         } else {
           final login = await _getUserPhone();
-          return _favoriteRDS
+          await _favoriteRDS
               .clearFavorite(
                 login: login,
               )
