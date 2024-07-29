@@ -27,6 +27,9 @@ abstract final class HomeRouters {
           AutoRoute(
             page: OneNotificationRoute.page,
           ),
+          AutoRoute(
+            page: ProductRoute.page,
+          ),
         ],
       );
 }
