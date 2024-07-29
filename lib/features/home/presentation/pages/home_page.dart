@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              const EquipmentWidget(),
+              const EquipmentBannerWidget(),
               const RecentOrdersListWidget(),
               const StoriesHomeWidget(),
               const NewProductsHomeWidget(),

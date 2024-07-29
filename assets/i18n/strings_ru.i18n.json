@@ -362,11 +362,13 @@
     "lastCleaning": "Последняя чистка",
     "scheduledCleaning": "Плановая чистка",
     "nextCleaningIsThrough": "Следующая чистка через",
+    "cleaningDate": "Дата чистки",
     "orderCleaning": "Заказать чистку",
     "cleaningStatuses": {
       "cleaningIsRequired": "Требуется чистка",
       "cleaningIsExpected": "Ожидается чистка"
     },
-    "cleaningIsOverdueFor": "Чистка просрочена на"
+    "cleaningIsOverdueFor": "Чистка просрочена на",
+    "doYouHaveRawEquipment": "У вас есть необработанное\nоборудование"
   }
 }
