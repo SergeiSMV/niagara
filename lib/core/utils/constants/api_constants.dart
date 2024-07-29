@@ -57,11 +57,17 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение профиля
   static const String kGetProfile = '/users';
 
-  /// -PUT- Запрос на обновление профиля
+  /// -POST- Запрос на обновление профиля
   static const String kUpdateProfile = '/users';
 
   /// -DELETE- Запрос на удаление профиля
   static const String kDeleteProfile = '/users';
+
+  /// -POST- Запрос на проверку кода подтверждения почты
+  static const String kConfirmEmail = '/email_code_confirm_check';
+
+  /// -POST- Запрос на создание кода подтверждения почты
+  static const String kCreateEmailCode = '/email_code_confirm_create';
 
   // ? --------------------------- BonusProgram --------------------------- ? //
   /// -GET- Запрос на получение описания программы бонусов

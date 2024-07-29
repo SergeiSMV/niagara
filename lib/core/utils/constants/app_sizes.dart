@@ -10,6 +10,7 @@ abstract final class AppSizes {
   static const double kGeneral20 = 20;
   static const double kGeneral24 = 24;
   static const double kGeneral32 = 32;
+  static const double kGeneral40 = 40;
   static const double kGeneral48 = 48;
   static const double kGeneral64 = 64;
   static const double kGeneral72 = 72;

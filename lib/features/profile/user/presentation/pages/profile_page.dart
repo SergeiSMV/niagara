@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/profile_widget/bonuses_profile_widget.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/edit_user_data_button.dart';
@@ -28,7 +27,6 @@ class ProfilePage extends StatelessWidget {
             body: ProfileUserDataWidget(),
             actions: [
               EditUserDataButton(),
-              AppBoxes.kWidth8,
             ],
           ),
           SliverList(

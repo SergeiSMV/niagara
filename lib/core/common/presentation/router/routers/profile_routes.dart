@@ -50,6 +50,10 @@ abstract final class ProfileRouters {
             title: (_, __) => t.referral.referralProgram,
             page: ReferralRoute.page,
           ),
+          AutoRoute(
+            page: EditProfileRoute.page,
+            title: (_, __) => t.profile.edit.pageTitle,
+          ),
         ],
       );
 }
