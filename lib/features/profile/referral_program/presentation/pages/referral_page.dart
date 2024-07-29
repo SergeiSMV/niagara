@@ -1,0 +1,179 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
+import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/profile/referral_program/domain/model/referral_description.dart';
+import 'package:niagara_app/features/profile/referral_program/presentation/bloc/description/referral_bloc.dart';
+import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_progress.dart';
+import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_rewards.dart';
+import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_rules.dart';
+
+@RoutePage()
+class ReferralPage extends StatelessWidget {
+  const ReferralPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      appBar: AppBarWidget(),
+      body: Stack(
+        children: [
+          _Background(),
+          _Content(),
+        ],
+      ),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          // Пустое пространство, нужное, чтобы часть _Background была видна.
+          SizedBox(height: context.screenWidth * 0.75),
+
+          // Описание программы страницы.
+          DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
+              ),
+              color: context.colors.mainColors.white,
+            ),
+            child: Padding(
+              padding: AppInsets.kHorizontal16 + AppInsets.kTop24,
+              child: BlocBuilder<ReferralBloc, ReferralState>(
+                // TODO: Добавить неавторизованное состояние.
+                builder: (_, state) => state.maybeWhen(
+                  loaded: _Description.new,
+                  orElse: AppCenterLoader.new,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Description extends StatelessWidget {
+  const _Description(this.description);
+
+  final ReferralDescription description;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        RewardsWidget(
+          rewardFriend: description.bonusesFriend,
+          rewardMe: description.bonusesMe,
+        ),
+        AppBoxes.kHeight32,
+        RulesWidget(
+          description: description.description,
+          rules: description.items.map((e) => e.text).toList(),
+        ),
+        AppBoxes.kHeight32,
+        ProgressWidget(
+          count: description.bonusesFriendCount,
+          goal: description.bonusesConditionCount,
+          reward: description.bonusesForCount,
+        ),
+        AppBoxes.kHeight24,
+        InkWell(
+          onTap: () {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                t.referral.referralHistory,
+                style: context.textStyle.buttonTypo.btn2semiBold.withColor(
+                  context.colors.textColors.accent,
+                ),
+              ),
+              Assets.icons.arrowRight.svg(
+                height: AppSizes.kIconSmall,
+                width: AppSizes.kIconSmall,
+              ),
+            ],
+          ),
+        ),
+        AppBoxes.kHeight32,
+        const _InviteButton(),
+      ],
+    );
+  }
+}
+
+class _Background extends StatelessWidget {
+  const _Background();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Assets.images.referralBG.image(),
+        Positioned(
+          bottom: 0,
+          child: Assets.images.a3DReferall.image(
+            width: context.screenWidth / 2,
+          ),
+        ),
+        Positioned(
+          top: AppSizes.kGeneral32,
+          left: AppSizes.kGeneral16,
+          right: AppSizes.kGeneral16,
+          child: Text(
+            t.referral.backgroundTitle,
+            style: context.textStyle.headingTypo.h2.withColor(
+              context.colors.textColors.white,
+            ),
+          ),
+        ),
+        Positioned(
+          top: (context.screenWidth * 0.75) * 0.75,
+          right: AppSizes.kGeneral16,
+          child: SizedBox(
+            height: AppSizes.kButtonMedium,
+            width: AppSizes.kButtonMediumWidth,
+            child: AppTextButton.invisible(
+              text: t.referral.invite,
+              onTap: () {},
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _InviteButton extends StatelessWidget {
+  const _InviteButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: AppInsets.kHorizontal16 + AppInsets.kBottom24 + AppInsets.kTop12,
+      child: AppTextButton.primary(
+        text: t.referral.inviteFriend,
+        onTap: () {},
+      ),
+    );
+  }
+}

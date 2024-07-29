@@ -9,11 +9,11 @@ extension ReferralDescriptionMapper on ReferralDescriptionDto {
   ReferralDescription toModel() {
     return ReferralDescription(
       description: description,
-      bonusesMe: bonusesMe.toString(),
-      bonusesFriend: bonusesFriend.toString(),
-      bonusesFriendCount: bonusesFriendCount.toString(),
-      bonusesForCount: bonusesForCount.toString(),
-      bonusesConditionCount: bonusesConditionCount.toString(),
+      bonusesMe: bonusesMe,
+      bonusesFriend: bonusesFriend,
+      bonusesFriendCount: bonusesFriendCount,
+      bonusesForCount: bonusesForCount,
+      bonusesConditionCount: bonusesConditionCount,
       items: items.map((e) => e.toModel()).toList(),
     );
   }

@@ -11,6 +11,4 @@ class ReferralState with _$ReferralState {
   const factory ReferralState.error({
     required String message,
   }) = _Error;
-
-  const factory ReferralState.unauthorized() = _Unauthorized;
 }

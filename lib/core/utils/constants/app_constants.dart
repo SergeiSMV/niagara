@@ -44,7 +44,7 @@ abstract final class AppConstants {
 
   // * --------------------------- Banners --------------------------- * //
   static const profileBannersStops = [0.0825, 0.9176];
-  
+
   // * --------------------------- Slides --------------------------- * //
   static const double slideExtentRatio = 0.2;
 }

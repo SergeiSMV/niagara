@@ -162,8 +162,8 @@ abstract final class ApiConst {
 
   // ? ----------------------- Referral -------------------------- ? //
   /// -GET- Запрос на получение описания реферальной программы
-  static const String kReferralInfo = '/referral_info';
+  static const String kReferralInfo = '/referal_info';
 
   /// -GET- Запрос на получение истории приглашений
-  static const String kReferralHistory = '/referral_history';
+  static const String kReferralHistory = '/referal_history';
 }

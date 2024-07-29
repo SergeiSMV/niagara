@@ -13,11 +13,24 @@ class ReferralDescription extends Equatable {
   });
 
   final String description;
-  final String bonusesMe;
-  final String bonusesFriend;
-  final String bonusesFriendCount;
-  final String bonusesForCount;
-  final String bonusesConditionCount;
+
+  /// Бонусов приглащающему за каждого друга.
+  final int bonusesMe;
+
+  /// Бонусов приглашенному другу.
+  final int bonusesFriend;
+
+  /// Количество приглашенных друзей.
+  final int bonusesFriendCount;
+
+  /// Количество бонусов за [bonusesConditionCount] приглашенных друзей.
+  final int bonusesForCount;
+
+  /// Количество приглашенных друзей, необходимое для получения
+  /// [bonusesForCount] бонусов.
+  final int bonusesConditionCount;
+
+  /// Список условий реферальной программы.
   final List<ReferralItem> items;
 
   @override

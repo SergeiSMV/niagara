@@ -47,7 +47,7 @@ abstract final class ProfileRouters {
             ],
           ),
           AutoRoute(
-            title: (_, __) => 'Реферальная программа',
+            title: (_, __) => t.referral.referralProgram,
             page: ReferralRoute.page,
           ),
         ],
