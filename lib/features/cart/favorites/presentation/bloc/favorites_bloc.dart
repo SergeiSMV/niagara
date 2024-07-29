@@ -71,7 +71,6 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
           );
 
   Future<void> _getFavorites(_Emit emit) async {
-    print('getFavorites called (Bloc)');
     await _getFavoritesUseCase.call().fold(
           (_) => emit(const FavoritesState.error()),
           (favorites) => emit(
