@@ -10,7 +10,7 @@ abstract final class AppConstants {
   static const String kPromocodeTextFieldName = 'promocodeField';
   static const String kBonusesTextFieldName = 'bonusesField';
 
-  // * ------------------------------ Shadow ----------------------------- * //
+  // * ------------------------------- Shadow ----------------------------- * //
   static const Offset kShadowTop = Offset(0, -4);
   static const Offset kShadowBottom = Offset(0, 4);
   static const Offset kShadowDiagonal = Offset(-2, 6);
@@ -23,17 +23,17 @@ abstract final class AppConstants {
   static const double kDefaultLowZoom = 16;
   static const double kDefaultHighZoom = 10;
 
-  // * --------------------------- Splash Page --------------------------- * //
+  // * --------------------------- Splash Page ---------------------------- * //
   static const Duration kSplashLogoDuration = Duration(milliseconds: 1250);
 
-  // * ------------------------- OTP Code Widget ------------------------- * //
+  // * -------------------------- OTP Code Widget ------------------------- * //
   static const int kOTPResendTime = 90;
   static const int kOTPChangeCount = 3;
 
   // * --------------------------- Order Number --------------------------- * //
   static const String orderNumber = '+7 (800) 505-10-21';
 
-  // * --------------------------- Stories --------------------------- * //
+  // * ----------------------------- Stories ------------------------------ * //
   static const lightSlideGradientStops1 = [0.0, 0.497, 0.8434, 1.0];
 
   static const lightSlideGradientStops2 = [0.0, 0.5781, 1.0];
@@ -42,9 +42,12 @@ abstract final class AppConstants {
 
   static const darkSlideGradientStops2 = [0.0, 0.497046, 0.769, 1.0];
 
-  // * --------------------------- Banners --------------------------- * //
+  // * ------------------------------ Banners ----------------------------- * //
   static const profileBannersStops = [0.0825, 0.9176];
-  
-  // * --------------------------- Slides --------------------------- * //
+
+  // * ------------------------------ Slides ------------------------------ * //
   static const double slideExtentRatio = 0.2;
+
+  // * ----------------------------- Animated ----------------------------- * //
+  static const Duration kSelectDateItemDuration = Duration(milliseconds: 300);
 }

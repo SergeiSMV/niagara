@@ -369,6 +369,9 @@
       "cleaningIsExpected": "Ожидается чистка"
     },
     "cleaningIsOverdueFor": "Чистка просрочена на",
-    "doYouHaveRawEquipment": "У вас есть необработанное\nоборудование"
+    "doYouHaveRawEquipment": "У вас есть необработанное\nоборудование",
+    "requestForCleaning": "Заявка на чистку",
+    "selectCleaningDate": "Выберите дату чистки",
+    "choose": "Выбрать"
   }
 }

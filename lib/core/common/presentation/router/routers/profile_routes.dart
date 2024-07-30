@@ -50,6 +50,10 @@ abstract final class ProfileRouters {
             page: EquipmentsRoute.page,
             title: (_, __) => t.equipments.myEquipment,
           ),
+          AutoRoute(
+            page: CleaningRequestRoute.page,
+            title: (_, __) => t.equipments.requestForCleaning,
+          ),
         ],
       );
 }

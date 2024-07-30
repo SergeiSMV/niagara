@@ -28,9 +28,11 @@ abstract final class AppSizes {
   static const double kShadowOpacity = 0.08;
   static const double kShadowOpacity0_8 = 0.8;
 
-  static const double kImageSize120 = 120;
   static const double kImageSize84 = 84;
+  static const double kImageSize120 = 120;
+  static const double kImageSize100 = 100;
 
+  //* ----------------------------- Notification --------------------------- *//
   static const double notificationIconHeight = 26;
   static const double notificationIconWidth = 26;
   static const double notificationIndicatorHeight = 12;
@@ -46,4 +48,7 @@ abstract final class AppSizes {
   static const double emptyOrdersWidgetHeight = 160;
   static const double kOrderHistoryProductHeight = 116;
   static const double kEquipmentBannerHeight = 110;
+
+  //* ------------------------------ Equipment ----------------------------- *//
+  static const double timeSlotsHeight = 64;
 }
