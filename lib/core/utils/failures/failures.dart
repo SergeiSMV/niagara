@@ -315,3 +315,14 @@ class ReferralRemoteDataFailure extends Failure {
   const ReferralRemoteDataFailure(
       [super.error = 'Referral remote data failure']);
 }
+
+// ! ------------------------------- Policies ---------------------------- ! //
+class PolicieslRepositoryFailure extends Failure {
+  const PolicieslRepositoryFailure([super.error = 'Policies repo failure']);
+}
+
+class PolicieslRemoteDataFailure extends Failure {
+  const PolicieslRemoteDataFailure([
+    super.error = 'Policies remote data failure',
+  ]);
+}
