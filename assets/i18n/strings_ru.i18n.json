@@ -372,6 +372,9 @@
     "doYouHaveRawEquipment": "У вас есть необработанное\nоборудование",
     "requestForCleaning": "Заявка на чистку",
     "selectCleaningDate": "Выберите дату чистки",
-    "choose": "Выбрать"
+    "choose": "Выбрать",
+    "applicationAccepted": "Заявка принята",
+    "expectCallFromManager": " Ожидайте звонок менеджера",
+    "goBackToProfile": "Вернуться в профиль"
   }
 }

@@ -54,6 +54,9 @@ abstract final class ProfileRouters {
             page: CleaningRequestRoute.page,
             title: (_, __) => t.equipments.requestForCleaning,
           ),
+          AutoRoute(
+            page: CleaningOrderSuccessfulRoute.page,
+          ),
         ],
       );
 }
