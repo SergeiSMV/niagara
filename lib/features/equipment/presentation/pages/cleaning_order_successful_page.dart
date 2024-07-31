@@ -11,6 +11,7 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
+/// Экран успешного заказа чистки оборудования
 @RoutePage()
 class CleaningOrderSuccessfulPage extends StatelessWidget {
   const CleaningOrderSuccessfulPage({super.key});

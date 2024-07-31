@@ -25,6 +25,7 @@ class EquipmentsPage extends StatelessWidget {
               itemCount: 3,
               itemBuilder: (context, index) {
                 return EquipmentItemWidget(
+                  /// mock data
                   status: index == 0
                       ? CleaningStatuses.cleaningIsExpected
                       : (index == 1

@@ -34,7 +34,6 @@ class TableCalendarWidget extends StatelessWidget {
         onValueChanged: onValueChanged,
         config: CalendarDatePicker2Config(
           calendarViewMode: CalendarDatePicker2Mode.day,
-          // controlsHeight: 100,
           selectedDayHighlightColor: colors.mainColors.bgCard,
           disableModePicker: true,
           daySplashColor: colors.mainColors.bgCard,
