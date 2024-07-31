@@ -2,6 +2,7 @@ abstract final class AppSizes {
   static const double kGeneral1 = 1;
   static const double kGeneral2 = 2;
   static const double kGeneral4 = 4;
+  static const double kGeneral5 = 5;
   static const double kGeneral6 = 6;
   static const double kGeneral8 = 8;
   static const double kGeneral12 = 12;
@@ -21,12 +22,14 @@ abstract final class AppSizes {
   static const double kButtonLarge = 54;
   static const double kButtonMedium = 44;
   static const double kButtonSmall = 32;
+  static const double kButtonMediumWidth = 165;
 
   static const double kLoaderSmall = 64;
   static const double kLoaderBig = 128;
 
   static const double kShadowOpacity = 0.08;
   static const double kShadowOpacity0_8 = 0.8;
+  static const double kShadowOpacity0_12 = 0.12;
 
   static const double kImageSize84 = 84;
   static const double kImageSize120 = 120;
@@ -41,6 +44,9 @@ abstract final class AppSizes {
   static const double notificationIndicatorRightPadding = 8;
 
   static const double kDividerIndent = 20;
+
+  static const double kImageMediumWidth = 66;
+  static const double kImageMediumHeight = 54;
 
   //* -------------------------------- Orders ------------------------------ *//
   static const double kListItemsHeight = 210;

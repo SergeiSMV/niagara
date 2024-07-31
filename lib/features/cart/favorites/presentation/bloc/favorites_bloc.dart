@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
@@ -22,8 +23,8 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
     this._removeAllFavoritesUseCase,
   ) : super(const _Loading()) {
     on<_GetFavorites>(_onGetFavorites);
-    on<_AddFavorite>(_onAddFavorite);
-    on<_RemoveFavorite>(_onRemoveFavorite);
+    on<_AddFavorite>(_onAddFavorite, transformer: droppable());
+    on<_RemoveFavorite>(_onRemoveFavorite, transformer: droppable());
     on<_RemoveAllFavorites>(_onRemoveAllFavorites);
 
     add(const _GetFavorites());
@@ -69,13 +70,14 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
             (_) async => await _getFavorites(emit),
           );
 
-  Future<void> _getFavorites(_Emit emit) async =>
-      await _getFavoritesUseCase.call().fold(
-            (_) => emit(const FavoritesState.error()),
-            (favorites) => emit(
-              FavoritesState.loaded(
-                favorites: favorites,
-              ),
+  Future<void> _getFavorites(_Emit emit) async {
+    await _getFavoritesUseCase.call().fold(
+          (_) => emit(const FavoritesState.error()),
+          (favorites) => emit(
+            FavoritesState.loaded(
+              favorites: favorites,
             ),
-          );
+          ),
+        );
+  }
 }

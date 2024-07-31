@@ -47,6 +47,10 @@ abstract final class ProfileRouters {
             ],
           ),
           AutoRoute(
+            title: (_, __) => t.referral.referralProgram,
+            page: ReferralRoute.page,
+          ),
+          AutoRoute(
             page: EquipmentsRoute.page,
             title: (_, __) => t.equipments.myEquipment,
           ),
