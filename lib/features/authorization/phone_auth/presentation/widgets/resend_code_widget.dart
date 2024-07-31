@@ -23,6 +23,7 @@ class ReSendCodeWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
+          _Loading(),
           _ResendCodeButton(),
           _ResendCodeTimer(),
         ],
@@ -47,7 +48,7 @@ class _ResendCodeButton extends StatelessWidget {
     final time = context.select<CountdownTimerCubit, int>(
       (cubit) => cubit.state,
     );
-    
+
     final isDisabled = time != 0;
 
     final color = isDisabled
@@ -97,6 +98,30 @@ class _ResendCodeTimer extends StatelessWidget {
           context.colors.textColors.secondary,
         ),
       ),
+    );
+  }
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return AnimatedSwitcher(
+          transitionBuilder: (child, animation) =>
+              ScaleTransition(scale: animation, child: child),
+          duration: const Duration(milliseconds: 500),
+          child: state.maybeWhen(
+            orElse: () => const SizedBox.shrink(),
+            loading: () => Assets.lottie.waterCircleLoading.lottie(
+              height: AppSizes.kLoaderBig,
+              width: AppSizes.kLoaderBig,
+            ),
+          ),
+        );
+      },
     );
   }
 }
