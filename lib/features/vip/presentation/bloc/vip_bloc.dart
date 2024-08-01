@@ -31,21 +31,22 @@ class VipBloc extends Bloc<VipEvent, VipState> {
     _Emit emit,
   ) async {
     emit(const _Loading());
+
+    // Коллбек, который будет вызван при ошибке.
+    void emitError(Failure failure) => emit(_Error(message: failure.error));
+
     await _hasAuthStatusUseCase.call().fold(
-      (failure) => emit(_Error(message: failure.error)),
+      emitError,
       (hasAuth) async {
         if (!hasAuth) return emit(const _Unauthorized());
 
         await _getStatusDescriptionUseCase.call(StatusLevel.vip).fold(
-              (failure) => emit(_Error(message: failure.error)),
+              emitError,
               (bonuses) async =>
                   _getStatusDescriptionUseCase.call(bonuses.level).fold(
-                        (failure) => emit(_Error(message: failure.error)),
-                        (statusDescription) => emit(
-                          _Loaded(
-                            description: statusDescription,
-                          ),
-                        ),
+                        emitError,
+                        (description) =>
+                            emit(_Loaded(description: description)),
                       ),
             );
       },
