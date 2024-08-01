@@ -60,7 +60,7 @@ class BannersWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight12,
           BannerWidget(
-            onTap: () {},
+            redirectRoute: const VipRoute(),
             gradient: vipGradient,
             title: t.profile.banners.vipHeader,
             description: t.profile.banners.vipDescription,

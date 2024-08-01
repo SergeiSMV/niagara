@@ -5,6 +5,7 @@ import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/bloc/description/referral_bloc.dart';
 import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
+import 'package:niagara_app/features/vip/presentation/bloc/vip_bloc.dart';
 
 @RoutePage()
 class ProfileWrapper implements AutoRouteWrapper {
@@ -15,6 +16,7 @@ class ProfileWrapper implements AutoRouteWrapper {
         providers: [
           BlocProvider(create: (_) => getIt<UserBloc>()),
           BlocProvider.value(value: getIt<BonusesBloc>()),
+          BlocProvider(create: (_) => getIt<VipBloc>()),
           BlocProvider(create: (_) => getIt<ReferralBloc>()),
         ],
         child: const AutoRouter(),
