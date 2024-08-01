@@ -2,6 +2,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/features/profile/bonuses/data/remote/dto/activation_option_dto.dart';
 
 part 'status_description_dto.g.dart';
 
@@ -14,20 +15,31 @@ class StatusDescriptionDto extends Equatable {
     required this.minSum,
     required this.maxSum,
     required this.benefits,
+    this.activationOptions,
   });
 
   @JsonKey(name: 'name')
   final String name;
+
   @JsonKey(name: 'title')
   final String title;
+
   @JsonKey(name: 'description')
   final String description;
+
   @JsonKey(name: 'sum_min')
   final int minSum;
+
   @JsonKey(name: 'sum_max')
   final int maxSum;
+
   @JsonKey(name: 'list')
   final List<BenefitDto> benefits;
+
+  // Поле `nullable`, потому что для бонусных программ его нет, а для
+  // VIP-подписки есть.
+  @JsonKey(name: 'activation_options')
+  final List<ActivationOptionDto>? activationOptions;
 
   factory StatusDescriptionDto.fromJson(Map<String, dynamic> json) =>
       _$StatusDescriptionDtoFromJson(json);
@@ -40,6 +52,7 @@ class StatusDescriptionDto extends Equatable {
         minSum,
         maxSum,
         benefits,
+        activationOptions,
       ];
 }
 

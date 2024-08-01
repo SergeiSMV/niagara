@@ -6,7 +6,7 @@ import 'package:niagara_app/core/core.dart';
 
 part 'cart_dto.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
+@JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class CartDto extends Equatable {
   const CartDto({
     required this.products,
@@ -23,13 +23,11 @@ class CartDto extends Equatable {
   factory CartDto.fromJson(Map<String, dynamic> json) =>
       _$CartDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CartDtoToJson(this);
-
   @override
   List<Object?> get props => [products, outOfStock, data, sumLimit];
 }
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
+@JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class CartDataDto extends Equatable {
   const CartDataDto({
     this.sumDelivery,
@@ -62,8 +60,6 @@ class CartDataDto extends Equatable {
   factory CartDataDto.fromJson(Map<String, dynamic> json) =>
       _$CartDataDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CartDataDtoToJson(this);
-
   @override
   List<Object?> get props => [
         sumDelivery,
@@ -81,7 +77,7 @@ class CartDataDto extends Equatable {
       ];
 }
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
+@JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class CartSumLimitDto extends Equatable {
   const CartSumLimitDto({
     this.sumMin,
@@ -93,8 +89,6 @@ class CartSumLimitDto extends Equatable {
 
   factory CartSumLimitDto.fromJson(Map<String, dynamic> json) =>
       _$CartSumLimitDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CartSumLimitDtoToJson(this);
 
   @override
   List<Object?> get props => [sumMin, sumRemain];

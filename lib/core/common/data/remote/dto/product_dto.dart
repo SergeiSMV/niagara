@@ -8,7 +8,7 @@ part 'product_dto.g.dart';
 
 typedef ProductsDto = ({List<ProductDto> products, PaginationDto pagination});
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class ProductDto extends Equatable {
   const ProductDto({
     this.productId,
@@ -76,12 +76,9 @@ class ProductDto extends Equatable {
   final int? bonus;
   @JsonKey(name: 'PRODUCT_COUNT')
   final int? productCount;
-  
 
   factory ProductDto.fromJson(Map<String, dynamic> json) =>
       _$ProductDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ProductDtoToJson(this);
 
   @override
   List<Object?> get props => [
@@ -109,7 +106,7 @@ class ProductDto extends Equatable {
       ];
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class PropertyArrayDto extends Equatable {
   const PropertyArrayDto({
     this.propertyId,
@@ -126,8 +123,6 @@ class PropertyArrayDto extends Equatable {
 
   factory PropertyArrayDto.fromJson(Map<String, dynamic> json) =>
       _$PropertyArrayDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PropertyArrayDtoToJson(this);
 
   @override
   List<Object?> get props => [
