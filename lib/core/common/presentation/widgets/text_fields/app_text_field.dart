@@ -29,6 +29,25 @@ class AppTextField extends BaseTextField {
     super.suffixWidget,
   });
 
+  factory AppTextField.email({
+    Key? key,
+    String? initialText,
+    void Function(String?)? onChanged,
+    BaseTextFieldState? state,
+  }) {
+    return AppTextField._(
+      name: AppConstants.kEmailTextFieldName,
+      key: key,
+      initialText: initialText,
+      label: t.profile.edit.email,
+      hint: t.profile.edit.email,
+      keyboardType: TextInputType.emailAddress,
+      state: state ?? BaseTextFieldState.idle,
+      isRequired: true,
+      onChanged: onChanged,
+    );
+  }
+
   /// Текстовое поле для ввода номера телефона
   factory AppTextField.phone({
     Key? key,
