@@ -3,7 +3,7 @@ import 'package:niagara_app/features/profile/user/data/remote/dto/profile_dto.da
 
 abstract interface class IProfileRemoteDataSource {
   Future<Either<Failure, ProfileDto>> getProfile();
-  Future<Either<Failure, bool>> updateProfile(ProfileDto userDto);
+  Future<Either<Failure, void>> updateProfile(ProfileDto userDto);
   Future<Either<Failure, bool>> deleteAccount();
 }
 
@@ -24,9 +24,9 @@ class ProfileRemoteDataSource implements IProfileRemoteDataSource {
       );
 
   @override
-  Future<Either<Failure, bool>> updateProfile(ProfileDto userDto) =>
+  Future<Either<Failure, void>> updateProfile(ProfileDto userDto) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
-        request: (dio) => dio.put(
+        request: (dio) => dio.post(
           ApiConst.kUpdateProfile,
           data: {
             ...userDto.toJson(),

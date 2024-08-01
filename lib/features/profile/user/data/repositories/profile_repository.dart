@@ -2,6 +2,7 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/profile/bonuses/data/local/data_source/bonuses_local_data_source.dart';
 import 'package:niagara_app/features/profile/bonuses/data/mappers/bonuses_dto_mapper.dart';
 import 'package:niagara_app/features/profile/bonuses/data/mappers/bonuses_entity_mapper.dart';
+import 'package:niagara_app/features/profile/editing/data/email_editing_data_source.dart';
 import 'package:niagara_app/features/profile/user/data/local/data_source/user_local_data_source.dart';
 
 import 'package:niagara_app/features/profile/user/data/mappers/user_dto_mapper.dart';
@@ -19,11 +20,17 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
     this._userLDS,
     this._bonusesLDS,
     this._profileRDS,
+    this._emailRDS,
   );
 
   final IUserLocalDataSource _userLDS;
   final IBonusesLocalDataSource _bonusesLDS;
   final IProfileRemoteDataSource _profileRDS;
+  final IEmailConfirmationDataSource _emailRDS;
+
+  /// Подтверждаемый email. Меняется в случае, если вызывается [sendEmailCode] и
+  /// используется при вызове [confirmEmail].
+  String? _cachedEmail;
 
   @override
   Failure get failure => const ProfileRepositoryFailure();
@@ -48,14 +55,15 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
       });
 
   @override
-  Future<Either<Failure, void>> updateUser(User user) => execute(
-        () async => _profileRDS.updateProfile(user.toDto()).fold(
-          (failure) => throw failure,
-          (success) async {
-            await _userLDS.updateUser(user.toEntity());
-          },
-        ),
-      );
+  Future<Either<Failure, void>> updateUser(User user) => execute(() async {
+        await _userLDS.updateUser(user.toEntity());
+
+        // TODO: Изменить порядок, когда у бека всё будет ОК
+        _profileRDS.updateProfile(user.toDto()).fold(
+              (failure) => throw failure,
+              (success) {},
+            );
+      });
 
   Future<User?> _getLocalUser() async => _userLDS.getUser().fold(
         (failure) => throw failure,
@@ -79,5 +87,32 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
             }
           },
         );
+      });
+
+  @override
+  Future<Either<Failure, void>> confirmEmail({
+    required String code,
+  }) =>
+      execute(() async {
+        final String? email = _cachedEmail;
+        if (email == null) throw const EmailNotFoundFailure();
+
+        return _emailRDS.confirmEmailCode(code: code, email: email).fold(
+              (failure) => throw failure,
+              (status) => status ? null : throw const EmailConfirmCodeFailure(),
+            );
+      });
+
+  @override
+  Future<Either<Failure, void>> sendEmailCode({
+    required String email,
+  }) =>
+      execute(() async {
+        _cachedEmail = email;
+
+        return _emailRDS.createEmailCode(email: email).fold(
+              (failure) => throw failure,
+              (status) => status ? null : throw const EmailCreateCodeFailure(),
+            );
       });
 }

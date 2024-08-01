@@ -25,6 +25,26 @@ class User extends Equatable {
   final String birthday;
   final String defaultLocationId;
 
+  User copyWith({
+    String? name,
+    String? surname,
+    String? patronymic,
+    String? birthday,
+    String? email,
+  }) =>
+      User(
+        id: id,
+        userId: userId,
+        name: name ?? this.name,
+        surname: surname ?? this.surname,
+        patronymic: patronymic ?? this.patronymic,
+        login: login,
+        phone: phone,
+        email: email ?? this.email,
+        birthday: birthday ?? this.birthday,
+        defaultLocationId: defaultLocationId,
+      );
+
   @override
   List<Object> get props => [
         id,
