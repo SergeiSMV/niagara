@@ -151,6 +151,18 @@ class ProfileRemoteDataFailure extends Failure {
   const ProfileRemoteDataFailure([super.error = 'Profile remote data failure']);
 }
 
+class EmailCreateCodeFailure extends Failure {
+  const EmailCreateCodeFailure([super.error = 'Email create code failure']);
+}
+
+class EmailConfirmCodeFailure extends Failure {
+  const EmailConfirmCodeFailure([super.error = 'Email validate code failure']);
+}
+
+class EmailNotFoundFailure extends Failure {
+  const EmailNotFoundFailure([super.error = 'Email not found']);
+}
+
 class UserLocalDataFailure extends Failure {
   const UserLocalDataFailure([super.error = 'User local data failure']);
 }
