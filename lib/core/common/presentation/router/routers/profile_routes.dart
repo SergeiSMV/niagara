@@ -50,6 +50,10 @@ abstract final class ProfileRouters {
             page: VipRoute.page,
             title: (_, __) => t.vip.pageTitle,
           ),
+          AutoRoute(
+            title: (_, __) => t.referral.referralProgram,
+            page: ReferralRoute.page,
+          ),
         ],
       );
 }

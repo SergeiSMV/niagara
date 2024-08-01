@@ -40,6 +40,7 @@ class BannersWidget extends StatelessWidget {
       child: Column(
         children: [
           BannerWidget(
+            redirectRoute: const ReferralRoute(),
             gradient: referralGradient,
             title: t.profile.banners.referralHeader,
             description: t.profile.banners.referralDescription,

@@ -204,6 +204,26 @@
     "forMonth": "за месяц",
     "subscribe": "Оформить подписку"
   },
+  "referral": {
+    "referralProgram": "Реферальная программа",
+    "inviteFriend": "Пригласить друга",
+    "invite": "Пригласить",
+    "backgroundTitle": "Приглашайте друзей и получайте бонусы",
+    "forYou": "Вам за каждого друга",
+    "forFriend": "Приглашенному другу",
+    "bonuses": "бонусов",
+    "howItWorks": "Как это работает?",
+    "progressTitle": "Дополнительные бонусы за каждого $n-го друга",
+    "progressDescription": "$n @:referral.friends = ${bonuses} бонусов",
+    "progressRemaining": "Пригласите ещё $n @:referral.friends и получите вознаграждение",
+    "progressInvited": "Вы пригласили $n @:referral.friends",
+    "friends": {
+      "one": "друга",
+      "few": "друзей",
+      "other": "друзей"
+    },
+    "referralHistory": "История начислений"
+  },
   "promos": {
     "promotions": "Акции",
     "discountForYou": "Скидки для вас",
@@ -361,5 +381,8 @@
     "otherOptions": "Другие варианты",
     "sendingError": "Ошибка отправки",
     "failedSendRating": "Не удалось отправить оценку"
+  },
+  "equipments": {
+    "equipmentCleaningIsRequired": "Требуется чистка оборудования"
   }
 }

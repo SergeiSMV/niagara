@@ -5,6 +5,7 @@ import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/features/catalog/presentation/widget/groups/groups_home_widget.dart';
+import 'package:niagara_app/features/equipment/presentation/widgets/equipment_widget.dart';
 import 'package:niagara_app/features/home/presentation/widgets/notifications_button.dart';
 import 'package:niagara_app/features/home/presentation/widgets/static_banners_widget.dart';
 import 'package:niagara_app/features/home/presentation/widgets/support_button.dart';
@@ -52,6 +53,7 @@ class HomePage extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
+              const EquipmentWidget(),
               const RecentOrdersListWidget(),
               const StoriesHomeWidget(),
               const NewProductsHomeWidget(),

@@ -58,6 +58,7 @@ class _TextColors extends TextColors {
           error: const Color(0xFFEE2A1D),
           secondary: const Color(0xFF87898D),
           white: const Color(0xFFFFFFFF),
+          blue: const Color(0xFF044B75),
         );
 }
 

@@ -17,16 +17,13 @@ import 'package:niagara_app/features/special_poducts/presentation/bloc/special_p
 class SpecialProductsHomeWidget extends StatelessWidget {
   const SpecialProductsHomeWidget({super.key});
 
+  /// Нужно, чтобы при возвращении из карточки товара пользователь попадал назад
+  /// на главную страницу, а не в каталог.
   void _navigateToProductPage(BuildContext context, Product product) =>
       context.navigateTo(
-        CatalogWrapper(
-          children: [
-            const CatalogRoute(),
-            ProductRoute(
-              key: ValueKey(product.id),
-              product: product,
-            ),
-          ],
+        ProductRoute(
+          key: ValueKey(product.id),
+          product: product,
         ),
       );
 

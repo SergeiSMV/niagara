@@ -12,7 +12,8 @@ class CartEvent with _$CartEvent {
     required Product product,
   }) = _RemoveFromCart;
 
-  const factory CartEvent.removeAllFromCart() = _RemoveAllFromCart;
+  const factory CartEvent.removeAllFromCart({required CartClearTypes type}) =
+      _RemoveAllFromCart;
 
   const factory CartEvent.toggleAllTare() = _ToggleAllTare;
 

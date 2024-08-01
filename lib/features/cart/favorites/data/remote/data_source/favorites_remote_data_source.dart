@@ -76,7 +76,7 @@ class FavoritesRemoteDataSource implements IFavoritesRemoteDataSource {
     required String productId,
   }) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
-        request: (dio) => dio.post(
+        request: (dio) => dio.delete(
           ApiConst.kRemoveFavorite,
           data: {
             'login': login,
