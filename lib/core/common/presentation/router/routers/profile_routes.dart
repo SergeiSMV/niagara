@@ -61,6 +61,17 @@ abstract final class ProfileRouters {
           AutoRoute(
             page: PolicyRoute.page,
           ),
+          AutoRoute(
+            page: EquipmentsRoute.page,
+            title: (_, __) => t.equipments.myEquipment,
+          ),
+          AutoRoute(
+            page: CleaningRequestRoute.page,
+            title: (_, __) => t.equipments.requestForCleaning,
+          ),
+          AutoRoute(
+            page: CleaningOrderSuccessfulRoute.page,
+          ),
         ],
       );
 }
