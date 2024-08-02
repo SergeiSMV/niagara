@@ -7,6 +7,7 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/profile/about/domain/model/policy.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/profile_action_tile.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/profile_actions_widget.dart';
 
@@ -54,7 +55,7 @@ class _Content extends StatelessWidget {
                 title: t.profile.aboutApp.policy,
                 textStyle: tileStyle,
                 redirectRoute: PolicyRoute(
-                  html: '',
+                  type: PolicyType.confidence,
                   pageTitle: _Title(
                     firstLine: t.profile.aboutApp.policyLine1,
                     secondLine: t.profile.aboutApp.policyLine2,
@@ -65,7 +66,7 @@ class _Content extends StatelessWidget {
                 title: t.profile.aboutApp.agreement,
                 textStyle: tileStyle,
                 redirectRoute: PolicyRoute(
-                  html: '',
+                  type: PolicyType.application,
                   pageTitle: _Title(
                     firstLine: t.profile.aboutApp.agreementLine1,
                     secondLine: t.profile.aboutApp.agreementLine2,
@@ -76,7 +77,7 @@ class _Content extends StatelessWidget {
                 title: t.profile.aboutApp.salesOffer,
                 textStyle: tileStyle,
                 redirectRoute: PolicyRoute(
-                  html: '',
+                  type: PolicyType.offer,
                   pageTitle: _Title(
                     firstLine: t.profile.aboutApp.salesOfferLine1,
                     secondLine: t.profile.aboutApp.salesOfferLine2,

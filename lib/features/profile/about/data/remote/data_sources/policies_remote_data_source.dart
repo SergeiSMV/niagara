@@ -15,20 +15,15 @@ class PoliciesRemoteDataSource implements IPoliciesRemoteDataSource {
   Future<Either<Failure, PolicyDto>> getPolicy({
     required String type,
   }) =>
-      _requestHandler.sendRequest<PolicyDto, Map<String, dynamic>>(
+      _requestHandler.sendRequest<PolicyDto, String>(
+        isHtml: true,
         request: (dio) => dio.get(
           ApiConst.kGetPolicies,
           queryParameters: {
             'type': type,
           },
         ),
-        converter: (json) {
-          final PolicyDto policy = PolicyDto.fromJson(
-            json['data'] as Map<String, dynamic>,
-          );
-
-          return policy;
-        },
+        converter: (html) => PolicyDto(html: html),
         failure: PolicieslRemoteDataFailure.new,
       );
 }

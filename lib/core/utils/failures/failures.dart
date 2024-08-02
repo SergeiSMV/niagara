@@ -317,8 +317,8 @@ class ReferralRemoteDataFailure extends Failure {
 }
 
 // ! ------------------------------- Policies ---------------------------- ! //
-class PolicieslRepositoryFailure extends Failure {
-  const PolicieslRepositoryFailure([super.error = 'Policies repo failure']);
+class PoliciesRepositoryFailure extends Failure {
+  const PoliciesRepositoryFailure([super.error = 'Policies repo failure']);
 }
 
 class PolicieslRemoteDataFailure extends Failure {

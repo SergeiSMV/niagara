@@ -168,5 +168,5 @@ abstract final class ApiConst {
   static const String kReferralHistory = '/referal_history';
 
   // ? ----------------------- Policies -------------------------- ? //
-  static const String kGetPolicies = '/confidence';
+  static const String kGetPolicies = '/about_app';
 }

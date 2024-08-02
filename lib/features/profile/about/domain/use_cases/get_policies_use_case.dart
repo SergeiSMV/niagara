@@ -9,12 +9,6 @@ class GetPoliciesUseCase extends BaseUseCase<Policy, PolicyType> {
   final IPoliciesRepository _repo;
 
   @override
-  Future<Either<Failure, Policy>> call(PolicyType type) async =>
-      _repo.getPolicy(type: type.name);
-}
-
-enum PolicyType {
-  agreement,
-  offer,
-  privacy,
+  Future<Either<Failure, Policy>> call(PolicyType type) =>
+      _repo.getPolicy(type: type);
 }
