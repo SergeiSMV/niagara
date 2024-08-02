@@ -31,6 +31,10 @@ class CartPromocodeWidget extends StatelessWidget {
           AppBoxes.kHeight8,
           AppTextField.promocode(
             label: t.cart.enterPromocode,
+            onChanged: (value) {},
+            onTap: () {
+              // TODO отправить промокод
+            },
           ),
         ],
       ),

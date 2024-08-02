@@ -21,4 +21,6 @@ abstract interface class ICartRepository {
   });
 
   Future<Either<Failure, List<Product>>> getCartRecommendations();
+
+  Future<Either<Failure, bool>> applyPromoCode({required String code});
 }

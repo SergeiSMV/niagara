@@ -57,8 +57,9 @@ class CartRepository extends BaseRepository implements ICartRepository {
       );
 
   @override
-  Future<Either<Failure, bool>> removeAllFromCart(
-          {required CartClearTypes type}) =>
+  Future<Either<Failure, bool>> removeAllFromCart({
+    required CartClearTypes type,
+  }) =>
       execute(
         () => _cartRDS.clearCart(type: type).fold(
               (failure) => throw failure,
@@ -71,6 +72,15 @@ class CartRepository extends BaseRepository implements ICartRepository {
         () => _cartRDS.getRecommendedProducts().fold(
               (failure) => throw failure,
               (products) => products.map((e) => e.toModel()).toList(),
+            ),
+      );
+
+  @override
+  Future<Either<Failure, bool>> applyPromoCode({required String code}) =>
+      execute(
+        () => _cartRDS.applyPromoCode(code: code).fold(
+              (failure) => throw failure,
+              (success) => success,
             ),
       );
 }
