@@ -47,7 +47,7 @@ class _ResendCodeButton extends StatelessWidget {
     final time = context.select<CountdownTimerCubit, int>(
       (cubit) => cubit.state,
     );
-    
+
     final isDisabled = time != 0;
 
     final color = isDisabled

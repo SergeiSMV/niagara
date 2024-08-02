@@ -7,6 +7,7 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/otp_code_widget.dart';
+import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/otp_loading_widget.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/otp_title_widget.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/resend_code_widget.dart';
 
@@ -52,6 +53,8 @@ class OTPPage extends StatelessWidget implements AutoRouteWrapper {
                   children: [
                     OTPTitleWidget(phoneNumber: _phoneNumber),
                     const OTPCodeWidget(),
+                    const Spacer(),
+                    const OtpLoadingWidget(),
                     const Spacer(),
                     const ReSendCodeWidget(),
                   ],
