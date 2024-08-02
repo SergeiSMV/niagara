@@ -68,7 +68,7 @@ class ProfileInfoWidget extends StatelessWidget {
                 ProfileActionTile(
                   leadingIcon: Assets.icons.purifier,
                   title: t.profile.profileInfo.equipment,
-                  redirectRoute: const PromotionsTabRoute(),
+                  redirectRoute: const EquipmentsRoute(),
                 ),
                 ProfileActionTile(
                   leadingIcon: Assets.icons.water,

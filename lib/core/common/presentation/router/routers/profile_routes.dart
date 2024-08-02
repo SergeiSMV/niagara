@@ -47,12 +47,27 @@ abstract final class ProfileRouters {
             ],
           ),
           AutoRoute(
+            page: VipRoute.page,
+            title: (_, __) => t.vip.pageTitle,
+          ),
+          AutoRoute(
             title: (_, __) => t.referral.referralProgram,
             page: ReferralRoute.page,
           ),
           AutoRoute(
             page: EditProfileRoute.page,
             title: (_, __) => t.profile.edit.pageTitle,
+          ),
+          AutoRoute(
+            page: EquipmentsRoute.page,
+            title: (_, __) => t.equipments.myEquipment,
+          ),
+          AutoRoute(
+            page: CleaningRequestRoute.page,
+            title: (_, __) => t.equipments.requestForCleaning,
+          ),
+          AutoRoute(
+            page: CleaningOrderSuccessfulRoute.page,
           ),
         ],
       );

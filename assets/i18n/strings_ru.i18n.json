@@ -211,6 +211,13 @@
       "vipDescription": "Получайте доступ к лучшим ценам"
     }
   },
+  "vip": {
+    "pageTitle": "VIP-подписка",
+    "benefitsTitle": "Получайте больше скидок и персональных бонусов",
+    "chooseOption": "Выберите подписку",
+    "forMonth": "за месяц",
+    "subscribe": "Оформить подписку"
+  },
   "referral": {
     "referralProgram": "Реферальная программа",
     "inviteFriend": "Пригласить друга",
@@ -390,6 +397,25 @@
     "failedSendRating": "Не удалось отправить оценку"
   },
   "equipments": {
-    "equipmentCleaningIsRequired": "Требуется чистка оборудования"
+    "equipmentCleaningIsRequired": "Требуется чистка оборудования",
+    "myEquipment": "Мое оборудование",
+    "address": "Адрес",
+    "lastCleaning": "Последняя чистка",
+    "scheduledCleaning": "Плановая чистка",
+    "nextCleaningIsThrough": "Следующая чистка через",
+    "cleaningDate": "Дата чистки",
+    "orderCleaning": "Заказать чистку",
+    "cleaningStatuses": {
+      "cleaningIsRequired": "Требуется чистка",
+      "cleaningIsExpected": "Ожидается чистка"
+    },
+    "cleaningIsOverdueFor": "Чистка просрочена на",
+    "doYouHaveRawEquipment": "У вас есть необработанное\nоборудование",
+    "requestForCleaning": "Заявка на чистку",
+    "selectCleaningDate": "Выберите дату чистки",
+    "choose": "Выбрать",
+    "applicationAccepted": "Заявка принята",
+    "expectCallFromManager": " Ожидайте звонок менеджера",
+    "goBackToProfile": "Вернуться в профиль"
   }
 }

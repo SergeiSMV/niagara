@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/profile_widget/bonuses_profile_widget.dart';
+import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/edit_user_data_button.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/profile_account_actions_widget.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/profile_user_data_widget.dart';
@@ -32,11 +34,20 @@ class ProfilePage extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate([
               const BonusesProfileWidget(),
-              const ProfileInfoWidget(),
-              const BannersWidget(),
-              const AppInfoWidget(),
-              const ProfileAccountActionsWidget(),
-              const AppVersionWidget(),
+              BlocBuilder<UserBloc, UserState>(
+                builder: (_, state) => state.maybeWhen(
+                  loaded: (_) => const Column(
+                    children: [
+                      ProfileInfoWidget(),
+                      BannersWidget(),
+                      AppInfoWidget(),
+                      ProfileAccountActionsWidget(),
+                      AppVersionWidget(),
+                    ],
+                  ),
+                  orElse: SizedBox.shrink,
+                ),
+              ),
             ]),
           ),
         ],
