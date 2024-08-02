@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
@@ -10,14 +11,15 @@ import 'package:niagara_app/core/utils/enums/cleaning_statuses.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/equipment/domain/model/equipment.dart';
 
 /// Виджет со всей информацией об оборудовании
 class EquipmentItemContentWidget extends StatelessWidget {
   const EquipmentItemContentWidget({
-    required this.status,
+    required this.equipment,
   });
 
-  final CleaningStatuses status;
+  final Equipment equipment;
 
   void _goToPage(BuildContext context) =>
       context.navigateTo(const CleaningRequestRoute());
@@ -36,20 +38,22 @@ class EquipmentItemContentWidget extends StatelessWidget {
           Padding(
             padding: AppInsets.kHorizontal12,
             child: Text(
-              'Диспенсер Ecotronic K25-LCE black Marble',
+              equipment.name,
               style: context.textStyle.textTypo.tx2SemiBold
                   .withColor(context.colors.textColors.main),
             ),
           ),
-          if (status != CleaningStatuses.cleaningIsExpected) ...[
+          if (equipment.status != CleaningStatuses.cleaningIsExpected) ...[
             AppBoxes.kHeight8,
             _CleaningDateInfo(
               title: t.equipments.lastCleaning,
-              date: '01 января 2024',
+              date: DateFormat('dd MMMM yyyy', 'ru')
+                  .format(equipment.serviceLastDate),
             ),
             _CleaningDateInfo(
               title: t.equipments.scheduledCleaning,
-              date: '01 января 2024',
+              date: DateFormat('dd MMMM yyyy', 'ru')
+                  .format(equipment.serviceNextDate),
             ),
             Padding(
               padding: AppInsets.kHorizontal12,
@@ -60,8 +64,11 @@ class EquipmentItemContentWidget extends StatelessWidget {
               ),
             ),
           ],
-          _CleaningInfo(status: status),
-          if (status != CleaningStatuses.cleaningIsExpected) ...[
+          _CleaningInfo(
+            status: equipment.status,
+            serviceDaysLeft: equipment.serviceDaysLeft,
+          ),
+          if (equipment.status != CleaningStatuses.cleaningIsExpected) ...[
             AppBoxes.kHeight16,
             Padding(
               padding: AppInsets.kHorizontal12,
@@ -80,25 +87,28 @@ class EquipmentItemContentWidget extends StatelessWidget {
 class _CleaningInfo extends StatelessWidget {
   const _CleaningInfo({
     required this.status,
+    required this.serviceDaysLeft,
   });
   final CleaningStatuses status;
+  final int serviceDaysLeft;
 
   @override
   Widget build(BuildContext context) {
     return switch (status) {
       CleaningStatuses.no => _CleaningDateInfo(
           title: t.equipments.nextCleaningIsThrough,
-          date: '20 дней',
+          date: t.equipments.dayCount(n: serviceDaysLeft.abs()),
           boldFont: true,
         ),
       CleaningStatuses.cleaningIsRequired => _CleaningDateInfo(
           title: t.equipments.cleaningIsOverdueFor,
-          date: '20 дней',
+          date: t.equipments.dayCount(n: serviceDaysLeft.abs()),
           boldFont: true,
           cleaningIsOverdue: true,
         ),
       CleaningStatuses.cleaningIsExpected => _CleaningDateInfo(
           title: t.equipments.cleaningDate,
+          // TODO исправить когда добавят поле
           date: 'Пн. 16.02, 12:00-16:00',
         ),
     };

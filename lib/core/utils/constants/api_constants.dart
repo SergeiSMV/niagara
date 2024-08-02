@@ -2,7 +2,7 @@ part of '../../core.dart';
 
 /// Константы для API
 abstract final class ApiConst {
-  // ? ----------------------------- General ----------------------------- ? //
+  // ? ----------------------------- General ------------------------------ ? //
   static const String kBaseUrl = 'API_HOST';
 
   static const String kLogin = 'API_LOGIN';
@@ -11,14 +11,14 @@ abstract final class ApiConst {
 
   static const String kYandexGeo = 'YANDEX_GEO';
 
-  // ? ------------------------------ Token ------------------------------ ? //
+  // ? ------------------------------ Token ------------------------------- ? //
   /// -POST- Запрос на получение токена
   static const String kGetToken = '/get_token_session';
 
   /// -GET- Запрос на проверку токена
   static const String kCheckToken = '/check_token_session';
 
-  // ? ------------------------------ Auth ------------------------------- ? //
+  // ? ------------------------------ Auth -------------------------------- ? //
   /// -POST- Запрос на создание кода для авторизации
   static const String kCreateCode = '/code_confirm_create';
 
@@ -143,7 +143,7 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение новых товаров.
   static const String kGetSpeialProducts = '/products_special';
 
-  // ? ----------------------- Stories -------------------------- ? //
+  // ? ---------------------------- Stories ------------------------------- ? //
   /// -GET- Запрос на получение списка сториз.
   static const String kGetStories = '/stories';
 
@@ -160,10 +160,14 @@ abstract final class ApiConst {
   /// -POST- Запрос на оценку заказа
   static const String kEvaluateOrder = '/order_rating';
 
-  // ? ----------------------- Referral -------------------------- ? //
+  // ? --------------------------- Referral ------------------------------- ? //
   /// -GET- Запрос на получение описания реферальной программы
   static const String kReferralInfo = '/referal_info';
 
   /// -GET- Запрос на получение истории приглашений
   static const String kReferralHistory = '/referal_history';
+
+  // ? --------------------------- Equipment ------------------------------ ? //
+  /// -GET- Запрос на получение списка оборудований
+  static const String kGetDevices = '/devices';
 }
