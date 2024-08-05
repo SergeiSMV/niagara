@@ -12,18 +12,24 @@ class ProfileActionTile extends StatelessWidget {
   const ProfileActionTile({
     super.key,
     this.onTap,
-    required this.leadingIcon,
+    this.leadingIcon,
     required this.title,
     this.notificationsCount,
     this.redirectRoute,
+    this.textStyle,
   });
 
   /// Обработчик нажатия на панель. Может быть заменён на [redirectRoute], если
   /// необходимо перейти на другую страницу.
   final VoidCallback? onTap;
 
-  final SvgGenImage leadingIcon;
+  /// Иконка, отображаемая слева от текста.
+  final SvgGenImage? leadingIcon;
 
+  /// Стиль текста. По умолчанию используется [textTypo.tx2Medium].
+  final TextStyle? textStyle;
+
+  /// Текст, отображаемый в панели.
   final String title;
 
   /// Число непрочитанных извещений. Если этот парментр не `null` и больше `0`,
@@ -44,7 +50,7 @@ class ProfileActionTile extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       onTap: onTap,
-      leading: leadingIcon.svg(
+      leading: leadingIcon?.svg(
         width: AppSizes.kIconLarge,
         height: AppSizes.kIconLarge,
       ),

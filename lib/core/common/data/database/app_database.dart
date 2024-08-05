@@ -1,4 +1,6 @@
 import 'package:niagara_app/core/common/data/database/_imports.dart';
+import 'package:niagara_app/features/profile/about/data/local/dao/policies_dao.dart';
+import 'package:niagara_app/features/profile/about/data/local/table/policies_table.dart';
 
 part 'app_database.g.dart';
 
@@ -11,6 +13,7 @@ part 'app_database.g.dart';
     BonusesTable,
     FavoritesTable,
     UserOrdersTable,
+    PoliciesTable,
   ],
   daos: [
     AllAddresses,
@@ -20,6 +23,7 @@ part 'app_database.g.dart';
     AllBonuses,
     AllFavorites,
     AllOrders,
+    AllPolicies,
   ],
 )
 @Singleton()
