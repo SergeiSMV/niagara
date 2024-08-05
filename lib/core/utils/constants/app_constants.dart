@@ -51,4 +51,7 @@ abstract final class AppConstants {
 
   // * ----------------------------- Animated ----------------------------- * //
   static const Duration kSelectDateItemDuration = Duration(milliseconds: 300);
+
+  // * ------------------------------ Dates ----------------------------- * //
+  static const int kStandardDate = 2;
 }

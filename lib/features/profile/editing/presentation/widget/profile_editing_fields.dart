@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/text_fields/app_text_field.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -13,24 +14,37 @@ import 'package:niagara_app/features/profile/editing/presentation/bloc/profile_e
 import 'package:niagara_app/features/profile/editing/presentation/widget/email_confirmation_widget.dart';
 import 'package:niagara_app/features/profile/user/domain/models/user.dart';
 
+/// Виджет, содержащий формы для редактирования данных профиля (имя, фамилия,
+/// отчество, дата рождения и email).
 class ProfileEditingFieldsWidget extends StatelessWidget {
   const ProfileEditingFieldsWidget({
     super.key,
     required User user,
   }) : _user = user;
 
+  /// Пользователь, данные которого редактируются.
+  ///
+  /// Данные, получение из этого [User], можно считать сохранёнными, в отличие
+  /// от тех, что получены из [ProfileEditingCubit] до нажатия кнопки
+  /// "Сохранить".
   final User _user;
 
-  /// Эти геттеры нужны для того, чтобы запретить редактировать поле даты
-  /// рождения после нажатия кнопки "Сохранить".
-  bool get _isBirthdaySet => _user.birthday.isNotEmpty;
+  /// Индикатор того, была ли дата рождения установлена до начала редактирования
+  /// профиля.
+  ///
+  /// Нужен, т.к. измненить дату рождения можно только один раз.
+  bool get _isBirthdaySet => _user.formattedBirthday != null;
 
+  /// Обновляет данные [User] в [ProfileEditingCubit].
+  ///
+  /// Обновления не сохраняются до нажатия кнопки "Сохранить" и сбросятся, если
+  /// покинуть страницу.
   void _onUpdate(
     BuildContext context, {
     String? name,
     String? surname,
     String? patronymic,
-    String? birthday,
+    DateTime? birthday,
     String? email,
   }) =>
       context.read<ProfileEditingCubit>().updateUserData(
@@ -40,21 +54,6 @@ class ProfileEditingFieldsWidget extends StatelessWidget {
             email: email,
             birthday: birthday,
           );
-
-  // TODO: Поменять на наш календарь
-  void _showDatePicker(BuildContext context) {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-    ).then((value) {
-      if (value != null) {
-        final birthday = '${value.day}.${value.month}.${value.year}';
-        _onUpdate(context, birthday: birthday);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,39 +91,130 @@ class ProfileEditingFieldsWidget extends StatelessWidget {
             state: BaseTextFieldState.disabled,
           ),
           AppBoxes.kHeight12,
-          BlocBuilder<ProfileEditingCubit, User>(
-            builder: (_, user) => GestureDetector(
-              onTap: () => showModalBottomSheet(
-                context: context,
-                builder: (_) => EmailConfirmationWidget(
-                  initialEmail: user.email,
-                  editCubit: context.read<ProfileEditingCubit>(),
-                ),
-              ),
-              child: AbsorbPointer(
-                child: AppTextField.email(
-                  initialText: user.email,
-                ),
-              ),
+          const _EmailField(),
+          AppBoxes.kHeight24,
+          _BirthdayField(isBirthdaySet: _isBirthdaySet),
+        ],
+      ),
+    );
+  }
+}
+
+class _BirthdayField extends StatelessWidget {
+  const _BirthdayField({
+    required bool isBirthdaySet,
+  }) : _isBirthdaySet = isBirthdaySet;
+
+  final bool _isBirthdaySet;
+
+  void _showDatePicker(BuildContext context) {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    ).then((value) {
+      if (value != null) {
+        context.read<ProfileEditingCubit>().updateUserData(birthday: value);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.watch<ProfileEditingCubit>();
+    final String? birthday = cubit.state.formattedBirthday;
+
+    final color = birthday == null
+        ? context.colors.textColors.secondary
+        : context.colors.textColors.main;
+
+    final style = (birthday == null
+            ? context.textStyle.descriptionTypo.des1
+            : context.textStyle.textTypo.tx1Medium)
+        .withColor(color);
+
+    return InkWell(
+      onTap: () => _isBirthdaySet ? null : _showDatePicker(context),
+      // [_isBithdaySet] определяет, установлена ли дата рождения на момент
+      // перехода на экран редактирования профиля. [birthday] - значение даты в
+      // текущей сессии редактирования.
+      child: _isBirthdaySet
+          ? birthday != null
+              ? AppTextField.email(
+                  initialText: birthday,
+                  state: BaseTextFieldState.disabled,
+                )
+              : DecoratedBox(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: context.colors.fieldBordersColors.main,
+                    ),
+                    borderRadius: AppBorders.kCircular12,
+                  ),
+                  child: Padding(
+                    padding: AppInsets.kHorizontal16 + AppInsets.kVertical16,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        birthday ?? t.profile.edit.birthday,
+                        style: style,
+                      ),
+                    ),
+                  ),
+                )
+          : const _BirthdayPreview(),
+    );
+  }
+}
+
+class _EmailField extends StatelessWidget {
+  const _EmailField();
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.watch<ProfileEditingCubit>();
+    final String email = cubit.state.email;
+
+    final color = email.isEmpty
+        ? context.colors.textColors.secondary
+        : context.colors.textColors.main;
+
+    final style = (email.isEmpty
+            ? context.textStyle.descriptionTypo.des1
+            : context.textStyle.textTypo.tx1Medium)
+        .withColor(color);
+
+    return GestureDetector(
+      onTap: () => showModalBottomSheet(
+        context: context,
+        // Предотвращает перекрытие контента клавиатрой.
+        isScrollControlled: true,
+        // Предотвращает случайное закрытие модального окна во время
+        // редактирования.
+        isDismissible: false,
+        builder: (_) => EmailConfirmationWidget(
+          initialEmail: context.watch<ProfileEditingCubit>().state.email,
+          editCubit: cubit,
+        ),
+      ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: context.colors.fieldBordersColors.main,
+          ),
+          borderRadius: AppBorders.kCircular12,
+        ),
+        child: Padding(
+          padding: AppInsets.kHorizontal16 + AppInsets.kVertical16,
+          child: SizedBox(
+            width: double.infinity,
+            child: Text(
+              email.isEmpty ? t.profile.edit.email : email,
+              style: style,
             ),
           ),
-          AppBoxes.kHeight24,
-          BlocBuilder<ProfileEditingCubit, User>(
-            // TODO: Нормальная валидация даты
-            builder: (_, state) => state.birthday.replaceAll('"', '').isEmpty
-                ? InkWell(
-                    onTap: () => _showDatePicker(context),
-                    child: const _BirthdayPreview(),
-                  )
-                : AppTextField.text(
-                    hint: t.profile.edit.birthday,
-                    initialText: state.birthday,
-                    state: _isBirthdaySet ? BaseTextFieldState.disabled : null,
-                    onChanged: (birthday) =>
-                        _onUpdate(context, birthday: birthday),
-                  ),
-          ),
-        ],
+        ),
       ),
     );
   }

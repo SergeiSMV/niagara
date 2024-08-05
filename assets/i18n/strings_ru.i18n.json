@@ -172,6 +172,8 @@
       "enterEmail": "Введите email",
       "enterCode": "Введите код",
       "codeDescription": "Мы отправили код подтверждения на почту ${email}",
+      "codeError": "Неверный код",
+      "resendCodeError": "Не получилось отправить код. Попробуйте снова позже",
       "confirm": "Подтвердить"
     },
     "authActions": {

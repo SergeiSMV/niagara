@@ -44,10 +44,21 @@ class EmailConfirmationBloc
 
     final String code = event.code;
     await _checkCodeUseCase.call(CheckEmailCodeParams(code: code)).fold(
-          (failure) => emit(_EmailError(failure.error)),
-          (_) => emit( _CodeConfirmed(email: _email!)),
+          (failure) => emit(_CodeError(failure.error)),
+          (_) => emit(_CodeConfirmed(email: _email!)),
         );
   }
 
-  Future<void> _onResendCode(_ResendEmailCodeEvent event, _Emit emit) async {}
+  Future<void> _onResendCode(_ResendEmailCodeEvent event, _Emit emit) async {
+    if (_email == null) {
+      return emit(const _ResendError());
+    }
+
+    emit(const _Loading());
+
+    await _sendCodeUseCase.call(SendEmailCodeParams(email: _email!)).fold(
+          (failure) => emit(_ResendError(failure.error)),
+          (_) => emit(_CodeSent(email: _email!)),
+        );
+  }
 }

@@ -22,7 +22,16 @@ class EnterEmailForm extends StatefulWidget {
 class _EnterEmailFormState extends State<EnterEmailForm> {
   String? email;
 
-  void _setEmail(String? email) => setState(() => this.email = email);
+  void _setEmail(String? email) => setState(() {
+        final regex = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+        if (email != null && regex.hasMatch(email)) {
+          this.email = email.toLowerCase();
+        } else {
+          this.email = null;
+        }
+      });
 
   void _onConfirm() => context.read<EmailConfirmationBloc>().add(
         EmailConfirmationEvent.createCode(email: email!),
