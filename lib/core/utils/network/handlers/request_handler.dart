@@ -14,10 +14,17 @@ class RequestHandler {
     required D Function(T) converter,
     required Failure Function(String error) failure,
     bool useDecode = false,
+    bool isHtml = false,
   }) async {
     try {
       final response = await request(_dio);
       if (response.data == null) return Left(failure('no data'));
+
+      if (isHtml) {
+        final T data = response.data as T;
+        final D res = await compute<T, D>(converter, data);
+        return Right(res);
+      }
 
       final data = (useDecode
           ? jsonDecode(response.data.toString())

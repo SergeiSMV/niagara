@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -38,6 +39,7 @@ class AppInfoWidget extends StatelessWidget {
                 ProfileActionTile(
                   leadingIcon: Assets.icons.info,
                   title: t.profile.appInfo.aboutApp,
+                  redirectRoute: const AboutAppRoute(),
                 ),
               ],
             ),
