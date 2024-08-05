@@ -8,9 +8,13 @@ extension GroupMapperDto on EquipmentDto {
         locationName: locationName,
         id: deviceId,
         name: deviceName,
+        imageUrl: deviceImage,
         status: CleaningStatuses.toEnum(deviceServiceStatus),
         serviceLastDate: deviceServiceLastDate,
         serviceNextDate: deviceServiceNextDate,
         serviceDaysLeft: deviceServiceDaysLeft,
+        orderDate: deviceServiceOrderData,
+        orderTimeBegin: deviceServiceOrderTimeBegin,
+        orderTimeEnd: deviceServiceOrderTimeEnd,
       );
 }

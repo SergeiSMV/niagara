@@ -29,7 +29,7 @@ class EquipmentItemWidget extends StatelessWidget {
           _HeadingWidget(address: equipment.locationName),
         _TitleWidget(
           status: equipment.status,
-          imageUrl: '',
+          imageUrl: equipment.imageUrl,
           content: EquipmentItemContentWidget(equipment: equipment),
         ),
       ],

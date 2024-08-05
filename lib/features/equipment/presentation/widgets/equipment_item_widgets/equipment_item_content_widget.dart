@@ -22,7 +22,7 @@ class EquipmentItemContentWidget extends StatelessWidget {
   final Equipment equipment;
 
   void _goToPage(BuildContext context) =>
-      context.navigateTo(const CleaningRequestRoute());
+      context.navigateTo(CleaningRequestRoute(equipment: equipment));
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +64,7 @@ class EquipmentItemContentWidget extends StatelessWidget {
               ),
             ),
           ],
-          _CleaningInfo(
-            status: equipment.status,
-            serviceDaysLeft: equipment.serviceDaysLeft,
-          ),
+          _CleaningInfo(equipment: equipment),
           if (equipment.status != CleaningStatuses.cleaningIsExpected) ...[
             AppBoxes.kHeight16,
             Padding(
@@ -86,30 +83,37 @@ class EquipmentItemContentWidget extends StatelessWidget {
 
 class _CleaningInfo extends StatelessWidget {
   const _CleaningInfo({
-    required this.status,
-    required this.serviceDaysLeft,
+    required this.equipment,
   });
-  final CleaningStatuses status;
-  final int serviceDaysLeft;
+
+  final Equipment equipment;
+
+  String _formatDate() {
+    final dayOfWeek = DateFormat('E', 'ru').format(equipment.orderDate);
+    final capitalizedDayOfWeek = dayOfWeek[0].toUpperCase() + dayOfWeek[1];
+    final dayAndMonth = DateFormat('dd.MM').format(equipment.orderDate);
+    final timeBegin = DateFormat('hh:mm').format(equipment.orderTimeBegin);
+    final timeEnd = DateFormat('hh:mm').format(equipment.orderTimeEnd);
+    return '$capitalizedDayOfWeek. $dayAndMonth $timeBegin-$timeEnd';
+  }
 
   @override
   Widget build(BuildContext context) {
-    return switch (status) {
+    return switch (equipment.status) {
       CleaningStatuses.no => _CleaningDateInfo(
           title: t.equipments.nextCleaningIsThrough,
-          date: t.equipments.dayCount(n: serviceDaysLeft.abs()),
+          date: t.equipments.dayCount(n: equipment.serviceDaysLeft.abs()),
           boldFont: true,
         ),
       CleaningStatuses.cleaningIsRequired => _CleaningDateInfo(
           title: t.equipments.cleaningIsOverdueFor,
-          date: t.equipments.dayCount(n: serviceDaysLeft.abs()),
+          date: t.equipments.dayCount(n: equipment.serviceDaysLeft.abs()),
           boldFont: true,
           cleaningIsOverdue: true,
         ),
       CleaningStatuses.cleaningIsExpected => _CleaningDateInfo(
           title: t.equipments.cleaningDate,
-          // TODO исправить когда добавят поле
-          date: 'Пн. 16.02, 12:00-16:00',
+          date: _formatDate(),
         ),
     };
   }

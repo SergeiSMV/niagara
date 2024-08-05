@@ -10,10 +10,14 @@ class EquipmentDto extends Equatable {
     required this.locationName,
     required this.deviceId,
     required this.deviceName,
+    required this.deviceImage,
     required this.deviceServiceStatus,
     required this.deviceServiceLastDate,
     required this.deviceServiceNextDate,
     required this.deviceServiceDaysLeft,
+    required this.deviceServiceOrderData,
+    required this.deviceServiceOrderTimeBegin,
+    required this.deviceServiceOrderTimeEnd,
   });
 
   @JsonKey(name: 'LOCATION_ID')
@@ -24,6 +28,8 @@ class EquipmentDto extends Equatable {
   final int deviceId;
   @JsonKey(name: 'DEVICE_NAME')
   final String deviceName;
+  @JsonKey(name: 'DEVICE_IMAGE')
+  final String deviceImage;
   @JsonKey(name: 'DEVICE_SERVICE_STATUS')
   final String deviceServiceStatus;
   @JsonKey(name: 'DEVICE_SERVICE_LAST_DATE')
@@ -32,6 +38,12 @@ class EquipmentDto extends Equatable {
   final DateTime deviceServiceNextDate;
   @JsonKey(name: 'DEVICE_SERVICE_DAYS_LEFT')
   final int deviceServiceDaysLeft;
+  @JsonKey(name: 'DEVICE_SERVICE_ORDER_DATA')
+  final DateTime deviceServiceOrderData;
+  @JsonKey(name: 'DEVICE_SERVICE_ORDER_TIME_BEGIN')
+  final DateTime deviceServiceOrderTimeBegin;
+  @JsonKey(name: 'DEVICE_SERVICE_ORDER_TIME_END')
+  final DateTime deviceServiceOrderTimeEnd;
 
   factory EquipmentDto.fromJson(Map<String, dynamic> json) =>
       _$EquipmentDtoFromJson(json);
@@ -42,9 +54,13 @@ class EquipmentDto extends Equatable {
         locationName,
         deviceId,
         deviceName,
+        deviceImage,
         deviceServiceStatus,
         deviceServiceLastDate,
         deviceServiceNextDate,
         deviceServiceDaysLeft,
+        deviceServiceOrderData,
+        deviceServiceOrderTimeBegin,
+        deviceServiceOrderTimeEnd,
       ];
 }
