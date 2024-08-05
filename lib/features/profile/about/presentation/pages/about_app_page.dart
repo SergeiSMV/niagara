@@ -4,10 +4,10 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/enums/policy_type.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/profile/about/domain/model/policy.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/profile_action_tile.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/profile_actions_widget.dart';
 

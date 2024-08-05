@@ -1,5 +1,5 @@
 import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/profile/about/domain/model/policy.dart';
+import 'package:niagara_app/core/utils/enums/policy_type.dart';
 
 /// Сущность политики для работы с БД.
 class PolicyEntity extends Equatable {

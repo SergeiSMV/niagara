@@ -160,6 +160,22 @@
   "profile": {
     "helloUser": "Привет, ${name}!",
     "letsGetAcquainted": "Давайте познакомимся!",
+    "edit": {
+      "pageTitle": "Персональная информация",
+      "name": "Имя",
+      "surname": "Фамилия",
+      "paternalName": "Отчество",
+      "email": "Email",
+      "birthday": "Дата рождения",
+      "birthdayDescription": "Укажите дату рождения и получайте каждый год подарок в этот день!",
+      "save": "Сохранить",
+      "enterEmail": "Введите email",
+      "enterCode": "Введите код",
+      "codeDescription": "Мы отправили код подтверждения на почту ${email}",
+      "codeError": "Неверный код",
+      "resendCodeError": "Не получилось отправить код. Попробуйте снова позже",
+      "confirm": "Подтвердить"
+    },
     "authActions": {
       "logoutAction": "Выйти из аккаунта",
       "deleteAccountAction": "Удалить аккаунт",

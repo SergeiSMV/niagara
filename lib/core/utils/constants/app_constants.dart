@@ -9,6 +9,7 @@ abstract final class AppConstants {
   static const String kSearchTextFieldName = 'searchField';
   static const String kPromocodeTextFieldName = 'promocodeField';
   static const String kBonusesTextFieldName = 'bonusesField';
+  static const String kEmailTextFieldName = 'emailField';
 
   // * ------------------------------- Shadow ----------------------------- * //
   static const Offset kShadowTop = Offset(0, -4);
@@ -50,4 +51,7 @@ abstract final class AppConstants {
 
   // * ----------------------------- Animated ----------------------------- * //
   static const Duration kSelectDateItemDuration = Duration(milliseconds: 300);
+
+  // * ------------------------------ Dates ----------------------------- * //
+  static const int kStandardDate = 2;
 }

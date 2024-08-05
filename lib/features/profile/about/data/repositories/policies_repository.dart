@@ -1,4 +1,5 @@
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/policy_type.dart';
 import 'package:niagara_app/features/profile/about/data/local/data_source/policies_local_data_source.dart';
 import 'package:niagara_app/features/profile/about/data/local/entity/policy.dart';
 import 'package:niagara_app/features/profile/about/data/mappers/policy_mapper.dart';
