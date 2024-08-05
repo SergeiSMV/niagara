@@ -18,7 +18,6 @@ class AppTextField extends BaseTextField {
     super.label,
     super.hint,
     super.prefixWidget,
-    super.prefix,
     super.keyboardType,
     super.state,
     super.isRequired,
@@ -60,8 +59,7 @@ class AppTextField extends BaseTextField {
       name: AppConstants.kTextFieldPhoneName,
       key: key,
       initialText: initialText,
-      prefix: '${t.auth.ruPhoneCode} ',
-      // prefixWidget: const _PrefixPhoneWidget(),
+      prefixWidget: _PrefixPhoneWidget(state ?? BaseTextFieldState.idle),
       hint: AppConstants.kPhoneHint,
       keyboardType: TextInputType.phone,
       state: state ?? BaseTextFieldState.idle,
@@ -169,13 +167,19 @@ class AppTextField extends BaseTextField {
 
 /// Префикс для номера телефона
 class _PrefixPhoneWidget extends StatelessWidget {
-  const _PrefixPhoneWidget();
+  const _PrefixPhoneWidget(this.state);
+
+  /// Нужно для соответствия цвета префикса цвету текста в поле.
+  final BaseTextFieldState state;
 
   @override
   Widget build(BuildContext context) {
+    final typo = context.textStyle.textTypo.tx1Medium;
     return Text(
       t.auth.ruPhoneCode,
-      style: context.textStyle.textTypo.tx1Medium,
+      style: state == BaseTextFieldState.disabled
+          ? typo.withColor(context.colors.textColors.secondary)
+          : typo,
     );
   }
 }
