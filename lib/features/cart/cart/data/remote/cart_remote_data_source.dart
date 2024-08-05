@@ -20,7 +20,7 @@ abstract interface class ICartRemoteDataSource {
 
   Future<Either<Failure, List<ProductDto>>> getRecommendedProducts();
 
-  Future<Either<Failure, bool>> applyPromoCode({required String code});
+  Future<Either<Failure, bool>> checkPromoCode({required String code});
 }
 
 @LazySingleton(as: ICartRemoteDataSource)
@@ -104,7 +104,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
       );
 
   @override
-  Future<Either<Failure, bool>> applyPromoCode({required String code}) =>
+  Future<Either<Failure, bool>> checkPromoCode({required String code}) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kApplyPromoCode,
@@ -112,7 +112,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
             'PROMOCODE': code,
           },
         ),
-        converter: (json) => json['response'] as bool,
+        converter: (json) => json['valid'] as bool,
         failure: CartRemoteDataFailure.new,
       );
 }

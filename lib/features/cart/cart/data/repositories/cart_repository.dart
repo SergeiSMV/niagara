@@ -76,9 +76,9 @@ class CartRepository extends BaseRepository implements ICartRepository {
       );
 
   @override
-  Future<Either<Failure, bool>> applyPromoCode({required String code}) =>
+  Future<Either<Failure, bool>> checkPromoCode({required String code}) =>
       execute(
-        () => _cartRDS.applyPromoCode(code: code).fold(
+        () => _cartRDS.checkPromoCode(code: code).fold(
               (failure) => throw failure,
               (success) => success,
             ),

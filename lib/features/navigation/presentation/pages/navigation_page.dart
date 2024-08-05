@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/navigation_bar.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc.dart';
+import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
+import 'package:niagara_app/features/cart/cart/presentation/bloc/check_promo_code_cubit/check_promo_code_cubit.dart';
 import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/groups_cubit.dart';
 import 'package:niagara_app/features/new_products/presentation/bloc/new_products_bloc.dart';
@@ -69,6 +70,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           ),
           BlocProvider(
             create: (_) => getIt<CartBloc>(),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => getIt<CheckPromoCodeCubit>(),
             lazy: false,
           ),
           BlocProvider(

@@ -132,6 +132,7 @@ class AppTextField extends BaseTextField {
     String? label,
     int? maxLength,
     VoidCallback? onTap,
+    String? initialText,
   }) {
     return AppTextField._(
       name: AppConstants.kPromocodeTextFieldName,
@@ -142,6 +143,7 @@ class AppTextField extends BaseTextField {
       maxLength: maxLength,
       onChanged: onChanged,
       suffixWidget: _ApplyButton(onTap),
+      initialText: initialText,
     );
   }
 }
