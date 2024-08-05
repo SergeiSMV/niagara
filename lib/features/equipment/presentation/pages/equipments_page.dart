@@ -30,8 +30,11 @@ class EquipmentsPage extends StatelessWidget {
               state.when(
                 loading: () =>
                     const SliverToBoxAdapter(child: AppCenterLoader()),
-                error: () =>
-                    ErrorRefreshWidget(onRefresh: () => _onRefresh(context)),
+                error: () => SliverToBoxAdapter(
+                  child: ErrorRefreshWidget(
+                    onRefresh: () => _onRefresh(context),
+                  ),
+                ),
                 loaded: (equipments) => SliverPadding(
                   padding: AppInsets.kHorizontal16,
                   sliver: SliverList.separated(
