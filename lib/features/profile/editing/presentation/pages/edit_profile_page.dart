@@ -7,7 +7,7 @@ import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_bu
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/editing/presentation/bloc/profile_editing_cubit/profile_editing_cubit.dart';
-import 'package:niagara_app/features/profile/editing/presentation/widget/profile_editing_fields.dart';
+import 'package:niagara_app/features/profile/editing/presentation/widget/profile_fields/profile_editing_fields.dart';
 import 'package:niagara_app/features/profile/user/domain/models/user.dart';
 import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 

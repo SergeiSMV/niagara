@@ -13,6 +13,7 @@ import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/
 import 'package:niagara_app/features/profile/editing/presentation/bloc/email_confirmation_bloc/email_confirmation_bloc.dart';
 import 'package:pinput/pinput.dart';
 
+/// Виджет для введения кода подтверждения email.
 class EmailCodeForm extends StatefulWidget {
   const EmailCodeForm({required this.email});
 
@@ -30,6 +31,27 @@ class _EmailCodeFormState extends State<EmailCodeForm> {
         .read<EmailConfirmationBloc>()
         .add(EmailConfirmationEvent.confirmCode(code: code));
   }
+
+  PinTheme _buildPinTheme(BuildContext context) => PinTheme(
+        height: AppSizes.kGeneral72,
+        width: AppSizes.kGeneral64,
+        decoration: BoxDecoration(
+          borderRadius: AppBorders.kCircular12,
+          border: Border.all(
+            color: context.colors.fieldBordersColors.main,
+          ),
+        ),
+        textStyle: context.textStyle.headingTypo.h1,
+      );
+
+  Widget _buildCursor(Color color) => Container(
+        height: AppSizes.kGeneral4,
+        width: AppSizes.kGeneral4,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +131,7 @@ class _EmailCodeFormState extends State<EmailCodeForm> {
   }
 }
 
+/// Кнопка "отправить код повторно".
 class _ResendCodeButton extends StatelessWidget {
   const _ResendCodeButton();
 
@@ -152,6 +175,8 @@ class _ResendCodeButton extends StatelessWidget {
   }
 }
 
+/// Таймер для отсчёта времени, после которого можно будет отправить код
+/// повторно.
 class _ResendCodeTimer extends StatelessWidget {
   const _ResendCodeTimer();
 
@@ -177,24 +202,3 @@ class _ResendCodeTimer extends StatelessWidget {
     );
   }
 }
-
-PinTheme _buildPinTheme(BuildContext context) => PinTheme(
-      height: AppSizes.kGeneral72,
-      width: AppSizes.kGeneral64,
-      decoration: BoxDecoration(
-        borderRadius: AppBorders.kCircular12,
-        border: Border.all(
-          color: context.colors.fieldBordersColors.main,
-        ),
-      ),
-      textStyle: context.textStyle.headingTypo.h1,
-    );
-
-Widget _buildCursor(Color color) => Container(
-      height: AppSizes.kGeneral4,
-      width: AppSizes.kGeneral4,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
-      ),
-    );

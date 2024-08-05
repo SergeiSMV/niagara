@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/policy_type.dart';
 import 'package:niagara_app/features/profile/about/domain/model/policy.dart';
 import 'package:niagara_app/features/profile/about/domain/use_cases/get_policies_use_case.dart';
 

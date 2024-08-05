@@ -174,5 +174,7 @@ abstract final class ApiConst {
   static const String kReferralHistory = '/referal_history';
 
   // ? ----------------------- Policies -------------------------- ? //
+  /// -GET- Запрос на получение информации о приложении (политика
+  /// конфиденциальности, публичная оферта и т.д.).
   static const String kGetPolicies = '/about_app';
 }

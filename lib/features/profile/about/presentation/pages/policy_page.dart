@@ -6,7 +6,7 @@ import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/features/profile/about/domain/model/policy.dart';
+import 'package:niagara_app/core/utils/enums/policy_type.dart';
 import 'package:niagara_app/features/profile/about/presentation/bloc/policies_bloc.dart';
 
 @RoutePage()

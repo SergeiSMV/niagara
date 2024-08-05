@@ -10,6 +10,7 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/editing/presentation/bloc/email_confirmation_bloc/email_confirmation_bloc.dart';
 
+/// Форма для ввода нового email.
 class EnterEmailForm extends StatefulWidget {
   const EnterEmailForm({this.initialEmail});
 
@@ -24,7 +25,8 @@ class _EnterEmailFormState extends State<EnterEmailForm> {
 
   void _setEmail(String? email) => setState(() {
         final regex = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+        );
 
         if (email != null && regex.hasMatch(email)) {
           this.email = email.toLowerCase();

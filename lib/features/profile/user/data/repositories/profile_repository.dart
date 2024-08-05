@@ -56,12 +56,9 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
 
   @override
   Future<Either<Failure, void>> updateUser(User user) => execute(() async {
-        await _userLDS.updateUser(user.toEntity());
-
-        // TODO: Изменить порядок, когда у бека всё будет ОК
         _profileRDS.updateProfile(user.toDto()).fold(
               (failure) => throw failure,
-              (success) {},
+              (_) => _userLDS.updateUser(user.toEntity()),
             );
       });
 
@@ -76,7 +73,11 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
       );
 
   @override
-  Future<Either<Failure, void>> deleteUser(User user) => execute(() async {
+  Future<Either<Failure, void>> deleteUser({
+    required User user,
+    bool fromRemote = true,
+  }) =>
+      execute(() async {
         _profileRDS.deleteAccount().fold(
           (failure) => throw failure,
           (success) async {

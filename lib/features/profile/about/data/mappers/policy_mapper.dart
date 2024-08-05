@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:niagara_app/core/common/data/database/app_database.dart';
+import 'package:niagara_app/core/utils/enums/policy_type.dart';
 import 'package:niagara_app/features/profile/about/data/local/entity/policy.dart';
 import 'package:niagara_app/features/profile/about/data/remote/dto/policy_dto.dart';
 import 'package:niagara_app/features/profile/about/domain/model/policy.dart';

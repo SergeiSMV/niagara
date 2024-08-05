@@ -56,7 +56,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Future<void> _onLogout(_LogoutEvent event, _Emit emit) async {
     if (state is! _Loaded) return;
 
-    await _logoutUseCase.call(NoParams()).fold(
+    await _logoutUseCase.call((state as _Loaded).user).fold(
           (failure) => emit(const _Error()),
           (_) => emit(const _Unauthorized(loggedOut: true)),
         );

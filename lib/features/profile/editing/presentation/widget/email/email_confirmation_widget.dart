@@ -7,23 +7,23 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
 import 'package:niagara_app/features/profile/editing/presentation/bloc/email_confirmation_bloc/email_confirmation_bloc.dart';
 import 'package:niagara_app/features/profile/editing/presentation/bloc/profile_editing_cubit/profile_editing_cubit.dart';
-import 'package:niagara_app/features/profile/editing/presentation/widget/email_code_form.dart';
-import 'package:niagara_app/features/profile/editing/presentation/widget/email_form.dart';
+import 'package:niagara_app/features/profile/editing/presentation/widget/email/email_code_form.dart';
+import 'package:niagara_app/features/profile/editing/presentation/widget/email/email_form.dart';
 
 /// Виджет для подтверждения email.
 class EmailConfirmationWidget extends StatelessWidget {
   const EmailConfirmationWidget({
     super.key,
     this.initialEmail,
-    required this.editCubit,
+    required this.profileEditingCubit,
   });
 
   /// Email, который будет отображён в поле ввода. Используется в случае, если
   /// пользователь уже вводил email, но не закончил этот процесс.
   final String? initialEmail;
 
-  /// Кубит для редактирования профиля.
-  final ProfileEditingCubit editCubit;
+  /// [Cubit] для редактирования профиля.
+  final ProfileEditingCubit profileEditingCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,9 @@ class EmailConfirmationWidget extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => getIt<EmailConfirmationBloc>()),
         BlocProvider(create: (_) => getIt<CountdownTimerCubit>()),
+        BlocProvider.value(value: profileEditingCubit),
       ],
-      child: _Content(initialEmail: initialEmail, editCubit: editCubit),
+      child: _Content(initialEmail: initialEmail),
     );
   }
 }
@@ -40,11 +41,9 @@ class EmailConfirmationWidget extends StatelessWidget {
 class _Content extends StatefulWidget {
   const _Content({
     required this.initialEmail,
-    required this.editCubit,
   });
 
   final String? initialEmail;
-  final ProfileEditingCubit editCubit;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -61,7 +60,7 @@ class _ContentState extends State<_Content> {
   }
 
   void _onConfirmed(BuildContext context, String email) {
-    widget.editCubit.updateUserData(email: email);
+    context.read<ProfileEditingCubit>().updateUserData(email: email);
     context.maybePop();
   }
 
