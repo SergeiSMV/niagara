@@ -141,6 +141,9 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение рекомендаций
   static const String kGetRecommendedProducts = '/cart_recommend';
 
+  /// -POST- Запрос на применение промокода
+  static const String kApplyPromoCode = '/poromocode_check';
+
   // ? -------------------------- New products ---------------------------- ? //
   /// -GET- Запрос на получение товаров "специально для вас".
   static const String kGetNewProducts = '/products_new';
