@@ -8,6 +8,7 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/status_description.dart';
 import 'package:niagara_app/features/vip/presentation/bloc/vip_bloc.dart';
+import 'package:niagara_app/features/vip/presentation/widget/activation_options_widget.dart';
 import 'package:niagara_app/features/vip/presentation/widget/vip_benefits_list.dart';
 import 'package:niagara_app/features/vip/presentation/widget/vip_subscribe_button.dart';
 
@@ -54,6 +55,7 @@ class _Content extends StatelessWidget {
         children: [
           VipBenefitsList(description.benefits),
           AppBoxes.kHeight32,
+          ActivationOptionsWidget(description.activationOptions),
         ],
       ),
     );

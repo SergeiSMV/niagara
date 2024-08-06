@@ -28,6 +28,25 @@ class AppTextField extends BaseTextField {
     super.suffixWidget,
   });
 
+  factory AppTextField.email({
+    Key? key,
+    String? initialText,
+    void Function(String?)? onChanged,
+    BaseTextFieldState? state,
+  }) {
+    return AppTextField._(
+      name: AppConstants.kEmailTextFieldName,
+      key: key,
+      initialText: initialText,
+      label: t.profile.edit.email,
+      hint: t.profile.edit.email,
+      keyboardType: TextInputType.emailAddress,
+      state: state ?? BaseTextFieldState.idle,
+      isRequired: true,
+      onChanged: onChanged,
+    );
+  }
+
   /// Текстовое поле для ввода номера телефона
   factory AppTextField.phone({
     Key? key,
@@ -40,7 +59,7 @@ class AppTextField extends BaseTextField {
       name: AppConstants.kTextFieldPhoneName,
       key: key,
       initialText: initialText,
-      prefixWidget: const _PrefixPhoneWidget(),
+      prefixWidget: _PrefixPhoneWidget(state ?? BaseTextFieldState.idle),
       hint: AppConstants.kPhoneHint,
       keyboardType: TextInputType.phone,
       state: state ?? BaseTextFieldState.idle,
@@ -132,6 +151,7 @@ class AppTextField extends BaseTextField {
     String? label,
     int? maxLength,
     VoidCallback? onTap,
+    String? initialText,
   }) {
     return AppTextField._(
       name: AppConstants.kPromocodeTextFieldName,
@@ -142,19 +162,26 @@ class AppTextField extends BaseTextField {
       maxLength: maxLength,
       onChanged: onChanged,
       suffixWidget: _ApplyButton(onTap),
+      initialText: initialText,
     );
   }
 }
 
 /// Префикс для номера телефона
 class _PrefixPhoneWidget extends StatelessWidget {
-  const _PrefixPhoneWidget();
+  const _PrefixPhoneWidget(this.state);
+
+  /// Нужно для соответствия цвета префикса цвету текста в поле.
+  final BaseTextFieldState state;
 
   @override
   Widget build(BuildContext context) {
+    final typo = context.textStyle.textTypo.tx1Medium;
     return Text(
       t.auth.ruPhoneCode,
-      style: context.textStyle.textTypo.tx1Medium,
+      style: state == BaseTextFieldState.disabled
+          ? typo.withColor(context.colors.textColors.secondary)
+          : typo,
     );
   }
 }

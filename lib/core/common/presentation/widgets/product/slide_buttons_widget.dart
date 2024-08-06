@@ -6,7 +6,7 @@ import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc.dart';
+import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
 
 class SlideButtonsWidget extends StatelessWidget {

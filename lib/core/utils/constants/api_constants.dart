@@ -57,11 +57,17 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение профиля
   static const String kGetProfile = '/users';
 
-  /// -PUT- Запрос на обновление профиля
+  /// -POST- Запрос на обновление профиля
   static const String kUpdateProfile = '/users';
 
   /// -DELETE- Запрос на удаление профиля
   static const String kDeleteProfile = '/users';
+
+  /// -POST- Запрос на проверку кода подтверждения почты
+  static const String kConfirmEmail = '/email_code_confirm_check';
+
+  /// -POST- Запрос на создание кода подтверждения почты
+  static const String kCreateEmailCode = '/email_code_confirm_create';
 
   // ? --------------------------- BonusProgram --------------------------- ? //
   /// -GET- Запрос на получение описания программы бонусов
@@ -135,6 +141,9 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение рекомендаций
   static const String kGetRecommendedProducts = '/cart_recommend';
 
+  /// -POST- Запрос на применение промокода
+  static const String kApplyPromoCode = '/poromocode_check';
+
   // ? -------------------------- New products ---------------------------- ? //
   /// -GET- Запрос на получение товаров "специально для вас".
   static const String kGetNewProducts = '/products_new';
@@ -170,4 +179,9 @@ abstract final class ApiConst {
   // ? --------------------------- Equipment ------------------------------ ? //
   /// -GET- Запрос на получение списка оборудований
   static const String kGetDevices = '/devices';
+
+  // ? ----------------------- Policies -------------------------- ? //
+  /// -GET- Запрос на получение информации о приложении (политика
+  /// конфиденциальности, публичная оферта и т.д.).
+  static const String kGetPolicies = '/about_app';
 }

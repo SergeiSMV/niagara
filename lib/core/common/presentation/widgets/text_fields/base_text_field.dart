@@ -112,7 +112,7 @@ abstract class BaseTextField extends HookWidget {
       name: name,
       maxLines: expandable ? null : 1,
       initialValue: mask != null ? maskedText : initialText,
-      enabled: !state.isDisabled,
+      enabled: !state.isDisabled && !state.isSuccess,
       maxLength: maxLength,
       decoration: InputDecoration(
         labelText: label,
@@ -125,7 +125,9 @@ abstract class BaseTextField extends HookWidget {
             : null,
         prefixText: prefix,
         prefixIconConstraints: const BoxConstraints(),
-        suffixIcon: !state.isIdle ? _IconWidget(state: state) : suffixWidget,
+        suffixIcon: !state.isIdle && !state.isNotSuccess
+            ? _IconWidget(state: state)
+            : suffixWidget,
         suffixIconConstraints: const BoxConstraints(),
         isDense: true,
         contentPadding: label != null

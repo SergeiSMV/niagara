@@ -160,6 +160,22 @@
   "profile": {
     "helloUser": "Привет, ${name}!",
     "letsGetAcquainted": "Давайте познакомимся!",
+    "edit": {
+      "pageTitle": "Персональная информация",
+      "name": "Имя",
+      "surname": "Фамилия",
+      "paternalName": "Отчество",
+      "email": "Email",
+      "birthday": "Дата рождения",
+      "birthdayDescription": "Укажите дату рождения и получайте каждый год подарок в этот день!",
+      "save": "Сохранить",
+      "enterEmail": "Введите email",
+      "enterCode": "Введите код",
+      "codeDescription": "Мы отправили код подтверждения на почту ${email}",
+      "codeError": "Неверный код",
+      "resendCodeError": "Не получилось отправить код. Попробуйте снова позже",
+      "confirm": "Подтвердить"
+    },
     "authActions": {
       "logoutAction": "Выйти из аккаунта",
       "deleteAccountAction": "Удалить аккаунт",
@@ -195,6 +211,19 @@
       "promotionsDescription": "Актуальные предложения для вас",
       "vipHeader": "VIP подписка",
       "vipDescription": "Получайте доступ к лучшим ценам"
+    },
+    "aboutApp": {
+      "pageTitle": "О приложении",
+      "description": "Ниже вы найдёте важные документы и сможете подробно ознакомиться с каждым",
+      "policy": "Политика конфиденциальности",
+      "policyLine1": "Политика",
+      "policyLine2": "конфиденциальности",
+      "agreement": "Пользовательское соглашение",
+      "agreementLine1": "Пользовательское",
+      "agreementLine2": "соглашение",
+      "salesOffer": "Оферта на продажу товаров",
+      "salesOfferLine1": "Оферта на продажу",
+      "salesOfferLine2": "товаров"
     }
   },
   "vip": {

@@ -24,8 +24,9 @@ extension UserMapper on User {
         secondName: patronymic,
         login: login,
         email: email,
-        city: '',
         birthday: birthday,
+        // TODO: Это поле не должно отправляться на сервер
+        city: '',
         bonusesCardNumber: '',
         bonusesCount: '0',
         bonusesTempCount: '0',

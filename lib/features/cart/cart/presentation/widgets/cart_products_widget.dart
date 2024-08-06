@@ -5,7 +5,7 @@ import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc.dart';
+import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/delete_products_button_widget.dart';
 
 class CartProductsWidget extends StatelessWidget {

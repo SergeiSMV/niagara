@@ -52,7 +52,7 @@ class ProfileDto extends Equatable {
   @JsonKey(name: 'CITY')
   final String? city;
 
-  @JsonKey(includeToJson: false, name: 'BIRTHDAY')
+  @JsonKey(name: 'BIRTHDAY')
   final String? birthday;
 
   @JsonKey(includeToJson: false, name: 'BONUSES_CARD_NUMBER')

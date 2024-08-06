@@ -18,7 +18,7 @@ class DeleteUserUseCase extends BaseUseCase<void, User> {
 
   @override
   Future<Either<Failure, void>> call(User params) async {
-    return _profileRepository.deleteUser(params).either(
+    return _profileRepository.deleteUser(user: params).either(
           (failure) => throw failure,
           (_) => _authRepository.logout().either(
                 (failure) => throw failure,

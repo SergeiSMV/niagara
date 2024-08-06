@@ -8,6 +8,8 @@ enum BaseTextFieldState {
 
   success,
 
+  notSuccess,
+
   disabled;
 
   bool get isIdle => this == BaseTextFieldState.idle;
@@ -16,9 +18,12 @@ enum BaseTextFieldState {
 
   bool get isSuccess => this == BaseTextFieldState.success;
 
+  bool get isNotSuccess => this == BaseTextFieldState.notSuccess;
+
   /// Получение цвета для состояния
   Color? color(BuildContext context) => switch (this) {
         BaseTextFieldState.success => context.colors.infoColors.green,
+        BaseTextFieldState.notSuccess => context.colors.infoColors.red,
         _ => null,
       };
 
