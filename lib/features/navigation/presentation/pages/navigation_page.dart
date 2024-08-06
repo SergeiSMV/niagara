@@ -8,6 +8,7 @@ import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_
 import 'package:niagara_app/features/cart/cart/presentation/bloc/check_promo_code_cubit/check_promo_code_cubit.dart';
 import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/groups_cubit.dart';
+import 'package:niagara_app/features/equipment/presentation/bloc/bloc/equipments_bloc.dart';
 import 'package:niagara_app/features/new_products/presentation/bloc/new_products_bloc.dart';
 import 'package:niagara_app/features/notifications/presentation/bloc/notifications_bloc/notifications_bloc.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
@@ -90,6 +91,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           ),
           BlocProvider(
             create: (_) => getIt<StoriesBloc>(),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => getIt<EquipmentsBloc>(),
             lazy: false,
           ),
         ],

@@ -16,4 +16,15 @@ enum CleaningStatuses {
         cleaningIsRequired => t.equipments.cleaningStatuses.cleaningIsRequired,
         cleaningIsExpected => t.equipments.cleaningStatuses.cleaningIsExpected,
       };
+
+  static CleaningStatuses toEnum(String value) {
+    if (value.isEmpty) return CleaningStatuses.no;
+    if (value == t.equipments.cleaningStatuses.cleaningIsRequired) {
+      return CleaningStatuses.cleaningIsRequired;
+    }
+    if (value == t.equipments.cleaningStatuses.cleaningIsExpected) {
+      return CleaningStatuses.cleaningIsExpected;
+    }
+    return CleaningStatuses.no;
+  }
 }

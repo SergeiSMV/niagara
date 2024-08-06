@@ -431,6 +431,11 @@
     "choose": "Выбрать",
     "applicationAccepted": "Заявка принята",
     "expectCallFromManager": " Ожидайте звонок менеджера",
-    "goBackToProfile": "Вернуться в профиль"
+    "goBackToProfile": "Вернуться в профиль",
+    "dayCount": {
+      "one": "$n день",
+      "few": "$n дня",
+      "other": "$n дней"
+    }
   }
 }
