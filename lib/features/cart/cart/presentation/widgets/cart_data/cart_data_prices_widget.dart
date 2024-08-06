@@ -8,8 +8,8 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_bonuses_added_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_delivery_widget.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_widget.dart';
 
 class CartDataPricesWidget extends StatelessWidget {
   const CartDataPricesWidget({

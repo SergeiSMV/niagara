@@ -416,5 +416,55 @@
     "applicationAccepted": "Заявка принята",
     "expectCallFromManager": " Ожидайте звонок менеджера",
     "goBackToProfile": "Вернуться в профиль"
+  },
+  "orderPlacing": {
+    "orderPlacing": "Оформление заказа",
+    "recipient": "Получатель",
+    "nameAndPhone": "ФИО и телефон",
+    "deliveryAddress": "Адрес доставки",
+    "selectDeliveryDate": "Выбереите время доставки",
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "select": "Выбрать",
+    "paymentMethod": "Способ оплаты",
+    "online": "Онлайн",
+    "byCourier": "Курьером",
+    "comment": "Комментарий",
+    "informationForTheDriver": "Информация для водителя",
+    "goods": {
+      "one": "$n товар",
+      "few": "$n товара",
+      "other": "$n товаров"
+    },
+    "sale": "Скидка",
+    "promocode": "Промокод",
+    "bonusesPayment": "Оплата бонусами",
+    "yourProfit": "Ваша выгода",
+    "delivery": "Доставка",
+    "bonusesForOrdering": "Бонусы за заказ",
+    "total": "Итого",
+    "withVip": "C VIP подпиской",
+    "pay": "Оплатить",
+    "paymentMethodDescription": "Оплата курьеру при получении товара картой или наличными",
+    "orderingSuccess": "Заказ успешно оформлен",
+    "thanksForOrdering": "Спасибо за заказ!",
+    "continueShopping": "Продолжить покупки",
+    "orderingError": "Ошибка оформления заказа",
+    "retry": "Повторить"
+  },
+  "errors": {
+    "noInternet": {
+      "title": "Нет подключения к инетернету",
+      "description": "Проверьте подключение к сети или сделайте заказ по телефону"
+    },
+    "noRecipientData": {
+      "title": "Введите информацию о получателе"
+    }
+  },
+  "paymentMethods": {
+    "addCard": "Добавить карту",
+    "sbp": "Оплата через СБП",
+    "mir": "MIR **${lastDigits}",
+    "sberPay": "SberPay"
   }
 }
