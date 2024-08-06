@@ -32,6 +32,10 @@
 	<string>$(DART_DEFINES)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- разрешение на микрофон -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Доступ к микрофону необходим для удобного голосового ввода текста в поля ввода.</string>
+	<!-- разрешение на микрофон -->
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Доступ к геолокации пользователя необходим для отображения текущей геопозиции.</string>
 	<key>NSMotionUsageDescription</key>
