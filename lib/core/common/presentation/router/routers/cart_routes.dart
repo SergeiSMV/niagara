@@ -13,11 +13,18 @@ abstract final class CartRouters {
             children: [
               AutoRoute(page: CartRoute.page),
               AutoRoute(page: FavoritesRoute.page),
-              AutoRoute(
-                page: OrderPlacingRoute.page,
-                title: (_, __) => t.orderPlacing.orderPlacing,
-              ),
             ],
+          ),
+          AutoRoute(
+            page: OrderPlacingRoute.page,
+            title: (_, __) => t.orderPlacing.orderPlacing,
+          ),
+          AutoRoute(
+            page: EditProfileRoute.page,
+            title: (_, __) => t.profile.edit.pageTitle,
+          ),
+          AutoRoute(
+            page: OrderResultRoute.page,
           ),
         ],
       );

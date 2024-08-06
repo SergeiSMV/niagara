@@ -49,24 +49,35 @@ class PaymentMethodTile extends StatelessWidget {
           borderRadius: AppBorders.kCircular12,
         ),
         child: Padding(
-          padding: AppInsets.kHorizontal12,
-          child: Expanded(
-            child: Row(
-              children: [
-                image.image(
-                  height: AppSizes.kGeneral24,
-                  width: AppSizes.kGeneral32,
-                ),
-                AppBoxes.kWidth12,
-                const Spacer(),
-                if (addingNewCard)
-                  Assets.icons.plus.svg()
-                else
-                  selected
-                      ? Assets.icons.check.svg()
-                      : Assets.icons.unchecked.svg(),
-              ],
-            ),
+          padding: AppInsets.kAll12,
+          child: Row(
+            children: [
+              image.image(
+                height: AppSizes.kGeneral24,
+                width: AppSizes.kGeneral32,
+              ),
+              AppBoxes.kWidth12,
+              Text(
+                title,
+                style: context.textStyle.textTypo.tx1Medium,
+              ),
+              const Spacer(),
+              if (addingNewCard)
+                Assets.icons.add.svg(
+                  height: AppSizes.kIconMedium,
+                  width: AppSizes.kIconMedium,
+                )
+              else
+                selected
+                    ? Assets.icons.check.svg(
+                        height: AppSizes.kIconMedium,
+                        width: AppSizes.kIconMedium,
+                      )
+                    : Assets.icons.unchecked.svg(
+                        height: AppSizes.kIconMedium,
+                        width: AppSizes.kIconMedium,
+                      ),
+            ],
           ),
         ),
       ),

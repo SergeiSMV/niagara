@@ -78,6 +78,7 @@ class DateSelectionWidget extends StatelessWidget {
                   DateItemWidget(
                     title: t.equipments.choose,
                     isSelected: selected == DateSelectionItems.select,
+                    showingDatePicker: true,
                     onTap: () {
                       _selectDate(context, DateSelectionItems.select);
                       _openCalendar(context);

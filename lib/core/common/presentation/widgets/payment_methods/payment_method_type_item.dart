@@ -36,7 +36,7 @@ class PaymentMethodTypeItem extends StatelessWidget {
             borderRadius: AppBorders.kCircular8,
             color: isSelected
                 ? context.colors.mainColors.white
-                : Colors.transparent,
+                : context.colors.mainColors.bgCard,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

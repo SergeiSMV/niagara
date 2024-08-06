@@ -14,11 +14,13 @@ class DateItemWidget extends StatelessWidget {
     required this.title,
     required this.isSelected,
     required this.onTap,
+    this.showingDatePicker = false,
   });
 
   final String title;
   final bool isSelected;
   final VoidCallback onTap;
+  final bool showingDatePicker;
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +34,16 @@ class DateItemWidget extends StatelessWidget {
             borderRadius: AppBorders.kCircular8,
             color: isSelected
                 ? context.colors.mainColors.white
-                : Colors.transparent,
+                : context.colors.mainColors.bgCard,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Assets.icons.calendarFill.svg(
-                height: AppSizes.kIconSmall,
-                width: AppSizes.kIconSmall,
-              ),
+              if (showingDatePicker)
+                Assets.icons.calendarFill.svg(
+                  height: AppSizes.kIconSmall,
+                  width: AppSizes.kIconSmall,
+                ),
               AppBoxes.kWidth8,
               Text(
                 title,

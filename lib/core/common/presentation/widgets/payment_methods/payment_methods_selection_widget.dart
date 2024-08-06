@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/payment_method_tile.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/payment_method_type_item.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/payment_methods_list_widget.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
@@ -40,22 +43,32 @@ class _PaymentMethodsSelectionWidgetState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            PaymentMethodTypeItem(
-              title: t.orderPlacing.online,
-              isSelected: _selectedTabIndex == 0,
-              onTap: () => _onPaymentTypeSelected(0),
-              icon: Assets.icons.add,
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.colors.mainColors.bgCard,
+            borderRadius: AppBorders.kCircular12,
+          ),
+          child: Padding(
+            padding: AppInsets.kAll4,
+            child: Row(
+              children: [
+                PaymentMethodTypeItem(
+                  title: t.orderPlacing.online,
+                  isSelected: _selectedTabIndex == 0,
+                  onTap: () => _onPaymentTypeSelected(0),
+                  icon: Assets.icons.cardFill,
+                ),
+                PaymentMethodTypeItem(
+                  title: t.orderPlacing.byCourier,
+                  isSelected: _selectedTabIndex == 1,
+                  onTap: () => _onPaymentTypeSelected(1),
+                  icon: Assets.icons.ruble,
+                ),
+              ],
             ),
-            PaymentMethodTypeItem(
-              title: t.orderPlacing.byCourier,
-              isSelected: _selectedTabIndex == 1,
-              onTap: () => _onPaymentTypeSelected(1),
-              icon: Assets.icons.ruble,
-            ),
-          ],
+          ),
         ),
+        AppBoxes.kHeight12,
         if (_selectedTabIndex == 0)
           PaymentMethodsListWidget(
             children: [

@@ -1,10 +1,20 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
+import 'package:niagara_app/core/dependencies/di.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_prices_widget.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_pay_button.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/delivery_date_widget.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/order_comment_widget.dart';
+import 'package:niagara_app/features/order_placing/presentation/widget/order_recepient_widget.dart';
+import 'package:niagara_app/features/order_placing/presentation/widget/payment_methods_widget.dart';
+import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 
 @RoutePage()
 class OrderPlacingPage extends StatelessWidget {
@@ -15,14 +25,31 @@ class OrderPlacingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBarWidget(),
-          DeliveryAddressWidget(),
-          DeliveryDateWidget(),
-          OrderCommentWidget(),
-        ],
+    return BlocProvider(
+      create: (_) => getIt<UserBloc>(),
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            const SliverAppBarWidget(),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                const OrderRecepientWidget(),
+                const DeliveryAddressWidget(),
+                const DeliveryDateWidget(),
+                const OrderPaymentMethodWidget(),
+                const OrderCommentWidget(),
+                CartDataPricesWidget(cart: cart),
+                AppBoxes.kHeight16,
+              ]),
+            ),
+          ],
+        ),
+        bottomNavigationBar: PayButton(
+          cart: cart,
+          text: t.orderPlacing.pay,
+          // TODO: change that
+          redirectRoute: OrderResultRoute(isSuccessful: false),
+        ),
       ),
     );
   }
