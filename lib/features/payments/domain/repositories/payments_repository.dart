@@ -33,6 +33,13 @@ abstract interface class IPaymentsRepository {
     required String subtitle,
   });
 
+  /// Запрашивает ссылку на окно с подтверждением платежа для выбранного метода
+  /// оплаты по соответствующим этому платежу [orderId] и [paymentToken].
+  Future<Either<Failure, String>> getConfirmationUrl({
+    required String orderId,
+    required String paymentToken,
+  });
+
   /// Открывает модальное окно с формой подтверждения платежа.
   ///
   /// Ничего не возвращает, для получения статуса платежа необходимо

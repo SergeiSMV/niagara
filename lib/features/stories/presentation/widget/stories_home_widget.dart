@@ -50,9 +50,7 @@ class StoriesHomeWidget extends StatelessWidget {
                         child: StoryPreviewWidget(
                           title: story.title,
                           seen: story.open,
-                          // TODO: Костыль, т.к. сейчас в тестовых данных там
-                          // ошибка.
-                          imageUrl: index != 0 ? story.image : null,
+                          imageUrl: story.image,
                         ),
                       );
                     },

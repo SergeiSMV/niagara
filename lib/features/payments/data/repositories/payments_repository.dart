@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/payment_statuses.dart';
+import 'package:niagara_app/features/payments/data/remote/data_sources/payments_remote_data_source.dart';
 import 'package:niagara_app/features/payments/domain/repositories/payments_repository.dart';
 import 'package:yookassa_payments_flutter/yookassa_payments_flutter.dart';
 
@@ -10,7 +11,10 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
   PaymentsRepository(
     super._logger,
     super._networkInfo,
+    this._paymentsRDS,
   );
+
+  final PaymentsRemoteDataSource _paymentsRDS;
 
   @override
   Failure get failure => const PaymentsRepositoryFailure();
@@ -58,27 +62,48 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
       });
 
   @override
+  Future<Either<Failure, String>> getConfirmationUrl({
+    required String orderId,
+    required String paymentToken,
+  }) =>
+      execute(
+        () => _paymentsRDS
+            .getConfirmationUrl(
+              orderId: orderId,
+              paymentToken: paymentToken,
+            )
+            .fold(
+              (failure) => throw failure,
+              (url) => url,
+            ),
+      );
+
+  @override
   Future<Either<Failure, void>> startConfirmation({
     required String confirmationUrl,
     required String clientApplicationKey,
     required String shopId,
     required PaymentMethod paymentMethod,
-  }) => execute(() async {
+  }) =>
+      execute(() async {
         await YookassaPaymentsFlutter.confirmation(
           confirmationUrl,
           paymentMethod,
           clientApplicationKey,
           shopId,
         );
-  });
+      });
 
   @override
   Future<Either<Failure, PaymentStatus>> getPaymentStatus({
     required String orderId,
-  }) {
-    // TODO: implement getPaymentStatus
-    throw UnimplementedError();
-  }
+  }) =>
+      execute(
+        () => _paymentsRDS.getPaymentStatus(orderId: orderId).fold(
+              (failure) => throw failure,
+              (status) => status,
+            ),
+      );
 }
 
 class MockPaymentsRepository {

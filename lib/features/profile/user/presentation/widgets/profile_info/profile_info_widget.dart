@@ -77,10 +77,18 @@ class ProfileInfoWidget extends StatelessWidget {
                 ProfileActionTile(
                   leadingIcon: Assets.icons.mapPoint,
                   title: t.profile.profileInfo.deliveryAddresses,
+                  // onTap: () => PaymentsRepository().confirmPayment(
+                  //   'confirmPayment',
+                  //   null,
+                  // ),
                 ),
                 ProfileActionTile(
                   leadingIcon: Assets.icons.card,
                   title: t.profile.profileInfo.paymentMethods,
+                  // onTap: () {
+                  //   final repo = PaymentsRepository();
+                  //   repo.startTokenaztion();
+                  // },
                 ),
               ],
             ),
