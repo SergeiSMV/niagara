@@ -178,7 +178,13 @@ abstract final class ApiConst {
 
   // ? --------------------------- Equipment ------------------------------ ? //
   /// -GET- Запрос на получение списка оборудований
-  static const String kGetDevices = '/devices';
+  static const String kGetEquipments = '/devices';
+
+  /// -GET- Запрос на получение двух ближайших дат заказа чистки оборудования
+  static const String kGetNearestEquipmentCleaningDate = '/service_date';
+
+  /// -GET- Запрос на получение списка слотов времени заказа чистки оборудования
+  static const String kGetTimeSlotsForCleaningEquipment = '/time_service';
 
   // ? ----------------------- Policies -------------------------- ? //
   /// -GET- Запрос на получение информации о приложении (политика

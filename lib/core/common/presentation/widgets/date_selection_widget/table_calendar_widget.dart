@@ -33,6 +33,8 @@ class TableCalendarWidget extends StatelessWidget {
         value: [value],
         onValueChanged: onValueChanged,
         config: CalendarDatePicker2Config(
+          firstDate: DateTime(2024, 8, 1), // Начальная дата диапазона
+          lastDate: DateTime(2024, 8, 10), // Конечная дата диапазона
           calendarViewMode: CalendarDatePicker2Mode.day,
           selectedDayHighlightColor: colors.mainColors.bgCard,
           disableModePicker: true,

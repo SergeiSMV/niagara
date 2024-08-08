@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:niagara_app/core/common/presentation/bloc/date_selection_cubit/date_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/date_item_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/table_calendar_widget.dart';
@@ -16,10 +17,14 @@ class DateSelectionWidget extends StatelessWidget {
     super.key,
     required this.firstDate,
     required this.secondDate,
+    required this.onValueChanged,
+    this.calendarValue,
   });
 
-  final String firstDate;
-  final String secondDate;
+  final DateTime firstDate;
+  final DateTime secondDate;
+  final Function(DateTime) onValueChanged;
+  final DateTime? calendarValue;
 
   void _selectDate(BuildContext context, DateSelectionItems item) =>
       context.read<DateSelectionCubit>().selectDate(item);
@@ -32,14 +37,33 @@ class DateSelectionWidget extends StatelessWidget {
           insetPadding: EdgeInsets.zero,
           backgroundColor: Colors.transparent,
           child: TableCalendarWidget(
-            value: DateTime.now(),
-            onValueChanged: (time) {
+            value: calendarValue ?? DateTime.now(),
+            onValueChanged: (date) {
+              onValueChanged(date.first);
               Navigator.pop(context);
             },
           ),
         );
       },
     );
+  }
+
+  String _getDateText(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final tomorrow = today.add(const Duration(days: 1));
+
+    if (date.year == today.year &&
+        date.month == today.month &&
+        date.day == today.day) {
+      return t.equipments.today;
+    } else if (date.year == tomorrow.year &&
+        date.month == tomorrow.month &&
+        date.day == tomorrow.day) {
+      return t.equipments.tomorrow;
+    } else {
+      return DateFormat('MM.dd.').format(date);
+    }
   }
 
   @override
@@ -64,22 +88,30 @@ class DateSelectionWidget extends StatelessWidget {
               return Row(
                 children: [
                   DateItemWidget(
-                    title: firstDate,
+                    title: _getDateText(firstDate),
                     isSelected: selected == DateSelectionItems.firstDate,
-                    onTap: () =>
-                        _selectDate(context, DateSelectionItems.firstDate),
+                    onTap: () {
+                      onValueChanged(firstDate);
+                      _selectDate(context, DateSelectionItems.firstDate);
+                    },
                   ),
                   DateItemWidget(
-                    title: secondDate,
+                    title: _getDateText(secondDate),
                     isSelected: selected == DateSelectionItems.secondDate,
-                    onTap: () =>
-                        _selectDate(context, DateSelectionItems.secondDate),
+                    onTap: () {
+                      onValueChanged(secondDate);
+                      _selectDate(context, DateSelectionItems.secondDate);
+                    },
                   ),
                   DateItemWidget(
-                    title: t.equipments.choose,
+                    title: calendarValue != null
+                        ? _getDateText(calendarValue!)
+                        : t.equipments.choose,
                     isSelected: selected == DateSelectionItems.select,
                     onTap: () {
-                      _selectDate(context, DateSelectionItems.select);
+                      if (calendarValue != null) {
+                        _selectDate(context, DateSelectionItems.select);
+                      }
                       _openCalendar(context);
                     },
                   ),

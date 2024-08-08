@@ -1,3 +1,5 @@
+import 'package:niagara_app/core/common/data/mappers/time_slot_mappers.dart';
+import 'package:niagara_app/core/common/domain/models/time_slot.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/equipment/data/mappers/equipment_mapper.dart';
 import 'package:niagara_app/features/equipment/data/remote/data_source/equipment_remote_data_source.dart';
@@ -24,6 +26,35 @@ class EquipmentsRepositories extends BaseRepository
               (failure) => throw failure,
               (equipmentDtos) =>
                   equipmentDtos.map((dto) => dto.toModel()).toList(),
+            ),
+      );
+
+  @override
+  Future<Either<Failure, List<DateTime>>> getEquipmentCleaningDate({
+    required String locationId,
+  }) =>
+      execute(
+        () async => await _equipmentsRDS
+            .getEquipmentCleaningDate(locationId: locationId)
+            .fold(
+              (failure) => throw failure,
+              (dates) => dates,
+            ),
+      );
+
+  @override
+  Future<Either<Failure, List<TimeSlot>>> getTimeSlotsForCleaningEquipment({
+    required String locationId,
+    required String date,
+  }) =>
+      execute(
+        () async => await _equipmentsRDS
+            .getTimeSlotsForCleaningEquipment(
+                locationId: locationId, date: date)
+            .fold(
+              (failure) => throw failure,
+              (timeSlotDtos) =>
+                  timeSlotDtos.map((dto) => dto.toModel()).toList(),
             ),
       );
 }
