@@ -30,12 +30,12 @@ class EquipmentsRepositories extends BaseRepository
       );
 
   @override
-  Future<Either<Failure, List<DateTime>>> getEquipmentCleaningDate({
+  Future<Either<Failure, List<DateTime>>> getAvailableCleaningDates({
     required String locationId,
   }) =>
       execute(
         () async => await _equipmentsRDS
-            .getEquipmentCleaningDate(locationId: locationId)
+            .getAvailableCleaningDates(locationId: locationId)
             .fold(
               (failure) => throw failure,
               (dates) => dates,
@@ -43,18 +43,42 @@ class EquipmentsRepositories extends BaseRepository
       );
 
   @override
-  Future<Either<Failure, List<TimeSlot>>> getTimeSlotsForCleaningEquipment({
+  Future<Either<Failure, List<TimeSlot>>> getTimeSlotsForCleaning({
     required String locationId,
-    required String date,
+    required DateTime date,
   }) =>
       execute(
         () async => await _equipmentsRDS
-            .getTimeSlotsForCleaningEquipment(
-                locationId: locationId, date: date)
+            .getTimeSlotsForCleaning(locationId: locationId, date: date)
             .fold(
               (failure) => throw failure,
               (timeSlotDtos) =>
                   timeSlotDtos.map((dto) => dto.toModel()).toList(),
+            ),
+      );
+
+  @override
+  Future<Either<Failure, bool>> orderCleaning({
+    required String date,
+    required String locationId,
+    required int deviceId,
+    required String timeBegin,
+    required String timeEnd,
+    required String comment,
+  }) =>
+      execute(
+        () async => await _equipmentsRDS
+            .orderCleaning(
+              date: date,
+              locationId: locationId,
+              deviceId: deviceId,
+              timeBegin: timeBegin,
+              timeEnd: timeEnd,
+              comment: comment,
+            )
+            .fold(
+              (failure) => throw failure,
+              (success) => success,
             ),
       );
 }

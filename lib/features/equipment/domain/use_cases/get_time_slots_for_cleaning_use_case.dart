@@ -3,9 +3,9 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/equipment/domain/repositories/equipments_repository.dart';
 
 @injectable
-class GetTimeSlotsForCleaningEquipmentUseCase
+class GetTimeSlotsForCleaningUseCase
     extends BaseUseCase<List<TimeSlot>, DeliveryTimeSlotsParams> {
-  const GetTimeSlotsForCleaningEquipmentUseCase(this._equipmentsRepository);
+  const GetTimeSlotsForCleaningUseCase(this._equipmentsRepository);
 
   final IEquipmentsRepository _equipmentsRepository;
 
@@ -13,7 +13,7 @@ class GetTimeSlotsForCleaningEquipmentUseCase
   Future<Either<Failure, List<TimeSlot>>> call(
     DeliveryTimeSlotsParams params,
   ) async =>
-      _equipmentsRepository.getTimeSlotsForCleaningEquipment(
+      _equipmentsRepository.getTimeSlotsForCleaning(
         locationId: params.locationId,
         date: params.date,
       );
@@ -25,7 +25,7 @@ class DeliveryTimeSlotsParams extends Equatable {
     required this.date,
   });
   final String locationId;
-  final String date;
+  final DateTime date;
 
   @override
   List<Object?> get props => [

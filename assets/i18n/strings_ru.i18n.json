@@ -15,7 +15,8 @@
     "noInternetConnection": "Нет интернета",
     "checkYourNetwork": "Проверьте доступ к сети и обновите страницу",
     "makeOrderByPhone": "Сделайте заказ по телефону",
-    "apply": "Применить"
+    "apply": "Применить",
+    "calendarWeekdays": ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
   },
   "routes": {
     "home": "Главная",
@@ -438,6 +439,7 @@
       "other": "$n дней"
     },
     "today": "Сегодня",
-    "tomorrow": "Завтра"
+    "tomorrow": "Завтра",
+    "anErrorHasOccurred": "Произошла ошибка"
   }
 }

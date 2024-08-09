@@ -49,9 +49,6 @@ abstract final class AppConstants {
   // * ------------------------------ Slides ------------------------------ * //
   static const double slideExtentRatio = 0.2;
 
-  // * ----------------------------- Animated ----------------------------- * //
-  static const Duration kSelectDateItemDuration = Duration(milliseconds: 300);
-
   // * ------------------------------ Dates ----------------------------- * //
   static const int kStandardDate = 2;
 }

@@ -8,7 +8,7 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/equipment/presentation/bloc/bloc/equipments_bloc.dart';
+import 'package:niagara_app/features/equipment/presentation/bloc/equipments_bloc/equipments_bloc.dart';
 
 /// Уведомляющий баннер оборудования на экране с оборудованием
 class RawEquipmentNotificationWidget extends StatelessWidget {

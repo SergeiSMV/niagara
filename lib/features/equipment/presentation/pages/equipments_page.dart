@@ -6,7 +6,7 @@ import 'package:niagara_app/core/common/presentation/widgets/errors/error_refres
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/features/equipment/presentation/bloc/bloc/equipments_bloc.dart';
+import 'package:niagara_app/features/equipment/presentation/bloc/equipments_bloc/equipments_bloc.dart';
 import 'package:niagara_app/features/equipment/presentation/widgets/equipment_item_widgets/equipment_item_widget.dart';
 import 'package:niagara_app/features/equipment/presentation/widgets/raw_equipment_notification_widget.dart';
 
@@ -20,6 +20,8 @@ class EquipmentsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _onRefresh(context);
+
     return Scaffold(
       body: BlocBuilder<EquipmentsBloc, EquipmentsState>(
         builder: (context, state) {
