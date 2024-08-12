@@ -125,8 +125,13 @@ class MockPaymentsRepository {
       savePaymentMethod: SavePaymentMethod.on,
       isLoggingEnabled: true,
       shopId: shopId,
+      applicationScheme: 'cordova://',
       tokenizationSettings: const TokenizationSettings(
-        PaymentMethodTypes.bankCard,
+        PaymentMethodTypes([
+          PaymentMethod.sbp,
+          PaymentMethod.bankCard,
+          PaymentMethod.sberbank,
+        ]),
       ),
     );
 
