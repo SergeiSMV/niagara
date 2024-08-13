@@ -1,43 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/bloc/payment_method_selection_cubit/payment_method_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/payment_method_tile.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/payment_method_type_item.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/payment_methods_list_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
-class PaymentMethodsSelectionWidget extends StatefulWidget {
+class PaymentMethodsSelectionWidget extends StatelessWidget {
   const PaymentMethodsSelectionWidget({super.key});
 
-  @override
-  State<PaymentMethodsSelectionWidget> createState() =>
-      _PaymentMethodsSelectionWidgetState();
-}
+  void _onPaymentTypeSelected(
+    BuildContext context,
+    PaymentMethodType type,
+  ) =>
+      context.read<PaymentMethodSelectionCubit>().selectPaymentMethodType(type);
 
-class _PaymentMethodsSelectionWidgetState
-    extends State<PaymentMethodsSelectionWidget> {
-  /// Индекс выбранной вкладки.
-  ///
-  /// `0` - оплата онлайн, `1` - оплата наличными.
-  int _selectedTabIndex = 0;
-
-  /// Индекс выбранного элемента.
-  int? _selectedIndex;
-
-  void _onPaymentTypeSelected(int index) {
-    setState(() {
-      _selectedTabIndex = index;
-    });
-  }
-
-  void _onPaymentMethodSelected(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  void _onOnlinePaymentSelected(
+    BuildContext context,
+    OnlinePaymentMethod method,
+  ) =>
+      context
+          .read<PaymentMethodSelectionCubit>()
+          .selectOnlinePaymentMethod(method);
 
   @override
   Widget build(BuildContext context) {
@@ -50,54 +40,68 @@ class _PaymentMethodsSelectionWidgetState
           ),
           child: Padding(
             padding: AppInsets.kAll4,
-            child: Row(
-              children: [
-                PaymentMethodTypeItem(
-                  title: t.orderPlacing.online,
-                  isSelected: _selectedTabIndex == 0,
-                  onTap: () => _onPaymentTypeSelected(0),
-                  icon: Assets.icons.cardFill,
-                ),
-                PaymentMethodTypeItem(
-                  title: t.orderPlacing.byCourier,
-                  isSelected: _selectedTabIndex == 1,
-                  onTap: () => _onPaymentTypeSelected(1),
-                  icon: Assets.icons.ruble,
-                ),
-              ],
+            child: BlocBuilder<PaymentMethodSelectionCubit,
+                PaymentMethodSelectionState>(
+              builder: (_, state) => Row(
+                children: [
+                  PaymentMethodTypeItem(
+                    title: t.orderPlacing.online,
+                    selected: state.isOnline,
+                    onTap: () => _onPaymentTypeSelected(
+                      context,
+                      PaymentMethodType.online,
+                    ),
+                    icon: Assets.icons.cardFill,
+                  ),
+                  PaymentMethodTypeItem(
+                    title: t.orderPlacing.byCourier,
+                    selected: !state.isOnline,
+                    onTap: () => _onPaymentTypeSelected(
+                      context,
+                      PaymentMethodType.courier,
+                    ),
+                    icon: Assets.icons.ruble,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
         AppBoxes.kHeight12,
-        if (_selectedTabIndex == 0)
-          PaymentMethodsListWidget(
-            children: [
-              PaymentMethodTile(
-                image: Assets.images.sbp,
-                title: t.paymentMethods.sbp,
-                selected: _selectedIndex == 0,
-                onTap: () => _onPaymentMethodSelected(0),
-              ),
-              PaymentMethodTile(
-                image: Assets.images.mir,
-                title: t.paymentMethods.mir(lastDigits: '1760'),
-                selected: _selectedIndex == 1,
-                onTap: () => _onPaymentMethodSelected(1),
-              ),
-              PaymentMethodTile(
-                image: Assets.images.sberPay,
-                title: t.paymentMethods.sberPay,
-                selected: _selectedIndex == 2,
-                onTap: () => _onPaymentMethodSelected(2),
-              ),
-              PaymentMethodTile.addNewCard(onTap: () {}),
-            ],
-          )
-        else
-          Text(
-            t.orderPlacing.paymentMethodDescription,
-            style: context.textStyle.textTypo.tx2Medium,
+        BlocBuilder<PaymentMethodSelectionCubit, PaymentMethodSelectionState>(
+          builder: (_, state) => state.maybeWhen(
+            courier: (_) => Text(
+              t.orderPlacing.paymentMethodDescription,
+              style: context.textStyle.textTypo.tx2Medium,
+            ),
+            online: (method) => PaymentMethodsListWidget(
+              children: [
+                PaymentMethodTile.sbp(
+                  selected: method == OnlinePaymentMethod.sbp,
+                  onTap: () => _onOnlinePaymentSelected(
+                    context,
+                    OnlinePaymentMethod.sbp,
+                  ),
+                ),
+                PaymentMethodTile.bankCard(
+                  selected: method == OnlinePaymentMethod.bankCard,
+                  onTap: () => _onOnlinePaymentSelected(
+                    context,
+                    OnlinePaymentMethod.bankCard,
+                  ),
+                ),
+                PaymentMethodTile.sberPay(
+                  selected: method == OnlinePaymentMethod.sberPay,
+                  onTap: () => _onOnlinePaymentSelected(
+                    context,
+                    OnlinePaymentMethod.sberPay,
+                  ),
+                ),
+              ],
+            ),
+            orElse: () => const SizedBox.shrink(),
           ),
+        ),
       ],
     );
   }

@@ -12,13 +12,13 @@ class PaymentMethodTypeItem extends StatelessWidget {
   const PaymentMethodTypeItem({
     super.key,
     required this.title,
-    required this.isSelected,
+    required this.selected,
     required this.onTap,
     required this.icon,
   });
 
   final String title;
-  final bool isSelected;
+  final bool selected;
   final VoidCallback onTap;
   final SvgGenImage icon;
 
@@ -34,7 +34,7 @@ class PaymentMethodTypeItem extends StatelessWidget {
           padding: AppInsets.kVertical10,
           decoration: BoxDecoration(
             borderRadius: AppBorders.kCircular8,
-            color: isSelected
+            color: selected
                 ? context.colors.mainColors.white
                 : context.colors.mainColors.bgCard,
           ),
@@ -44,7 +44,7 @@ class PaymentMethodTypeItem extends StatelessWidget {
               icon.svg(
                 height: AppSizes.kIconSmall,
                 width: AppSizes.kIconSmall,
-                colorFilter: isSelected
+                colorFilter: selected
                     ? null
                     : ColorFilter.mode(unselectedColor, BlendMode.srcIn),
               ),

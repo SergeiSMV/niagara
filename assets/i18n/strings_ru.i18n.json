@@ -478,9 +478,8 @@
     }
   },
   "paymentMethods": {
-    "addCard": "Добавить карту",
+    "bankCard": "Банковской картой",
     "sbp": "Оплата через СБП",
-    "mir": "MIR **${lastDigits}",
     "sberPay": "SberPay"
   }
 }

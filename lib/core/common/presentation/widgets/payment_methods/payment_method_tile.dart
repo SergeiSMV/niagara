@@ -15,14 +15,28 @@ class PaymentMethodTile extends StatelessWidget {
     required this.title,
     required this.selected,
     required this.onTap,
-  }) : addingNewCard = false;
+  });
 
-  /// Добавление новой карты.
-  PaymentMethodTile.addNewCard({required this.onTap})
-      : image = Assets.images.newCard,
-        title = t.paymentMethods.addCard,
-        selected = false,
-        addingNewCard = true;
+  /// Создаёт виджет для оплаты банковской картой.
+  PaymentMethodTile.bankCard({
+    required this.onTap,
+    required this.selected,
+  })  : image = Assets.images.newCard,
+        title = t.paymentMethods.bankCard;
+
+  /// Создаёт виджет для оплаты через СБП.
+  PaymentMethodTile.sbp({
+    required this.onTap,
+    required this.selected,
+  })  : image = Assets.images.sbp,
+        title = t.paymentMethods.sbp;
+
+  /// Создаёт виджет для оплаты черезе SberPay.
+  PaymentMethodTile.sberPay({
+    required this.onTap,
+    required this.selected,
+  })  : image = Assets.images.sberPay,
+        title = t.paymentMethods.sberPay;
 
   /// Иконка метода оплаты.
   final AssetGenImage image;
@@ -32,9 +46,6 @@ class PaymentMethodTile extends StatelessWidget {
 
   /// Индикатор, выбран ли этот метод оплаты.
   final bool selected;
-
-  /// Индикатор, добавляется ли новая карта.
-  final bool addingNewCard;
 
   /// Коллбек, отрабатывающий при нажатии.
   final VoidCallback onTap;
@@ -62,21 +73,16 @@ class PaymentMethodTile extends StatelessWidget {
                 style: context.textStyle.textTypo.tx1Medium,
               ),
               const Spacer(),
-              if (addingNewCard)
-                Assets.icons.add.svg(
+              if (selected)
+                Assets.icons.check.svg(
                   height: AppSizes.kIconMedium,
                   width: AppSizes.kIconMedium,
                 )
               else
-                selected
-                    ? Assets.icons.check.svg(
-                        height: AppSizes.kIconMedium,
-                        width: AppSizes.kIconMedium,
-                      )
-                    : Assets.icons.unchecked.svg(
-                        height: AppSizes.kIconMedium,
-                        width: AppSizes.kIconMedium,
-                      ),
+                Assets.icons.unchecked.svg(
+                  height: AppSizes.kIconMedium,
+                  width: AppSizes.kIconMedium,
+                ),
             ],
           ),
         ),
