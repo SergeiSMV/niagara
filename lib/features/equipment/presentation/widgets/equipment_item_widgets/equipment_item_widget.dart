@@ -9,27 +9,28 @@ import 'package:niagara_app/core/utils/enums/cleaning_statuses.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/equipment/domain/model/equipment.dart';
 import 'package:niagara_app/features/equipment/presentation/widgets/cleaning_status_widget.dart';
 import 'package:niagara_app/features/equipment/presentation/widgets/equipment_item_widgets/equipment_item_content_widget.dart';
 
 class EquipmentItemWidget extends StatelessWidget {
   const EquipmentItemWidget({
     super.key,
-    required this.status,
+    required this.equipment,
   });
 
-  final CleaningStatuses status;
+  final Equipment equipment;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (status == CleaningStatuses.no) const _HeadingWidget(),
+        if (equipment.status == CleaningStatuses.no)
+          _HeadingWidget(address: equipment.locationName),
         _TitleWidget(
-          status: status,
-          content: EquipmentItemContentWidget(
-            status: status,
-          ),
+          status: equipment.status,
+          imageUrl: equipment.imageUrl,
+          content: EquipmentItemContentWidget(equipment: equipment),
         ),
       ],
     );
@@ -38,7 +39,11 @@ class EquipmentItemWidget extends StatelessWidget {
 
 /// Виджет с адресом
 class _HeadingWidget extends StatelessWidget {
-  const _HeadingWidget();
+  const _HeadingWidget({
+    required this.address,
+  });
+
+  final String address;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,7 @@ class _HeadingWidget extends StatelessWidget {
         ),
         AppBoxes.kHeight8,
         Text(
-          'улица имени Виктора Нарыкова, д. 50, кв. 23',
+          address,
           style: context.textStyle.textTypo.tx2Medium
               .withColor(context.colors.textColors.main),
         ),
@@ -67,10 +72,12 @@ class _TitleWidget extends StatelessWidget {
   const _TitleWidget({
     required this.status,
     required this.content,
+    required this.imageUrl,
   });
 
   final CleaningStatuses status;
   final Widget content;
+  final String imageUrl;
 
   Color _backgroundItemColor(BuildContext context) => switch (status) {
         CleaningStatuses.no => context.colors.infoColors.bgBlue,
@@ -102,7 +109,7 @@ class _TitleWidget extends StatelessWidget {
                         color: context.colors.mainColors.white,
                       ),
                       child: ExtendedImage.network(
-                        '',
+                        imageUrl,
                         height: AppSizes.kImageSize84,
                         width: AppSizes.kImageSize84,
                         fit: BoxFit.fitHeight,

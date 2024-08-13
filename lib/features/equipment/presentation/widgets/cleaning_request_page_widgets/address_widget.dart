@@ -6,7 +6,11 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 class AddressWidget extends StatelessWidget {
-  const AddressWidget({super.key});
+  const AddressWidget({
+    super.key,
+    required this.address,
+  });
+  final String address;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class AddressWidget extends StatelessWidget {
             ),
             AppBoxes.kHeight8,
             Text(
-              'улица имени Виктора Нарыкова, д. 50, кв. 23',
+              address,
               style: context.textStyle.textTypo.tx2Medium
                   .withColor(context.colors.textColors.main),
             ),

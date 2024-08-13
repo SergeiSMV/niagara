@@ -2,7 +2,7 @@ part of 'cart_bloc.dart';
 
 @freezed
 class CartEvent with _$CartEvent {
-  const factory CartEvent.getCart() = _GetCart;
+  const factory CartEvent.getCart({String? promoCode}) = _GetCart;
 
   const factory CartEvent.addToCart({
     required Product product,
@@ -20,10 +20,6 @@ class CartEvent with _$CartEvent {
   const factory CartEvent.setReturnTareCount({
     required int count,
   }) = _SetReturnTareCount;
-
-  const factory CartEvent.setPromocode({
-    required String promocode,
-  }) = _SetPromocode;
 
   const factory CartEvent.setBonusesToPay({
     required int bonuses,

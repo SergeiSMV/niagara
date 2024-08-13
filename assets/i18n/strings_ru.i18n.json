@@ -15,7 +15,16 @@
     "noInternetConnection": "Нет интернета",
     "checkYourNetwork": "Проверьте доступ к сети и обновите страницу",
     "makeOrderByPhone": "Сделайте заказ по телефону",
-    "apply": "Применить"
+    "apply": "Применить",
+    "calendarWeekdays": [
+      "Вс",
+      "Пн",
+      "Вт",
+      "Ср",
+      "Чт",
+      "Пт",
+      "Сб"
+    ]
   },
   "routes": {
     "home": "Главная",
@@ -431,7 +440,15 @@
     "choose": "Выбрать",
     "applicationAccepted": "Заявка принята",
     "expectCallFromManager": " Ожидайте звонок менеджера",
-    "goBackToProfile": "Вернуться в профиль"
+    "goBackToProfile": "Вернуться в профиль",
+    "dayCount": {
+      "one": "$n день",
+      "few": "$n дня",
+      "other": "$n дней"
+    },
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "anErrorHasOccurred": "Произошла ошибка"
   },
   "orderPlacing": {
     "orderPlacing": "Оформление заказа",

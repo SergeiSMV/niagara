@@ -338,3 +338,17 @@ class PolicieslRemoteDataFailure extends Failure {
     super.error = 'Policies remote data failure',
   ]);
 }
+
+// ! ------------------------------ Equipments ---------------------------- ! //
+
+class EquipmentsRepositoryFailure extends Failure {
+  const EquipmentsRepositoryFailure([
+    super.error = 'Equipments repo failure',
+  ]);
+}
+
+class EquipmentsRemoteDataFailure extends Failure {
+  const EquipmentsRemoteDataFailure([
+    super.error = 'Equipments remote data failure',
+  ]);
+}

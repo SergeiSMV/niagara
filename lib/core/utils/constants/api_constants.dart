@@ -2,7 +2,7 @@ part of '../../core.dart';
 
 /// Константы для API
 abstract final class ApiConst {
-  // ? ----------------------------- General ----------------------------- ? //
+  // ? ----------------------------- General ------------------------------ ? //
   static const String kBaseUrl = 'API_HOST';
 
   static const String kLogin = 'API_LOGIN';
@@ -11,14 +11,14 @@ abstract final class ApiConst {
 
   static const String kYandexGeo = 'YANDEX_GEO';
 
-  // ? ------------------------------ Token ------------------------------ ? //
+  // ? ------------------------------ Token ------------------------------- ? //
   /// -POST- Запрос на получение токена
   static const String kGetToken = '/get_token_session';
 
   /// -GET- Запрос на проверку токена
   static const String kCheckToken = '/check_token_session';
 
-  // ? ------------------------------ Auth ------------------------------- ? //
+  // ? ------------------------------ Auth -------------------------------- ? //
   /// -POST- Запрос на создание кода для авторизации
   static const String kCreateCode = '/code_confirm_create';
 
@@ -141,6 +141,9 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение рекомендаций
   static const String kGetRecommendedProducts = '/cart_recommend';
 
+  /// -POST- Запрос на применение промокода
+  static const String kApplyPromoCode = '/poromocode_check';
+
   // ? -------------------------- New products ---------------------------- ? //
   /// -GET- Запрос на получение товаров "специально для вас".
   static const String kGetNewProducts = '/products_new';
@@ -149,7 +152,7 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение новых товаров.
   static const String kGetSpeialProducts = '/products_special';
 
-  // ? ----------------------- Stories -------------------------- ? //
+  // ? ---------------------------- Stories ------------------------------- ? //
   /// -GET- Запрос на получение списка сториз.
   static const String kGetStories = '/stories';
 
@@ -166,12 +169,25 @@ abstract final class ApiConst {
   /// -POST- Запрос на оценку заказа
   static const String kEvaluateOrder = '/order_rating';
 
-  // ? ----------------------- Referral -------------------------- ? //
+  // ? --------------------------- Referral ------------------------------- ? //
   /// -GET- Запрос на получение описания реферальной программы
   static const String kReferralInfo = '/referal_info';
 
   /// -GET- Запрос на получение истории приглашений
   static const String kReferralHistory = '/referal_history';
+
+  // ? --------------------------- Equipment ------------------------------ ? //
+  /// -GET- Запрос на получение списка оборудований
+  static const String kGetEquipments = '/devices';
+
+  /// -GET- Запрос на получение доступных дат для заказа чистки оборудования
+  static const String kGetCleaningDateRange = '/service_date';
+
+  /// -GET- Запрос на получение списка слотов времени заказа чистки оборудования
+  static const String kGetTimeSlotsForCleaning = '/time_service';
+
+  /// -POST- Запрос на заказ чистки оборудования
+  static const String kOrderCleaning = '/orders_servise';
 
   // ? ----------------------- Policies -------------------------- ? //
   /// -GET- Запрос на получение информации о приложении (политика

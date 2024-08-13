@@ -6,16 +6,44 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
+/// Виджет кастомного календаря
 class TableCalendarWidget extends StatelessWidget {
   const TableCalendarWidget({
     super.key,
+    required this.selectableDates,
     required this.onValueChanged,
-    required this.value,
+    required this.selectedDate,
   });
 
+  /// [selectableDates] - диапазон дат, которые можно выбрать
+  final List<DateTime> selectableDates;
+
+  /// [onValueChanged] - функция выбора даты, возвращает список [DateTime]
   final Function(List<DateTime>)? onValueChanged;
-  final DateTime? value;
+
+  /// [selectedDate] - текущая выбранная дата
+  final DateTime? selectedDate;
+
+  /// [_firstDate] - первый выбираемый день
+  DateTime? get _firstDate =>
+      selectableDates.isNotEmpty ? selectableDates.first : null;
+
+  /// [_lastDate] - последний выбираемый день
+  DateTime? get _lastDate =>
+      selectableDates.length > 1 ? selectableDates.last : null;
+
+  /// [_selectableDayPredicate] - функция, обеспечивающая полный контроль над тем,
+  /// какие даты в календаре могут быть выбраны.
+  bool _selectableDayPredicate(DateTime day) {
+    return selectableDates.any(
+      (date) =>
+          date.year == day.year &&
+          date.month == day.month &&
+          date.day == day.day,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +58,12 @@ class TableCalendarWidget extends StatelessWidget {
         color: context.colors.mainColors.white,
       ),
       child: CalendarDatePicker2(
-        value: [value],
+        value: [selectedDate],
         onValueChanged: onValueChanged,
         config: CalendarDatePicker2Config(
+          firstDate: _firstDate,
+          lastDate: _lastDate,
+          selectableDayPredicate: _selectableDayPredicate,
           calendarViewMode: CalendarDatePicker2Mode.day,
           selectedDayHighlightColor: colors.mainColors.bgCard,
           disableModePicker: true,
@@ -49,6 +80,7 @@ class TableCalendarWidget extends StatelessWidget {
             height: AppSizes.kIconLarge,
             width: AppSizes.kIconLarge,
           ),
+          weekdayLabels: t.common.calendarWeekdays,
           weekdayLabelTextStyle:
               textStyle.captionTypo.c1.withColor(colors.textColors.secondary),
           controlsTextStyle:

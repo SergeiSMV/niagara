@@ -32,7 +32,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_RemoveFromCart>(_onRemoveFromCart);
     on<_RemoveAllFromCart>(_onRemoveAllFromCart);
     on<_SetReturnTareCount>(_onSetReturnTareCount);
-    on<_SetPromocode>(_onSetPromocode);
     on<_SetBonusesToPay>(_onSetBonusesToPay);
 
     add(const _GetCart());
@@ -47,7 +46,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   bool _returnAllTare = false;
   int _returnTareCount = 0;
-  String _promocode = '';
   int _bonusesToPay = 0;
 
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
@@ -65,7 +63,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       GetCartParams(
         locationId: locationId,
         bonuses: _bonusesToPay,
-        promocode: _promocode,
+        promocode: event.promoCode ?? '',
         tareCount: _returnTareCount,
         allTare: _returnAllTare,
       ),
@@ -133,13 +131,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _Emit emit,
   ) {
     _returnTareCount = event.count;
-  }
-
-  void _onSetPromocode(
-    _SetPromocode event,
-    _Emit emit,
-  ) {
-    _promocode = event.promocode;
   }
 
   void _onSetBonusesToPay(

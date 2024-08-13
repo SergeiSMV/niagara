@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:niagara_app/core/common/presentation/bloc/date_selection_cubit/date_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/date_item_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/table_calendar_widget.dart';
@@ -14,16 +15,33 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 class DateSelectionWidget extends StatelessWidget {
   const DateSelectionWidget({
     super.key,
-    required this.firstDate,
-    required this.secondDate,
+    required this.selectableDates,
+    required this.onValueChanged,
+    this.selectedDate,
   });
 
-  final String firstDate;
-  final String secondDate;
+  /// [selectableDates] - диапазон дат, которые можно выбрать
+  final List<DateTime> selectableDates;
 
+  /// [_firstDate] - первая ближайшая дата
+  DateTime? get _firstDate =>
+      selectableDates.isNotEmpty ? selectableDates.first : null;
+
+  /// [_secondDate] - вторая ближайшая дата
+  DateTime? get _secondDate =>
+      selectableDates.length > 1 ? selectableDates.last : null;
+
+  /// [onValueChanged] - функция изменения даты, возвращает [DateTime]
+  final Function(DateTime) onValueChanged;
+
+  /// [selectedDate] - текущая выбранная дата
+  final DateTime? selectedDate;
+
+  /// [_selectDate] - выбор даты
   void _selectDate(BuildContext context, DateSelectionItems item) =>
       context.read<DateSelectionCubit>().selectDate(item);
 
+  /// [_openCalendar] - открытие кастомного календаря
   Future<void> _openCalendar(BuildContext context) async {
     return showDialog(
       context: context,
@@ -32,14 +50,37 @@ class DateSelectionWidget extends StatelessWidget {
           insetPadding: EdgeInsets.zero,
           backgroundColor: Colors.transparent,
           child: TableCalendarWidget(
-            value: DateTime.now(),
-            onValueChanged: (time) {
+            selectableDates: selectableDates,
+            selectedDate: selectedDate ?? DateTime.now(),
+            onValueChanged: (date) {
+              onValueChanged(date.first);
               Navigator.pop(context);
             },
           ),
         );
       },
     );
+  }
+
+  /// [_getDateText] - получение текста даты (сегодня, завтра, MM.dd.)
+  String _getDateText(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final tomorrow = today.add(const Duration(days: 1));
+
+    /// Метод [isAtSameMomentAs] не подходит, так как различие в датах даже
+    /// на миллисекунду вернет false
+    if (date.year == today.year &&
+        date.month == today.month &&
+        date.day == today.day) {
+      return t.equipments.today;
+    } else if (date.year == tomorrow.year &&
+        date.month == tomorrow.month &&
+        date.day == tomorrow.day) {
+      return t.equipments.tomorrow;
+    } else {
+      return DateFormat('MM.dd.').format(date);
+    }
   }
 
   @override
@@ -63,24 +104,40 @@ class DateSelectionWidget extends StatelessWidget {
 
               return Row(
                 children: [
+                  /// Виджет с первой ближайшей датой
+                  if (_firstDate != null)
+                    DateItemWidget(
+                      title: _getDateText(_firstDate!),
+                      isSelected: selected == DateSelectionItems.firstDate,
+                      onTap: () {
+                        onValueChanged(_firstDate!);
+                        _selectDate(context, DateSelectionItems.firstDate);
+                      },
+                    ),
+
+                  /// Виджет с второй ближайшей датой
+                  if (_secondDate != null)
+                    DateItemWidget(
+                      title: _getDateText(_secondDate!),
+                      isSelected: selected == DateSelectionItems.secondDate,
+                      onTap: () {
+                        onValueChanged(_secondDate!);
+                        _selectDate(context, DateSelectionItems.secondDate);
+                      },
+                    ),
+
+                  /// Виджет с выбранной датой
                   DateItemWidget(
-                    title: firstDate,
-                    isSelected: selected == DateSelectionItems.firstDate,
-                    onTap: () =>
-                        _selectDate(context, DateSelectionItems.firstDate),
-                  ),
-                  DateItemWidget(
-                    title: secondDate,
-                    isSelected: selected == DateSelectionItems.secondDate,
-                    onTap: () =>
-                        _selectDate(context, DateSelectionItems.secondDate),
-                  ),
-                  DateItemWidget(
-                    title: t.equipments.choose,
+                    showCalendarIcon: true,
+                    title: selectedDate != null
+                        ? _getDateText(selectedDate!)
+                        : t.equipments.choose,
                     isSelected: selected == DateSelectionItems.select,
                     showingDatePicker: true,
                     onTap: () {
-                      _selectDate(context, DateSelectionItems.select);
+                      if (selectedDate != null) {
+                        _selectDate(context, DateSelectionItems.select);
+                      }
                       _openCalendar(context);
                     },
                   ),

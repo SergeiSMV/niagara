@@ -9,7 +9,7 @@ import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc.dart';
+import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_bonuses_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_prices_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_pay_button.dart';
