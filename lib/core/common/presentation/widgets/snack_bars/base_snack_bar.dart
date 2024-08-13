@@ -2,7 +2,9 @@ import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
@@ -12,6 +14,7 @@ abstract class BaseSnackBar extends StatelessWidget {
   const BaseSnackBar.error(
     this.title,
     this.subtitle,
+    this.barColor,
   );
 
   /// Заголовок сообщения
@@ -19,6 +22,9 @@ abstract class BaseSnackBar extends StatelessWidget {
 
   /// Подзаголовок сообщения
   final String? subtitle;
+
+  /// Цвет сообщения
+  final Color? barColor;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +34,16 @@ abstract class BaseSnackBar extends StatelessWidget {
         padding: AppInsets.kAll12,
         decoration: BoxDecoration(
           borderRadius: AppBorders.kCircular12,
-          color: context.colors.infoColors.bgRed,
+          color: barColor,
+          boxShadow: [
+            BoxShadow(
+              color: context.colors.textColors.main
+                  .withOpacity(AppSizes.kShadowOpacity),
+              offset: AppConstants.kShadowDiagonal,
+              blurRadius: AppSizes.kGeneral24,
+              spreadRadius: AppSizes.kGeneral4,
+            ),
+          ],
         ),
         child: Row(
           children: [
