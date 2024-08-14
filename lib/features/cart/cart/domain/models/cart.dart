@@ -7,12 +7,16 @@ class Cart extends Equatable {
     required this.unavailableProducts,
     required this.cartData,
     required this.minLimit,
+    required this.locationId,
+    required this.locationName,
   });
 
   final List<Product> products;
   final List<Product> unavailableProducts;
   final CartData cartData;
   final CartMinAmount minLimit;
+  final String locationId;
+  final String locationName;
 
   bool get isEmpty => products.isEmpty && unavailableProducts.isEmpty;
 

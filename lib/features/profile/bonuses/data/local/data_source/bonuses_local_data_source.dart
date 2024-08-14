@@ -8,6 +8,8 @@ abstract interface class IBonusesLocalDataSource {
   Future<Either<Failure, void>> saveBonuses(BonusesEntity bonuses);
 
   Future<Either<Failure, void>> updateBonuses(BonusesEntity bonuses);
+
+  Future<Either<Failure, void>> clear();
 }
 
 @LazySingleton(as: IBonusesLocalDataSource)
@@ -31,6 +33,10 @@ class BonusesLocalDataSource implements IBonusesLocalDataSource {
       _execute(
         () => _database.allBonuses.updateBonuses(bonuses.toCompanion()),
       );
+
+  @override
+  Future<Either<Failure, void>> clear() =>
+      _execute(() => _database.allBonuses.clear());
 
   Future<Either<Failure, T>> _execute<T>(Future<T> Function() action) async {
     try {

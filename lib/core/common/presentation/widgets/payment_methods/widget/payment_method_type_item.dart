@@ -7,41 +7,47 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
-class DateItemWidget extends StatelessWidget {
-  const DateItemWidget({
+/// Элемент списка выбора типа метода оплаты.
+class PaymentMethodTypeItem extends StatelessWidget {
+  const PaymentMethodTypeItem({
     super.key,
     required this.title,
-    required this.isSelected,
+    required this.selected,
     required this.onTap,
-    this.showCalendarIcon = false,
+    required this.icon,
   });
 
   final String title;
-  final bool isSelected;
+  final bool selected;
   final VoidCallback onTap;
-  final bool showCalendarIcon;
+  final SvgGenImage icon;
 
   @override
   Widget build(BuildContext context) {
+    final unselectedColor = context.colors.fieldBordersColors.inactive;
+
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
           padding: AppInsets.kVertical10,
           decoration: BoxDecoration(
             borderRadius: AppBorders.kCircular8,
-            color: isSelected
+            color: selected
                 ? context.colors.mainColors.white
                 : context.colors.mainColors.bgCard,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (showCalendarIcon)
-                Assets.icons.calendarFill.svg(
-                  height: AppSizes.kIconSmall,
-                  width: AppSizes.kIconSmall,
-                ),
+              icon.svg(
+                height: AppSizes.kIconSmall,
+                width: AppSizes.kIconSmall,
+                colorFilter: selected
+                    ? null
+                    : ColorFilter.mode(unselectedColor, BlendMode.srcIn),
+              ),
               AppBoxes.kWidth8,
               Text(
                 title,

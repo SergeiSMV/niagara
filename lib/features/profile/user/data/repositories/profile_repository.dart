@@ -78,16 +78,22 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
     bool fromRemote = true,
   }) =>
       execute(() async {
-        _profileRDS.deleteAccount().fold(
-          (failure) => throw failure,
-          (success) async {
-            if (success) {
-              await _userLDS.deleteUser(user.toEntity());
-            } else {
-              throw failure;
-            }
-          },
-        );
+        if (fromRemote) {
+          _profileRDS.deleteAccount().fold(
+            (failure) => throw failure,
+            (success) async {
+              if (success) {
+                await _userLDS.deleteUser(user.toEntity());
+                await _bonusesLDS.clear();
+              } else {
+                throw failure;
+              }
+            },
+          );
+        } else {
+          await _userLDS.deleteUser(user.toEntity());
+          await _bonusesLDS.clear();
+        }
       });
 
   @override

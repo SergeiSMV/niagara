@@ -16,7 +16,15 @@
     "checkYourNetwork": "Проверьте доступ к сети и обновите страницу",
     "makeOrderByPhone": "Сделайте заказ по телефону",
     "apply": "Применить",
-    "calendarWeekdays": ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
+    "calendarWeekdays": [
+      "Вс",
+      "Пн",
+      "Вт",
+      "Ср",
+      "Чт",
+      "Пт",
+      "Сб"
+    ]
   },
   "routes": {
     "home": "Главная",
@@ -441,5 +449,56 @@
     "today": "Сегодня",
     "tomorrow": "Завтра",
     "anErrorHasOccurred": "Произошла ошибка"
+  },
+  "orderPlacing": {
+    "orderPlacing": "Оформление заказа",
+    "recipient": "Получатель",
+    "nameAndPhone": "ФИО и телефон",
+    "deliveryAddress": "Адрес доставки",
+    "selectDeliveryDate": "Выбереите время доставки",
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "select": "Выбрать",
+    "paymentMethod": "Способ оплаты",
+    "online": "Онлайн",
+    "byCourier": "Курьером",
+    "comment": "Комментарий",
+    "informationForTheDriver": "Информация для водителя",
+    "goods": {
+      "one": "$n товар",
+      "few": "$n товара",
+      "other": "$n товаров"
+    },
+    "sale": "Скидка",
+    "promocode": "Промокод",
+    "bonusesPayment": "Оплата бонусами",
+    "yourProfit": "Ваша выгода",
+    "delivery": "Доставка",
+    "bonusesForOrdering": "Бонусы за заказ",
+    "total": "Итого",
+    "withVip": "C VIP подпиской",
+    "pay": "Оплатить",
+    "paymentMethodDescription": "Оплата курьеру при получении товара картой или наличными",
+    "orderingSuccess": "Заказ успешно оформлен",
+    "thanksForOrdering": "Спасибо за заказ!",
+    "continueShopping": "Продолжить покупки",
+    "orderingError": "Ошибка оформления заказа",
+    "retry": "Повторить"
+  },
+  "errors": {
+    "noInternet": {
+      "title": "Нет подключения к инетернету",
+      "description": "Проверьте подключение к сети или сделайте заказ по телефону"
+    },
+    "noRecipientData": {
+      "title": "Введите информацию о получателе"
+    }
+  },
+  "paymentMethods": {
+    "bankCard": "Банковской картой",
+    "sbp": "Оплата через СБП",
+    "sberPay": "SberPay",
+    "cash": "Наличными",
+    "terminal": "Через терминал"
   }
 }

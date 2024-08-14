@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -8,15 +9,27 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 
-class CartPayButton extends StatelessWidget {
-  const CartPayButton({
+class PayButton extends StatelessWidget {
+  const PayButton({
     super.key,
     required this.cart,
+    required this.redirectRoute,
+    required this.text,
   });
 
+  /// Состояни корзины, которое будет использоваться при оформлении заказа.
   final Cart cart;
 
+  /// Маршрут, на который будет произведено перенаправление при нажатии на кнопку.
+  final PageRouteInfo redirectRoute;
+
+  /// Текст кнопки.
+  final String text;
+
   bool get _inactive => cart.products.isEmpty;
+
+  void _goToOrderPlacing(BuildContext context) =>
+      context.pushRoute(redirectRoute);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +50,7 @@ class CartPayButton extends StatelessWidget {
             AppInsets.kVertical12 +
             AppInsets.kBottom12,
         child: InkWell(
-          onTap: _inactive ? null : () {},
+          onTap: _inactive ? null : () => _goToOrderPlacing(context),
           child: Container(
             alignment: Alignment.center,
             padding: AppInsets.kHorizontal16,
@@ -58,7 +71,7 @@ class CartPayButton extends StatelessWidget {
                       .withColor(context.colors.textColors.white),
                 ),
                 Text(
-                  t.cart.payable,
+                  text,
                   style: context.textStyle.buttonTypo.btn1bold
                       .withColor(context.colors.textColors.white),
                 ),

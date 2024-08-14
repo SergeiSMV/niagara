@@ -19,4 +19,6 @@ class AllBonuses extends DatabaseAccessor<AppDatabase> with _$AllBonusesMixin {
 
   Future<int> deleteBonuses(BonusesTableCompanion companion) =>
       delete(bonusesTable).delete(companion);
+
+  Future<int> clear() => delete(bonusesTable).go();
 }

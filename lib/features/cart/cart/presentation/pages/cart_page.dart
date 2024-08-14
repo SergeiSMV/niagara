@@ -2,10 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_bonuses_widget.dart';
@@ -87,6 +89,14 @@ class _Content extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: CartPayButton(cart: cart),
+        bottomNavigationBar: PayButton(
+          cart: cart,
+          text: t.cart.payable,
+          redirectRoute: OrderPlacingWrapper(
+            children: [
+              OrderPlacingRoute(cart: cart),
+            ],
+          ),
+        ),
       );
 }

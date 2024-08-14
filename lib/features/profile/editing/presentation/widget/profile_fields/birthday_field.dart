@@ -54,11 +54,8 @@ class BirthdayWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () => _isBirthdaySet ? null : _showDatePicker(context),
-      // [_isBithdaySet] определяет, установлена ли дата рождения на момент
-      // перехода на экран редактирования профиля. [birthday] - значение даты в
-      // текущей сессии редактирования.
-      child: _isBirthdaySet
-          ? birthday != null
+      child: birthday != null
+          ? _isBirthdaySet
               ? AppTextField.email(
                   initialText: birthday,
                   state: BaseTextFieldState.disabled,
@@ -75,7 +72,7 @@ class BirthdayWidget extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: Text(
-                        birthday ?? t.profile.edit.birthday,
+                        birthday,
                         style: style,
                       ),
                     ),
