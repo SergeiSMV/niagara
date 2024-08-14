@@ -193,4 +193,11 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение информации о приложении (политика
   /// конфиденциальности, публичная оферта и т.д.).
   static const String kGetPolicies = '/about_app';
+
+  // ? ----------------------- Payments -------------------------- ? //
+  /// -GET- Запрос на получение ссылки для подтверждения платежа
+  static const String kGetConfirmationUrl = '/payments';
+
+  /// -GET- Запрос на получение статуса платежа
+  static const String kGetPaymentStatus = '/payments_status';
 }

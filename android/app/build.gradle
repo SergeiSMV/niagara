@@ -56,17 +56,20 @@ android {
 
     defaultConfig {
         applicationId "io.cordova.niagara74"
-        minSdkVersion 23
+        minSdkVersion 24
         compileSdkVersion 34
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         resValue "string", "api_key", dartEnvironmentVariables['YANDEX_MAPS']
+        resValue "string", "ym_app_scheme", "cordova"
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.debug
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

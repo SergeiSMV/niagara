@@ -352,3 +352,16 @@ class EquipmentsRemoteDataFailure extends Failure {
     super.error = 'Equipments remote data failure',
   ]);
 }
+
+// ! ------------------------------ Payments ------------------------------ ! //
+class PaymentsRepositoryFailure extends Failure {
+  const PaymentsRepositoryFailure([
+    super.error = 'Payments repo failure',
+  ]);
+}
+
+class PaymentsRemoteDataFailure extends Failure {
+  const PaymentsRemoteDataFailure([
+    super.error = 'Payments remote data failure',
+  ]);
+}
