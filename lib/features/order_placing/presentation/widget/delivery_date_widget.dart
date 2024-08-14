@@ -28,11 +28,22 @@ class DeliveryDateWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight12,
           DateSelectionWidget(
-            firstDate: t.orderPlacing.today,
-            secondDate: t.orderPlacing.tomorrow,
+            onValueChanged: (date) {
+              print(date);
+            },
+            selectableDates: [
+              DateTime.now(),
+              DateTime.now().add(const Duration(days: 1)),
+            ],
+            selectedDate: DateTime.now(),
           ),
           AppBoxes.kHeight16,
-          const ListTimeSlotsWidget(timeSlots: timeSlots),
+          ListTimeSlotsWidget(
+            timeSlots: timeSlots,
+            onValueChanged: (slot) {
+              print(slot);
+            },
+          ),
         ],
       ),
     );
@@ -58,19 +69,15 @@ const List<TimeSlot> timeSlots = [
     timeEnd: '15:00',
   ),
   TimeSlot(
-    timeBegin: '8:00',
-    timeEnd: '9:00',
+    timeBegin: '16:00',
+    timeEnd: '17:00',
   ),
   TimeSlot(
-    timeBegin: '10:00',
-    timeEnd: '11:00',
+    timeBegin: '18:00',
+    timeEnd: '19:00',
   ),
   TimeSlot(
-    timeBegin: '12:00',
-    timeEnd: '13:00',
-  ),
-  TimeSlot(
-    timeBegin: '14:00',
-    timeEnd: '15:00',
+    timeBegin: '20:00',
+    timeEnd: '21:00',
   ),
 ];

@@ -92,7 +92,11 @@ class _Content extends StatelessWidget {
         bottomNavigationBar: PayButton(
           cart: cart,
           text: t.cart.payable,
-          redirectRoute: OrderPlacingRoute(cart: cart),
+          redirectRoute: OrderPlacingWrapper(
+            children: [
+              OrderPlacingRoute(cart: cart),
+            ],
+          ),
         ),
       );
 }

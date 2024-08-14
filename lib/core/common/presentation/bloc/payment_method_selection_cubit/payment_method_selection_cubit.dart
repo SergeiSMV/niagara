@@ -11,49 +11,28 @@ part 'payment_method_selection_cubit.freezed.dart';
 class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {
   PaymentMethodSelectionCubit()
       : super(
-          const PaymentMethodSelectionState.online(),
+          const PaymentMethodSelectionState.selected(
+            type: PaymentMethodType.online,
+          ),
         );
 
+  /// Индикатор, выбран ли тип оплаты "онлайн".
+  ///
+  /// `true` по умолчанию.
+  bool get isOnline => state.type == PaymentMethodType.online;
+
   /// Индикатор, выбран ли способ оплаты.
-  bool get selected => state.maybeWhen(
-        online: (paymentMethod) => paymentMethod != null,
-        courier: (paymentMethod) => paymentMethod != null,
-        orElse: () => false,
-      );
+  bool get selected => state.method != null;
 
-  /// Устанавливает тип оплаты - онлайн или курьеру.
-  void selectPaymentMethodType(PaymentMethodType type) {
-    final PaymentMethodType current = state.maybeWhen(
-      online: (_) => PaymentMethodType.online,
-      courier: (_) => PaymentMethodType.courier,
-      orElse: () => PaymentMethodType.online,
-    );
+  /// Устанавливает __метод__ оплаты.
+  ///
+  /// Если устанавливается уже выбранный метод оплаты, происходит сброс выбора.
+  void selectPaymentMethod(PaymentMethod method) =>
+      emit(state.copyWith(method: state.method == method ? null : method));
 
-    if (type == current) return;
-    emit(
-      type == PaymentMethodType.online
-          ? const PaymentMethodSelectionState.online()
-          : const PaymentMethodSelectionState.courier(),
-    );
-  }
-
-  /// Выбирает метод оплаты онлайн - картой, СБП или СберПей.
-  void selectOnlinePaymentMethod(OnlinePaymentMethod? paymentMethod) {
-    if (state is! _OnlineSelected) return;
-    if ((state as _OnlineSelected).paymentMethod == paymentMethod) return;
-
-    emit(
-      PaymentMethodSelectionState.online(paymentMethod: paymentMethod),
-    );
-  }
-
-  /// Выбирает метод оплаты курьеру - наличными или через терминал.
-  void selectCourierPaymentMethod(CourierPaymentMethod? paymentMethod) {
-    if (state is! _CourierSelected) return;
-    if ((state as _CourierSelected).paymentMethod == paymentMethod) return;
-
-    emit(
-      PaymentMethodSelectionState.courier(paymentMethod: paymentMethod),
-    );
-  }
+  /// Устанавливает __тип__ оплаты (онлайн или курьеру).
+  ///
+  /// Нужен для переключения вкладок. Не влияет на выбранный __метод__ оплаты.
+  void selectPaymentMethodType(PaymentMethodType type) =>
+      emit(state.copyWith(type: type));
 }

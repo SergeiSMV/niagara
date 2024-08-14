@@ -133,7 +133,6 @@ class DateSelectionWidget extends StatelessWidget {
                         ? _getDateText(selectedDate!)
                         : t.equipments.choose,
                     isSelected: selected == DateSelectionItems.select,
-                    showingDatePicker: true,
                     onTap: () {
                       if (selectedDate != null) {
                         _selectDate(context, DateSelectionItems.select);

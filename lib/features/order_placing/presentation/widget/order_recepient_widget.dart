@@ -39,6 +39,7 @@ class _RecepientData extends StatelessWidget {
     final String phone = user.phone.phoneFormat();
 
     final bool hasData = name.isNotEmpty && surname.isNotEmpty;
+    final bool hasPhone = phone.isNotEmpty;
 
     return Padding(
       padding: AppInsets.kHorizontal16 + AppInsets.kTop8,
@@ -46,15 +47,9 @@ class _RecepientData extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                t.orderPlacing.recipient,
-                style: context.textStyle.textTypo.tx1SemiBold,
-              ),
-              const EditUserDataButton(),
-            ],
+          Text(
+            t.orderPlacing.recipient,
+            style: context.textStyle.textTypo.tx1SemiBold,
           ),
           AppBoxes.kHeight8,
           if (hasData) ...[
@@ -62,17 +57,25 @@ class _RecepientData extends StatelessWidget {
               '$surname $name $patronymic',
               style: context.textStyle.textTypo.tx2Medium,
             ),
-            AppBoxes.kHeight8,
-            Text(
-              phone,
-              style: context.textStyle.textTypo.tx2Medium,
-            ),
-          ] else
-            Text(
-              t.orderPlacing.nameAndPhone,
-              style: context.textStyle.textTypo.tx2Medium.withColor(
-                context.colors.textColors.secondary,
+            if (hasPhone) ...[
+              AppBoxes.kHeight8,
+              Text(
+                phone,
+                style: context.textStyle.textTypo.tx2Medium,
               ),
+            ],
+          ] else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  t.orderPlacing.nameAndPhone,
+                  style: context.textStyle.textTypo.tx2Medium.withColor(
+                    context.colors.textColors.secondary,
+                  ),
+                ),
+                const EditUserDataButton(),
+              ],
             ),
         ],
       ),

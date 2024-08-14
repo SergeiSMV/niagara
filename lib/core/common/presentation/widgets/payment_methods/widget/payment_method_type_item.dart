@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
+/// Элемент списка выбора типа метода оплаты.
 class PaymentMethodTypeItem extends StatelessWidget {
   const PaymentMethodTypeItem({
     super.key,
@@ -30,7 +30,7 @@ class PaymentMethodTypeItem extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: AnimatedContainer(
-          duration: AppConstants.kSelectDateItemDuration,
+          duration: const Duration(milliseconds: 500),
           padding: AppInsets.kVertical10,
           decoration: BoxDecoration(
             borderRadius: AppBorders.kCircular8,

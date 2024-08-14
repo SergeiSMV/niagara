@@ -497,6 +497,8 @@
   "paymentMethods": {
     "bankCard": "Банковской картой",
     "sbp": "Оплата через СБП",
-    "sberPay": "SberPay"
+    "sberPay": "SberPay",
+    "cash": "Наличными",
+    "terminal": "Через терминал"
   }
 }

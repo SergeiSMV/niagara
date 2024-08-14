@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/widgets/payment_methods/payment_methods_selection_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/payment_methods/payment_type_and_method_selection_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -21,7 +21,7 @@ class OrderPaymentMethodWidget extends StatelessWidget {
             style: context.textStyle.textTypo.tx1SemiBold,
           ),
           AppBoxes.kHeight12,
-          const PaymentMethodsSelectionWidget(),
+          const PaymentTypeAndMethodSelectionWidget(),
         ],
       ),
     );

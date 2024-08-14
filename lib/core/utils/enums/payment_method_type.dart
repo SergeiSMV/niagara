@@ -1,8 +1,29 @@
-/// Тип метода оплаты - онлайн в приложении или курьеру при получении.
-enum PaymentMethodType { online, courier }
+/// Способы оплаты.
+///
+/// - [bankCard] - оплата банковской картой онлайн.
+/// - [sbp] - оплата через СБП.
+/// - [sberPay] - оплата через СберПей.
+/// - [cash] - оплата наличными курьеру.
+/// - [terminal] - оплата через терминал курьеру.
+enum PaymentMethod {
+  bankCard,
+  sbp,
+  sberPay,
+  cash,
+  terminal;
 
-/// Варианты оплаты онлайн - картой, через СБП или СберПей.
-enum OnlinePaymentMethod { bankCard, sbp, sberPay }
+  /// Возвращает `true`, если оплата происходит онлайн.
+  bool get isOnline =>
+      this == PaymentMethod.bankCard ||
+      this == PaymentMethod.sbp ||
+      this == PaymentMethod.sberPay;
+}
 
-/// Варианты оплаты курьеру - наличными или через терминал.
-enum CourierPaymentMethod { cash, terminal }
+/// Типы методов оплаты.
+///
+/// Нужны для переключения между вкладками "онлайн" и "курьеру" при выборе
+/// метода оплаты.
+enum PaymentMethodType {
+  online,
+  courier,
+}

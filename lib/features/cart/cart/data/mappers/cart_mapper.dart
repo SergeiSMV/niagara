@@ -8,6 +8,8 @@ extension CartDtoMapper on CartDto {
         unavailableProducts: outOfStock.map((e) => e.toModel()).toList(),
         cartData: data.toModel(),
         minLimit: sumLimit.toModel(),
+        locationId: locationId ?? '',
+        locationName: locationName ?? 'тестовый адрес',
       );
 }
 

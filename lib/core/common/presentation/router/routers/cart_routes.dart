@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/core/common/presentation/router/routers/order_placing_routers.dart';
 
 /// Класс роутера для модуля Cart (Корзина)
 abstract final class CartRouters {
@@ -15,17 +15,7 @@ abstract final class CartRouters {
               AutoRoute(page: FavoritesRoute.page),
             ],
           ),
-          AutoRoute(
-            page: OrderPlacingRoute.page,
-            title: (_, __) => t.orderPlacing.orderPlacing,
-          ),
-          AutoRoute(
-            page: EditProfileRoute.page,
-            title: (_, __) => t.profile.edit.pageTitle,
-          ),
-          AutoRoute(
-            page: OrderResultRoute.page,
-          ),
+          OrderPlacingRouters.routers,
         ],
       );
 }

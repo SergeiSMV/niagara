@@ -38,6 +38,20 @@ class PaymentMethodTile extends StatelessWidget {
   })  : image = Assets.images.sberPay,
         title = t.paymentMethods.sberPay;
 
+  /// Создаёт виджет для оплаты через терминал.
+  PaymentMethodTile.terminal({
+    required this.onTap,
+    required this.selected,
+  })  : image = Assets.images.newCard,
+        title = t.paymentMethods.terminal;
+
+  /// Создаёт виджет для оплаты наличными.
+  PaymentMethodTile.cash({
+    required this.onTap,
+    required this.selected,
+  })  : image = Assets.images.ruble,
+        title = t.paymentMethods.cash;
+
   /// Иконка метода оплаты.
   final AssetGenImage image;
 

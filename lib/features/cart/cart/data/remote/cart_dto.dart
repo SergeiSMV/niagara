@@ -13,18 +13,29 @@ class CartDto extends Equatable {
     required this.outOfStock,
     required this.data,
     required this.sumLimit,
+    required this.locationId,
+    required this.locationName,
   });
 
   final List<ProductDto> products;
   final List<ProductDto> outOfStock;
   final CartDataDto data;
   final CartSumLimitDto sumLimit;
+  final String? locationId;
+  final String? locationName;
 
   factory CartDto.fromJson(Map<String, dynamic> json) =>
       _$CartDtoFromJson(json);
 
   @override
-  List<Object?> get props => [products, outOfStock, data, sumLimit];
+  List<Object?> get props => [
+        products,
+        outOfStock,
+        data,
+        sumLimit,
+        locationId,
+        locationName,
+      ];
 }
 
 @JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
