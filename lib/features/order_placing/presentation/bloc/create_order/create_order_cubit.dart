@@ -5,17 +5,22 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/core/utils/enums/placing_order_error_type.dart';
 import 'package:niagara_app/core/utils/network/network_info.dart';
+import 'package:niagara_app/features/order_placing/domain/use_cases/create_order_use_case.dart';
 
-part 'order_placing_state.dart';
-part 'order_placing_cubit.freezed.dart';
+part 'create_order_state.dart';
+part 'create_order_cubit.freezed.dart';
 
 @injectable
-class OrderPlacingCubit extends Cubit<OrderPlacingState> {
-  OrderPlacingCubit(this._networkInfo)
-      : super(const OrderPlacingState.initial());
+class OrderCreationCubit extends Cubit<OrderCreationState> {
+  OrderCreationCubit(
+    this._networkInfo,
+    this._createOrderUseCase,
+  ) : super(const OrderCreationState.initial());
+
+  final CreateOrderUseCase _createOrderUseCase;
 
   /// Нужен для проверки интернета.
-  final NetworkInfo _networkInfo;
+  final INetworkInfo _networkInfo;
 
   /// Выбранная дата доставки.
   DateTime? selectedDate;
@@ -37,7 +42,7 @@ class OrderPlacingCubit extends Cubit<OrderPlacingState> {
 
     if (!selected) {
       emit(
-        const OrderPlacingState.error(
+        const OrderCreationState.error(
           type: OrderPlacingErrorType.noDeliveryDate,
         ),
       );
@@ -51,7 +56,7 @@ class OrderPlacingCubit extends Cubit<OrderPlacingState> {
 
     if (!selected) {
       emit(
-        const OrderPlacingState.error(
+        const OrderCreationState.error(
           type: OrderPlacingErrorType.noRecipientData,
         ),
       );
@@ -65,7 +70,7 @@ class OrderPlacingCubit extends Cubit<OrderPlacingState> {
 
     if (!selected) {
       emit(
-        const OrderPlacingState.error(
+        const OrderCreationState.error(
           type: OrderPlacingErrorType.noPaymentMethod,
         ),
       );
@@ -79,7 +84,7 @@ class OrderPlacingCubit extends Cubit<OrderPlacingState> {
 
     if (!hasInternet) {
       emit(
-        const OrderPlacingState.error(
+        const OrderCreationState.error(
           type: OrderPlacingErrorType.noInternet,
         ),
       );
@@ -95,5 +100,25 @@ class OrderPlacingCubit extends Cubit<OrderPlacingState> {
         checkPaymentMethod();
 
     if (!isDataValid) return;
+
+    emit(const OrderCreationState.loading());
+
+    _createOrderUseCase(
+      CreateOrderParams(
+        deliveryDate: selectedDate!,
+        timeSlot: selectedTimeSlot!,
+        paymentMethod: paymentMethod!,
+        comment: comment,
+        // TODO: А откуда мне её взять? А зачем она вообще?
+        locationId: '',
+      ),
+    ).fold(
+      (failure) => emit(
+        const OrderCreationState.error(
+          type: OrderPlacingErrorType.unknown,
+        ),
+      ),
+      (result) => emit(const OrderCreationState.created()),
+    );
   }
 }

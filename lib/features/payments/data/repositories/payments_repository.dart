@@ -13,8 +13,9 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
     super._networkInfo,
     this._paymentsRDS,
   );
-
-  final PaymentsRemoteDataSource _paymentsRDS;
+  
+  /// Источник данных о платежах с сервера.
+  final IPaymentsRemoteDataSource _paymentsRDS;
 
   @override
   Failure get failure => const PaymentsRepositoryFailure();

@@ -62,6 +62,7 @@ abstract interface class IPaymentsRepository {
   /// для получения актуальной информации нужно периодически вызывать этот
   /// метод, пока не вернётся значение, отличное от [PaymentStatus.pending] или
   /// не пройдёт время ожидания.
-  Future<Either<Failure, PaymentStatus>> getPaymentStatus(
-      {required String orderId});
+  Future<Either<Failure, PaymentStatus>> getPaymentStatus({
+    required String orderId,
+  });
 }
