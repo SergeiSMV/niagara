@@ -17,6 +17,22 @@ enum PaymentMethod {
       this == PaymentMethod.bankCard ||
       this == PaymentMethod.sbp ||
       this == PaymentMethod.sberPay;
+
+  @override
+  String toString() {
+    switch (this) {
+      case PaymentMethod.bankCard:
+        return 'bank_card';
+      case PaymentMethod.sbp:
+        return 'sbp';
+      case PaymentMethod.sberPay:
+        return 'sberbank';
+      case PaymentMethod.cash:
+        return 'cash';
+      case PaymentMethod.terminal:
+        return 'terminal';
+    }
+  }
 }
 
 /// Типы методов оплаты.

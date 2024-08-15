@@ -15,6 +15,7 @@ class CartDto extends Equatable {
     required this.sumLimit,
     required this.locationId,
     required this.locationName,
+    required this.paymentMethod,
   });
 
   final List<ProductDto> products;
@@ -23,6 +24,7 @@ class CartDto extends Equatable {
   final CartSumLimitDto sumLimit;
   final String? locationId;
   final String? locationName;
+  final List<PaymentMethodDto> paymentMethod;
 
   factory CartDto.fromJson(Map<String, dynamic> json) =>
       _$CartDtoFromJson(json);
@@ -36,6 +38,15 @@ class CartDto extends Equatable {
         locationId,
         locationName,
       ];
+}
+
+@JsonEnum(fieldRename: FieldRename.snake)
+enum PaymentMethodDto {
+  cash,
+  bankCard,
+  sbp,
+  sberbank,
+  terminal,
 }
 
 @JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)

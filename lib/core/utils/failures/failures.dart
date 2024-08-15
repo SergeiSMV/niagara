@@ -310,6 +310,20 @@ class OrdersRepositoryFailure extends Failure {
   const OrdersRepositoryFailure([super.error = 'Orders repo failure']);
 }
 
+class OrderNotCreatedFailure extends Failure {
+  const OrderNotCreatedFailure([
+    super.error = 'Order not created on the server',
+  ]);
+}
+
+class NoOrderDeliveryDatesFailure extends Failure {
+  const NoOrderDeliveryDatesFailure([super.error = 'No delivery dates']);
+}
+
+class PlacingOrderRepositoryFailure extends Failure {
+  const PlacingOrderRepositoryFailure([super.error = 'Placing order failure']);
+}
+
 class OrdersLocalDataFailure extends Failure {
   const OrdersLocalDataFailure([super.error = 'Orders local data failure']);
 }
