@@ -35,11 +35,12 @@ class PaymentsRemoteDataSource implements IPaymentsRemoteDataSource {
         request: (dio) => dio.post(
           ApiConst.kGetConfirmationUrl,
           data: {
-            'order_id': orderId,
-            'payment_token': paymentToken,
+            'ORDER_ID': orderId,
+            'PAYMENT_TOKEN': paymentToken,
+            'RETURN_URL': ApiConst.kReturnUrl,
           },
         ),
-        converter: (json) => json['confirmation_url'] as String,
+        converter: (json) => json['CONFIRMATION_URL'] as String,
         failure: PaymentsRemoteDataFailure.new,
       );
 
@@ -50,12 +51,12 @@ class PaymentsRemoteDataSource implements IPaymentsRemoteDataSource {
       _requestHandler.sendRequest<PaymentStatus, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kGetPaymentStatus,
-          data: {
+          queryParameters: {
             'order_id': orderId,
           },
         ),
         converter: (json) =>
-            PaymentStatus.fromString(json['payment_status'] as String),
+            PaymentStatus.fromString(json['PAYMENT_STATUS'] as String),
         failure: PaymentsRemoteDataFailure.new,
       );
 }

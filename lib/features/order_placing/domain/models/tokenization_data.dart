@@ -1,4 +1,5 @@
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 
 class TokenizationData extends Equatable {
   const TokenizationData({
@@ -8,6 +9,8 @@ class TokenizationData extends Equatable {
     required this.title,
     required this.description,
     required this.customerId,
+    required this.price,
+    required this.paymentMethod,
   });
 
   final String orderId;
@@ -16,6 +19,8 @@ class TokenizationData extends Equatable {
   final String title;
   final String description;
   final String customerId;
+  final String price;
+  final PaymentMethod paymentMethod;
 
   @override
   List<Object?> get props => [
