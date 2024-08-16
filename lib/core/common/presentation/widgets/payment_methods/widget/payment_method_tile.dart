@@ -1,56 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/bloc/payment_method_selection_cubit/payment_method_selection_cubit.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Элемент списка выбора метода оплаты.
 class PaymentMethodTile extends StatelessWidget {
-  const PaymentMethodTile({
-    super.key,
-    required this.image,
-    required this.title,
-    required this.selected,
-    required this.onTap,
-  });
+  /// Конструирует виджет в зависимости от указанного метода оплаты.
+  factory PaymentMethodTile.fromMethod({
+    required PaymentMethod method,
+  }) {
+    switch (method) {
+      case PaymentMethod.bankCard:
+        return PaymentMethodTile.bankCard();
+      case PaymentMethod.sbp:
+        return PaymentMethodTile.sbp();
+      case PaymentMethod.sberPay:
+        return PaymentMethodTile.sberPay();
+      case PaymentMethod.terminal:
+        return PaymentMethodTile.terminal();
+      case PaymentMethod.cash:
+        return PaymentMethodTile.cash();
+    }
+  }
 
   /// Создаёт виджет для оплаты банковской картой.
-  PaymentMethodTile.bankCard({
-    required this.onTap,
-    required this.selected,
-  })  : image = Assets.images.newCard,
-        title = t.paymentMethods.bankCard;
+  PaymentMethodTile.bankCard()
+      : image = Assets.images.newCard,
+        title = t.paymentMethods.bankCard,
+        method = PaymentMethod.bankCard;
 
   /// Создаёт виджет для оплаты через СБП.
-  PaymentMethodTile.sbp({
-    required this.onTap,
-    required this.selected,
-  })  : image = Assets.images.sbp,
-        title = t.paymentMethods.sbp;
+  PaymentMethodTile.sbp()
+      : image = Assets.images.sbp,
+        title = t.paymentMethods.sbp,
+        method = PaymentMethod.sbp;
 
   /// Создаёт виджет для оплаты черезе SberPay.
-  PaymentMethodTile.sberPay({
-    required this.onTap,
-    required this.selected,
-  })  : image = Assets.images.sberPay,
+  PaymentMethodTile.sberPay()
+      : image = Assets.images.sberPay,
+        method = PaymentMethod.sberPay,
         title = t.paymentMethods.sberPay;
 
   /// Создаёт виджет для оплаты через терминал.
-  PaymentMethodTile.terminal({
-    required this.onTap,
-    required this.selected,
-  })  : image = Assets.images.newCard,
-        title = t.paymentMethods.terminal;
+  PaymentMethodTile.terminal()
+      : image = Assets.images.newCard,
+        title = t.paymentMethods.terminal,
+        method = PaymentMethod.terminal;
 
   /// Создаёт виджет для оплаты наличными.
-  PaymentMethodTile.cash({
-    required this.onTap,
-    required this.selected,
-  })  : image = Assets.images.ruble,
-        title = t.paymentMethods.cash;
+  PaymentMethodTile.cash()
+      : image = Assets.images.ruble,
+        title = t.paymentMethods.cash,
+        method = PaymentMethod.cash;
 
   /// Иконка метода оплаты.
   final AssetGenImage image;
@@ -58,16 +66,20 @@ class PaymentMethodTile extends StatelessWidget {
   /// Название метода оплаты.
   final String title;
 
-  /// Индикатор, выбран ли этот метод оплаты.
-  final bool selected;
-
-  /// Коллбек, отрабатывающий при нажатии.
-  final VoidCallback onTap;
+  /// Метод оплаты.
+  final PaymentMethod method;
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.watch<PaymentMethodSelectionCubit>();
+    final bool selected = cubit.state.method == method;
+    final bool allowed = cubit.allowedMethods.contains(method);
+
+    /// Не отображаем недоступные методы оплаты.
+    if (!allowed) return const SizedBox.shrink();
+
     return InkWell(
-      onTap: onTap,
+      onTap: () => cubit.selectPaymentMethod(method),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: context.colors.mainColors.bgCard,

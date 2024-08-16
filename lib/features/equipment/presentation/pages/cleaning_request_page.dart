@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/bloc/date_selection_cubit/date_selection_cubit.dart';
+import 'package:niagara_app/core/common/presentation/bloc/time_slot_selection_cubit/time_slot_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
@@ -56,6 +58,8 @@ class CleaningRequestPage extends StatelessWidget {
                 getIt<GetDatesCubit>()..getDates(equipment.locationId),
           ),
           BlocProvider(create: (_) => getIt<GetTimeSlotsCubit>()),
+          BlocProvider(create: (_) => getIt<TimeSlotSelectionCubit>()),
+          BlocProvider(create: (_) => getIt<DateSelectionCubit>()),
         ],
         child: BlocListener<OrderCleaningEquipmentCubit,
             OrderCleaningEquipmentState>(

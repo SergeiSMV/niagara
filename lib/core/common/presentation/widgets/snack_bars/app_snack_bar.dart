@@ -23,6 +23,7 @@ class AppSnackBar extends BaseSnackBar {
     Color? barColor,
   }) {
     AnimatedSnackBar(
+      mobilePositionSettings: const MobilePositionSettings(left: 16, right: 16),
       builder: (context) => AppSnackBar._error(
         title: title,
         subtitle: subtitle,

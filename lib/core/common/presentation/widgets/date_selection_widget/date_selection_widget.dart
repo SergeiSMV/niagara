@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:niagara_app/core/common/presentation/bloc/date_selection_cubit/date_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/date_item_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/table_calendar_widget.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/enums/date_selection_items.dart';
@@ -29,7 +28,7 @@ class DateSelectionWidget extends StatelessWidget {
 
   /// [_secondDate] - вторая ближайшая дата
   DateTime? get _secondDate =>
-      selectableDates.length > 1 ? selectableDates.last : null;
+      selectableDates.length > 1 ? selectableDates[1] : null;
 
   /// [onValueChanged] - функция изменения даты, возвращает [DateTime]
   final Function(DateTime) onValueChanged;
@@ -42,9 +41,9 @@ class DateSelectionWidget extends StatelessWidget {
       context.read<DateSelectionCubit>().selectDate(item);
 
   /// [_openCalendar] - открытие кастомного календаря
-  Future<void> _openCalendar(BuildContext context) async {
+  Future<void> _openCalendar(BuildContext outerContext) async {
     return showDialog(
-      context: context,
+      context: outerContext,
       builder: (BuildContext context) {
         return Dialog(
           insetPadding: EdgeInsets.zero,
@@ -93,57 +92,55 @@ class DateSelectionWidget extends StatelessWidget {
           borderRadius: AppBorders.kCircular12,
           color: context.colors.mainColors.bgCard,
         ),
-        child: BlocProvider(
-          create: (_) => getIt<DateSelectionCubit>(),
-          child: BlocBuilder<DateSelectionCubit, DateSelectionState>(
-            builder: (context, state) {
-              final selected = state.maybeWhen(
-                selected: (selected) => selected,
-                orElse: () => false,
-              );
+        child: BlocBuilder<DateSelectionCubit, DateSelectionState>(
+          builder: (context, state) {
+            final selected = state.maybeWhen(
+              selected: (selected) => selected,
+              orElse: () => false,
+            );
 
-              return Row(
-                children: [
-                  /// Виджет с первой ближайшей датой
-                  if (_firstDate != null)
-                    DateItemWidget(
-                      title: _getDateText(_firstDate!),
-                      isSelected: selected == DateSelectionItems.firstDate,
-                      onTap: () {
-                        onValueChanged(_firstDate!);
-                        _selectDate(context, DateSelectionItems.firstDate);
-                      },
-                    ),
-
-                  /// Виджет с второй ближайшей датой
-                  if (_secondDate != null)
-                    DateItemWidget(
-                      title: _getDateText(_secondDate!),
-                      isSelected: selected == DateSelectionItems.secondDate,
-                      onTap: () {
-                        onValueChanged(_secondDate!);
-                        _selectDate(context, DateSelectionItems.secondDate);
-                      },
-                    ),
-
-                  /// Виджет с выбранной датой
+            return Row(
+              children: [
+                /// Виджет с первой ближайшей датой
+                if (_firstDate != null)
                   DateItemWidget(
-                    showCalendarIcon: true,
-                    title: selectedDate != null
-                        ? _getDateText(selectedDate!)
-                        : t.equipments.choose,
-                    isSelected: selected == DateSelectionItems.select,
+                    title: _getDateText(_firstDate!),
+                    isSelected: selected == DateSelectionItems.firstDate,
                     onTap: () {
-                      if (selectedDate != null) {
-                        _selectDate(context, DateSelectionItems.select);
-                      }
-                      _openCalendar(context);
+                      onValueChanged(_firstDate!);
+                      _selectDate(context, DateSelectionItems.firstDate);
                     },
                   ),
-                ],
-              );
-            },
-          ),
+
+                /// Виджет с второй ближайшей датой
+                if (_secondDate != null)
+                  DateItemWidget(
+                    title: _getDateText(_secondDate!),
+                    isSelected: selected == DateSelectionItems.secondDate,
+                    onTap: () {
+                      onValueChanged(_secondDate!);
+                      _selectDate(context, DateSelectionItems.secondDate);
+                    },
+                  ),
+
+                /// Виджет с выбранной датой
+                DateItemWidget(
+                  showCalendarIcon: true,
+                  title: selectedDate != null
+                      ? _getDateText(selectedDate!)
+                      : t.equipments.choose,
+                  isSelected: selected == DateSelectionItems.select,
+                  onTap: () {
+                    if (selectedDate != null) {
+                      _selectDate(context, DateSelectionItems.select);
+                    }
+
+                    _openCalendar(context);
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
