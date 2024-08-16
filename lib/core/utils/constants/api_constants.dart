@@ -205,8 +205,8 @@ abstract final class ApiConst {
 
   // ? ----------------------- Payments -------------------------- ? //
   /// -GET- Запрос на получение ссылки для подтверждения платежа
-  static const String kGetConfirmationUrl = '/payments';
+  static const String kGetConfirmationUrl = '/orders_payment';
 
   /// -GET- Запрос на получение статуса платежа
-  static const String kGetPaymentStatus = '/payments_status';
+  static const String kGetPaymentStatus = '/orders_payment_status';
 }

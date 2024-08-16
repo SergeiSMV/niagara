@@ -31,6 +31,7 @@ abstract interface class IPaymentsRepository {
     required String amountRub,
     required String title,
     required String subtitle,
+    String? customerId,
   });
 
   /// Запрашивает ссылку на окно с подтверждением платежа для выбранного метода

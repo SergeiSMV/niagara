@@ -66,6 +66,8 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   }
 
   void startPollingPaymentStatus(String orderId) {
+    emit(const PaymentsState.loading());
+
     pollingTimer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) async {
@@ -77,7 +79,7 @@ class PaymentsCubit extends Cubit<PaymentsState> {
         await _getPaymentStatusUseCase(orderId).fold(
           (err) => emit(const PaymentsState.paymentStatusError()),
           (status) {
-            if (status == PaymentStatus.succeded) {
+            if (status == PaymentStatus.succeeded) {
               timer.cancel();
               emit(const PaymentsState.success());
             } else if (status == PaymentStatus.canceled) {

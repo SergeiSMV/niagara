@@ -17,5 +17,6 @@ class StartTokenizationUseCase extends BaseUseCase<String?, TokenizationData> {
         shopId: params.shopId,
         subtitle: params.description,
         title: params.title,
+        customerId: params.customerId,
       );
 }

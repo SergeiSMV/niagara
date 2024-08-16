@@ -13,20 +13,13 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
     super._networkInfo,
     this._paymentsRDS,
   );
-  
+
   /// Источник данных о платежах с сервера.
   final IPaymentsRemoteDataSource _paymentsRDS;
 
   @override
   Failure get failure => const PaymentsRepositoryFailure();
 
-  // TODO: Пользователь выбирает сохранение метода оплаты, НО:
-  // чтобы это работало, необходим параметр [customerId]. С ним нужно
-  // быть очень аккуратным, т.к. если передать сюда чужой id, кто-то
-  // другой сможет оплатить свои заказы картами этого пользователя.
-  //
-  // см. "Привязанная карта" по ссылке в документации mobile SDK:
-  // https://git.yoomoney.ru/projects/SDK/repos/yookassa-android-sdk/browse
   @override
   Future<Either<Failure, String?>> startTokenization({
     required String clientApplicationKey,
@@ -35,6 +28,7 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
     required String amountRub,
     required String title,
     required String subtitle,
+    String? customerId,
   }) =>
       execute(() async {
         final tokenizationData = TokenizationModuleInputData(
@@ -45,9 +39,10 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
           savePaymentMethod: SavePaymentMethod.userSelects,
           isLoggingEnabled: true,
           shopId: shopId,
-          tokenizationSettings: const TokenizationSettings(
-            PaymentMethodTypes.bankCard,
-          ),
+          customerId: customerId,
+          tokenizationSettings:
+              TokenizationSettings(PaymentMethodTypes([paymentMethod])),
+          applicationScheme: 'cordova://',
         );
 
         final TokenizationResult result =

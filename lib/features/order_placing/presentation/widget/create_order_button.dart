@@ -33,10 +33,13 @@ class CreateOrderButton extends StatelessWidget {
   void _orderStateListener(BuildContext context, OrderCreationState state) =>
       state.mapOrNull(
         error: (err) => _orderErrorMapper(context, err.type),
-        paymentRequired: (state) {
-          state.data;
-          return;
-        },
+        paymentRequired: (state) => context.replaceRoute(
+          PaymentRoute(
+            tokenizationData: state.data,
+            successRoute: OrderResultRoute(isSuccessful: true),
+            errorRoute: OrderResultRoute(isSuccessful: false),
+          ),
+        ),
         created: (_) {
           context.replaceRoute(OrderResultRoute(isSuccessful: true));
           context.read<CartBloc>().add(const CartEvent.getCart());
