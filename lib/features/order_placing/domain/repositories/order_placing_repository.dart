@@ -20,7 +20,6 @@ abstract interface class IOrderPlacingRepository {
     required DateTime deliveryDate,
     required TimeSlot timeSlot,
     required PaymentMethod paymentMethod,
-    required String locationId,
     String? comment,
   });
 }

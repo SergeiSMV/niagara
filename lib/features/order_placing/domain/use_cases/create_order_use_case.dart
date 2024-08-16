@@ -19,7 +19,6 @@ class CreateOrderUseCase
         deliveryDate: params.deliveryDate,
         timeSlot: params.timeSlot,
         paymentMethod: params.paymentMethod,
-        locationId: params.locationId,
         comment: params.comment,
       );
 }
@@ -29,13 +28,11 @@ class CreateOrderParams {
     required this.deliveryDate,
     required this.timeSlot,
     required this.paymentMethod,
-    required this.locationId,
     this.comment,
   });
 
   final DateTime deliveryDate;
   final TimeSlot timeSlot;
   final PaymentMethod paymentMethod;
-  final String locationId;
   final String? comment;
 }

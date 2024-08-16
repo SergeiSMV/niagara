@@ -1,12 +1,10 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_prices_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_pay_button.dart';
+import 'package:niagara_app/features/order_placing/presentation/widget/create_order_button.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/delivery_date_widget.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/order_comment_widget.dart';
@@ -39,12 +37,7 @@ class OrderPlacingPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: PayButton(
-        cart: cart,
-        text: t.orderPlacing.pay,
-        // TODO: change that
-        redirectRoute: OrderResultRoute(isSuccessful: false),
-      ),
+      bottomNavigationBar: CreateOrderButton(cart: cart),
     );
   }
 }

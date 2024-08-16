@@ -16,4 +16,9 @@ class TimeSlotSelectionCubit extends Cubit<TimeSlotSelectionState> {
     selectedTimeSlotId = timeSlot;
     emit(TimeSlotSelectionState.selected(timeSlot: timeSlot));
   }
+
+  void unselect() {
+    selectedTimeSlotId = '';
+    emit(state.copyWith(timeSlot: ''));
+  }
 }

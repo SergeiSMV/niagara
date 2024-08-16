@@ -24,17 +24,15 @@ class OrderPlacingRepository extends BaseRepository
     required DateTime deliveryDate,
     required TimeSlot timeSlot,
     required PaymentMethod paymentMethod,
-    required String locationId,
     String? comment,
   }) =>
       execute(() async {
         final orderInfo = OrderPlacingInfoDto(
           deliveryDate: deliveryDate.toIso8601String().split('.')[0],
-          deliverySlotStart: timeSlot.timeBegin,
-          deliverySlotEnd: timeSlot.timeEnd,
+          deliverySlotStart: '0001-01-01T${timeSlot.timeBegin}:00',
+          deliverySlotEnd: '0001-01-01T${timeSlot.timeEnd}:00',
           paymentMethod: paymentMethod.toString(),
           description: comment ?? '',
-          locationId: locationId,
         );
 
         final result = await _rds.createOrder(orderInfo: orderInfo);

@@ -5,6 +5,7 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/core/utils/enums/placing_order_error_type.dart';
 import 'package:niagara_app/core/utils/network/network_info.dart';
+import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
 import 'package:niagara_app/features/order_placing/domain/use_cases/create_order_use_case.dart';
 
 part 'create_order_state.dart';
@@ -94,6 +95,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
   }
 
   Future<void> placeOrder() async {
+    emit(const OrderCreationState.loading());
+
     final bool isDataValid = await checkInternet() &&
         checkDate() &&
         checkRecipient() &&
@@ -101,16 +104,12 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
 
     if (!isDataValid) return;
 
-    emit(const OrderCreationState.loading());
-
     _createOrderUseCase(
       CreateOrderParams(
         deliveryDate: selectedDate!,
         timeSlot: selectedTimeSlot!,
         paymentMethod: paymentMethod!,
         comment: comment,
-        // TODO: А откуда мне её взять? А зачем она вообще?
-        locationId: '',
       ),
     ).fold(
       (failure) => emit(
@@ -118,7 +117,18 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
           type: OrderPlacingErrorType.unknown,
         ),
       ),
-      (result) => emit(const OrderCreationState.created()),
+      (result) {
+        switch (paymentMethod!) {
+          case PaymentMethod.terminal:
+          case PaymentMethod.cash:
+            emit(const OrderCreationState.created());
+
+          case PaymentMethod.bankCard:
+          case PaymentMethod.sbp:
+          case PaymentMethod.sberPay:
+            emit(OrderCreationState.paymentRequired(data: result));
+        }
+      },
     );
   }
 }

@@ -8,6 +8,10 @@ class OrderCreationState with _$OrderCreationState {
 
   const factory OrderCreationState.created() = _Created;
 
+  const factory OrderCreationState.paymentRequired({
+    required TokenizationData data,
+  }) = _PaymentRequired;
+
   const factory OrderCreationState.error({
     required OrderPlacingErrorType type,
   }) = _Error;

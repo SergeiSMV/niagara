@@ -4,14 +4,16 @@ import 'package:niagara_app/features/order_placing/domain/repositories/order_pla
 
 @injectable
 class GetDeliveryTimeOptionsUseCase
-    extends BaseUseCase<List<DeliveryTimeOptions>, String> {
+    extends BaseUseCase<List<DeliveryTimeOptions>, NoParams> {
   const GetDeliveryTimeOptionsUseCase(this._repo);
 
   final IOrderPlacingRepository _repo;
 
   @override
   Future<Either<Failure, List<DeliveryTimeOptions>>> call(
-    String locationId,
+    NoParams params,
   ) async =>
-      _repo.getDeliveryTimeOptions(locationId: locationId);
+      _repo.getDeliveryTimeOptions(
+        locationId: '86a7f7b4-67ff-44af-9d00-d517aced756b',
+      );
 }

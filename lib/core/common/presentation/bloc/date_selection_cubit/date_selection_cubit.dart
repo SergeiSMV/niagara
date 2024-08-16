@@ -20,7 +20,7 @@ class DateSelectionCubit extends Cubit<DateSelectionState> {
       selected: (dateItem) => dateItem,
       orElse: () {},
     );
-    if (dateItem == value) return;
+    if (dateItem == value && dateItem != DateSelectionItems.select) return;
     emit(DateSelectionState.selected(dateItem: value));
   }
 }
