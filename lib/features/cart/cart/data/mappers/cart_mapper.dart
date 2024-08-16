@@ -1,4 +1,5 @@
 import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
+import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/features/cart/cart/data/remote/cart_dto.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 
@@ -9,7 +10,8 @@ extension CartDtoMapper on CartDto {
         cartData: data.toModel(),
         minLimit: sumLimit.toModel(),
         locationId: locationId ?? '',
-        locationName: locationName ?? 'тестовый адрес',
+        locationName: locationName ?? 'Если здесь пусто - не пришло с бекенда',
+        paymentMethods: paymentMethod.map((e) => e.toModel()).toList(),
       );
 }
 
@@ -35,4 +37,21 @@ extension CartMinAmountMapper on CartSumLimitDto {
         minAmount: sumMin ?? 0,
         minAmountLeft: sumRemain ?? 0,
       );
+}
+
+extension PaymentMethodMapper on PaymentMethodDto {
+  PaymentMethod toModel() {
+    switch (this) {
+      case PaymentMethodDto.cash:
+        return PaymentMethod.cash;
+      case PaymentMethodDto.bankCard:
+        return PaymentMethod.bankCard;
+      case PaymentMethodDto.sbp:
+        return PaymentMethod.sbp;
+      case PaymentMethodDto.sberbank:
+        return PaymentMethod.sberPay;
+      case PaymentMethodDto.terminal:
+        return PaymentMethod.terminal;
+    }
+  }
 }

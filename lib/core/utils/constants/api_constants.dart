@@ -11,6 +11,8 @@ abstract final class ApiConst {
 
   static const String kYandexGeo = 'YANDEX_GEO';
 
+  static const String kReturnUrl = 'cordova://niagara74.ru';
+
   // ? ------------------------------ Token ------------------------------- ? //
   /// -POST- Запрос на получение токена
   static const String kGetToken = '/get_token_session';

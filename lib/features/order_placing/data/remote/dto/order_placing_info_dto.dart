@@ -14,7 +14,6 @@ class OrderPlacingInfoDto extends Equatable {
     required this.deliverySlotEnd,
     required this.description,
     required this.paymentMethod,
-    required this.locationId,
   });
 
   /// Дата в формате `2024-06-15T00:00:00`.
@@ -26,9 +25,6 @@ class OrderPlacingInfoDto extends Equatable {
 
   @JsonKey(name: 'TIME_END')
   final String deliverySlotEnd;
-
-  @JsonKey(name: 'LOCATION')
-  final String locationId;
 
   @JsonKey(name: 'DESCRIPTION')
   final String description;
@@ -45,6 +41,5 @@ class OrderPlacingInfoDto extends Equatable {
         deliverySlotEnd,
         description,
         paymentMethod,
-        locationId,
       ];
 }

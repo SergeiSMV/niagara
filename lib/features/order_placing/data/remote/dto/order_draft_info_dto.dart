@@ -36,6 +36,8 @@ class TokenizationDataDto extends Equatable {
     required this.title,
     required this.description,
     required this.customerId,
+    required this.price,
+    required this.paymentMethod,
   });
 
   @JsonKey(name: 'ORDERD_ID')
@@ -56,6 +58,12 @@ class TokenizationDataDto extends Equatable {
   @JsonKey(name: 'CUSTOMER_ID')
   final String customerId;
 
+  @JsonKey(name: 'ORDERD_SUM')
+  final double price;
+
+  @JsonKey(name: 'PAYMENT_TYPE')
+  final String paymentMethod;
+
   factory TokenizationDataDto.fromJson(Map<String, dynamic> json) =>
       _$TokenizationDataDtoFromJson(json);
 
@@ -67,5 +75,7 @@ class TokenizationDataDto extends Equatable {
         title,
         description,
         customerId,
+        price,
+        paymentMethod,
       ];
 }

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
+import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 
 class Cart extends Equatable {
   const Cart({
@@ -9,6 +10,7 @@ class Cart extends Equatable {
     required this.minLimit,
     required this.locationId,
     required this.locationName,
+    required this.paymentMethods,
   });
 
   final List<Product> products;
@@ -17,6 +19,7 @@ class Cart extends Equatable {
   final CartMinAmount minLimit;
   final String locationId;
   final String locationName;
+  final List<PaymentMethod> paymentMethods;
 
   bool get isEmpty => products.isEmpty && unavailableProducts.isEmpty;
 
@@ -26,6 +29,9 @@ class Cart extends Equatable {
         unavailableProducts,
         cartData,
         minLimit,
+        locationId,
+        locationName,
+        paymentMethods,
       ];
 }
 
