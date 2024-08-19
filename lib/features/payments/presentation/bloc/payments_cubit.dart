@@ -45,13 +45,19 @@ class PaymentsCubit extends Cubit<PaymentsState> {
           ),
         ).fold(
           (err) => emit(const PaymentsState.getConfirmationUrlError()),
-          (url) async {
-            emit(const PaymentsState.initial());
+          (info) async {
+            if (info.confirmationUrl == null) {
+              if (info.success) {
+                return emit(const _Success());
+              } else {
+                return emit(const _Canceled());
+              }
+            }
 
             await _startConfirmationUseCase(
               StartConfirmationParams(
                 clientKey: data.applicationKey,
-                confirmationUrl: url,
+                confirmationUrl: info.confirmationUrl!,
                 paymentMethod: data.paymentMethod,
                 shopId: data.shopId,
               ),
@@ -71,19 +77,19 @@ class PaymentsCubit extends Cubit<PaymentsState> {
     pollingTimer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) async {
-        if (statusPollingAttempts >= 10) {
-          timer.cancel();
-          emit(const PaymentsState.paymentStatusError());
+        if (statusPollingAttempts >= 30) {
+          _killTimer();
+          return emit(const PaymentsState.paymentStatusError());
         }
 
         await _getPaymentStatusUseCase(orderId).fold(
           (err) => emit(const PaymentsState.paymentStatusError()),
           (status) {
             if (status == PaymentStatus.succeeded) {
-              timer.cancel();
+              _killTimer();
               emit(const PaymentsState.success());
             } else if (status == PaymentStatus.canceled) {
-              timer.cancel();
+              _killTimer();
               emit(const PaymentsState.orderCanceled());
             }
           },
@@ -92,6 +98,11 @@ class PaymentsCubit extends Cubit<PaymentsState> {
         statusPollingAttempts++;
       },
     );
+  }
+
+  void _killTimer() {
+    pollingTimer?.cancel();
+    pollingTimer = null;
   }
 
   @override

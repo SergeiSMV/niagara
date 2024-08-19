@@ -9,8 +9,8 @@ extension CartDtoMapper on CartDto {
         unavailableProducts: outOfStock.map((e) => e.toModel()).toList(),
         cartData: data.toModel(),
         minLimit: sumLimit.toModel(),
-        locationId: locationId ?? '',
-        locationName: locationName ?? 'Если здесь пусто - не пришло с бекенда',
+        locationId: data.location,
+        locationName: data.locationName,
         paymentMethods: paymentMethod.map((e) => e.toModel()).toList(),
       );
 }

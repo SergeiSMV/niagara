@@ -1,15 +1,18 @@
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/features/payments/domain/model/paument_confirmation_info.dart';
 import 'package:niagara_app/features/payments/domain/repositories/payments_repository.dart';
 
 @injectable
 class GetConfirmationUrlUseCase
-    extends BaseUseCase<String?, GetConfirmationUrlParams> {
+    extends BaseUseCase<PaymentConfirmationInfo, GetConfirmationUrlParams> {
   GetConfirmationUrlUseCase(this._repo);
 
   final IPaymentsRepository _repo;
 
   @override
-  Future<Either<Failure, String>> call(GetConfirmationUrlParams params) =>
+  Future<Either<Failure, PaymentConfirmationInfo>> call(
+    GetConfirmationUrlParams params,
+  ) =>
       _repo.getConfirmationUrl(
         orderId: params.orderId,
         paymentToken: params.paymentToken,

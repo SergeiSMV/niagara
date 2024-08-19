@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/payment_statuses.dart';
 import 'package:niagara_app/features/payments/data/remote/data_sources/payments_remote_data_source.dart';
+import 'package:niagara_app/features/payments/data/remote/mappers/payment_confirmation_mapper.dart';
+import 'package:niagara_app/features/payments/domain/model/paument_confirmation_info.dart';
 import 'package:niagara_app/features/payments/domain/repositories/payments_repository.dart';
 import 'package:yookassa_payments_flutter/yookassa_payments_flutter.dart';
 
@@ -58,7 +60,7 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
       });
 
   @override
-  Future<Either<Failure, String>> getConfirmationUrl({
+  Future<Either<Failure, PaymentConfirmationInfo>> getConfirmationUrl({
     required String orderId,
     required String paymentToken,
   }) =>
@@ -70,7 +72,7 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
             )
             .fold(
               (failure) => throw failure,
-              (url) => url,
+              (dto) => dto.toModel(),
             ),
       );
 
