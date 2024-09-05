@@ -11,6 +11,8 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 /// Виджет выбора метода оплаты.
 ///
 /// Отображает список методов оплаты в зависимости от выбранного типа оплаты.
+///
+/// При изменении метода оплаты вызывается коллбэк [onValueChanged].
 class PaymentMethodSelectionWidget extends StatelessWidget {
   const PaymentMethodSelectionWidget({super.key, required this.onValueChanged});
 
@@ -24,6 +26,11 @@ class PaymentMethodSelectionWidget extends StatelessWidget {
       listener: (_, state) => onValueChanged(state.method),
       builder: (_, state) {
         final bool isOnline = state.type == PaymentMethodType.online;
+        final cubit = context.read<PaymentMethodSelectionCubit>();
+        final allowed = cubit.allowedMethods;
+
+        final onlineMethods = allowed.where((e) => e.isOnline).toList();
+        final courierMethods = allowed.where((e) => !e.isOnline).toList();
 
         return Column(
           children: [
@@ -36,25 +43,12 @@ class PaymentMethodSelectionWidget extends StatelessWidget {
             ],
             PaymentMethodsListWidget(
               children: isOnline
-                  ? [
-                      PaymentMethodTile.fromMethod(
-                        method: PaymentMethod.sbp,
-                      ),
-                      PaymentMethodTile.fromMethod(
-                        method: PaymentMethod.bankCard,
-                      ),
-                      PaymentMethodTile.fromMethod(
-                        method: PaymentMethod.sberPay,
-                      ),
-                    ]
-                  : [
-                      PaymentMethodTile.fromMethod(
-                        method: PaymentMethod.terminal,
-                      ),
-                      PaymentMethodTile.fromMethod(
-                        method: PaymentMethod.cash,
-                      ),
-                    ],
+                  ? onlineMethods
+                      .map((e) => PaymentMethodTile.fromMethod(method: e))
+                      .toList()
+                  : courierMethods
+                      .map((e) => PaymentMethodTile.fromMethod(method: e))
+                      .toList(),
             ),
           ],
         );

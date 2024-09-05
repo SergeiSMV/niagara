@@ -4,6 +4,10 @@ import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/features/order_placing/domain/models/delivery_time_options.dart';
 import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
 
+/// Репозиторий формирования заказа.
+///
+/// Отвечает за создания черновика заказа на стороне сервера. Полученные данные
+/// используются для формирования платёжного токена ЮКасса.
 abstract interface class IOrderPlacingRepository {
   /// Отправляет запрос на получение списка доступных дат и временных интервалов
   /// доставки в рамках каждой даты для локации с заданым [locationId].

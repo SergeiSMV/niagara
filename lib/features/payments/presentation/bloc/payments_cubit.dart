@@ -82,6 +82,8 @@ class PaymentsCubit extends Cubit<PaymentsState> {
           return emit(const PaymentsState.paymentStatusError());
         }
 
+        if (isClosed) return;
+
         await _getPaymentStatusUseCase(orderId).fold(
           (err) => emit(const PaymentsState.paymentStatusError()),
           (status) {

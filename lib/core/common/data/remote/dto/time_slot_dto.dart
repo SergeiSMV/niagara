@@ -9,7 +9,8 @@ part 'time_slot_dto.g.dart';
 ///
 /// Содержит информацию о времени начала и окончания интервала.
 ///
-/// Время в формате
+/// Время в формате `0001-01-01T17:00:00`. Часть до `T` всегда одинакова и не
+/// имеет значения.
 @JsonSerializable(createToJson: false, fieldRename: FieldRename.screamingSnake)
 class TimeSlotDto extends Equatable {
   const TimeSlotDto({

@@ -14,7 +14,7 @@ class PaymentMethodsListWidget extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
       itemBuilder: (_, index) => children[index],
-      separatorBuilder: (_, index) => AppBoxes.kHeight8,
+      separatorBuilder: (_, __) => AppBoxes.kHeight8,
     );
   }
 }

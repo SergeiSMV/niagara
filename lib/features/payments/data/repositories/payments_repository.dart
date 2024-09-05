@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/payment_statuses.dart';
 import 'package:niagara_app/features/payments/data/remote/data_sources/payments_remote_data_source.dart';
@@ -84,6 +82,8 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
     required PaymentMethod paymentMethod,
   }) =>
       execute(() async {
+        if (confirmationUrl.isEmpty) return;
+
         await YookassaPaymentsFlutter.confirmation(
           confirmationUrl,
           paymentMethod,
@@ -102,62 +102,4 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
               (status) => status,
             ),
       );
-}
-
-class MockPaymentsRepository {
-  final String clientApplicationKey =
-      'test_MzQwNDM3ZGuc7HP8zxGAphXDtp75cgcpoAfUuPvFSC4';
-  final amount = Amount(value: '500.50', currency: Currency.rub);
-  final String shopId = '340437';
-
-  Future<String?> startTokenaztion() async {
-    final tokenizationData = TokenizationModuleInputData(
-      customizationSettings: const CustomizationSettings(
-        Color(0xFF044B75),
-      ),
-      clientApplicationKey: clientApplicationKey,
-      title: 'Эту строчку пишем мы - заголовок',
-      subtitle:
-          'Эту строчку тоже пишем мы - описание. Оно может быть чуть подлиннее, lorem ipsum blah blah blah',
-      amount: amount,
-      savePaymentMethod: SavePaymentMethod.on,
-      isLoggingEnabled: true,
-      shopId: shopId,
-      applicationScheme: 'cordova://',
-      tokenizationSettings: const TokenizationSettings(
-        PaymentMethodTypes([
-          PaymentMethod.sbp,
-          PaymentMethod.bankCard,
-          PaymentMethod.sberbank,
-        ]),
-      ),
-    );
-
-    final result = await YookassaPaymentsFlutter.tokenization(tokenizationData);
-
-    if (result is SuccessTokenizationResult) {
-      print(
-        'Tokenization success: ${result.paymentMethodType} ${result.token}',
-      );
-
-      return result.token;
-    } else if (result is ErrorTokenizationResult) {
-      print('Tokenization error: ${result.error}');
-
-      return null;
-    } else {
-      print('Tokenization canceled: ${result as CanceledTokenizationResult}');
-
-      return null;
-    }
-  }
-
-  Future<void> confirmPayment(String url, PaymentMethod? paymentMethod) async {
-    await YookassaPaymentsFlutter.confirmation(
-      url,
-      paymentMethod ?? PaymentMethod.bankCard,
-      clientApplicationKey,
-      shopId,
-    );
-  }
 }

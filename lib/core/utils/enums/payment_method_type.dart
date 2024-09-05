@@ -45,6 +45,19 @@ enum PaymentMethod {
     }
   }
 
+  /// Список методов для оплаты онлайн.
+  static List<PaymentMethod> get onlineMethods => [
+        PaymentMethod.bankCard,
+        PaymentMethod.sbp,
+        PaymentMethod.sberPay,
+      ];
+
+  /// Список методов для оплаты курьеру.
+  static List<PaymentMethod> get courierMethods => [
+        PaymentMethod.cash,
+        PaymentMethod.terminal,
+      ];
+
   /// Возвращает `true`, если оплата происходит онлайн.
   bool get isOnline =>
       this == PaymentMethod.bankCard ||

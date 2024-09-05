@@ -73,10 +73,6 @@ class PaymentMethodTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.watch<PaymentMethodSelectionCubit>();
     final bool selected = cubit.state.method == method;
-    final bool allowed = cubit.allowedMethods.contains(method);
-
-    /// Не отображаем недоступные методы оплаты.
-    if (!allowed) return const SizedBox.shrink();
 
     return InkWell(
       onTap: () => cubit.selectPaymentMethod(method),

@@ -10,7 +10,6 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/notifications/presentation/bloc/notifications_bloc/notifications_bloc.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
-import 'package:niagara_app/features/payments/data/repositories/payments_repository.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/profile_action_tile.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/profile_actions_widget.dart';
 
@@ -78,18 +77,10 @@ class ProfileInfoWidget extends StatelessWidget {
                 ProfileActionTile(
                   leadingIcon: Assets.icons.mapPoint,
                   title: t.profile.profileInfo.deliveryAddresses,
-                  // onTap: () => PaymentsRepository().confirmPayment(
-                  //   'confirmPayment',
-                  //   null,
-                  // ),
                 ),
                 ProfileActionTile(
                   leadingIcon: Assets.icons.card,
                   title: t.profile.profileInfo.paymentMethods,
-                  onTap: () {
-                    final repo = MockPaymentsRepository();
-                    repo.startTokenaztion();
-                  },
                 ),
               ],
             ),

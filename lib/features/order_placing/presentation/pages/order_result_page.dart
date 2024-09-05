@@ -15,6 +15,7 @@ import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.da
 class OrderResultPage extends StatelessWidget {
   const OrderResultPage({super.key, required this.isSuccessful});
 
+  /// Результат оформления заказа.
   final bool isSuccessful;
 
   @override

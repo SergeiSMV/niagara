@@ -9,6 +9,7 @@ part 'payment_method_selection_cubit.freezed.dart';
 /// Кубит для выбора метода оплаты.
 ///
 /// Используется только для менеджмента состояния виджета выбора метода оплаты.
+///
 /// Не содержит бизнес-логики и не влияет на процесс создания заказа.
 @injectable
 class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {

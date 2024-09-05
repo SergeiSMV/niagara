@@ -6,6 +6,8 @@ import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
 import 'package:niagara_app/features/payments/presentation/bloc/payments_cubit.dart';
 
+// TODO: Добавить экран с информацией о ходе оплаты.
+// https://digitalburo.youtrack.cloud/issue/NIAGARA-317/Ekran-informaciej-o-hode-oplaty
 @RoutePage()
 class PaymentPage extends StatelessWidget {
   const PaymentPage({
