@@ -95,7 +95,7 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
   }
 
   Future<void> placeOrder() async {
-    emit(const OrderCreationState.loading());
+    emit(const OrderCreationState.initial());
 
     final bool isDataValid = await checkInternet() &&
         checkDate() &&
@@ -103,6 +103,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
         checkPaymentMethod();
 
     if (!isDataValid) return;
+
+    emit(const OrderCreationState.loading());
 
     _createOrderUseCase(
       CreateOrderParams(
