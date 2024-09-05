@@ -5,6 +5,11 @@ import 'package:niagara_app/core/core.dart';
 
 part 'time_slot_dto.g.dart';
 
+/// DTO-объект для парсинга временного интервала.
+///
+/// Содержит информацию о времени начала и окончания интервала.
+///
+/// Время в формате
 @JsonSerializable(createToJson: false, fieldRename: FieldRename.screamingSnake)
 class TimeSlotDto extends Equatable {
   const TimeSlotDto({
