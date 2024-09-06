@@ -93,6 +93,7 @@ class _Content extends StatelessWidget {
           cart: cart,
           text: t.cart.payable,
           redirectRoute: OrderPlacingWrapper(
+            allowedPaymentMethods: cart.paymentMethods,
             children: [
               OrderPlacingRoute(cart: cart),
             ],

@@ -1,5 +1,6 @@
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/payment_statuses.dart';
+import 'package:niagara_app/features/payments/data/remote/dto/payment_confirmation_dto.dart';
 
 /// Предоставляет ссылку на форму для подтверждения платежа и его статус с
 /// сервера.
@@ -7,9 +8,9 @@ abstract interface class IPaymentsRemoteDataSource {
   /// Отправляет запрос на создание платежа на сервере. Принимает номер заказа
   /// [orderId] и платёжный токен от эквайринг-сервиса [paymentToken].
   ///
-  /// Возвращает `confirmationUrl`, по которой будет находиться форма для
-  /// подтверждения платежа.
-  Future<Either<Failure, String>> getConfirmationUrl({
+  /// Возвращает [PaymentConfirmationDto], содержащий текущий cтатус платежа и
+  /// ссылку на форму для подтверждения платежа, если таковая требуется.
+  Future<Either<Failure, PaymentConfirmationDto>> getConfirmationUrl({
     required String orderId,
     required String paymentToken,
   });
@@ -27,19 +28,20 @@ class PaymentsRemoteDataSource implements IPaymentsRemoteDataSource {
   final RequestHandler _requestHandler;
 
   @override
-  Future<Either<Failure, String>> getConfirmationUrl({
+  Future<Either<Failure, PaymentConfirmationDto>> getConfirmationUrl({
     required String orderId,
     required String paymentToken,
   }) =>
-      _requestHandler.sendRequest<String, Map<String, dynamic>>(
+      _requestHandler.sendRequest<PaymentConfirmationDto, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kGetConfirmationUrl,
           data: {
-            'order_id': orderId,
-            'payment_token': paymentToken,
+            'ORDER_ID': orderId,
+            'PAYMENT_TOKEN': paymentToken,
+            'RETURN_URL': 'cordova://niagara74.ru',
           },
         ),
-        converter: (json) => json['confirmation_url'] as String,
+        converter: PaymentConfirmationDto.fromJson,
         failure: PaymentsRemoteDataFailure.new,
       );
 
@@ -48,14 +50,13 @@ class PaymentsRemoteDataSource implements IPaymentsRemoteDataSource {
     required String orderId,
   }) =>
       _requestHandler.sendRequest<PaymentStatus, Map<String, dynamic>>(
-        request: (dio) => dio.post(
+        request: (dio) => dio.get(
           ApiConst.kGetPaymentStatus,
-          data: {
+          queryParameters: {
             'order_id': orderId,
           },
         ),
-        converter: (json) =>
-            PaymentStatus.fromString(json['payment_status'] as String),
+        converter: (json) => PaymentStatus.fromString(json['status'] as String),
         failure: PaymentsRemoteDataFailure.new,
       );
 }

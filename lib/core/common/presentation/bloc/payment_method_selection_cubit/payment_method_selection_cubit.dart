@@ -7,14 +7,24 @@ part 'payment_method_selection_state.dart';
 part 'payment_method_selection_cubit.freezed.dart';
 
 /// Кубит для выбора метода оплаты.
+///
+/// Используется только для менеджмента состояния виджета выбора метода оплаты.
+///
+/// Не содержит бизнес-логики и не влияет на процесс создания заказа.
 @injectable
 class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {
-  PaymentMethodSelectionCubit()
-      : super(
+  PaymentMethodSelectionCubit({
+    @factoryParam this.allowedMethods = PaymentMethod.values,
+  }) : super(
           const PaymentMethodSelectionState.selected(
             type: PaymentMethodType.online,
           ),
         );
+
+  /// Список доступных методов оплаты.
+  ///
+  /// По умолчанию доступны все методы оплаты.
+  final List<PaymentMethod> allowedMethods;
 
   /// Индикатор, выбран ли тип оплаты "онлайн".
   ///

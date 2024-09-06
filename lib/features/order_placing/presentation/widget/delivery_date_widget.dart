@@ -1,12 +1,19 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/domain/models/time_slot.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/bloc/time_slot_selection_cubit/time_slot_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/date_selection_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/list_time_slots_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/order_placing/domain/models/delivery_time_options.dart';
+import 'package:niagara_app/features/order_placing/presentation/bloc/create_order/create_order_cubit.dart';
+import 'package:niagara_app/features/order_placing/presentation/bloc/delivery_time_options/delivery_time_options_cubit.dart';
 
 class DeliveryDateWidget extends StatelessWidget {
   const DeliveryDateWidget({super.key});
@@ -27,22 +34,14 @@ class DeliveryDateWidget extends StatelessWidget {
             ),
           ),
           AppBoxes.kHeight12,
-          DateSelectionWidget(
-            onValueChanged: (date) {
-              print(date);
-            },
-            selectableDates: [
-              DateTime.now(),
-              DateTime.now().add(const Duration(days: 1)),
-            ],
-            selectedDate: DateTime.now(),
-          ),
-          AppBoxes.kHeight16,
-          ListTimeSlotsWidget(
-            timeSlots: timeSlots,
-            onValueChanged: (slot) {
-              print(slot);
-            },
+          BlocBuilder<DeliveryTimeOptionsCubit, DeliveryTimeOptionsState>(
+            builder: (context, state) => state.when(
+              loaded: _DateSelection.new,
+              loading: _Loading.new,
+              // TODO: Добавить виджеты для пустого и ошибочного состояний
+              error: () => const Center(child: Text('Error')),
+              empty: () => const Center(child: Text('Empty')),
+            ),
           ),
         ],
       ),
@@ -50,34 +49,84 @@ class DeliveryDateWidget extends StatelessWidget {
   }
 }
 
-/// TODO: Убрать моковые данные.
-const List<TimeSlot> timeSlots = [
-  TimeSlot(
-    timeBegin: '8:00',
-    timeEnd: '9:00',
-  ),
-  TimeSlot(
-    timeBegin: '10:00',
-    timeEnd: '11:00',
-  ),
-  TimeSlot(
-    timeBegin: '12:00',
-    timeEnd: '13:00',
-  ),
-  TimeSlot(
-    timeBegin: '14:00',
-    timeEnd: '15:00',
-  ),
-  TimeSlot(
-    timeBegin: '16:00',
-    timeEnd: '17:00',
-  ),
-  TimeSlot(
-    timeBegin: '18:00',
-    timeEnd: '19:00',
-  ),
-  TimeSlot(
-    timeBegin: '20:00',
-    timeEnd: '21:00',
-  ),
-];
+/// Виджет состояния загрузки.
+class _Loading extends StatelessWidget {
+  const _Loading({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: SizedBox(
+        height: AppSizes.kLoaderSmall,
+        width: AppSizes.kLoaderSmall,
+        child: AppCenterLoader(
+          size: AppSizes.kLoaderSmall,
+        ),
+      ),
+    );
+  }
+}
+
+/// Виджет выбора даты и времени.
+class _DateSelection extends StatefulWidget {
+  const _DateSelection(this.options);
+
+  final List<DeliveryTimeOptions> options;
+
+  @override
+  State<_DateSelection> createState() => _DateSelectionState();
+}
+
+class _DateSelectionState extends State<_DateSelection> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<OrderCreationCubit>().selectedDate = widget.options.first.date;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final orderCubit = context.read<OrderCreationCubit>();
+    final slotsCubit = context.watch<TimeSlotSelectionCubit>();
+
+    final List<DateTime> selectableDates =
+        widget.options.map((e) => e.date).toList()..sort();
+
+    return Column(
+      children: [
+        DateSelectionWidget(
+          onValueChanged: (date) {
+            orderCubit.selectedDate = date;
+            orderCubit.selectedTimeSlot = null;
+            slotsCubit.unselect();
+            // TODO: Временное решение, т.к. не происходит обновления состояний
+            // у кубита при выборе даты в календаре.
+            setState(() {});
+          },
+          selectableDates: selectableDates,
+          selectedDate: orderCubit.selectedDate,
+        ),
+        AppBoxes.kHeight16,
+        ListTimeSlotsWidget(
+          timeSlots: widget.options.firstWhereOrNull(
+                (e) {
+                  final date = e.date;
+                  final selected = orderCubit.selectedDate;
+
+                  return selected != null &&
+                      date.year == selected.year &&
+                      date.month == selected.month &&
+                      date.day == selected.day;
+                },
+              )?.timeSlots ??
+              [],
+          onValueChanged: (slot) {
+            orderCubit.selectedTimeSlot = slot;
+          },
+        ),
+      ],
+    );
+  }
+}

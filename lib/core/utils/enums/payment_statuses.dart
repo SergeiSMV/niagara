@@ -1,18 +1,18 @@
 /// Возможные статусы платежа.
 /// - `pending` - платёж создан и ожидает подтверждения от пользователя.
-/// - `succeded` - платёж успешно завершён.
+/// - `succeeded` - платёж успешно завершён.
 /// - `canceled` - платёж отменён или произошла ошибка.
 enum PaymentStatus {
   pending,
-  succeded,
+  succeeded,
   canceled;
 
   static PaymentStatus fromString(String status) {
     switch (status) {
       case 'pending':
         return PaymentStatus.pending;
-      case 'succeded':
-        return PaymentStatus.succeded;
+      case 'succeeded':
+        return PaymentStatus.succeeded;
       case 'canceled':
         return PaymentStatus.canceled;
       default:

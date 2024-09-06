@@ -46,24 +46,27 @@ abstract class BaseSnackBar extends StatelessWidget {
           ],
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Assets.icons.errorIcon.svg(),
             AppBoxes.kWidth12,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: context.textStyle.textTypo.tx2SemiBold
-                      .withColor(context.colors.textColors.main),
-                ),
-                if (subtitle != null)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    subtitle!,
-                    style: context.textStyle.descriptionTypo.des3
+                    title,
+                    style: context.textStyle.textTypo.tx2SemiBold
                         .withColor(context.colors.textColors.main),
                   ),
-              ],
+                  if (subtitle != null)
+                    Text(
+                      subtitle!,
+                      style: context.textStyle.descriptionTypo.des3
+                          .withColor(context.colors.textColors.main),
+                    ),
+                ],
+              ),
             ),
           ],
         ),

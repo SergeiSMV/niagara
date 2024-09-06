@@ -1,3 +1,4 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/widgets.dart';
 
 abstract final class AppInsets {
@@ -98,4 +99,7 @@ abstract final class AppInsets {
   static const EdgeInsets kRight48 = EdgeInsets.only(right: 48);
   static const EdgeInsets kRight64 = EdgeInsets.only(right: 64);
   static const EdgeInsets kRight72 = EdgeInsets.only(right: 72);
+
+  static const MobilePositionSettings snakBarPadding =
+      MobilePositionSettings(left: 16, right: 16);
 }

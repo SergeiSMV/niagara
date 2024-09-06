@@ -11,61 +11,48 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 /// Виджет выбора метода оплаты.
 ///
 /// Отображает список методов оплаты в зависимости от выбранного типа оплаты.
+///
+/// При изменении метода оплаты вызывается коллбэк [onValueChanged].
 class PaymentMethodSelectionWidget extends StatelessWidget {
-  const PaymentMethodSelectionWidget({super.key});
+  const PaymentMethodSelectionWidget({super.key, required this.onValueChanged});
+
+  /// Коллбэк, вызываемый при изменении метода оплаты.
+  final void Function(PaymentMethod? method) onValueChanged;
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.watch<PaymentMethodSelectionCubit>();
+    return BlocConsumer<PaymentMethodSelectionCubit,
+        PaymentMethodSelectionState>(
+      listener: (_, state) => onValueChanged(state.method),
+      builder: (_, state) {
+        final bool isOnline = state.type == PaymentMethodType.online;
+        final cubit = context.read<PaymentMethodSelectionCubit>();
+        final allowed = cubit.allowedMethods;
 
-    void selectMethod(PaymentMethod method) =>
-        cubit.selectPaymentMethod(method);
+        final onlineMethods = allowed.where((e) => e.isOnline).toList();
+        final courierMethods = allowed.where((e) => !e.isOnline).toList();
 
-    final PaymentMethod? method = cubit.state.method;
-
-    return Column(
-      children: [
-        if (!cubit.isOnline) ...[
-          Text(
-            t.orderPlacing.paymentMethodDescription,
-            style: context.textStyle.textTypo.tx2Medium,
-          ),
-          AppBoxes.kHeight12,
-        ],
-        PaymentMethodsListWidget(
-          children: cubit.isOnline
-              ? [
-                  PaymentMethodTile.sbp(
-                    selected: method == PaymentMethod.sbp,
-                    onTap: () => selectMethod(
-                      PaymentMethod.sbp,
-                    ),
-                  ),
-                  PaymentMethodTile.bankCard(
-                    selected: method == PaymentMethod.bankCard,
-                    onTap: () => selectMethod(
-                      PaymentMethod.bankCard,
-                    ),
-                  ),
-                  PaymentMethodTile.sberPay(
-                    selected: method == PaymentMethod.sberPay,
-                    onTap: () => selectMethod(
-                      PaymentMethod.sberPay,
-                    ),
-                  ),
-                ]
-              : [
-                  PaymentMethodTile.terminal(
-                    onTap: () => selectMethod(PaymentMethod.terminal),
-                    selected: method == PaymentMethod.terminal,
-                  ),
-                  PaymentMethodTile.cash(
-                    onTap: () => selectMethod(PaymentMethod.cash),
-                    selected: method == PaymentMethod.cash,
-                  ),
-                ],
-        ),
-      ],
+        return Column(
+          children: [
+            if (!isOnline) ...[
+              Text(
+                t.orderPlacing.paymentMethodDescription,
+                style: context.textStyle.textTypo.tx2Medium,
+              ),
+              AppBoxes.kHeight12,
+            ],
+            PaymentMethodsListWidget(
+              children: isOnline
+                  ? onlineMethods
+                      .map((e) => PaymentMethodTile.fromMethod(method: e))
+                      .toList()
+                  : courierMethods
+                      .map((e) => PaymentMethodTile.fromMethod(method: e))
+                      .toList(),
+            ),
+          ],
+        );
+      },
     );
   }
 }

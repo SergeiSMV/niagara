@@ -11,6 +11,16 @@ abstract final class ApiConst {
 
   static const String kYandexGeo = 'YANDEX_GEO';
 
+  /// DeepLink на приложение, использующийся для возврата пользователя после
+  /// авторизации / подтверждения оплаты на сторонних сервисах.
+  static const String kReturnUrl = '$kAppScheme$kAppLink';
+
+  /// Схема приложения для обработки DeepLink.
+  static const String kAppScheme = 'cordova://';
+
+  /// Ссылка на приложение (часть после scheme).
+  static const String kAppLink = 'niagara74.ru';
+
   // ? ------------------------------ Token ------------------------------- ? //
   /// -POST- Запрос на получение токена
   static const String kGetToken = '/get_token_session';
@@ -169,6 +179,13 @@ abstract final class ApiConst {
   /// -POST- Запрос на оценку заказа
   static const String kEvaluateOrder = '/order_rating';
 
+  /// -GET- Запрос на получение списка доступных дат и временных промежутков
+  /// доставки
+  static const String kGetDeliveryTimeOptions = '/delivery_date';
+
+  /// -POST- Запрос на создание заказа
+  static const String kCreateOrder = '/orders';
+
   // ? --------------------------- Referral ------------------------------- ? //
   /// -GET- Запрос на получение описания реферальной программы
   static const String kReferralInfo = '/referal_info';
@@ -196,8 +213,8 @@ abstract final class ApiConst {
 
   // ? ----------------------- Payments -------------------------- ? //
   /// -GET- Запрос на получение ссылки для подтверждения платежа
-  static const String kGetConfirmationUrl = '/payments';
+  static const String kGetConfirmationUrl = '/orders_payment';
 
   /// -GET- Запрос на получение статуса платежа
-  static const String kGetPaymentStatus = '/payments_status';
+  static const String kGetPaymentStatus = '/orders_payment_status';
 }

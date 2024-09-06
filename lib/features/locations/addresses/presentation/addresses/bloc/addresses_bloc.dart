@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,7 +13,6 @@ import 'package:niagara_app/features/locations/addresses/domain/use_cases/addres
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/get_addresses_use_case.dart';
 import 'package:niagara_app/features/locations/cities/domain/models/city.dart';
 import 'package:niagara_app/features/locations/cities/domain/use_cases/get_city_use_case.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 part 'addresses_bloc.freezed.dart';
 part 'addresses_event.dart';

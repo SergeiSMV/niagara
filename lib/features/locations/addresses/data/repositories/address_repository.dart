@@ -1,6 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/core/utils/extensions/iterable_ext.dart';
 import 'package:niagara_app/features/authorization/phone_auth/data/data_sources/auth_local_data_source.dart';
 import 'package:niagara_app/features/locations/addresses/data/local/data_source/addresses_local_data_source.dart';
 import 'package:niagara_app/features/locations/addresses/data/mappers/address_dto_mapper.dart';
@@ -11,7 +11,6 @@ import 'package:niagara_app/features/locations/addresses/data/remote/dto/address
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
 import 'package:niagara_app/features/locations/addresses/domain/repositories/address_repository.dart';
 import 'package:niagara_app/features/profile/user/data/local/data_source/user_local_data_source.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 @LazySingleton(as: IAddressRepository)
 class AddressesRepository extends BaseRepository implements IAddressRepository {

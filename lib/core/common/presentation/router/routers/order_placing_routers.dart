@@ -19,6 +19,7 @@ abstract final class OrderPlacingRouters {
           AutoRoute(
             page: OrderResultRoute.page,
           ),
+          AutoRoute(page: PaymentRoute.page),
         ],
       );
 }

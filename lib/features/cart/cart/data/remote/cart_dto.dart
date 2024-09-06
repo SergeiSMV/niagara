@@ -13,16 +13,14 @@ class CartDto extends Equatable {
     required this.outOfStock,
     required this.data,
     required this.sumLimit,
-    required this.locationId,
-    required this.locationName,
+    required this.paymentMethod,
   });
 
   final List<ProductDto> products;
   final List<ProductDto> outOfStock;
   final CartDataDto data;
   final CartSumLimitDto sumLimit;
-  final String? locationId;
-  final String? locationName;
+  final List<PaymentMethodDto> paymentMethod;
 
   factory CartDto.fromJson(Map<String, dynamic> json) =>
       _$CartDtoFromJson(json);
@@ -33,9 +31,16 @@ class CartDto extends Equatable {
         outOfStock,
         data,
         sumLimit,
-        locationId,
-        locationName,
       ];
+}
+
+@JsonEnum(fieldRename: FieldRename.snake)
+enum PaymentMethodDto {
+  cash,
+  bankCard,
+  sbp,
+  sberbank,
+  terminal,
 }
 
 @JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
@@ -53,6 +58,8 @@ class CartDataDto extends Equatable {
     this.totalSum,
     this.totalSumFull,
     this.totalSumVip,
+    required this.location,
+    required this.locationName,
   });
 
   final double? sumDelivery;
@@ -67,6 +74,9 @@ class CartDataDto extends Equatable {
   final double? totalSum;
   final double? totalSumFull;
   final double? totalSumVip;
+  final String location;
+  @JsonKey(name: 'LACATION_NAME')
+  final String locationName;
 
   factory CartDataDto.fromJson(Map<String, dynamic> json) =>
       _$CartDataDtoFromJson(json);
@@ -85,6 +95,8 @@ class CartDataDto extends Equatable {
         totalSum,
         totalSumFull,
         totalSumVip,
+        location,
+        locationName,
       ];
 }
 

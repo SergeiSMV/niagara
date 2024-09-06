@@ -1,5 +1,6 @@
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/payment_statuses.dart';
+import 'package:niagara_app/features/payments/domain/model/paument_confirmation_info.dart';
 import 'package:yookassa_payments_flutter/models/payment_method_types.dart';
 
 /// Репозиторий для работы с платежами через эквайринг-сервис (ЮКасса).
@@ -31,11 +32,12 @@ abstract interface class IPaymentsRepository {
     required String amountRub,
     required String title,
     required String subtitle,
+    String? customerId,
   });
 
   /// Запрашивает ссылку на окно с подтверждением платежа для выбранного метода
   /// оплаты по соответствующим этому платежу [orderId] и [paymentToken].
-  Future<Either<Failure, String>> getConfirmationUrl({
+  Future<Either<Failure, PaymentConfirmationInfo>> getConfirmationUrl({
     required String orderId,
     required String paymentToken,
   });
@@ -62,6 +64,7 @@ abstract interface class IPaymentsRepository {
   /// для получения актуальной информации нужно периодически вызывать этот
   /// метод, пока не вернётся значение, отличное от [PaymentStatus.pending] или
   /// не пройдёт время ожидания.
-  Future<Either<Failure, PaymentStatus>> getPaymentStatus(
-      {required String orderId});
+  Future<Either<Failure, PaymentStatus>> getPaymentStatus({
+    required String orderId,
+  });
 }

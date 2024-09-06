@@ -6,6 +6,7 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/order_placing/presentation/bloc/create_order/create_order_cubit.dart';
 import 'package:niagara_app/features/profile/user/domain/models/user.dart';
 import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/edit_user_data_button.dart';
@@ -15,7 +16,12 @@ class OrderRecepientWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
+    return BlocConsumer<UserBloc, UserState>(
+      listener: (context, state) =>
+          context.read<OrderCreationCubit>().recipientSet = state.maybeWhen(
+        loaded: (user) => true,
+        orElse: () => false,
+      ),
       builder: (context, state) => state.maybeWhen(
         loaded: _RecepientData.new,
         // TODO: Тут как-то иначе должно быть, но ситуации, когда пользователя

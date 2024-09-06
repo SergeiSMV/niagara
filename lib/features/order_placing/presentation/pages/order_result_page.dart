@@ -15,10 +15,18 @@ import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.da
 class OrderResultPage extends StatelessWidget {
   const OrderResultPage({super.key, required this.isSuccessful});
 
+  /// Результат оформления заказа.
   final bool isSuccessful;
 
   @override
   Widget build(BuildContext context) {
+    final String text = isSuccessful
+        ? t.orderPlacing.orderingSuccess
+        : t.orderPlacing.orderingError;
+
+    final AssetGenImage image =
+        isSuccessful ? Assets.images.greenCheck : Assets.images.a3DError;
+
     final textStyle = context.textStyle.headingTypo.h3;
     return BlocProvider(
       create: (_) => getIt<UserBloc>(),
@@ -27,21 +35,13 @@ class OrderResultPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (isSuccessful)
-                Assets.images.greenCheck.image(
-                  height: 170,
-                  width: 170,
-                )
-              else
-                Assets.images.a3DError.image(
-                  height: 170,
-                  width: 170,
-                ),
+              image.image(
+                height: 170,
+                width: 170,
+              ),
               AppBoxes.kHeight16,
               Text(
-                isSuccessful
-                    ? t.orderPlacing.orderingSuccess
-                    : t.orderPlacing.orderingError,
+                text,
                 style: textStyle,
               ),
             ],

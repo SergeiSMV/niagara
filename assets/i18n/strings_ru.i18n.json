@@ -492,6 +492,15 @@
     },
     "noRecipientData": {
       "title": "Введите информацию о получателе"
+    },
+    "noDeliveryTime": {
+      "title": "Выберите время доставки"
+    },
+    "noPaymentMethod": {
+      "title": "Выберите способ оплаты"
+    },
+    "unknownError": {
+      "title": "Что-то пошло не так... Попробуйте позже"
     }
   },
   "paymentMethods": {

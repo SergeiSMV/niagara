@@ -55,6 +55,10 @@ class Product extends Equatable {
 
   bool get hasVIPDiscount => priceVip > 0 && priceVip < price;
 
+  // Сокращение количества логов.
+  @override
+  String toString() => 'Product(id: $id, name: $name, price: $price)';
+
   @override
   List<Object?> get props => [
         id,
