@@ -13,7 +13,5 @@ class GetDeliveryTimeOptionsUseCase
   Future<Either<Failure, List<DeliveryTimeOptions>>> call(
     NoParams params,
   ) async =>
-      _repo.getDeliveryTimeOptions(
-        locationId: '86a7f7b4-67ff-44af-9d00-d517aced756b',
-      );
+      _repo.getDeliveryTimeOptions();
 }

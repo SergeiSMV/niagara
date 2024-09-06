@@ -11,7 +11,15 @@ abstract final class ApiConst {
 
   static const String kYandexGeo = 'YANDEX_GEO';
 
-  static const String kReturnUrl = 'cordova://niagara74.ru';
+  /// DeepLink на приложение, использующийся для возврата пользователя после
+  /// авторизации / подтверждения оплаты на сторонних сервисах.
+  static const String kReturnUrl = '$kAppScheme$kAppLink';
+
+  /// Схема приложения для обработки DeepLink.
+  static const String kAppScheme = 'cordova://';
+
+  /// Ссылка на приложение (часть после scheme).
+  static const String kAppLink = 'niagara74.ru';
 
   // ? ------------------------------ Token ------------------------------- ? //
   /// -POST- Запрос на получение токена

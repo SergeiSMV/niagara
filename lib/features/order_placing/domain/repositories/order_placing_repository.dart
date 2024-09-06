@@ -10,13 +10,14 @@ import 'package:niagara_app/features/order_placing/domain/models/tokenization_da
 /// используются для формирования платёжного токена ЮКасса.
 abstract interface class IOrderPlacingRepository {
   /// Отправляет запрос на получение списка доступных дат и временных интервалов
-  /// доставки в рамках каждой даты для локации с заданым [locationId].
-  Future<Either<Failure, List<DeliveryTimeOptions>>> getDeliveryTimeOptions({
-    required String locationId,
-  });
+  /// доставки в рамках каждой даты.
+  ///
+  /// [DeliveryTimeOptions] вычисляются для каждого заказа на сервере
+  /// автоматически, исходя из данных пользователя и состояния корзины.
+  Future<Either<Failure, List<DeliveryTimeOptions>>> getDeliveryTimeOptions();
 
-  /// Отправляет запрос на создание заказа на сервере. Принимает информацию о
-  /// заказе [orderInfo].
+  /// Отправляет запрос на создание заказа на сервере на основе предоставленной
+  /// информации о заказе.
   ///
   /// Возвращает информацию о созданном заказе, необходимую для запуска
   /// токенизации платежа в ЮКасса.

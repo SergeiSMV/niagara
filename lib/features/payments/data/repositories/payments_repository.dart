@@ -42,7 +42,7 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
           customerId: customerId,
           tokenizationSettings:
               TokenizationSettings(PaymentMethodTypes([paymentMethod])),
-          applicationScheme: 'cordova://',
+          applicationScheme: ApiConst.kAppScheme,
         );
 
         final TokenizationResult result =

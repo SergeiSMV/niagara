@@ -4,13 +4,13 @@ import 'package:niagara_app/features/payments/domain/repositories/payments_repos
 
 @injectable
 class StartTokenizationUseCase extends BaseUseCase<String?, TokenizationData> {
-  StartTokenizationUseCase(this._repo);
+  StartTokenizationUseCase(this._paymentsRepository);
 
-  final IPaymentsRepository _repo;
+  final IPaymentsRepository _paymentsRepository;
 
   @override
   Future<Either<Failure, String?>> call(TokenizationData params) =>
-      _repo.startTokenization(
+      _paymentsRepository.startTokenization(
         amountRub: params.price,
         clientApplicationKey: params.applicationKey,
         paymentMethod: params.paymentMethod.toYooKassa(),
