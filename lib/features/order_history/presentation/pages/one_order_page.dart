@@ -147,13 +147,6 @@ class _BottomButtonsWidget extends StatelessWidget {
           children: [
             AppBoxes.kHeight24,
 
-            /// Электронный чек
-            AppTextButton.secondary(
-              text: t.recentOrders.electronicReceipt,
-              onTap: () => _showReceiptModal(context),
-            ),
-            AppBoxes.kHeight12,
-
             /// Отменить заказ (status = собирается)
             if (order.orderStatus == OrderStatus.goingTo) ...[
               AppTextButton.secondary(
@@ -191,6 +184,15 @@ class _BottomButtonsWidget extends StatelessWidget {
                         )
                       : const SizedBox.shrink();
                 },
+              ),
+            ],
+
+            /// Электронный чек
+            if (order.paymentCompleted) ...[
+              AppBoxes.kHeight12,
+              AppTextButton.secondary(
+                text: t.recentOrders.electronicReceipt,
+                onTap: () => _showReceiptModal(context),
               ),
             ],
 
