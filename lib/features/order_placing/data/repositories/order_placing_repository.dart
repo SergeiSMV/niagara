@@ -46,11 +46,9 @@ class OrderPlacingRepository extends BaseRepository
       });
 
   @override
-  Future<Either<Failure, List<DeliveryTimeOptions>>> getDeliveryTimeOptions({
-    required String locationId,
-  }) =>
+  Future<Either<Failure, List<DeliveryTimeOptions>>> getDeliveryTimeOptions() =>
       execute(
-        () => _rds.getDeliveryTimeOptions(locationId: locationId).fold(
+        () => _rds.getDeliveryTimeOptions().fold(
               (err) => throw err,
               (res) => res.isNotEmpty
                   ? res.map((e) => e.toModel()).toList()
