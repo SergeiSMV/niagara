@@ -14,25 +14,24 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
 import 'package:niagara_app/features/payments/presentation/bloc/payments_cubit.dart';
 
-// TODO: Добавить экран с информацией о ходе оплаты.
-// https://digitalburo.youtrack.cloud/issue/NIAGARA-317/Ekran-informaciej-o-hode-oplaty
+/// Экран с информацией о ходе оплаты.
 @RoutePage()
 class PaymentPage extends StatelessWidget {
   const PaymentPage({
     super.key,
     required this.tokenizationData,
-    required this.successRoute,
-    required this.errorRoute,
+    required this.onSuccess,
+    required this.onCancelled,
   });
 
   /// Данные для токенизации платежа.
   final TokenizationData tokenizationData;
 
-  /// Маршрут, на который пользователь перенаправляется после успешной оплаты.
-  final PageRouteInfo successRoute;
+  /// Коллбек, вызываемый в случае успешного завершения платежа.
+  final VoidCallback onSuccess;
 
-  /// Маршрут, на который пользователь перенаправляется при ошибке оплаты.
-  final PageRouteInfo errorRoute;
+  /// Коллбек, вызываемый в случае ошибки платежа.
+  final VoidCallback onCancelled;
 
   /// Обработчик состояния оплаты.
   ///
@@ -43,8 +42,8 @@ class PaymentPage extends StatelessWidget {
   /// [AppSnackBar.showErrorShackBar] с текстом ошибки.
   void _orderStateListener(BuildContext context, PaymentsState state) =>
       state.whenOrNull(
-        success: () => context.replaceRoute(successRoute),
-        orderCanceled: () => context.replaceRoute(errorRoute),
+        success: onSuccess,
+        orderCanceled: onCancelled,
         error: (err) => AppSnackBar.showErrorShackBar(
           context,
           title: err.toErrorText,

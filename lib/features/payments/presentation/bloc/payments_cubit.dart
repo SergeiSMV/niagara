@@ -170,12 +170,14 @@ class PaymentsCubit extends Cubit<PaymentsState> {
         await _getPaymentStatusUseCase(orderId).fold(
           (err) => emit(const _Error(type: PaymentErrorType.statusError)),
           (status) {
+            if (state is _Success || state is _Canceled) return;
+
             if (status == PaymentStatus.succeeded) {
-              _killTimer();
               emit(const PaymentsState.success());
+              return _killTimer();
             } else if (status == PaymentStatus.canceled) {
-              _killTimer();
               emit(const PaymentsState.orderCanceled());
+              return _killTimer();
             }
           },
         );

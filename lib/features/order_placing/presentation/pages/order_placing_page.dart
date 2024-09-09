@@ -27,6 +27,14 @@ class OrderPlacingPage extends StatelessWidget {
   /// Состояни корзины, которое будет использоваться при оформлении заказа.
   final Cart cart;
 
+  /// В случае успешного оформления заказа перенаправляет на страницу результата
+  ///
+  /// Также запрашивает обновление состояния корзины.
+  void _onSuccess(BuildContext context) {
+    context.replaceRoute(OrderResultRoute(isSuccessful: true));
+    context.read<CartBloc>().add(const CartEvent.getCart());
+  }
+
   /// Обработчик состояния оформления заказа.
   ///
   /// В случае ошибки отображает сообщение об ошибке.
@@ -40,21 +48,19 @@ class OrderPlacingPage extends StatelessWidget {
           context,
           title: err.type.toErrorTitle,
         ),
-        paymentRequired: (state) => context.replaceRoute(
+        paymentRequired: (state) => context.pushRoute(
           // Если нужно оплатить заказ, перенаправляем на страницу оплаты.
           PaymentRoute(
             tokenizationData: state.data,
-            successRoute: OrderResultRoute(isSuccessful: true),
-            errorRoute: OrderResultRoute(isSuccessful: false),
+            onSuccess: () => _onSuccess(context),
+            onCancelled: () => context.replaceRoute(
+              OrderResultRoute(isSuccessful: false),
+            ),
           ),
         ),
         // Если созданный заказ не подразумевает онлайн оплаты, перенаправляем
         // на страницу результата.
-        created: (_) {
-          context.replaceRoute(OrderResultRoute(isSuccessful: true));
-          context.read<CartBloc>().add(const CartEvent.getCart());
-          return;
-        },
+        created: (_) => _onSuccess(context),
       );
 
   @override
