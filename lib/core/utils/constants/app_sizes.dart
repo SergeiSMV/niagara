@@ -36,6 +36,9 @@ abstract final class AppSizes {
   static const double kImageSize120 = 120;
   static const double kImageSize100 = 100;
 
+  static const double kYookassaLogoWidth = 213;
+  static const double kYookassaLogoHeight = 50;
+
   //* ----------------------------- Notification --------------------------- *//
   static const double notificationIconHeight = 26;
   static const double notificationIconWidth = 26;

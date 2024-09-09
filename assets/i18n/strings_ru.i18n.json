@@ -483,7 +483,8 @@
     "thanksForOrdering": "Спасибо за заказ!",
     "continueShopping": "Продолжить покупки",
     "orderingError": "Ошибка оформления заказа",
-    "retry": "Повторить"
+    "retry": "Повторить",
+    "followInstructions": "Следуйте инструкциям\nна экране"
   },
   "errors": {
     "noInternet": {
@@ -501,6 +502,22 @@
     },
     "unknownError": {
       "title": "Что-то пошло не так... Попробуйте позже"
+    },
+    "serviceUnavailable": {
+      "title": "Ошибка обработки данных",
+      "description": "ЮKassa недоступна. Попробуйте позже"
+    },
+    "notConfirmed": {
+      "title": "Оплата не подтверждена",
+      "description": "Повторите попытку"
+    },
+    "paymentError": {
+      "title": "Оплата не прошла",
+      "description": "Ошибка обработки транзакции"
+    },
+    "statusError": {
+      "title": "Ошибка получения статуса заказа",
+      "description": "Проверьте платёж в истории заказов"
     }
   },
   "paymentMethods": {
