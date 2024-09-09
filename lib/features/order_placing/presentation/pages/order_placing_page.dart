@@ -31,8 +31,8 @@ class OrderPlacingPage extends StatelessWidget {
   ///
   /// Также запрашивает обновление состояния корзины.
   void _onSuccess(BuildContext context) {
-    context.replaceRoute(OrderResultRoute(isSuccessful: true));
     context.read<CartBloc>().add(const CartEvent.getCart());
+    context.replaceRoute(OrderResultRoute(isSuccessful: true));
   }
 
   /// Обработчик состояния оформления заказа.
