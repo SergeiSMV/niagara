@@ -46,10 +46,10 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   final GetPaymentStatusUseCase _getPaymentStatusUseCase;
 
   /// Количество попыток опроса статуса платежа.
-  int statusPollingAttempts = 0;
+  int _statusPollingAttempts = 0;
 
   /// Таймер для опроса статуса платежа.
-  Timer? pollingTimer;
+  Timer? _pollingTimer;
 
   /// Запускает процесс оплаты заказа.
   ///
@@ -157,10 +157,10 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   void _startPollingPaymentStatus(String orderId) {
     emit(const PaymentsState.loading());
 
-    pollingTimer = Timer.periodic(
+    _pollingTimer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) async {
-        if (statusPollingAttempts >= 30) {
+        if (_statusPollingAttempts >= 30) {
           _killTimer();
           return emit(const _Error(type: PaymentErrorType.statusError));
         }
@@ -182,20 +182,20 @@ class PaymentsCubit extends Cubit<PaymentsState> {
           },
         );
 
-        statusPollingAttempts++;
+        _statusPollingAttempts++;
       },
     );
   }
 
   /// Останавливает таймер опроса статуса платежа.
   void _killTimer() {
-    pollingTimer?.cancel();
-    pollingTimer = null;
+    _pollingTimer?.cancel();
+    _pollingTimer = null;
   }
 
   @override
   Future<void> close() {
-    pollingTimer?.cancel();
+    _pollingTimer?.cancel();
     return super.close();
   }
 }
