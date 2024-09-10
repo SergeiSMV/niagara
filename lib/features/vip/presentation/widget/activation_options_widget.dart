@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -8,12 +9,13 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/activation_option.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 
-// TODO: Здесь также должна быть плашка с информацией об активной подписке
-/// Виджет выбора опции активации.
+/// Виджет выбора опции активации ВИП-подписки.
 class ActivationOptionsWidget extends StatefulWidget {
   const ActivationOptionsWidget(this.options);
 
+  /// Список опций.
   final List<ActivationOption>? options;
 
   @override
@@ -41,8 +43,8 @@ class _ActivationOptionsWidgetState extends State<ActivationOptionsWidget> {
       return const SizedBox.shrink();
     }
 
-    final ActivationOption first = widget.options![0];
-    final ActivationOption second = widget.options![1];
+    final ActivationOption first = widget.options![1];
+    final ActivationOption second = widget.options![0];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,6 +54,7 @@ class _ActivationOptionsWidgetState extends State<ActivationOptionsWidget> {
           style: context.textStyle.headingTypo.h3,
         ),
         AppBoxes.kHeight16,
+        const _CurrentSubscriptionWidget(),
         Row(
           children: [
             Expanded(
@@ -88,6 +91,59 @@ class _ActivationOptionsWidgetState extends State<ActivationOptionsWidget> {
   }
 }
 
+class _CurrentSubscriptionWidget extends StatelessWidget {
+  const _CurrentSubscriptionWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<BonusesBloc, BonusesState>(
+      builder: (context, state) => state.maybeWhen(
+        loaded: (bonuses, statusDescription) => Padding(
+          padding: AppInsets.kBottom8,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: AppBorders.kCircular12,
+              color: context.colors.mainColors.bgCard,
+            ),
+            child: Padding(
+              padding: AppInsets.kAll12,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: context.colors.infoColors.green,
+                      borderRadius: AppBorders.kCircular4,
+                    ),
+                    child: Padding(
+                      padding: AppInsets.kHorizontal10 + AppInsets.kVertical6,
+                      child: Text(
+                        'Текущаяя подписка',
+                        style: context.textStyle.captionTypo.c1.withColor(
+                          context.colors.textColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  AppBoxes.kHeight8,
+                  Text(
+                    'VIP-подписка активна до ${bonuses.endDateFormated}',
+                    style: context.textStyle.textTypo.tx1SemiBold,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        orElse: SizedBox.shrink,
+      ),
+    );
+  }
+}
+
 /// Панель с опцией активации.
 class _ActivationOptionPanel extends StatelessWidget {
   const _ActivationOptionPanel({
@@ -99,11 +155,22 @@ class _ActivationOptionPanel extends StatelessWidget {
     this.label,
   });
 
+  /// Цвет фона.
   final Color bgColor;
+
+  /// Общая стоимость.
   final String totalPrice;
+
+  /// Стоимость в месяц.
   final String monthlyPrice;
+
+  /// Заголовок.
   final String title;
+
+  /// Лейбл. Отображается в верхнем левом углу.
   final String? label;
+
+  /// Выбрана ли опция.
   final bool selected;
 
   @override
@@ -152,7 +219,7 @@ class _ActivationOptionPanel extends StatelessWidget {
             ),
             AppBoxes.kHeight24,
             Text(
-              totalPrice + t.common.rub,
+              '$totalPrice ${t.common.rub}',
               style: context.textStyle.headingTypo.h2,
             ),
             AppBoxes.kHeight2,
@@ -164,7 +231,7 @@ class _ActivationOptionPanel extends StatelessWidget {
             ),
             AppBoxes.kHeight24,
             Text(
-              monthlyPrice + t.vip.forMonth,
+              '$monthlyPrice ${t.common.rub} ${t.vip.forMonth}',
               style: context.textStyle.textTypo.tx1SemiBold,
             ),
           ],
