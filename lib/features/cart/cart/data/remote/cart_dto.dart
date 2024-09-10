@@ -75,7 +75,6 @@ class CartDataDto extends Equatable {
   final double? totalSumFull;
   final double? totalSumVip;
   final String location;
-  @JsonKey(name: 'LACATION_NAME')
   final String locationName;
 
   factory CartDataDto.fromJson(Map<String, dynamic> json) =>

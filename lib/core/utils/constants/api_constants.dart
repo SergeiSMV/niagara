@@ -186,6 +186,9 @@ abstract final class ApiConst {
   /// -POST- Запрос на создание заказа
   static const String kCreateOrder = '/orders';
 
+  /// -GET- Запрос на получение чека заказа.
+  static const String kGetReceipt = '/check';
+
   // ? --------------------------- Referral ------------------------------- ? //
   /// -GET- Запрос на получение описания реферальной программы
   static const String kReferralInfo = '/referal_info';

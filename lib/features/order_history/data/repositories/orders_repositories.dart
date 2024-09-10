@@ -5,15 +5,17 @@ import 'package:niagara_app/core/utils/enums/order_status.dart';
 import 'package:niagara_app/core/utils/enums/orders_types.dart';
 import 'package:niagara_app/features/order_history/data/local/data_source/orders_local_data_source.dart';
 import 'package:niagara_app/features/order_history/data/mappers/order_evaluation_option_mapper.dart';
+import 'package:niagara_app/features/order_history/data/mappers/receipt_mapper.dart';
 import 'package:niagara_app/features/order_history/data/mappers/user_entity_mapper.dart';
 import 'package:niagara_app/features/order_history/data/mappers/user_order_mapper.dart';
 import 'package:niagara_app/features/order_history/data/remote/data_source/orders_remote_datasource.dart';
 import 'package:niagara_app/features/order_history/domain/models/order_rate_option.dart';
+import 'package:niagara_app/features/order_history/domain/models/order_receipt.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/domain/repositories/orders_repository.dart';
 
-@LazySingleton(as: IOrdersRepositories)
-class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
+@LazySingleton(as: IOrdersRepository)
+class OrdersRepositories extends BaseRepository implements IOrdersRepository {
   OrdersRepositories(
     super._logger,
     super._networkInfo,
@@ -23,6 +25,10 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
 
   final IOrdersRemoteDatasource _ordersRDS;
   final IOrdersLocalDatasource _ordersLDS;
+
+  // TODO(kvbykov): Возможно, будет лучше сохрнаить чеки в БД.
+  /// Кеш для чеков.
+  final Map<String, OrderReceipt> _receipts = {};
 
   @override
   Failure get failure => const OrdersRepositoryFailure();
@@ -94,8 +100,9 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
   }
 
   @override
-  Future<Either<Failure, List<OrderRateOption>>> getOrderRateOptions(
-          {required int rating}) =>
+  Future<Either<Failure, List<OrderRateOption>>> getOrderRateOptions({
+    required int rating,
+  }) =>
       execute(
         () async => _ordersRDS.getOrderRateOptions(rating: rating).fold(
               (failure) => throw failure,
@@ -122,5 +129,23 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepositories {
               (failure) => throw failure,
               (result) => result,
             ),
+      );
+
+  @override
+  Future<Either<Failure, OrderReceipt>> getReceipt({required String id}) =>
+      execute(
+        () async {
+          final OrderReceipt? cached = _receipts[id];
+          if (cached != null) return cached;
+
+          final OrderReceipt remote =
+              await _ordersRDS.getOrderReceipt(id: id).fold(
+                    (failure) => throw failure,
+                    (dto) => dto.toModel(),
+                  );
+
+          _receipts[id] = remote;
+          return remote;
+        },
       );
 }
