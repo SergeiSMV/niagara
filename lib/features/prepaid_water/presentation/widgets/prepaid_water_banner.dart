@@ -13,10 +13,7 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 ///
 /// Отображает количество доступной предоплатной воды на балансе.
 class PrepaidWaterBanner extends StatelessWidget {
-  const PrepaidWaterBanner({super.key, required this.count});
-
-  /// Количество доступной предоплатной воды.
-  final int count;
+  const PrepaidWaterBanner({super.key});
 
   /// Перенаправляет на страницу баланса предоплатной воды.
   void _navigateToPrepaidWater(BuildContext context) {
@@ -32,6 +29,9 @@ class PrepaidWaterBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO(kvbykov): Mock
+    const int count = 10;
+
     return Padding(
       padding: AppInsets.kHorizontal16 + AppInsets.kBottom24,
       child: GestureDetector(
