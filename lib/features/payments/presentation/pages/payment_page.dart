@@ -64,7 +64,7 @@ class PaymentPage extends StatelessWidget {
         listener: _orderStateListener,
         builder: (context, state) => state.maybeWhen(
           loading: AppCenterLoader.new,
-          orElse: () => _Content(_onRetry),
+          orElse: () => _Content(() => _onRetry(context)),
         ),
       ),
     );
@@ -75,7 +75,7 @@ class _Content extends StatelessWidget {
   const _Content(this.onRetry);
 
   /// Обработчик повторной попытки оплаты.
-  final void Function(BuildContext context) onRetry;
+  final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +108,7 @@ class _Content extends StatelessWidget {
               padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
               child: AppTextButton.primary(
                 text: t.orderPlacing.retry,
-                onTap: () => onRetry(context),
+                onTap: onRetry,
               ),
             )
           : null,
