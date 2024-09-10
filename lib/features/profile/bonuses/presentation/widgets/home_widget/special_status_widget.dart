@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -18,6 +20,18 @@ class SpecialStatusWidget extends StatelessWidget {
 
   final Bonuses bonuses;
 
+  /// Перенаправляет на страницу баланса предоплатной воды.
+  void _navigateToPrepaidWater(BuildContext context) {
+    context.navigateTo(
+      const ProfileWrapper(
+        children: [
+          ProfileRoute(),
+          PrepaidWaterRoute(),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +41,7 @@ class SpecialStatusWidget extends StatelessWidget {
         const PersonalizedPricesWidget(),
         AppBoxes.kHeight16,
         InkWell(
-          onTap: () {},
+          onTap: () => _navigateToPrepaidWater(context),
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: context.colors.mainColors.white,

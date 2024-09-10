@@ -46,6 +46,7 @@ class HomePage extends StatelessWidget {
                 Column(
                   children: [
                     HomeBonusesWidget(),
+                    PrepaidWaterBanner(count: 10),
                     StaticBannersWidget(),
                   ],
                 ),
@@ -56,7 +57,6 @@ class HomePage extends StatelessWidget {
             delegate: SliverChildListDelegate([
               const EquipmentBannerWidget(),
               const RecentOrdersListWidget(),
-              const PrepaidWaterBanner(count: 10),
               const StoriesHomeWidget(),
               const NewProductsHomeWidget(),
               const SpecialProductsHomeWidget(),
@@ -70,6 +70,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
+// TODO: Зарефакторить, ВИП-фон должен быть вшит в виджет для ВИПа.
+/// Отрисовывает фон в зависимости от статуса пользователя.
 class _HomeBackgroundColorsWidget extends StatelessWidget {
   const _HomeBackgroundColorsWidget();
 
@@ -81,7 +83,7 @@ class _HomeBackgroundColorsWidget extends StatelessWidget {
         loaded: (bonuses, _) => bonuses.level.isVIPStatus
             ? bonuses.level.cardImage.image()
             : Container(
-                height: context.screenHeight / 3,
+                height: context.screenHeight / 2,
                 color: context.colors.mainColors.bgCard,
               ),
       ),
