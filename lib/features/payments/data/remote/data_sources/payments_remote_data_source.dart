@@ -38,7 +38,7 @@ class PaymentsRemoteDataSource implements IPaymentsRemoteDataSource {
           data: {
             'ORDER_ID': orderId,
             'PAYMENT_TOKEN': paymentToken,
-            'RETURN_URL': 'cordova://niagara74.ru',
+            'RETURN_URL': ApiConst.kReturnUrl,
           },
         ),
         converter: PaymentConfirmationDto.fromJson,

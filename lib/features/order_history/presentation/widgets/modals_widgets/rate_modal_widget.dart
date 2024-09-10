@@ -155,8 +155,11 @@ class _SendRatingButtonWidget extends StatelessWidget {
         title: t.recentOrders.sendingError,
         subtitle: t.recentOrders.failedSendRating,
       ),
-      success: () =>
-          _onCloseModal(context).then((_) => _showEstimateSentModal(context)),
+      success: () => _onCloseModal(context).then((_) {
+        if (context.mounted) {
+          _showEstimateSentModal(context);
+        }
+      }),
       orElse: () {},
     );
   }

@@ -58,7 +58,7 @@ class PaymentsRepository extends BaseRepository implements IPaymentsRepository {
       });
 
   @override
-  Future<Either<Failure, PaymentConfirmationInfo>> getConfirmationUrl({
+  Future<Either<Failure, PaymentConfirmationInfo>> createPayment({
     required String orderId,
     required String paymentToken,
   }) =>

@@ -10,18 +10,22 @@ extension SlideDtoMapper on SlideDto {
         // По умолчанию выравнивание текста по верхнему краю.
         align: align.nonEmpty != null
             ? SlideAlign.values.firstWhere(
-                (s) => s.toString() == 'SlideAlign.${align!.toLowerCase()}')
+                (s) => s.toString() == 'SlideAlign.${align!.toLowerCase()}',
+              )
             : SlideAlign.top,
         backgroundImage: backgroundImage.nonEmpty,
         // Тема слайда по умолчанию - темная.
         themeImage: themeImage.nonEmpty != null
-            ? SlideTheme.values.firstWhere((s) =>
-                s.toString() == 'SlideTheme.${themeImage!.toLowerCase()}')
+            ? SlideTheme.values.firstWhere(
+                (s) =>
+                    s.toString() == 'SlideTheme.${themeImage!.toLowerCase()}',
+              )
             : SlideTheme.dark,
         // Тема текста по умолчанию - светлая (для контраста с темой слайда).
         themeText: themeText.nonEmpty != null
             ? SlideTheme.values.firstWhere(
-                (s) => s.toString() == 'SlideTheme.${themeText!.toLowerCase()}')
+                (s) => s.toString() == 'SlideTheme.${themeText!.toLowerCase()}',
+              )
             : SlideTheme.ligth,
         labelTitle: labelTitle.nonEmpty,
         labelColor: labelColor.nonEmpty,

@@ -13,7 +13,7 @@ class GetConfirmationUrlUseCase
   Future<Either<Failure, PaymentConfirmationInfo>> call(
     GetConfirmationUrlParams params,
   ) =>
-      _repo.getConfirmationUrl(
+      _repo.createPayment(
         orderId: params.orderId,
         paymentToken: params.paymentToken,
       );

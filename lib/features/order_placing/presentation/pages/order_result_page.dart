@@ -6,11 +6,13 @@ import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widge
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 
+/// Страница с результатом оформления заказа.
 @RoutePage()
 class OrderResultPage extends StatelessWidget {
   const OrderResultPage({super.key, required this.isSuccessful});
@@ -36,14 +38,11 @@ class OrderResultPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               image.image(
-                height: 170,
-                width: 170,
+                height: AppSizes.kImageSize170,
+                width: AppSizes.kImageSize170,
               ),
               AppBoxes.kHeight16,
-              Text(
-                text,
-                style: textStyle,
-              ),
+              Text(text, style: textStyle),
             ],
           ),
         ),
@@ -65,7 +64,9 @@ class _OkButton extends StatelessWidget {
               ? t.orderPlacing.continueShopping
               : t.orderPlacing.retry,
           onTap: isSuccessful
-              ? () => context.navigateTo(const HomeWrapperRoute())
+              ? () => context
+                ..maybePop()
+                ..navigateTo(const HomeWrapperRoute())
               : () => context.maybePop(),
         ),
       );

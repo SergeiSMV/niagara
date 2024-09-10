@@ -1,6 +1,11 @@
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/payment_statuses.dart';
 
+/// Информация о платеже, включая статус и ссылку на подтверждение.
+///
+/// Платёж может не требовать подтверждения, в таком случае [confirmationUrl]
+/// равен `null`, а [status] равен [PaymentStatus.succeeded] или
+/// [PaymentStatus.canceled].
 class PaymentConfirmationInfo extends Equatable {
   const PaymentConfirmationInfo({
     required this.confirmationUrl,

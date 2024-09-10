@@ -104,6 +104,7 @@ class _AllOrdersButtonWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Assets.icons.boxOrder.svg(
+              // ignore: deprecated_member_use_from_same_package
               color: context.colors.mainColors.white,
             ),
             AppBoxes.kHeight8,
