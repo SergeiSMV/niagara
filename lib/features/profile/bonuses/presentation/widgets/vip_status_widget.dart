@@ -12,6 +12,9 @@ import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart'
 import 'package:niagara_app/features/profile/bonuses/domain/models/status_description.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/modal_q_r_code_widget.dart';
 
+/// Виджет с информацией о текущем `VIP`-статусе.
+///
+/// Отображается на главной и в профиле у пользователя.
 class VipStatusWidget extends StatelessWidget {
   const VipStatusWidget({
     super.key,
@@ -50,7 +53,7 @@ class VipStatusWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                t.bonuses.activeTo(date: 'date?'),
+                t.bonuses.activeTo(date: bonuses.endDateFormated),
                 style: context.textStyle.textTypo.tx4Medium.withColor(
                   context.colors.textColors.white,
                 ),
@@ -77,7 +80,7 @@ class VipStatusWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                benefit.title,
+                                benefit.titleShort,
                                 style: context.textStyle.textTypo.tx2SemiBold
                                     .withColor(
                                   context.colors.textColors.accent,
@@ -90,7 +93,7 @@ class VipStatusWidget extends StatelessWidget {
                           ),
                           AppBoxes.kHeight8,
                           Text(
-                            benefit.description,
+                            benefit.descriptionShort,
                             style:
                                 context.textStyle.textTypo.tx4Medium.withColor(
                               context.colors.textColors.main,

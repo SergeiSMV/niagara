@@ -38,6 +38,8 @@ extension StatusesDescriptionMapper on StatusDescriptionDto {
 extension BenefitMapper on BenefitDto {
   BenefitDescription toModel() => BenefitDescription(
         title: titleName,
+        titleShort: titleNameSmall,
+        descriptionShort: titleTextSmall,
         description: titleText,
         picture: BenefitPicture.fromString(titlePict),
       );

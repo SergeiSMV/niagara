@@ -4,7 +4,7 @@ import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/enums/orders_types.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/order_type_Item_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/order_type_item_widget.dart';
 
 class OrdersTypeButtons extends StatelessWidget {
   const OrdersTypeButtons({super.key});

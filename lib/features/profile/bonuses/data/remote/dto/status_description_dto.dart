@@ -62,14 +62,24 @@ class BenefitDto extends Equatable {
     required this.titleName,
     required this.titleText,
     required this.titlePict,
+    required this.titleNameSmall,
+    required this.titleTextSmall,
   });
 
   @JsonKey(name: 'title_name')
   final String titleName;
+
   @JsonKey(name: 'title_text')
   final String titleText;
+
   @JsonKey(name: 'title_pict')
   final String titlePict;
+
+  @JsonKey(name: 'title_name_small')
+  final String titleNameSmall;
+
+  @JsonKey(name: 'title_text_small')
+  final String titleTextSmall;
 
   factory BenefitDto.fromJson(Map<String, dynamic> json) =>
       _$BenefitDtoFromJson(json);
