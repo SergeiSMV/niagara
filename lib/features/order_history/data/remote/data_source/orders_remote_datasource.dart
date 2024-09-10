@@ -2,23 +2,32 @@ import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/orders_types.dart';
 import 'package:niagara_app/features/order_history/data/remote/dto/order_rate_option_dto.dart';
+import 'package:niagara_app/features/order_history/data/remote/dto/receipt_dto.dart';
 import 'package:niagara_app/features/order_history/data/remote/dto/user_order_dto.dart';
 
 abstract interface class IOrdersRemoteDatasource {
+  /// Получение списка заказов с сортировкой по типу.
   Future<Either<Failure, OrdersDto>> getOrders({
     required int page,
     required OrdersTypes sort,
   });
 
+  /// Получение вариантов оценки заказа.
   Future<Either<Failure, List<OrderRateOptionDto>>> getOrderRateOptions({
     required int rating,
   });
 
+  /// Оценить заказ.
   Future<Either<Failure, bool>> rateOrder({
     required String id,
     required int rating,
     required String comment,
     required List<String> optionsIds,
+  });
+
+  /// Получение чека заказа.
+  Future<Either<Failure, OrderReceiptDto>> getOrderReceipt({
+    required String id,
   });
 }
 
@@ -94,6 +103,21 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
           },
         ),
         converter: (result) => result,
+        failure: OrdersRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, OrderReceiptDto>> getOrderReceipt(
+          {required String id}) =>
+      _requestHandler.sendRequest<OrderReceiptDto, String>(
+        isHtml: true,
+        request: (dio) => dio.get(
+          ApiConst.kGetReceipt,
+          queryParameters: {
+            'order_id': id,
+          },
+        ),
+        converter: (html) => OrderReceiptDto(html: html, orderId: id),
         failure: OrdersRemoteDataFailure.new,
       );
 }

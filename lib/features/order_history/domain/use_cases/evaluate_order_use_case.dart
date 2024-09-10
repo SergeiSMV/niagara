@@ -5,7 +5,7 @@ import 'package:niagara_app/features/order_history/domain/repositories/orders_re
 class RateOrderUseCase extends BaseUseCase<bool, RateOrderParams> {
   const RateOrderUseCase(this._ordersRepository);
 
-  final IOrdersRepositories _ordersRepository;
+  final IOrdersRepository _ordersRepository;
 
   @override
   Future<Either<Failure, bool>> call(

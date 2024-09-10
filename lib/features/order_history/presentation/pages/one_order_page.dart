@@ -15,6 +15,7 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/rate_order_cubit.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/list_products_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/order_receipt_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_data_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
@@ -125,6 +126,18 @@ class _BottomButtonsWidget extends StatelessWidget {
     );
   }
 
+  /// Открывает модальное окно с оценкой заказа
+  Future<void> _showReceiptModal(BuildContext context) async {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      useRootNavigator: true,
+      backgroundColor: context.colors.mainColors.white,
+      useSafeArea: true,
+      builder: (ctx) => OrderReceiptWidget(order: order),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -160,13 +173,6 @@ class _BottomButtonsWidget extends StatelessWidget {
                 AppBoxes.kHeight12,
               ],
 
-              /// Электронный чек
-              AppTextButton.secondary(
-                text: t.recentOrders.electronicReceipt,
-                onTap: () {},
-              ),
-              AppBoxes.kHeight12,
-
               /// Оценить заказ
               BlocBuilder<RateOrderCubit, RateOrderState>(
                 builder: (context, state) {
@@ -178,6 +184,15 @@ class _BottomButtonsWidget extends StatelessWidget {
                         )
                       : const SizedBox.shrink();
                 },
+              ),
+            ],
+
+            /// Электронный чек
+            if (order.paymentCompleted) ...[
+              AppBoxes.kHeight12,
+              AppTextButton.secondary(
+                text: t.recentOrders.electronicReceipt,
+                onTap: () => _showReceiptModal(context),
               ),
             ],
 
