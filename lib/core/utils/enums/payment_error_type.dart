@@ -5,7 +5,7 @@ enum PaymentErrorType {
   /// Сервис проведения оплат недоступен.
   serviceUnavailable,
 
-  /// Оплата не была подтверждена из-за ошибки или отмены польщзователем.
+  /// Оплата не была подтверждена из-за ошибки или отмены пользователем.
   notConfirmed,
 
   /// Ошибка получения статуса оплаты.
@@ -20,19 +20,17 @@ enum PaymentErrorType {
 
   /// Преобразует тип ошибки оплаты в текст ошибки.
   String get toErrorText => switch (this) {
-        PaymentErrorType.serviceUnavailable =>
-          t.errors.serviceUnavailable.title,
-        PaymentErrorType.notConfirmed => t.errors.notConfirmed.title,
-        PaymentErrorType.notCreated => t.errors.paymentError.title,
-        PaymentErrorType.statusError => t.errors.statusError.title,
+        serviceUnavailable => t.errors.serviceUnavailable.title,
+        notConfirmed => t.errors.notConfirmed.title,
+        notCreated => t.errors.paymentError.title,
+        statusError => t.errors.statusError.title,
       };
 
   /// Преобразует тип ошибки оплаты в опциональное описание ошибки.
   String? get toErrorDescription => switch (this) {
-        PaymentErrorType.serviceUnavailable =>
-          t.errors.serviceUnavailable.description,
-        PaymentErrorType.notConfirmed => t.errors.notConfirmed.description,
-        PaymentErrorType.notCreated => t.errors.paymentError.description,
-        PaymentErrorType.statusError => t.errors.statusError.description,
+        serviceUnavailable => t.errors.serviceUnavailable.description,
+        notConfirmed => t.errors.notConfirmed.description,
+        notCreated => t.errors.paymentError.description,
+        statusError => t.errors.statusError.description,
       };
 }

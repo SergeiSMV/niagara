@@ -5,7 +5,7 @@ part of '../../core.dart';
 ///
 /// - [IAppLogger] - логгер для записи сообщений об ошибках.
 abstract class BaseRepository {
-  BaseRepository(this._logger, this._networkInfo);
+  const BaseRepository(this._logger, this._networkInfo);
 
   final IAppLogger _logger;
 

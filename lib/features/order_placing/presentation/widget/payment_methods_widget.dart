@@ -48,7 +48,7 @@ class OrderPaymentMethodWidget extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

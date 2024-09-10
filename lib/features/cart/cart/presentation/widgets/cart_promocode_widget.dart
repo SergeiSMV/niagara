@@ -41,7 +41,9 @@ class CartPromocodeWidget extends StatelessWidget {
           BlocConsumer<CheckPromoCodeCubit, CheckPromoCodeState>(
             listener: (context, state) => state.maybeWhen(
               valid: () => _getCard(
-                  context, context.read<CheckPromoCodeCubit>().promoCode),
+                context,
+                context.read<CheckPromoCodeCubit>().promoCode,
+              ),
               orElse: () => null,
             ),
             builder: (context, state) {

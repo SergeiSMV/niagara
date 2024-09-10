@@ -25,7 +25,7 @@ class OrderDataWidget extends StatelessWidget {
 
   String _formatPhoneNumber() {
     final cleanedPhoneNumber =
-        order.customerPhone.replaceAll(RegExp(r'[^0-9]'), '');
+        order.customerPhone.replaceAll(RegExp('[^0-9]'), '');
 
     if (cleanedPhoneNumber.length != 11) {
       return order.customerPhone;

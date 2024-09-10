@@ -15,7 +15,7 @@ class RequestLocationButton extends StatelessWidget {
   Future<void> onDeterminePosition(BuildContext context) async {
     final cubit = context.read<MapCubit>();
     await cubit.determinePosition().whenComplete(() {
-      if (!cubit.isPermissionGranted) showDialog(context);
+      if (!cubit.isPermissionGranted && context.mounted) showDialog(context);
     });
   }
 

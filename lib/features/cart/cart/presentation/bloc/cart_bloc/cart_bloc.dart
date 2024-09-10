@@ -44,7 +44,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final GetRecommendsCartUseCase _getRecommendsCartUseCase;
   final GetDefaultAddressUseCase _getDefaultAddressUseCase;
 
-  bool _returnAllTare = false;
+  final bool _returnAllTare = false;
   int _returnTareCount = 0;
   int _bonusesToPay = 0;
 

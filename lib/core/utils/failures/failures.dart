@@ -283,8 +283,9 @@ class NewProductsRepositoryFailure extends Failure {
 // ! -------------------------- Special products -------------------------- ! //
 
 class SpecialProductsDataFailure extends Failure {
-  const SpecialProductsDataFailure(
-      [super.error = 'Special products data failure']);
+  const SpecialProductsDataFailure([
+    super.error = 'Special products data failure',
+  ]);
 }
 
 class SpecialProductsRepositoryFailure extends Failure {
@@ -338,8 +339,9 @@ class ReferralRepositoryFailure extends Failure {
 }
 
 class ReferralRemoteDataFailure extends Failure {
-  const ReferralRemoteDataFailure(
-      [super.error = 'Referral remote data failure']);
+  const ReferralRemoteDataFailure([
+    super.error = 'Referral remote data failure',
+  ]);
 }
 
 // ! ------------------------------- Policies ---------------------------- ! //
