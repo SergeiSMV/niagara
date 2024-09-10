@@ -7,11 +7,11 @@ class GetOrderRateOptionsUseCase
     extends BaseUseCase<List<OrderRateOption>, int> {
   const GetOrderRateOptionsUseCase(this._ordersRepository);
 
-  final IOrdersRepositories _ordersRepository;
+  final IOrdersRepository _ordersRepository;
 
   @override
   Future<Either<Failure, List<OrderRateOption>>> call(
     int rating,
-  ) async =>
+  ) =>
       _ordersRepository.getOrderRateOptions(rating: rating);
 }
