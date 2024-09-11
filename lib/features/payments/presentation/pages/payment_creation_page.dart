@@ -69,7 +69,9 @@ class PaymentCreationPage extends StatelessWidget {
   ///
   /// В случае успешного оформления заказа перенаправляет на страницу результата.
   void _paymentStateListener(
-          BuildContext context, PaymentCreationState state) =>
+    BuildContext context,
+    PaymentCreationState state,
+  ) =>
       state.mapOrNull(
         // TODO: Добавить отображение номера телефона при ошибке "нет интернета"
         // https://digitalburo.youtrack.cloud/issue/NIAGARA-341/Dobavit-nomer-telefona-v-plashku-Net-interneta
