@@ -3,6 +3,8 @@ import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 
+/// Модель с полной информацией об уровне бонусной программы, VIP-статусе и
+/// предоплатной воде пользователя.
 class Bonuses extends Equatable {
   const Bonuses({
     required this.id,

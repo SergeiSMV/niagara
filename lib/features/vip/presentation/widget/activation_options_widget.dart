@@ -9,42 +9,29 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/activation_option.dart';
-import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
+import 'package:niagara_app/features/vip/presentation/bloc/vip_activation_selection_cubit/vip_activation_selection_cubit.dart';
+import 'package:niagara_app/features/vip/presentation/widget/current_subscription_widget.dart';
 
 /// Виджет выбора опции активации ВИП-подписки.
-class ActivationOptionsWidget extends StatefulWidget {
-  const ActivationOptionsWidget(this.options);
+class ActivationOptionsWidget extends StatelessWidget {
+  const ActivationOptionsWidget(this.options, this.vipEndDate);
 
   /// Список опций.
-  final List<ActivationOption>? options;
+  final List<ActivationOption> options;
 
-  @override
-  State<ActivationOptionsWidget> createState() =>
-      _ActivationOptionsWidgetState();
-}
-
-class _ActivationOptionsWidgetState extends State<ActivationOptionsWidget> {
-  int? selectedOption;
-
-  void _onOptionSelected(int index) {
-    setState(() {
-      if (selectedOption == index) {
-        selectedOption = null;
-        return;
-      }
-
-      selectedOption = index;
-    });
-  }
+  /// Дата окончания ВИП-подписки, если она есть.
+  final String? vipEndDate;
 
   @override
   Widget build(BuildContext context) {
-    if (widget.options == null) {
-      return const SizedBox.shrink();
-    }
+    // Сортируем опции по возрастанию стоимости за месяц.
+    options.sort((a, b) => a.sumForMounth.compareTo(b.sumForMounth));
 
-    final ActivationOption first = widget.options![1];
-    final ActivationOption second = widget.options![0];
+    final ActivationOption first = options[0];
+    final ActivationOption second = options[1];
+
+    final activationSelectionCubit =
+        context.watch<VipActivationSelectionCubit>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,17 +41,20 @@ class _ActivationOptionsWidgetState extends State<ActivationOptionsWidget> {
           style: context.textStyle.headingTypo.h3,
         ),
         AppBoxes.kHeight16,
-        const _CurrentSubscriptionWidget(),
+        if (vipEndDate != null) ...[
+          CurrentSubscriptionWidget(endDate: vipEndDate!),
+          AppBoxes.kHeight8,
+        ],
         Row(
           children: [
             Expanded(
               child: InkWell(
-                onTap: () => _onOptionSelected(0),
+                onTap: () => activationSelectionCubit.select(first),
                 child: _ActivationOptionPanel(
                   bgColor: context.colors.infoColors.bgBlue,
                   title: first.title,
                   monthlyPrice: first.sumForMounth,
-                  selected: selectedOption == 0,
+                  selected: activationSelectionCubit.state == first,
                   totalPrice: first.sum,
                   label: first.label,
                 ),
@@ -73,12 +63,12 @@ class _ActivationOptionsWidgetState extends State<ActivationOptionsWidget> {
             AppBoxes.kWidth12,
             Expanded(
               child: InkWell(
-                onTap: () => _onOptionSelected(1),
+                onTap: () => activationSelectionCubit.select(second),
                 child: _ActivationOptionPanel(
                   bgColor: context.colors.buttonColors.secondary,
                   title: second.title,
                   monthlyPrice: second.sumForMounth,
-                  selected: selectedOption == 1,
+                  selected: activationSelectionCubit.state == second,
                   totalPrice: second.sum,
                 ),
               ),
@@ -87,59 +77,6 @@ class _ActivationOptionsWidgetState extends State<ActivationOptionsWidget> {
         ),
         AppBoxes.kHeight12,
       ],
-    );
-  }
-}
-
-class _CurrentSubscriptionWidget extends StatelessWidget {
-  const _CurrentSubscriptionWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<BonusesBloc, BonusesState>(
-      builder: (context, state) => state.maybeWhen(
-        loaded: (bonuses, statusDescription) => Padding(
-          padding: AppInsets.kBottom8,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: AppBorders.kCircular12,
-              color: context.colors.mainColors.bgCard,
-            ),
-            child: Padding(
-              padding: AppInsets.kAll12,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: context.colors.infoColors.green,
-                      borderRadius: AppBorders.kCircular4,
-                    ),
-                    child: Padding(
-                      padding: AppInsets.kHorizontal10 + AppInsets.kVertical6,
-                      child: Text(
-                        'Текущаяя подписка',
-                        style: context.textStyle.captionTypo.c1.withColor(
-                          context.colors.textColors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  AppBoxes.kHeight8,
-                  Text(
-                    'VIP-подписка активна до ${bonuses.endDateFormated}',
-                    style: context.textStyle.textTypo.tx1SemiBold,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        orElse: SizedBox.shrink,
-      ),
     );
   }
 }
