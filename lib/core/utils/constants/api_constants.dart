@@ -95,6 +95,9 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение истории бонусов
   static const String kGetBonusesHistory = '/history';
 
+  /// -POST- Запрос на создание заказа ВИП-подписки
+  static const String kOrderVip = '/orders_vip';
+
   // ? ------------------------------ Promos ------------------------------ ? //
   /// -GET- Запрос на получение списка акции
   static const String kGetPromos = '/offers';

@@ -1,6 +1,7 @@
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
+/// Различные статусы аккаунта.
 enum StatusLevel {
   silver,
   gold,

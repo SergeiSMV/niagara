@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
@@ -7,7 +7,7 @@ import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/status_description.dart';
-import 'package:niagara_app/features/vip/presentation/bloc/vip_bloc.dart';
+import 'package:niagara_app/features/vip/presentation/bloc/vip_description_bloc/vip_description_bloc.dart';
 import 'package:niagara_app/features/vip/presentation/widget/activation_options_widget.dart';
 import 'package:niagara_app/features/vip/presentation/widget/vip_benefits_list.dart';
 import 'package:niagara_app/features/vip/presentation/widget/vip_subscribe_button.dart';
@@ -26,7 +26,7 @@ class VipPage extends StatelessWidget {
             child: Assets.images.vipUpperBanner.image(),
           ),
           SliverToBoxAdapter(
-            child: BlocBuilder<VipBloc, VipState>(
+            child: BlocBuilder<VipDescriptionBloc, VipState>(
               builder: (_, state) => state.maybeWhen(
                 loaded: _Content.new,
                 loading: AppCenterLoader.new,
@@ -43,9 +43,10 @@ class VipPage extends StatelessWidget {
 
 /// Содержание страницы.
 class _Content extends StatelessWidget {
-  const _Content(this.description);
+  const _Content(this.description, this.vipEndDate);
 
   final StatusDescription description;
+  final String? vipEndDate;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,8 @@ class _Content extends StatelessWidget {
         children: [
           VipBenefitsList(description.benefits),
           AppBoxes.kHeight32,
-          ActivationOptionsWidget(description.activationOptions),
+          if (description.activationOptions != null)
+            ActivationOptionsWidget(description.activationOptions!, vipEndDate),
         ],
       ),
     );

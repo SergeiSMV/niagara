@@ -1,23 +1,23 @@
-part of 'payments_cubit.dart';
+part of 'payment_instructions_cubit.dart';
 
 @freezed
-class PaymentsState with _$PaymentsState {
+class PaymentInstructionsState with _$PaymentInstructionsState {
   /// Начальное состояние.
   ///
   /// Пользователь должен следовать инструкциям на экране.
-  const factory PaymentsState.initial() = _Initial;
+  const factory PaymentInstructionsState.initial() = _Initial;
 
   /// Состояние загрузки.
-  const factory PaymentsState.loading() = _Loading;
+  const factory PaymentInstructionsState.loading() = _Loading;
 
   /// Успешное завершение оплаты.
-  const factory PaymentsState.success() = _Success;
+  const factory PaymentInstructionsState.success() = _Success;
 
   /// Отмена заказа.
-  const factory PaymentsState.orderCanceled() = _Canceled;
+  const factory PaymentInstructionsState.orderCanceled() = _Canceled;
 
   /// Ошибка на одном из этапов процесса оплаты.
-  const factory PaymentsState.error({
+  const factory PaymentInstructionsState.error({
     required PaymentErrorType type,
   }) = _Error;
 }

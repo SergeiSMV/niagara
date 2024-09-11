@@ -12,12 +12,20 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
-import 'package:niagara_app/features/payments/presentation/bloc/payments_cubit.dart';
+import 'package:niagara_app/features/payments/presentation/bloc/payment_instructions_cubit/payment_instructions_cubit.dart';
 
 /// Экран с информацией о ходе оплаты.
+///
+/// Отображает логотип Юкассы и текст с инструкциями по оплате.
+///
+/// При возникновении ошибок уведомляет пользователя с помощью снекбаров с
+/// сообщениями.
+///
+/// После завершения оплаты вызывает [onSuccess] или [onCancelled] в зависимости
+/// от результата обработки платежа.
 @RoutePage()
-class PaymentPage extends StatelessWidget {
-  const PaymentPage({
+class PaymentInstructionsPage extends StatelessWidget {
+  const PaymentInstructionsPage({
     super.key,
     required this.tokenizationData,
     required this.onSuccess,
@@ -28,6 +36,9 @@ class PaymentPage extends StatelessWidget {
   final TokenizationData tokenizationData;
 
   /// Коллбек, вызываемый в случае успешного завершения платежа.
+  ///
+  /// Используйте для изменения состояния навигации и запросов на получение
+  /// обновлённых данных (состояние корзины, подписки т.д.).
   final VoidCallback onSuccess;
 
   /// Коллбек, вызываемый в случае ошибки платежа.
@@ -40,7 +51,10 @@ class PaymentPage extends StatelessWidget {
   ///
   /// При возникновении ошибки, требующей уведомления пользователя, отображает
   /// [AppSnackBar.showErrorShackBar] с текстом ошибки.
-  void _orderStateListener(BuildContext context, PaymentsState state) =>
+  void _paymentStateListener(
+    BuildContext context,
+    PaymentInstructionsState state,
+  ) =>
       state.whenOrNull(
         success: onSuccess,
         orderCanceled: onCancelled,
@@ -53,15 +67,16 @@ class PaymentPage extends StatelessWidget {
 
   /// Повторно запускает процесс оплаты.
   void _onRetry(BuildContext context) {
-    context.read<PaymentsCubit>().startPayment(tokenizationData);
+    context.read<PaymentInstructionsCubit>().startPayment(tokenizationData);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<PaymentsCubit>()..startPayment(tokenizationData),
-      child: BlocConsumer<PaymentsCubit, PaymentsState>(
-        listener: _orderStateListener,
+      create: (_) =>
+          getIt<PaymentInstructionsCubit>()..startPayment(tokenizationData),
+      child: BlocConsumer<PaymentInstructionsCubit, PaymentInstructionsState>(
+        listener: _paymentStateListener,
         builder: (context, state) => state.maybeWhen(
           loading: AppCenterLoader.new,
           orElse: () => _Content(() => _onRetry(context)),
@@ -79,7 +94,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.watch<PaymentsCubit>();
+    final cubit = context.watch<PaymentInstructionsCubit>();
     final bool hasError = cubit.state.maybeMap(
       error: (value) => true,
       orElse: () => false,

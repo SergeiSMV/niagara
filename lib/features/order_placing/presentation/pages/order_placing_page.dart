@@ -50,7 +50,7 @@ class OrderPlacingPage extends StatelessWidget {
         ),
         paymentRequired: (state) => context.pushRoute(
           // Если нужно оплатить заказ, перенаправляем на страницу оплаты.
-          PaymentRoute(
+          PaymentInstructionsRoute(
             tokenizationData: state.data,
             onSuccess: () => _onSuccess(context),
             onCancelled: () => context.replaceRoute(
@@ -66,8 +66,7 @@ class OrderPlacingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener(
-        bloc: context.read<OrderCreationCubit>(),
+      body: BlocListener<OrderCreationCubit, OrderCreationState>(
         listener: _orderStateListener,
         child: CustomScrollView(
           slivers: [

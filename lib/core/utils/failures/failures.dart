@@ -333,6 +333,10 @@ class OrdersRemoteDataFailure extends Failure {
   const OrdersRemoteDataFailure([super.error = 'Orders remote data failure']);
 }
 
+class VipOrderRepositoryFailure extends Failure {
+  const VipOrderRepositoryFailure([super.error = 'Vip order repo failure']);
+}
+
 // ! ------------------------------- Referral ------------------------------ ! //
 class ReferralRepositoryFailure extends Failure {
   const ReferralRepositoryFailure([super.error = 'Referral repo failure']);
