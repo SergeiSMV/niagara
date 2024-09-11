@@ -50,7 +50,7 @@ class OrderPlacingPage extends StatelessWidget {
         ),
         paymentRequired: (state) => context.pushRoute(
           // Если нужно оплатить заказ, перенаправляем на страницу оплаты.
-          PaymentRoute(
+          PaymentInstructionsRoute(
             tokenizationData: state.data,
             onSuccess: () => _onSuccess(context),
             onCancelled: () => context.replaceRoute(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/bloc/payment_method_selection_cubit/payment_method_selection_cubit.dart';
-import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widget/payment_method_tile.dart';
-import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widget/payment_methods_list_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widgets/payment_method_tile.dart';
+import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widgets/payment_methods_list_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';

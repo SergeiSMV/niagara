@@ -240,7 +240,9 @@
     "benefitsTitle": "Получайте больше скидок и персональных бонусов",
     "chooseOption": "Выберите подписку",
     "forMonth": "за месяц",
-    "subscribe": "Оформить подписку"
+    "subscribe": "Оформить подписку",
+    "currentSubscription": "Текущая подписка",
+    "activeUntil": "VIP-подписка активно до ${date}"
   },
   "referral": {
     "referralProgram": "Реферальная программа",
@@ -514,6 +516,10 @@
     "paymentError": {
       "title": "Оплата не прошла",
       "description": "Ошибка обработки транзакции"
+    },
+    "unsupportedPaymentMethod": {
+      "title": "Выбранный способ оплаты временно недоступен",
+      "description": "Попробуйте оплатить другим способом"
     },
     "statusError": {
       "title": "Ошибка получения статуса заказа",

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widget/payment_method_selection_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widget/payment_type_selection_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widgets/payment_method_selection_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widgets/payment_type_selection_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
