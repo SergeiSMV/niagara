@@ -97,7 +97,7 @@ class ProductExpandablePropertiesWidget extends HookWidget {
                 ),
               ),
             ],
-          )
+          ),
       ],
     );
   }

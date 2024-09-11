@@ -95,7 +95,8 @@ class EquipmentBannerWidget extends StatelessWidget {
                                         style: context
                                             .textStyle.buttonTypo.btn3semiBold
                                             .withColor(
-                                                context.colors.textColors.blue),
+                                          context.colors.textColors.blue,
+                                        ),
                                       ),
                                       Assets.icons.arrowRight.svg(
                                         width: AppSizes.kIconSmall,

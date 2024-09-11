@@ -35,9 +35,15 @@ abstract interface class IPaymentsRepository {
     String? customerId,
   });
 
-  /// Запрашивает ссылку на окно с подтверждением платежа для выбранного метода
-  /// оплаты по соответствующим этому платежу [orderId] и [paymentToken].
-  Future<Either<Failure, PaymentConfirmationInfo>> getConfirmationUrl({
+  /// Создаёт платёж на сервере.
+  ///
+  /// [orderId], полученный при создании заказа, используется для ассоциации
+  /// этого заказа с создаваемым платежом ЮКассы. [paymentToken] позволяет
+  /// серверу получить информацию, введенную пользователем при токенизации.
+  ///
+  /// Возвращает [PaymentConfirmationInfo], содержащий статус платежа и URL для
+  /// подтверждения платежа, если оно требуется.
+  Future<Either<Failure, PaymentConfirmationInfo>> createPayment({
     required String orderId,
     required String paymentToken,
   });

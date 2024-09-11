@@ -12,9 +12,13 @@ import 'package:niagara_app/features/order_placing/domain/repositories/order_pla
 @LazySingleton(as: IOrderPlacingRepository)
 class OrderPlacingRepository extends BaseRepository
     implements IOrderPlacingRepository {
-  OrderPlacingRepository(super._logger, super._networkInfo, this._rds);
+  const OrderPlacingRepository(
+    super._logger,
+    super._networkInfo,
+    this._orderPlacingRemoteDatasource,
+  );
 
-  final IOrderPlacingRemoteDataSource _rds;
+  final IOrderPlacingRemoteDataSource _orderPlacingRemoteDatasource;
 
   @override
   Failure get failure => const PlacingOrderRepositoryFailure();
@@ -35,12 +39,14 @@ class OrderPlacingRepository extends BaseRepository
           description: comment ?? '',
         );
 
-        final result = await _rds.createOrder(orderInfo: orderInfo);
+        final result = await _orderPlacingRemoteDatasource.createOrder(
+          orderInfo: orderInfo,
+        );
 
         return result.fold(
-          (err) => throw err,
-          (res) => res.status
-              ? res.tokenizationData.toModel()
+          (failure) => throw failure,
+          (dto) => dto.status
+              ? dto.tokenizationData.toModel()
               : throw const OrderNotCreatedFailure(),
         );
       });
@@ -48,10 +54,10 @@ class OrderPlacingRepository extends BaseRepository
   @override
   Future<Either<Failure, List<DeliveryTimeOptions>>> getDeliveryTimeOptions() =>
       execute(
-        () => _rds.getDeliveryTimeOptions().fold(
-              (err) => throw err,
-              (res) => res.isNotEmpty
-                  ? res.map((e) => e.toModel()).toList()
+        () => _orderPlacingRemoteDatasource.getDeliveryTimeOptions().fold(
+              (failure) => throw failure,
+              (dto) => dto.isNotEmpty
+                  ? dto.map((e) => e.toModel()).toList()
                   : throw const NoOrderDeliveryDatesFailure(),
             ),
       );

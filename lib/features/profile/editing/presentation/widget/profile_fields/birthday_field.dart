@@ -32,7 +32,7 @@ class BirthdayWidget extends StatelessWidget {
       firstDate: DateTime(2000),
       lastDate: DateTime.now(),
     ).then((value) {
-      if (value != null) {
+      if (value != null && context.mounted) {
         context.read<ProfileEditingCubit>().updateUserData(birthday: value);
       }
     });

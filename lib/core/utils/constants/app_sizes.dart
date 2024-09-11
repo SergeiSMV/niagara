@@ -37,10 +37,15 @@ abstract final class AppSizes {
   static const double kImageSize120 = 120;
   static const double kImageSize100 = 100;
   static const double kImageSize110 = 110;
+  static const double kImageSize170 = 170;
 
   //* ---------------------------- Prepaid water -------------------------- *//
   static const double kPrepaidWaterBannerHeight = 116;
   static const double kPrepaidWaterBannerWidth = 84;
+
+    //* ----------------------------- Payments --------------------------- *//
+  static const double kYookassaLogoWidth = 213;
+  static const double kYookassaLogoHeight = 50;
 
   //* ----------------------------- Notification --------------------------- *//
   static const double notificationIconHeight = 26;

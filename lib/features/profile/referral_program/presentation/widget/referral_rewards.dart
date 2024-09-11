@@ -17,21 +17,23 @@ class RewardsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Expanded(
-        child: _RewardTile(
-          title: t.referral.forYou,
-          reward: rewardMe.toString(),
+    return Row(
+      children: [
+        Expanded(
+          child: _RewardTile(
+            title: t.referral.forYou,
+            reward: rewardMe.toString(),
+          ),
         ),
-      ),
-      AppBoxes.kWidth8,
-      Expanded(
-        child: _RewardTile(
-          title: t.referral.forFriend,
-          reward: rewardFriend.toString(),
+        AppBoxes.kWidth8,
+        Expanded(
+          child: _RewardTile(
+            title: t.referral.forFriend,
+            reward: rewardFriend.toString(),
+          ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
 

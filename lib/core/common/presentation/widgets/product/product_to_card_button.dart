@@ -107,7 +107,7 @@ class ProductToCardButton extends StatelessWidget {
                                 cartAction: ItemInCartButtonIcon.plus,
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),

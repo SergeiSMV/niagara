@@ -1,4 +1,4 @@
-part of 'vip_bloc.dart';
+part of 'vip_description_bloc.dart';
 
 @freezed
 class VipEvent with _$VipEvent {

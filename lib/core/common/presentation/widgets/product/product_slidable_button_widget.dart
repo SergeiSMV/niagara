@@ -31,6 +31,7 @@ class ProductSlidableButtonWidget extends StatelessWidget {
             child: icon.svg(
               height: AppSizes.kIconMedium,
               width: AppSizes.kIconMedium,
+              // ignore: deprecated_member_use_from_same_package
               color: iconColor,
             ),
           ),

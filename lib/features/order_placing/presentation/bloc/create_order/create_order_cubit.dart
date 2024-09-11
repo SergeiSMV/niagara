@@ -4,7 +4,6 @@ import 'package:niagara_app/core/common/domain/models/time_slot.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/core/utils/enums/placing_order_error_type.dart';
-import 'package:niagara_app/core/utils/network/network_info.dart';
 import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
 import 'package:niagara_app/features/order_placing/domain/use_cases/create_order_use_case.dart';
 
@@ -14,14 +13,10 @@ part 'create_order_cubit.freezed.dart';
 @injectable
 class OrderCreationCubit extends Cubit<OrderCreationState> {
   OrderCreationCubit(
-    this._networkInfo,
     this._createOrderUseCase,
   ) : super(const OrderCreationState.initial());
 
   final CreateOrderUseCase _createOrderUseCase;
-
-  /// Нужен для проверки интернета.
-  final INetworkInfo _networkInfo;
 
   /// Выбранная дата доставки.
   DateTime? selectedDate;
@@ -38,7 +33,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
   /// Выбранный способ оплаты.
   PaymentMethod? paymentMethod;
 
-  bool checkDate() {
+  /// Проверяет, выбраны ли дата доставки и временной слот.
+  bool _checkDate() {
     final bool selected = selectedDate != null && selectedTimeSlot != null;
 
     if (!selected) {
@@ -52,7 +48,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
     return selected;
   }
 
-  bool checkRecipient() {
+  /// Проверяет, выбран ли получатель заказа.
+  bool _checkRecipient() {
     final bool selected = recipientSet != null && recipientSet!;
 
     if (!selected) {
@@ -66,7 +63,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
     return selected;
   }
 
-  bool checkPaymentMethod() {
+  /// Проверяет, выбран ли способ оплаты.
+  bool _checkPaymentMethod() {
     final bool selected = paymentMethod != null;
 
     if (!selected) {
@@ -80,33 +78,21 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
     return selected;
   }
 
-  Future<bool> checkInternet() async {
-    final bool hasInternet = await _networkInfo.hasConnection;
-
-    if (!hasInternet) {
-      emit(
-        const OrderCreationState.error(
-          type: OrderPlacingErrorType.noInternet,
-        ),
-      );
-    }
-
-    return hasInternet;
-  }
-
+  /// Оформляет заказ.
+  ///
+  /// Сначала происходит валидация всех необходимых данных, затем создаётся
+  /// заказ.
   Future<void> placeOrder() async {
     emit(const OrderCreationState.initial());
 
-    final bool isDataValid = await checkInternet() &&
-        checkDate() &&
-        checkRecipient() &&
-        checkPaymentMethod();
+    final bool isDataValid =
+        _checkDate() && _checkRecipient() && _checkPaymentMethod();
 
     if (!isDataValid) return;
 
     emit(const OrderCreationState.loading());
 
-    _createOrderUseCase(
+    await _createOrderUseCase(
       CreateOrderParams(
         deliveryDate: selectedDate!,
         timeSlot: selectedTimeSlot!,
@@ -114,21 +100,22 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
         comment: comment,
       ),
     ).fold(
-      (failure) => emit(
-        const OrderCreationState.error(
-          type: OrderPlacingErrorType.unknown,
-        ),
-      ),
-      (result) {
-        switch (paymentMethod!) {
-          case PaymentMethod.terminal:
-          case PaymentMethod.cash:
-            emit(const OrderCreationState.created());
+      (failure) {
+        late final OrderPlacingErrorType errorType;
 
-          case PaymentMethod.bankCard:
-          case PaymentMethod.sbp:
-          case PaymentMethod.sberPay:
-            emit(OrderCreationState.paymentRequired(data: result));
+        if (failure is NoInternetFailure) {
+          errorType = OrderPlacingErrorType.noInternet;
+        } else {
+          errorType = OrderPlacingErrorType.unknown;
+        }
+
+        emit(OrderCreationState.error(type: errorType));
+      },
+      (result) {
+        if (paymentMethod!.isOnline) {
+          emit(OrderCreationState.paymentRequired(data: result));
+        } else {
+          emit(const OrderCreationState.created());
         }
       },
     );

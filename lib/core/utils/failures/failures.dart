@@ -283,8 +283,9 @@ class NewProductsRepositoryFailure extends Failure {
 // ! -------------------------- Special products -------------------------- ! //
 
 class SpecialProductsDataFailure extends Failure {
-  const SpecialProductsDataFailure(
-      [super.error = 'Special products data failure']);
+  const SpecialProductsDataFailure([
+    super.error = 'Special products data failure',
+  ]);
 }
 
 class SpecialProductsRepositoryFailure extends Failure {
@@ -332,14 +333,19 @@ class OrdersRemoteDataFailure extends Failure {
   const OrdersRemoteDataFailure([super.error = 'Orders remote data failure']);
 }
 
+class VipOrderRepositoryFailure extends Failure {
+  const VipOrderRepositoryFailure([super.error = 'Vip order repo failure']);
+}
+
 // ! ------------------------------- Referral ------------------------------ ! //
 class ReferralRepositoryFailure extends Failure {
   const ReferralRepositoryFailure([super.error = 'Referral repo failure']);
 }
 
 class ReferralRemoteDataFailure extends Failure {
-  const ReferralRemoteDataFailure(
-      [super.error = 'Referral remote data failure']);
+  const ReferralRemoteDataFailure([
+    super.error = 'Referral remote data failure',
+  ]);
 }
 
 // ! ------------------------------- Policies ---------------------------- ! //
