@@ -78,6 +78,10 @@ abstract final class ProfileRouters {
           AutoRoute(
             page: CleaningOrderSuccessfulRoute.page,
           ),
+          AutoRoute(
+            page: PrepaidWaterRoute.page,
+            title: (_, __) => t.prepaidWater.title,
+          ),
         ],
       );
 }

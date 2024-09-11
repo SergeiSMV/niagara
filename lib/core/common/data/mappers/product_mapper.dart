@@ -3,6 +3,7 @@ import 'package:niagara_app/core/common/data/database/app_database.dart';
 import 'package:niagara_app/core/common/data/local/entities/product_entity.dart';
 import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
+import 'package:niagara_app/core/utils/enums/product_type.dart';
 import 'package:niagara_app/core/utils/extensions/color_ext.dart';
 
 extension ProductDtoMapper on ProductDto {
@@ -15,7 +16,9 @@ extension ProductDtoMapper on ProductDto {
         descriptionFull: productDescriptionFull ?? '',
         groupId: productGroupId ?? '',
         groupName: productGroupName ?? '',
-        type: productType ?? '',
+        type: productType != null
+            ? ProductType.fromString(productType!)
+            : ProductType.product,
         price: productPrice ?? 0,
         priceOld: productPriceOld ?? 0,
         priceVip: productPriceVip ?? 0,
@@ -99,7 +102,7 @@ extension FavoritesEntityMapper on ProductEntity {
         descriptionFull: descriptionFull,
         groupId: groupId,
         groupName: groupName,
-        type: type,
+        type: ProductType.fromString(type),
         price: price,
         priceOld: priceOld,
         priceVip: priceVip,
@@ -125,7 +128,7 @@ extension ProductMapper on Product {
         descriptionFull: descriptionFull,
         groupId: groupId,
         groupName: groupName,
-        type: type,
+        type: type.toString(),
         price: price,
         priceOld: priceOld,
         priceVip: priceVip,

@@ -33,6 +33,7 @@ abstract final class AppInsets {
 
   static const EdgeInsets kVertical1 = EdgeInsets.symmetric(vertical: 1);
   static const EdgeInsets kVertical2 = EdgeInsets.symmetric(vertical: 2);
+  static const EdgeInsets kVertical3 = EdgeInsets.symmetric(vertical: 3);
   static const EdgeInsets kVertical4 = EdgeInsets.symmetric(vertical: 4);
   static const EdgeInsets kVertical6 = EdgeInsets.symmetric(vertical: 6);
   static const EdgeInsets kVertical8 = EdgeInsets.symmetric(vertical: 8);

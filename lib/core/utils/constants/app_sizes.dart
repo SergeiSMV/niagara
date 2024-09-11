@@ -6,6 +6,7 @@ abstract final class AppSizes {
   static const double kGeneral6 = 6;
   static const double kGeneral8 = 8;
   static const double kGeneral12 = 12;
+  static const double kGeneral14 = 14;
   static const double kGeneral16 = 16;
   static const double kGeneral20 = 20;
   static const double kGeneral24 = 24;
@@ -35,8 +36,17 @@ abstract final class AppSizes {
   static const double kImageSize84 = 84;
   static const double kImageSize120 = 120;
   static const double kImageSize100 = 100;
+  static const double kImageSize110 = 110;
   static const double kImageSize170 = 170;
 
+  //* ---------------------------- Prepaid water -------------------------- *//
+  static const double kPrepaidWaterBannerHeight = 116;
+  static const double kPrepaidWaterBannerWidth = 84;
+
+  static const double kPrepaidWaterRightPositioning = -14;
+  static const double kPrepaidWaterTopPositioning = -16;
+
+  //* ----------------------------- Payments --------------------------- *//
   static const double kYookassaLogoWidth = 213;
   static const double kYookassaLogoHeight = 50;
 

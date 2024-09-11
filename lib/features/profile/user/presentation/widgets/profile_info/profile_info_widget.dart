@@ -73,6 +73,7 @@ class ProfileInfoWidget extends StatelessWidget {
                 ProfileActionTile(
                   leadingIcon: Assets.icons.water,
                   title: t.profile.profileInfo.prepaidWater,
+                  redirectRoute: const PrepaidWaterRoute(),
                 ),
                 ProfileActionTile(
                   leadingIcon: Assets.icons.mapPoint,
