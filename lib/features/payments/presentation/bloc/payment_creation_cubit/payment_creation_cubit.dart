@@ -5,7 +5,6 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/order_type.dart';
 import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/core/utils/enums/placing_order_error_type.dart';
-import 'package:niagara_app/core/utils/network/network_info.dart';
 import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
 import 'package:niagara_app/features/payments/presentation/pages/payment_creation_page.dart';
 import 'package:niagara_app/features/prepaid_water/domain/model/prepaid_water_order_data.dart';
@@ -31,7 +30,6 @@ class PaymentCreationCubit extends Cubit<PaymentCreationState> {
   PaymentCreationCubit(
     @factoryParam this._activationOption,
     @factoryParam this._prepaidWaterData,
-    this._networkInfo,
     this._orderVipUseCase,
   )   : assert(
           (_activationOption != null) ^ (_prepaidWaterData != null),
@@ -41,9 +39,6 @@ class PaymentCreationCubit extends Cubit<PaymentCreationState> {
 
   /// Выбранный метод оплаты.
   PaymentMethod? paymentMethod;
-
-  /// Нужен для проверки интернета.
-  final INetworkInfo _networkInfo;
 
   /// Кейс создания заказа ВИП-подписки.
   final OrderVipUseCase _orderVipUseCase;
@@ -60,7 +55,7 @@ class PaymentCreationCubit extends Cubit<PaymentCreationState> {
 
   /// Создаёт заказ.
   Future<void> placeOrder() async {
-    final bool isDataValid = await _checkInternet() && _checkPaymentMethod();
+    final bool isDataValid = _checkPaymentMethod();
 
     if (!isDataValid) return;
 
@@ -82,13 +77,17 @@ class PaymentCreationCubit extends Cubit<PaymentCreationState> {
 
     await _orderVipUseCase(params).fold(
       (failure) {
-        emit(
-          const PaymentCreationState.error(type: OrderPlacingErrorType.unknown),
-        );
+        late final OrderPlacingErrorType errorType;
+
+        if (failure is NoInternetFailure) {
+          errorType = OrderPlacingErrorType.noInternet;
+        } else {
+          errorType = OrderPlacingErrorType.unknown;
+        }
+
+        emit(PaymentCreationState.error(type: errorType));
       },
-      (data) {
-        emit(PaymentCreationState.created(data: data));
-      },
+      (data) => emit(PaymentCreationState.created(data: data)),
     );
   }
 
@@ -120,20 +119,5 @@ class PaymentCreationCubit extends Cubit<PaymentCreationState> {
     }
 
     return isValid;
-  }
-
-  /// Проверяет наличие интернета.
-  Future<bool> _checkInternet() async {
-    final bool hasInternet = await _networkInfo.hasConnection;
-
-    if (!hasInternet) {
-      emit(
-        const PaymentCreationState.error(
-          type: OrderPlacingErrorType.noInternet,
-        ),
-      );
-    }
-
-    return hasInternet;
   }
 }

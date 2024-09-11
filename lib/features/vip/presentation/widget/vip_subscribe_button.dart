@@ -17,7 +17,7 @@ class VipSubcribeButton extends StatelessWidget {
   const VipSubcribeButton();
 
   /// Обработчик нажатия на кнопку.
-  void onTap(BuildContext context, ActivationOption option) {
+  void _goToPayment(BuildContext context, ActivationOption option) {
     context.navigateTo(
       PaymentWrapper(
         activationOption: option,
@@ -57,8 +57,9 @@ class VipSubcribeButton extends StatelessWidget {
             AppInsets.kBottom12,
         child: AppTextButton.primary(
           text: t.vip.subscribe,
-          onTap:
-              cubit.state != null ? () => onTap(context, cubit.state!) : null,
+          onTap: cubit.state != null
+              ? () => _goToPayment(context, cubit.state!)
+              : null,
         ),
       ),
     );

@@ -8,6 +8,7 @@ import 'package:niagara_app/core/common/presentation/widgets/payment_methods/wid
 import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/features/payments/presentation/bloc/payment_creation_cubit/payment_creation_cubit.dart';
 
 /// Страница оплаты.
@@ -91,6 +92,16 @@ class PaymentCreationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Коллбек, вызываемый при изменении метода оплаты.
+    void onMethodChanged(PaymentMethod? method) {
+      context.read<PaymentCreationCubit>().paymentMethod = method;
+    }
+
+    /// Коллбек, вызываемый при нажатии на кнопку оплаты.
+    void onPlaceOrder() {
+      context.read<PaymentCreationCubit>().placeOrder();
+    }
+
     return Scaffold(
       body: BlocListener<PaymentCreationCubit, PaymentCreationState>(
         listener: _paymentStateListener,
@@ -104,10 +115,7 @@ class PaymentCreationPage extends StatelessWidget {
                   purchasedProductWidget,
                   AppBoxes.kHeight24,
                   PaymentMethodSelectionWidget(
-                    onValueChanged: (method) {
-                      context.read<PaymentCreationCubit>().paymentMethod =
-                          method;
-                    },
+                    onValueChanged: onMethodChanged,
                   ),
                 ].map(_wrapPadding).toList(),
               ),
@@ -119,7 +127,7 @@ class PaymentCreationPage extends StatelessWidget {
         amountRub: amountRub,
         buttonText: payButtonText,
         productCount: productCount,
-        onTap: () => context.read<PaymentCreationCubit>().placeOrder(),
+        onTap: onPlaceOrder,
       ),
     );
   }
