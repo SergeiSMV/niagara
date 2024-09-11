@@ -14,16 +14,20 @@ enum OrderPlacingErrorType {
   /// Нет интернета.
   noInternet,
 
+  /// Неподдерживаемый способ оплаты.
+  unsupportedPaymentMethod,
+
   /// Неизвестная ошибка.
   unknown;
 
   /// Преобразует тип ошибки оформления заказа в текст ошибки.
   String get toErrorTitle => switch (this) {
-        OrderPlacingErrorType.noRecipientData => t.errors.noRecipientData.title,
-        OrderPlacingErrorType.noDeliveryDate => t.errors.noDeliveryTime.title,
-        OrderPlacingErrorType.noPaymentMethod => t.errors.noPaymentMethod.title,
-        OrderPlacingErrorType.noInternet => t.errors.noInternet.title,
-        OrderPlacingErrorType.unknown => t.errors.unknownError.title,
+        noRecipientData => t.errors.noRecipientData.title,
+        noDeliveryDate => t.errors.noDeliveryTime.title,
+        noPaymentMethod => t.errors.noPaymentMethod.title,
+        noInternet => t.errors.noInternet.title,
+        unsupportedPaymentMethod => t.errors.unsupportedPaymentMethod.title,
+        unknown => t.errors.unknownError.title,
       };
 
   /// Преобразует тип ошибки оформления заказа в опциональное описание ошибки.
