@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -6,6 +7,7 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/payments/presentation/bloc/payment_creation_cubit/payment_creation_cubit.dart';
 
 /// Кнопка оплаты.
 ///
@@ -50,39 +52,85 @@ class PaymentButton extends StatelessWidget {
       child: Padding(
         padding:
             AppInsets.kHorizontal16 + AppInsets.kTop12 + AppInsets.kBottom24,
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-              alignment: Alignment.center,
-              padding: AppInsets.kHorizontal16,
-              decoration: BoxDecoration(
-                color: context.colors.buttonColors.primary,
-                borderRadius: AppBorders.kCircular12,
+        child: Container(
+          alignment: Alignment.center,
+          padding: AppInsets.kHorizontal16,
+          decoration: BoxDecoration(
+            color: context.colors.buttonColors.primary,
+            borderRadius: AppBorders.kCircular12,
+          ),
+          height: AppSizes.kButtonLarge,
+          width: double.infinity,
+          child: BlocBuilder<PaymentCreationCubit, PaymentCreationState>(
+            builder: (context, state) => state.maybeWhen(
+              loading: _Loading.new,
+              orElse: () => _ButtonContent(
+                productCount: productCount,
+                buttonText: buttonText,
+                amountRub: amountRub,
+                onTap: onTap,
               ),
-              height: AppSizes.kButtonLarge,
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (productCount != null)
-                    Text(
-                      t.product(n: productCount!),
-                      style: context.textStyle.textTypo.tx2Medium
-                          .withColor(context.colors.textColors.white),
-                    ),
-                  Text(
-                    buttonText,
-                    style: context.textStyle.buttonTypo.btn1bold
-                        .withColor(context.colors.textColors.white),
-                  ),
-                  Text(
-                    '$amountRub ${t.common.rub}',
-                    style: context.textStyle.textTypo.tx2Medium
-                        .withColor(context.colors.textColors.white),
-                  ),
-                ],
-              )),
+            ),
+          ),
         ),
+      ),
+    );
+  }
+}
+
+/// Виджет состояния загрузки.
+class _Loading extends StatelessWidget {
+  const _Loading();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: AppInsets.kAll8,
+      child: CircularProgressIndicator(
+        color: context.colors.textColors.white,
+      ),
+    );
+  }
+}
+
+/// Содержимое кнопки.
+class _ButtonContent extends StatelessWidget {
+  const _ButtonContent({
+    required this.productCount,
+    required this.buttonText,
+    required this.amountRub,
+    required this.onTap,
+  });
+
+  final int? productCount;
+  final String buttonText;
+  final String amountRub;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          if (productCount != null)
+            Text(
+              t.product(n: productCount!),
+              style: context.textStyle.textTypo.tx2Medium
+                  .withColor(context.colors.textColors.white),
+            ),
+          Text(
+            buttonText,
+            style: context.textStyle.buttonTypo.btn1bold
+                .withColor(context.colors.textColors.white),
+          ),
+          Text(
+            '$amountRub ${t.common.rub}',
+            style: context.textStyle.textTypo.tx2Medium
+                .withColor(context.colors.textColors.white),
+          ),
+        ],
       ),
     );
   }

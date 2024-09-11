@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widgets/pay_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widgets/payment_method_selection_widget.dart';
-import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
-import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
+import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/features/payments/presentation/bloc/payment_creation_cubit/payment_creation_cubit.dart';
 
 /// Страница оплаты.
 ///
@@ -19,12 +22,10 @@ class PaymentCreationPage extends StatelessWidget {
     super.key,
     required this.pageTitle,
     required this.purchasedProductWidget,
-    required this.onPaymentMethodChanged,
     required this.onSuccess,
     required this.onCancelled,
     required this.amountRub,
     required this.payButtonText,
-    required this.onCreateOrder,
     this.productCount,
   });
 
@@ -34,23 +35,16 @@ class PaymentCreationPage extends StatelessWidget {
   /// Виджет-заголовок страницы, отображающий информацию о преобретаемом товаре.
   final Widget purchasedProductWidget;
 
-  /// Коллбэк, вызываемый при изменении метода оплаты.
-  final void Function(PaymentMethod? method) onPaymentMethodChanged;
-
   /// Коллбэк, вызываемый при успешном оформлении заказа.
   ///
-  /// Используйте для изменения состояния навигации.
+  /// Используйте для изменения состояния навигации и запросов на получение
+  /// обновлённых данных (состояние корзины, подписки т.д.).
   final VoidCallback onSuccess;
 
   /// Коллбэк, вызываемый при отмене оформления заказа или ошибке.
   ///
   /// Используйте для изменения состояния навигации.
   final VoidCallback onCancelled;
-
-  /// Коллбэк, вызываемый при нажатии на кнопку оплаты.
-  ///
-  /// Используйте для создания заказа. Должен возвращать [TokenizationData].
-  final Future<TokenizationData> Function() onCreateOrder;
 
   /// Сумма покупки в рублях.
   final String amountRub;
@@ -63,44 +57,67 @@ class PaymentCreationPage extends StatelessWidget {
   /// Если указано, кнопка оплаты будет содержать текст "`n` товаров".
   final int? productCount;
 
-  /// Обработчик нажатия на кнопку оплаты.
-  Future<void> _onStartPayment(BuildContext context) async {
-    // Создаем заказ и получаем данные для токенизации платежа.
-    final TokenizationData tokenizationData = await onCreateOrder();
+  /// Оборачивает виджет в отступы.
+  Widget _wrapPadding(Widget child) => Padding(
+        padding: AppInsets.kHorizontal16,
+        child: child,
+      );
 
-    if (!context.mounted) return;
-
-    // Открываем страницу хода оплаты.
-    context.pushRoute(
-      PaymentInstructionsRoute(
-        tokenizationData: tokenizationData,
-        onSuccess: onSuccess,
-        onCancelled: onCancelled,
-      ),
-    );
-  }
+  /// Обработчик состояния оформления заказа.
+  ///
+  /// В случае ошибки отображает сообщение об ошибке.
+  ///
+  /// В случае успешного оформления заказа перенаправляет на страницу результата.
+  void _paymentStateListener(
+          BuildContext context, PaymentCreationState state) =>
+      state.mapOrNull(
+        // TODO: Добавить отображение номера телефона при ошибке "нет интернета"
+        // https://digitalburo.youtrack.cloud/issue/NIAGARA-341/Dobavit-nomer-telefona-v-plashku-Net-interneta
+        error: (err) => AppSnackBar.showErrorShackBar(
+          context,
+          title: err.type.toErrorTitle,
+        ),
+        created: (state) => context.pushRoute(
+          // Перенаправляем на страницу оплаты.
+          PaymentInstructionsRoute(
+            tokenizationData: state.data,
+            onSuccess: onSuccess,
+            onCancelled: onCancelled,
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBarWidget(title: pageTitle),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              purchasedProductWidget,
-              PaymentMethodSelectionWidget(
-                onValueChanged: onPaymentMethodChanged,
+      body: BlocListener<PaymentCreationCubit, PaymentCreationState>(
+        listener: _paymentStateListener,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBarWidget(title: pageTitle),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  AppBoxes.kHeight12,
+                  purchasedProductWidget,
+                  AppBoxes.kHeight24,
+                  PaymentMethodSelectionWidget(
+                    onValueChanged: (method) {
+                      context.read<PaymentCreationCubit>().paymentMethod =
+                          method;
+                    },
+                  ),
+                ].map(_wrapPadding).toList(),
               ),
-            ]),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: PaymentButton(
         amountRub: amountRub,
         buttonText: payButtonText,
         productCount: productCount,
-        onTap: () => _onStartPayment(context),
+        onTap: () => context.read<PaymentCreationCubit>().placeOrder(),
       ),
     );
   }

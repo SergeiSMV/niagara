@@ -242,7 +242,9 @@
     "forMonth": "за месяц",
     "subscribe": "Оформить подписку",
     "currentSubscription": "Текущая подписка",
-    "activeUntil": "VIP-подписка активно до ${date}"
+    "activeUntil": "VIP-подписка активно до ${date}",
+    "subscribing": "Подключение подписки",
+    "pay": "К оплате"
   },
   "referral": {
     "referralProgram": "Реферальная программа",

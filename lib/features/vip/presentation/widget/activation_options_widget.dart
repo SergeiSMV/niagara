@@ -52,7 +52,7 @@ class ActivationOptionsWidget extends StatelessWidget {
                 onTap: () => activationSelectionCubit.select(first),
                 child: _ActivationOptionPanel(
                   bgColor: context.colors.infoColors.bgBlue,
-                  title: first.title,
+                  title: first.description,
                   monthlyPrice: first.sumForMounth,
                   selected: activationSelectionCubit.state == first,
                   totalPrice: first.sum,
@@ -66,7 +66,7 @@ class ActivationOptionsWidget extends StatelessWidget {
                 onTap: () => activationSelectionCubit.select(second),
                 child: _ActivationOptionPanel(
                   bgColor: context.colors.buttonColors.secondary,
-                  title: second.title,
+                  title: second.description,
                   monthlyPrice: second.sumForMounth,
                   selected: activationSelectionCubit.state == second,
                   totalPrice: second.sum,

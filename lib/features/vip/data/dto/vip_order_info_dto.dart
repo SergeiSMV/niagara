@@ -21,7 +21,7 @@ class VipOrderInfoDto extends Equatable {
   Map<String, dynamic> toJson() => {
         'PAYMENT_TYPE': paymentMethod,
         'COUNT': monthsCount,
-        'SUM_RUB': sumRub,
+        'SUM': sumRub,
       };
 
   @override

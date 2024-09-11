@@ -38,7 +38,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
   /// Выбранный способ оплаты.
   PaymentMethod? paymentMethod;
 
-  bool checkDate() {
+  /// Проверяет, выбраны ли дата доставки и временной слот.
+  bool _checkDate() {
     final bool selected = selectedDate != null && selectedTimeSlot != null;
 
     if (!selected) {
@@ -52,7 +53,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
     return selected;
   }
 
-  bool checkRecipient() {
+  /// Проверяет, выбран ли получатель заказа.
+  bool _checkRecipient() {
     final bool selected = recipientSet != null && recipientSet!;
 
     if (!selected) {
@@ -66,7 +68,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
     return selected;
   }
 
-  bool checkPaymentMethod() {
+  /// Проверяет, выбран ли способ оплаты.
+  bool _checkPaymentMethod() {
     final bool selected = paymentMethod != null;
 
     if (!selected) {
@@ -80,7 +83,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
     return selected;
   }
 
-  Future<bool> checkInternet() async {
+  /// Проверяет наличие интернета.
+  Future<bool> _checkInternet() async {
     final bool hasInternet = await _networkInfo.hasConnection;
 
     if (!hasInternet) {
@@ -94,13 +98,17 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
     return hasInternet;
   }
 
+  /// Оформляет заказ.
+  ///
+  /// Сначала происходит валидация всех необходимых данных, затем создаётся
+  /// заказ.
   Future<void> placeOrder() async {
     emit(const OrderCreationState.initial());
 
-    final bool isDataValid = await checkInternet() &&
-        checkDate() &&
-        checkRecipient() &&
-        checkPaymentMethod();
+    final bool isDataValid = await _checkInternet() &&
+        _checkDate() &&
+        _checkRecipient() &&
+        _checkPaymentMethod();
 
     if (!isDataValid) return;
 

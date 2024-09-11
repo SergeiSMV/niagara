@@ -12,8 +12,8 @@ import 'package:niagara_app/features/payments/domain/use_cases/get_payment_statu
 import 'package:niagara_app/features/payments/domain/use_cases/start_confirmation_use_case.dart';
 import 'package:niagara_app/features/payments/domain/use_cases/start_tokenization_use_case.dart';
 
-part 'payments_state.dart';
-part 'payments_cubit.freezed.dart';
+part 'payment_instructions_state.dart';
+part 'payment_instructions_cubit.freezed.dart';
 
 /// Кубит для управления процессом оплаты заказа.
 ///
@@ -21,13 +21,13 @@ part 'payments_cubit.freezed.dart';
 /// получение ссылки на подтверждение платежа, запуск подтверждения платежа,
 /// опрос статуса платежа.
 @injectable
-class PaymentsCubit extends Cubit<PaymentsState> {
-  PaymentsCubit(
+class PaymentInstructionsCubit extends Cubit<PaymentInstructionsState> {
+  PaymentInstructionsCubit(
     this._startTokenizationUseCase,
     this._getConfirmationUrlUseCase,
     this._startConfirmationUseCase,
     this._getPaymentStatusUseCase,
-  ) : super(const PaymentsState.initial());
+  ) : super(const PaymentInstructionsState.initial());
 
   /// Кейс для запуска токенизации платежа.
   ///
@@ -64,7 +64,7 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   ///
   /// 4. Платеж завершен успешно или с ошибкой.
   Future<void> startPayment(TokenizationData data) async {
-    const PaymentsState.initial();
+    const PaymentInstructionsState.initial();
 
     // Запускаем токенизацию платежа.
     final String? paymentToken = await _startTokenization(data);
@@ -117,9 +117,9 @@ class PaymentsCubit extends Cubit<PaymentsState> {
         if (info.confirmationRequired) return info;
 
         if (info.status == PaymentStatus.succeeded) {
-          emit(const PaymentsState.success());
+          emit(const PaymentInstructionsState.success());
         } else if (info.status == PaymentStatus.canceled) {
-          emit(const PaymentsState.orderCanceled());
+          emit(const PaymentInstructionsState.orderCanceled());
         }
 
         return null;
@@ -155,7 +155,7 @@ class PaymentsCubit extends Cubit<PaymentsState> {
 
   /// Запускает опрос статуса платежа.
   void _startPollingPaymentStatus(String orderId) {
-    emit(const PaymentsState.loading());
+    emit(const PaymentInstructionsState.loading());
 
     _pollingTimer = Timer.periodic(
       const Duration(seconds: 1),
@@ -173,10 +173,10 @@ class PaymentsCubit extends Cubit<PaymentsState> {
             if (state is _Success || state is _Canceled) return;
 
             if (status == PaymentStatus.succeeded) {
-              emit(const PaymentsState.success());
+              emit(const PaymentInstructionsState.success());
               return _killTimer();
             } else if (status == PaymentStatus.canceled) {
-              emit(const PaymentsState.orderCanceled());
+              emit(const PaymentInstructionsState.orderCanceled());
               return _killTimer();
             }
           },
