@@ -25,8 +25,8 @@ class VipSubcribeButton extends StatelessWidget {
           PaymentCreationRoute(
             pageTitle: t.vip.subscribing,
             purchasedProductWidget: VipPurchaseDescription(option: option),
-            onSuccess: () {},
-            onCancelled: () {},
+            onSuccess: () => context.navigateTo(const VipRoute()),
+            onCancelled: () => context.navigateTo(const VipRoute()),
             amountRub: option.sum,
             payButtonText: t.vip.pay,
           ),
