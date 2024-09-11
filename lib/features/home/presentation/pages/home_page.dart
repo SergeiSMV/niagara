@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
                 Column(
                   children: [
                     HomeBonusesWidget(),
-                    PrepaidWaterBanner(count: 10),
+                    PrepaidWaterBanner(),
                     StaticBannersWidget(),
                   ],
                 ),

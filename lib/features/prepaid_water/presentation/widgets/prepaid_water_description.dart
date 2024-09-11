@@ -28,8 +28,8 @@ class PrepaidWaterDescriptionBanner extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: -AppSizes.kGeneral16,
-          right: -AppSizes.kGeneral14,
+          top: AppSizes.kPrepaidWaterTopPositioning,
+          right: AppSizes.kPrepaidWaterRightPositioning,
           child: Assets.images.prepaidWater.image(
             width: AppSizes.kPrepaidWaterBannerWidth,
             height: AppSizes.kPrepaidWaterBannerHeight,
@@ -56,18 +56,18 @@ class _Content extends StatelessWidget {
         ),
         AppBoxes.kHeight24,
         _DescriptionTile(
-          number: 1,
-          text: t.prepaidWater.description.first,
+          number: t.prepaidWater.description.first.number,
+          text: t.prepaidWater.description.first.text,
         ),
         AppBoxes.kHeight16,
         _DescriptionTile(
-          number: 2,
-          text: t.prepaidWater.description.second,
+          number: t.prepaidWater.description.second.number,
+          text: t.prepaidWater.description.second.text,
         ),
         AppBoxes.kHeight16,
         _DescriptionTile(
-          number: 3,
-          text: t.prepaidWater.description.third,
+          number: t.prepaidWater.description.third.number,
+          text: t.prepaidWater.description.third.text,
         ),
       ],
     );
@@ -82,7 +82,7 @@ class _DescriptionTile extends StatelessWidget {
   });
 
   /// Номер пукнта программы.
-  final int number;
+  final String number;
 
   /// Текст пункта программы..
   final String text;
@@ -101,7 +101,7 @@ class _DescriptionTile extends StatelessWidget {
             padding: AppInsets.kHorizontal10 + AppInsets.kVertical3,
             child: Center(
               child: Text(
-                number.toString(),
+                number,
                 style: context.textStyle.buttonTypo.btn1bold
                     .withColor(context.colors.mainColors.primary),
               ),

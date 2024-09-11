@@ -16,7 +16,7 @@ class PrepaidWaterBanner extends StatelessWidget {
   const PrepaidWaterBanner({super.key});
 
   /// Перенаправляет на страницу баланса предоплатной воды.
-  void _navigateToPrepaidWater(BuildContext context) {
+  void _navigateToPrepaidWater(BuildContext context) =>
     context.navigateTo(
       const ProfileWrapper(
         children: [
@@ -25,7 +25,7 @@ class PrepaidWaterBanner extends StatelessWidget {
         ],
       ),
     );
-  }
+
 
   @override
   Widget build(BuildContext context) {
