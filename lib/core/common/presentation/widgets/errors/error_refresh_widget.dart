@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
@@ -18,17 +19,19 @@ class ErrorRefreshWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: context.screenHeight * .7,
+      // height: context.screenHeight * .7,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Spacer(),
+          AppBoxes.kHeight24,
+          // const Spacer(),
           Text(
             error ?? t.common.commonError,
             style: context.textStyle.textTypo.tx1Medium
                 .withColor(context.colors.textColors.main),
           ),
-          const Spacer(),
+          AppBoxes.kHeight12,
+          // const Spacer(),
           Padding(
             padding: AppInsets.kAll16,
             child: AppTextButton.primary(

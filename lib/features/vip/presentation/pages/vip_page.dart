@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
+import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -18,6 +19,10 @@ class VipPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Обновление данных.
+    void onRefresh() =>
+        context.read<VipDescriptionBloc>().add(const VipEvent.started());
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -27,9 +32,10 @@ class VipPage extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: BlocBuilder<VipDescriptionBloc, VipState>(
-              builder: (_, state) => state.maybeWhen(
+              builder: (context, state) => state.maybeWhen(
                 loaded: _Content.new,
                 loading: AppCenterLoader.new,
+                error: () => ErrorRefreshWidget(onRefresh: onRefresh),
                 orElse: SizedBox.shrink,
               ),
             ),

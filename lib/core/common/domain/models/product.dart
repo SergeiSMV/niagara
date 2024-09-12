@@ -31,11 +31,17 @@ class Product extends Equatable {
     required this.labelColor,
     required this.discountOfCount,
     required this.bonus,
+    required this.complectId,
     this.count,
   });
 
   /// `ID` продукта.
   final String id;
+
+  /// `ID` набора, к которому относится продукт.
+  ///
+  /// Есть только у [ProductType.complect].
+  final String? complectId;
 
   /// Наименование продукта.
   final String name;

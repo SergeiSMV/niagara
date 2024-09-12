@@ -1,5 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -8,6 +9,7 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/widgets/prepaid_water_balance_widget.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/widgets/prepaid_water_description.dart';
 
@@ -18,17 +20,18 @@ class PrepaidWaterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: AppBarWidget(),
-      body: Stack(
+    final bool isEmpty = context.watch<WaterBalanceCubit>().isEmpty;
+
+    return Scaffold(
+      appBar: const AppBarWidget(),
+      body: const Stack(
         children: [
           _Background(),
           _Content(),
         ],
       ),
-      // TODO(kvbykov): Рисуем кнопку только при непустом балансе.
-      // https://digitalburo.youtrack.cloud/issue/NIAGARA-337/Logika.-Predoplatnaya-voda
-      // bottomNavigationBar: _AddToCartButton(),
+      // Кнопка рисуется только при непустом балансе.
+      bottomNavigationBar: isEmpty ? null : const _AddToCartButton(),
     );
   }
 }
@@ -107,7 +110,7 @@ class _AddToCartButton extends StatelessWidget {
             AppInsets.kHorizontal16 + AppInsets.kBottom24 + AppInsets.kTop12,
         child: AppTextButton.primary(
           text: t.prepaidWater.addToCart,
-          onTap: () {},
+          onTap: () => context.read<WaterBalanceCubit>().getBottles(),
         ),
       ),
     );
