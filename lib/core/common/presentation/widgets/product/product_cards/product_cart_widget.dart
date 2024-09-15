@@ -5,36 +5,55 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/item_in_cart_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_coins_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_tag_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/slide_buttons_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_amount_icon_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/slide_buttons_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/enums/cart_item_action.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
-class ProductCartWidget extends StatefulWidget {
-  const ProductCartWidget({
+/// Развёрнутая горизонтально карточка товвара с кнопками `+` и `-`.
+///
+/// Используется для отображения в корзине и для преобретения предоплатной воды.
+///
+/// Не путать с [ProductWidget], который используется для отображения товара
+/// в каталоге.
+class ProductBuyPreview extends StatefulWidget {
+  const ProductBuyPreview({
     super.key,
     required this.product,
+    required this.onAdd,
+    required this.onRemove,
     this.isAvailable = true,
   });
 
+  /// Преобретаемый товар.
   final Product product;
+
+  /// Доступен ли товар для покупки.
   final bool isAvailable;
 
+  /// Обработчик нажатия на кнопку увеличения количества товара.
+  final VoidCallback onAdd;
+
+  /// Обработчик нажатия на кнопку уменьшения количества товара.
+  final VoidCallback onRemove;
+
   @override
-  State<ProductCartWidget> createState() => _ProductCartWidgetState();
+  State<ProductBuyPreview> createState() => _ProductBuyPreviewState();
 }
 
-class _ProductCartWidgetState extends State<ProductCartWidget>
+class _ProductBuyPreviewState extends State<ProductBuyPreview>
     with SingleTickerProviderStateMixin {
   late final SlidableController slidableController;
 
@@ -44,6 +63,7 @@ class _ProductCartWidgetState extends State<ProductCartWidget>
     super.initState();
   }
 
+  /// Переход на страницу товара.
   void _navigateToProductPage(BuildContext context) => context.navigateTo(
         CatalogWrapper(
           children: [
@@ -65,8 +85,8 @@ class _ProductCartWidgetState extends State<ProductCartWidget>
         children: [
           SlideButtonsWidget(
             product: widget.product,
-            addToFavorite: () => slidableController.close(),
-            removeFromCart: () => slidableController.close(),
+            onActionCompleted: () => slidableController.close(),
+            onRemove: widget.onRemove,
           ),
         ],
       ),
@@ -90,6 +110,8 @@ class _ProductCartWidgetState extends State<ProductCartWidget>
                     product: widget.product,
                     isAvailable: widget.isAvailable,
                     openSlideMenu: () => slidableController.openEndActionPane(),
+                    onPlus: widget.onAdd,
+                    onMinus: widget.onRemove,
                   ),
                 ],
               ),
@@ -106,11 +128,16 @@ class _CartProductDescriptionWidget extends StatelessWidget {
     required this.product,
     required this.isAvailable,
     required this.openSlideMenu,
+    required this.onPlus,
+    required this.onMinus,
   });
 
   final Product product;
   final bool isAvailable;
   final VoidCallback openSlideMenu;
+
+  final VoidCallback onPlus;
+  final VoidCallback onMinus;
 
   @override
   Widget build(BuildContext context) {
@@ -180,10 +207,16 @@ class _CartProductDescriptionWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ItemInCartButton(
+                ProductAmountIconButton(
                   product: product,
-                  cartAction: ItemInCartButtonIcon.minus,
+                  cartAction: CartItemAction.minus,
+                  onTap: onMinus,
                 ),
+                // TODO(kvbykov): Возможно, можно это тянуть не из модельки
+                // продукта, а из блока напрямую, если будем как-то руками
+                // менять количество товара. Сейчас это обречено на подвисания,
+                // т.к. новый [Product] будет получаться только после ответа
+                // сервера.
                 Padding(
                   padding: AppInsets.kHorizontal16,
                   child: Text(
@@ -193,9 +226,10 @@ class _CartProductDescriptionWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                ItemInCartButton(
+                ProductAmountIconButton(
                   product: product,
-                  cartAction: ItemInCartButtonIcon.plus,
+                  cartAction: CartItemAction.plus,
+                  onTap: onPlus,
                 ),
               ],
             )

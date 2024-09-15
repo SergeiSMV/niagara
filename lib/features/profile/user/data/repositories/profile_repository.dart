@@ -37,8 +37,8 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
 
   @override
   Future<Either<Failure, User>> getUser() => execute(() async {
-        final localUser = await _getLocalUser();
-        if (localUser != null) return localUser;
+        // final localUser = await _getLocalUser();
+        // if (localUser != null) return localUser;
 
         final remoteProfile = await _getRemoteUser();
 

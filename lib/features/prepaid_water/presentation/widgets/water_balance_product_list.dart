@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -12,8 +12,8 @@ import 'package:niagara_app/features/prepaid_water/presentation/widgets/empty_wa
 import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
 
 /// Виджет, отображающий баланс предоплатной воды с карточками товаров.
-class PrepaidWaterBalanceWidget extends StatelessWidget {
-  const PrepaidWaterBalanceWidget();
+class WaterBalanceProductList extends StatelessWidget {
+  const WaterBalanceProductList();
 
   /// Обновляет баланс воды.
   void _onRefresh(BuildContext context) =>
@@ -46,7 +46,7 @@ class _Loaded extends StatelessWidget {
   Widget build(BuildContext context) {
     final int length = balance.bottles.length;
     final List<Widget> children = balance.bottles
-        .map((bottle) => ProductWidget(product: bottle))
+        .map((bottle) => ProductWidget(product: bottle, isWaterBalance: true))
         .toList();
 
     return Column(

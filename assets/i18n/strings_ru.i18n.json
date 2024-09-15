@@ -1,6 +1,7 @@
 {
   "common": {
     "rub": "₽",
+    "dotSerparator": "•",
     "cancel": "Отменить",
     "refresh": "Обновить",
     "delete": "Удалить",
@@ -508,6 +509,8 @@
         "number": "3"
       }
     },
+    "buy": "Купить",
+    "complectBenefit": "выгода от комплекта",
     "emptyBalance": "На балансе нет воды",
     "goShopping": "Перейти к покупкам",
     "addToCart": "Добавить в корзину",

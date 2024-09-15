@@ -6,16 +6,19 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/prepaid_water/presentation/widgets/prepaid_water_description.dart';
 
 class ProductExpandableTextWidget extends HookWidget {
   const ProductExpandableTextWidget({
     super.key,
     required this.text,
+    this.showPrepaidWaterBanner = false,
     this.maxLines = 6,
   });
 
   final String text;
   final int maxLines;
+  final bool showPrepaidWaterBanner;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +52,12 @@ class ProductExpandableTextWidget extends HookWidget {
                   maxLines: isExpanded.value ? null : maxLines,
                 ),
               ),
+              if (showPrepaidWaterBanner && isExpanded.value) ...[
+                AppBoxes.kHeight24,
+                PrepaidWaterDescriptionBanner(
+                  backgroundColor: context.colors.mainColors.bgCard,
+                ),
+              ],
               AppBoxes.kHeight12,
               InkWell(
                 onTap: () => isExpanded.value = !isExpanded.value,
@@ -73,7 +82,16 @@ class ProductExpandableTextWidget extends HookWidget {
             ],
           );
         } else {
-          return Text(text, style: textStyle);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(text, style: textStyle),
+              AppBoxes.kHeight24,
+              PrepaidWaterDescriptionBanner(
+                backgroundColor: context.colors.mainColors.bgCard,
+              ),
+            ],
+          );
         }
       },
     );

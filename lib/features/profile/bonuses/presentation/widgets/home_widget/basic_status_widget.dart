@@ -20,11 +20,22 @@ class BasicStatusWidget extends StatelessWidget {
 
   final Bonuses bonuses;
 
+  /// Переходит на страницу бонусов.
   void _goToBonuses(BuildContext context) => context.navigateTo(
         const ProfileWrapper(
           children: [
             ProfileRoute(),
             MyBonusesRoute(),
+          ],
+        ),
+      );
+
+  /// Переходит на страницу предоплатной воды.
+  void _goToPrepaidWater(BuildContext context) => context.navigateTo(
+        const ProfileWrapper(
+          children: [
+            ProfileRoute(),
+            PrepaidWaterRoute(),
           ],
         ),
       );
@@ -45,7 +56,7 @@ class BasicStatusWidget extends StatelessWidget {
               ),
               AppBoxes.kHeight8,
               InkWell(
-                onTap: () {},
+                onTap: () => _goToPrepaidWater(context),
                 child: const PrepaidWaterDataWidget(),
               ),
             ],

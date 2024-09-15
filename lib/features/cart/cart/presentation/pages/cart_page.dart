@@ -70,7 +70,7 @@ class _Content extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CartProductsWidget(cart: cart),
+                  CartProductListWidget(cart: cart),
                   AppBoxes.kHeight16,
                   CartUnavailableProductsWidget(
                     unavailableProducts: cart.unavailableProducts,

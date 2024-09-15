@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:niagara_app/core/common/domain/models/pagination.dart';
 import 'package:niagara_app/core/utils/enums/product_type.dart';
 
+/// Список продуктов с пагинацией.
 typedef Products = ({List<Product> products, Pagination pagination});
 
 /// Продукт.
@@ -109,6 +110,15 @@ class Product extends Equatable {
 
   /// Количество товара в корзине.
   final int? count;
+
+  /// Индикатор, является ли продукт предоплатной водой.
+  bool get isWater => type == ProductType.complect;
+
+  /// Индикатор, является ли продукт услугой.
+  bool get isService => type == ProductType.service;
+
+  /// Индикатор, является ли продукт товаром.
+  bool get isProduct => type == ProductType.product;
 
   /// Индикатор наличия скидки.
   bool get hasDiscount => priceOld > 0 && price < priceOld;

@@ -10,8 +10,8 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
-import 'package:niagara_app/features/prepaid_water/presentation/widgets/prepaid_water_balance_widget.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/widgets/prepaid_water_description.dart';
+import 'package:niagara_app/features/prepaid_water/presentation/widgets/water_balance_product_list.dart';
 
 /// Страница баланса предоплатной воды.
 @RoutePage()
@@ -20,7 +20,7 @@ class PrepaidWaterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isEmpty = context.watch<WaterBalanceCubit>().isEmpty;
+    final bool isEmpty = context.watch<WaterBalanceCubit>().count == 0;
 
     return Scaffold(
       appBar: const AppBarWidget(),
@@ -79,7 +79,7 @@ class _Content extends StatelessWidget {
               ),
               color: context.colors.mainColors.white,
             ),
-            child: const PrepaidWaterBalanceWidget(),
+            child: const WaterBalanceProductList(),
           ),
         ],
       ),

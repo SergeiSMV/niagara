@@ -8,12 +8,14 @@ import 'package:niagara_app/features/profile/bonuses/domain/use_cases/get_bonuse
 part 'water_balance_state.dart';
 part 'water_balance_cubit.freezed.dart';
 
+/// [Cubit] для получения баланса предоплатной воды.
 @lazySingleton
 class WaterBalanceCubit extends Cubit<WaterBalanceState> {
   WaterBalanceCubit(
     this._getBonusesUseCase,
     this._hasAuthStatusUseCase,
   ) : super(const WaterBalanceState.loading()) {
+    // Загружаем баланс бутылей при инициализации.
     getBottles();
   }
 
@@ -23,13 +25,20 @@ class WaterBalanceCubit extends Cubit<WaterBalanceState> {
   /// Кейс проверки авторизации.
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
 
-  /// Проверяет, пуст ли баланс воды.
+  /// Определяет, должен ли отображаться тот или иной виджет с состоянием
+  /// баланса.
   ///
-  /// Возвращает `false`, если баланс загружен и не пуст и `true` во всех
-  /// остальных случаях.
-  bool get isEmpty => state.maybeWhen(
-        loaded: (balance) => balance.bottles.isEmpty,
+  /// Возвращает `false` в случае ошибки или при отсутствии авторизации.
+  bool get shouldDisplay => state.maybeWhen(
+        error: () => false,
+        unauthorized: () => false,
         orElse: () => true,
+      );
+
+  /// Возвращает общее количество бутылей на балансе.
+  int get count => state.maybeWhen(
+        loaded: (balance) => balance.count,
+        orElse: () => 0,
       );
 
   /// Проверяет авторизацию и запрашивает состояние баланса воды.
@@ -45,7 +54,7 @@ class WaterBalanceCubit extends Cubit<WaterBalanceState> {
   }
 
   /// Получает баланс воды.
-  void _getBottles() => _getBonusesUseCase().fold(
+  void _getBottles() => _getBonusesUseCase(true).fold(
         (failure) => emit(const WaterBalanceState.error()),
         (bonuses) {
           if (bonuses.bottles.bottles.isEmpty) {

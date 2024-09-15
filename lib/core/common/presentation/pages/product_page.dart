@@ -2,18 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_coins_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_description_with_properties_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_favorite_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_images_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_tag_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_title_with_prices_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_to_card_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/recommend_products_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_groups/recommend_products_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_add_to_cart_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_description_with_properties_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_favorite_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_images_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_title_with_prices_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 @RoutePage()
 class ProductPage extends StatelessWidget {
@@ -83,7 +85,9 @@ class ProductPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: ProductToCardButton(product: product),
+      bottomNavigationBar: product.isWater
+          ? AppTextButton.accent(text: t.prepaidWater.buy)
+          : ProductAddToCartButton(product: product),
     );
   }
 }

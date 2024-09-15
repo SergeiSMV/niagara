@@ -31,11 +31,7 @@ class PaymentCreationCubit extends Cubit<PaymentCreationState> {
     @factoryParam this._activationOption,
     @factoryParam this._prepaidWaterData,
     this._orderVipUseCase,
-  )   : assert(
-          (_activationOption != null) ^ (_prepaidWaterData != null),
-          'Один и только один из параметров для формирования заказа должен быть не `null`',
-        ),
-        super(const PaymentCreationState.initial());
+  ) : super(const PaymentCreationState.initial());
 
   /// Выбранный метод оплаты.
   PaymentMethod? paymentMethod;

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -39,7 +39,10 @@ class NewProductsHomeWidget extends StatelessWidget {
               .map(
                 (product) => ProductWidget(
                   product: product,
-                  goToPage: () => _navigateToProductPage(context, product),
+                  redirectRoute: ProductRoute(
+                    key: ValueKey(product.id),
+                    product: product,
+                  ),
                 ),
               )
               .toList();

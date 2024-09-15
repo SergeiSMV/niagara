@@ -26,7 +26,7 @@ class SortProductsButton extends StatelessWidget {
           loaded: (_, selectedFilters) => selectedFilters,
           orElse: () => <FilterProperty>[],
         );
-        
+
     context.read<ProductsBloc>().add(
           ProductsEvent.setSort(
             sort: sort,
@@ -121,7 +121,7 @@ class SortProductsButton extends StatelessWidget {
             color: context.colors.mainColors.bgCard,
           ),
           child: Padding(
-            padding: AppInsets.kHorizontal24 + AppInsets.kVertical12,
+            padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

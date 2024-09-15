@@ -1,9 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -14,17 +13,16 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/special_poducts/presentation/bloc/special_products_bloc.dart';
 
+/// Виджет, отображающий горизонтальный список с товарами из категории
+/// "Специально для Вас".
 class SpecialProductsHomeWidget extends StatelessWidget {
   const SpecialProductsHomeWidget({super.key});
 
-  /// Нужно, чтобы при возвращении из карточки товара пользователь попадал назад
-  /// на главную страницу, а не в каталог.
-  void _navigateToProductPage(BuildContext context, Product product) =>
-      context.navigateTo(
-        ProductRoute(
-          key: ValueKey(product.id),
-          product: product,
-        ),
+  /// Преобразует [Product] в [ProductWidget].
+  Widget _toWidget(Product product) => ProductWidget(
+        product: product,
+        redirectRoute:
+            ProductRoute(key: ValueKey(product.id), product: product),
       );
 
   @override
@@ -34,20 +32,15 @@ class SpecialProductsHomeWidget extends StatelessWidget {
         loading: (_) => const SizedBox.shrink(),
         error: (_) => const SizedBox.shrink(),
         loaded: (state) {
-          final List<Product> products = state.products;
-          final List<Widget> children = products
-              .map(
-                (product) => ProductWidget(
-                  product: product,
-                  goToPage: () => _navigateToProductPage(context, product),
-                ),
-              )
-              .toList();
-
-          if (children.isEmpty) {
+          // Если товаров нет, виджет не отображается.
+          if (state.totalItems == 0) {
             return const SizedBox.shrink();
           }
 
+          final List<Widget> children = state.products.map(_toWidget).toList();
+
+          // Если идёт загрузка, добавляем ещё один элемент под индикатор
+          // загрузки.
           final int length =
               state.loadingMore ? children.length + 1 : children.length;
 
@@ -101,6 +94,8 @@ class SpecialProductsHomeWidget extends StatelessWidget {
                             );
                           }
 
+                          // Если дошли до предпоследнего элемента, загружаем
+                          // ещё порцию.
                           if (index == children.length - 3) {
                             context.read<SpecialProductsBloc>().add(
                                   const SpecialProductsEvent.loadMore(),
