@@ -40,17 +40,34 @@ class CartRepository extends BaseRepository implements ICartRepository {
       );
 
   @override
-  Future<Either<Failure, bool>> addProductToCart(Product product) => execute(
-        () => _cartRDS.addProductToCart(product.id).fold(
+  Future<Either<Failure, bool>> addProductToCart(
+    Product product,
+    bool withdrawingWater,
+  ) =>
+      execute(
+        () => _cartRDS
+            .addProductToCart(
+              product.id,
+              withdrawingWater ? product.complectId : null,
+            )
+            .fold(
               (failure) => throw failure,
               (success) => success,
             ),
       );
 
   @override
-  Future<Either<Failure, bool>> removeProductFromCart(Product product) =>
+  Future<Either<Failure, bool>> removeProductFromCart(
+    Product product,
+    bool withdrawingWater,
+  ) =>
       execute(
-        () => _cartRDS.removeProductFromCart(product.id).fold(
+        () => _cartRDS
+            .removeProductFromCart(
+              product.id,
+              withdrawingWater ? product.complectId : null,
+            )
+            .fold(
               (failure) => throw failure,
               (success) => success,
             ),

@@ -12,9 +12,15 @@ abstract interface class ICartRemoteDataSource {
     required bool allTare,
   });
 
-  Future<Either<Failure, bool>> addProductToCart(String productId);
+  Future<Either<Failure, bool>> addProductToCart(
+    String productId, [
+    String? complectId,
+  ]);
 
-  Future<Either<Failure, bool>> removeProductFromCart(String productId);
+  Future<Either<Failure, bool>> removeProductFromCart(
+    String productId, [
+    String? complectId,
+  ]);
 
   Future<Either<Failure, bool>> clearCart({required CartClearTypes type});
 
@@ -53,12 +59,16 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
       );
 
   @override
-  Future<Either<Failure, bool>> addProductToCart(String productId) =>
+  Future<Either<Failure, bool>> addProductToCart(
+    String productId, [
+    String? complectId,
+  ]) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kAddProductToCart,
           data: {
             'product_id': productId,
+            if (complectId != null) 'complect_id': complectId,
           },
         ),
         converter: (json) => json['success'] as bool,
@@ -66,12 +76,16 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
       );
 
   @override
-  Future<Either<Failure, bool>> removeProductFromCart(String productId) =>
+  Future<Either<Failure, bool>> removeProductFromCart(
+    String productId, [
+    String? complectId,
+  ]) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.delete(
           ApiConst.kRemoveProductFromCart,
           data: {
             'product_id': productId,
+            if (complectId != null) 'complect_id': complectId,
           },
         ),
         converter: (json) => json['success'] as bool,

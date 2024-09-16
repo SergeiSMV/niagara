@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
@@ -20,6 +21,10 @@ class Cart extends Equatable {
   final String locationId;
   final String locationName;
   final List<PaymentMethod> paymentMethods;
+
+  /// Возвращает количество [product] среди доступных товаров в корзине.
+  int countInStock(Product product) =>
+      products.firstWhereOrNull((p) => p.id == product.id)?.count ?? 0;
 
   bool get isEmpty => products.isEmpty && unavailableProducts.isEmpty;
 
