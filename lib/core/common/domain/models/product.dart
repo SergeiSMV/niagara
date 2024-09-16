@@ -109,10 +109,16 @@ class Product extends Equatable {
   final int bonus;
 
   /// Количество товара в корзине.
+  ///
+  /// **ВАЖНО**: не стоит полагаться на этот параметр для определения количества
+  /// товара в корзине или где-либо ещё. В некоторых случаях это число относится
+  /// к корзине, в других - к балансу воды, а иногда его может не быть. Перед
+  /// использованием убедитесь, что [Product] получен в нужном контексте.
   final int? count;
 
   /// Индикатор, является ли продукт предоплатной водой.
-  bool get isWater => type == ProductType.complect;
+  bool get isWater =>
+      type == ProductType.complect || (complectId?.isNotEmpty ?? false);
 
   /// Индикатор, является ли продукт услугой.
   bool get isService => type == ProductType.service;

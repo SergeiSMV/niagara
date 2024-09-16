@@ -55,10 +55,11 @@ class BaseProductWidget extends StatelessWidget {
   /// по возвращении назад пользователь не должен оказаться в каталоге.
   final PageRouteInfo? redirectRoute;
 
-  /// Индикатор того, что данный виджет отображает предоплатную воду на балансе.
+  /// Индикатор того, что данный виджет отображает предоплатную воду **на
+  /// балансе**.
   ///
-  /// В таком случае не рисуются бонусы, цена и часть описания, отключается
-  /// переход в карточку товара.
+  /// В таком случае не рисуются бонусы, цена и часть описания, а также
+  /// отключается переход в карточку товара по нажатии.
   final bool isWaterBalance;
 
   /// Перенаправляет пользователя на страницу товара.
@@ -128,12 +129,33 @@ class BaseProductWidget extends StatelessWidget {
                   AppBoxes.kHeight8,
 
                   // Цена товара.
-                  Text(
-                    '${product.price} ${t.common.rub}'.spaceSeparateNumbers(),
-                    style: context.textStyle.textTypo.tx1SemiBold.withColor(
-                      context.colors.textColors.main,
+                  if (!isWaterBalance)
+                    Text(
+                      '${product.price} ${t.common.rub}'.spaceSeparateNumbers(),
+                      style: context.textStyle.textTypo.tx1SemiBold.withColor(
+                        context.colors.textColors.main,
+                      ),
                     ),
-                  ),
+
+                  // Хотя такой случай и не имеет смысла, из-за ошибки `count`
+                  // может оказаться `null`.
+                  if (isWaterBalance && product.count != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          t.prepaidWater.balance,
+                          style:
+                              context.textStyle.descriptionTypo.des3.copyWith(
+                            color: context.colors.textColors.secondary,
+                          ),
+                        ),
+                        Text(
+                          '${product.count} ${t.pieces}',
+                          style: context.textStyle.textTypo.tx2SemiBold,
+                        ),
+                      ],
+                    ),
                   AppBoxes.kHeight4,
 
                   // Переключатели количества товара.
@@ -172,10 +194,10 @@ class _ProductShortDescription extends StatelessWidget {
         children: [
           if (product.description.isNotEmpty)
             TextSpan(
-              text: product.description + (displaySecondPart ? ' • ' : ''),
+              text: product.description +
+                  (displaySecondPart ? t.common.dotSerparator : ''),
               style: context.textStyle.descriptionTypo.des3.copyWith(
                 color: context.colors.textColors.secondary,
-                height: .1,
               ),
             ),
           if (displaySecondPart)
@@ -224,22 +246,25 @@ class _ProductLabelAndFavorite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool shouldDisplay = product.label.isNotEmpty && !isWaterBalance;
+
     return Positioned.fill(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (product.label.isNotEmpty && !isWaterBalance)
-            Padding(
-              padding: AppInsets.kHorizontal6 + AppInsets.kVertical4,
-              child: ProductTagWidget(
-                label: product.label,
-                labelColor: product.labelColor,
-              ),
-            ),
-          const Spacer(),
-          ProductFavoriteButton(product: product),
-        ],
+        children: shouldDisplay
+            ? [
+                Padding(
+                  padding: AppInsets.kHorizontal6 + AppInsets.kVertical4,
+                  child: ProductTagWidget(
+                    label: product.label,
+                    labelColor: product.labelColor,
+                  ),
+                ),
+                const Spacer(),
+                ProductFavoriteButton(product: product),
+              ]
+            : [],
       ),
     );
   }

@@ -20,8 +20,6 @@ class PrepaidWaterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isEmpty = context.watch<WaterBalanceCubit>().count == 0;
-
     return Scaffold(
       appBar: const AppBarWidget(),
       body: const Stack(
@@ -31,7 +29,14 @@ class PrepaidWaterPage extends StatelessWidget {
         ],
       ),
       // Кнопка рисуется только при непустом балансе.
-      bottomNavigationBar: isEmpty ? null : const _AddToCartButton(),
+      bottomNavigationBar: Builder(
+        builder: (context) {
+          final bool isEmpty =
+              context.select((WaterBalanceCubit cubit) => cubit.count == 0);
+
+          return isEmpty ? const SizedBox.shrink() : const _AddToCartButton();
+        },
+      ),
     );
   }
 }

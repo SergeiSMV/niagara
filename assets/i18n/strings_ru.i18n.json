@@ -494,6 +494,7 @@
   "prepaidWater": {
     "title": "Предоплатная вода",
     "myBalance": "Мой баланс",
+    "balance": "Баланс",
     "description": {
       "title": "Покупайте воду с выгодой до 30%",
       "first": {
