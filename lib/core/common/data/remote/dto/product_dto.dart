@@ -59,8 +59,7 @@ class ProductDto extends Equatable {
         complectId: json['COMPLECT_ID'] as String?,
         productName: json['PRODUCT_NAME'] as String?,
         productArticle: json['PRODUCT_ARTICLE'] as String?,
-        productImage:
-            (json['PRODUCT_IMAGE'] ?? json['PRODUCT_IMAGES']) as String?,
+        productImage: json['PRODUCT_IMAGE'] as String?,
         productDescription: json['PRODUCT_DESCRIPTION'] as String?,
         productDescriptionFull: json['PRODUCT_DESCRIPTION_FULL'] as String?,
         productGroupId: json['PRODUCT_GROUP_ID'] as String?,

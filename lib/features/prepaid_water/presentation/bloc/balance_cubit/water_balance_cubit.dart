@@ -25,11 +25,10 @@ class WaterBalanceCubit extends Cubit<WaterBalanceState> {
   /// Кейс проверки авторизации.
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
 
-  /// Определяет, должен ли отображаться тот или иной виджет с состоянием
-  /// баланса.
+  /// Определяет, возможно ли отрисовать количество бутылей на балансе.
   ///
   /// Возвращает `false` в случае ошибки или при отсутствии авторизации.
-  bool get shouldDisplay => state.maybeWhen(
+  bool get canDisplayAmount => state.maybeWhen(
         error: () => false,
         unauthorized: () => false,
         orElse: () => true,

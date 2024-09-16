@@ -19,19 +19,15 @@ class ErrorRefreshWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // height: context.screenHeight * .7,
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AppBoxes.kHeight24,
-          // const Spacer(),
           Text(
             error ?? t.common.commonError,
             style: context.textStyle.textTypo.tx1Medium
                 .withColor(context.colors.textColors.main),
           ),
           AppBoxes.kHeight12,
-          // const Spacer(),
           Padding(
             padding: AppInsets.kAll16,
             child: AppTextButton.primary(

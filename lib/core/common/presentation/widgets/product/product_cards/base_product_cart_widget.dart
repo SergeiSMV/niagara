@@ -6,7 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_in_cart.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_amount_icon_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
@@ -30,8 +30,7 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 /// Используется вместе с [BlocProvider], который предоставит [product],
 /// [count], [onAdd] и [onRemove].
 ///
-/// Не путать с [ProductWidget], который используется для отображения товара
-/// в каталоге.
+/// Для примера см. [ProductInCart].
 class BaseProductCartWidget extends StatefulWidget {
   const BaseProductCartWidget({
     super.key,

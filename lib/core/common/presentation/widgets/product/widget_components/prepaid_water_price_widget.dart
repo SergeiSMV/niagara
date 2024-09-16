@@ -8,6 +8,7 @@ import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
+/// Виджет для отображения цены комплекта предоплатной воды.
 class PrepaidWaterPriceWidget extends StatelessWidget {
   const PrepaidWaterPriceWidget({
     super.key,
@@ -18,6 +19,9 @@ class PrepaidWaterPriceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool displayOldPrice =
+        product.priceOld != product.price && product.priceOld != 0;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.infoColors.green,
@@ -36,14 +40,16 @@ class PrepaidWaterPriceWidget extends StatelessWidget {
                     context.colors.textColors.white,
                   ),
                 ),
-                Text(
-                  '${product.priceOld} ${t.common.rub}'.spaceSeparateNumbers(),
-                  style: context.textStyle.textTypo.tx2Medium.copyWith(
-                    color: context.colors.textColors.white,
-                    decoration: TextDecoration.lineThrough,
-                    decorationColor: context.colors.textColors.white,
+                if (displayOldPrice)
+                  Text(
+                    '${product.priceOld} ${t.common.rub}'
+                        .spaceSeparateNumbers(),
+                    style: context.textStyle.textTypo.tx2Medium.copyWith(
+                      color: context.colors.textColors.white,
+                      decoration: TextDecoration.lineThrough,
+                      decorationColor: context.colors.textColors.white,
+                    ),
                   ),
-                ),
               ],
             ),
             AppBoxes.kHeight2,

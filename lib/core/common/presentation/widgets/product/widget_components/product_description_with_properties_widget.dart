@@ -11,11 +11,16 @@ import 'package:niagara_app/core/utils/extensions/iterable_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
+/// Виджет с описанием свойств продукта на вкладках "Описание" и
+/// "Характеристики".
+///
+/// Отображается на странице продукта.
 class ProductDescriptionWithPropertiesWidget extends HookWidget {
   const ProductDescriptionWithPropertiesWidget({
     required this.product,
     super.key,
   });
+
   final Product product;
 
   @override

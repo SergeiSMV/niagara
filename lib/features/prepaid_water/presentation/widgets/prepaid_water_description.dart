@@ -12,7 +12,7 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 class PrepaidWaterDescriptionBanner extends StatelessWidget {
   const PrepaidWaterDescriptionBanner({super.key, this.backgroundColor});
 
-  /// Текст фона. По умолчанию - белый.
+  /// Цвет фона. По умолчанию - белый.
   final Color? backgroundColor;
 
   @override

@@ -117,6 +117,9 @@ class Product extends Equatable {
   final int? count;
 
   /// Индикатор, является ли продукт предоплатной водой.
+  ///
+  /// Иногда у такого товара установлен тип [ProductType.product], но есть
+  /// [complectId].
   bool get isWater =>
       type == ProductType.complect || (complectId?.isNotEmpty ?? false);
 
