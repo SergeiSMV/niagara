@@ -138,8 +138,8 @@ class BaseProductWidget extends StatelessWidget {
                     ),
 
                   // Хотя такой случай и не имеет смысла, из-за ошибки `count`
-                  // может оказаться `null`.
-                  if (isWaterBalance && product.count != null)
+                  // может оказаться `0`.
+                  if (isWaterBalance)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -195,7 +195,7 @@ class _ProductShortDescription extends StatelessWidget {
           if (product.description.isNotEmpty)
             TextSpan(
               text: product.description +
-                  (displaySecondPart ? t.common.dotSerparator : ''),
+                  (displaySecondPart ? t.common.dotSeparator : ''),
               style: context.textStyle.descriptionTypo.des3.copyWith(
                 color: context.colors.textColors.secondary,
               ),

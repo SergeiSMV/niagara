@@ -152,6 +152,10 @@ class _CartProductDescriptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool withdrawingWater = product.isWater && product.price == 0;
+    final bool displaySecondPart =
+        !withdrawingWater && product.discountOfCount.isNotEmpty;
+
     return Flexible(
       flex: AppSizes.kGeneral2.toInt(),
       child: Column(
@@ -198,13 +202,12 @@ class _CartProductDescriptionWidget extends StatelessWidget {
             children: [
               if (product.description.isNotEmpty)
                 Text(
-                  '${product.description} • ',
+                  '${product.description}${displaySecondPart ? t.common.dotSeparator : ''}',
                   style: context.textStyle.descriptionTypo.des3.copyWith(
                     color: context.colors.textColors.secondary,
-                    height: .1,
                   ),
                 ),
-              if (product.discountOfCount.isNotEmpty)
+              if (displaySecondPart)
                 Text(
                   product.discountOfCount,
                   style: context.textStyle.captionTypo.c1.withColor(
@@ -226,7 +229,7 @@ class _CartProductDescriptionWidget extends StatelessWidget {
                 Padding(
                   padding: AppInsets.kHorizontal16,
                   child: Text(
-                    '${count} ${t.pieces}',
+                    '$count ${t.pieces}',
                     style: context.textStyle.textTypo.tx2SemiBold.withColor(
                       context.colors.mainColors.primary,
                     ),

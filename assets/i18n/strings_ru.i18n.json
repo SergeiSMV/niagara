@@ -1,7 +1,7 @@
 {
   "common": {
     "rub": "₽",
-    "dotSerparator": "•",
+    "dotSeparator": " • ",
     "cancel": "Отменить",
     "refresh": "Обновить",
     "delete": "Удалить",

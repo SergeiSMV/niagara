@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_buy_preview.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/base_product_cart_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 
 /// Виджет для отображения товара в корзине.

@@ -40,7 +40,7 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
       (hasAuth) async {
         if (!hasAuth) return emit(const _Unauthorized());
 
-        await _getBonusesUseCase.call().fold(
+        await _getBonusesUseCase.call(true).fold(
               (failure) => emit(_Error(message: failure.error)),
               (bonuses) async =>
                   _getStatusDescriptionUseCase.call(bonuses.level).fold(
