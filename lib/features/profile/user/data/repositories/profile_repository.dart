@@ -37,6 +37,8 @@ class ProfileRepository extends BaseRepository implements IProfileRepository {
 
   @override
   Future<Either<Failure, User>> getUser() => execute(() async {
+        // TODO(kvbykov): Вернуть работу с кешем пользователя после устранения 
+        // багов.
         // final localUser = await _getLocalUser();
         // if (localUser != null) return localUser;
 

@@ -46,7 +46,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final GetRecommendsCartUseCase _getRecommendsCartUseCase;
   final GetDefaultAddressUseCase _getDefaultAddressUseCase;
 
-  final bool _returnAllTare = false;
+  // TODO(kvbykov): Добавить настройку возвращения тары.
+  final bool _returnAllTare = true;
   int _returnTareCount = 0;
   int _bonusesToPay = 0;
 
