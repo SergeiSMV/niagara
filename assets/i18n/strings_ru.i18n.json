@@ -515,7 +515,9 @@
     "emptyBalance": "На балансе нет воды",
     "goShopping": "Перейти к покупкам",
     "addToCart": "Добавить в корзину",
-    "onBalanceCount": "На балансе ${count} шт."
+    "onBalanceCount": "На балансе ${count} шт.",
+    "selectCount": "Выберите количество",
+    "buyingComplect": "Покупка комплекта"
   },
   "errors": {
     "noInternet": {
