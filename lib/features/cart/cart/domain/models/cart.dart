@@ -24,9 +24,20 @@ class Cart extends Equatable {
 
   /// Возвращает количество [product] среди доступных товаров в корзине.
   int countInStock(Product product) =>
-      products.firstWhereOrNull((p) => p.id == product.id)?.count ?? 0;
+      products
+          .firstWhereOrNull(
+            (p) => p.id == product.id && p.complectId == product.complectId,
+          )
+          ?.count ??
+      0;
 
+  /// Индикатор того, что корзина пуста.
   bool get isEmpty => products.isEmpty && unavailableProducts.isEmpty;
+
+  /// Индикатор того, что корзина содержит предоплатную воду на списание с баланса.
+  bool get containsComplect => products.any(
+        (p) => p.complectId != null && p.price == 0,
+      );
 
   @override
   List<Object?> get props => [

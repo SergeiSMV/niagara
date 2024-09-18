@@ -39,7 +39,9 @@ class CreateOrderButton extends StatelessWidget {
             AppInsets.kVertical12 +
             AppInsets.kBottom12,
         child: InkWell(
-          onTap: context.read<OrderCreationCubit>().placeOrder,
+          onTap: () => context
+              .read<OrderCreationCubit>()
+              .placeOrder(allowZeroPrice: cart.cartData.totalPrice == 0),
           child: Container(
             alignment: Alignment.center,
             padding: AppInsets.kHorizontal16,

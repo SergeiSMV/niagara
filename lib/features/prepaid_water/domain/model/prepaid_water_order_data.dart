@@ -1,8 +1,8 @@
 import 'package:niagara_app/core/core.dart';
 
 /// Информация о заказе на пополнение счета воды.
-class PrepaidWaterOrderData extends Equatable {
-  const PrepaidWaterOrderData({required this.complectId, required this.count});
+class OrderWaterData extends Equatable {
+  const OrderWaterData({required this.complectId, required this.count});
 
   /// `ID` комплекта (`ID` товарной позиции с типом [ProductType.complect]).
   final String complectId;
