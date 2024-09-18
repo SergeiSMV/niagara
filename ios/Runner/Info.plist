@@ -36,6 +36,27 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Доступ к микрофону необходим для удобного голосового ввода текста в поля ввода.</string>
 	<!-- разрешение на микрофон -->
+
+	<!-- Юкасса -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>yookassapaymentsflutter</string>
+            </array>
+        </dict>
+    </array>
+
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>yoomoneyauth</string>
+        <string>sberpay</string>
+    </array>
+    <!-- Юкасса -->
+
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Доступ к геолокации пользователя необходим для отображения текущей геопозиции.</string>
 	<key>NSMotionUsageDescription</key>
