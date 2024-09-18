@@ -44,8 +44,8 @@ class CartProductImageWidget extends StatelessWidget {
             ),
           if (product.bonus > 0)
             Positioned(
-              bottom: 0,
-              left: 0,
+              bottom: AppSizes.kZero,
+              left: AppSizes.kZero,
               child: ProductCoinsWidget(
                 count: product.bonus,
               ),

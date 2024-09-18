@@ -1,4 +1,5 @@
 abstract final class AppSizes {
+  stati const double kZero = 0;
   static const double kGeneral1 = 1;
   static const double kGeneral2 = 2;
   static const double kGeneral4 = 4;

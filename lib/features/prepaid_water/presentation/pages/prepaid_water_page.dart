@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -116,7 +115,7 @@ class _GoToCartButton extends StatelessWidget {
         padding:
             AppInsets.kHorizontal16 + AppInsets.kBottom24 + AppInsets.kTop12,
         child: AppTextButton.primary(
-          text: t.prepaidWater.addToCart,
+          text: t.prepaidWater.goToCart,
           onTap: () =>
               context.navigateTo(const CartWrapper(children: [CartRoute()])),
         ),
