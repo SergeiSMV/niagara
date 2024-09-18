@@ -1,14 +1,10 @@
 // ignore_for_file: sort_constructors_first
 
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
-
-part 'product_dto.g.dart';
 
 typedef ProductsDto = ({List<ProductDto> products, PaginationDto pagination});
 
-@JsonSerializable(createToJson: false)
 class ProductDto extends Equatable {
   const ProductDto({
     this.productId,
@@ -32,53 +28,60 @@ class ProductDto extends Equatable {
     this.discountOfCount,
     this.bonus,
     this.productCount,
+    this.complectId,
   });
 
-  @JsonKey(name: 'PRODUCT_ID')
   final String? productId;
-  @JsonKey(name: 'PRODUCT_NAME')
+  final String? complectId;
   final String? productName;
-  @JsonKey(name: 'PRODUCT_ARTICLE')
   final String? productArticle;
-  @JsonKey(name: 'PRODUCT_IMAGE')
   final String? productImage;
-  @JsonKey(name: 'PRODUCT_DESCRIPTION')
   final String? productDescription;
-  @JsonKey(name: 'PRODUCT_DESCRIPTION_FULL')
   final String? productDescriptionFull;
-  @JsonKey(name: 'PRODUCT_GROUP_ID')
   final String? productGroupId;
-  @JsonKey(name: 'PRODUCT_GROUP_NAME')
   final String? productGroupName;
-  @JsonKey(name: 'PRODUCT_TYPE')
   final String? productType;
-  @JsonKey(name: 'PRODUCT_PRICE')
   final int? productPrice;
-  @JsonKey(name: 'PRODUCT_PRICE_OLD')
   final int? productPriceOld;
-  @JsonKey(name: 'PRODUCT_PRICE_VIP')
   final int? productPriceVip;
-  @JsonKey(name: 'PRODUCT_MAIN')
   final bool? productMain;
-  @JsonKey(name: 'PRODUCT_TARA')
   final bool? productTara;
-  @JsonKey(name: 'IMAGES_ARRAY')
   final List<String>? imagesArray;
-  @JsonKey(name: 'PROPERTY_ARRAY')
   final List<PropertyArrayDto>? propertyArray;
-  @JsonKey(name: 'LABEL')
   final String? label;
-  @JsonKey(name: 'LABEL_COLOR')
   final String? labelColor;
-  @JsonKey(name: 'DISCOUNT_OF_COUNT')
   final String? discountOfCount;
-  @JsonKey(name: 'BONUS')
   final int? bonus;
-  @JsonKey(name: 'PRODUCT_COUNT')
   final int? productCount;
 
-  factory ProductDto.fromJson(Map<String, dynamic> json) =>
-      _$ProductDtoFromJson(json);
+  factory ProductDto.fromJson(Map<String, dynamic> json) => ProductDto(
+        productId: json['PRODUCT_ID'] as String?,
+        complectId: json['COMPLECT_ID'] as String?,
+        productName: json['PRODUCT_NAME'] as String?,
+        productArticle: json['PRODUCT_ARTICLE'] as String?,
+        productImage: json['PRODUCT_IMAGE'] as String?,
+        productDescription: json['PRODUCT_DESCRIPTION'] as String?,
+        productDescriptionFull: json['PRODUCT_DESCRIPTION_FULL'] as String?,
+        productGroupId: json['PRODUCT_GROUP_ID'] as String?,
+        productGroupName: json['PRODUCT_GROUP_NAME'] as String?,
+        productType: json['PRODUCT_TYPE'] as String?,
+        productPrice: (json['PRODUCT_PRICE'] as num?)?.toInt(),
+        productPriceOld: (json['PRODUCT_PRICE_OLD'] as num?)?.toInt(),
+        productPriceVip: (json['PRODUCT_PRICE_VIP'] as num?)?.toInt(),
+        productMain: json['PRODUCT_MAIN'] as bool?,
+        productTara: json['PRODUCT_TARA'] as bool?,
+        imagesArray: (json['IMAGES_ARRAY'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
+        propertyArray: (json['PROPERTY_ARRAY'] as List<dynamic>?)
+            ?.map((e) => PropertyArrayDto.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        label: json['LABEL'] as String?,
+        labelColor: json['LABEL_COLOR'] as String?,
+        discountOfCount: json['DISCOUNT_OF_COUNT'] as String?,
+        bonus: (json['BONUS'] as num?)?.toInt(),
+        productCount: (json['PRODUCT_COUNT'] as num?)?.toInt(),
+      );
 
   @override
   List<Object?> get props => [
@@ -106,7 +109,6 @@ class ProductDto extends Equatable {
       ];
 }
 
-@JsonSerializable(createToJson: false)
 class PropertyArrayDto extends Equatable {
   const PropertyArrayDto({
     this.propertyId,
@@ -114,15 +116,16 @@ class PropertyArrayDto extends Equatable {
     this.propertyValue,
   });
 
-  @JsonKey(name: 'PROPERTY_ID')
   final String? propertyId;
-  @JsonKey(name: 'PROPERTY_NAME')
   final String? propertyName;
-  @JsonKey(name: 'PROPERTY_VALUE')
   final String? propertyValue;
 
   factory PropertyArrayDto.fromJson(Map<String, dynamic> json) =>
-      _$PropertyArrayDtoFromJson(json);
+      PropertyArrayDto(
+        propertyId: json['PROPERTY_ID'] as String?,
+        propertyName: json['PROPERTY_NAME'] as String?,
+        propertyValue: json['PROPERTY_VALUE'] as String?,
+      );
 
   @override
   List<Object?> get props => [

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_expandable_properties_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_expandable_text_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_expandable_properties_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_expandable_text_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -11,11 +11,16 @@ import 'package:niagara_app/core/utils/extensions/iterable_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
+/// Виджет с описанием свойств продукта на вкладках "Описание" и
+/// "Характеристики".
+///
+/// Отображается на странице продукта.
 class ProductDescriptionWithPropertiesWidget extends HookWidget {
   const ProductDescriptionWithPropertiesWidget({
     required this.product,
     super.key,
   });
+
   final Product product;
 
   @override
@@ -25,6 +30,7 @@ class ProductDescriptionWithPropertiesWidget extends HookWidget {
     final tabs = {
       t.catalog.description: ProductExpandableTextWidget(
         text: product.descriptionFull,
+        showPrepaidWaterBanner: product.isWater,
       ),
       t.catalog.properties: ProductExpandablePropertiesWidget(
         properties: product.properties,
@@ -88,7 +94,10 @@ class ProductDescriptionWithPropertiesWidget extends HookWidget {
                           .withColor(context.colors.textColors.main),
                     ),
                     AppBoxes.kHeight12,
-                    ProductExpandableTextWidget(text: product.descriptionFull),
+                    ProductExpandableTextWidget(
+                      text: product.descriptionFull,
+                      showPrepaidWaterBanner: product.isWater,
+                    ),
                   ],
                 ),
         ),

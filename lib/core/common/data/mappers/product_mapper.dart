@@ -9,6 +9,7 @@ import 'package:niagara_app/core/utils/extensions/color_ext.dart';
 extension ProductDtoMapper on ProductDto {
   Product toModel() => Product(
         id: productId ?? '',
+        complectId: complectId,
         name: productName ?? '',
         article: productArticle ?? '',
         imageUrl: productImage ?? '',
@@ -45,6 +46,7 @@ extension PropertyMapper on PropertyArrayDto {
 extension ProductTableMapper on FavoritesTableData {
   ProductEntity toEntity() => ProductEntity(
         id: id,
+        complectId: complectId,
         name: name,
         article: article,
         imageUrl: imageUrl,
@@ -95,6 +97,7 @@ extension FavoritesEntityMapper on ProductEntity {
 
   Product toModel() => Product(
         id: id,
+        complectId: complectId,
         name: name,
         article: article,
         imageUrl: imageUrl,
@@ -121,6 +124,7 @@ extension FavoritesEntityMapper on ProductEntity {
 extension ProductMapper on Product {
   ProductEntity toEntity() => ProductEntity(
         id: id,
+        complectId: complectId,
         name: name,
         article: article,
         imageUrl: imageUrl,

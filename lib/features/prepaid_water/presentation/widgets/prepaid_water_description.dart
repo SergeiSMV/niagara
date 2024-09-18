@@ -10,7 +10,10 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Баннер с описанием механизма работы программы предоплатной воды.
 class PrepaidWaterDescriptionBanner extends StatelessWidget {
-  const PrepaidWaterDescriptionBanner({super.key});
+  const PrepaidWaterDescriptionBanner({super.key, this.backgroundColor});
+
+  /// Цвет фона. По умолчанию - белый.
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class PrepaidWaterDescriptionBanner extends StatelessWidget {
         DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: AppBorders.kCircular12,
-            color: context.colors.mainColors.white,
+            color: backgroundColor ?? context.colors.mainColors.white,
           ),
           child: Padding(
             padding: AppInsets.kAll16 + AppInsets.kBottom8,

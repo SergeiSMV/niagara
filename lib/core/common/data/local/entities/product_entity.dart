@@ -29,10 +29,12 @@ class ProductEntity extends Equatable {
     required this.labelColor,
     required this.discountOfCount,
     required this.bonus,
+    required this.complectId,
     this.count,
   });
 
   final String id;
+  final String? complectId;
   final String name;
   final String article;
   final String imageUrl;

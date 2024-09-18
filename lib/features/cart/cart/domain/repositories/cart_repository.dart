@@ -12,9 +12,15 @@ abstract interface class ICartRepository {
     required bool allTare,
   });
 
-  Future<Either<Failure, bool>> addProductToCart(Product product);
+  Future<Either<Failure, bool>> addProductToCart(
+    Product product,
+    bool withdrawingWater,
+  );
 
-  Future<Either<Failure, bool>> removeProductFromCart(Product product);
+  Future<Either<Failure, bool>> removeProductFromCart(
+    Product product,
+    bool withdrawingWater,
+  );
 
   Future<Either<Failure, bool>> removeAllFromCart({
     required CartClearTypes type,

@@ -29,7 +29,6 @@ class VipOrderRepository extends BaseRepository implements IVipOrderRepository {
         final orderInfo = VipOrderInfoDto(
           paymentMethod: paymentMethod.toString(),
           monthsCount: int.parse(activationOption.count),
-          sumRub: int.parse(activationOption.sum),
         );
 
         final result = await _vipPurchaseRemoteDataSource.createOrder(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_price_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_v_i_p_price_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/prepaid_water_price_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_price_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_v_i_p_price_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -19,6 +20,8 @@ class ProductTitleWithPricesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isComplect = product.isWater;
+
     return SizedBox(
       width: double.infinity,
       child: DecoratedBox(
@@ -57,10 +60,14 @@ class ProductTitleWithPricesWidget extends StatelessWidget {
               AppBoxes.kHeight12,
               Row(
                 children: [
-                  ProductPriceWidget(product: product),
-                  AppBoxes.kWidth8,
-                  if (product.hasVIPDiscount)
-                    ProductVIPPriceWidget(product: product),
+                  if (isComplect)
+                    PrepaidWaterPriceWidget(product: product)
+                  else ...[
+                    ProductPriceWidget(product: product),
+                    AppBoxes.kWidth8,
+                    if (product.hasVIPDiscount)
+                      ProductVIPPriceWidget(product: product),
+                  ],
                 ],
               ),
             ],

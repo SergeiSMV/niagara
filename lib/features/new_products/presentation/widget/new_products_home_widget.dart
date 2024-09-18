@@ -1,9 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -17,16 +16,6 @@ import 'package:niagara_app/features/new_products/presentation/bloc/new_products
 class NewProductsHomeWidget extends StatelessWidget {
   const NewProductsHomeWidget({super.key});
 
-  /// Нужно, чтобы при возвращении из карточки товара пользователь попадал назад
-  /// на главную страницу, а не в каталог.
-  void _navigateToProductPage(BuildContext context, Product product) =>
-      context.navigateTo(
-        ProductRoute(
-          key: ValueKey(product.id),
-          product: product,
-        ),
-      );
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewProductsBloc, NewProductsState>(
@@ -39,7 +28,10 @@ class NewProductsHomeWidget extends StatelessWidget {
               .map(
                 (product) => ProductWidget(
                   product: product,
-                  goToPage: () => _navigateToProductPage(context, product),
+                  redirectRoute: ProductRoute(
+                    key: ValueKey(product.id),
+                    product: product,
+                  ),
                 ),
               )
               .toList();

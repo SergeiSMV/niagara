@@ -33,6 +33,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_RemoveAllFromCart>(_onRemoveAllFromCart);
     on<_SetReturnTareCount>(_onSetReturnTareCount);
     on<_SetBonusesToPay>(_onSetBonusesToPay);
+    on<_AddPrepaidWaterToCart>(_onAddPrepaidWaterToCart);
+    on<_RemovePrepaidWaterFromCart>(_onRemovePrepaidWaterFromCart);
 
     add(const _GetCart());
   }
@@ -44,7 +46,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final GetRecommendsCartUseCase _getRecommendsCartUseCase;
   final GetDefaultAddressUseCase _getDefaultAddressUseCase;
 
-  final bool _returnAllTare = false;
+  // TODO(kvbykov): Добавить настройку возвращения тары.
+  final bool _returnAllTare = true;
   int _returnTareCount = 0;
   int _bonusesToPay = 0;
 
@@ -94,7 +97,17 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _AddToCart event,
     _Emit emit,
   ) async =>
-      await _addToCartUseCase(event.product).fold(
+      await _addToCartUseCase(AddToCartParams(event.product)).fold(
+        (_) => emit(const _Error()),
+        (success) async =>
+            success ? add(const _GetCart()) : emit(const _Error()),
+      );
+
+  Future<void> _onAddPrepaidWaterToCart(
+    _AddPrepaidWaterToCart event,
+    _Emit emit,
+  ) async =>
+      await _addToCartUseCase(AddToCartParams(event.product, true)).fold(
         (_) => emit(const _Error()),
         (success) async =>
             success ? add(const _GetCart()) : emit(const _Error()),
@@ -104,7 +117,18 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _RemoveFromCart event,
     _Emit emit,
   ) async =>
-      await _removeFromCartUseCase(event.product).fold(
+      await _removeFromCartUseCase(RemoveFromCartParams(event.product)).fold(
+        (_) => emit(const _Error()),
+        (success) async =>
+            success ? add(const _GetCart()) : emit(const _Error()),
+      );
+
+  Future<void> _onRemovePrepaidWaterFromCart(
+    _RemovePrepaidWaterFromCart event,
+    _Emit emit,
+  ) async =>
+      await _removeFromCartUseCase(RemoveFromCartParams(event.product, true))
+          .fold(
         (_) => emit(const _Error()),
         (success) async =>
             success ? add(const _GetCart()) : emit(const _Error()),

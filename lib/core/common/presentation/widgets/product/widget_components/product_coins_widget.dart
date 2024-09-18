@@ -7,6 +7,7 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
+/// Отображает количество бонусов, начисляемых за покупку товара.
 class ProductCoinsWidget extends StatelessWidget {
   const ProductCoinsWidget({
     super.key,
@@ -14,11 +15,16 @@ class ProductCoinsWidget extends StatelessWidget {
     this.size = AppSizes.kIconSmall,
   });
 
+  /// Количество бонусов.
   final int count;
+
+  /// Размер иконки.
   final double size;
 
   @override
   Widget build(BuildContext context) {
+    if (count == 0) return const SizedBox.shrink();
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.mainColors.bgCard,

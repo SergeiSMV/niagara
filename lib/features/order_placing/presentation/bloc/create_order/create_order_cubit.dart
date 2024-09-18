@@ -82,11 +82,17 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
   ///
   /// Сначала происходит валидация всех необходимых данных, затем создаётся
   /// заказ.
-  Future<void> placeOrder() async {
+  ///
+  /// [allowZeroPrice] - отменяет проверку на метод оплаты при заказе с нулевой
+  /// суммой, т.к. в его выборе нет смысла.
+  Future<void> placeOrder({bool allowZeroPrice = false}) async {
     emit(const OrderCreationState.initial());
 
-    final bool isDataValid =
-        _checkDate() && _checkRecipient() && _checkPaymentMethod();
+    final bool isDataValid = _checkDate() &&
+        _checkRecipient() &&
+        (allowZeroPrice || _checkPaymentMethod());
+
+    if (allowZeroPrice) paymentMethod = PaymentMethod.cash;
 
     if (!isDataValid) return;
 

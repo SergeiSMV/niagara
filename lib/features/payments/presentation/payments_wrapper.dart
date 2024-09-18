@@ -8,13 +8,18 @@ import 'package:niagara_app/features/payments/presentation/bloc/payment_creation
 import 'package:niagara_app/features/prepaid_water/domain/model/prepaid_water_order_data.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/activation_option.dart';
 
+/// [AutoRouteWrapper] для модуля оплат.
+///
+///
 @RoutePage()
 class PaymentWrapper implements AutoRouteWrapper {
   const PaymentWrapper({this.activationOption, this.prepaidWaterData});
 
+  /// Способ активации ВИП-подписки.
   final ActivationOption? activationOption;
 
-  final PrepaidWaterOrderData? prepaidWaterData;
+  /// Данные заказа предоплатной воды.
+  final OrderWaterData? prepaidWaterData;
 
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(

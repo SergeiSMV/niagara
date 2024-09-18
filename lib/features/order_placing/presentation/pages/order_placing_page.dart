@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
+import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:niagara_app/features/order_placing/presentation/widget/delivery_
 import 'package:niagara_app/features/order_placing/presentation/widget/order_comment_widget.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/order_recepient_widget.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/payment_methods_widget.dart';
+import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
 
 /// Страница оформления заказа.
 ///
@@ -32,6 +34,11 @@ class OrderPlacingPage extends StatelessWidget {
   /// Также запрашивает обновление состояния корзины.
   void _onSuccess(BuildContext context) {
     context.read<CartBloc>().add(const CartEvent.getCart());
+
+    if (cart.containsComplect) {
+      getIt<WaterBalanceCubit>().getBottles();
+    }
+
     context.replaceRoute(OrderResultRoute(isSuccessful: true));
   }
 
@@ -76,7 +83,8 @@ class OrderPlacingPage extends StatelessWidget {
                 const OrderRecepientWidget(),
                 DeliveryAddressWidget(address: cart.locationName),
                 const DeliveryDateWidget(),
-                const OrderPaymentMethodWidget(),
+                if (cart.cartData.totalPrice != 0)
+                  const OrderPaymentMethodWidget(),
                 const OrderCommentWidget(),
                 CartDataPricesWidget(cart: cart),
                 AppBoxes.kHeight16,

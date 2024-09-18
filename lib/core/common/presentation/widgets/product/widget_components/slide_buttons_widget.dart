@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_slidable_button_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_slidable_button_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
 
 class SlideButtonsWidget extends StatelessWidget {
   const SlideButtonsWidget({
     super.key,
     required this.product,
-    required this.addToFavorite,
-    required this.removeFromCart,
+    required this.onActionCompleted,
+    required this.onRemove,
   });
 
   final Product product;
-  final VoidCallback addToFavorite;
-  final VoidCallback removeFromCart;
-
-  void _removeFromCart(BuildContext context) {
-    context.read<CartBloc>().add(CartEvent.removeFromCart(product: product));
-    removeFromCart();
-  }
+  final VoidCallback onActionCompleted;
+  final VoidCallback onRemove;
 
   void _addToFavorites(BuildContext context) =>
       context.read<FavoritesBloc>().add(FavoritesEvent.addFavorite(product));
@@ -58,7 +52,7 @@ class SlideButtonsWidget extends StatelessWidget {
                       isFavorite
                           ? _removeFromFavorites(context)
                           : _addToFavorites(context);
-                      addToFavorite();
+                      onActionCompleted();
                     },
                   );
                 },
@@ -70,7 +64,10 @@ class SlideButtonsWidget extends StatelessWidget {
               buttonColor: context.colors.infoColors.bgRed,
               icon: Assets.icons.delete,
               iconColor: context.colors.mapColors.borderDisabled,
-              onTap: () => _removeFromCart(context),
+              onTap: () {
+                onRemove();
+                onActionCompleted();
+              },
             ),
           ],
         ),

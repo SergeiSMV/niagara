@@ -15,14 +15,14 @@ import 'package:niagara_app/features/payments/presentation/bloc/payment_creation
 class PaymentButton extends StatelessWidget {
   const PaymentButton({
     super.key,
-    required this.amountRub,
     required this.buttonText,
     required this.onTap,
+    this.amountRub,
     this.productCount,
   });
 
   /// Сумма покупки в рублях.
-  final String amountRub;
+  final String? amountRub;
 
   /// Текст, отображающий количество товаров.
   ///
@@ -98,13 +98,13 @@ class _ButtonContent extends StatelessWidget {
   const _ButtonContent({
     required this.productCount,
     required this.buttonText,
-    required this.amountRub,
     required this.onTap,
+    this.amountRub,
   });
 
   final int? productCount;
   final String buttonText;
-  final String amountRub;
+  final String? amountRub;
   final VoidCallback onTap;
 
   @override
@@ -125,11 +125,12 @@ class _ButtonContent extends StatelessWidget {
             style: context.textStyle.buttonTypo.btn1bold
                 .withColor(context.colors.textColors.white),
           ),
-          Text(
-            '$amountRub ${t.common.rub}',
-            style: context.textStyle.textTypo.tx2Medium
-                .withColor(context.colors.textColors.white),
-          ),
+          if (amountRub != null)
+            Text(
+              '$amountRub ${t.common.rub}',
+              style: context.textStyle.textTypo.tx2Medium
+                  .withColor(context.colors.textColors.white),
+            ),
         ],
       ),
     );

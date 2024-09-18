@@ -5,6 +5,7 @@ import 'package:niagara_app/core/common/data/local/entities/product_entity.dart'
 
 class FavoritesTable extends Table {
   TextColumn get id => text()();
+  TextColumn get complectId => text().nullable()();
   TextColumn get name => text()();
   TextColumn get article => text()();
   TextColumn get imageUrl => text()();

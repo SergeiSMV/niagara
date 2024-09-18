@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:niagara_app/core/common/domain/models/pagination.dart';
 import 'package:niagara_app/core/utils/enums/product_type.dart';
 
+/// Список продуктов с пагинацией.
 typedef Products = ({List<Product> products, Pagination pagination});
 
 /// Продукт.
@@ -31,11 +32,17 @@ class Product extends Equatable {
     required this.labelColor,
     required this.discountOfCount,
     required this.bonus,
+    required this.complectId,
     this.count,
   });
 
   /// `ID` продукта.
   final String id;
+
+  /// `ID` набора, к которому относится продукт.
+  ///
+  /// Есть только у [ProductType.complect].
+  final String? complectId;
 
   /// Наименование продукта.
   final String name;
@@ -102,7 +109,25 @@ class Product extends Equatable {
   final int bonus;
 
   /// Количество товара в корзине.
+  ///
+  /// **ВАЖНО**: не стоит полагаться на этот параметр для определения количества
+  /// товара в корзине или где-либо ещё. В некоторых случаях это число относится
+  /// к корзине, в других - к балансу воды, а иногда его может не быть. Перед
+  /// использованием убедитесь, что [Product] получен в нужном контексте.
   final int? count;
+
+  /// Индикатор, является ли продукт предоплатной водой.
+  ///
+  /// Иногда у такого товара установлен тип [ProductType.product], но есть
+  /// [complectId].
+  bool get isWater =>
+      type == ProductType.complect || (complectId?.isNotEmpty ?? false);
+
+  /// Индикатор, является ли продукт услугой.
+  bool get isService => type == ProductType.service;
+
+  /// Индикатор, является ли продукт товаром.
+  bool get isProduct => type == ProductType.product;
 
   /// Индикатор наличия скидки.
   bool get hasDiscount => priceOld > 0 && price < priceOld;

@@ -8,14 +8,12 @@ import 'package:niagara_app/core/utils/enums/placing_order_error_type.dart';
 import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
 import 'package:niagara_app/features/payments/presentation/pages/payment_creation_page.dart';
 import 'package:niagara_app/features/prepaid_water/domain/model/prepaid_water_order_data.dart';
+import 'package:niagara_app/features/prepaid_water/domain/use_cases/order_water_use_case.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/activation_option.dart';
 import 'package:niagara_app/features/vip/domain/use_cases/order_vip_use_case.dart';
 
 part 'payment_creation_state.dart';
 part 'payment_creation_cubit.freezed.dart';
-
-// TODO(kvbykov): Добавить пополнение баланса предоплатной воды.
-// https://digitalburo.youtrack.cloud/issue/NIAGARA-305/Vstroit-modul-oplat-na-ekran-predoplatnoj-vody
 
 // N.B: Этот кубит работает для ВИП-подписки и предоплатной воды.
 // Обычное оформление заказа здесь не происходит, т.к. там совершенно по-другому
@@ -31,11 +29,8 @@ class PaymentCreationCubit extends Cubit<PaymentCreationState> {
     @factoryParam this._activationOption,
     @factoryParam this._prepaidWaterData,
     this._orderVipUseCase,
-  )   : assert(
-          (_activationOption != null) ^ (_prepaidWaterData != null),
-          'Один и только один из параметров для формирования заказа должен быть не `null`',
-        ),
-        super(const PaymentCreationState.initial());
+    this._orderWaterUseCase,
+  ) : super(const PaymentCreationState.initial());
 
   /// Выбранный метод оплаты.
   PaymentMethod? paymentMethod;
@@ -43,12 +38,15 @@ class PaymentCreationCubit extends Cubit<PaymentCreationState> {
   /// Кейс создания заказа ВИП-подписки.
   final OrderVipUseCase _orderVipUseCase;
 
+  /// Кейс создания заказа предоплатной воды.
+  final OrderWaterUseCase _orderWaterUseCase;
+
   /// Способ активации ВИП-подписки. Имеет смысл для [OrderType.vip].
   final ActivationOption? _activationOption;
 
   /// Информация для формирования заказа предоплатной воды.
   // ignore: unused_field, use_late_for_private_fields_and_variables
-  final PrepaidWaterOrderData? _prepaidWaterData;
+  final OrderWaterData? _prepaidWaterData;
 
   /// Тип заказа.
   bool get _isVip => _activationOption != null;
@@ -93,8 +91,24 @@ class PaymentCreationCubit extends Cubit<PaymentCreationState> {
 
   /// Создаёт заказ предоплатной воды.
   Future<void> _orderPrepaidWater() async {
-    emit(
-      const PaymentCreationState.error(type: OrderPlacingErrorType.unknown),
+    final params = OrderWaterParams(
+      paymentMethod: paymentMethod!,
+      orderData: _prepaidWaterData!,
+    );
+
+    await _orderWaterUseCase(params).fold(
+      (failure) {
+        late final OrderPlacingErrorType errorType;
+
+        if (failure is NoInternetFailure) {
+          errorType = OrderPlacingErrorType.noInternet;
+        } else {
+          errorType = OrderPlacingErrorType.unknown;
+        }
+
+        emit(PaymentCreationState.error(type: errorType));
+      },
+      (data) => emit(PaymentCreationState.created(data: data)),
     );
   }
 

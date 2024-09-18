@@ -1,40 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/enums/cart_item_action.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 
-enum ItemInCartButtonIcon {
-  plus,
-  minus;
-}
-
-class ItemInCartButton extends StatelessWidget {
-  const ItemInCartButton({
+/// Иконка-кнопка для увеличения или уменьшения количества товара при покупке
+/// или в корзине.
+class ProductAmountIconButton extends StatelessWidget {
+  const ProductAmountIconButton({
     super.key,
     required this.product,
     required this.cartAction,
+    required this.onTap,
   });
 
+  /// Товар, к которому применяется действие.
   final Product product;
-  final ItemInCartButtonIcon cartAction;
 
-  void _onPlusPressed(BuildContext context) =>
-      context.read<CartBloc>().add(CartEvent.addToCart(product: product));
+  /// Действие, которое будет выполнено при нажатии на кнопку.
+  final CartItemAction cartAction;
 
-  void _onMinusPressed(BuildContext context) =>
-      context.read<CartBloc>().add(CartEvent.removeFromCart(product: product));
+  /// Обработчик нажатия на кнопку.
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => (cartAction == ItemInCartButtonIcon.plus
-          ? _onPlusPressed(context)
-          : _onMinusPressed(context)),
+      onTap: onTap,
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: AppBorders.kCircular4,
@@ -42,10 +36,7 @@ class ItemInCartButton extends StatelessWidget {
         ),
         child: Padding(
           padding: AppInsets.kAll4,
-          child: (cartAction == ItemInCartButtonIcon.plus
-                  ? Assets.icons.plus
-                  : Assets.icons.minus)
-              .svg(
+          child: cartAction.icon.svg(
             width: AppSizes.kIconSmall,
             height: AppSizes.kIconSmall,
             colorFilter: ColorFilter.mode(

@@ -1,5 +1,7 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -8,8 +10,9 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/prepaid_water/presentation/widgets/prepaid_water_balance_widget.dart';
+import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/widgets/prepaid_water_description.dart';
+import 'package:niagara_app/features/prepaid_water/presentation/widgets/water_balance_product_list.dart';
 
 /// Страница баланса предоплатной воды.
 @RoutePage()
@@ -18,17 +21,23 @@ class PrepaidWaterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: AppBarWidget(),
-      body: Stack(
+    return Scaffold(
+      appBar: const AppBarWidget(),
+      body: const Stack(
         children: [
           _Background(),
           _Content(),
         ],
       ),
-      // TODO(kvbykov): Рисуем кнопку только при непустом балансе.
-      // https://digitalburo.youtrack.cloud/issue/NIAGARA-337/Logika.-Predoplatnaya-voda
-      // bottomNavigationBar: _AddToCartButton(),
+      // Кнопка рисуется только при непустом балансе.
+      bottomNavigationBar: Builder(
+        builder: (context) {
+          final bool isEmpty =
+              context.select((WaterBalanceCubit cubit) => cubit.count == 0);
+
+          return isEmpty ? const SizedBox.shrink() : const _GoToCartButton();
+        },
+      ),
     );
   }
 }
@@ -76,7 +85,7 @@ class _Content extends StatelessWidget {
               ),
               color: context.colors.mainColors.white,
             ),
-            child: const PrepaidWaterBalanceWidget(),
+            child: const WaterBalanceProductList(),
           ),
         ],
       ),
@@ -84,9 +93,9 @@ class _Content extends StatelessWidget {
   }
 }
 
-/// Кнопка "Добавить в корзину" внизу экрана.
-class _AddToCartButton extends StatelessWidget {
-  const _AddToCartButton();
+/// Кнопка "Перейти в корзигу" внизу экрана.
+class _GoToCartButton extends StatelessWidget {
+  const _GoToCartButton();
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +115,9 @@ class _AddToCartButton extends StatelessWidget {
         padding:
             AppInsets.kHorizontal16 + AppInsets.kBottom24 + AppInsets.kTop12,
         child: AppTextButton.primary(
-          text: t.prepaidWater.addToCart,
-          onTap: () {},
+          text: t.prepaidWater.goToCart,
+          onTap: () =>
+              context.navigateTo(const CartWrapper(children: [CartRoute()])),
         ),
       ),
     );
