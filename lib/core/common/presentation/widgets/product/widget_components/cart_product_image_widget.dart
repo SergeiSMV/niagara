@@ -6,6 +6,7 @@ import 'package:niagara_app/core/common/presentation/widgets/product/widget_comp
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 
 class CartProductImageWidget extends StatelessWidget {
   const CartProductImageWidget({

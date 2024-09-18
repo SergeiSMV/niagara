@@ -107,8 +107,9 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
       );
 
   @override
-  Future<Either<Failure, OrderReceiptDto>> getOrderReceipt(
-          {required String id}) =>
+  Future<Either<Failure, OrderReceiptDto>> getOrderReceipt({
+    required String id,
+  }) =>
       _requestHandler.sendRequest<OrderReceiptDto, String>(
         isHtml: true,
         request: (dio) => dio.get(

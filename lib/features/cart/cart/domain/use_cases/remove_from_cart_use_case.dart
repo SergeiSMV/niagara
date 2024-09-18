@@ -11,7 +11,9 @@ class RemoveFromCartUseCase extends BaseUseCase<bool, RemoveFromCartParams> {
   @override
   Future<Either<Failure, bool>> call(RemoveFromCartParams params) =>
       _cartRepository.removeProductFromCart(
-          params.product, params.withdrawingWater);
+        params.product,
+        params.withdrawingWater,
+      );
 }
 
 class RemoveFromCartParams extends Equatable {

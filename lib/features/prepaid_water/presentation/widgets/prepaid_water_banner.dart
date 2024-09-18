@@ -33,7 +33,6 @@ class PrepaidWaterBanner extends StatelessWidget {
 
 class _Banner extends StatelessWidget {
   const _Banner({
-    super.key,
     required this.count,
   });
 
