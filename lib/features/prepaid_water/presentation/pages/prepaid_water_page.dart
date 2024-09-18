@@ -1,6 +1,7 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -34,7 +35,7 @@ class PrepaidWaterPage extends StatelessWidget {
           final bool isEmpty =
               context.select((WaterBalanceCubit cubit) => cubit.count == 0);
 
-          return isEmpty ? const SizedBox.shrink() : const _AddToCartButton();
+          return isEmpty ? const SizedBox.shrink() : const _GoToCartButton();
         },
       ),
     );
@@ -92,9 +93,9 @@ class _Content extends StatelessWidget {
   }
 }
 
-/// Кнопка "Добавить в корзину" внизу экрана.
-class _AddToCartButton extends StatelessWidget {
-  const _AddToCartButton();
+/// Кнопка "Перейти в корзигу" внизу экрана.
+class _GoToCartButton extends StatelessWidget {
+  const _GoToCartButton();
 
   @override
   Widget build(BuildContext context) {
@@ -114,8 +115,9 @@ class _AddToCartButton extends StatelessWidget {
         padding:
             AppInsets.kHorizontal16 + AppInsets.kBottom24 + AppInsets.kTop12,
         child: AppTextButton.primary(
-          text: t.prepaidWater.addToCart,
-          onTap: () => context.read<WaterBalanceCubit>().getBottles(),
+          text: t.prepaidWater.goToCart,
+          onTap: () =>
+              context.navigateTo(const CartWrapper(children: [CartRoute()])),
         ),
       ),
     );

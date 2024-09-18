@@ -77,6 +77,10 @@ class BaseProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Если товар - предоплатная вода и при этом не отображается на странице
+    // баланса. В таком случае все нажатия должны открывать карточку товара.
+    final bool isWaterPromotion = product.isWater && !isWaterBalance;
+
     return InkWell(
       onTap: isWaterBalance ? null : () => _goToProductPage(context),
       child: DecoratedBox(
@@ -162,8 +166,12 @@ class BaseProductWidget extends StatelessWidget {
                   ProductCountControls(
                     product: product,
                     count: count,
-                    onRemove: onRemove,
-                    onAdd: onAdd,
+                    onRemove: isWaterPromotion
+                        ? () => _goToProductPage(context)
+                        : onRemove,
+                    onAdd: isWaterPromotion
+                        ? () => _goToProductPage(context)
+                        : onAdd,
                   ),
                 ],
               ),

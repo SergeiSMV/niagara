@@ -223,4 +223,8 @@ abstract final class ApiConst {
 
   /// -GET- Запрос на получение статуса платежа
   static const String kGetPaymentStatus = '/orders_payment_status';
+
+  // ? ----------------------- Water -------------------------- ? //
+  /// -POST- Запрос на создание заказа на воду
+  static const String kOrderPrepaidWater = '/orders_complect';
 }

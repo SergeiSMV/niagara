@@ -19,7 +19,7 @@ class PaymentWrapper implements AutoRouteWrapper {
   final ActivationOption? activationOption;
 
   /// Данные заказа предоплатной воды.
-  final PrepaidWaterOrderData? prepaidWaterData;
+  final OrderWaterData? prepaidWaterData;
 
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(
