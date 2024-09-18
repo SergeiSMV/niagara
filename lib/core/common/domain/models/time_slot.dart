@@ -5,7 +5,6 @@ class TimeSlot extends Equatable {
     required this.timeBegin,
     required this.timeEnd,
   });
-
   final String timeBegin;
   final String timeEnd;
 

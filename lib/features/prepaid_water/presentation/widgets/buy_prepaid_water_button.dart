@@ -5,6 +5,7 @@ import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/bloc/prepaid_water_buying_cubit.dart/water_balance_buying_cubit.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/base_product_cart_widget.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -46,14 +47,14 @@ class BuyPrepaidWaterButton extends StatelessWidget {
     void goToPayment() => context.navigateTo(
           PaymentWrapper(
             prepaidWaterData: OrderWaterData(
-              complectId: product.id,
+              productId: product.id,
               count: cubit.state,
             ),
             children: [
               PaymentCreationRoute(
                 pageTitle: t.prepaidWater.buyingComplect,
                 purchasedProductWidget: BaseProductCartWidget(
-                  key: ValueKey('${product.id}_noninteractive'),
+                  // key: ValueKey('${product.id}_noninteractive'),
                   product: product,
                   onAdd: () {},
                   onRemove: () {},
@@ -134,27 +135,31 @@ class _ModalContentState extends State<_ModalContent> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // TODO: Добавить крестик
-          Text(
-            t.prepaidWater.selectCount,
-            style: context.textStyle.headingTypo.h3,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                t.prepaidWater.selectCount,
+                style: context.textStyle.headingTypo.h3,
+              ),
+              CloseModalButton(onTap: context.maybePop),
+            ],
           ),
           AppBoxes.kHeight24,
-          BaseProductCartWidget(
-            product: widget.product,
-            onAdd: () {
-              widget.cubit.increment();
-              setState(() {});
+          BlocBuilder<OrderWaterAmountCubit, int>(
+            bloc: widget.cubit,
+            builder: (context, count) {
+              return BaseProductCartWidget(
+                product: widget.product,
+                onAdd: widget.cubit.increment,
+                onRemove: widget.cubit.decrement,
+                count: count,
+              );
             },
-            onRemove: () {
-              widget.cubit.decrement();
-              setState(() {});
-            },
-            count: widget.cubit.state,
           ),
           AppBoxes.kHeight24,
           AppTextButton.primary(
-            text: 'К оплате',
+            text: t.prepaidWater.payment,
             onTap: widget.onTap,
           ),
         ],

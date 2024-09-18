@@ -7,8 +7,6 @@ import 'package:niagara_app/core/common/presentation/router/routers/catalog_rout
 import 'package:niagara_app/core/common/presentation/router/routers/empty_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/home_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/location_routes.dart';
-import 'package:niagara_app/core/common/presentation/router/routers/order_placing_routers.dart';
-import 'package:niagara_app/core/common/presentation/router/routers/payment_routers.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/profile_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/splash_routes.dart';
 
@@ -21,8 +19,6 @@ class AppRouter extends $AppRouter {
         SplashRouters.routers,
         AuthRouters.routers,
         LocationsRouters.routers,
-        PaymentRouters.routers,
-        OrderPlacingRouters.routers,
         AutoRoute(
           page: NavigationRoute.page,
           guards: [

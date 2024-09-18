@@ -517,7 +517,9 @@
     "addToCart": "Добавить в корзину",
     "onBalanceCount": "На балансе ${count} шт.",
     "selectCount": "Выберите количество",
-    "buyingComplect": "Покупка комплекта"
+    "buyingComplect": "Покупка комплекта",
+    "goToCart": "Перейти в корзину",
+    "payment": "К оплате"
   },
   "errors": {
     "noInternet": {

@@ -31,7 +31,7 @@ class OrderWaterRepository extends BaseRepository
         final orderInfo = WaterOrderInfoDto(
           paymentMethod: paymentMethod.toString(),
           count: orderData.count,
-          complectId: orderData.complectId,
+          productId: orderData.productId,
         );
 
         final result = await _orderWaterRemoteDataSource.createOrder(
