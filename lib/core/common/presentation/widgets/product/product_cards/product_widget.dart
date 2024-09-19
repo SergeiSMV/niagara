@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/base_product_widget.dart';
+import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 
 /// Виджет карточки товара.
@@ -33,13 +34,13 @@ class ProductWidget extends StatelessWidget {
 
   /// Возвращает количество товара в корзине.
   int _getCount(Product product, CartState state) {
-    final int count = state.maybeWhen(
-      loaded: (cart, _) => cart.countInStock(product),
-      loading: (cart, _) => cart?.countInStock(product) ?? 0,
-      orElse: () => 0,
+    final Cart? cart = state.maybeWhen(
+      loaded: (cart, _) => cart,
+      loading: (cart, _) => cart,
+      orElse: () => null,
     );
 
-    return count;
+    return cart?.countInStock(product, ignoreComplect: !isWaterBalance) ?? 0;
   }
 
   @override
