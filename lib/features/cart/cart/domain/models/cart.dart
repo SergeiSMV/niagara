@@ -23,6 +23,8 @@ class Cart extends Equatable {
   final List<PaymentMethod> paymentMethods;
 
   /// Возвращает количество [product] среди доступных товаров в корзине.
+  ///
+  /// Сравнение происходит по [Product.id] и [Product.complectId].
   int countInStock(Product product) =>
       products
           .firstWhereOrNull(
