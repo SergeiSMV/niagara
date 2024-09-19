@@ -1,13 +1,11 @@
-import 'package:json_annotation/json_annotation.dart';
+// ignore_for_file: sort_constructors_first
+
 import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 import 'package:niagara_app/core/core.dart';
 
-part 'user_order_dto.g.dart';
-
 typedef OrdersDto = ({List<UserOrderDto> orders, PaginationDto pagination});
 
-@JsonSerializable(createToJson: false)
 class UserOrderDto extends Equatable {
   const UserOrderDto({
     required this.ordersId,
@@ -42,69 +40,72 @@ class UserOrderDto extends Equatable {
     required this.products,
   });
 
-  factory UserOrderDto.fromJson(Map<String, dynamic> json) =>
-      _$UserOrderDtoFromJson(json);
-
-  @JsonKey(name: 'ORDERS_ID')
   final String ordersId;
-  @JsonKey(name: 'ORDERS_NUMBER')
   final String ordersNumber;
-  @JsonKey(name: 'ORDERS_DATE_DELIVERY')
   final DateTime ordersDateDelivery;
-  @JsonKey(name: 'ORDERS_DATE')
   final DateTime ordersDate;
-  @JsonKey(name: 'ORDERS_TIME_BEGIN')
   final DateTime ordersTimeBegin;
-  @JsonKey(name: 'ORDERS_TIME_END')
   final DateTime ordersTimeEnd;
-  @JsonKey(name: 'ORDERS_CUSTOMER_NAME')
   final String ordersCustomerName;
-  @JsonKey(name: 'ORDERS_CUSTOMER_PHONE')
   final String ordersCustomerPhone;
-  @JsonKey(name: 'ORDERS_LOCATION_ID')
   final String ordersLocationId;
-  @JsonKey(name: 'ORDERS_LOCATION_NAME')
   final String ordersLocationName;
-  @JsonKey(name: 'ORDERS_DESCRIPTION')
   final String ordersDescription;
-  @JsonKey(name: 'ORDERS_SUM_DELIVERY')
   final double ordersSumDelivery;
-  @JsonKey(name: 'ORDERS_SUM_DISCONT')
   final double ordersSumDiscont;
-  @JsonKey(name: 'ORDERS_PROMOCODE')
   final String ordersPromoCode;
-  @JsonKey(name: 'ORDERS_PROMOCODE_SUM')
   final double ordersPromoCodeSum;
-  @JsonKey(name: 'ORDERS_TARA_COUNT')
   final int ordersTaraCount;
-  @JsonKey(name: 'ORDERS_TARA_SUM')
   final double ordersTaraSum;
-  @JsonKey(name: 'ORDERS_BONUSES_ADD')
   final double ordersBonusesAdd;
-  @JsonKey(name: 'ORDERS_BONUSES_PAY')
   final double ordersBonusesPay;
-  @JsonKey(name: 'ORDERS_STATUS')
   final String ordersStatus;
-  @JsonKey(name: 'ORDERS_PRODUCTS_COUNT')
   final int ordersProductsCount;
-  @JsonKey(name: 'ORDERS_PRODUCTS_SUM')
   final double ordersProductsSum;
-  @JsonKey(name: 'ORDERS_TOTAL_BENEFIT')
   final double ordersTotalBenefit;
-  @JsonKey(name: 'ORDERS_TOTAL_SUM')
   final double ordersTotalSum;
-  @JsonKey(name: 'ORDERS_RATING')
   final int ordersRating;
-  @JsonKey(name: 'ORDERS_RATING_DESCRIPTION')
   final String ordersRatingDescription;
-  @JsonKey(name: 'ORDERS_REPEAT_ENABLE')
   final bool ordersRepeatEnable;
-  @JsonKey(name: 'ORDERS_PAYMENT_TYPE')
   final String ordersPaymentType;
-  @JsonKey(name: 'ORDERS_PAYMENT_COMPLITED')
   final bool ordersPaymentCompleted;
-  @JsonKey(name: 'PRODUCTS')
   final List<ProductDto> products;
+
+  factory UserOrderDto.fromJson(Map<String, dynamic> json) => UserOrderDto(
+        ordersId: json['ORDERS_ID'] as String,
+        ordersNumber: json['ORDERS_NUMBER'] as String,
+        ordersDateDelivery:
+            DateTime.parse(json['ORDERS_DATE_DELIVERY'] as String),
+        ordersDate: DateTime.parse(json['ORDERS_DATE'] as String),
+        ordersTimeBegin: DateTime.parse(json['ORDERS_TIME_BEGIN'] as String),
+        ordersTimeEnd: DateTime.parse(json['ORDERS_TIME_END'] as String),
+        ordersCustomerName: json['ORDERS_CUSTOMER_NAME'] as String,
+        ordersCustomerPhone: json['ORDERS_CUSTOMER_PHONE'] as String,
+        ordersLocationId: json['ORDERS_LOCATION_ID'] as String,
+        ordersLocationName: json['ORDERS_LOCATION_NAME'] as String,
+        ordersDescription: json['ORDERS_DESCRIPTION'] as String,
+        ordersSumDelivery: (json['ORDERS_SUM_DELIVERY'] as num).toDouble(),
+        ordersSumDiscont: (json['ORDERS_SUM_DISCONT'] as num).toDouble(),
+        ordersPromoCode: json['ORDERS_PROMOCODE'] as String,
+        ordersPromoCodeSum: (json['ORDERS_PROMOCODE_SUM'] as num).toDouble(),
+        ordersTaraCount: (json['ORDERS_TARA_COUNT'] as num).toInt(),
+        ordersTaraSum: (json['ORDERS_TARA_SUM'] as num).toDouble(),
+        ordersBonusesAdd: (json['ORDERS_BONUSES_ADD'] as num).toDouble(),
+        ordersBonusesPay: (json['ORDERS_BONUSES_PAY'] as num).toDouble(),
+        ordersStatus: json['ORDERS_STATUS'] as String,
+        ordersProductsCount: (json['ORDERS_PRODUCTS_COUNT'] as num).toInt(),
+        ordersProductsSum: (json['ORDERS_PRODUCTS_SUM'] as num).toDouble(),
+        ordersTotalBenefit: (json['ORDERS_TOTAL_BENEFIT'] as num).toDouble(),
+        ordersTotalSum: (json['ORDERS_TOTAL_SUM'] as num).toDouble(),
+        ordersRating: (json['ORDERS_RATING'] as num).toInt(),
+        ordersRatingDescription: json['ORDERS_RATING_DESCRIPTION'] as String,
+        ordersRepeatEnable: json['ORDERS_REPEAT_ENABLE'] as bool,
+        ordersPaymentType: json['ORDERS_PAYMENT_TYPE'] as String,
+        ordersPaymentCompleted: json['ORDERS_PAYMENT_COMPLITED'] as bool,
+        products: (json['PRODUCTS'] as List<dynamic>)
+            .map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
 
   @override
   List<Object?> get props => [
