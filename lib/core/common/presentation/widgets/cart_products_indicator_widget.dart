@@ -39,29 +39,6 @@ class CartProductsIndicatorWidget extends StatelessWidget {
           ),
         );
       },
-
-      // (context, state) => state.maybeWhen(
-      //   loaded: (cart, _) => cart.products.isNotEmpty
-      //       ? Container(
-      //           margin: AppInsets.kLeft22 + AppInsets.kTop2,
-      //           decoration: BoxDecoration(
-      //             shape: BoxShape.circle,
-      //             color: context.colors.infoColors.green,
-      //           ),
-      //           child: Padding(
-      //             padding: AppInsets.kAll2,
-      //             child: Center(
-      //               child: Text(
-      //                 cart.products.length.toString(),
-      //                 style: context.textStyle.captionTypo.c2
-      //                     .withColor(context.colors.mainColors.white),
-      //               ),
-      //             ),
-      //           ),
-      //         )
-      //       : const SizedBox.shrink(),
-      //   orElse: () => const SizedBox.shrink(),
-      // ),
     );
   }
 }
