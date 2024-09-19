@@ -23,12 +23,21 @@ class Cart extends Equatable {
   final List<PaymentMethod> paymentMethods;
 
   /// Возвращает количество [product] среди доступных товаров в корзине.
-  int countInStock(Product product) =>
+  ///
+  /// [ignoreComplect] позволяет не учитывать [Product.complectId] при поиске.
+  int countInStock(Product product, {bool ignoreComplect = true}) =>
       products
           .firstWhereOrNull(
-            (p) => p.id == product.id && p.complectId == product.complectId,
+            (p) =>
+                p.id == product.id &&
+                (ignoreComplect || p.complectId == product.complectId),
           )
           ?.count ??
+      0;
+
+  /// Возвращает количество [product] среди недоступных товаров в корзине.
+  int countUnavailable(Product product) =>
+      unavailableProducts.firstWhereOrNull((p) => p.id == product.id)?.count ??
       0;
 
   /// Индикатор того, что корзина пуста.
