@@ -17,6 +17,7 @@ part 'cart_state.dart';
 
 typedef _Emit = Emitter<CartState>;
 
+/// [Bloc] для работы с корзиной.
 @injectable
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc(
@@ -54,6 +55,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
     final (cart, recommends) = state.maybeWhen(
       loaded: (cart, recommends) => (cart, recommends),
+      loading: (cart, recommends) => (cart, recommends),
       orElse: () => (null, null),
     );
 
