@@ -48,11 +48,14 @@ class ProductInCart extends StatelessWidget {
         return oldCount != newCount;
       },
       builder: (context, state) {
+        final int countInStok = _getCount(product, state);
+
         return BaseProductCartWidget(
           product: product,
           onAdd: () => bloc.add(addEvent),
           onRemove: () => bloc.add(removeEvent),
-          count: _getCount(product, state),
+          count: countInStok,
+          isAvailable: countInStok != 0,
         );
       },
     );
