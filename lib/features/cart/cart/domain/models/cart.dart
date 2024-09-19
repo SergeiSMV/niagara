@@ -35,11 +35,6 @@ class Cart extends Equatable {
           ?.count ??
       0;
 
-  /// Возвращает количество [product] среди недоступных товаров в корзине.
-  int countUnavailable(Product product) =>
-      unavailableProducts.firstWhereOrNull((p) => p.id == product.id)?.count ??
-      0;
-
   /// Индикатор того, что корзина пуста.
   bool get isEmpty => products.isEmpty && unavailableProducts.isEmpty;
 
