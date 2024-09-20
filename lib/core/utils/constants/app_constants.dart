@@ -2,6 +2,8 @@ import 'dart:ui';
 
 /// Константы приложения
 abstract final class AppConstants {
+  static bool kShowDebugButton = false;
+
   // * ---------------------------- Text Field ---------------------------- * //
   static const String kTextFieldPhoneName = 'phoneFiled';
   static const String kTextFieldTextName = 'textField';

@@ -50,9 +50,9 @@ dependencies:
   sqlite3: ^2.4.2
   sqlite3_flutter_libs: ^0.5.0
   stream_transform: ^2.1.0
-  talker_bloc_logger: ^4.1.0
-  talker_dio_logger: ^4.1.0
-  talker_flutter: ^4.1.0
+  talker_bloc_logger: ^4.4.1 
+  talker_dio_logger: ^4.4.1 
+  talker_flutter: ^4.4.1 
   url_launcher: ^6.2.6
   yandex_geocoder: ^2.3.1
   yandex_mapkit_lite: ^2.0.1
