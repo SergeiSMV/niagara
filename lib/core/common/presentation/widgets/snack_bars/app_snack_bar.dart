@@ -51,7 +51,7 @@ class AppSnackBar extends BaseSnackBar {
       ).show(context);
 
   /// Показывает снекбар с ошибкой.
-  static void showErrorShackBar(
+  static void showError(
     BuildContext context, {
     required String title,
     String? subtitle,

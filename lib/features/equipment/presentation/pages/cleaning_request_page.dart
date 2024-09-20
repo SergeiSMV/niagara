@@ -34,12 +34,12 @@ class CleaningRequestPage extends StatelessWidget {
     OrderCleaningEquipmentState state,
   ) =>
       state.maybeWhen(
-        validateData: () => AppSnackBar.showErrorShackBar(
+        validateData: () => AppSnackBar.showError(
           context,
           title: context.t.equipments.selectCleaningDate,
           barColor: context.colors.mainColors.bgCard,
         ),
-        error: () => AppSnackBar.showErrorShackBar(
+        error: () => AppSnackBar.showError(
           context,
           title: context.t.equipments.anErrorHasOccurred,
         ),

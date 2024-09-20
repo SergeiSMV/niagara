@@ -151,7 +151,7 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
         request: (dio) => dio.post(
           ApiConst.kRepeatOrder,
           data: {
-            'ORDER_ID': id,
+            'ORDERS_ID': id,
           },
         ),
         converter: (result) => result,

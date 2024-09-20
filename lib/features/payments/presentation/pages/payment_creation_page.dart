@@ -76,7 +76,7 @@ class PaymentCreationPage extends StatelessWidget {
       state.mapOrNull(
         // TODO: Добавить отображение номера телефона при ошибке "нет интернета"
         // https://digitalburo.youtrack.cloud/issue/NIAGARA-341/Dobavit-nomer-telefona-v-plashku-Net-interneta
-        error: (err) => AppSnackBar.showErrorShackBar(
+        error: (err) => AppSnackBar.showError(
           context,
           title: err.type.toErrorTitle,
         ),

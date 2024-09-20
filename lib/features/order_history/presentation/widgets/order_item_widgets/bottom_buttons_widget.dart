@@ -8,6 +8,7 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/rate_order_cubit/rate_order_cubit.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_modal_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/repeat_order_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_item_widgets/light_button_widget.dart';
 
 class BottomButtonsWidget extends StatelessWidget {
@@ -30,6 +31,20 @@ class BottomButtonsWidget extends StatelessWidget {
       builder: (ctx) => BlocProvider.value(
         value: evaluateOrderCubit,
         child: RateModalWidget(orderId: order.id),
+      ),
+    );
+  }
+
+  Future<void> _showRepeatOrderModal(BuildContext context) async {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      useRootNavigator: true,
+      backgroundColor: context.colors.mainColors.white,
+      useSafeArea: true,
+      builder: (ctx) => RepeatOrderModalWidget(
+        order: order,
+        outerContext: context,
       ),
     );
   }
@@ -70,7 +85,7 @@ class BottomButtonsWidget extends StatelessWidget {
                     child: LightButtonWidget(
                       text: t.recentOrders.repeat,
                       icon: Assets.icons.repeat,
-                      onTap: () {},
+                      onTap: () => _showRepeatOrderModal(context),
                     ),
                   ),
               ],
@@ -81,7 +96,7 @@ class BottomButtonsWidget extends StatelessWidget {
           LightButtonWidget(
             text: t.recentOrders.repeat,
             icon: Assets.icons.repeat,
-            onTap: () {},
+            onTap: () => _showRepeatOrderModal(context),
           ),
         ],
       ],

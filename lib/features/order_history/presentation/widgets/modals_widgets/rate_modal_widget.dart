@@ -150,7 +150,7 @@ class _SendRatingButtonWidget extends StatelessWidget {
     RateOrderState state,
   ) {
     state.maybeWhen(
-      error: () => AppSnackBar.showErrorShackBar(
+      error: () => AppSnackBar.showError(
         context,
         title: t.recentOrders.sendingError,
         subtitle: t.recentOrders.failedSendRating,
