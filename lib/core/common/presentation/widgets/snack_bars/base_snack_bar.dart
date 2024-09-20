@@ -11,10 +11,11 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 
 abstract class BaseSnackBar extends StatelessWidget {
   /// Создает экземпляр [BaseSnackBar] основного стиля.
-  const BaseSnackBar.error(
+  const BaseSnackBar(
     this.title,
     this.subtitle,
     this.barColor,
+    this.icon,
   );
 
   /// Заголовок сообщения
@@ -25,6 +26,9 @@ abstract class BaseSnackBar extends StatelessWidget {
 
   /// Цвет сообщения
   final Color? barColor;
+
+  /// Иконка перед сообщеникм.
+  final SvgGenImage? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +52,7 @@ abstract class BaseSnackBar extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Assets.icons.errorIcon.svg(),
+            if (icon != null) icon!.svg(),
             AppBoxes.kWidth12,
             Expanded(
               child: Column(

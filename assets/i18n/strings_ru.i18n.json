@@ -365,6 +365,13 @@
     "myOrders": "Мои заказы",
     "recentOrders": "Последние заказы",
     "orderNumber": "Заказ №",
+    "confirmOrderCancel": "Вы уверены, что хотите отменить заказ?",
+    "cancel": "Отменить",
+    "notCancel": "Не отменять",
+    "repeatOrderModalTitle": "Добавить товары из этого заказа в корзину?",
+    "add": "Добавить",
+    "orderRepeated": "Товары из заказа добавлены в корзину",
+    "orderNumberCopied": "Номер заказа скопирован",
     "costOfOrder": "Стоимость заказа",
     "deliveryDateIn": "Дата доставки в",
     "statuses": {
