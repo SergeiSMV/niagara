@@ -23,6 +23,13 @@
 ### Генерация локализации
 - `dart run slang`
 
+### Генерация всех необходимых файлов
+- `sh all_gen.sh`
+
+# Сборка
+## Сборка для iOS
+- `sh build_ios.sh`
+
 ## Зависимости:
 - Локатор зависимостей: [get_it](https://pub.dev/packages/get_it)
   - Зависимости: [injectable](https://pub.dev/packages/injectable)
