@@ -17,6 +17,7 @@ import 'package:niagara_app/features/special_poducts/presentation/bloc/special_p
 import 'package:niagara_app/features/stories/presentation/bloc/stories_bloc.dart';
 
 /// Страница [NavigationPage] для внутренней навигации в приложении.
+///
 /// Содержит в себе все основные маршруты приложения.
 @RoutePage()
 class NavigationPage extends StatelessWidget implements AutoRouteWrapper {

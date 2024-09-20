@@ -130,7 +130,9 @@ class ProductAddToCartButton extends StatelessWidget {
             : AppTextButton.primary(
                 icon: Assets.icons.shoppingCart,
                 text: t.catalog.toCard,
-                onTap: () {},
+                onTap: () => bloc.add(
+                  CartEvent.addToCart(product: product),
+                ),
               ),
       ),
     );

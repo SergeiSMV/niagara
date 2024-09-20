@@ -14,6 +14,7 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 import 'package:niagara_app/features/prepaid_water/domain/model/prepaid_water_order_data.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
 
@@ -35,11 +36,18 @@ class BuyPrepaidWaterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.watch<OrderWaterAmountCubit>();
 
+    /// Обработчик успешного завершения покупки.
     void onSuccess() {
+      // Обновляем баланс воды.
       getIt<WaterBalanceCubit>().getBottles();
+
+      // Обновляем список заказов.
+      getIt<OrdersBloc>().add(const OrdersEvent.loading(isForceUpdate: true));
+
       context.navigateTo(OrderResultRoute(isSuccessful: true));
     }
 
+    /// Обработчик отмены покупки.
     void onCancelled() =>
         context.navigateTo(OrderResultRoute(isSuccessful: false));
 
@@ -54,7 +62,6 @@ class BuyPrepaidWaterButton extends StatelessWidget {
               PaymentCreationRoute(
                 pageTitle: t.prepaidWater.buyingComplect,
                 purchasedProductWidget: BaseProductCartWidget(
-                  // key: ValueKey('${product.id}_noninteractive'),
                   product: product,
                   onAdd: () {},
                   onRemove: () {},

@@ -95,6 +95,7 @@ class BonusContentWidget extends StatelessWidget {
                                   BonusesFooterButton(
                                     icon: Assets.icons.info,
                                     title: t.bonuses.bonusesFaqs,
+                                    // TODO: что-то тут должно быть
                                     onTap: () {},
                                   ),
                                   Divider(

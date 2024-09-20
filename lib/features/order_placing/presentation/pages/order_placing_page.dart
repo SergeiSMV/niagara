@@ -9,6 +9,7 @@ import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_prices_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 import 'package:niagara_app/features/order_placing/presentation/bloc/create_order/create_order_cubit.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/create_order_button.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
@@ -35,7 +36,11 @@ class OrderPlacingPage extends StatelessWidget {
   void _onSuccess(BuildContext context) {
     context.read<CartBloc>().add(const CartEvent.getCart());
 
+    // Обновляем список заказов.
+    getIt<OrdersBloc>().add(const OrdersEvent.loading(isForceUpdate: true));
+
     if (cart.containsComplect) {
+      // Если списывали воду с баланса, нужно обновить его.
       getIt<WaterBalanceCubit>().getBottles();
     }
 
