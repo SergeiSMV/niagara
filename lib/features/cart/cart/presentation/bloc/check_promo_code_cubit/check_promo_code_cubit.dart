@@ -21,6 +21,8 @@ class CheckPromoCodeCubit extends Cubit<CheckPromoCodeState> {
 
     emit(const CheckPromoCodeState.initial());
 
+    promoCode = promoCode!.trim();
+
     await _checkPromoCodeUseCase(promoCode!).fold(
       (failure) => emit(const CheckPromoCodeState.error()),
       (result) {

@@ -12,28 +12,33 @@ class CartProductsIndicatorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(
-      builder: (context, state) => state.maybeWhen(
-        loaded: (cart, _) => cart.products.isNotEmpty
-            ? Container(
-                margin: AppInsets.kLeft22 + AppInsets.kTop2,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: context.colors.infoColors.green,
-                ),
-                child: Padding(
-                  padding: AppInsets.kAll2,
-                  child: Center(
-                    child: Text(
-                      cart.products.length.toString(),
-                      style: context.textStyle.captionTypo.c2
-                          .withColor(context.colors.mainColors.white),
-                    ),
-                  ),
-                ),
-              )
-            : const SizedBox.shrink(),
-        orElse: () => const SizedBox.shrink(),
-      ),
+      builder: (context, state) {
+        final int count = state.maybeWhen(
+          loaded: (cart, _) => cart.products.length,
+          loading: (cart, _) => cart?.products.length ?? 0,
+          orElse: () => 0,
+        );
+
+        if (count == 0) return const SizedBox.shrink();
+
+        return Container(
+          margin: AppInsets.kLeft22 + AppInsets.kTop2,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: context.colors.infoColors.green,
+          ),
+          child: Padding(
+            padding: AppInsets.kAll2,
+            child: Center(
+              child: Text(
+                count.toString(),
+                style: context.textStyle.captionTypo.c2
+                    .withColor(context.colors.mainColors.white),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

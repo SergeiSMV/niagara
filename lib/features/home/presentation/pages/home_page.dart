@@ -26,21 +26,21 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          const SliverAppBarWidget(
-            automaticallyImplyLeading: false,
-            body: AddressButton(),
-            actions: [
-              NotificationsButton(),
-              AppBoxes.kWidth16,
-              SupportButton(),
-              AppBoxes.kWidth16,
-            ],
-          ),
-          const SliverToBoxAdapter(
-            child: Stack(
+    return const Scaffold(
+      appBar: AppBarWidget(
+        automaticallyImplyLeading: false,
+        body: AddressButton(),
+        actions: [
+          NotificationsButton(),
+          AppBoxes.kWidth16,
+          SupportButton(),
+          AppBoxes.kWidth16,
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
               children: [
                 _HomeBackgroundColorsWidget(),
                 Column(
@@ -52,19 +52,15 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              const EquipmentBannerWidget(),
-              const RecentOrdersListWidget(),
-              const StoriesHomeWidget(),
-              const NewProductsHomeWidget(),
-              const SpecialProductsHomeWidget(),
-              const PromotionsHomeWidget(),
-              const GroupsHomeWidget(),
-            ]),
-          ),
-        ],
+            EquipmentBannerWidget(),
+            RecentOrdersListWidget(),
+            StoriesHomeWidget(),
+            NewProductsHomeWidget(),
+            SpecialProductsHomeWidget(),
+            PromotionsHomeWidget(),
+            GroupsHomeWidget(),
+          ],
+        ),
       ),
     );
   }
