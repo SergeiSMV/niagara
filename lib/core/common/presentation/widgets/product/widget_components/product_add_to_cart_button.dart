@@ -101,7 +101,7 @@ class ProductAddToCartButton extends StatelessWidget {
                             product: product,
                             cartAction: CartItemAction.minus,
                             onTap: () => bloc.add(
-                              CartEvent.addToCart(product: product),
+                              CartEvent.removeFromCart(product: product),
                             ),
                           ),
                           Padding(
@@ -118,7 +118,7 @@ class ProductAddToCartButton extends StatelessWidget {
                             product: product,
                             cartAction: CartItemAction.plus,
                             onTap: () => bloc.add(
-                              CartEvent.removeFromCart(product: product),
+                              CartEvent.addToCart(product: product),
                             ),
                           ),
                         ],
