@@ -8,7 +8,6 @@ import 'package:niagara_app/features/catalog/presentation/widget/groups/groups_h
 import 'package:niagara_app/features/equipment/presentation/widgets/equipment_bunner_widget.dart';
 import 'package:niagara_app/features/home/presentation/widgets/notifications_button.dart';
 import 'package:niagara_app/features/home/presentation/widgets/static_banners_widget.dart';
-import 'package:niagara_app/features/home/presentation/widgets/support_button.dart';
 import 'package:niagara_app/features/locations/_common/presentation/widgets/address_button.dart';
 import 'package:niagara_app/features/new_products/presentation/widget/new_products_home_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/recent_orders_list_widget.dart';
@@ -32,8 +31,6 @@ class HomePage extends StatelessWidget {
         body: AddressButton(),
         actions: [
           NotificationsButton(),
-          AppBoxes.kWidth16,
-          SupportButton(),
           AppBoxes.kWidth16,
         ],
       ),

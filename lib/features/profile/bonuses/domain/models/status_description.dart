@@ -53,7 +53,7 @@ class BenefitDescription extends Equatable {
   /// Краткий заголовок пункта.
   ///
   /// Есть только у ВИП статуса.
-  final String titleShort;
+  final String? titleShort;
 
   /// Описание пункта.
   final String description;
@@ -61,7 +61,7 @@ class BenefitDescription extends Equatable {
   /// Краткое описание пункта.
   ///
   /// Есть только у ВИП статуса.
-  final String descriptionShort;
+  final String? descriptionShort;
 
   /// Изображение пункта.
   final BenefitPicture picture;
