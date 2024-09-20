@@ -6,14 +6,16 @@ import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snac
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/repeat_order_cubit/repeat_order_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/cancel_order_cubit/cancel_order_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 
-class RepeatOrderModalWidget extends StatelessWidget {
-  const RepeatOrderModalWidget({
+class CancelOrderModalWidget extends StatelessWidget {
+  const CancelOrderModalWidget({
     super.key,
     required this.order,
     required this.outerContext,
@@ -26,35 +28,36 @@ class RepeatOrderModalWidget extends StatelessWidget {
 
   /// Обработчик изменения состояния.
   ///
-  /// Отображает снекбары с информацией о результате повторения заказа.
-  void _stateListener(BuildContext context, RepeatOrderState state) =>
+  /// Отображает снекбары с информацией о результате отмены заказа.
+  void _stateListener(BuildContext context, CancelOrderState state) =>
       state.mapOrNull(
         success: (_) {
           AppSnackBar.showInfo(
             outerContext,
-            title: t.recentOrders.orderRepeated,
+            title: t.recentOrders.orderCanceled,
           );
 
           context.maybePop();
 
-          return getIt<CartBloc>().add(const CartEvent.getCart());
+          return getIt<OrdersBloc>()
+              .add(const OrdersEvent.loading(isForceUpdate: true));
         },
         error: (_) {
           return AppSnackBar.showError(
             outerContext,
-            title: t.recentOrders.repeatOrderError,
+            title: t.recentOrders.orderCancelError,
           );
         },
       );
 
-  /// Повторяемый заказ.
+  /// Отменяемый заказ.
   final UserOrder order;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<RepeatOrderCubit>(),
-      child: BlocConsumer<RepeatOrderCubit, RepeatOrderState>(
+      create: (_) => getIt<CancelOrderCubit>(),
+      child: BlocConsumer<CancelOrderCubit, CancelOrderState>(
         listener: _stateListener,
         builder: (context, state) => _Content(order: order),
       ),
@@ -71,20 +74,25 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<RepeatOrderCubit>();
+    final cubit = context.read<CancelOrderCubit>();
 
-    final bool isLoading = cubit.state == const RepeatOrderState.loading();
+    final bool isLoading = cubit.state == const CancelOrderState.loading();
 
     void closeModal() => context.maybePop();
-    void repeatOrder() => cubit.repeatOrder(order.id);
+    void cancelOrder() => cubit.cancelOrder(order.id);
 
     return Padding(
       padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Assets.images.attention3D.image(
+            height: AppSizes.kImageSize120,
+            width: AppSizes.kImageSize120,
+          ),
+          AppBoxes.kHeight24,
           Text(
-            t.recentOrders.repeatOrderModalTitle,
+            t.recentOrders.confirmOrderCancel,
             style: context.textStyle.headingTypo.h3,
             textAlign: TextAlign.center,
           ),
@@ -94,15 +102,15 @@ class _Content extends StatelessWidget {
             children: [
               Expanded(
                 child: AppTextButton.secondary(
-                  onTap: closeModal,
-                  text: t.common.cancel,
+                  onTap: isLoading ? null : cancelOrder,
+                  text: isLoading ? null : t.common.cancel,
                 ),
               ),
-              AppBoxes.kWidth12,
+              AppBoxes.kWidth6,
               Expanded(
                 child: AppTextButton.primary(
-                  onTap: isLoading ? null : repeatOrder,
-                  text: isLoading ? null : t.recentOrders.add,
+                  onTap: closeModal,
+                  text: t.recentOrders.notCancel,
                 ),
               ),
             ],

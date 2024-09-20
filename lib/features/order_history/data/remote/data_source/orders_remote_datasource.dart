@@ -134,14 +134,14 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
 
   @override
   Future<Either<Failure, bool>> cancelOrder({required String id}) =>
-      _requestHandler.sendRequest<bool, bool>(
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.delete(
           ApiConst.kCancelOrder,
           data: {
             'ORDER_ID': id,
           },
         ),
-        converter: (result) => result,
+        converter: (result) => result['success'] as bool,
         failure: OrdersRemoteDataFailure.new,
       );
 

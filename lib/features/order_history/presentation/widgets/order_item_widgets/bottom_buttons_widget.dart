@@ -7,6 +7,7 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/rate_order_cubit/rate_order_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/cancel_order_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/repeat_order_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_item_widgets/light_button_widget.dart';
@@ -49,6 +50,20 @@ class BottomButtonsWidget extends StatelessWidget {
     );
   }
 
+  Future<void> _showCancelOrderModal(BuildContext context) async {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      useRootNavigator: true,
+      backgroundColor: context.colors.mainColors.white,
+      useSafeArea: true,
+      builder: (ctx) => CancelOrderModalWidget(
+        order: order,
+        outerContext: context,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,7 +72,7 @@ class BottomButtonsWidget extends StatelessWidget {
           LightButtonWidget(
             text: t.common.cancel,
             icon: Assets.icons.close,
-            onTap: () {},
+            onTap: () => _showCancelOrderModal(context),
           ),
         ],
         if (order.orderStatus == OrderStatus.received) ...[

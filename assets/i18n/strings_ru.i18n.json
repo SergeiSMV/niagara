@@ -368,6 +368,8 @@
     "confirmOrderCancel": "Вы уверены, что хотите отменить заказ?",
     "cancel": "Отменить",
     "notCancel": "Не отменять",
+    "orderCanceled": "Заказ отменен",
+    "orderCancelError": "Не удалось отменить заказ",
     "repeatOrderModalTitle": "Добавить товары из этого заказа в корзину?",
     "add": "Добавить",
     "orderRepeated": "Товары из заказа добавлены в корзину",
