@@ -66,6 +66,7 @@ dependencies:
   flutter_widget_from_html: ^0.15.1
   calendar_date_picker2: ^1.1.5
   yookassa_payments_flutter: ^1.5.0
+  flutter_launcher_icons: ^0.13.1
 
 
 dev_dependencies:
@@ -80,6 +81,13 @@ dev_dependencies:
   json_serializable: ^6.7.1
   lint: ^2.3.0
   slang_build_runner: ^3.30.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true # запрещен альфа-канал в иконке для AppStore
+  image_path: "assets/icons/app_icon/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter_gen:
   output: lib/core/utils/gen/
@@ -100,6 +108,7 @@ flutter:
     - assets/icons/
     - assets/icons/bottom_bar/
     - assets/icons/radio/
+    - assets/icons/app_icon/
     - assets/i18n/
     - assets/lottie/
 
