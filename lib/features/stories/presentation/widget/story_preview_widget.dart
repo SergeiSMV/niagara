@@ -57,9 +57,7 @@ class StoryPreviewWidget extends StatelessWidget {
                     ? ClipRRect(
                         borderRadius: AppBorders.kCircular12,
                         child: ExtendedImage.network(
-                          // TODO: Костыль, т.к. сейчас в тестовых данных там
-                          // ошибка.
-                          imageUrl!.replaceAll('stpries', 'stories'),
+                          imageUrl!,
                           fit: BoxFit.cover,
                         ),
                       )

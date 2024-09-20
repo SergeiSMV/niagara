@@ -1,10 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/enums/base_button_size.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
@@ -15,6 +15,10 @@ class EmptyOrdersListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void goToCatalog() => context.navigateTo(
+          const CatalogWrapper(),
+        );
+
     return Container(
       height: AppSizes.emptyOrdersWidgetHeight,
       width: double.infinity,
@@ -40,6 +44,7 @@ class EmptyOrdersListWidget extends StatelessWidget {
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   t.recentOrders.addBonusesForFirstOrder,
@@ -64,12 +69,26 @@ class EmptyOrdersListWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: AppInsets.kRight72,
-                  child: AppTextButton.primary(
-                    size: BaseButtonSize.small,
-                    text: t.recentOrders.forShopping,
-                    onTap: () {},
+
+                // Кнопка "К покупкам"
+                GestureDetector(
+                  onTap: goToCatalog,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: context.colors.buttonColors.primary,
+                      borderRadius: AppBorders.kCircular8,
+                    ),
+                    child: Padding(
+                      padding: AppInsets.kHorizontal24 + AppInsets.kVertical4,
+                      child: Padding(
+                        padding: AppInsets.kAll4,
+                        child: Text(
+                          t.recentOrders.forShopping,
+                          style: context.textStyle.buttonTypo.btn3bold
+                              .withColor(context.colors.textColors.white),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
