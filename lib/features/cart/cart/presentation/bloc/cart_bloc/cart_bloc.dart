@@ -18,7 +18,7 @@ part 'cart_state.dart';
 typedef _Emit = Emitter<CartState>;
 
 /// [Bloc] для работы с корзиной.
-@injectable
+@lazySingleton
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc(
     this._getCartUseCase,

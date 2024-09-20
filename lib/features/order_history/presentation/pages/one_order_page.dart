@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/enums/order_status.dart';
@@ -13,10 +14,12 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/evaluate_order_cubit/rate_order_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/rate_order_cubit/rate_order_cubit.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/list_products_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/cancel_order_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/order_receipt_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_modal_widget.dart';
+import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/repeat_order_modal_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_data_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/prices_and_bonuses_widget.dart';
@@ -33,9 +36,12 @@ class OneOrderPage extends StatelessWidget {
   final UserOrder order;
   final RateOrderCubit evaluateOrderCubit;
 
-  Future<void> _copyOrderNumber() async => await Clipboard.setData(
-        ClipboardData(text: order.orderNumber),
-      );
+  Future<void> _copyOrderNumber(BuildContext context) async {
+    await Clipboard.setData(ClipboardData(text: order.orderNumber));
+
+    if (!context.mounted) return;
+    AppSnackBar.showInfo(context, title: t.recentOrders.orderNumberCopied);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +52,7 @@ class OneOrderPage extends StatelessWidget {
             title: '${t.recentOrders.orderNumber}${order.orderNumber}',
             actions: [
               InkWell(
-                onTap: () => _copyOrderNumber(),
+                onTap: () => _copyOrderNumber(context),
                 child: Padding(
                   padding: AppInsets.kRight16,
                   child: Assets.icons.copy.svg(),
@@ -138,6 +144,34 @@ class _BottomButtonsWidget extends StatelessWidget {
     );
   }
 
+  Future<void> _showRepeatOrderModal(BuildContext context) async {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      useRootNavigator: true,
+      backgroundColor: context.colors.mainColors.white,
+      useSafeArea: true,
+      builder: (ctx) => RepeatOrderModalWidget(
+        order: order,
+        outerContext: context,
+      ),
+    );
+  }
+
+  Future<void> _showCancelOrderModal(BuildContext context) async {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      useRootNavigator: true,
+      backgroundColor: context.colors.mainColors.white,
+      useSafeArea: true,
+      builder: (ctx) => CancelOrderModalWidget(
+        order: order,
+        outerContext: context,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -151,7 +185,7 @@ class _BottomButtonsWidget extends StatelessWidget {
             if (order.orderStatus == OrderStatus.goingTo) ...[
               AppTextButton.secondary(
                 text: t.recentOrders.cancelOrder,
-                onTap: () {},
+                onTap: () => _showCancelOrderModal(context),
               ),
             ],
 
@@ -168,7 +202,7 @@ class _BottomButtonsWidget extends StatelessWidget {
               if (order.orderAgain) ...[
                 AppTextButton.primary(
                   text: t.recentOrders.repeatOrder,
-                  onTap: () {},
+                  onTap: () => _showRepeatOrderModal(context),
                 ),
                 AppBoxes.kHeight12,
               ],
@@ -201,7 +235,7 @@ class _BottomButtonsWidget extends StatelessWidget {
                 order.orderAgain) ...[
               AppTextButton.primary(
                 text: t.recentOrders.repeatOrder,
-                onTap: () {},
+                onTap: () => _showRepeatOrderModal(context),
               ),
             ],
             AppBoxes.kHeight24,

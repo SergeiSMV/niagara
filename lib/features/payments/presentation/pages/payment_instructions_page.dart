@@ -50,7 +50,7 @@ class PaymentInstructionsPage extends StatelessWidget {
   /// заказа или критичной ошибке перенаправляет на [errorRoute].
   ///
   /// При возникновении ошибки, требующей уведомления пользователя, отображает
-  /// [AppSnackBar.showErrorShackBar] с текстом ошибки.
+  /// [AppSnackBar.showError] с текстом ошибки.
   void _paymentStateListener(
     BuildContext context,
     PaymentInstructionsState state,
@@ -58,7 +58,7 @@ class PaymentInstructionsPage extends StatelessWidget {
       state.whenOrNull(
         success: onSuccess,
         orderCanceled: onCancelled,
-        error: (err) => AppSnackBar.showErrorShackBar(
+        error: (err) => AppSnackBar.showError(
           context,
           title: err.toErrorText,
           subtitle: err.toErrorDescription,

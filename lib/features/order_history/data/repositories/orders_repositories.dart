@@ -148,4 +148,20 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
           return remote;
         },
       );
+
+  @override
+  Future<Either<Failure, bool>> cancelOrder({required String id}) => execute(
+        () async => _ordersRDS.cancelOrder(id: id).fold(
+              (failure) => throw failure,
+              (result) => result,
+            ),
+      );
+
+  @override
+  Future<Either<Failure, bool>> repeatOrder({required String id}) => execute(
+        () async => _ordersRDS.repeatOrder(id: id).fold(
+              (failure) => throw failure,
+              (result) => result,
+            ),
+      );
 }

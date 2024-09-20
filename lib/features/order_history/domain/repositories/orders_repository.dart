@@ -27,4 +27,12 @@ abstract interface class IOrdersRepository {
     required String comment,
     required List<String> optionsIds,
   });
+
+  Future<Either<Failure, bool>> cancelOrder({
+    required String id,
+  });
+
+  Future<Either<Failure, bool>> repeatOrder({
+    required String id,
+  });
 }

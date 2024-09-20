@@ -5,7 +5,7 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/features/order_history/domain/models/order_rate_option.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/order_evaluations_options_cubit/order_rate_options_cubit.dart';
+import 'package:niagara_app/features/order_history/presentation/bloc/order_rate_options_cubit/order_rate_options_cubit.dart';
 
 class RateOptionItemWidget extends StatelessWidget {
   const RateOptionItemWidget({

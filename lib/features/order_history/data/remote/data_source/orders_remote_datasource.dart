@@ -29,6 +29,16 @@ abstract interface class IOrdersRemoteDatasource {
   Future<Either<Failure, OrderReceiptDto>> getOrderReceipt({
     required String id,
   });
+
+  /// Отменяет заказ.
+  Future<Either<Failure, bool>> cancelOrder({
+    required String id,
+  });
+
+  /// Повторяет заказ.
+  Future<Either<Failure, bool>> repeatOrder({
+    required String id,
+  });
 }
 
 @LazySingleton(as: IOrdersRemoteDatasource)
@@ -119,6 +129,32 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
           },
         ),
         converter: (html) => OrderReceiptDto(html: html, orderId: id),
+        failure: OrdersRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, bool>> cancelOrder({required String id}) =>
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+        request: (dio) => dio.delete(
+          ApiConst.kCancelOrder,
+          data: {
+            'ORDER_ID': id,
+          },
+        ),
+        converter: (result) => result['success'] as bool,
+        failure: OrdersRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, bool>> repeatOrder({required String id}) =>
+      _requestHandler.sendRequest<bool, bool>(
+        request: (dio) => dio.post(
+          ApiConst.kRepeatOrder,
+          data: {
+            'ORDERS_ID': id,
+          },
+        ),
+        converter: (result) => result,
         failure: OrdersRemoteDataFailure.new,
       );
 }
