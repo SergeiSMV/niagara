@@ -80,7 +80,7 @@ class VipStatusWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                benefit.titleShort,
+                                benefit.titleShort ?? '',
                                 style: context.textStyle.textTypo.tx2SemiBold
                                     .withColor(
                                   context.colors.textColors.accent,
@@ -93,7 +93,7 @@ class VipStatusWidget extends StatelessWidget {
                           ),
                           AppBoxes.kHeight8,
                           Text(
-                            benefit.descriptionShort,
+                            benefit.descriptionShort ?? '',
                             style:
                                 context.textStyle.textTypo.tx4Medium.withColor(
                               context.colors.textColors.main,

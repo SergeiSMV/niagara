@@ -33,10 +33,6 @@ class AppInfoWidget extends StatelessWidget {
             ProfileActionsWidget(
               children: [
                 ProfileActionTile(
-                  leadingIcon: Assets.icons.support,
-                  title: t.profile.appInfo.suppoort,
-                ),
-                ProfileActionTile(
                   leadingIcon: Assets.icons.info,
                   title: t.profile.appInfo.aboutApp,
                   redirectRoute: const AboutAppRoute(),

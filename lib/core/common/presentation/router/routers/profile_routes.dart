@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
+import 'package:niagara_app/core/common/presentation/router/routers/order_placing_routers.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/payment_routers.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
@@ -52,6 +53,7 @@ abstract final class ProfileRouters {
             title: (_, __) => t.vip.pageTitle,
           ),
           PaymentRouters.routers,
+          OrderPlacingRouters.routers,
           AutoRoute(
             title: (_, __) => t.referral.referralProgram,
             page: ReferralRoute.page,
