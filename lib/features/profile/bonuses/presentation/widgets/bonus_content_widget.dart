@@ -105,11 +105,6 @@ class BonusContentWidget extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            BonusesFooterButton(
-                              icon: Assets.icons.support,
-                              title: t.bonuses.contactUs,
-                              onTap: () {},
-                            ),
                             Divider(
                               height: 0,
                               color: context.colors.otherColors.separator30,
