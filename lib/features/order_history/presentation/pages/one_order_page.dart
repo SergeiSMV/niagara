@@ -36,7 +36,6 @@ class OneOrderPage extends StatelessWidget {
   final UserOrder order;
   final RateOrderCubit evaluateOrderCubit;
 
-  // TODO: Нужно ещё показывать снекбар
   Future<void> _copyOrderNumber(BuildContext context) async {
     await Clipboard.setData(ClipboardData(text: order.orderNumber));
 
