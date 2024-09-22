@@ -3,6 +3,5 @@ import 'package:niagara_app/main.dart' as regular;
 
 void main() {
   AppConstants.kShowDebugButton = true;
-
   regular.main();
 }
