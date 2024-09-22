@@ -61,7 +61,8 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
         tabsRouter: tabsRouter,
         fullScreenTabs: _fullScreenTabs,
       ),
-      floatingActionButton: AppConstants.kShowDebugButton
+      floatingActionButton: 
+          AppConstants.kShowDebugButton
           ? FloatingActionButton(
               child: const Icon(Icons.bug_report),
               onPressed: () => showLogsButton(context),

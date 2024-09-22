@@ -30,6 +30,12 @@
 ## Сборка для iOS
 - `sh build_ios.sh`
 
+## Сборка с возможностью открытия страницы с логами (на примере Android)
+
+Использовать для сборки файл `main_dev.dart`:
+
+- `flutter build apk --dart-define-from-file=.env --release -t lib/main_dev.dart`
+
 ## Зависимости:
 - Локатор зависимостей: [get_it](https://pub.dev/packages/get_it)
   - Зависимости: [injectable](https://pub.dev/packages/injectable)
