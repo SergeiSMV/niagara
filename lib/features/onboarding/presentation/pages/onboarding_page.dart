@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/utils/enums/onboarding_step.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/onboarding/presentation/bloc/onboarding_cubit.dart';
 import 'package:niagara_app/features/onboarding/presentation/widgets/onboarding_bottom_buttons.dart';
 import 'package:niagara_app/features/onboarding/presentation/widgets/onboarding_step_widget.dart';
@@ -45,7 +46,7 @@ class OnboardingPage extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: cubit.skipAll,
-                icon: const Icon(Icons.close),
+                icon: Assets.icons.close.svg(),
               ),
             ],
           ),

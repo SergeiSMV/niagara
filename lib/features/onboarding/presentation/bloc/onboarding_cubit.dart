@@ -72,5 +72,6 @@ class OnboardingCubit extends Cubit<OnboardingStep> {
     showNext();
   }
 
+  /// Завершает онбординг и сохраняет информацию о прохождении в хранилище.
   void onFinished() => _setPassedOnboardingUseCase.call();
 }
