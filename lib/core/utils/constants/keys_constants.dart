@@ -5,4 +5,7 @@ abstract final class KeysConst {
 
   /// Ключ статуса авторизации
   static const String kAuthStatus = 'AUTH_STATUS_KEY';
+
+  /// Ключ для статуса прохождения онбординга
+  static const String kOnboardingPassed = 'ONBOARDING_PASSED';
 }

@@ -73,4 +73,9 @@ abstract final class AppSizes {
 
   //* ------------------------------ Equipment ----------------------------- *//
   static const double timeSlotsHeight = 64;
+
+  //* ---------------------------- Onboarding --------------------------- *//
+  static const double kOnboardingImagetRatioSmall = 0.45;
+  static const double kOnboardingImagetRatioLarge = 0.5;
+  static const double kOnboardingImageBlockWidth = 310;
 }

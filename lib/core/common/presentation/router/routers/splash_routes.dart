@@ -8,6 +8,7 @@ abstract final class SplashRouters {
         initial: true,
         children: [
           AutoRoute(page: SplashRoute.page, initial: true),
+          AutoRoute(page: OnboardingRoute.page),
         ],
       );
 }

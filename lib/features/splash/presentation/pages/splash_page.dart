@@ -40,7 +40,9 @@ class SplashPage extends HookWidget {
 
     void onLoaded(LottieComposition composition) => mainAnimationCtrl
       ..duration = composition.duration
-      ..forward().whenComplete(context.read<SplashCubit>().onCheckAuth);
+      ..forward().whenComplete(context.read<SplashCubit>().onCheckOnboarding);
+
+    void readyToOnboard() => context.pushRoute(const OnboardingRoute());
 
     void readyToAuth() => context.replaceRoute(const AuthWrapper());
 
@@ -50,6 +52,7 @@ class SplashPage extends HookWidget {
       listener: (_, state) => state.maybeWhen(
         readyToAuth: readyToAuth,
         readyToMain: readyToMain,
+        readyToOnboarding: readyToOnboard,
         orElse: () => null,
       ),
       child: FittedBox(
