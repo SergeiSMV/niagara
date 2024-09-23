@@ -10,7 +10,10 @@ abstract interface class ITokenRemoteDataSource {
   /// Возвращает:
   ///   - [String] содержащий новый токен.
   ///   - [Failure] если произошла ошибка при получении токена.
-  Future<Either<Failure, String>> getToken({required String deviceId});
+  Future<Either<Failure, String>> getToken({
+    required String deviceId,
+    String? fcmToken,
+  });
 
   /// Получает basic аутентификацию для доступа к удаленному сервису.
   ///
@@ -37,6 +40,7 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
   @override
   Future<Either<Failure, String>> getToken({
     required String deviceId,
+    String? fcmToken,
   }) async {
     final base64 = await getBasicAuth();
 
@@ -53,7 +57,7 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
         ),
         data: {
           'device_id': deviceId,
-          // 'firebase_id': '1',
+          if (fcmToken != null) 'firebase_id': fcmToken,
         },
       ),
       converter: (json) => json['token'] as String,
