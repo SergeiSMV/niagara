@@ -2,6 +2,11 @@ import 'dart:ui';
 
 /// Константы приложения
 abstract final class AppConstants {
+  /// Должна ли отображаться кнопка, открывающая логи.
+  /// 
+  /// Для установки `true` используйте `main_dev.dart`.
+  static bool kShowDebugButton = false;
+
   // * ---------------------------- Text Field ---------------------------- * //
   static const String kTextFieldPhoneName = 'phoneFiled';
   static const String kTextFieldTextName = 'textField';

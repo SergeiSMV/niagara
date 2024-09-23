@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/navigation_bar.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/check_promo_code_cubit/check_promo_code_cubit.dart';
 import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc
 import 'package:niagara_app/features/promotions/presentation/cubit/promotions_cubit.dart';
 import 'package:niagara_app/features/special_poducts/presentation/bloc/special_products_bloc.dart';
 import 'package:niagara_app/features/stories/presentation/bloc/stories_bloc.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 /// Страница [NavigationPage] для внутренней навигации в приложении.
 ///
@@ -39,6 +41,17 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
         ),
       };
 
+  /// Отображает кнопку с логами.
+  void showLogsButton(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TalkerScreen(
+          talker: getIt<Talker>(),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
@@ -48,6 +61,13 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
         tabsRouter: tabsRouter,
         fullScreenTabs: _fullScreenTabs,
       ),
+      floatingActionButton: 
+          AppConstants.kShowDebugButton
+          ? FloatingActionButton(
+              child: const Icon(Icons.bug_report),
+              onPressed: () => showLogsButton(context),
+            )
+          : null,
     );
   }
 
