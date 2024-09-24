@@ -32,8 +32,8 @@ class EditAddressPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<AddressDetailsCubit>(param1: _address),
       child: Scaffold(
-        appBar: AppBarWidget(
-          actions: [if (!_address.isDefault) const _DeleteLocationWidget()],
+        appBar: const AppBarWidget(
+          actions: [_DeleteLocationWidget()],
         ),
         body: Column(
           children: [
