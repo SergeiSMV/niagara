@@ -29,7 +29,6 @@ class OnboardingCubit extends Cubit<OnboardingStep> {
     OnboardingStep.greeting,
     // [Android] не требует разрешения на уведомления.
     if (!Platform.isAndroid) OnboardingStep.notification,
-    OnboardingStep.notification,
     OnboardingStep.geoposition,
     OnboardingStep.finished,
   ];
