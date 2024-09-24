@@ -32,8 +32,9 @@ class CartPage extends StatelessWidget {
           empty: EmptyCartWidget.new,
           loading: _Loading.new,
           loaded: _Content.new,
-          orElse: () => Center(
-            child: ErrorRefreshWidget(onRefresh: () => onRefresh(context)),
+          orElse: () => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [ErrorRefreshWidget(onRefresh: () => onRefresh(context))],
           ),
         ),
       );
