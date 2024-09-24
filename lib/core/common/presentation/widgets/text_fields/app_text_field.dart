@@ -26,6 +26,7 @@ class AppTextField extends BaseTextField {
     super.onChanged,
     super.showCounter = false,
     super.suffixWidget,
+    super.maxValue,
   });
 
   factory AppTextField.email({
@@ -107,6 +108,7 @@ class AppTextField extends BaseTextField {
     String? hint,
     bool isRequired = false,
     int? maxLength,
+    int? maxValue,
     bool showCounter = false,
   }) {
     return AppTextField._(
@@ -119,6 +121,7 @@ class AppTextField extends BaseTextField {
       state: state ?? BaseTextFieldState.idle,
       isRequired: isRequired,
       maxLength: maxLength,
+      maxValue: maxValue,
       showCounter: showCounter,
       onChanged: onChanged,
     );

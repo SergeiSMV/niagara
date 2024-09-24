@@ -26,6 +26,7 @@ abstract class BaseTextField extends HookWidget {
     this.state = BaseTextFieldState.idle,
     this.isRequired = false,
     this.maxLength,
+    this.maxValue,
     this.mask,
     this.onChanged,
     this.showCounter = false,
@@ -63,6 +64,9 @@ abstract class BaseTextField extends HookWidget {
 
   /// Максимальная длина поля
   final int? maxLength;
+
+  /// Максимальное числовое значение поля
+  final int? maxValue;
 
   /// Маска для поля
   final String? mask;
@@ -157,7 +161,11 @@ abstract class BaseTextField extends HookWidget {
       validator: FormBuilderValidators.compose(
         [
           if (isRequired) FormBuilderValidators.required(),
-          if (maxLength != null) FormBuilderValidators.maxLength(maxLength!),
+          if (maxLength != null)
+            FormBuilderValidators.maxLength(
+              maxLength!,
+              errorText: t.common.lengthExceeded,
+            ),
           if (_isNumbers) FormBuilderValidators.numeric(),
           if (_isEmail) FormBuilderValidators.email(),
           if (mask != null)
@@ -165,7 +173,7 @@ abstract class BaseTextField extends HookWidget {
               mask!.length,
               errorText: _isPhoneNumber ? t.auth.incorrectNumberFormat : null,
             ),
-          if (_isOnlyDigits && maxLength != null)
+          if (_isOnlyDigits && maxValue != null)
             FormBuilderValidators.max(
               maxLength!,
               errorText: t.cart.exceededLimit,

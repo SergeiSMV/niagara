@@ -11,7 +11,7 @@ class HomeWrapperPage extends AutoRouteWrapper {
   Widget wrappedRoute(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => getIt<AddressesBloc>()),
+        BlocProvider.value(value: getIt<AddressesBloc>()),
         BlocProvider(create: (_) => getIt<BonusesBloc>()),
       ],
       child: const AutoRouter(),
