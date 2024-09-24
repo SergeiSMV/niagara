@@ -17,7 +17,9 @@ class ProfileUserDataWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              t.profile.helloUser(name: user.name),
+              user.name.isNotEmpty
+                  ? t.profile.helloUser(name: user.name)
+                  : t.profile.letsGetAcquainted,
               style: context.textStyle.textTypo.tx1Medium
                   .withColor(context.colors.textColors.main),
             ),
