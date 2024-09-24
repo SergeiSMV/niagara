@@ -28,8 +28,7 @@ class BirthdayWidget extends StatelessWidget {
   void _showDatePicker(BuildContext context) {
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     ).then((value) {
       if (value != null && context.mounted) {

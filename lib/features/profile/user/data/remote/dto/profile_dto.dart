@@ -1,12 +1,8 @@
 // ignore_for_file: sort_constructors_first
 
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 
-part 'profile_dto.g.dart';
-
-@JsonSerializable()
 class ProfileDto extends Equatable {
   const ProfileDto({
     this.id,
@@ -31,70 +27,64 @@ class ProfileDto extends Equatable {
     this.locationDefault,
   });
 
-  @JsonKey(name: 'ID')
   final String? id;
-
-  @JsonKey(name: 'NAME')
   final String? name;
-
-  @JsonKey(name: 'LAST_NAME')
   final String? lastName;
-
-  @JsonKey(name: 'SECOND_NAME')
   final String? secondName;
-
-  @JsonKey(name: 'LOGIN')
   final String? login;
-
-  @JsonKey(name: 'EMAIL')
   final String? email;
-
-  @JsonKey(name: 'CITY')
   final String? city;
-
-  @JsonKey(name: 'BIRTHDAY')
   final String? birthday;
-
-  @JsonKey(includeToJson: false, name: 'BONUSES_CARD_NUMBER')
   final String? bonusesCardNumber;
-
-  @JsonKey(includeToJson: false, name: 'BONUSES_COUNT')
   final String? bonusesCount;
-
-  @JsonKey(includeToJson: false, name: 'BONUSES_TEMP_COUNT')
   final String? bonusesTempCount;
-
-  @JsonKey(includeToJson: false, name: 'BONUSES_TEMP_LAST_DATE')
   final String? bonusesTempLastDate;
-
-  @JsonKey(includeToJson: false, name: 'BONUSES_TEMP_DAYS')
   final String? bonusesTempDays;
-
-  @JsonKey(includeToJson: false, name: 'BONUSES_LEVEL')
   final String? bonusesLevel;
-
-  @JsonKey(includeToJson: false, name: 'BONUSES_LEVEL_NEXT')
   final String? bonusesLevelNext;
-
-  @JsonKey(includeToJson: false, name: 'BONUSES_DATE_END')
   final DateTime? bonusesDateEnd;
-
-  @JsonKey(includeToJson: false, name: 'REV_THIS_MONTH')
   final int? revThisMonth;
-
-  @JsonKey(includeToJson: false, name: 'BOTTELS_COUNT')
   final int? bottlesCount;
-
-  @JsonKey(includeToJson: false, name: 'BOTTELS')
   final List<ProductDto>? bottles;
-
-  @JsonKey(includeToJson: false, name: 'LOCATION_DEFAULT')
   final String? locationDefault;
 
-  factory ProfileDto.fromJson(Map<String, dynamic> json) =>
-      _$ProfileDtoFromJson(json);
+  factory ProfileDto.fromJson(Map<String, dynamic> json) => ProfileDto(
+        id: json['ID'] as String?,
+        name: json['NAME'] as String?,
+        lastName: json['LAST_NAME'] as String?,
+        secondName: json['SECOND_NAME'] as String?,
+        login: json['PHONE'] as String?,
+        email: json['EMAIL'] as String?,
+        city: json['CITY'] as String?,
+        birthday: json['BIRTHDAY'] as String?,
+        bonusesCardNumber: json['BONUSES_CARD_NUMBER'] as String?,
+        bonusesCount: json['BONUSES_COUNT'] as String?,
+        bonusesTempCount: json['BONUSES_TEMP_COUNT'] as String?,
+        bonusesTempLastDate: json['BONUSES_TEMP_LAST_DATE'] as String?,
+        bonusesTempDays: json['BONUSES_TEMP_DAYS'] as String?,
+        bonusesLevel: json['BONUSES_LEVEL'] as String?,
+        bonusesLevelNext: json['BONUSES_LEVEL_NEXT'] as String?,
+        bonusesDateEnd: json['BONUSES_DATE_END'] == null
+            ? null
+            : DateTime.parse(json['BONUSES_DATE_END'] as String),
+        revThisMonth: (json['REV_THIS_MONTH'] as num?)?.toInt(),
+        bottlesCount: (json['BOTTELS_COUNT'] as num?)?.toInt(),
+        bottles: (json['BOTTELS'] as List<dynamic>?)
+            ?.map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        locationDefault: json['LOCATION_DEFAULT'] as String?,
+      );
 
-  Map<String, dynamic> toJson() => _$ProfileDtoToJson(this);
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'ID': id,
+        'NAME': name,
+        'LAST_NAME': lastName,
+        'SECOND_NAME': secondName,
+        'LOGIN': login,
+        'EMAIL': email,
+        'CITY': city,
+        'BIRTHDAY': birthday,
+      };
 
   @override
   List<Object?> get props => [

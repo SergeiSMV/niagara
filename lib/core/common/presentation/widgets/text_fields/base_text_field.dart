@@ -116,7 +116,7 @@ abstract class BaseTextField extends HookWidget {
       name: name,
       maxLines: expandable ? null : 1,
       initialValue: mask != null ? maskedText : initialText,
-      enabled: !state.isDisabled && !state.isSuccess,
+      enabled: !state.isDisabled,
       maxLength: maxLength,
       decoration: InputDecoration(
         labelText: label,
