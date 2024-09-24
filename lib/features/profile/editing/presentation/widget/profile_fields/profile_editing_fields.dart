@@ -83,7 +83,8 @@ class ProfileEditingFieldsWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight12,
           AppTextField.phone(
-            initialText: _user.phone.substring(1),
+            initialText:
+                _user.phone.isNotEmpty ? _user.phone.substring(1) : null,
             state: BaseTextFieldState.disabled,
           ),
           AppBoxes.kHeight12,
