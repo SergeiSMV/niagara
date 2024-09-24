@@ -1,0 +1,166 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
+import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/enums/cleaning_statuses.dart';
+import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/equipment/domain/model/equipment.dart';
+
+/// Виджет со всей информацией об оборудовании
+class EquipmentItemContentWidget extends StatelessWidget {
+  const EquipmentItemContentWidget({
+    required this.equipment,
+  });
+
+  final Equipment equipment;
+
+  void _goToPage(BuildContext context) =>
+      context.navigateTo(CleaningRequestRoute(equipment: equipment));
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: AppInsets.kVertical16,
+      decoration: BoxDecoration(
+        color: context.colors.mainColors.bgCard,
+        borderRadius: AppBorders.kCircular12,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: AppInsets.kHorizontal12,
+            child: Text(
+              equipment.name,
+              style: context.textStyle.textTypo.tx2SemiBold
+                  .withColor(context.colors.textColors.main),
+            ),
+          ),
+          if (equipment.status != CleaningStatuses.cleaningIsExpected) ...[
+            AppBoxes.kHeight8,
+            _CleaningDateInfo(
+              title: t.equipments.lastCleaning,
+              date: DateFormat('dd MMMM yyyy', 'ru')
+                  .format(equipment.serviceLastDate),
+            ),
+            _CleaningDateInfo(
+              title: t.equipments.scheduledCleaning,
+              date: DateFormat('dd MMMM yyyy', 'ru')
+                  .format(equipment.serviceNextDate),
+            ),
+            Padding(
+              padding: AppInsets.kHorizontal12,
+              child: Divider(
+                height: AppSizes.kGeneral2,
+                thickness: AppSizes.kGeneral1,
+                color: context.colors.otherColors.separator30,
+              ),
+            ),
+          ],
+          _CleaningInfo(equipment: equipment),
+          if (equipment.status != CleaningStatuses.cleaningIsExpected) ...[
+            AppBoxes.kHeight16,
+            Padding(
+              padding: AppInsets.kHorizontal12,
+              child: AppTextButton.accent(
+                text: t.equipments.orderCleaning,
+                onTap: () => _goToPage(context),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _CleaningInfo extends StatelessWidget {
+  const _CleaningInfo({
+    required this.equipment,
+  });
+
+  final Equipment equipment;
+
+  String _formatDate() {
+    final dayOfWeek = DateFormat('E', 'ru').format(equipment.orderDate);
+    final capitalizedDayOfWeek = dayOfWeek[0].toUpperCase() + dayOfWeek[1];
+    final dayAndMonth = DateFormat('dd.MM').format(equipment.orderDate);
+    final timeBegin = DateFormat('hh:mm').format(equipment.orderTimeBegin);
+    final timeEnd = DateFormat('hh:mm').format(equipment.orderTimeEnd);
+    return '$capitalizedDayOfWeek. $dayAndMonth $timeBegin-$timeEnd';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (equipment.status) {
+      CleaningStatuses.no => _CleaningDateInfo(
+          title: t.equipments.nextCleaningIsThrough,
+          date: t.equipments.dayCount(n: equipment.serviceDaysLeft.abs()),
+          boldFont: true,
+        ),
+      CleaningStatuses.cleaningIsRequired => _CleaningDateInfo(
+          title: t.equipments.cleaningIsOverdueFor,
+          date: t.equipments.dayCount(n: equipment.serviceDaysLeft.abs()),
+          boldFont: true,
+          cleaningIsOverdue: true,
+        ),
+      CleaningStatuses.cleaningIsExpected => _CleaningDateInfo(
+          title: t.equipments.cleaningDate,
+          date: _formatDate(),
+        ),
+    };
+  }
+}
+
+class _CleaningDateInfo extends StatelessWidget {
+  const _CleaningDateInfo({
+    required this.title,
+    required this.date,
+    this.boldFont = false,
+    this.cleaningIsOverdue = false,
+  });
+
+  final String title;
+  final String date;
+  final bool boldFont;
+  final bool cleaningIsOverdue;
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = boldFont
+        ? context.textStyle.textTypo.tx2SemiBold.withColor(
+            cleaningIsOverdue
+                ? context.colors.mainColors.white
+                : context.colors.textColors.main,
+          )
+        : context.textStyle.textTypo.tx2Medium.withColor(
+            cleaningIsOverdue
+                ? context.colors.mainColors.white
+                : context.colors.textColors.main,
+          );
+
+    return Container(
+      padding: AppInsets.kVertical8 + AppInsets.kHorizontal12,
+      decoration: BoxDecoration(
+        borderRadius: AppBorders.kCircular4,
+        color: cleaningIsOverdue
+            ? context.colors.infoColors.red
+            : Colors.transparent,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title, style: textStyle),
+          Text(date, style: textStyle),
+        ],
+      ),
+    );
+  }
+}

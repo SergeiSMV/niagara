@@ -91,6 +91,10 @@ app.*.map.json
 # Generated
 *.g.dart
 *.gr.dart
+*.gen.dart
+*.config.dart
+*.freezed.dart
+*.mocks.dart
 pubspec.lock
 
 # env

@@ -1,20 +1,67 @@
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/app.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.dart';
+import 'package:niagara_app/core/common/presentation/theme/app_theme.dart';
+import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/dependencies/di.dart' as di;
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/core/utils/network/overrides/http_overrides.dart';
+import 'package:niagara_app/firebase_options.dart';
+import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
+
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
+  await di.setupDependencies();
+
+  Bloc.observer = di.getIt<TalkerBlocObserver>();
+
+  LocaleSettings.useDeviceLocale();
+
+  /// Запрет на горизонтальное вращение экрана.
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  /// Переопределение HTTP-запросов.
+  HttpOverrides.global = AppHttpOverrides();
+
+  di.getIt<IAppLogger>().log(
+        level: LogLevel.verbose,
+        message: 'Application started',
+      );
+
+  runApp(
+    TranslationProvider(
+      child: Application(
+        talker: di.getIt<Talker>(),
+        router: di.getIt<AppRouter>(),
+        theme: di.getIt<AppTheme>(),
       ),
-    );
-  }
+    ),
+  );
 }

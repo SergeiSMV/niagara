@@ -1,0 +1,182 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
+import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/utils/constants/app_borders.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
+import 'package:niagara_app/features/profile/user/presentation/widgets/profile_action_tile.dart';
+import 'package:niagara_app/features/profile/user/presentation/widgets/profile_actions_widget.dart';
+
+/// Виджет для отображения функционала работы с аккаунтом (удаление, выход).
+class ProfileAccountActionsWidget extends StatelessWidget {
+  const ProfileAccountActionsWidget({super.key});
+
+  void _showFloatingDialog(BuildContext context, Widget child) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          alignment: Alignment.bottomCenter,
+          insetPadding: AppInsets.kAll8 + AppInsets.kBottom16,
+          shape: const RoundedRectangleBorder(
+            borderRadius: AppBorders.kCircular20,
+          ),
+          child: Padding(
+            padding: AppInsets.kAll16 + AppInsets.kVertical8,
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
+  void _onDelete(BuildContext context) {
+    context.read<UserBloc>().add(
+          const UserEvent.deleteAccount(),
+        );
+  }
+
+  void _onLogout(BuildContext context) {
+    context.read<UserBloc>().add(
+          const UserEvent.logout(),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<UserBloc, UserState>(
+      listener: (BuildContext context, UserState state) {
+        state.maybeWhen(
+          orElse: () {},
+          unauthorized: (loggedOut) {
+            if (loggedOut ?? false) {
+              context.router.replaceAll([const SplashWrapper()]);
+            }
+          },
+        );
+      },
+      builder: (context, state) {
+        return state.maybeWhen(
+          orElse: SizedBox.shrink,
+          loaded: (user) {
+            return Padding(
+              padding: AppInsets.kHorizontal16 + AppInsets.kVertical24,
+              child: ProfileActionsWidget(
+                children: [
+                  ProfileActionTile(
+                    onTap: () => _showFloatingDialog(
+                      context,
+                      _LogoutConfirmationWidget(
+                        onSubmit: () => _onLogout(context),
+                      ),
+                    ),
+                    title: t.profile.authActions.logoutAction,
+                    leadingIcon: Assets.icons.logout,
+                  ),
+                  ProfileActionTile(
+                    onTap: () => _showFloatingDialog(
+                      context,
+                      _DeleteAccountConfirmationWidget(
+                        onSubmit: () => _onDelete(context),
+                      ),
+                    ),
+                    title: t.profile.authActions.deleteAccountAction,
+                    leadingIcon: Assets.icons.delete,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _DeleteAccountConfirmationWidget extends StatelessWidget {
+  const _DeleteAccountConfirmationWidget({required this.onSubmit});
+
+  final VoidCallback onSubmit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Assets.images.attention3D.image(
+          width: 120,
+          height: 120,
+        ),
+        AppBoxes.kHeight24,
+        Text(
+          t.profile.authActions.deleteConfirmationHeader,
+          style: context.textStyle.headingTypo.h3,
+        ),
+        AppBoxes.kHeight8,
+        Text(
+          textAlign: TextAlign.center,
+          t.profile.authActions.deleteAccountDescription,
+          style: context.textStyle.textTypo.tx1Medium
+              .withColor(context.colors.textColors.secondary),
+        ),
+        AppBoxes.kHeight24,
+        AppTextButton.primary(
+          text: t.profile.authActions.deleteAccountButton,
+          onTap: () {
+            onSubmit();
+            Navigator.of(context).pop();
+          },
+        ),
+        AppBoxes.kHeight16,
+        AppTextButton.secondary(
+          text: t.profile.authActions.cancelDeletingButton,
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _LogoutConfirmationWidget extends StatelessWidget {
+  const _LogoutConfirmationWidget({required this.onSubmit});
+
+  final VoidCallback onSubmit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          textAlign: TextAlign.center,
+          t.profile.authActions.logoutConfirmationHeader,
+          style: context.textStyle.headingTypo.h3,
+        ),
+        AppBoxes.kHeight24,
+        AppTextButton.primary(
+          text: t.profile.authActions.logoutButton,
+          onTap: () {
+            onSubmit();
+            Navigator.of(context).pop();
+          },
+        ),
+        AppBoxes.kHeight8,
+        AppTextButton.secondary(
+          text: t.profile.authActions.logoutLaterButtom,
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+}

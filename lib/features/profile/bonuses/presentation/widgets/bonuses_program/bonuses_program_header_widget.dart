@@ -1,0 +1,46 @@
+import 'package:flutter/material.dart';
+import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonuses_program/unregistered_user_widget.dart';
+
+class BonusesProgramHeaderWidget extends StatelessWidget {
+  const BonusesProgramHeaderWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Assets.images.aboutBonuses.aboutBonusProgram.image(),
+        Padding(
+          padding: AppInsets.kVertical32 + AppInsets.kHorizontal16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                t.bonuses.aboutBonusesProgram.bonusProgram,
+                style: context.textStyle.headingTypo.h2
+                    .withColor(context.colors.mainColors.white),
+              ),
+              AppBoxes.kHeight16,
+              Text.rich(
+                t.bonuses.aboutBonusesProgram.bonusProgramDescription(
+                  paragraph: (text) => TextSpan(
+                    text: text,
+                    style: const TextStyle(height: .8),
+                  ),
+                ),
+                style: context.textStyle.textTypo.tx2Medium
+                    .withColor(context.colors.mainColors.white),
+              ),
+              const UnregisteredUserWidget(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

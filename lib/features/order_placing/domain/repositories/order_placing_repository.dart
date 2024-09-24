@@ -1,0 +1,30 @@
+import 'package:niagara_app/core/common/domain/models/time_slot.dart';
+import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
+import 'package:niagara_app/features/order_placing/domain/models/delivery_time_options.dart';
+import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
+
+/// Репозиторий формирования заказа.
+///
+/// Отвечает за создания черновика заказа на стороне сервера. Полученные данные
+/// используются для формирования платёжного токена ЮКасса.
+abstract interface class IOrderPlacingRepository {
+  /// Отправляет запрос на получение списка доступных дат и временных интервалов
+  /// доставки в рамках каждой даты.
+  ///
+  /// [DeliveryTimeOptions] вычисляются для каждого заказа на сервере
+  /// автоматически, исходя из данных пользователя и состояния корзины.
+  Future<Either<Failure, List<DeliveryTimeOptions>>> getDeliveryTimeOptions();
+
+  /// Отправляет запрос на создание заказа на сервере на основе предоставленной
+  /// информации о заказе.
+  ///
+  /// Возвращает информацию о созданном заказе, необходимую для запуска
+  /// токенизации платежа в ЮКасса.
+  Future<Either<Failure, TokenizationData>> createOrder({
+    required DateTime deliveryDate,
+    required TimeSlot timeSlot,
+    required PaymentMethod paymentMethod,
+    String? comment,
+  });
+}
