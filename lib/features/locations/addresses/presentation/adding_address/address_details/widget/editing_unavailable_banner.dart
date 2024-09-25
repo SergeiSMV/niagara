@@ -29,9 +29,11 @@ class EditingUnavailablebanner extends StatelessWidget {
               width: AppSizes.kIconLarge,
             ),
             AppBoxes.kWidth8,
-            Text(
-              t.locations.editUnavailable,
-              style: context.textStyle.textTypo.tx2SemiBold,
+            Expanded(
+              child: Text(
+                t.locations.editUnavailable,
+                style: context.textStyle.textTypo.tx2SemiBold,
+              ),
             ),
           ],
         ),

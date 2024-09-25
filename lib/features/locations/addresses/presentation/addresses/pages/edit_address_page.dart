@@ -34,34 +34,35 @@ class EditAddressPage extends StatelessWidget {
       create: (_) => getIt<AddressDetailsCubit>(param1: _address),
       child: Scaffold(
         appBar: const AppBarWidget(
-          actions: [_DeleteLocationWidget()],
+          actions: [
+            _DeleteLocationWidget(),
+          ],
         ),
-        body: Column(
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  child: Padding(
-                    padding: AppInsets.kAll16,
+        body: Padding(
+          padding: AppInsets.kHorizontal16,
+          child: Column(
+            children: [
+              AppBoxes.kHeight16,
+              Row(
+                children: [
+                  Flexible(
                     child: Text(
                       _address.name,
                       style: context.textStyle.textTypo.tx1SemiBold
                           .withColor(context.colors.textColors.main),
                     ),
                   ),
-                ),
+                ],
+              ),
+              AppBoxes.kHeight16,
+              AddressDetailsFieldsWidget(location: _address),
+              const Spacer(),
+              if (_address.readOnly) ...[
+                const EditingUnavailablebanner(),
+                AppBoxes.kHeight12,
               ],
-            ),
-            Padding(
-              padding: AppInsets.kAll16,
-              child: AddressDetailsFieldsWidget(location: _address),
-            ),
-            const Spacer(),
-            if (_address.readOnly) ...[
-              const EditingUnavailablebanner(),
-              AppBoxes.kHeight12,
-            ]
-          ],
+            ],
+          ),
         ),
         bottomNavigationBar: const _SaveChangesButton(),
       ),
