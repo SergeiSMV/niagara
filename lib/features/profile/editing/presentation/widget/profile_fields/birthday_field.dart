@@ -55,9 +55,10 @@ class BirthdayWidget extends StatelessWidget {
       onTap: () => _isBirthdaySet ? null : _showDatePicker(context),
       child: birthday != null
           ? _isBirthdaySet
-              ? AppTextField.email(
+              ? AppTextField.text(
                   initialText: birthday,
                   state: BaseTextFieldState.disabled,
+                  label: t.profile.edit.birthday,
                 )
               : DecoratedBox(
                   decoration: BoxDecoration(

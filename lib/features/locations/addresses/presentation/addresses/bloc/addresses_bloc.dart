@@ -20,7 +20,7 @@ part 'addresses_state.dart';
 
 typedef _Emit = Emitter<AddressesState>;
 
-@injectable
+@lazySingleton
 class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
   AddressesBloc(
     this._hasAuthStatusUseCase,

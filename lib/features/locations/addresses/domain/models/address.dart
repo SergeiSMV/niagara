@@ -59,6 +59,13 @@ class Address extends BaseLocality {
 
   String? get _floor => floor.isNotEmpty ? '${t.locations.floor} $floor' : null;
 
+  // TODO: Использовать параметр ONLY_READ из DTO. Для этого нужно будет:
+  // 1. Добавить параметры в сущности, компаньоны, БД;
+  // 2. При оформлении заказа (и в других случаях, когда этот параметр меняется)
+  //    обновлять сущность в БД;
+  bool get readOnly =>
+      flat.isNotEmpty && entrance.isNotEmpty && floor.isNotEmpty;
+
   Address copyWithoutDetails({
     String? flat,
     String? entrance,

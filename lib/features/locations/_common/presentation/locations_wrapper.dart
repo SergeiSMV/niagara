@@ -16,7 +16,7 @@ class LocationsWrapper implements AutoRouteWrapper {
   Widget wrappedRoute(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => getIt<AddressesBloc>()),
+        BlocProvider.value(value: getIt<AddressesBloc>()),
         BlocProvider(create: (_) => getIt<MapCubit>()),
         BlocProvider(create: (_) => getIt<ShopsBloc>()),
         BlocProvider(create: (_) => getIt<AuthBloc>()),
