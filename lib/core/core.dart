@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mutex/mutex.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/crashlytics/crashlytics_observer.dart';
 import 'package:niagara_app/core/utils/network/network_info.dart';
