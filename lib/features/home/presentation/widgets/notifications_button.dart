@@ -21,12 +21,7 @@ class NotificationsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<NotificationsBloc, NotificationsState>(
-      listener: (context, state) {
-        if (state == const NotificationsState.openedFromPush()) {
-          _goToNotifications(context);
-        }
-      },
+    return BlocBuilder<NotificationsBloc, NotificationsState>(
       builder: (context, state) {
         return AppBarActionButton(
           icon: _definitionIcon(state),

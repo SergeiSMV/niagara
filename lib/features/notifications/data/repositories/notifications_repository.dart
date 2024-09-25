@@ -16,7 +16,9 @@ class NotificationsRepository extends BaseRepository
     super._networkInfo,
     this._notificationsRDS,
     this._fcmInstance,
-  ) { init();}
+  ) {
+    init();
+  }
 
   final INotificationRemoteDataSource _notificationsRDS;
   final FirebaseMessaging _fcmInstance;
@@ -34,7 +36,6 @@ class NotificationsRepository extends BaseRepository
   @override
   @disposeMethod
   void dispose() {
-    print('NotificationsRepository dispose');
     _onTokenRefresh?.cancel();
   }
 
@@ -74,14 +75,10 @@ class NotificationsRepository extends BaseRepository
       });
 
   /// Отправляет на бекенд FCM-токен устройства.
-  Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) async {
-    print('Registering FCM device with token: $fcmToken');
-
-    return execute(
-      () => _notificationsRDS.registerFcmDevice(fcmToken).fold(
-            (failure) => throw failure,
-            (result) => result,
-          ),
-    );
-  }
+  Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) => execute(
+        () => _notificationsRDS.registerFcmDevice(fcmToken).fold(
+              (failure) => throw failure,
+              (result) => result,
+            ),
+      );
 }

@@ -53,21 +53,29 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
     );
   }
 
+  void _notificationsListener(BuildContext context, NotificationsState state) =>
+      state.whenOrNull(
+        openedFromPush: () => context.navigateTo(const NotificationsRoute()),
+      );
+
   @override
   Widget build(BuildContext context) {
-    return AutoTabsScaffold(
-      routes: _routes,
-      extendBodyBehindAppBar: true,
-      bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBarWidget(
-        tabsRouter: tabsRouter,
-        fullScreenTabs: _fullScreenTabs,
+    return BlocListener<NotificationsBloc, NotificationsState>(
+      listener: _notificationsListener,
+      child: AutoTabsScaffold(
+        routes: _routes,
+        extendBodyBehindAppBar: true,
+        bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBarWidget(
+          tabsRouter: tabsRouter,
+          fullScreenTabs: _fullScreenTabs,
+        ),
+        floatingActionButton: AppConstants.kShowDebugButton
+            ? FloatingActionButton(
+                child: const Icon(Icons.bug_report),
+                onPressed: () => showLogsButton(context),
+              )
+            : null,
       ),
-      floatingActionButton: AppConstants.kShowDebugButton
-          ? FloatingActionButton(
-              child: const Icon(Icons.bug_report),
-              onPressed: () => showLogsButton(context),
-            )
-          : null,
     );
   }
 

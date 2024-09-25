@@ -57,8 +57,9 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
   Future<void> _getNotifications(_LoadingEvent event, _Emit emit) async {
     if (!_checkedPushOpen) {
-      final bool shouldOpenPage = await _checkIfOpenedFromPush();
       _checkedPushOpen = true;
+      final bool shouldOpenPage = await _checkIfOpenedFromPush();
+
       if (shouldOpenPage) {
         emit(const _OpenedFromPush());
       }

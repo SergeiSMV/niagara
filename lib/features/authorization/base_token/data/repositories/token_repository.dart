@@ -37,11 +37,7 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
     final deviceId = await _deviceIdService.getUniqueId();
     if (deviceId.isLeft) throw const DeviceIdFailure();
 
-    await _tokenRDS
-        .getToken(
-      deviceId: deviceId.right
-    )
-        .fold(
+    await _tokenRDS.getToken(deviceId: deviceId.right).fold(
       (failure) => throw GetTokenFailure(failure.error),
       (token) async {
         _cachedToken = token;
