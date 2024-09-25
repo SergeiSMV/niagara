@@ -69,8 +69,8 @@ class NotificationsPage extends HookWidget {
                 title: NotificationTypeButtons(),
               ),
               const SliverToBoxAdapter(child: NotificationWarningWidget()),
-              state.when(
-                loading: () => const SliverToBoxAdapter(
+              state.maybeWhen(
+                orElse: () => const SliverToBoxAdapter(
                   child: AppCenterLoader(),
                 ),
                 loaded: (groupedNotifications, unreadNotifications, _) {

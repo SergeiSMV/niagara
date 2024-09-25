@@ -16,12 +16,12 @@ class NotificationsRepository extends BaseRepository
     super._networkInfo,
     this._notificationsRDS,
     this._fcmInstance,
-  );
+  ) { init();}
 
   final INotificationRemoteDataSource _notificationsRDS;
   final FirebaseMessaging _fcmInstance;
 
-  @PostConstruct(preResolve: true)
+  @override
   Future<void> init() async {
     _onTokenRefresh = _fcmInstance.onTokenRefresh.listen(_registerFcmDevice);
 

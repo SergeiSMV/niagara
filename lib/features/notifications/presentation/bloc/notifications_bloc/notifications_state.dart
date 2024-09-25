@@ -4,6 +4,8 @@ part of 'notifications_bloc.dart';
 class NotificationsState with _$NotificationsState {
   const factory NotificationsState.loading() = _Loading;
 
+  const factory NotificationsState.openedFromPush() = _OpenedFromPush;
+
   const factory NotificationsState.loaded({
     required List<GroupedNotifications> groupedNotifications,
     required List<NotificationItem> unreadNotifications,

@@ -26,4 +26,7 @@ abstract interface class INotificationsRepository {
 
   /// Закрывает подписки.
   void dispose();
+
+  /// Инициализация репозитория.
+  void init();
 }

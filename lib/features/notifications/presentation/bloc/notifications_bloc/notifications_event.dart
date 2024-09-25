@@ -6,6 +6,8 @@ class NotificationsEvent with _$NotificationsEvent {
     required bool isForceUpdate,
   }) = _LoadingEvent;
 
+  const factory NotificationsEvent.openedFromPush() = _OpenedFromPushEvent;
+
   const factory NotificationsEvent.loadMore() = _LoadMoreEvent;
 
   const factory NotificationsEvent.setSort({

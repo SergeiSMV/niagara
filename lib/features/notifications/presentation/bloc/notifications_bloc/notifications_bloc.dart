@@ -25,8 +25,19 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
     add(const _LoadingEvent(isForceUpdate: true));
 
-    // Запрашиваем список уведомлений, когда приходит пуш.
+    // Запрашиваем список уведомлений, когда приходит пуш во время работы
+    // приложения или когда оно свёрнуто.
     FirebaseMessaging.onMessage.listen(_onForegroundMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen(_onForegroundMessage);
+  }
+
+  /// Проверяет, было ли приложение открыто из пуша.
+  ///
+  /// **Важно**: метод вернёт `true` только при первом вызове. После этого
+  /// значение всегда будет `false`.
+  Future<bool> _checkIfOpenedFromPush() async {
+    final message = await FirebaseMessaging.instance.getInitialMessage();
+    return message != null;
   }
 
   final GetNotificationsUseCase _getNotificationsUseCase;
@@ -34,16 +45,25 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   NotificationsTypes _type = NotificationsTypes.all;
   NotificationsTypes get type => _type;
 
+  bool _checkedPushOpen = false;
+
   int _current = 1;
   int _total = 0;
   bool get hasMore => _total > _current;
 
   /// Обработчик получения уведомления во время работы приложения.
   void _onForegroundMessage(RemoteMessage message) =>
-    add(const _LoadingEvent(isForceUpdate: true));
-  
+      add(const _LoadingEvent(isForceUpdate: true));
 
   Future<void> _getNotifications(_LoadingEvent event, _Emit emit) async {
+    if (!_checkedPushOpen) {
+      final bool shouldOpenPage = await _checkIfOpenedFromPush();
+      _checkedPushOpen = true;
+      if (shouldOpenPage) {
+        emit(const _OpenedFromPush());
+      }
+    }
+
     if (event.isForceUpdate) {
       emit(const _Loading());
       _current = 0;
