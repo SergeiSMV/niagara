@@ -16,6 +16,7 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/adding_address/address_details/cubit/address_details_cubit.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/adding_address/address_details/widget/address_details_fields_widget.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/adding_address/address_details/widget/editing_unavailable_banner.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 
 @RoutePage()
@@ -32,31 +33,36 @@ class EditAddressPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<AddressDetailsCubit>(param1: _address),
       child: Scaffold(
-        appBar: AppBarWidget(
-          actions: [if (!_address.isDefault) const _DeleteLocationWidget()],
+        appBar: const AppBarWidget(
+          actions: [
+            _DeleteLocationWidget(),
+          ],
         ),
-        body: Column(
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  child: Padding(
-                    padding: AppInsets.kAll16,
+        body: Padding(
+          padding: AppInsets.kHorizontal16,
+          child: Column(
+            children: [
+              AppBoxes.kHeight16,
+              Row(
+                children: [
+                  Flexible(
                     child: Text(
                       _address.name,
                       style: context.textStyle.textTypo.tx1SemiBold
                           .withColor(context.colors.textColors.main),
                     ),
                   ),
-                ),
+                ],
+              ),
+              AppBoxes.kHeight16,
+              AddressDetailsFieldsWidget(location: _address),
+              const Spacer(),
+              if (_address.readOnly) ...[
+                const EditingUnavailablebanner(),
+                AppBoxes.kHeight12,
               ],
-            ),
-            Padding(
-              padding: AppInsets.kAll16,
-              child: AddressDetailsFieldsWidget(location: _address),
-            ),
-            const Spacer(),
-          ],
+            ],
+          ),
         ),
         bottomNavigationBar: const _SaveChangesButton(),
       ),

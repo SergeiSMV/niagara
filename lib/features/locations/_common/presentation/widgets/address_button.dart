@@ -9,8 +9,9 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 
-/// Кнопка в AppBar для отображения адреса доставки. При нажатии на кнопку
-/// должен открываться экран с выбором адреса доставки.
+/// Кнопка в AppBar для отображения адреса доставки.
+///
+/// При нажатии на кнопку должен открываться экран с выбором адреса доставки.
 class AddressButton extends StatelessWidget {
   const AddressButton({super.key});
 
