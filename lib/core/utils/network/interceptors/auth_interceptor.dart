@@ -56,10 +56,12 @@ class AuthInterceptor extends Interceptor {
 
     return await _refreshTokenGuard.protect(() async {
       _log('[AuthInterceptor] Started refreshing token...');
+
       // Если количество попыток превышено, пропускаем ошибку дальше
       // без повтора запроса и обработки ошибки.
       if (retryCount >= 2) {
         _log('[AuthInterceptor] REFRESH FAILED: Retry count exceeded.');
+
         return handler.next(err);
       }
       if (err.response?.statusCode == 401 || err.response?.statusCode == 402) {
@@ -72,11 +74,10 @@ class AuthInterceptor extends Interceptor {
             await tokenRepository.getToken().fold(
               (failure) => throw Exception(failure.error),
               (token) async {
+                _log('[AuthInterceptor] Refreshed token. Retrying request...');
+
                 // Повторяем запрос с новым токеном
                 err.requestOptions.headers['Authorization'] = 'Bearer $token';
-                _log(
-                  '[AuthInterceptor] Refreshed token. Retrying request...',
-                );
                 return handler.resolve(await dio.fetch(err.requestOptions));
               },
             );
