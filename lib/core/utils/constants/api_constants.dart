@@ -138,6 +138,9 @@ abstract final class ApiConst {
   /// -POST- Запрос на прочтение уведомления
   static const String kReadNotifications = '/notification_check';
 
+  /// -POST- Запрос на регистрацию устройства для получения уведомлений
+  static const String kRegisterFcmDevice = '/fcm_update';
+
   // ? ------------------------------ Cart -------------------------------- ? //
   /// -POST- Запрос на получение корзины
   static const String kGetCart = '/cart_calculate';

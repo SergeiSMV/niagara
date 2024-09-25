@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:niagara_app/core/common/data/services/device_id_service.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
@@ -15,20 +14,14 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
     this._tokenRDS,
     this._tokenLDS,
     this._deviceIdService,
-    this._firebaseMessaging,
   );
 
   final ITokenRemoteDataSource _tokenRDS;
   final ITokenLocalDataSource _tokenLDS;
   final IDeviceIdService _deviceIdService;
-  final FirebaseMessaging _firebaseMessaging;
 
   // Кешируем токен, чтобы избежать нескольких запросов к хранилищам данных.
   String? _cachedToken;
-
-  /// Подписка на обновление FCM токена.
-  // ignore: cancel_subscriptions
-  StreamSubscription? _onTokenRefreshSubscription;
 
   @override
   Failure get failure => const TokenRepositoryFailure();
@@ -46,18 +39,9 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
     final deviceId = await _deviceIdService.getUniqueId();
     if (deviceId.isLeft) throw const DeviceIdFailure();
 
-    _onTokenRefreshSubscription ??= _firebaseMessaging.onTokenRefresh.listen(
-      (newToken) async {
-        await createToken();
-      },
-    );
-
-    final String? fcmToken = await _firebaseMessaging.getToken();
-
     await _tokenRDS
         .getToken(
       deviceId: deviceId.right,
-      fcmToken: fcmToken,
     )
         .fold(
       (failure) => throw GetTokenFailure(failure.error),

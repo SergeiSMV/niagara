@@ -75,4 +75,7 @@ abstract class AppModule {
   @lazySingleton
   InternetConnectionChecker get connectionChecker =>
       InternetConnectionChecker();
+
+  @lazySingleton
+  FirebaseMessaging get firebaseMessaging => FirebaseMessaging.instance;
 }
