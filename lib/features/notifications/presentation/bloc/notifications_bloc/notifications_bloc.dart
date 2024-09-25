@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -23,7 +24,13 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     on<_SetSortEvent>(_setSort);
 
     add(const _LoadingEvent(isForceUpdate: true));
+
+    // Запрашиваем список уведомлений, когда приходит пуш.
+    FirebaseMessaging.onMessage.listen(_onForegroundMessage);
   }
+
+  // тут при создании мы должны будем заново дёрнуть init у репозитория, чтобы
+  // при логауте обновился fcm токен
 
   final GetNotificationsUseCase _getNotificationsUseCase;
 
@@ -33,6 +40,17 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   int _current = 1;
   int _total = 0;
   bool get hasMore => _total > _current;
+
+  /// Обработчик получения уведомления во время работы приложения.
+  void _onForegroundMessage(RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+    }
+
+    add(const _LoadingEvent(isForceUpdate: true));
+  }
 
   Future<void> _getNotifications(_LoadingEvent event, _Emit emit) async {
     if (event.isForceUpdate) {
