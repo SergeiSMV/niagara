@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:niagara_app/core/common/data/services/device_id_service.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
@@ -41,7 +39,7 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
 
     await _tokenRDS
         .getToken(
-      deviceId: deviceId.right,
+      deviceId: deviceId.right
     )
         .fold(
       (failure) => throw GetTokenFailure(failure.error),

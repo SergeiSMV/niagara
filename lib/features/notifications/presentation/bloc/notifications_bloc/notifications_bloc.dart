@@ -29,9 +29,6 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     FirebaseMessaging.onMessage.listen(_onForegroundMessage);
   }
 
-  // тут при создании мы должны будем заново дёрнуть init у репозитория, чтобы
-  // при логауте обновился fcm токен
-
   final GetNotificationsUseCase _getNotificationsUseCase;
 
   NotificationsTypes _type = NotificationsTypes.all;
@@ -42,15 +39,9 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   bool get hasMore => _total > _current;
 
   /// Обработчик получения уведомления во время работы приложения.
-  void _onForegroundMessage(RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
-    if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
-    }
-
+  void _onForegroundMessage(RemoteMessage message) =>
     add(const _LoadingEvent(isForceUpdate: true));
-  }
+  
 
   Future<void> _getNotifications(_LoadingEvent event, _Emit emit) async {
     if (event.isForceUpdate) {
