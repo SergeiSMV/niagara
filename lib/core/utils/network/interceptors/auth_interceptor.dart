@@ -45,7 +45,7 @@ class AuthInterceptor extends Interceptor {
               // Повторяем запрос с новым токеном
               err.requestOptions.headers['Authorization'] = 'Bearer $token';
               _log(
-                '[AuthInterceptor] Token refresh is done. Retrying request...',
+                '[AuthInterceptor] Token refresh is done by another process. Retrying request...',
               );
               return handler.resolve(await dio.fetch(err.requestOptions));
             },
@@ -74,6 +74,9 @@ class AuthInterceptor extends Interceptor {
               (token) async {
                 // Повторяем запрос с новым токеном
                 err.requestOptions.headers['Authorization'] = 'Bearer $token';
+                _log(
+                  '[AuthInterceptor] Refreshed token. Retrying request...',
+                );
                 return handler.resolve(await dio.fetch(err.requestOptions));
               },
             );
