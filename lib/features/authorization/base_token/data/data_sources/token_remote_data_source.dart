@@ -55,13 +55,10 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
           },
         ),
         data: {
-          if (deviceId != null) 'device_id': deviceId,
+          'device_id': deviceId ?? '',
         },
       ),
-      converter: (json) => CredentialsDto(
-        deviceId: deviceId ?? json['device_id'] as String,
-        token: json['token'] as String,
-      ),
+      converter: CredentialsDto.fromJson,
       failure: GetTokenFailure.new,
     );
   }

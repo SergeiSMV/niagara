@@ -1,3 +1,5 @@
+// ignore_for_file: sort_constructors_first
+
 import 'package:niagara_app/core/core.dart';
 
 /// Пара `Access-Token` [token] и `Refresh-Token` [deviceId] для авторизации
@@ -17,7 +19,7 @@ class CredentialsDto extends Equatable {
   final String deviceId;
 
   /// Создаёт [CredentialsDto] из JSON-представления.
-  CredentialsDto fromJson(Map<String, dynamic> json) => CredentialsDto(
+  factory CredentialsDto.fromJson(Map<String, dynamic> json) => CredentialsDto(
         token: json['token'] as String,
         deviceId: json['device_id'] as String,
       );
