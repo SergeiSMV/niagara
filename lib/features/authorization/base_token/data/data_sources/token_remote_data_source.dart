@@ -1,16 +1,19 @@
 import 'dart:convert';
 
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/features/authorization/base_token/domain/models/credentials.dart';
 
 /// Удаленный источник данных для управления токенами аутентификации, отвечает
 /// за взаимодействие с удаленным сервисом для получения нового токена.
 abstract interface class ITokenRemoteDataSource {
   /// Получает новый токен аутентификации от удаленного сервиса.
   ///
-  /// Возвращает:
-  ///   - [String] содержащий новый токен.
-  ///   - [Failure] если произошла ошибка при получении токена.
-  Future<Either<Failure, String>> getToken({required String deviceId});
+  /// Если [deviceId] не указан, считается, что происходит первая авторизация. В
+  /// таком случае сервер выпишет пару [token] / [deviceId] и вернёт их.
+  ///
+  /// Второй далее нужно будет использовать в качестве `Refresh-Token` и
+  /// постоянно передавать в этот метод.
+  Future<Either<Failure, CredentialsDto>> getToken({String? deviceId});
 
   /// Получает basic аутентификацию для доступа к удаленному сервису.
   ///
@@ -35,12 +38,12 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
   final String _basicPassword;
 
   @override
-  Future<Either<Failure, String>> getToken({
-    required String deviceId,
+  Future<Either<Failure, CredentialsDto>> getToken({
+    String? deviceId,
   }) async {
     final base64 = await getBasicAuth();
 
-    return _requestHandler.sendRequest<String, Map<String, dynamic>>(
+    return _requestHandler.sendRequest<CredentialsDto, Map<String, dynamic>>(
       request: (dio) => dio.post(
         ApiConst.kGetToken,
         options: Options(
@@ -52,11 +55,13 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
           },
         ),
         data: {
-          'device_id': deviceId,
-          // 'firebase_id': '1',
+          if (deviceId != null) 'device_id': deviceId,
         },
       ),
-      converter: (json) => json['token'] as String,
+      converter: (json) => CredentialsDto(
+        deviceId: deviceId ?? json['device_id'] as String,
+        token: json['token'] as String,
+      ),
       failure: GetTokenFailure.new,
     );
   }
