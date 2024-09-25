@@ -16,6 +16,7 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/adding_address/address_details/cubit/address_details_cubit.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/adding_address/address_details/widget/address_details_fields_widget.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/adding_address/address_details/widget/editing_unavailable_banner.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 
 @RoutePage()
@@ -56,6 +57,10 @@ class EditAddressPage extends StatelessWidget {
               child: AddressDetailsFieldsWidget(location: _address),
             ),
             const Spacer(),
+            if (_address.readOnly) ...[
+              const EditingUnavailablebanner(),
+              AppBoxes.kHeight12,
+            ]
           ],
         ),
         bottomNavigationBar: const _SaveChangesButton(),

@@ -10,7 +10,6 @@ extension GeoObjectToLocationExt on GeoObject {
     final lon = point?.longitude ?? 0;
 
     final name = this.name ?? '';
-    // final description = this.description ?? '';
 
     final precision = LocationPrecision.fromString(
       metaDataProperty?.geocoderMetaData?.precision,
