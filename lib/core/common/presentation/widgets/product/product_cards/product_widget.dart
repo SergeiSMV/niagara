@@ -62,6 +62,8 @@ class ProductWidget extends StatelessWidget {
       showModalBottomSheet(
         context: context,
         backgroundColor: context.colors.mainColors.white,
+        useSafeArea: true,
+        isScrollControlled: true,
         builder: (ctx) {
           return const AuthorizationWidget(modal: true);
         },
@@ -77,7 +79,7 @@ class ProductWidget extends StatelessWidget {
       },
       builder: (context, state) {
         void onAdd() {
-          if (bloc.unuathrorized) {
+          if (bloc.unauthrorized) {
             showAuthModal(context);
             return;
           }
@@ -85,7 +87,7 @@ class ProductWidget extends StatelessWidget {
         }
 
         void onRemove() {
-          if (bloc.unuathrorized) {
+          if (bloc.unauthrorized) {
             showAuthModal(context);
             return;
           }

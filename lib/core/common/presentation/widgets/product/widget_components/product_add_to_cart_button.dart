@@ -15,6 +15,7 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/addresses/widgets/unauthorized_address_widget.dart';
 
 /// Виджет-кнопка для добавления товара в корзину.
 ///
@@ -32,6 +33,19 @@ class ProductAddToCartButton extends StatelessWidget {
   /// Товар, который добавляется в корзину.
   final Product product;
 
+  /// Показывает модальное окно авторизации.
+  void showAuthModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: context.colors.mainColors.white,
+      useSafeArea: true,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return const AuthorizationWidget(modal: true);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<CartBloc>();
@@ -48,6 +62,24 @@ class ProductAddToCartButton extends StatelessWidget {
           orElse: () => product,
         )
         .count;
+
+    void onMinus() {
+      if (bloc.unauthrorized) {
+        showAuthModal(context);
+        return;
+      }
+
+      bloc.add(CartEvent.removeFromCart(product: product));
+    }
+
+    void onPlus() {
+      if (bloc.unauthrorized) {
+        showAuthModal(context);
+        return;
+      }
+
+      bloc.add(CartEvent.addToCart(product: product));
+    }
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -99,9 +131,7 @@ class ProductAddToCartButton extends StatelessWidget {
                         children: [
                           AmountIconButton(
                             itemAction: ItemAction.minus,
-                            onTap: () => bloc.add(
-                              CartEvent.removeFromCart(product: product),
-                            ),
+                            onTap: onMinus,
                           ),
                           Padding(
                             padding: AppInsets.kHorizontal16,
@@ -115,9 +145,7 @@ class ProductAddToCartButton extends StatelessWidget {
                           ),
                           AmountIconButton(
                             itemAction: ItemAction.plus,
-                            onTap: () => bloc.add(
-                              CartEvent.addToCart(product: product),
-                            ),
+                            onTap: onPlus,
                           ),
                         ],
                       ),
@@ -128,9 +156,7 @@ class ProductAddToCartButton extends StatelessWidget {
             : AppTextButton.primary(
                 icon: Assets.icons.shoppingCart,
                 text: t.catalog.toCard,
-                onTap: () => bloc.add(
-                  CartEvent.addToCart(product: product),
-                ),
+                onTap: onPlus,
               ),
       ),
     );

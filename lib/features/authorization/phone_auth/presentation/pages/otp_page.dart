@@ -13,6 +13,8 @@ import 'package:niagara_app/features/authorization/phone_auth/presentation/widge
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/resend_code_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
+import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 
 /// Страница для ввода кода подтверждения.
 @RoutePage()
@@ -43,6 +45,8 @@ class OTPPage extends StatelessWidget implements AutoRouteWrapper {
         otpSuccess: () {
           getIt<CartBloc>().add(const CartEvent.getCart());
           getIt<AddressesBloc>().add(const AddressesEvent.initial());
+          getIt<BonusesBloc>().add(const BonusesEvent.started());
+          getIt<WaterBalanceCubit>().getBottles();
           _navigateToMain(context);
           return;
         },

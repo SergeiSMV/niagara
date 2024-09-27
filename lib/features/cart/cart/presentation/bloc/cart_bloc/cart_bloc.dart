@@ -57,7 +57,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   int _bonusesToPay = 0;
   String _promocode = '';
 
-  bool get unuathrorized => state.maybeWhen(
+  bool get unauthrorized => state.maybeWhen(
         unauthorized: () => true,
         orElse: () => false,
       );
