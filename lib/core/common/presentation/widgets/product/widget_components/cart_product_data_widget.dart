@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_amount_icon_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_icon_button.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -98,9 +98,8 @@ class CartProductDataWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ProductAmountIconButton(
-                  product: product,
-                  cartAction: CartItemAction.minus,
+                AmountIconButton(
+                  itemAction: ItemAction.minus,
                   onTap: onMinus,
                 ),
                 Padding(
@@ -112,9 +111,8 @@ class CartProductDataWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                ProductAmountIconButton(
-                  product: product,
-                  cartAction: CartItemAction.plus,
+                AmountIconButton(
+                  itemAction: ItemAction.plus,
                   onTap: onPlus,
                 ),
               ],

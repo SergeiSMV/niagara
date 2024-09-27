@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_amount_icon_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_icon_button.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -14,17 +13,15 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 ///
 /// Если [count] равен 0, отображается кнопка с иконкой корзины. Иначе
 /// отображаются количество товара и кнопки `+` и `-`.
-class ProductCountControls extends StatelessWidget {
-  const ProductCountControls({
+class AmountControlsWidget extends StatelessWidget {
+  const AmountControlsWidget({
     super.key,
-    required this.product,
     required this.onRemove,
     required this.count,
     required this.onAdd,
+    this.shortAmount = false,
+    this.alwaysShowActions = false,
   });
-
-  /// Товар, для которого отображаются кнопки.
-  final Product product;
 
   /// Коллбек, вызываемый при уменьшении количества товара.
   final VoidCallback onRemove;
@@ -35,9 +32,15 @@ class ProductCountControls extends StatelessWidget {
   /// Количество товара.
   final int count;
 
+  /// Способ отображения количества (`n` vs `n шт.`).
+  final bool shortAmount;
+
+  /// Должны ли всегда отображаться кнопки `+` и `-`, даже при нулевом [count].
+  final bool alwaysShowActions;
+
   @override
   Widget build(BuildContext context) {
-    if (count == 0) {
+    if (count == 0 && !alwaysShowActions) {
       return InkWell(
         onTap: onAdd,
         child: DecoratedBox(
@@ -68,23 +71,21 @@ class ProductCountControls extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ProductAmountIconButton(
-            product: product,
-            cartAction: CartItemAction.minus,
+          AmountIconButton(
+            itemAction: ItemAction.minus,
             onTap: onRemove,
           ),
           Padding(
             padding: AppInsets.kHorizontal16,
             child: Text(
-              '$count ${t.pieces}',
+              '$count${shortAmount ? '' : ' ${t.pieces}'}',
               style: context.textStyle.textTypo.tx2SemiBold.withColor(
                 context.colors.mainColors.primary,
               ),
             ),
           ),
-          ProductAmountIconButton(
-            product: product,
-            cartAction: CartItemAction.plus,
+          AmountIconButton(
+            itemAction: ItemAction.plus,
             onTap: onAdd,
           ),
         ],

@@ -2,7 +2,9 @@ part of 'cart_bloc.dart';
 
 @freezed
 class CartEvent with _$CartEvent {
-  const factory CartEvent.getCart({String? promoCode}) = _GetCart;
+  const factory CartEvent.getCart({
+    String? promoCode,
+  }) = _GetCart;
 
   /// Добавляет товар в корзину или увеличивает его количество на `1`.
   const factory CartEvent.addToCart({

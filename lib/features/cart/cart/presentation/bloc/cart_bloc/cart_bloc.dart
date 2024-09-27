@@ -32,10 +32,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_AddToCart>(_onAddToCart);
     on<_RemoveFromCart>(_onRemoveFromCart);
     on<_RemoveAllFromCart>(_onRemoveAllFromCart);
-    on<_SetReturnTareCount>(_onSetReturnTareCount);
-    on<_SetBonusesToPay>(_onSetBonusesToPay);
     on<_AddPrepaidWaterToCart>(_onAddPrepaidWaterToCart);
     on<_RemovePrepaidWaterFromCart>(_onRemovePrepaidWaterFromCart);
+    on<_SetReturnTareCount>(_onSetReturnTareCount);
+    on<_SetBonusesToPay>(_onSetBonusesToPay);
+    on<_ToggleAllTare>(_onToggleAllTare);
 
     add(const _GetCart());
   }
@@ -48,7 +49,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final GetDefaultAddressUseCase _getDefaultAddressUseCase;
 
   // TODO(kvbykov): Добавить настройку возвращения тары.
-  final bool _returnAllTare = true;
+  bool _returnAllTare = true;
+  int _returnTaresDefault = 0;
   int _returnTareCount = 0;
   int _bonusesToPay = 0;
 
@@ -79,6 +81,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         if (cart.isEmpty) return emit(const _Empty());
 
         _returnTareCount = cart.cartData.tareCount;
+        _returnAllTare = cart.cartData.tareCount == cart.cartData.totalTares;
+        _returnTaresDefault = cart.cartData.totalTares;
 
         final recommends = await _getRecommendsCartUseCase.call().fold(
               (failure) => <Product>[],
@@ -156,7 +160,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _SetReturnTareCount event,
     _Emit emit,
   ) {
-    _returnTareCount = event.count;
+    if (_returnTareCount + event.count < 0) return;
+
+    _returnTareCount += event.count;
+    add(const _GetCart());
   }
 
   void _onSetBonusesToPay(
@@ -164,5 +171,14 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _Emit emit,
   ) {
     _bonusesToPay = event.bonuses;
+    add(const _GetCart());
+  }
+
+  void _onToggleAllTare(
+    _ToggleAllTare event,
+    _Emit emit,
+  ) {
+    _returnAllTare = !_returnAllTare;
+    add(const _GetCart());
   }
 }

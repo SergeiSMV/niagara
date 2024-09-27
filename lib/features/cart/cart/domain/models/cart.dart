@@ -61,7 +61,7 @@ class CartData extends Equatable {
     required this.discount,
     required this.promocode,
     required this.tareCount,
-    required this.tareDiscount,
+    required this.tareSum,
     required this.bonuses,
     required this.bonusesPayment,
     required this.bonusesAccumulation,
@@ -69,13 +69,19 @@ class CartData extends Equatable {
     required this.totalPrice,
     required this.fullPrice,
     required this.vipPrice,
+    required this.productsCount,
+    required this.productsTotalSum,
+    required this.totalTares,
   });
 
   final double deliveryFee;
   final double discount;
   final double promocode;
   final int tareCount;
-  final double tareDiscount;
+  final int totalTares;
+  final int productsCount;
+  final int productsTotalSum;
+  final int tareSum;
   final double bonuses;
   final double bonusesPayment;
   final double bonusesAccumulation;
@@ -90,7 +96,7 @@ class CartData extends Equatable {
         discount,
         promocode,
         tareCount,
-        tareDiscount,
+        tareSum,
         bonuses,
         bonusesPayment,
         bonusesAccumulation,

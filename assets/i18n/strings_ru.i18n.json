@@ -132,6 +132,7 @@
     "noAddressFound": "Адрес не найден",
     "yourGeoIsUnavailable": "Ваша геолокация недоступна",
     "selectTheDeliveryAddressYourself": "Выберите адрес доставки самостоятельно",
+    "enterAddress": "Введите адрес",
     "turnOnLocation": "Включить геолокацию?",
     "turnOnLocationDescription": "Сейчас геолокация недоступна, вы можете включить ее в настройках.",
     "later": "Позже",
@@ -351,7 +352,7 @@
     "enterQuantity": "Введите количество",
     "hasPromocode": "Есть промокод?",
     "enterPromocode": "Введите промокод",
-    "returnEmptyTare": "Вернуть пустую тару",
+    "returnEmptyTare": "Верну пустую тару",
     "polycarbonateTare": "Поликарбонатная тара",
     "deliveryCost": "Стоимость доставки",
     "freeDelivery": "Бесплатная доставка от $n₽ или при заказе 19-литровой воды",
@@ -361,7 +362,11 @@
     "minimumOrderAmountDescription(rich)": "Минимальная сумма для оформления заказа сопутствующих товаров ${withoutMainProduct(без основного товара (вода 19 литров))} составляет $n руб.\n\nВ случае покупки основного товара – размер минимальной суммы заказа отсутствует",
     "exceededLimit": "Превышен лимит на списание",
     "unavailableForOrder": "Товары недоступны к заказу",
-    "notAvailable": "Нет в наличии"
+    "notAvailable": "Нет в наличии",
+    "notAvailablePresent": "В корзине есть товары, которых нет в наличии",
+    "addToFavoritesSuggestion": "Перенести отсутствующие товары в Избранное и продолжить оформление заказа?",
+    "transferAndProceed": "Перенести и продолжить",
+    "proceedWithoutTransfer": "Продолжить без переноса"
   },
   "recentOrders": {
     "myOrders": "Мои заказы",
@@ -472,6 +477,7 @@
     "recipient": "Получатель",
     "nameAndPhone": "ФИО и телефон",
     "deliveryAddress": "Адрес доставки",
+    "selectDeliveryAddress": "Выбрать адрес доставки",
     "selectDeliveryDate": "Выбереите время доставки",
     "today": "Сегодня",
     "tomorrow": "Завтра",
