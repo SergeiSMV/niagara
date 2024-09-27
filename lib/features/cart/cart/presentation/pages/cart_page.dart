@@ -5,6 +5,7 @@ import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
@@ -18,6 +19,10 @@ import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_promoco
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_recommends_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_unavailable_products_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/empty_cart_widget.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/free_delivery_info_widget.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/return_tares_selection_widget.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
+import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
 
 @RoutePage()
 class CartPage extends StatelessWidget {
@@ -65,29 +70,46 @@ class _Content extends StatelessWidget {
   final Cart cart;
   final List<Product> recommends;
 
+  void _onAddressChanged(BuildContext context, AddressesState state) {
+    print('[AddressesBloc listener] fired listener');
+    final String? locationId = state.defaultLocation?.locationId;
+    print(
+        '[AddressesBloc listener] current locationId: $locationId, cart: ${cart.locationId}');
+    if (locationId != null && locationId != cart.locationId) {
+      context.read<CartBloc>().add(const CartEvent.getCart());
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: AppInsets.kTop64,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CartProductListWidget(cart: cart),
-                  AppBoxes.kHeight16,
-                  CartUnavailableProductsWidget(
-                    unavailableProducts: cart.unavailableProducts,
-                  ),
-                  AppBoxes.kHeight16,
-                  CartPromocodeWidget(cart: cart),
-                  AppBoxes.kHeight16,
-                  CartBonusesWidget(cart: cart),
-                  AppBoxes.kHeight16,
-                  CartDataPricesWidget(cart: cart),
-                  AppBoxes.kHeight16,
-                  CartRecommendsWidget(products: recommends),
-                  AppBoxes.kHeight16,
-                ],
+        body: BlocListener<AddressesBloc, AddressesState>(
+          bloc: getIt<AddressesBloc>(),
+          listener: _onAddressChanged,
+          child: SafeArea(
+            child: Padding(
+              padding: AppInsets.kTop64,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const DeliveryAddressWidget(editable: true),
+                    FreeDeliveryInfoWidget(cart: cart),
+                    CartProductListWidget(cart: cart),
+                    AppBoxes.kHeight16,
+                    CartUnavailableProductsWidget(
+                      unavailableProducts: cart.unavailableProducts,
+                    ),
+                    const ReturnTaresSelectionWidget(),
+                    AppBoxes.kHeight16,
+                    CartPromocodeWidget(cart: cart),
+                    AppBoxes.kHeight16,
+                    CartBonusesWidget(cart: cart),
+                    AppBoxes.kHeight16,
+                    CartDataPricesWidget(cart: cart),
+                    AppBoxes.kHeight16,
+                    CartRecommendsWidget(products: recommends),
+                    AppBoxes.kHeight16,
+                  ],
+                ),
               ),
             ),
           ),
