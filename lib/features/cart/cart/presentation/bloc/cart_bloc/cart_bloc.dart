@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
+import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/domain/use_cases/add_to_cart_use_case.dart';
 import 'package:niagara_app/features/cart/cart/domain/use_cases/get_cart_use_case.dart';
@@ -27,6 +28,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     this._removeAllFromCartUseCase,
     this._getRecommendsCartUseCase,
     this._getDefaultAddressUseCase,
+    this._hasAuthStatusUseCase,
   ) : super(const _Empty()) {
     on<_GetCart>(_onGetCart);
     on<_AddToCart>(_onAddToCart);
@@ -46,6 +48,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final RemoveAllFromCartUseCase _removeAllFromCartUseCase;
   final GetRecommendsCartUseCase _getRecommendsCartUseCase;
   final GetDefaultAddressUseCase _getDefaultAddressUseCase;
+  final HasAuthStatusUseCase _hasAuthStatusUseCase;
 
   bool _returnAllTare = true;
   int _returnTaresDefault = 0;
@@ -53,6 +56,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   int _bonusesToPay = 0;
   String _promocode = '';
+
+  Future<bool?> get _checkAuth => _hasAuthStatusUseCase.call().fold(
+        (_) => null,
+        (hasAuth) => hasAuth,
+      );
 
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
     final (cart, recommends) = state.maybeWhen(
@@ -62,6 +70,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     );
 
     emit(_Loading(cart: cart, recommends: recommends));
+
+    final bool? hasAuth = await _checkAuth;
+    if (hasAuth == null) {
+      return emit(const _Error());
+    } else if (!hasAuth) {
+      return emit(const _Unauthorized());
+    }
 
     final locationId = await _getDefaultAddress();
 
