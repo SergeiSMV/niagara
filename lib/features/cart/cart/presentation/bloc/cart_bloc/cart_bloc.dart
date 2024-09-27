@@ -57,6 +57,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   int _bonusesToPay = 0;
   String _promocode = '';
 
+  bool get unuathrorized => state.maybeWhen(
+        unauthorized: () => true,
+        orElse: () => false,
+      );
+
   Future<bool?> get _checkAuth => _hasAuthStatusUseCase.call().fold(
         (_) => null,
         (hasAuth) => hasAuth,
