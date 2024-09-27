@@ -85,8 +85,9 @@ class OrderPlacingPage extends StatelessWidget {
             const SliverAppBarWidget(),
             SliverList(
               delegate: SliverChildListDelegate([
+                AppBoxes.kHeight8,
                 const OrderRecepientWidget(),
-                DeliveryAddressWidget(address: cart.locationName),
+                const DeliveryAddressWidget(),
                 const DeliveryDateWidget(),
                 if (cart.cartData.totalPrice != 0)
                   const OrderPaymentMethodWidget(),
