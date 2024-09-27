@@ -33,11 +33,11 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<CartBloc, CartState>(
-        builder: (_, state) => state.maybeWhen(
+        builder: (_, state) => state.when(
           empty: EmptyCartWidget.new,
-          loading: _Loading.new,
+          loading: _Content.new,
           loaded: _Content.new,
-          orElse: () => Column(
+          error: () => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [ErrorRefreshWidget(onRefresh: () => onRefresh(context))],
           ),
@@ -45,8 +45,24 @@ class CartPage extends StatelessWidget {
       );
 }
 
-class _Loading extends StatelessWidget {
-  const _Loading(
+// class _Loading extends StatelessWidget {
+//   const _Loading(
+//     this.cart,
+//     this.recommends,
+//   );
+
+//   final Cart? cart;
+//   final List<Product>? recommends;
+
+//   bool get hasData => cart != null && recommends != null;
+
+//   @override
+//   Widget build(BuildContext context) =>
+//       hasData ? _Content(cart!, recommends!) : const AppCenterLoader();
+// }
+
+class _Content extends StatelessWidget {
+  const _Content(
     this.cart,
     this.recommends,
   );
@@ -56,73 +72,63 @@ class _Loading extends StatelessWidget {
 
   bool get hasData => cart != null && recommends != null;
 
-  @override
-  Widget build(BuildContext context) =>
-      hasData ? _Content(cart!, recommends!) : const AppCenterLoader();
-}
-
-class _Content extends StatelessWidget {
-  const _Content(
-    this.cart,
-    this.recommends,
-  );
-
-  final Cart cart;
-  final List<Product> recommends;
-
   void _onAddressChanged(BuildContext context, AddressesState state) {
     print('[AddressesBloc listener] fired listener');
     final String? locationId = state.defaultLocation?.locationId;
     print(
-        '[AddressesBloc listener] current locationId: $locationId, cart: ${cart.locationId}');
-    if (locationId != null && locationId != cart.locationId) {
+        '[AddressesBloc listener] current locationId: $locationId, cart: ${cart?.locationId}');
+    if (locationId != null && locationId != cart?.locationId) {
       context.read<CartBloc>().add(const CartEvent.getCart());
     }
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: BlocListener<AddressesBloc, AddressesState>(
-          bloc: getIt<AddressesBloc>(),
-          listener: _onAddressChanged,
-          child: SafeArea(
-            child: Padding(
-              padding: AppInsets.kTop64,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const DeliveryAddressWidget(editable: true),
-                    FreeDeliveryInfoWidget(cart: cart),
-                    CartProductListWidget(cart: cart),
-                    AppBoxes.kHeight16,
-                    CartUnavailableProductsWidget(
-                      unavailableProducts: cart.unavailableProducts,
-                    ),
-                    const ReturnTaresSelectionWidget(),
-                    AppBoxes.kHeight16,
-                    CartPromocodeWidget(cart: cart),
-                    AppBoxes.kHeight16,
-                    CartBonusesWidget(cart: cart),
-                    AppBoxes.kHeight16,
-                    CartDataPricesWidget(cart: cart),
-                    AppBoxes.kHeight16,
-                    CartRecommendsWidget(products: recommends),
-                    AppBoxes.kHeight16,
-                  ],
-                ),
+  Widget build(BuildContext context) {
+    if (!hasData) return const AppCenterLoader();
+
+    return Scaffold(
+      body: BlocListener<AddressesBloc, AddressesState>(
+        bloc: getIt<AddressesBloc>(),
+        listener: _onAddressChanged,
+        child: SafeArea(
+          child: Padding(
+            padding: AppInsets.kTop64,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const DeliveryAddressWidget(editable: true),
+                  FreeDeliveryInfoWidget(cart: cart!),
+                  CartProductListWidget(cart: cart!),
+                  AppBoxes.kHeight16,
+                  CartUnavailableProductsWidget(
+                    unavailableProducts: cart!.unavailableProducts,
+                  ),
+                  const ReturnTaresSelectionWidget(),
+                  AppBoxes.kHeight16,
+                  CartPromocodeWidget(cart: cart!),
+                  AppBoxes.kHeight16,
+                  CartBonusesWidget(cart: cart!),
+                  AppBoxes.kHeight16,
+                  CartDataPricesWidget(cart: cart!),
+                  AppBoxes.kHeight16,
+                  CartRecommendsWidget(products: recommends!),
+                  AppBoxes.kHeight16,
+                ],
               ),
             ),
           ),
         ),
-        bottomNavigationBar: PayButton(
-          cart: cart,
-          text: t.cart.payable,
-          redirectRoute: OrderPlacingWrapper(
-            allowedPaymentMethods: cart.paymentMethods,
-            children: [
-              OrderPlacingRoute(cart: cart),
-            ],
-          ),
+      ),
+      bottomNavigationBar: PayButton(
+        cart: cart!,
+        text: t.cart.payable,
+        redirectRoute: OrderPlacingWrapper(
+          allowedPaymentMethods: cart!.paymentMethods,
+          children: [
+            OrderPlacingRoute(cart: cart!),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
