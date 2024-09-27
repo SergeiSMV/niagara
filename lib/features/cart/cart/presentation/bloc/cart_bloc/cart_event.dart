@@ -2,9 +2,7 @@ part of 'cart_bloc.dart';
 
 @freezed
 class CartEvent with _$CartEvent {
-  const factory CartEvent.getCart({
-    String? promoCode,
-  }) = _GetCart;
+  const factory CartEvent.getCart() = _GetCart;
 
   /// Добавляет товар в корзину или увеличивает его количество на `1`.
   const factory CartEvent.addToCart({
@@ -29,16 +27,17 @@ class CartEvent with _$CartEvent {
   const factory CartEvent.removeAllFromCart({required CartClearTypes type}) =
       _RemoveAllFromCart;
 
-  // TODO: Нигде не используется
   const factory CartEvent.toggleAllTare() = _ToggleAllTare;
 
-  // TODO: Нигде не используется
   const factory CartEvent.setReturnTareCount({
     required int count,
   }) = _SetReturnTareCount;
 
-  // TODO: Нигде не используется
   const factory CartEvent.setBonusesToPay({
     required int bonuses,
   }) = _SetBonusesToPay;
+
+  const factory CartEvent.setPromocode({
+    required String promocode,
+  }) = _SetPromocode;
 }

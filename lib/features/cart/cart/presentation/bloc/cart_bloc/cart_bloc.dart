@@ -37,6 +37,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_SetReturnTareCount>(_onSetReturnTareCount);
     on<_SetBonusesToPay>(_onSetBonusesToPay);
     on<_ToggleAllTare>(_onToggleAllTare);
+    on<_SetPromocode>(_onSetPromocode);
 
     add(const _GetCart());
   }
@@ -48,11 +49,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final GetRecommendsCartUseCase _getRecommendsCartUseCase;
   final GetDefaultAddressUseCase _getDefaultAddressUseCase;
 
-  // TODO(kvbykov): Добавить настройку возвращения тары.
   bool _returnAllTare = true;
   int _returnTaresDefault = 0;
   int _returnTareCount = 0;
+
   int _bonusesToPay = 0;
+  String _promocode = '';
 
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
     final (cart, recommends) = state.maybeWhen(
@@ -70,7 +72,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       GetCartParams(
         locationId: locationId,
         bonuses: _bonusesToPay,
-        promocode: event.promoCode ?? '',
+        promocode: _promocode,
         tareCount: _returnTareCount,
         allTare: _returnAllTare,
       ),
@@ -81,8 +83,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         if (cart.isEmpty) return emit(const _Empty());
 
         _returnTareCount = cart.cartData.tareCount;
-        _returnAllTare = cart.cartData.tareCount == cart.cartData.totalTares;
         _returnTaresDefault = cart.cartData.totalTares;
+        _returnAllTare = _returnTareCount == _returnTaresDefault;
 
         final recommends = await _getRecommendsCartUseCase.call().fold(
               (failure) => <Product>[],
@@ -179,6 +181,21 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _Emit emit,
   ) {
     _returnAllTare = !_returnAllTare;
+
+    if (_returnAllTare) {
+      _returnTareCount = _returnTaresDefault;
+    } else {
+      _returnTareCount = 0;
+    }
+
+    add(const _GetCart());
+  }
+
+  void _onSetPromocode(
+    _SetPromocode event,
+    _Emit emit,
+  ) {
+    _promocode = event.promocode;
     add(const _GetCart());
   }
 }
