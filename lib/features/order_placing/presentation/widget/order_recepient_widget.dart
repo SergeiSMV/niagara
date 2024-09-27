@@ -21,7 +21,7 @@ class OrderRecepientWidget extends StatelessWidget {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) =>
           context.read<OrderCreationCubit>().recipientSet = state.maybeWhen(
-        loaded: (user) => true,
+        loaded: (user) => user.hasRequiredData,
         orElse: () => false,
       ),
       builder: (context, state) => state.maybeWhen(

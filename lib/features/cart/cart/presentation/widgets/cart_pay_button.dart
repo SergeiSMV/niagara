@@ -42,8 +42,8 @@ class PayButton extends StatelessWidget {
       //   _showUnavailableProductsToFavorites(context);
       //   return;
       // }
-      _showMinimumOrderAmountError(context);
-      // context.pushRoute(redirectRoute);
+
+      context.pushRoute(redirectRoute);
     }
   }
 
