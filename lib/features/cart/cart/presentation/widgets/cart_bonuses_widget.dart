@@ -51,11 +51,14 @@ class _CartBonusesWidgetState extends State<CartBonusesWidget> {
           CartEvent.setBonusesToPay(bonuses: current),
         );
 
+    /// Меняем [current]
     void onChanged(String? value) {
       final int newValue = int.tryParse(value ?? '') ?? 0;
       setState(() => current = newValue);
     }
 
+    /// Т.к. бонусы прикручены к состоянию корзины, считаем, что они загружаются
+    /// тогда, когда загружается корзина.
     final bool loading = context.read<CartBloc>().state.maybeWhen(
           loading: (_, __) => true,
           orElse: () => false,
