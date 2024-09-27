@@ -29,12 +29,6 @@ class _CartBonusesWidgetState extends State<CartBonusesWidget> {
   int current = 0;
 
   @override
-  void initState() {
-    super.initState();
-    current = widget.cart.cartData.bonuses.round();
-  }
-
-  @override
   Widget build(BuildContext context) {
     /// Сколько для этой корзины всего можно списать бонусов.
     final int maxValue = widget.cart.cartData.bonuses.round();
@@ -101,8 +95,8 @@ class _CartBonusesWidgetState extends State<CartBonusesWidget> {
             onChanged: onChanged,
             maxValue: widget.cart.cartData.bonuses.round(),
             onApplied: canApply ? applyBonuses : null,
-            loading: loading,
-            state: current == applied
+            loading: loading && canApply,
+            state: current == applied && current != 0
                 ? BaseTextFieldState.success
                 : BaseTextFieldState.idle,
           ),

@@ -14,7 +14,7 @@ class AddToCartUseCase extends BaseUseCase<bool, AddToCartParams> {
 }
 
 class AddToCartParams extends Equatable {
-  const AddToCartParams(this.product, [this.withdrawingWater = false]);
+  const AddToCartParams({required this.product, this.withdrawingWater = false});
 
   final Product product;
 

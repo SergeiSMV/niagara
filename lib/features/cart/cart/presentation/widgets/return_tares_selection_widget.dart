@@ -77,7 +77,8 @@ class _TareSelectionWidget extends StatelessWidget {
           borderRadius: AppBorders.kCircular8,
         ),
         child: Padding(
-          padding: AppInsets.kAll12 + AppInsets.kTop4,
+          padding:
+              AppInsets.kHorizontal12 + AppInsets.kTop12 + AppInsets.kBottom4,
           child: Column(
             children: [
               Row(

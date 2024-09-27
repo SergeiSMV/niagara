@@ -46,6 +46,7 @@ class CartUnavailableProductsWidget extends StatelessWidget {
               ),
               DeleteProductsButtonWidget(
                 onTap: () => _removeFromCartUnavailableProducts(context),
+                unavailable: true,
               ),
             ],
           ),

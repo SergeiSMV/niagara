@@ -366,7 +366,9 @@
     "notAvailablePresent": "В корзине есть товары, которых нет в наличии",
     "addToFavoritesSuggestion": "Перенести отсутствующие товары в Избранное и продолжить оформление заказа?",
     "transferAndProceed": "Перенести и продолжить",
-    "proceedWithoutTransfer": "Продолжить без переноса"
+    "proceedWithoutTransfer": "Продолжить без переноса",
+    "clearCart": "Очистить корзину",
+    "clearUnavailable": "Удалить товары"
   },
   "recentOrders": {
     "myOrders": "Мои заказы",

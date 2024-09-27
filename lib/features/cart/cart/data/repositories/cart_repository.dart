@@ -60,12 +60,14 @@ class CartRepository extends BaseRepository implements ICartRepository {
   Future<Either<Failure, bool>> removeProductFromCart(
     Product product,
     bool withdrawingWater,
+    bool all,
   ) =>
       execute(
         () => _cartRDS
             .removeProductFromCart(
               product.id,
               withdrawingWater ? product.complectId : null,
+              all,
             )
             .fold(
               (failure) => throw failure,

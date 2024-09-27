@@ -13,12 +13,12 @@ class SlideButtonsWidget extends StatelessWidget {
     super.key,
     required this.product,
     required this.onActionCompleted,
-    required this.onRemove,
+    required this.onRemoveAll,
   });
 
   final Product product;
   final VoidCallback onActionCompleted;
-  final VoidCallback onRemove;
+  final VoidCallback onRemoveAll;
 
   void _addToFavorites(BuildContext context) =>
       context.read<FavoritesBloc>().add(FavoritesEvent.addFavorite(product));
@@ -65,7 +65,7 @@ class SlideButtonsWidget extends StatelessWidget {
               icon: Assets.icons.delete,
               iconColor: context.colors.mapColors.borderDisabled,
               onTap: () {
-                onRemove();
+                onRemoveAll();
                 onActionCompleted();
               },
             ),

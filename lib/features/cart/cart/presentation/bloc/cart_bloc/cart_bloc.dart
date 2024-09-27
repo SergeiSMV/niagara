@@ -32,8 +32,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_AddToCart>(_onAddToCart);
     on<_RemoveFromCart>(_onRemoveFromCart);
     on<_RemoveAllFromCart>(_onRemoveAllFromCart);
-    on<_AddPrepaidWaterToCart>(_onAddPrepaidWaterToCart);
-    on<_RemovePrepaidWaterFromCart>(_onRemovePrepaidWaterFromCart);
     on<_SetReturnTareCount>(_onSetReturnTareCount);
     on<_SetBonusesToPay>(_onSetBonusesToPay);
     on<_ToggleAllTare>(_onToggleAllTare);
@@ -105,17 +103,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _AddToCart event,
     _Emit emit,
   ) async =>
-      await _addToCartUseCase(AddToCartParams(event.product)).fold(
-        (_) => emit(const _Error()),
-        (success) async =>
-            success ? add(const _GetCart()) : emit(const _Error()),
-      );
-
-  Future<void> _onAddPrepaidWaterToCart(
-    _AddPrepaidWaterToCart event,
-    _Emit emit,
-  ) async =>
-      await _addToCartUseCase(AddToCartParams(event.product, true)).fold(
+      await _addToCartUseCase(AddToCartParams(product: event.product)).fold(
         (_) => emit(const _Error()),
         (success) async =>
             success ? add(const _GetCart()) : emit(const _Error()),
@@ -125,18 +113,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _RemoveFromCart event,
     _Emit emit,
   ) async =>
-      await _removeFromCartUseCase(RemoveFromCartParams(event.product)).fold(
-        (_) => emit(const _Error()),
-        (success) async =>
-            success ? add(const _GetCart()) : emit(const _Error()),
-      );
-
-  Future<void> _onRemovePrepaidWaterFromCart(
-    _RemovePrepaidWaterFromCart event,
-    _Emit emit,
-  ) async =>
-      await _removeFromCartUseCase(RemoveFromCartParams(event.product, true))
-          .fold(
+      await _removeFromCartUseCase(
+        RemoveFromCartParams(
+          product: event.product,
+          all: event.all ?? false,
+        ),
+      ).fold(
         (_) => emit(const _Error()),
         (success) async =>
             success ? add(const _GetCart()) : emit(const _Error()),

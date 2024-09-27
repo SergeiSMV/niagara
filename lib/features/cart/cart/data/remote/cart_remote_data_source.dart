@@ -20,6 +20,7 @@ abstract interface class ICartRemoteDataSource {
   Future<Either<Failure, bool>> removeProductFromCart(
     String productId, [
     String? complectId,
+    bool all = false,
   ]);
 
   Future<Either<Failure, bool>> clearCart({required CartClearTypes type});
@@ -79,10 +80,13 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
   Future<Either<Failure, bool>> removeProductFromCart(
     String productId, [
     String? complectId,
+    bool all = false,
   ]) =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.delete(
-          ApiConst.kRemoveProductFromCart,
+          all
+              ? ApiConst.kRemoveWholeProductCount
+              : ApiConst.kRemoveProductFromCart,
           data: {
             'product_id': productId,
             if (complectId != null) 'complect_id': complectId,

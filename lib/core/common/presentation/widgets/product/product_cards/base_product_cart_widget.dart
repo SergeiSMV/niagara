@@ -29,6 +29,7 @@ class BaseProductCartWidget extends StatefulWidget {
     required this.onAdd,
     required this.onRemove,
     required this.count,
+    this.onRemoveAll,
     this.isAvailable = true,
     this.interactive = true,
   });
@@ -44,6 +45,9 @@ class BaseProductCartWidget extends StatefulWidget {
 
   /// Обработчик нажатия на кнопку уменьшения количества товара.
   final VoidCallback onRemove;
+
+  /// Обработчик нажатия на кнопку удаления в [Slidable]-меню.
+  final VoidCallback? onRemoveAll;
 
   /// Количество товара.
   final int count;
@@ -99,7 +103,7 @@ class _BaseProductCartWidgetState extends State<BaseProductCartWidget>
           SlideButtonsWidget(
             product: widget.product,
             onActionCompleted: () => slidableController.close(),
-            onRemove: widget.onRemove,
+            onRemoveAll: widget.onRemoveAll ?? widget.onRemove,
           ),
         ],
       ),

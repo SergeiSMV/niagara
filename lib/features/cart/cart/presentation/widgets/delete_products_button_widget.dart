@@ -8,9 +8,11 @@ class DeleteProductsButtonWidget extends StatelessWidget {
   const DeleteProductsButtonWidget({
     super.key,
     required this.onTap,
+    this.unavailable = false,
   });
 
   final VoidCallback onTap;
+  final bool unavailable;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class DeleteProductsButtonWidget extends StatelessWidget {
       child: Padding(
         padding: AppInsets.kAll2,
         child: Text(
-          t.common.delete,
+          unavailable ? t.cart.clearUnavailable : t.cart.clearCart,
           style: context.textStyle.textTypo.tx2Medium
               .withColor(context.colors.textColors.error),
         ),

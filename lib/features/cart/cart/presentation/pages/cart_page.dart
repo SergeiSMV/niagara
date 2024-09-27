@@ -82,12 +82,13 @@ class _Content extends StatelessWidget {
                 children: [
                   const DeliveryAddressWidget(editable: true),
                   FreeDeliveryInfoWidget(cart: cart!),
+                  AppBoxes.kHeight16,
                   CartProductListWidget(cart: cart!),
+                  const ReturnTaresSelectionWidget(),
                   AppBoxes.kHeight16,
                   CartUnavailableProductsWidget(
                     unavailableProducts: cart!.unavailableProducts,
                   ),
-                  const ReturnTaresSelectionWidget(),
                   AppBoxes.kHeight16,
                   CartPromocodeWidget(cart: cart!),
                   AppBoxes.kHeight16,
