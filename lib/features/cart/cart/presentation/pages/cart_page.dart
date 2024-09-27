@@ -45,22 +45,6 @@ class CartPage extends StatelessWidget {
       );
 }
 
-// class _Loading extends StatelessWidget {
-//   const _Loading(
-//     this.cart,
-//     this.recommends,
-//   );
-
-//   final Cart? cart;
-//   final List<Product>? recommends;
-
-//   bool get hasData => cart != null && recommends != null;
-
-//   @override
-//   Widget build(BuildContext context) =>
-//       hasData ? _Content(cart!, recommends!) : const AppCenterLoader();
-// }
-
 class _Content extends StatelessWidget {
   const _Content(
     this.cart,

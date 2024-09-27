@@ -21,9 +21,6 @@ class CartDataPricesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double pricesSum =
-        cart.products.fold(0, (a, b) => a + b.price * (b.count ?? 1));
-
     return Padding(
       padding: AppInsets.kHorizontal16,
       child: Column(
@@ -36,13 +33,13 @@ class CartDataPricesWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight8,
           CartDataWidget(
-            title: t.product(n: cart.products.length),
-            data: pricesSum,
+            title: t.product(n: cart.cartData.productsCount),
+            data: cart.cartData.productsTotalSum,
             isBold: true,
           ),
           CartDataWidget(
             title: t.cart.tarePrice,
-            data: cart.cartData.tareSum.toDouble(),
+            data: cart.cartData.tareSum,
           ),
           CartDataWidget(
             title: t.cart.discount,
