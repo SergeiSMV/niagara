@@ -29,7 +29,8 @@ class ReturnTaresSelectionWidget extends StatelessWidget {
           orElse: () => null,
         );
 
-        if (data == null) return const SizedBox.shrink();
+        if (data == null || data.totalTares == 0)
+          return const SizedBox.shrink();
 
         return _TareSelectionWidget(
           amountRub: data.tareSum,
@@ -63,7 +64,6 @@ class _TareSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Check if all tares are selected
     final bool allSelected = totalTares == selectedTares;
     final SvgGenImage icon = allSelected
         ? Assets.icons.checkboxChecked
