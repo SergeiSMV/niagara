@@ -5,6 +5,7 @@ import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/enums/base_text_filed_state.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
@@ -98,6 +99,9 @@ class _CartBonusesWidgetState extends State<CartBonusesWidget> {
             maxValue: widget.cart.cartData.bonuses.round(),
             onApplied: canApply ? applyBonuses : null,
             loading: loading,
+            state: current == applied
+                ? BaseTextFieldState.success
+                : BaseTextFieldState.idle,
           ),
         ],
       ),
