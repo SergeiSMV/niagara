@@ -22,27 +22,43 @@ import 'package:niagara_app/features/cart/cart/presentation/widgets/empty_cart_w
 import 'package:niagara_app/features/cart/cart/presentation/widgets/free_delivery_info_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/return_tares_selection_widget.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/addresses/widgets/unauthorized_address_widget.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
 
 @RoutePage()
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
-  void onRefresh(BuildContext context) =>
-      context.read<CartBloc>().add(const CartEvent.getCart());
-
   @override
-  Widget build(BuildContext context) => BlocBuilder<CartBloc, CartState>(
-        builder: (_, state) => state.when(
-          empty: EmptyCartWidget.new,
-          loading: _Content.new,
-          loaded: _Content.new,
-          error: () => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [ErrorRefreshWidget(onRefresh: () => onRefresh(context))],
+  Widget build(BuildContext context) => SafeArea(
+        child: BlocBuilder<CartBloc, CartState>(
+          builder: (_, state) => state.when(
+            empty: EmptyCartWidget.new,
+            loading: _Content.new,
+            loaded: _Content.new,
+            error: _Error.new,
+            unauthorized: () => const AuthorizationWidget(),
           ),
         ),
       );
+}
+
+class _Error extends StatelessWidget {
+  const _Error({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    void onRefresh() => context.read<CartBloc>().add(const CartEvent.getCart());
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ErrorRefreshWidget(onRefresh: onRefresh),
+      ],
+    );
+  }
 }
 
 class _Content extends StatelessWidget {
