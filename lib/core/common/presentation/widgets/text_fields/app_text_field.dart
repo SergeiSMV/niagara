@@ -132,6 +132,7 @@ class AppTextField extends BaseTextField {
   factory AppTextField.bonuses({
     Key? key,
     void Function(String?)? onChanged,
+    String? initial,
     BaseTextFieldState? state,
     String? label,
     int? maxValue,
@@ -141,6 +142,7 @@ class AppTextField extends BaseTextField {
     return AppTextField._(
       name: AppConstants.kBonusesTextFieldName,
       key: key,
+      initialText: initial,
       label: label,
       keyboardType: TextInputType.number,
       state: state ?? BaseTextFieldState.idle,

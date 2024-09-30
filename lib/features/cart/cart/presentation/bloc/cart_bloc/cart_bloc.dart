@@ -123,7 +123,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _AddToCart event,
     _Emit emit,
   ) async =>
-      await _addToCartUseCase(AddToCartParams(product: event.product)).fold(
+      await _addToCartUseCase(
+        AddToCartParams(
+          product: event.product,
+          withdrawingWater: event.prepaidWater ?? false,
+        ),
+      ).fold(
         (_) => emit(const _Error()),
         (success) async =>
             success ? add(const _GetCart()) : emit(const _Error()),
@@ -136,6 +141,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       await _removeFromCartUseCase(
         RemoveFromCartParams(
           product: event.product,
+          withdrawingWater: event.prepaidWater ?? false,
           all: event.all ?? false,
         ),
       ).fold(
