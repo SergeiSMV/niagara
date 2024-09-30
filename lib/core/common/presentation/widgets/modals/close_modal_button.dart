@@ -8,10 +8,12 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 class CloseModalButton extends StatelessWidget {
   const CloseModalButton({
     required this.onTap,
+    this.transparent = false,
     super.key,
   });
 
   final VoidCallback onTap;
+  final bool transparent;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,9 @@ class CloseModalButton extends StatelessWidget {
         height: AppSizes.kIconLarge,
         padding: AppInsets.kHorizontal2,
         decoration: BoxDecoration(
-          color: context.colors.buttonColors.secondary,
+          color: transparent
+              ? Colors.transparent
+              : context.colors.buttonColors.secondary,
           borderRadius: AppBorders.kCircular6,
         ),
         child: Assets.icons.close.svg(

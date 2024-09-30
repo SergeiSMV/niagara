@@ -1,6 +1,11 @@
+import 'package:niagara_app/core/common/domain/models/pagination.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 
-typedef ReferralHistory = List<ReferralHistoryItem>;
+typedef ReferralHistory = ({
+  List<ReferralHistoryItem> history,
+  Pagination pagination,
+});
 
 class ReferralHistoryItem extends Equatable {
   const ReferralHistoryItem({
@@ -10,7 +15,11 @@ class ReferralHistoryItem extends Equatable {
     required this.friendCount,
   });
 
-  final String friendDate;
+  /// Возвращает имя или формативаронный номер при его отсутствии.
+  String get title =>
+      friendName.isNotEmpty ? friendName : friendPhone.phoneFormat();
+
+  final DateTime friendDate;
   final String friendPhone;
   final String friendName;
   final int friendCount;

@@ -146,6 +146,10 @@ class _GradientColors extends GradientColors {
             Color(0xFF095C8E),
             Color(0xFF041A28),
           ],
+          bonusesBanner: const [
+            Color(0xFF9747FF),
+            Color(0xFF4480F3),
+          ],
         );
 }
 

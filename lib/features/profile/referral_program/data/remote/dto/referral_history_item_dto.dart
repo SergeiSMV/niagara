@@ -1,13 +1,15 @@
 // ignore_for_file: sort_constructors_first
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 import 'package:niagara_app/core/core.dart';
 
-part 'referral_history_item_dto.g.dart';
+typedef ReferralHistoryDto = ({
+  List<ReferralHistoryItemDto> history,
+  PaginationDto pagination,
+});
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class ReferralHistoryItemDto extends Equatable {
-  final String friendDate;
+  final DateTime friendDate;
   final String friendPhone;
   final String friendName;
   final int friendCount;
@@ -28,5 +30,10 @@ class ReferralHistoryItemDto extends Equatable {
   });
 
   factory ReferralHistoryItemDto.fromJson(Map<String, dynamic> json) =>
-      _$ReferralHistoryItemDtoFromJson(json);
+      ReferralHistoryItemDto(
+        friendDate: DateTime.parse(json['DATE'] as String),
+        friendPhone: json['PHONE'] as String,
+        friendName: json['NAME'] as String,
+        friendCount: (json['COUNT'] as num).toInt(),
+      );
 }

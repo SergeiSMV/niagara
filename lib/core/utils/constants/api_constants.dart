@@ -208,6 +208,9 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение истории приглашений
   static const String kReferralHistory = '/referal_history';
 
+  /// -POST- Запрос на создание реферального кода
+  static const String kReferralCode = '/referal_code';
+
   // ? --------------------------- Equipment ------------------------------ ? //
   /// -GET- Запрос на получение списка оборудований
   static const String kGetEquipments = '/devices';

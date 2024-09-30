@@ -78,10 +78,11 @@ class ProfileInfoWidget extends StatelessWidget {
                 ProfileActionTile(
                   leadingIcon: Assets.icons.mapPoint,
                   title: t.profile.profileInfo.deliveryAddresses,
-                ),
-                ProfileActionTile(
-                  leadingIcon: Assets.icons.card,
-                  title: t.profile.profileInfo.paymentMethods,
+                  redirectRoute: const LocationsWrapper(
+                    children: [
+                      LocationsTabRoute(children: [AddressesRoute()]),
+                    ],
+                  ),
                 ),
               ],
             ),

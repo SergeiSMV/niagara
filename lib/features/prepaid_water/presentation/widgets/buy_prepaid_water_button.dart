@@ -37,19 +37,12 @@ class BuyPrepaidWaterButton extends StatelessWidget {
     final cubit = context.watch<OrderWaterAmountCubit>();
 
     /// Обработчик успешного завершения покупки.
+    ///
+    /// Обновляет список заказов и баланс воды.
     void onSuccess() {
-      // Обновляем баланс воды.
-      getIt<WaterBalanceCubit>().getBottles();
-
-      // Обновляем список заказов.
       getIt<OrdersBloc>().add(const OrdersEvent.loading(isForceUpdate: true));
-
-      context.navigateTo(OrderResultRoute(isSuccessful: true));
+      getIt<WaterBalanceCubit>().getBottles();
     }
-
-    /// Обработчик отмены покупки.
-    void onCancelled() =>
-        context.navigateTo(OrderResultRoute(isSuccessful: false));
 
     /// Переход к оплате.
     void goToPayment() => context.navigateTo(
@@ -69,7 +62,7 @@ class BuyPrepaidWaterButton extends StatelessWidget {
                   interactive: false,
                 ),
                 onSuccess: onSuccess,
-                onCancelled: onCancelled,
+                onCancelled: () {},
                 amountRub: (product.price * cubit.state).toString(),
                 productCount: cubit.state,
                 payButtonText: t.vip.pay,
@@ -88,6 +81,7 @@ class BuyPrepaidWaterButton extends StatelessWidget {
             cubit: cubit,
             onTap: () {
               goToPayment();
+              context.maybePop();
             },
           ),
         );

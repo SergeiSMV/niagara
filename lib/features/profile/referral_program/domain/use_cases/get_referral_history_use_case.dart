@@ -3,12 +3,12 @@ import 'package:niagara_app/features/profile/referral_program/domain/model/refer
 import 'package:niagara_app/features/profile/referral_program/domain/repositories/referral_repository.dart';
 
 @injectable
-class GetReferralHistoryUseCase extends BaseUseCase<ReferralHistory, NoParams> {
+class GetReferralHistoryUseCase extends BaseUseCase<ReferralHistory, int> {
   const GetReferralHistoryUseCase(this._referralRepo);
 
   final IReferralRepository _referralRepo;
 
   @override
-  Future<Either<Failure, ReferralHistory>> call(NoParams params) =>
-      _referralRepo.getHistory();
+  Future<Either<Failure, ReferralHistory>> call(int page) =>
+      _referralRepo.getHistory(page: page);
 }

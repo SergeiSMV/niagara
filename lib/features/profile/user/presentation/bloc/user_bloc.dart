@@ -37,6 +37,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final DeleteUserUseCase _deleteUserUseCase;
   final UpdateUserUseCase _updateUserUseCase;
 
+  bool get isAuthorized => state is! _Unauthorized;
+
   Future<void> _onStarted(_LoadingEvent event, _Emit emit) async {
     emit(const _Loading());
 
