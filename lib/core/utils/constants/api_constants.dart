@@ -148,10 +148,13 @@ abstract final class ApiConst {
   /// -POST- Запрос на добавление товара в корзину
   static const String kAddProductToCart = '/cart';
 
-  /// -POST- Запрос на удаление товара из корзины
+  /// -DELETE- Запрос на удаление товара из корзины
   static const String kRemoveProductFromCart = '/cart';
 
-  /// -POST- Запрос на очистку корзины
+  /// -DELETE- Запрос на удаление всего количества заданного товара из корзины
+  static const String kRemoveWholeProductCount = '/cart_clear_sku';
+
+  /// -DELETE- Запрос на очистку корзины
   static const String kClearCart = '/cart_clear';
 
   /// -GET- Запрос на получение рекомендаций

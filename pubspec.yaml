@@ -68,6 +68,8 @@ dependencies:
   yookassa_payments_flutter: ^1.5.0
   flutter_launcher_icons: ^0.13.1
   firebase_messaging: ^15.1.2
+  mutex: ^3.1.0
+
 
 
 dev_dependencies:

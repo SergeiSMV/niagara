@@ -175,7 +175,7 @@ abstract class BaseTextField extends HookWidget {
             ),
           if (_isOnlyDigits && maxValue != null)
             FormBuilderValidators.max(
-              maxLength!,
+              maxValue!,
               errorText: t.cart.exceededLimit,
             ),
         ],

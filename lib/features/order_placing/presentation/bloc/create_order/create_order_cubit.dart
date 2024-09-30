@@ -88,8 +88,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
   Future<void> placeOrder({bool allowZeroPrice = false}) async {
     emit(const OrderCreationState.initial());
 
-    final bool isDataValid = _checkDate() &&
-        _checkRecipient() &&
+    final bool isDataValid = _checkRecipient() &&
+        _checkDate() &&
         (allowZeroPrice || _checkPaymentMethod());
 
     if (allowZeroPrice) paymentMethod = PaymentMethod.cash;

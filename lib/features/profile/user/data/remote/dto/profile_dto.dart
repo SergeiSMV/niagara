@@ -19,6 +19,7 @@ class ProfileDto extends Equatable {
     this.bonusesTempLastDate,
     this.bonusesTempDays,
     this.bonusesLevel,
+    this.bonusesLevelEnd,
     this.bonusesLevelNext,
     this.bonusesDateEnd,
     this.revThisMonth,
@@ -41,6 +42,7 @@ class ProfileDto extends Equatable {
   final String? bonusesTempLastDate;
   final String? bonusesTempDays;
   final String? bonusesLevel;
+  final String? bonusesLevelEnd;
   final String? bonusesLevelNext;
   final DateTime? bonusesDateEnd;
   final int? revThisMonth;
@@ -63,6 +65,7 @@ class ProfileDto extends Equatable {
         bonusesTempLastDate: json['BONUSES_TEMP_LAST_DATE'] as String?,
         bonusesTempDays: json['BONUSES_TEMP_DAYS'] as String?,
         bonusesLevel: json['BONUSES_LEVEL'] as String?,
+        bonusesLevelEnd: json['BONUSES_LEVEL_END'] as String?,
         bonusesLevelNext: json['BONUSES_LEVEL_NEXT'] as String?,
         bonusesDateEnd: json['BONUSES_DATE_END'] == null
             ? null

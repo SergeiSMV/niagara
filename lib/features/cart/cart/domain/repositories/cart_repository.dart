@@ -20,6 +20,7 @@ abstract interface class ICartRepository {
   Future<Either<Failure, bool>> removeProductFromCart(
     Product product,
     bool withdrawingWater,
+    bool all,
   );
 
   Future<Either<Failure, bool>> removeAllFromCart({

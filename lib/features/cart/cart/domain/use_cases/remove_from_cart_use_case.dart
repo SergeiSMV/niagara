@@ -13,15 +13,22 @@ class RemoveFromCartUseCase extends BaseUseCase<bool, RemoveFromCartParams> {
       _cartRepository.removeProductFromCart(
         params.product,
         params.withdrawingWater,
+        params.all,
       );
 }
 
 class RemoveFromCartParams extends Equatable {
-  const RemoveFromCartParams(this.product, [this.withdrawingWater = false]);
+  const RemoveFromCartParams({
+    required this.product,
+    this.withdrawingWater = false,
+    this.all = false,
+  });
 
   final Product product;
 
   final bool withdrawingWater;
+
+  final bool all;
 
   @override
   List<Object> get props => [product, withdrawingWater];

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -8,19 +7,15 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 
 /// Иконка-кнопка для увеличения или уменьшения количества товара при покупке
 /// или в корзине.
-class ProductAmountIconButton extends StatelessWidget {
-  const ProductAmountIconButton({
+class AmountIconButton extends StatelessWidget {
+  const AmountIconButton({
     super.key,
-    required this.product,
-    required this.cartAction,
+    required this.itemAction,
     required this.onTap,
   });
 
-  /// Товар, к которому применяется действие.
-  final Product product;
-
   /// Действие, которое будет выполнено при нажатии на кнопку.
-  final CartItemAction cartAction;
+  final ItemAction itemAction;
 
   /// Обработчик нажатия на кнопку.
   final VoidCallback onTap;
@@ -36,7 +31,7 @@ class ProductAmountIconButton extends StatelessWidget {
         ),
         child: Padding(
           padding: AppInsets.kAll4,
-          child: cartAction.icon.svg(
+          child: itemAction.icon.svg(
             width: AppSizes.kIconSmall,
             height: AppSizes.kIconSmall,
             colorFilter: ColorFilter.mode(

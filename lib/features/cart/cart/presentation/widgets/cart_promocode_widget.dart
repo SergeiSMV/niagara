@@ -4,6 +4,7 @@ import 'package:niagara_app/core/common/presentation/widgets/text_fields/app_tex
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/enums/base_text_filed_state.dart';
+import 'package:niagara_app/core/utils/enums/check_promocode_state.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
@@ -21,7 +22,7 @@ class CartPromocodeWidget extends StatelessWidget {
 
   void _getCard(BuildContext context, String? promoCode) =>
       context.read<CartBloc>().add(
-            CartEvent.getCart(promoCode: promoCode),
+            CartEvent.setPromocode(promocode: promoCode ?? ''),
           );
 
   @override
@@ -39,29 +40,34 @@ class CartPromocodeWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight8,
           BlocConsumer<CheckPromoCodeCubit, CheckPromoCodeState>(
-            listener: (context, state) => state.maybeWhen(
-              valid: () => _getCard(
-                context,
-                context.read<CheckPromoCodeCubit>().promoCode,
-              ),
-              orElse: () => null,
-            ),
+            listener: (context, state) {
+              final cubit = context.read<CheckPromoCodeCubit>();
+
+              if (state != CheckPromoCodeState.valid) return;
+
+              _getCard(context, cubit.promocode);
+            },
             builder: (context, state) {
               final cubit = context.read<CheckPromoCodeCubit>();
 
-              final fieldState = state.when(
-                valid: () => BaseTextFieldState.success,
-                invalid: () => BaseTextFieldState.notSuccess,
-                error: () => BaseTextFieldState.notSuccess,
-                initial: () => BaseTextFieldState.idle,
-              );
+              final fieldState = switch (state) {
+                CheckPromoCodeState.valid => BaseTextFieldState.success,
+                CheckPromoCodeState.invalid => BaseTextFieldState.notSuccess,
+                CheckPromoCodeState.error => BaseTextFieldState.notSuccess,
+                CheckPromoCodeState.initial => BaseTextFieldState.idle,
+                CheckPromoCodeState.loading => BaseTextFieldState.idle,
+              };
 
               return AppTextField.promocode(
-                initialText: cubit.promoCode,
+                initialText: cubit.promocode,
                 label: t.cart.enterPromocode,
-                onChanged: (value) => cubit.promoCode = value,
+                onChanged: (value) {
+                  cubit.reset();
+                  cubit.promocode = value;
+                },
                 state: fieldState,
                 onTap: () => cubit.checkPromoCode(),
+                loading: state == CheckPromoCodeState.loading,
               );
             },
           ),

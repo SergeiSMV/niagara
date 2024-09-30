@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/text_fields/base_text_field.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/enums/base_text_filed_state.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Текстовое поле приложения [AppTextField]. Поддерживает различные состояния
@@ -130,20 +132,23 @@ class AppTextField extends BaseTextField {
   factory AppTextField.bonuses({
     Key? key,
     void Function(String?)? onChanged,
+    String? initial,
     BaseTextFieldState? state,
     String? label,
-    int? maxLength,
-    VoidCallback? onTap,
+    int? maxValue,
+    VoidCallback? onApplied,
+    bool loading = false,
   }) {
     return AppTextField._(
       name: AppConstants.kBonusesTextFieldName,
       key: key,
+      initialText: initial,
       label: label,
       keyboardType: TextInputType.number,
       state: state ?? BaseTextFieldState.idle,
-      maxLength: maxLength,
+      maxValue: maxValue,
       onChanged: onChanged,
-      suffixWidget: _ApplyButton(onTap),
+      suffixWidget: loading ? _loader : _ApplyButton(onApplied),
     );
   }
 
@@ -155,6 +160,7 @@ class AppTextField extends BaseTextField {
     int? maxLength,
     VoidCallback? onTap,
     String? initialText,
+    bool loading = false,
   }) {
     return AppTextField._(
       name: AppConstants.kPromocodeTextFieldName,
@@ -164,10 +170,17 @@ class AppTextField extends BaseTextField {
       state: state ?? BaseTextFieldState.idle,
       maxLength: maxLength,
       onChanged: onChanged,
-      suffixWidget: _ApplyButton(onTap),
+      suffixWidget: loading ? _loader : _ApplyButton(onTap),
       initialText: initialText,
     );
   }
+  // TODO: Надо изменить [BaseTextFieldState] для отрисовки этого виджета, а не
+  // прокидывать [bool loading] в тектовые поля.
+  /// Индикатор загрузки.
+  static final _loader = Assets.lottie.loadCircle.lottie(
+    width: AppSizes.kGeneral48,
+    height: AppSizes.kGeneral48,
+  );
 }
 
 /// Префикс для номера телефона

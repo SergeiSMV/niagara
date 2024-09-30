@@ -4,14 +4,14 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 ///
 /// `plus` - увеличить количество товара в корзине.
 /// `minus` - уменьшить количество товара в корзине.
-enum CartItemAction {
+enum ItemAction {
   plus,
   minus;
 
   /// Проверка на действие увеличения количества товара.
-  bool get isPlus => this == CartItemAction.plus;
+  bool get isPlus => this == ItemAction.plus;
 
   /// Иконка действия.
   SvgGenImage get icon =>
-      this == CartItemAction.plus ? Assets.icons.plus : Assets.icons.minus;
+      this == ItemAction.plus ? Assets.icons.plus : Assets.icons.minus;
 }

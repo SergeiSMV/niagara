@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
+import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -13,8 +14,13 @@ import 'package:niagara_app/features/authorization/phone_auth/presentation/widge
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/phone_number_field.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/privacy_policy_text_button.dart';
 
-class UnauthorizedAddressWidget extends StatelessWidget {
-  const UnauthorizedAddressWidget({super.key});
+class AuthorizationWidget extends StatelessWidget {
+  const AuthorizationWidget({super.key, this.modal = false});
+
+  /// Индикатор того, что виджет отображается внутри модального окна.
+  ///
+  /// Влияет на размеры и стили.
+  final bool modal;
 
   void _navigateToOTP(BuildContext context, String phone) =>
       context.pushRoute(AuthWrapper(children: [OTPRoute(phoneNumber: phone)]));
@@ -23,38 +29,55 @@ class UnauthorizedAddressWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
 
+    final String title = modal ? t.auth.authTitleModal : t.locations.login;
+    final String description =
+        modal ? t.auth.authDescriptionModal : t.locations.loginDescription;
+    final Color descriptionColor = modal
+        ? context.colors.textColors.secondary
+        : context.colors.textColors.main;
+
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) => state.maybeWhen(
         getCode: (phoneNumber) => _navigateToOTP(context, phoneNumber),
         orElse: () => null,
       ),
       child: Column(
+        mainAxisSize: modal ? MainAxisSize.min : MainAxisSize.max,
         children: [
-          AppBoxes.kHeight48,
+          if (!modal) AppBoxes.kHeight48,
           Padding(
             padding: AppInsets.kHorizontal16,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppBoxes.kHeight32,
-                Text(
-                  t.locations.login,
-                  style: context.textStyle.headingTypo.h3
-                      .withColor(context.colors.textColors.main),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      title,
+                      style: context.textStyle.headingTypo.h3
+                          .withColor(context.colors.textColors.main),
+                    ),
+                    if (modal)
+                      CloseModalButton(onTap: () => context.maybePop()),
+                  ],
                 ),
                 AppBoxes.kHeight12,
                 Text(
-                  t.locations.loginDescription,
+                  description,
                   style: context.textStyle.textTypo.tx1Medium
-                      .withColor(context.colors.textColors.main),
+                      .withColor(descriptionColor),
                 ),
               ],
             ),
           ),
           PhoneNumberField(formKey: formKey),
-          const Spacer(),
-          const PrivacyPolicyTextButtons(),
-          AppBoxes.kHeight12,
+          if (!modal) ...[
+            const Spacer(),
+            const PrivacyPolicyTextButtons(),
+            AppBoxes.kHeight12,
+          ],
           GetCodeWidget(formKey: formKey),
         ],
       ),

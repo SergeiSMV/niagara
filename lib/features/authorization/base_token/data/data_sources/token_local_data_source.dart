@@ -26,6 +26,12 @@ abstract interface class ITokenLocalDataSource {
   /// Возвращает:
   ///   - [void] если токен был успешно удален.
   Future<void> deleteToken();
+
+  /// Сохраняет идентификатор устройства в локальном хранилище.
+  Future<void> setDeviceId({required String deviceId});
+
+  /// Получает идентификатор устройства из локального хранилища.
+  Future<String?> getDeviceId();
 }
 
 /// Реализация локального источника данных для токена.
@@ -36,6 +42,7 @@ class TokenLocalDataSource implements ITokenLocalDataSource {
   final FlutterSecureStorage _storage;
 
   String get _tokenKey => KeysConst.kToken;
+  String get _deviceIdKey => KeysConst.kDeviceId;
 
   @override
   Future<void> setToken({required String token}) async =>
@@ -46,4 +53,11 @@ class TokenLocalDataSource implements ITokenLocalDataSource {
 
   @override
   Future<void> deleteToken() async => _storage.delete(key: _tokenKey);
+
+  @override
+  Future<String?> getDeviceId() async => _storage.read(key: _deviceIdKey);
+
+  @override
+  Future<void> setDeviceId({required String deviceId}) async =>
+      _storage.write(key: _deviceIdKey, value: deviceId);
 }

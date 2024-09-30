@@ -5,6 +5,8 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/navigation_bar.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/validate_phone_cubit/validate_phone_cubit.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/check_promo_code_cubit/check_promo_code_cubit.dart';
 import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
@@ -129,6 +131,12 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           BlocProvider(
             create: (_) => getIt<EquipmentsBloc>(),
             lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => getIt<AuthBloc>(),
+          ),
+          BlocProvider(
+            create: (_) => getIt<ValidatePhoneCubit>(),
           ),
         ],
         child: this,
