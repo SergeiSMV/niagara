@@ -225,7 +225,9 @@
       "promotionsHeader": "Скидки и акции",
       "promotionsDescription": "Актуальные предложения для вас",
       "vipHeader": "VIP подписка",
-      "vipDescription": "Получайте доступ к лучшим ценам"
+      "vipDescription": "Получайте доступ к лучшим ценам",
+      "bonusesHeader": "Бонусная программа",
+      "bonusesDescription": "Преимущества бонусной программы"
     },
     "aboutApp": {
       "pageTitle": "О приложении",
