@@ -1,5 +1,6 @@
 import 'package:niagara_app/core/common/domain/models/pagination.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 
 typedef ReferralHistory = ({
   List<ReferralHistoryItem> history,
@@ -13,6 +14,10 @@ class ReferralHistoryItem extends Equatable {
     required this.friendName,
     required this.friendCount,
   });
+
+  /// Возвращает имя или формативаронный номер при его отсутствии.
+  String get title =>
+      friendName.isNotEmpty ? friendName : friendPhone.phoneFormat();
 
   final DateTime friendDate;
   final String friendPhone;

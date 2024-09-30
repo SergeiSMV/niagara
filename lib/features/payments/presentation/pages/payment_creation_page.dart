@@ -80,7 +80,7 @@ class PaymentCreationPage extends StatelessWidget {
           context,
           title: err.type.toErrorTitle,
         ),
-        created: (state) => context.pushRoute(
+        created: (state) => context.replaceRoute(
           // Перенаправляем на страницу оплаты.
           PaymentInstructionsRoute(
             tokenizationData: state.data,

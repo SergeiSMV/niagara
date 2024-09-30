@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
@@ -37,8 +38,8 @@ class PaymentInstructionsPage extends StatelessWidget {
 
   /// Коллбек, вызываемый в случае успешного завершения платежа.
   ///
-  /// Используйте для изменения состояния навигации и запросов на получение
-  /// обновлённых данных (состояние корзины, подписки т.д.).
+  /// Используйте для запросов на получение бновлённых данных (состояние
+  /// корзины, подписки т.д.).
   final VoidCallback onSuccess;
 
   /// Коллбек, вызываемый в случае ошибки платежа.
@@ -56,8 +57,14 @@ class PaymentInstructionsPage extends StatelessWidget {
     PaymentInstructionsState state,
   ) =>
       state.whenOrNull(
-        success: onSuccess,
-        orderCanceled: onCancelled,
+        success: () {
+          context.replaceRoute(OrderResultRoute(isSuccessful: true));
+          return onSuccess();
+        },
+        orderCanceled: () {
+          context.replaceRoute(OrderResultRoute(isSuccessful: false));
+          return onCancelled();
+        },
         error: (err) => AppSnackBar.showError(
           context,
           title: err.toErrorText,

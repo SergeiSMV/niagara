@@ -40,7 +40,7 @@ class ReferralHistoryWidget extends StatelessWidget {
                           }
 
                           return BonusHistoryTile(
-                            title: history[index].friendName,
+                            title: history[index].title,
                             date: history[index].friendDate,
                             count: history[index].friendCount.toDouble(),
                           );
