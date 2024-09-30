@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
@@ -19,6 +20,7 @@ import 'package:niagara_app/features/profile/referral_program/presentation/widge
 import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_progress.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_rewards.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_rules.dart';
+import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 
 @RoutePage()
 class ReferralPage extends StatelessWidget {
@@ -38,11 +40,17 @@ class ReferralPage extends StatelessWidget {
   }
 }
 
+void _onInvite(BuildContext context) {
+  final authorized = context.read<UserBloc>().isAuthorized;
+  if (!authorized) {
+    context.pushRoute(const AuthWrapper(children: [AuthRoute()]));
+  } else {
+    context.read<ReferralCodeCubit>().createReferralCode();
+  }
+}
+
 class _Content extends StatelessWidget {
   const _Content();
-
-  void _onInvite(BuildContext context) =>
-      context.read<ReferralCodeCubit>().createReferralCode();
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +220,8 @@ class _BackgroundInviteButton extends StatelessWidget {
 
     return AppTextButton.invisible(
       text: loading ? null : t.referral.invite,
-      onTap: loading ? null : cubit.createReferralCode,
+      // TODO: Кнопка ничего не делает, т.к. её HitBox недосягаем
+      onTap: loading ? null : () {},
     );
   }
 }
@@ -229,7 +238,7 @@ class _BottomInviteButton extends StatelessWidget {
       padding: AppInsets.kHorizontal16 + AppInsets.kBottom24 + AppInsets.kTop12,
       child: AppTextButton.primary(
         text: loading ? null : t.referral.inviteFriend,
-        onTap: loading ? null : cubit.createReferralCode,
+        onTap: loading ? null : () => _onInvite(context),
       ),
     );
   }
