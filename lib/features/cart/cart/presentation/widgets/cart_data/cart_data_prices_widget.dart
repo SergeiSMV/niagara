@@ -100,12 +100,14 @@ class _CartTotalPriceWidget extends StatelessWidget {
               data: cart.cartData.totalPrice,
               textStyle: context.textStyle.headingTypo.h3,
             ),
-            AppBoxes.kHeight8,
-            _InfoTotalPriceWidget(
-              title: t.catalog.withVIP,
-              data: cart.cartData.vipPrice,
-              textStyle: context.textStyle.textTypo.tx3Medium,
-            ),
+            if (cart.cartData.vipPrice != 0) ...[
+              AppBoxes.kHeight8,
+              _InfoTotalPriceWidget(
+                title: t.catalog.withVIP,
+                data: cart.cartData.vipPrice,
+                textStyle: context.textStyle.textTypo.tx3Medium,
+              ),
+            ]
           ],
         ),
       ),
