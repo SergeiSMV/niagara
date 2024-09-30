@@ -48,14 +48,15 @@ class _Error extends StatelessWidget {
     super.key,
   });
 
+  void onRefresh(BuildContext context) =>
+      context.read<CartBloc>().add(const CartEvent.getCart());
+
   @override
   Widget build(BuildContext context) {
-    void onRefresh() => context.read<CartBloc>().add(const CartEvent.getCart());
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ErrorRefreshWidget(onRefresh: onRefresh),
+        ErrorRefreshWidget(onRefresh: () => onRefresh(context)),
       ],
     );
   }

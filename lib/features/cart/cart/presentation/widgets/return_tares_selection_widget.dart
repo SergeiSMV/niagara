@@ -29,8 +29,9 @@ class ReturnTaresSelectionWidget extends StatelessWidget {
           orElse: () => null,
         );
 
-        if (data == null || data.totalTares == 0)
+        if (data == null || data.totalTares == 0) {
           return const SizedBox.shrink();
+        }
 
         return _TareSelectionWidget(
           amountRub: data.tareSum,

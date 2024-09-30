@@ -40,6 +40,26 @@ class _Content extends StatelessWidget {
 
   final bool editable;
 
+  /// Переход к добавлению адреса.
+  void goToAddressAdding(BuildContext context) => context.pushRoute(
+        const LocationsWrapper(
+          children: [
+            AddingAddressWrapperRoute(
+              children: [ChoiceOnMapRoute()],
+            ),
+          ],
+        ),
+      );
+
+  /// Переход к редактированию адреса.
+  void goToAddressEditing(BuildContext context) => context.pushRoute(
+        const LocationsWrapper(
+          children: [
+            LocationsTabRoute(children: [AddressesRoute()]),
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<AddressesBloc>();
@@ -48,25 +68,6 @@ class _Content extends StatelessWidget {
     final String? address = state.fullLocationName;
     final bool hasLocation = state.hasLocation && address != null;
     final bool hasAny = state.hasAnyLocation;
-
-    /// Переход к добавлению адреса.
-    void goToAddressAdding() => context.pushRoute(
-          const LocationsWrapper(
-            children: [
-              AddingAddressWrapperRoute(
-                children: [ChoiceOnMapRoute()],
-              ),
-            ],
-          ),
-        );
-
-    void goToAddressEditing() => context.pushRoute(
-          const LocationsWrapper(
-            children: [
-              LocationsTabRoute(children: [AddressesRoute()]),
-            ],
-          ),
-        );
 
     return Padding(
       padding: AppInsets.kAll16 + AppInsets.kTop8,
@@ -100,7 +101,9 @@ class _Content extends StatelessWidget {
           ),
           if (!hasLocation || editable)
             IconButton(
-              onPressed: hasAny ? goToAddressEditing : goToAddressAdding,
+              onPressed: () => hasAny
+                  ? goToAddressEditing(context)
+                  : goToAddressAdding(context),
               icon: Assets.icons.pen.svg(),
             ),
         ],
