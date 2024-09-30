@@ -1,6 +1,10 @@
+import 'package:niagara_app/core/common/domain/models/pagination.dart';
 import 'package:niagara_app/core/core.dart';
 
-typedef ReferralHistory = List<ReferralHistoryItem>;
+typedef ReferralHistory = ({
+  List<ReferralHistoryItem> history,
+  Pagination pagination,
+});
 
 class ReferralHistoryItem extends Equatable {
   const ReferralHistoryItem({
@@ -10,7 +14,7 @@ class ReferralHistoryItem extends Equatable {
     required this.friendCount,
   });
 
-  final String friendDate;
+  final DateTime friendDate;
   final String friendPhone;
   final String friendName;
   final int friendCount;

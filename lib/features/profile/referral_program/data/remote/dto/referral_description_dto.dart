@@ -1,12 +1,8 @@
 // ignore_for_file: sort_constructors_first
 
-import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/profile/referral_program/data/remote/dto/referral_item_dto.dart';
 
-part 'referral_description_dto.g.dart';
-
-@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class ReferralDescriptionDto extends Equatable {
   final String description;
   final int bonusesMe;
@@ -37,5 +33,15 @@ class ReferralDescriptionDto extends Equatable {
   });
 
   factory ReferralDescriptionDto.fromJson(Map<String, dynamic> json) =>
-      _$ReferralDescriptionDtoFromJson(json);
+      ReferralDescriptionDto(
+        description: json['description'] as String,
+        bonusesMe: (json['bonuses_me'] as num).toInt(),
+        bonusesFriend: (json['bonuses_friend'] as num).toInt(),
+        bonusesFriendCount: (json['bonuses_friend_count'] as num).toInt(),
+        bonusesForCount: (json['bonuses_for_count'] as num).toInt(),
+        bonusesConditionCount: (json['bonuses_condition_count'] as num).toInt(),
+        items: (json['items'] as List<dynamic>)
+            .map((e) => ReferralItemDto.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
 }

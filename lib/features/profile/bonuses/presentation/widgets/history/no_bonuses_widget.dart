@@ -6,8 +6,15 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
-class NoBonusesWidget extends StatelessWidget {
-  const NoBonusesWidget({super.key});
+class EmptyHistoryWidget extends StatelessWidget {
+  const EmptyHistoryWidget({
+    super.key,
+    this.title,
+    this.subtitle,
+  });
+
+  final String? title;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +29,14 @@ class NoBonusesWidget extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  t.bonuses.youHaveNoBonuses,
+                  title ?? t.bonuses.youHaveNoBonuses,
                   style: context.textStyle.headingTypo.h3
                       .withColor(context.colors.textColors.main),
                   textAlign: TextAlign.center,
                 ),
                 AppBoxes.kHeight8,
                 Text(
-                  t.bonuses.placeOrderToEarnPoints,
+                  subtitle ?? t.bonuses.placeOrderToEarnPoints,
                   style: context.textStyle.textTypo.tx1Medium
                       .withColor(context.colors.textColors.secondary),
                   textAlign: TextAlign.center,

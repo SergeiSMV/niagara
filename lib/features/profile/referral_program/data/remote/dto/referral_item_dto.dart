@@ -1,10 +1,7 @@
 // ignore_for_file: sort_constructors_first
 
-import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/core.dart';
-part 'referral_item_dto.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class ReferralItemDto extends Equatable {
   final String text;
   final String? image;
@@ -18,5 +15,8 @@ class ReferralItemDto extends Equatable {
   });
 
   factory ReferralItemDto.fromJson(Map<String, dynamic> json) =>
-      _$ReferralItemDtoFromJson(json);
+      ReferralItemDto(
+        text: json['text'] as String,
+        image: json['image'] as String?,
+      );
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -13,6 +14,8 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/referral_program/domain/model/referral_description.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/bloc/description/referral_bloc.dart';
+import 'package:niagara_app/features/profile/referral_program/presentation/bloc/referral_code/referral_code_cubit.dart';
+import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_history_widget.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_progress.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_rewards.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/widget/referral_rules.dart';
@@ -38,13 +41,33 @@ class ReferralPage extends StatelessWidget {
 class _Content extends StatelessWidget {
   const _Content();
 
+  void _onInvite(BuildContext context) =>
+      context.read<ReferralCodeCubit>().createReferralCode();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           // Пустое пространство, нужное, чтобы часть _Background была видна.
-          SizedBox(height: context.screenWidth * 0.75),
+          SizedBox(
+            height: context.screenWidth * 0.75,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: (context.screenWidth * 0.75) * 0.75,
+                  right: AppSizes.kGeneral16,
+                  child: SizedBox(
+                    height: AppSizes.kButtonMedium,
+                    width: AppSizes.kButtonMediumWidth,
+                    child: GestureDetector(
+                      onTap: () => _onInvite(context),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
 
           // Описание программы страницы.
           DecoratedBox(
@@ -76,47 +99,66 @@ class _Description extends StatelessWidget {
 
   final ReferralDescription description;
 
+  void _showHistoryModal(BuildContext context) => showModalBottomSheet(
+        context: context,
+        backgroundColor: context.colors.mainColors.white,
+        isScrollControlled: true,
+        useSafeArea: true,
+        builder: (ctx) => const ReferralHistoryWidget(),
+      );
+
+  void _referralStateListener(BuildContext context, ReferralCodeState state) =>
+      state.whenOrNull(
+        error: () => AppSnackBar.showError(
+          context,
+          title: t.errors.unknownError.title,
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        RewardsWidget(
-          rewardFriend: description.bonusesFriend,
-          rewardMe: description.bonusesMe,
-        ),
-        AppBoxes.kHeight32,
-        RulesWidget(
-          description: description.description,
-          rules: description.items.map((e) => e.text).toList(),
-        ),
-        AppBoxes.kHeight32,
-        ProgressWidget(
-          count: description.bonusesFriendCount,
-          goal: description.bonusesConditionCount,
-          reward: description.bonusesForCount,
-        ),
-        AppBoxes.kHeight24,
-        InkWell(
-          onTap: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                t.referral.referralHistory,
-                style: context.textStyle.buttonTypo.btn2semiBold.withColor(
-                  context.colors.textColors.accent,
-                ),
-              ),
-              Assets.icons.arrowRight.svg(
-                height: AppSizes.kIconSmall,
-                width: AppSizes.kIconSmall,
-              ),
-            ],
+    return BlocListener<ReferralCodeCubit, ReferralCodeState>(
+      listener: _referralStateListener,
+      child: Column(
+        children: [
+          RewardsWidget(
+            rewardFriend: description.bonusesFriend,
+            rewardMe: description.bonusesMe,
           ),
-        ),
-        AppBoxes.kHeight32,
-        const _InviteButton(),
-      ],
+          AppBoxes.kHeight32,
+          RulesWidget(
+            description: description.description,
+            rules: description.items.map((e) => e.text).toList(),
+          ),
+          AppBoxes.kHeight32,
+          ProgressWidget(
+            count: description.bonusesFriendCount,
+            goal: description.bonusesConditionCount,
+            reward: description.bonusesForCount,
+          ),
+          AppBoxes.kHeight24,
+          GestureDetector(
+            onTap: () => _showHistoryModal(context),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  t.referral.referralHistory,
+                  style: context.textStyle.buttonTypo.btn2semiBold.withColor(
+                    context.colors.textColors.accent,
+                  ),
+                ),
+                Assets.icons.arrowRight.svg(
+                  height: AppSizes.kIconSmall,
+                  width: AppSizes.kIconSmall,
+                ),
+              ],
+            ),
+          ),
+          AppBoxes.kHeight32,
+          const _BottomInviteButton(),
+        ],
+      ),
     );
   }
 }
@@ -149,13 +191,10 @@ class _Background extends StatelessWidget {
         Positioned(
           top: (context.screenWidth * 0.75) * 0.75,
           right: AppSizes.kGeneral16,
-          child: SizedBox(
+          child: const SizedBox(
             height: AppSizes.kButtonMedium,
             width: AppSizes.kButtonMediumWidth,
-            child: AppTextButton.invisible(
-              text: t.referral.invite,
-              onTap: () {},
-            ),
+            child: _BackgroundInviteButton(),
           ),
         ),
       ],
@@ -163,16 +202,34 @@ class _Background extends StatelessWidget {
   }
 }
 
-class _InviteButton extends StatelessWidget {
-  const _InviteButton();
+class _BackgroundInviteButton extends StatelessWidget {
+  const _BackgroundInviteButton();
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.watch<ReferralCodeCubit>();
+    final bool loading = cubit.state.isLoading;
+
+    return AppTextButton.invisible(
+      text: loading ? null : t.referral.invite,
+      onTap: loading ? null : cubit.createReferralCode,
+    );
+  }
+}
+
+class _BottomInviteButton extends StatelessWidget {
+  const _BottomInviteButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.watch<ReferralCodeCubit>();
+    final bool loading = cubit.state.isLoading;
+
     return Padding(
       padding: AppInsets.kHorizontal16 + AppInsets.kBottom24 + AppInsets.kTop12,
       child: AppTextButton.primary(
-        text: t.referral.inviteFriend,
-        onTap: () {},
+        text: loading ? null : t.referral.inviteFriend,
+        onTap: loading ? null : cubit.createReferralCode,
       ),
     );
   }
