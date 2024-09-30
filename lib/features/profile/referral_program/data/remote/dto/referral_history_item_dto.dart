@@ -31,9 +31,9 @@ class ReferralHistoryItemDto extends Equatable {
 
   factory ReferralHistoryItemDto.fromJson(Map<String, dynamic> json) =>
       ReferralHistoryItemDto(
-        friendDate: DateTime.parse(json['FRIEND_DATE'] as String),
-        friendPhone: json['FRIEND_PHONE'] as String,
-        friendName: json['FRIEND_NAME'] as String,
-        friendCount: (json['FRIEND_COUNT'] as num).toInt(),
+        friendDate: DateTime.parse(json['DATE'] as String),
+        friendPhone: json['PHONE'] as String,
+        friendName: json['NAME'] as String,
+        friendCount: (json['COUNT'] as num).toInt(),
       );
 }

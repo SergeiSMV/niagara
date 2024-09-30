@@ -8,7 +8,6 @@ import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/history/bonus_history_tile.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/history/no_bonuses_widget.dart';
@@ -33,36 +32,26 @@ class ReferralHistoryWidget extends StatelessWidget {
             builder: (context, state) => state.maybeWhen(
               loading: AppCenterLoader.new,
               loaded: (history, hasMore) => history.isNotEmpty
-                  ? Column(
-                      children: [
-                        Flexible(
-                          child: ListView.separated(
-                            itemBuilder: (_, index) {
-                              if (index == history.length - 1) {
-                                context.read<ReferralHistoryCubit>().loadMore();
-                              }
+                  ? Flexible(
+                      child: ListView.separated(
+                        itemBuilder: (_, index) {
+                          if (index == history.length - 1) {
+                            context.read<ReferralHistoryCubit>().loadMore();
+                          }
 
-                              return BonusHistoryTile(
-                                title: history[index].friendName,
-                                date: history[index].friendDate,
-                                count: history[index].friendCount.toDouble(),
-                              );
-                            },
-                            separatorBuilder: (_, __) => Divider(
-                              height: 0,
-                              color: context.colors.otherColors.separator30,
-                              thickness: AppSizes.kGeneral1,
-                            ),
-                            itemCount: history.length,
-                          ),
+                          return BonusHistoryTile(
+                            title: history[index].friendName,
+                            date: history[index].friendDate,
+                            count: history[index].friendCount.toDouble(),
+                          );
+                        },
+                        separatorBuilder: (_, __) => Divider(
+                          height: 0,
+                          color: context.colors.otherColors.separator30,
+                          thickness: AppSizes.kGeneral1,
                         ),
-                        if (hasMore)
-                          Assets.lottie.loadCircle.lottie(
-                            width: AppSizes.kGeneral32,
-                            height: AppSizes.kGeneral32,
-                            repeat: true,
-                          ),
-                      ],
+                        itemCount: history.length,
+                      ),
                     )
                   : EmptyHistoryWidget(
                       title: t.referral.noHistoryTitle,

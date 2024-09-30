@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/profile/referral_program/data/remote/dto/referral_code_data_dto.dart';
