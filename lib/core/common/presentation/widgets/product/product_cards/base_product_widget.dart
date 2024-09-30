@@ -7,7 +7,7 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_count_controls.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_controls_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_favorite_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
@@ -163,8 +163,7 @@ class BaseProductWidget extends StatelessWidget {
                   AppBoxes.kHeight4,
 
                   // Переключатели количества товара.
-                  ProductCountControls(
-                    product: product,
+                  AmountControlsWidget(
                     count: count,
                     onRemove: isWaterPromotion
                         ? () => _goToProductPage(context)

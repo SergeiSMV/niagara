@@ -71,9 +71,10 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
 
     return _authRDS.onConfirmCode(phone: _cachedPhone!, code: code).fold(
       (failure) => throw ValidateCodeFailure(failure.error),
-      (success) {
+      (success) async {
         if (!success) throw const ValidateCodeFailure();
-        _authLDS.setAuthStatus(
+
+        await _authLDS.setAuthStatus(
           status: AuthenticatedStatus.authenticated.index,
         );
         _cachedPhone = null;

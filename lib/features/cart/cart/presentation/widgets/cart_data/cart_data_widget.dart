@@ -13,7 +13,7 @@ class CartDataWidget extends StatelessWidget {
   });
 
   final String title;
-  final double data;
+  final num data;
   final bool isBold;
 
   @override

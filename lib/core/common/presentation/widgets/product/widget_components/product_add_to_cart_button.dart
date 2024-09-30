@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_amount_icon_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_icon_button.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -15,6 +15,7 @@ import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/addresses/widgets/unauthorized_address_widget.dart';
 
 /// Виджет-кнопка для добавления товара в корзину.
 ///
@@ -32,6 +33,19 @@ class ProductAddToCartButton extends StatelessWidget {
   /// Товар, который добавляется в корзину.
   final Product product;
 
+  /// Показывает модальное окно авторизации.
+  void showAuthModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: context.colors.mainColors.white,
+      useSafeArea: true,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return const AuthorizationWidget(modal: true);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<CartBloc>();
@@ -48,6 +62,24 @@ class ProductAddToCartButton extends StatelessWidget {
           orElse: () => product,
         )
         .count;
+
+    void onMinus() {
+      if (bloc.unauthrorized) {
+        showAuthModal(context);
+        return;
+      }
+
+      bloc.add(CartEvent.removeFromCart(product: product));
+    }
+
+    void onPlus() {
+      if (bloc.unauthrorized) {
+        showAuthModal(context);
+        return;
+      }
+
+      bloc.add(CartEvent.addToCart(product: product));
+    }
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -97,12 +129,9 @@ class ProductAddToCartButton extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ProductAmountIconButton(
-                            product: product,
-                            cartAction: CartItemAction.minus,
-                            onTap: () => bloc.add(
-                              CartEvent.removeFromCart(product: product),
-                            ),
+                          AmountIconButton(
+                            itemAction: ItemAction.minus,
+                            onTap: onMinus,
                           ),
                           Padding(
                             padding: AppInsets.kHorizontal16,
@@ -114,12 +143,9 @@ class ProductAddToCartButton extends StatelessWidget {
                               ),
                             ),
                           ),
-                          ProductAmountIconButton(
-                            product: product,
-                            cartAction: CartItemAction.plus,
-                            onTap: () => bloc.add(
-                              CartEvent.addToCart(product: product),
-                            ),
+                          AmountIconButton(
+                            itemAction: ItemAction.plus,
+                            onTap: onPlus,
                           ),
                         ],
                       ),
@@ -130,9 +156,7 @@ class ProductAddToCartButton extends StatelessWidget {
             : AppTextButton.primary(
                 icon: Assets.icons.shoppingCart,
                 text: t.catalog.toCard,
-                onTap: () => bloc.add(
-                  CartEvent.addToCart(product: product),
-                ),
+                onTap: onPlus,
               ),
       ),
     );

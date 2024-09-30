@@ -168,7 +168,10 @@ class PaymentInstructionsCubit extends Cubit<PaymentInstructionsState> {
         if (isClosed || !timer.isActive) return;
 
         await _getPaymentStatusUseCase(orderId).fold(
-          (err) => emit(const _Error(type: PaymentErrorType.statusError)),
+          (err) {
+            emit(const _Error(type: PaymentErrorType.statusError));
+            _killTimer();
+          },
           (status) {
             if (state is _Success || state is _Canceled) return;
 

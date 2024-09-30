@@ -33,13 +33,13 @@ class CartDataPricesWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight8,
           CartDataWidget(
-            title: t.product(n: cart.products.length),
-            data: cart.cartData.totalPrice,
+            title: t.product(n: cart.cartData.productsCount),
+            data: cart.cartData.productsTotalSum,
             isBold: true,
           ),
           CartDataWidget(
             title: t.cart.tarePrice,
-            data: cart.cartData.tareDiscount,
+            data: cart.cartData.tareSum,
           ),
           CartDataWidget(
             title: t.cart.discount,
@@ -100,12 +100,14 @@ class _CartTotalPriceWidget extends StatelessWidget {
               data: cart.cartData.totalPrice,
               textStyle: context.textStyle.headingTypo.h3,
             ),
-            AppBoxes.kHeight8,
-            _InfoTotalPriceWidget(
-              title: t.catalog.withVIP,
-              data: cart.cartData.vipPrice,
-              textStyle: context.textStyle.textTypo.tx3Medium,
-            ),
+            if (cart.cartData.vipPrice != 0) ...[
+              AppBoxes.kHeight8,
+              _InfoTotalPriceWidget(
+                title: t.catalog.withVIP,
+                data: cart.cartData.vipPrice,
+                textStyle: context.textStyle.textTypo.tx3Medium,
+              ),
+            ]
           ],
         ),
       ),
