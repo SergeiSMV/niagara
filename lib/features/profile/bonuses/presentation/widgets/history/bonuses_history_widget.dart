@@ -83,7 +83,7 @@ class BonusesHistoryWidget extends HookWidget {
                     ],
                   )
                 else
-                  const NoBonusesWidget(),
+                  const EmptyHistoryWidget(),
               ],
             ),
           ),

@@ -12,6 +12,7 @@ abstract class GradientColors {
     required this.referralBanner,
     required this.promotionsBanner,
     required this.vipBanner,
+    required this.bonusesBanner,
   });
 
   final List<Color> bgGradient;
@@ -33,4 +34,6 @@ abstract class GradientColors {
   final List<Color> promotionsBanner;
 
   final List<Color> vipBanner;
+
+  final List<Color> bonusesBanner;
 }

@@ -225,7 +225,9 @@
       "promotionsHeader": "Скидки и акции",
       "promotionsDescription": "Актуальные предложения для вас",
       "vipHeader": "VIP подписка",
-      "vipDescription": "Получайте доступ к лучшим ценам"
+      "vipDescription": "Получайте доступ к лучшим ценам",
+      "bonusesHeader": "Бонусная программа",
+      "bonusesDescription": "Преимущества бонусной программы"
     },
     "aboutApp": {
       "pageTitle": "О приложении",
@@ -270,7 +272,9 @@
       "few": "друзей",
       "other": "друзей"
     },
-    "referralHistory": "История начислений"
+    "referralHistory": "История начислений",
+    "noHistoryTitle": "У вас пока нет начислений",
+    "noHistoryDescription": "Приглашайте друзей и получайте бонусы за каждого"
   },
   "promos": {
     "promotions": "Акции",

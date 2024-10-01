@@ -11,7 +11,7 @@ part 'bonuses_history_state.dart';
 class BonusesHistoryCubit extends Cubit<BonusesHistoryState> {
   BonusesHistoryCubit(
     this._getBonusesHistoryUseCase,
-  ) : super(const _Loading()) {
+  ) : super(const _Initial()) {
     /// Получаем историю бонусов при инициализации
     load();
   }

@@ -63,7 +63,7 @@ class BonusHistoryTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '${isNegativeCount ? '' : '+'}$count',
+            '${isNegativeCount ? '' : '+'}${count.round()}',
             style: context.textStyle.textTypo.tx2Medium.withColor(countColor),
           ),
           AppBoxes.kWidth6,
