@@ -35,6 +35,7 @@
 Использовать для сборки файл `main_dev.dart`:
 
 - `flutter build apk --dart-define-from-file=.env --release -t lib/main_dev.dart`
+- `flutter build ipa --dart-define-from-file=.env -t lib/main_dev.dart`
 
 ## Зависимости:
 - Локатор зависимостей: [get_it](https://pub.dev/packages/get_it)
