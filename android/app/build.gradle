@@ -36,6 +36,13 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// `key.properties` file should be in the root of the android project:
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace "io.cordova.niagara74"
     compileSdk flutter.compileSdkVersion
@@ -63,6 +70,15 @@ android {
         versionName flutterVersionName
         resValue "string", "api_key", dartEnvironmentVariables['YANDEX_MAPS']
         resValue "string", "ym_app_scheme", "cordova"
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
     }
 
     buildTypes {
