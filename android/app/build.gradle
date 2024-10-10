@@ -36,7 +36,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-// `key.properties` file should be in the root of the android project:
+// `key.properties` and `key.jks` files should be in the root of the android 
+//  project:
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
@@ -84,6 +85,12 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            signingConfig signingConfigs.debug
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
