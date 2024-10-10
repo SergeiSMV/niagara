@@ -2,7 +2,7 @@ name: niagara_app
 description: A new Flutter project from Niagara
 publish_to: "none"
 
-version: 6.0.3+610
+version: 6.0.3+617
 
 environment:
   sdk: ">=3.4.3 <4.0.0"
@@ -63,7 +63,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   animated_snack_bar: ^0.4.0
   flutter_slidable: ^3.1.1
-  flutter_widget_from_html: ^0.15.1
+  flutter_widget_from_html: ^0.15.2
   calendar_date_picker2: ^1.1.5
   yookassa_payments_flutter: ^1.5.0
   flutter_launcher_icons: ^0.13.1
