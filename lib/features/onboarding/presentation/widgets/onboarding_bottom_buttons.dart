@@ -43,15 +43,6 @@ class OnboardingBottomButtonsWidget extends StatelessWidget {
               onTap: cubit.showNextWithAction,
               text: t.onboarding.next,
             ),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 500),
-              child: step.skippable
-                  ? AppTextButton.invisible(
-                      onTap: cubit.showNext,
-                      text: t.onboarding.later,
-                    )
-                  : const SizedBox.shrink(),
-            ),
           ],
         ),
       ),

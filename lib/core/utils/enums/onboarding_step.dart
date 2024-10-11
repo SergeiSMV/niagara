@@ -15,9 +15,6 @@ enum OnboardingStep {
   /// Онбординг завершён.
   finished;
 
-  /// Возвращает `true`, если этап можно пропустить.
-  bool get skippable => this == notification || this == geoposition;
-
   /// Возвращает изображение для этапа онбординга.
   AssetGenImage get image => switch (this) {
         greeting => Assets.images.onboardingGreeting,

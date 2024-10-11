@@ -14,6 +14,7 @@ import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/grou
 import 'package:niagara_app/features/equipment/presentation/bloc/equipments_bloc/equipments_bloc.dart';
 import 'package:niagara_app/features/new_products/presentation/bloc/new_products_bloc.dart';
 import 'package:niagara_app/features/notifications/presentation/bloc/notifications_bloc/notifications_bloc.dart';
+import 'package:niagara_app/features/notifications/presentation/bloc/permission_cubit.dart/notification_permission_cubit.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 import 'package:niagara_app/features/promotions/presentation/cubit/promotions_cubit.dart';
 import 'package:niagara_app/features/special_poducts/presentation/bloc/special_products_bloc.dart';
@@ -54,21 +55,29 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
     );
   }
 
+  void _notificationsListener(BuildContext context, NotificationsState state) =>
+      state.whenOrNull(
+        openedFromPush: () => context.navigateTo(const NotificationsRoute()),
+      );
+
   @override
   Widget build(BuildContext context) {
-    return AutoTabsScaffold(
-      routes: _routes,
-      extendBodyBehindAppBar: true,
-      bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBarWidget(
-        tabsRouter: tabsRouter,
-        fullScreenTabs: _fullScreenTabs,
+    return BlocListener<NotificationsBloc, NotificationsState>(
+      listener: _notificationsListener,
+      child: AutoTabsScaffold(
+        routes: _routes,
+        extendBodyBehindAppBar: true,
+        bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBarWidget(
+          tabsRouter: tabsRouter,
+          fullScreenTabs: _fullScreenTabs,
+        ),
+        floatingActionButton: AppConstants.kShowDebugButton
+            ? FloatingActionButton(
+                child: const Icon(Icons.bug_report),
+                onPressed: () => showLogsButton(context),
+              )
+            : null,
       ),
-      floatingActionButton: AppConstants.kShowDebugButton
-          ? FloatingActionButton(
-              child: const Icon(Icons.bug_report),
-              onPressed: () => showLogsButton(context),
-            )
-          : null,
     );
   }
 
@@ -89,6 +98,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           ),
           BlocProvider(
             create: (_) => getIt<NotificationsBloc>(),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => getIt<NotificationPermissionCubit>(),
             lazy: false,
           ),
           BlocProvider(
