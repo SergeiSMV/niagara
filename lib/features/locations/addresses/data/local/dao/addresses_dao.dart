@@ -16,7 +16,13 @@ class AllAddresses extends DatabaseAccessor<AppDatabase>
   Future<void> insertAddresses(
     List<AddressesTableCompanion> companions,
   ) async =>
-      batch((batch) => batch.insertAll(addressesTable, companions));
+      batch(
+        (batch) => batch.insertAll(
+          addressesTable,
+          companions,
+          mode: InsertMode.insertOrReplace,
+        ),
+      );
 
   Future<int> insertAddress(AddressesTableCompanion companion) =>
       into(addressesTable).insert(companion);
