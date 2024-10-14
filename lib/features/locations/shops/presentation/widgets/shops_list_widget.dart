@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/cities/presentation/widgets/list_separator_widget.dart';
@@ -15,11 +16,17 @@ class ShopsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (shops.isEmpty || true) {
-      return Center(
-        child: Text(
-          t.shops.noShops,
-          style: context.textStyle.headingTypo.h2,
+    if (shops.isEmpty) {
+      return SliverToBoxAdapter(
+        child: Padding(
+          padding: AppInsets.kAll16,
+          child: Center(
+            child: Text(
+              t.shops.noShops,
+              style: context.textStyle.headingTypo.h2,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
       );
     }
