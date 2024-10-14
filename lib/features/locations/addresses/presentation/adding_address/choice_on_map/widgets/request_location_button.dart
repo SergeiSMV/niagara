@@ -15,13 +15,15 @@ class RequestLocationButton extends StatelessWidget {
   Future<void> onDeterminePosition(BuildContext context) async {
     final cubit = context.read<MapCubit>();
     await cubit.determinePosition().whenComplete(() {
-      if (!cubit.isPermissionGranted && context.mounted) showDialog(context);
+      // Если не дано разрешение на геолокацию или не включен GPS, предлагаем
+      // открыть настройки
+      if ((!cubit.isPermissionGranted || !cubit.isGpsEnabled) &&
+          context.mounted) showDialog(context);
     });
   }
 
-  void _onOpenSettings(BuildContext context) => context
-    ..maybePop()
-    ..read<MapCubit>().onOpenSettings();
+  void _onOpenSettings(BuildContext context) =>
+      context..read<MapCubit>().onOpenSettings();
 
   Future<void> showDialog(BuildContext context) async {
     final textStyle = context.textStyle.buttonTypo.btn2semiBold
@@ -29,16 +31,19 @@ class RequestLocationButton extends StatelessWidget {
 
     return showAdaptiveDialog(
       context: context,
-      builder: (context) => AlertDialog.adaptive(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(t.locations.turnOnLocation),
         content: Text(t.locations.turnOnLocationDescription),
         actions: [
           TextButton(
-            onPressed: () => context.maybePop(),
+            onPressed: () => ctx.maybePop(),
             child: Text(t.locations.later, style: textStyle),
           ),
           TextButton(
-            onPressed: () => _onOpenSettings(context),
+            onPressed: () {
+              ctx.maybePop();
+              _onOpenSettings(context);
+            },
             child: Text(t.locations.settings, style: textStyle),
           ),
         ],

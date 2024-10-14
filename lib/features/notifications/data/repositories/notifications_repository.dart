@@ -25,12 +25,12 @@ class NotificationsRepository extends BaseRepository
 
   @override
   Future<void> init() async {
-    _onTokenRefresh = _fcmInstance.onTokenRefresh.listen(_registerFcmDevice);
-
     final String? fcmToken = await _fcmInstance.getToken();
     if (fcmToken != null) {
       await _registerFcmDevice(fcmToken);
     }
+
+    _onTokenRefresh = _fcmInstance.onTokenRefresh.listen(_registerFcmDevice);
   }
 
   @override

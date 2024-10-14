@@ -3,6 +3,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/check_gps_enabled_use_case.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/get_user_position_use_case.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/open_settings_use_case.dart';
 import 'package:niagara_app/features/locations/cities/domain/use_cases/get_city_use_case.dart';
@@ -17,9 +18,11 @@ class MapCubit extends Cubit<MapState> {
     required OpenSettingsUseCase openSettingsUseCase,
     required LocationPermissionUseCase getUserLocationUseCase,
     required GetCityUseCase getCityUseCase,
+    required CheckGpsEnabledUseCase checkGpsEnabledUseCase,
   })  : _openSettingsUseCase = openSettingsUseCase,
         _getUserLocationUseCase = getUserLocationUseCase,
         _getCityUseCase = getCityUseCase,
+        _checkGpsEnabledUseCase = checkGpsEnabledUseCase,
         super(
           (
             point: Point(
@@ -34,9 +37,11 @@ class MapCubit extends Cubit<MapState> {
 
   final OpenSettingsUseCase _openSettingsUseCase;
   final LocationPermissionUseCase _getUserLocationUseCase;
+  final CheckGpsEnabledUseCase _checkGpsEnabledUseCase;
   final GetCityUseCase _getCityUseCase;
 
   bool isPermissionGranted = false;
+  bool isGpsEnabled = false;
 
   /// Отвечает за инициализацию контроллера карты
   Future<void> onControllerCreated(YandexMapController controller) async {
@@ -79,8 +84,9 @@ class MapCubit extends Cubit<MapState> {
   /// Определяет текущее местоположение пользователя и отображает его на карте
   Future<void> determinePosition() async {
     isPermissionGranted = await _checkUserLocationPermission();
+    isGpsEnabled = await _checkGpsEnabled();
 
-    if (isPermissionGranted) {
+    if (isPermissionGranted && isGpsEnabled) {
       await _enableUserLayer();
       await getUserPosition();
     } else {
@@ -152,6 +158,12 @@ class MapCubit extends Cubit<MapState> {
             (failure) => false,
             (status) => status.isGranted,
           );
+
+  /// Проверяет включен ли GPS на устройстве
+  Future<bool> _checkGpsEnabled() => _checkGpsEnabledUseCase.call().fold(
+        (failure) => false,
+        (enabled) => enabled,
+      );
 
   void _emit(MapState state) {
     if (isClosed) return;

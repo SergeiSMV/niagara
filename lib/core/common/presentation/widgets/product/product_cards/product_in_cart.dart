@@ -36,7 +36,7 @@ class ProductInCart extends StatelessWidget {
     final CartEvent addEvent =
         CartEvent.addToCart(product: product, prepaidWater: isWaterBalance);
     CartEvent removeEvent({required bool all}) => CartEvent.removeFromCart(
-        product: product, prepaidWater: isWaterBalance, all: all);
+        product: product, prepaidWater: isWaterBalance, all: all,);
 
     return BlocBuilder<CartBloc, CartState>(
       buildWhen: (previous, current) {

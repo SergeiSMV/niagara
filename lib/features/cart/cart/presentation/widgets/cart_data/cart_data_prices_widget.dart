@@ -107,7 +107,7 @@ class _CartTotalPriceWidget extends StatelessWidget {
                 data: cart.cartData.vipPrice,
                 textStyle: context.textStyle.textTypo.tx3Medium,
               ),
-            ]
+            ],
           ],
         ),
       ),

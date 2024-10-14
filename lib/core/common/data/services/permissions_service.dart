@@ -9,6 +9,12 @@ abstract interface class IPermissionsService {
 
   /// Проверяет, есть ли у приложения разрешение на отправку уведомлений.
   Future<PermissionStatus> checkNotificationPermission();
+
+  /// Проверяет, включена ли геолокация на устройстве.
+  Future<bool> checkGeopositionEnabled();
+
+  /// Открывает настройки геолокации.
+  Future<bool> openLocationSettings();
 }
 
 @LazySingleton(as: IPermissionsService)
@@ -29,4 +35,11 @@ class PermissionsService implements IPermissionsService {
     final status = await Permission.notification.status;
     return status;
   }
+
+  @override
+  Future<bool> checkGeopositionEnabled() =>
+      Geolocator.isLocationServiceEnabled();
+
+  @override
+  Future<bool> openLocationSettings() => Geolocator.openLocationSettings();
 }
