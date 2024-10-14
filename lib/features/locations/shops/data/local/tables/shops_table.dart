@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/features/locations/shops/data/local/entities/shop_entity.dart';
 
 class ShopsTable extends Table {
@@ -16,6 +17,9 @@ class ShopsTable extends Table {
 
   @override
   Set<Column> get primaryKey => {id};
+
+  @override
+  String get tableName => AppConstants.kShopsTable;
 }
 
 class ShopWorkTimeEntityConverter

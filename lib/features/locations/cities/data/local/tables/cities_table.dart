@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 
 /// Таблица городов для работы с базой данных
 class CitiesTable extends Table {
@@ -11,4 +12,7 @@ class CitiesTable extends Table {
 
   @override
   Set<Column> get primaryKey => {id};
+
+  @override
+  String get tableName => AppConstants.kCitiesTable;
 }

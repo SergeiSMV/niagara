@@ -3,9 +3,27 @@ import 'dart:ui';
 /// Константы приложения
 abstract final class AppConstants {
   /// Должна ли отображаться кнопка, открывающая логи.
-  /// 
+  ///
   /// Для установки `true` используйте `main_dev.dart`.
   static bool kShowDebugButton = false;
+
+  // * ------------------------------- DB ------------------------------- * //
+
+  static const String kCitiesTable = 'cities_table';
+  static const String kPoliciesTable = 'categories_table';
+  static const String kShopsTable = 'shops_table';
+
+  /// Список названий таблиц, которые не нужно очищать при выходе из аккаунта.
+  static const Set<String> kNoClearTables = {
+    // Пока что не реализована смена города
+    kCitiesTable,
+
+    // Нет смысла очищать эту базу
+    kPoliciesTable,
+
+    // Зависит от города, который не меняется при логауте.
+    kShopsTable,
+  };
 
   // * ---------------------------- Text Field ---------------------------- * //
   static const String kTextFieldPhoneName = 'phoneFiled';

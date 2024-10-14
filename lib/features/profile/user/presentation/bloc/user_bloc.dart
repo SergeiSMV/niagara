@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/logout_use_case.dart';
 import 'package:niagara_app/features/profile/user/domain/models/user.dart';
@@ -22,7 +25,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     this._logoutUseCase,
     this._deleteUserUseCase,
     this._updateUserUseCase,
+    this._authStatusStream,
   ) : super(const _Initial()) {
+    _authStatusSubscription = _authStatusStream.listen(_onAuthStatusChanged);
+
     on<_LoadingEvent>(_onStarted);
     on<_LogoutEvent>(_onLogout);
     on<_DeleteAccountEvent>(_onDeleteAccount);
@@ -36,8 +42,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final LogoutUseCase _logoutUseCase;
   final DeleteUserUseCase _deleteUserUseCase;
   final UpdateUserUseCase _updateUserUseCase;
+  final Stream<AuthenticatedStatus> _authStatusStream;
+
+  /// Подписка на изменение статуса авторизации.
+  StreamSubscription? _authStatusSubscription;
 
   bool get isAuthorized => state is! _Unauthorized;
+
+  /// Когда изменяется состояние авторизации, происходит новый запрос корзины.
+  void _onAuthStatusChanged(AuthenticatedStatus status) =>
+      add(const _LoadingEvent());
 
   Future<void> _onStarted(_LoadingEvent event, _Emit emit) async {
     emit(const _Loading());
@@ -85,5 +99,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } on Object {
       emit(_Loaded(event.user));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _authStatusSubscription?.cancel();
+    return super.close();
   }
 }
