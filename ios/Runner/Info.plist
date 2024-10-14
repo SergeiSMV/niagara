@@ -49,17 +49,20 @@
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>Доступ к геолокации пользователя необходим для отображения текущей геопозиции.</string>
+		<string>Приложение запрашивает доступ к вашей геолокации, чтобы определить ваш город и адрес доставки.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Доступ к геолокации пользователя необходим для отображения текущей геопозиции.</string>
+		<string>Приложение запрашивает доступ к вашей геолокации, чтобы определить ваш город и адрес доставки.</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>Доступ к микрофону необходим для удобного голосового ввода текста в поля ввода.</string>
 		<key>NSMotionUsageDescription</key>
 		<string>Доступ к геопозиции пользователя необходим для отображения текущей геопозиции.</string>
 		<key>NSBluetoothAlwaysUsageDescription</key>
 		<string>Доступ к Bluetooth необходим для поиска, подключения и передачи данных между различными устройствами.</string>
+
 		<key>LSMinimumSystemVersion</key>
 		<string>12.0</string>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UIBackgroundModes</key>
