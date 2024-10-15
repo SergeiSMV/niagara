@@ -64,9 +64,6 @@ abstract class AppModule {
       );
 
   @lazySingleton
-  DeviceInfoPlugin get deviceInfoPlugin => DeviceInfoPlugin();
-
-  @lazySingleton
   YandexGeocoder yandexGeocoder(
     @Named(ApiConst.kYandexGeo) String yandexGeoKey,
   ) =>

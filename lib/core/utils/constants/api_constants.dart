@@ -98,6 +98,11 @@ abstract final class ApiConst {
   /// -POST- Запрос на создание заказа ВИП-подписки
   static const String kOrderVip = '/orders_vip';
 
+  // ? ---------------------------- Banners ------------------------------ ? //
+
+  /// -GET- Запрос на получение списка баннеров
+  static const String kGetBanners = '/baners';
+
   // ? ------------------------------ Promos ------------------------------ ? //
   /// -GET- Запрос на получение списка акции
   static const String kGetPromos = '/offers';
