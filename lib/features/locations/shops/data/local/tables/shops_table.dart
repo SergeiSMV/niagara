@@ -19,7 +19,7 @@ class ShopsTable extends Table {
   Set<Column> get primaryKey => {id};
 
   @override
-  String get tableName => AppConstants.kShopsTable;
+  String get tableName => 'shops_table';
 }
 
 class ShopWorkTimeEntityConverter

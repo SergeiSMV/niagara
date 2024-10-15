@@ -9,5 +9,5 @@ class PoliciesTable extends Table {
   Set<Column> get primaryKey => {type};
 
   @override
-  String get tableName => AppConstants.kPoliciesTable;
+  String get tableName => 'policies_table';
 }
