@@ -32,6 +32,10 @@ abstract final class HomeRouters {
           AutoRoute(
             page: ProductRoute.page,
           ),
+          AutoRoute(
+            page: VipRoute.page,
+            title: (_, __) => t.vip.pageTitle,
+          ),
           PaymentRouters.routers,
           OrderPlacingRouters.routers,
         ],

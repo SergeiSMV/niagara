@@ -32,6 +32,10 @@ abstract final class CatalogRouters {
             page: ProductRoute.page,
           ),
           AutoRoute(
+            page: VipRoute.page,
+            title: (_, __) => t.vip.pageTitle,
+          ),
+          AutoRoute(
             page: RecommendsRoute.page,
           ),
           AutoRoute(
