@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
@@ -11,10 +10,6 @@ import 'package:niagara_app/features/authorization/phone_auth/presentation/widge
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/otp_loading_widget.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/otp_title_widget.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/resend_code_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
-import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
-import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
-import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 
 /// Страница для ввода кода подтверждения.
 @RoutePage()
@@ -43,10 +38,6 @@ class OTPPage extends StatelessWidget implements AutoRouteWrapper {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) => state.maybeWhen(
         otpSuccess: () {
-          getIt<CartBloc>().add(const CartEvent.getCart());
-          getIt<AddressesBloc>().add(const AddressesEvent.initial());
-          getIt<BonusesBloc>().add(const BonusesEvent.started());
-          getIt<WaterBalanceCubit>().getBottles();
           _navigateToMain(context);
           return;
         },

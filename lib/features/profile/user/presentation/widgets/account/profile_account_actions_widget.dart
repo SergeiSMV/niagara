@@ -1,7 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -53,14 +51,18 @@ class ProfileAccountActionsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (BuildContext context, UserState state) {
-        state.maybeWhen(
-          orElse: () {},
-          unauthorized: (loggedOut) {
-            if (loggedOut ?? false) {
-              context.router.replaceAll([const SplashWrapper()]);
-            }
-          },
-        );
+        // TODO: Уточнить, оставлять ли такое поведение. Технической
+        // необходимости в этом больше нет + из-за этого некоторые Bloc'и
+        // закрывались и потом не работали.
+
+        // state.maybeWhen(
+        //   orElse: () {},
+        //   unauthorized: (loggedOut) {
+        //     if (loggedOut ?? false) {
+        //       context.router.replaceAll([const SplashWrapper()]);
+        //     }
+        //   },
+        // );
       },
       builder: (context, state) {
         return state.maybeWhen(

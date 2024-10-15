@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
@@ -29,7 +32,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     this._getRecommendsCartUseCase,
     this._getDefaultAddressUseCase,
     this._hasAuthStatusUseCase,
+    this._authStatusStream,
   ) : super(const _Empty()) {
+    _authStatusSubscription = _authStatusStream.listen(_onAuthStatusChanged);
+
     on<_GetCart>(_onGetCart);
     on<_AddToCart>(_onAddToCart);
     on<_RemoveFromCart>(_onRemoveFromCart);
@@ -49,6 +55,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final GetRecommendsCartUseCase _getRecommendsCartUseCase;
   final GetDefaultAddressUseCase _getDefaultAddressUseCase;
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
+  final Stream<AuthenticatedStatus> _authStatusStream;
 
   bool _returnAllTare = true;
   int _returnTaresDefault = 0;
@@ -62,10 +69,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         orElse: () => false,
       );
 
-  Future<bool?> get _checkAuth => _hasAuthStatusUseCase.call().fold(
+  StreamSubscription? _authStatusSubscription;
+
+  Future<bool?> get _hasAuth => _hasAuthStatusUseCase.call().fold(
         (_) => null,
         (hasAuth) => hasAuth,
       );
+
+  /// Когда изменяется состояние авторизации, происходит новый запрос корзины.
+  void _onAuthStatusChanged(AuthenticatedStatus status) =>
+      add(const _GetCart());
 
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
     final (cart, recommends) = state.maybeWhen(
@@ -76,7 +89,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     emit(_Loading(cart: cart, recommends: recommends));
 
-    final bool? hasAuth = await _checkAuth;
+    final bool? hasAuth = await _hasAuth;
     if (hasAuth == null) {
       return emit(const _Error());
     } else if (!hasAuth) {
@@ -205,5 +218,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   ) {
     _promocode = event.promocode;
     add(const _GetCart());
+  }
+
+  @override
+  Future<void> close() {
+    _authStatusSubscription?.cancel();
+    return super.close();
   }
 }

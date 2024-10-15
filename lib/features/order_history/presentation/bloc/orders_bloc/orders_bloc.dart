@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/core/utils/enums/orders_types.dart';
 import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
 import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
@@ -16,7 +19,10 @@ typedef _Emit = Emitter<OrdersState>;
 class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   OrdersBloc(
     this._getOrdersUseCase,
+    this._authStatusStream,
   ) : super(const _Loading()) {
+    _authStatusSubscription = _authStatusStream.listen(_onAuthStatusChanged);
+
     on<_LoadingEvent>(_onLoadOrders, transformer: debounce());
     on<_LoadMoreEvent>(_onLoadMoreOrders, transformer: debounce());
     on<_SetSortEvent>(_onSortChanged);
@@ -25,6 +31,10 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   }
 
   final GetOrdersUseCase _getOrdersUseCase;
+  final Stream<AuthenticatedStatus> _authStatusStream;
+
+  /// Подписка на изменение статуса авторизации.
+  StreamSubscription? _authStatusSubscription;
 
   int _current = 1;
   int _total = 0;
@@ -32,6 +42,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
   OrdersTypes _sort = OrdersTypes.delivery;
   OrdersTypes get sort => _sort;
+
+  /// Когда изменяется состояние авторизации, происходит новый запрос списка
+  /// заказов.
+  void _onAuthStatusChanged(AuthenticatedStatus status) =>
+      add(const _LoadingEvent(isForceUpdate: true));
 
   Future<void> _onLoadOrders(_LoadingEvent event, _Emit emit) async {
     if (event.isForceUpdate) {
@@ -80,5 +95,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   ) async {
     _sort = event.sort;
     add(const _LoadingEvent(isForceUpdate: true));
+  }
+
+  @override
+  Future<void> close() {
+    _authStatusSubscription?.cancel();
+    return super.close();
   }
 }
