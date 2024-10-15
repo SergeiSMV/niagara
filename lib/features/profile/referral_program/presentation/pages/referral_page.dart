@@ -40,11 +40,13 @@ class ReferralPage extends StatelessWidget {
   }
 }
 
-void _onInvite(BuildContext context) {
-  final authorized = context.read<UserBloc>().isAuthorized;
-  if (!authorized) {
+Future<void> _onInvite(BuildContext context) async {
+  final bool? authorized = await context.read<UserBloc>().isAuthorized;
+  if (authorized == null) {
+    return;
+  } else if (!authorized && context.mounted) {
     context.pushRoute(const AuthWrapper(children: [AuthRoute()]));
-  } else {
+  } else if (context.mounted) {
     context.read<ReferralCodeCubit>().createReferralCode();
   }
 }
