@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
@@ -30,7 +33,10 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     this._updateAddressUseCase,
     this._deleteAddressUseCase,
     this._setDefaultAddressUseCase,
+    this._authStatusStream,
   ) : super(const _Initial()) {
+    _authStatusSubscription = _authStatusStream.listen(_onAuthStatusChanged);
+
     on<_InitialEvent>(_onInitial);
     on<_LoadAddressesEvent>(_onLoadAddresses, transformer: debounce());
     on<_AddAddressEvent>(_onAddAddress);
@@ -49,6 +55,14 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
   final UpdateAddressUseCase _updateAddressUseCase;
   final DeleteAddressUseCase _deleteAddressUseCase;
   final SetDefaultAddressUseCase _setDefaultAddressUseCase;
+  final Stream<AuthenticatedStatus> _authStatusStream;
+
+  StreamSubscription? _authStatusSubscription;
+
+  /// Когда изменяется состояние авторизации, происходит повторный запрос на
+  /// адреса.
+  void _onAuthStatusChanged(AuthenticatedStatus status) =>
+      add(const _InitialEvent());
 
   Future<void> _onInitial(
     _InitialEvent event,
@@ -133,4 +147,10 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
         (_) => null,
         (city) => city,
       );
+
+  @override
+  Future<void> close() {
+    _authStatusSubscription?.cancel();
+    return super.close();
+  }
 }

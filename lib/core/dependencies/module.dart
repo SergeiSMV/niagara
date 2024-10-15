@@ -78,4 +78,8 @@ abstract class AppModule {
 
   @lazySingleton
   FirebaseMessaging get firebaseMessaging => FirebaseMessaging.instance;
+
+  @lazySingleton
+  Stream<AuthenticatedStatus> get authStatusStream =>
+      getIt<IAuthRepository>().authStatusStream;
 }

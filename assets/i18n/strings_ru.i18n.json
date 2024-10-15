@@ -170,6 +170,7 @@
     "worksDaysWorkTime": "Понедельник-пятница с ${startTime} до ${endTime}",
     "weekendDaysWorkTime": "Суббота-воскресенье с ${startTime} до ${endTime}",
     "workSchedule": "График работы",
+    "noShops": "В выбранном городе нет магазинов",
     "errorLoad": "Не удалось загрузить магазины"
   },
   "profile": {
