@@ -47,17 +47,18 @@ class PayButton extends StatelessWidget {
     }
   }
 
-  /// Отображает модальное окно с предложением перенести отсутствующие товары в
-  /// избранное.
-  void _showUnavailableProductsToFavorites(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: context.colors.mainColors.white,
-      builder: (context) {
-        return const UnavailableProductsToFavoritesWidget();
-      },
-    );
-  }
+  // TODO: Расскоментировать в https://digitalburo.youtrack.cloud/issue/NIAGARA-375
+  // /// Отображает модальное окно с предложением перенести отсутствующие товары в
+  // /// избранное.
+  // void _showUnavailableProductsToFavorites(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     backgroundColor: context.colors.mainColors.white,
+  //     builder: (context) {
+  //       return const UnavailableProductsToFavoritesWidget();
+  //     },
+  //   );
+  // }
 
   /// Отображает сообщение об ошибке, если минимальная сумма заказа не
   /// достигнута.
