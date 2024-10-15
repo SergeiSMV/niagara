@@ -47,7 +47,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   /// Подписка на изменение статуса авторизации.
   StreamSubscription? _authStatusSubscription;
 
-  bool get isAuthorized => state is! _Unauthorized;
+  /// Проверяет, авторизован ли пользователь.
+  Future<bool?> get isAuthorized => _hasAuthStatusUseCase().fold(
+        (failure) => null,
+        (hasAuth) => hasAuth,
+      );
 
   /// Когда изменяется состояние авторизации, происходит новый запрос корзины.
   void _onAuthStatusChanged(AuthenticatedStatus status) =>
@@ -56,17 +60,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Future<void> _onStarted(_LoadingEvent event, _Emit emit) async {
     emit(const _Loading());
 
-    await _hasAuthStatusUseCase.call().fold(
-      (failure) => emit(const _Error()),
-      (hasAuth) async {
-        if (!hasAuth) return emit(const _Unauthorized());
+    final bool? hasAuth = await isAuthorized;
+    if (hasAuth == null) {
+      return emit(const _Error());
+    } else if (!hasAuth) {
+      return emit(const _Unauthorized());
+    }
 
-        await _getUserUseCase.call().fold(
-              (failure) => emit(const _Error()),
-              (user) => emit(_Loaded(user)),
-            );
-      },
-    );
+    await _getUserUseCase.call().fold(
+          (failure) => emit(const _Error()),
+          (user) => emit(_Loaded(user)),
+        );
   }
 
   Future<void> _onLogout(_LogoutEvent event, _Emit emit) async {

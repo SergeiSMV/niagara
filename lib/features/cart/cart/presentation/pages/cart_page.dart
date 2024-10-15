@@ -5,6 +5,7 @@ import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -22,7 +23,6 @@ import 'package:niagara_app/features/cart/cart/presentation/widgets/empty_cart_w
 import 'package:niagara_app/features/cart/cart/presentation/widgets/free_delivery_info_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/return_tares_selection_widget.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
-import 'package:niagara_app/features/locations/addresses/presentation/addresses/widgets/unauthorized_address_widget.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
 
 @RoutePage()

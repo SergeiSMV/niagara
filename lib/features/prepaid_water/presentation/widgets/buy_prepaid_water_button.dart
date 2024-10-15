@@ -7,6 +7,7 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/base_product_cart_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -14,6 +15,7 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 import 'package:niagara_app/features/prepaid_water/domain/model/prepaid_water_order_data.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
@@ -73,18 +75,25 @@ class BuyPrepaidWaterButton extends StatelessWidget {
 
     /// Открывает модальное окно с настройкой количества покупаемых комплектов
     /// воды.
-    void showAmountModal() => showModalBottomSheet(
-          context: context,
-          backgroundColor: context.colors.mainColors.white,
-          builder: (context) => _ModalContent(
-            product: product,
-            cubit: cubit,
-            onTap: () {
-              goToPayment();
-              context.maybePop();
-            },
-          ),
-        );
+    void showAmountModal() {
+      if (context.read<CartBloc>().unauthrorized) {
+        AuthorizationWidget.showModal(context);
+        return;
+      }
+
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: context.colors.mainColors.white,
+        builder: (context) => _ModalContent(
+          product: product,
+          cubit: cubit,
+          onTap: () {
+            goToPayment();
+            context.maybePop();
+          },
+        ),
+      );
+    }
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -187,8 +196,8 @@ class PrepaidWaterOrderPreview extends StatelessWidget {
     return BlocBuilder<OrderWaterAmountCubit, int>(
       builder: (context, state) => BaseProductCartWidget(
         product: product,
-        onAdd: () => context.read<OrderWaterAmountCubit>().increment(),
-        onRemove: () => context.read<OrderWaterAmountCubit>().decrement(),
+        onAdd: context.read<OrderWaterAmountCubit>().increment,
+        onRemove: context.read<OrderWaterAmountCubit>().decrement,
         count: state,
         interactive: interactive,
       ),

@@ -44,8 +44,8 @@ class User extends Equatable {
     return DateFormat('dd.MM.yyyy').format(birthday);
   }
 
-  /// Возвращает `true`, если у пользователя есть обязательные данные.
-  bool get hasRequiredData => name.isNotEmpty && surname.isNotEmpty;
+  /// Возвращает `true`, если у пользователя есть обязательные данные (имя).
+  bool get hasRequiredData => name.isNotEmpty;
 
   User copyWith({
     String? name,

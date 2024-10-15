@@ -46,7 +46,7 @@ class _RecepientData extends StatelessWidget {
     final String patronymic = user.patronymic;
     final String phone = user.phone.phoneFormat();
 
-    final bool hasData = name.isNotEmpty && surname.isNotEmpty;
+    final bool hasData = name.isNotEmpty;
     final bool hasPhone = phone.isNotEmpty;
 
     return Padding(
@@ -76,7 +76,7 @@ class _RecepientData extends StatelessWidget {
           if (hasData) ...[
             AppBoxes.kHeight8,
             Text(
-              '$surname $name $patronymic',
+              '${surname.isNotEmpty ? '$surname ' : ''}$name $patronymic',
               style: context.textStyle.textTypo.tx2Medium,
             ),
             if (hasPhone) ...[

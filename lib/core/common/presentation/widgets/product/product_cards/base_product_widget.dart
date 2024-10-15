@@ -10,6 +10,7 @@ import 'package:niagara_app/core/common/presentation/widgets/product/widget_comp
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_favorite_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -31,8 +32,9 @@ class BaseProductWidget extends StatelessWidget {
     required this.count,
     required this.onAdd,
     required this.onRemove,
+    required this.authorized,
     this.redirectRoute,
-    this.isWaterBalance = false,
+    this.isOnWaterBalancePage = false,
   });
 
   /// Товар, отображаемый в карточке.
@@ -60,7 +62,11 @@ class BaseProductWidget extends StatelessWidget {
   ///
   /// В таком случае не рисуются бонусы, цена и часть описания, а также
   /// отключается переход в карточку товара по нажатии.
-  final bool isWaterBalance;
+  final bool isOnWaterBalancePage;
+
+  /// Авторизован ли текущий пользователь. Нужно для открытия модальных окон с
+  /// авторизацией.
+  final bool authorized;
 
   /// Перенаправляет пользователя на страницу товара.
   void _goToProductPage(BuildContext context) => context.navigateTo(
@@ -75,14 +81,18 @@ class BaseProductWidget extends StatelessWidget {
             ),
       );
 
+  /// Открывает модальное окно авторизации.
+  void _showAuthModal(BuildContext context) =>
+      AuthorizationWidget.showModal(context);
+
   @override
   Widget build(BuildContext context) {
-    // Если товар - предоплатная вода и при этом не отображается на странице
-    // баланса. В таком случае все нажатия должны открывать карточку товара.
-    final bool isWaterPromotion = product.isWater && !isWaterBalance;
+    /// Если товар - предоплатная вода и при этом не отображается на странице
+    /// баланса. В таком случае все нажатия должны открывать карточку товара.
+    final bool isWaterPromotion = product.isWater && !isOnWaterBalancePage;
 
     return InkWell(
-      onTap: isWaterBalance ? null : () => _goToProductPage(context),
+      onTap: isOnWaterBalancePage ? null : () => _goToProductPage(context),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: context.colors.mainColors.bgCard,
@@ -100,7 +110,7 @@ class BaseProductWidget extends StatelessWidget {
                     _ProductImage(product: product),
                     _ProductLabelAndFavorite(
                       product: product,
-                      isWaterBalance: isWaterBalance,
+                      isWaterBalance: isOnWaterBalancePage,
                     ),
                     if (product.bonus > 0)
                       _BonusesForPurchaseWidget(product: product),
@@ -128,12 +138,12 @@ class BaseProductWidget extends StatelessWidget {
                   // Описание товара + скидка от количества за покупку.
                   _ProductShortDescription(
                     product: product,
-                    isWaterBalance: isWaterBalance,
+                    isWaterBalance: isOnWaterBalancePage,
                   ),
                   AppBoxes.kHeight8,
 
                   // Цена товара.
-                  if (!isWaterBalance)
+                  if (!isOnWaterBalancePage)
                     Text(
                       '${product.price} ${t.common.rub}'.spaceSeparateNumbers(),
                       style: context.textStyle.textTypo.tx1SemiBold.withColor(
@@ -143,7 +153,7 @@ class BaseProductWidget extends StatelessWidget {
 
                   // Хотя такой случай и не имеет смысла, из-за ошибки `count`
                   // может оказаться `0`.
-                  if (isWaterBalance)
+                  if (isOnWaterBalancePage)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -165,12 +175,16 @@ class BaseProductWidget extends StatelessWidget {
                   // Переключатели количества товара.
                   AmountControlsWidget(
                     count: count,
-                    onRemove: isWaterPromotion
-                        ? () => _goToProductPage(context)
-                        : onRemove,
-                    onAdd: isWaterPromotion
-                        ? () => _goToProductPage(context)
-                        : onAdd,
+                    onRemove: !authorized
+                        ? () => _showAuthModal(context)
+                        : isWaterPromotion
+                            ? () => _goToProductPage(context)
+                            : onRemove,
+                    onAdd: !authorized
+                        ? () => _showAuthModal(context)
+                        : isWaterPromotion
+                            ? () => _goToProductPage(context)
+                            : onAdd,
                   ),
                 ],
               ),
