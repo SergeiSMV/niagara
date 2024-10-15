@@ -6,10 +6,11 @@ import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_controls_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_favorite_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -17,7 +18,6 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 
 /// Базовый виджет карточки товара.
 ///
@@ -175,12 +175,12 @@ class BaseProductWidget extends StatelessWidget {
                   // Переключатели количества товара.
                   AmountControlsWidget(
                     count: count,
-                    onRemove: authorized
+                    onRemove: !authorized
                         ? () => _showAuthModal(context)
                         : isWaterPromotion
                             ? () => _goToProductPage(context)
                             : onRemove,
-                    onAdd: authorized
+                    onAdd: !authorized
                         ? () => _showAuthModal(context)
                         : isWaterPromotion
                             ? () => _goToProductPage(context)
