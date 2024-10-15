@@ -42,9 +42,9 @@ class EditProfilePage extends StatelessWidget {
 class _SaveChangesButton extends StatelessWidget {
   const _SaveChangesButton();
 
-  VoidCallback? _onSave(BuildContext context) {
-    final hasChanges = context.watch<ProfileEditingCubit>().hasChanges;
-    if (!hasChanges) return null;
+  VoidCallback? _onSaveCallback(BuildContext context) {
+    final canSave = context.watch<ProfileEditingCubit>().canSave;
+    if (!canSave) return null;
 
     return () {
       final User user = context.read<ProfileEditingCubit>().state;
@@ -58,7 +58,7 @@ class _SaveChangesButton extends StatelessWidget {
   Widget build(BuildContext context) => BottomShadowWidget(
         child: AppTextButton.accent(
           text: t.common.save,
-          onTap: _onSave(context),
+          onTap: _onSaveCallback(context),
         ),
       );
 }

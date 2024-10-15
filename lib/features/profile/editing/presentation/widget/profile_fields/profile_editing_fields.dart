@@ -70,7 +70,6 @@ class ProfileEditingFieldsWidget extends StatelessWidget {
             hint: t.profile.edit.surname,
             initialText: _user.surname,
             label: t.profile.edit.surname,
-            isRequired: true,
             onChanged: (surname) => _onUpdate(context, surname: surname),
           ),
           AppBoxes.kHeight12,
