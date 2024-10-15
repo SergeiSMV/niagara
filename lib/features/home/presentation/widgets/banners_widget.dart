@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -16,11 +17,14 @@ class BannersSliderWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BannersCubit, BannersState>(
-      builder: (context, state) => state.maybeWhen(
-        loaded: _Loaded.new,
-        loading: AppCenterLoader.new,
-        orElse: SizedBox.shrink,
+    return BlocProvider(
+      create: (_) => getIt<BannersCubit>(),
+      child: BlocBuilder<BannersCubit, BannersState>(
+        builder: (context, state) => state.maybeWhen(
+          loaded: _Loaded.new,
+          loading: AppCenterLoader.new,
+          orElse: SizedBox.shrink,
+        ),
       ),
     );
   }

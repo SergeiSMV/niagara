@@ -104,8 +104,6 @@ flutter:
     - assets/images/
     - assets/images/bonus_status/
     - assets/images/about_bonuses/
-    - assets/images/banners/first/
-    - assets/images/banners/second/
     - assets/images/catalog/
     - assets/icons/
     - assets/icons/bottom_bar/

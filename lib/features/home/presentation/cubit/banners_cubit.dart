@@ -7,6 +7,7 @@ import 'package:niagara_app/features/home/domain/use_cases/get_banners_use_case.
 part 'banners_state.dart';
 part 'banners_cubit.freezed.dart';
 
+@injectable
 class BannersCubit extends Cubit<BannersState> {
   BannersCubit(this._getBannersUseCase) : super(const BannersState.loading()) {
     getBanners();
