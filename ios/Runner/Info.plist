@@ -58,6 +58,8 @@
 		<string>Доступ к геопозиции пользователя необходим для отображения текущей геопозиции.</string>
 		<key>NSBluetoothAlwaysUsageDescription</key>
 		<string>Доступ к Bluetooth необходим для поиска, подключения и передачи данных между различными устройствами.</string>
+		<key>NSPrivacyTracking</key>
+		<true/>
 
 		<key>LSMinimumSystemVersion</key>
 		<string>12.0</string>
