@@ -5,8 +5,8 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 ///
 /// Включает себя роуты для переиспользуемого модуля оплат (без оплат из
 /// корзины).
-abstract final class PaymentRouters {
-  static AutoRoute get routers => AutoRoute(
+abstract final class PaymentRoutes {
+  static AutoRoute get routes => AutoRoute(
         page: PaymentWrapper.page,
         children: [
           AutoRoute(page: PaymentCreationRoute.page),

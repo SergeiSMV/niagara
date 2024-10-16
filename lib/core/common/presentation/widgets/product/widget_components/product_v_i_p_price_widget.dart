@@ -21,11 +21,7 @@ class ProductVIPPriceWidget extends StatelessWidget {
   final Product product;
 
   void _gotToVipPage(BuildContext context) => context.navigateTo(
-        const ProfileWrapper(
-          children: [
-            VipRoute(),
-          ],
-        ),
+        const LoyaltyProgramWrapper(children: [VipRoute()]),
       );
 
   @override
