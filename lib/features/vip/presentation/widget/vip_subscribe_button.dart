@@ -27,28 +27,32 @@ class VipSubcribeButton extends StatelessWidget {
   }
 
   /// Обработчик нажатия на кнопку.
-  void _goToPayment(BuildContext context, ActivationOption option) {
-    final authorized = context.read<UserBloc>().isAuthorized;
-    if (!authorized) {
+  Future<void> _goToPayment(
+      BuildContext context, ActivationOption option) async {
+    final bool? authorized = await context.read<UserBloc>().isAuthorized;
+
+    if (authorized == null) {
+      return;
+    } else if (!authorized && context.mounted) {
       context.pushRoute(const AuthWrapper(children: [AuthRoute()]));
       return;
+    } else if (context.mounted) {
+      context.navigateTo(
+        PaymentWrapper(
+          activationOption: option,
+          children: [
+            PaymentCreationRoute(
+              pageTitle: t.vip.subscribing,
+              purchasedProductWidget: VipPurchaseDescription(option: option),
+              onSuccess: () => _onSuccess(context),
+              onCancelled: () => context.navigateTo(const VipRoute()),
+              amountRub: option.sum,
+              payButtonText: t.vip.pay,
+            ),
+          ],
+        ),
+      );
     }
-
-    context.navigateTo(
-      PaymentWrapper(
-        activationOption: option,
-        children: [
-          PaymentCreationRoute(
-            pageTitle: t.vip.subscribing,
-            purchasedProductWidget: VipPurchaseDescription(option: option),
-            onSuccess: () => _onSuccess(context),
-            onCancelled: () => context.navigateTo(const VipRoute()),
-            amountRub: option.sum,
-            payButtonText: t.vip.pay,
-          ),
-        ],
-      ),
-    );
   }
 
   @override

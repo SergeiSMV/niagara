@@ -17,6 +17,19 @@ import 'package:niagara_app/features/authorization/phone_auth/presentation/widge
 class AuthorizationWidget extends StatelessWidget {
   const AuthorizationWidget({super.key, this.modal = false});
 
+  /// Отображает модальное окно с виджетом авторизации.
+  static void showModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: context.colors.mainColors.white,
+      useSafeArea: true,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return const AuthorizationWidget(modal: true);
+      },
+    );
+  }
+
   /// Индикатор того, что виджет отображается внутри модального окна.
   ///
   /// Влияет на размеры и стили.

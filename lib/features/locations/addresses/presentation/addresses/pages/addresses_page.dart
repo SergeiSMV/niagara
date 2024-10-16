@@ -6,11 +6,11 @@ import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widge
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/widgets/list_addresses_widget.dart';
-import 'package:niagara_app/features/locations/addresses/presentation/addresses/widgets/unauthorized_address_widget.dart';
 
 @RoutePage()
 class AddressesPage extends StatelessWidget {
