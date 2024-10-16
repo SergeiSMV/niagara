@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/order_placing_routers.dart';
-import 'package:niagara_app/core/common/presentation/router/routers/payment_routers.dart';
+import 'package:niagara_app/core/common/presentation/router/routers/product_routers.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Класс роутера для модуля Catalog (Каталог)
@@ -28,16 +28,8 @@ abstract final class CatalogRouters {
               ),
             ],
           ),
-          AutoRoute(
-            page: ProductRoute.page,
-          ),
-          AutoRoute(
-            page: RecommendsRoute.page,
-          ),
-          AutoRoute(
-            page: CatalogSearchRoute.page,
-          ),
-          PaymentRouters.routers,
+          ProductRouters.routers,
+          AutoRoute(page: CatalogSearchRoute.page),
           OrderPlacingRouters.routers,
         ],
       );

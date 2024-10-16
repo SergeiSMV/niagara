@@ -135,13 +135,9 @@ class _CardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     /// Переход на страницу товара.
     void goToProductPage() => context.navigateTo(
-          CatalogWrapper(
-            children: [
-              ProductRoute(
-                key: ValueKey(product.id),
-                product: product,
-              ),
-            ],
+          ProductRoute(
+            key: ValueKey(product.id),
+            product: product,
           ),
         );
 

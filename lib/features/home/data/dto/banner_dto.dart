@@ -21,7 +21,9 @@ class BannerDto extends Equatable {
     return BannerDto(
       id: json['ID'] as String,
       name: json['NAME'] as String,
-      imageUrl: json['IMAGE'] as String,
+      // TODO: Регулярка нужна, чтобы удалить лишние `https://` из ссылки.
+      imageUrl: (json['IMAGE'] as String)
+          .replaceAll(RegExp(r'(https:\/\/)+'), 'https://'),
       type: json['TYPE'] as String,
       link: json['LINK'] as String,
     );

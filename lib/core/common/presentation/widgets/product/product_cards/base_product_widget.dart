@@ -31,7 +31,6 @@ class BaseProductWidget extends StatelessWidget {
     required this.count,
     required this.onAdd,
     required this.onRemove,
-    this.redirectRoute,
     this.isWaterBalance = false,
   });
 
@@ -47,14 +46,6 @@ class BaseProductWidget extends StatelessWidget {
   /// Коллбек, вызываемый при уменьшении количества товара.
   final VoidCallback onRemove;
 
-  /// Страница, на которую должен быть перенаправлен пользователь при нажатии
-  /// на виджет.
-  ///
-  /// Используется для настройки стека навигации при переходе из разных экранов.
-  /// Например, в некоторых случаях не надо использовать [CatalogWrapper], т.к.
-  /// по возвращении назад пользователь не должен оказаться в каталоге.
-  final PageRouteInfo? redirectRoute;
-
   /// Индикатор того, что данный виджет отображает предоплатную воду **на
   /// балансе**.
   ///
@@ -63,16 +54,11 @@ class BaseProductWidget extends StatelessWidget {
   final bool isWaterBalance;
 
   /// Перенаправляет пользователя на страницу товара.
-  void _goToProductPage(BuildContext context) => context.navigateTo(
-        redirectRoute ??
-            CatalogWrapper(
-              children: [
-                ProductRoute(
-                  key: ValueKey(product.id),
-                  product: product,
-                ),
-              ],
-            ),
+  void _goToProductPage(BuildContext context) => context.pushRoute(
+        ProductRoute(
+          key: ValueKey(product.id),
+          product: product,
+        ),
       );
 
   @override

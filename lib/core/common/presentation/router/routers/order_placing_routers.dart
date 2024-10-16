@@ -16,9 +16,7 @@ abstract final class OrderPlacingRouters {
             page: EditProfileRoute.page,
             title: (_, __) => t.profile.edit.pageTitle,
           ),
-          AutoRoute(
-            page: OrderResultRoute.page,
-          ),
+          AutoRoute(page: OrderResultRoute.page),
           AutoRoute(page: PaymentInstructionsRoute.page),
         ],
       );

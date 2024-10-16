@@ -13,9 +13,9 @@ class BannersRemoteDataSource implements IBannersRemoteDataSource {
 
   @override
   Future<Either<Failure, List<BannerDto>>> getBanners() =>
-      _requestHandler.sendRequest<List<BannerDto>, Map<String, dynamic>>(
+      _requestHandler.sendRequest<List<BannerDto>, List<dynamic>>(
         request: (dio) => dio.get(ApiConst.kGetBanners),
-        converter: (json) => (json as List)
+        converter: (json) => json
             .map((e) => BannerDto.fromJson(e as Map<String, dynamic>))
             .toList(),
         failure: BannersRemoteDataFailure.new,

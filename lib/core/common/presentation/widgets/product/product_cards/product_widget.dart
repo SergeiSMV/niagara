@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
@@ -17,16 +16,12 @@ import 'package:niagara_app/features/locations/addresses/presentation/addresses/
 class ProductWidget extends StatelessWidget {
   const ProductWidget({
     required this.product,
-    this.redirectRoute,
     this.isWaterBalance = false,
     super.key,
   });
 
   /// Товар, отображаемый в карточке.
   final Product product;
-
-  /// Страница, на которую должен быть перенаправлен пользователь при нажатии.
-  final PageRouteInfo? redirectRoute;
 
   /// Индикатор того, что данный виджет отображает предоплатную воду на балансе.
   ///
@@ -99,7 +94,6 @@ class ProductWidget extends StatelessWidget {
           count: _getCount(product, state),
           onAdd: onAdd,
           onRemove: onRemove,
-          redirectRoute: redirectRoute,
           isWaterBalance: isWaterBalance,
         );
       },
