@@ -3,7 +3,6 @@
 import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
 import 'package:niagara_app/core/core.dart';
 
-// @JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class CartDto extends Equatable {
   const CartDto({
     required this.products,
@@ -43,7 +42,6 @@ class CartDto extends Equatable {
       ];
 }
 
-// @JsonEnum(fieldRename: FieldRename.snake)
 enum PaymentMethodDto {
   cash,
   bankCard,
@@ -69,7 +67,6 @@ enum PaymentMethodDto {
   }
 }
 
-// @JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class CartDataDto extends Equatable {
   const CartDataDto({
     this.sumDelivery,
@@ -148,7 +145,6 @@ class CartDataDto extends Equatable {
       ];
 }
 
-// @JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
 class CartSumLimitDto extends Equatable {
   const CartSumLimitDto({
     this.sumMin,

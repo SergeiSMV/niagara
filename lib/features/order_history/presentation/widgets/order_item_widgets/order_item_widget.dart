@@ -34,7 +34,7 @@ class OrderItemWidget extends StatelessWidget {
     context.navigateTo(
       ProfileWrapper(
         children: [
-          const ProfileRoute(),
+          // const ProfileRoute(),
           const OrdersRoute(),
           OneOrderRoute(
             order: order,

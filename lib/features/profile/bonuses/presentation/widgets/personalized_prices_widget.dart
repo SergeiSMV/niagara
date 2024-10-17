@@ -16,9 +16,8 @@ class PersonalizedPricesWidget extends StatelessWidget {
   });
 
   void _goToBonuses(BuildContext context) => context.navigateTo(
-        const ProfileWrapper(
+        const LoyaltyProgramWrapper(
           children: [
-            ProfileRoute(),
             MyBonusesRoute(),
           ],
         ),
