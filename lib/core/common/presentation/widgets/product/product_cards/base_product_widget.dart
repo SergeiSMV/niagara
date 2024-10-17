@@ -9,7 +9,6 @@ import 'package:niagara_app/core/common/presentation/widgets/product/product_car
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_controls_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_favorite_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_price_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';

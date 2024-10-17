@@ -18,6 +18,8 @@ class ProductTagWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (label.isEmpty) return const SizedBox.shrink();
+
     final textStyle = isBigSize
         ? context.textStyle.textTypo.tx3SemiBold
         : context.textStyle.captionTypo.c1;

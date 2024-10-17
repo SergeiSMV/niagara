@@ -17,9 +17,7 @@ abstract interface class IFavoritesRemoteDataSource {
     required String productId,
   });
 
-  Future<Either<Failure, bool>> clearFavorite({
-    required String login,
-  });
+  Future<Either<Failure, bool>> clearFavorite();
 }
 
 @LazySingleton(as: IFavoritesRemoteDataSource)
@@ -88,15 +86,10 @@ class FavoritesRemoteDataSource implements IFavoritesRemoteDataSource {
       );
 
   @override
-  Future<Either<Failure, bool>> clearFavorite({
-    required String login,
-  }) =>
+  Future<Either<Failure, bool>> clearFavorite() =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
         request: (dio) => dio.post(
           ApiConst.kClearFavorite,
-          data: {
-            'login': login,
-          },
         ),
         converter: (json) => json['success'] as bool,
         failure: FavoritesRemoteDataFailure.new,
