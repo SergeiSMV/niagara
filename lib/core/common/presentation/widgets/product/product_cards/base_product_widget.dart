@@ -9,6 +9,7 @@ import 'package:niagara_app/core/common/presentation/widgets/product/product_car
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_controls_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_favorite_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_price_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
@@ -130,11 +131,31 @@ class BaseProductWidget extends StatelessWidget {
 
                   // Цена товара.
                   if (!isOnWaterBalancePage)
-                    Text(
-                      '${product.price} ${t.common.rub}'.spaceSeparateNumbers(),
-                      style: context.textStyle.textTypo.tx1SemiBold.withColor(
-                        context.colors.textColors.main,
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '${product.price} ${t.common.rub}'
+                              .spaceSeparateNumbers(),
+                          style:
+                              context.textStyle.textTypo.tx1SemiBold.withColor(
+                            context.colors.textColors.main,
+                          ),
+                        ),
+                        AppBoxes.kWidth4,
+                        if (product.hasDiscount)
+                          Text(
+                            '${product.priceOld} ${t.common.rub}'
+                                .spaceSeparateNumbers(),
+                            style:
+                                context.textStyle.descriptionTypo.des3.copyWith(
+                              color: context.colors.textColors.secondary,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor:
+                                  context.colors.textColors.secondary,
+                            ),
+                          ),
+                      ],
                     ),
 
                   // Хотя такой случай и не имеет смысла, из-за ошибки `count`
