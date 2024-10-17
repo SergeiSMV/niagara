@@ -88,7 +88,7 @@ class FavoritesRemoteDataSource implements IFavoritesRemoteDataSource {
   @override
   Future<Either<Failure, bool>> clearFavorite() =>
       _requestHandler.sendRequest<bool, Map<String, dynamic>>(
-        request: (dio) => dio.post(
+        request: (dio) => dio.delete(
           ApiConst.kClearFavorite,
         ),
         converter: (json) => json['success'] as bool,
