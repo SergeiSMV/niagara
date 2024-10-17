@@ -259,19 +259,18 @@ class _ProductLabelAndFavorite extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: shouldDisplay
-            ? [
-                Padding(
-                  padding: AppInsets.kHorizontal6 + AppInsets.kVertical4,
-                  child: ProductTagWidget(
-                    label: product.label,
-                    labelColor: product.labelColor,
-                  ),
-                ),
-                const Spacer(),
-                ProductFavoriteButton(product: product),
-              ]
-            : [],
+        children: [
+          if (shouldDisplay)
+            Padding(
+              padding: AppInsets.kHorizontal6 + AppInsets.kVertical4,
+              child: ProductTagWidget(
+                label: product.label,
+                labelColor: product.labelColor,
+              ),
+            ),
+          const Spacer(),
+          ProductFavoriteButton(product: product),
+        ],
       ),
     );
   }
