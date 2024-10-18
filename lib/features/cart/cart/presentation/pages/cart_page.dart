@@ -76,7 +76,7 @@ class _Content extends StatelessWidget {
   /// Обновляет состояние корзины при изменении адреса.
   void _onAddressChanged(BuildContext context, AddressesState state) {
     final String? locationId = state.defaultLocation?.locationId;
-    if (locationId != null && locationId != cart?.locationId) {
+    if (locationId != cart?.locationId) {
       context.read<CartBloc>().add(const CartEvent.getCart());
     }
   }

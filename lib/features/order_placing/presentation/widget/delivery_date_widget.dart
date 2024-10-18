@@ -73,7 +73,8 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Padding(
+      padding: AppInsets.kTop8 + AppInsets.kLeft16,
       child: Text(
         t.orderPlacing.noDeliveryDates,
         style: context.textStyle.textTypo.tx2Medium,
