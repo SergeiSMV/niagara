@@ -17,7 +17,7 @@ class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {
     @factoryParam this.allowedMethods = PaymentMethod.values,
   }) : super(
           const PaymentMethodSelectionState.selected(
-            type: PaymentMethodType.online,
+            type: PaymentMethodGroup.online,
           ),
         );
 
@@ -29,7 +29,7 @@ class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {
   /// Индикатор, выбран ли тип оплаты "онлайн".
   ///
   /// `true` по умолчанию.
-  bool get isOnline => state.type == PaymentMethodType.online;
+  bool get isOnline => state.type == PaymentMethodGroup.online;
 
   /// Индикатор, выбран ли способ оплаты.
   bool get selected => state.method != null;
@@ -43,6 +43,6 @@ class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {
   /// Устанавливает __тип__ оплаты (онлайн или курьеру).
   ///
   /// Нужен для переключения вкладок. Не влияет на выбранный __метод__ оплаты.
-  void selectPaymentMethodType(PaymentMethodType type) =>
+  void selectPaymentMethodType(PaymentMethodGroup type) =>
       emit(state.copyWith(type: type));
 }

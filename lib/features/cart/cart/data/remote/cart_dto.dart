@@ -46,13 +46,10 @@ enum PaymentMethodDto {
   cash,
   bankCard,
   sbp,
-  sberbank,
-  terminal;
+  sberbank;
 
   static PaymentMethodDto fromString(String value) {
     switch (value) {
-      case 'cash':
-        return PaymentMethodDto.cash;
       case 'bank_card':
         return PaymentMethodDto.bankCard;
       case 'sbp':
@@ -60,7 +57,9 @@ enum PaymentMethodDto {
       case 'sberbank':
         return PaymentMethodDto.sberbank;
       case 'terminal':
-        return PaymentMethodDto.terminal;
+      case 'cash':
+        return PaymentMethodDto.cash;
+
       default:
         throw ArgumentError('Unknown PaymentMethodDto: $value');
     }
