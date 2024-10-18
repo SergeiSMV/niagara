@@ -20,8 +20,10 @@ class ProductImagesWidget extends HookWidget {
 
   final Product product;
 
-  bool get _isScrollable => product.additionalImages.isNotEmpty;
-  List<String> get _images => [product.imageUrl, ...product.additionalImages];
+  List<String> get _images =>
+      {product.imageUrl, ...product.additionalImages}.toList();
+
+  bool get _isScrollable => _images.length > 1;
 
   Future<void> _showFullImagesDialog(
     BuildContext context, {
@@ -112,18 +114,12 @@ class _FullScreenImages extends HookWidget {
             Expanded(
               child: CarouselSlider.builder(
                 itemCount: _images.length,
-                itemBuilder: (_, index, __) => Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  padding: AppInsets.kAll8,
-                  child: ExtendedImage.network(
-                    product.imageUrl,
-                    fit: BoxFit.fitHeight,
-                    mode: ExtendedImageMode.gesture,
-                  ),
+                itemBuilder: (_, index, __) => ExtendedImage.network(
+                  product.imageUrl,
+                  fit: BoxFit.fitHeight,
                 ),
                 options: CarouselOptions(
-                  aspectRatio: 1,
+                  aspectRatio: 0.75,
                   viewportFraction: 1,
                   enableInfiniteScroll: _isScrollable,
                   onPageChanged: (index, _) => active.value = index,
@@ -208,7 +204,6 @@ class _ImagesCarouselWidget extends StatelessWidget {
             child: ExtendedImage.network(
               product.imageUrl,
               fit: BoxFit.fitHeight,
-              mode: ExtendedImageMode.gesture,
             ),
           ),
         ),
