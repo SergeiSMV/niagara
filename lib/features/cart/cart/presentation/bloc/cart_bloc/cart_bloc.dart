@@ -176,7 +176,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<String> _getDefaultAddress() async =>
       await _getDefaultAddressUseCase.call().fold(
             (failure) => '',
-            (address) => address.locationId,
+            (address) => address?.locationId ?? '',
           );
 
   void _onSetReturnTareCount(

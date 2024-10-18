@@ -92,14 +92,19 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
       execute(() async => _updateDefaultAddress(address));
 
   @override
-  Future<Either<Failure, Address>> getDefaultAddress() async =>
+  Future<Either<Failure, Address?>> getDefaultAddress() async =>
       execute(() async {
         final addresses = await _getLocalAddresses();
-        final defaultAddress =
+        Address? defaultAddress =
             addresses.firstWhereOrNull((address) => address.isDefault);
-        if (defaultAddress == null) throw failure;
 
-        return defaultAddress;
+        // Если не нашлось адреса в локальной БД, делаем запрос в сеть
+        // (иногда этот метод может вызываться до того, как адреса загрузились).
+        return defaultAddress ??= await getAddresses().fold(
+          (failure) => null,
+          (addresses) =>
+              addresses.firstWhereOrNull((address) => address.isDefault),
+        );
       });
 
   @override
