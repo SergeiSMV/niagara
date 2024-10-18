@@ -28,9 +28,9 @@ class StorySlidesWidget extends StatelessWidget {
           final List<Story> stories = state.stories;
 
           return Scaffold(
+            // Скорость перелистывания по умолчанию - 5 секунд.
             body: StoryPageView(
               initialPage: initialIndex,
-              indicatorDuration: const Duration(seconds: 15),
               onPageLimitReached: context.router.maybePop,
               onPageChanged: (index) =>
                   _onPageChanged(stories[index].id, context),
