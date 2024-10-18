@@ -52,9 +52,6 @@ abstract final class ProfileRoutes {
             page: AboutAppRoute.page,
           ),
           AutoRoute(
-            page: PolicyRoute.page,
-          ),
-          AutoRoute(
             page: EquipmentsRoute.page,
             title: (_, __) => t.equipments.myEquipment,
           ),

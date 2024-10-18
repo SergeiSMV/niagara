@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Класс роутера для модуля оплат.
 ///
@@ -10,7 +11,10 @@ abstract final class PaymentRoutes {
         page: PaymentWrapper.page,
         children: [
           AutoRoute(page: PaymentCreationRoute.page),
-          AutoRoute(page: PaymentInstructionsRoute.page),
+          AutoRoute(
+            page: PaymentInstructionsRoute.page,
+            title: (_, __) => t.orderPlacing.paymentProcess,
+          ),
           AutoRoute(page: OrderResultRoute.page),
         ],
       );

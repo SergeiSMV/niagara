@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
+import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
@@ -79,14 +80,17 @@ class PaymentInstructionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          getIt<PaymentInstructionsCubit>()..startPayment(tokenizationData),
-      child: BlocConsumer<PaymentInstructionsCubit, PaymentInstructionsState>(
-        listener: _paymentStateListener,
-        builder: (context, state) => state.maybeWhen(
-          loading: AppCenterLoader.new,
-          orElse: () => _Content(() => _onRetry(context)),
+    return Scaffold(
+      appBar: const AppBarWidget(),
+      body: BlocProvider(
+        create: (_) =>
+            getIt<PaymentInstructionsCubit>()..startPayment(tokenizationData),
+        child: BlocConsumer<PaymentInstructionsCubit, PaymentInstructionsState>(
+          listener: _paymentStateListener,
+          builder: (context, state) => state.maybeWhen(
+            loading: AppCenterLoader.new,
+            orElse: () => _Content(() => _onRetry(context)),
+          ),
         ),
       ),
     );
