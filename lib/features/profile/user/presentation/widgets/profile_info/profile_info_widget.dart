@@ -4,7 +4,6 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/enums/order_status.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
@@ -53,13 +52,8 @@ class ProfileInfoWidget extends StatelessWidget {
                     leadingIcon: Assets.icons.boxOrder,
                     title: t.profile.profileInfo.orderHistory,
                     notificationsCount: state.maybeWhen(
-                      loaded: (orders) => orders
-                          .where(
-                            (o) =>
-                                o.orderStatus == OrderStatus.goingTo ||
-                                o.orderStatus == OrderStatus.onWay,
-                          )
-                          .length,
+                      loaded: (orders, _) =>
+                          orders.where((o) => o.isActive).length,
                       orElse: () => 0,
                     ),
                     redirectRoute: const OrdersRoute(),

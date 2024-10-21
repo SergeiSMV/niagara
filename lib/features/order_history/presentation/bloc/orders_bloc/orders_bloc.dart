@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
@@ -26,7 +27,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     on<_LoadingEvent>(_onLoadOrders, transformer: debounce());
     on<_LoadMoreEvent>(_onLoadMoreOrders, transformer: debounce());
     on<_SetSortEvent>(_onSortChanged);
+    on<_LoadAllEvent>(_onLoadAllOrders);
 
+    add(const _LoadAllEvent());
     add(const _LoadingEvent(isForceUpdate: true));
   }
 
@@ -43,6 +46,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   OrdersTypes _sort = OrdersTypes.delivery;
   OrdersTypes get sort => _sort;
 
+  /// Список заказов, который будет отображаться на главной странице.
+  List<UserOrder>? _previewOrders;
+
   /// Когда изменяется состояние авторизации, происходит новый запрос списка
   /// заказов.
   void _onAuthStatusChanged(AuthenticatedStatus status) =>
@@ -50,7 +56,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
   Future<void> _onLoadOrders(_LoadingEvent event, _Emit emit) async {
     if (event.isForceUpdate) {
-      emit(const _Loading());
+      emit(
+        _Loading(preview: _previewOrders),
+      );
       _current = 0;
     }
 
@@ -76,9 +84,34 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           _Loaded(
             orders:
                 event.isForceUpdate ? data.orders : [...orders, ...data.orders],
+            preview: _previewOrders,
           ),
         );
       },
+    );
+  }
+
+  Future<void> _onLoadAllOrders(_LoadAllEvent event, _Emit emit) async {
+    await _getOrdersUseCase(
+      const OrdersParams(page: 1),
+    ).fold(
+      (failure) => emit(const _Error()),
+      (data) =>
+          _previewOrders = data.orders.whereNot((o) => o.isCanceled).toList(),
+    );
+
+    state.mapOrNull(
+      loaded: (state) => emit(
+        _Loaded(
+          orders: state.orders,
+          preview: _previewOrders,
+        ),
+      ),
+      loading: (state) => emit(
+        _Loading(
+          preview: _previewOrders,
+        ),
+      ),
     );
   }
 
