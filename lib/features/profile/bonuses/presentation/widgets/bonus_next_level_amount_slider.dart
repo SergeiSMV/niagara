@@ -23,8 +23,8 @@ class BonusNextLevelAmountSlider extends StatelessWidget {
     final activeColor = context.colors.mainColors.accent;
     final inactiveColor = context.colors.mainColors.light;
 
-    final percent = currentAmount / maxAmount;
-    final lastPointColor = percent == 1 ? activeColor : inactiveColor;
+    final percent = (maxAmount != 0 ? currentAmount / maxAmount : 0).toDouble();
+    final lastPointColor = percent == 1.0 ? activeColor : inactiveColor;
     return Column(
       children: [
         Stack(
@@ -33,7 +33,7 @@ class BonusNextLevelAmountSlider extends StatelessWidget {
             Padding(
               padding: AppInsets.kAll4,
               child: LinearProgressIndicator(
-                value: currentAmount / maxAmount,
+                value: percent,
                 color: activeColor,
                 backgroundColor: inactiveColor,
                 borderRadius: AppBorders.kCircular8,

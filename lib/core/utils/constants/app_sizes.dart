@@ -78,4 +78,9 @@ abstract final class AppSizes {
   static const double kOnboardingImagetRatioSmall = 0.45;
   static const double kOnboardingImagetRatioLarge = 0.5;
   static const double kOnboardingImageBlockWidth = 310;
+
+  //* ---------------------------- Bonuses --------------------------- *//
+
+  static const double kABoutBonusesBannerHeight = 200;
+  static const double kAboutBonusesUnauthBannerHeight = 320;
 }

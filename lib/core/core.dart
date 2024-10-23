@@ -3,7 +3,6 @@ library core;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';

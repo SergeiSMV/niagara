@@ -56,9 +56,7 @@ class OrderPlacingRepository extends BaseRepository
       execute(
         () => _orderPlacingRemoteDatasource.getDeliveryTimeOptions().fold(
               (failure) => throw failure,
-              (dto) => dto.isNotEmpty
-                  ? dto.map((e) => e.toModel()).toList()
-                  : throw const NoOrderDeliveryDatesFailure(),
+              (dto) => dto.map((e) => e.toModel()).toList(),
             ),
       );
 }

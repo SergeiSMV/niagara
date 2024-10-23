@@ -22,21 +22,15 @@ class BasicStatusWidget extends StatelessWidget {
 
   /// Переходит на страницу бонусов.
   void _goToBonuses(BuildContext context) => context.navigateTo(
-        const ProfileWrapper(
-          children: [
-            ProfileRoute(),
-            MyBonusesRoute(),
-          ],
+        const LoyaltyProgramWrapper(
+          children: [MyBonusesRoute()],
         ),
       );
 
   /// Переходит на страницу предоплатной воды.
   void _goToPrepaidWater(BuildContext context) => context.navigateTo(
-        const ProfileWrapper(
-          children: [
-            ProfileRoute(),
-            PrepaidWaterRoute(),
-          ],
+        const LoyaltyProgramWrapper(
+          children: [PrepaidWaterRoute()],
         ),
       );
 

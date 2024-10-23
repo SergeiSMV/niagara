@@ -3,8 +3,8 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Класс роутера для модуля OrderPlacing (Оформление заказа)
-abstract final class OrderPlacingRouters {
-  static AutoRoute get routers => AutoRoute(
+abstract final class OrderPlacingRoutes {
+  static AutoRoute get routes => AutoRoute(
         page: OrderPlacingWrapper.page,
         children: [
           AutoRoute(
@@ -16,9 +16,7 @@ abstract final class OrderPlacingRouters {
             page: EditProfileRoute.page,
             title: (_, __) => t.profile.edit.pageTitle,
           ),
-          AutoRoute(
-            page: OrderResultRoute.page,
-          ),
+          AutoRoute(page: OrderResultRoute.page),
           AutoRoute(page: PaymentInstructionsRoute.page),
         ],
       );

@@ -2,7 +2,7 @@ name: niagara_app
 description: A new Flutter project from Niagara
 publish_to: "none"
 
-version: 6.0.4+624
+version: 6.0.4+625
 
 environment:
   sdk: ">=3.4.3 <4.0.0"
@@ -14,7 +14,6 @@ dependencies:
   calendar_date_picker2: ^1.1.5
   carousel_slider: ^5.0.0
   collection: ^1.18.0
-  device_info_plus: ^10.0.1
   dio: ^5.4.1
   drift: ^2.17.0
   either_dart: ^1.0.0
@@ -70,7 +69,7 @@ dependencies:
   visibility_detector: ^0.4.0+2
   yandex_geocoder: ^2.3.1
   yandex_mapkit_lite: ^2.0.1
-  yookassa_payments_flutter: ^1.5.0
+  yookassa_payments_flutter: ^1.7.0
 
 dev_dependencies:
   auto_route_generator: ^8.0.0
@@ -105,8 +104,6 @@ flutter:
     - assets/images/
     - assets/images/bonus_status/
     - assets/images/about_bonuses/
-    - assets/images/banners/first/
-    - assets/images/banners/second/
     - assets/images/catalog/
     - assets/icons/
     - assets/icons/bottom_bar/

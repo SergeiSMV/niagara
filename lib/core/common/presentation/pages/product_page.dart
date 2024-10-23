@@ -18,14 +18,22 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/widgets/buy_prepaid_water_button.dart';
 
+/// Страница товара.
+///
+/// Также выполняет роль [AutoRouteWrapper] для самой себя для того, чтобы
+/// работала рекурсивная навигация (переход в рекомендованный товар, из него
+/// снова туда же и т.д.).
 @RoutePage()
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatelessWidget implements AutoRouteWrapper {
   const ProductPage({
     super.key,
     required this.product,
   });
 
   final Product product;
+
+  @override
+  Widget wrappedRoute(BuildContext context) => this;
 
   @override
   Widget build(BuildContext context) {

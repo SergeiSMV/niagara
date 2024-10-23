@@ -41,9 +41,8 @@ class _Banner extends StatelessWidget {
 
   /// Перенаправляет на страницу баланса предоплатной воды.
   void _navigateToPrepaidWater(BuildContext context) => context.navigateTo(
-        const ProfileWrapper(
+        const LoyaltyProgramWrapper(
           children: [
-            ProfileRoute(),
             PrepaidWaterRoute(),
           ],
         ),

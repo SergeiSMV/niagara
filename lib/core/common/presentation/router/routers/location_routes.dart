@@ -5,8 +5,8 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/locations/_common/presentation/addresses_guard.dart';
 import 'package:niagara_app/features/locations/_common/presentation/city_guard.dart';
 
-abstract final class LocationsRouters {
-  static AutoRoute get routers => AutoRoute(
+abstract final class LocationsRoutes {
+  static AutoRoute get routes => AutoRoute(
         page: LocationsWrapper.page,
         children: [
           AutoRoute(
@@ -20,7 +20,6 @@ abstract final class LocationsRouters {
                 page: AddressesRoute.page,
                 initial: true,
                 title: (_, __) => t.locations.myAddresses,
-               
               ),
               AutoRoute(
                 page: ShopsRoute.page,

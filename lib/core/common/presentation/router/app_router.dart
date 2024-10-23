@@ -16,21 +16,21 @@ import 'package:niagara_app/core/common/presentation/router/routers/splash_route
 class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
-        SplashRouters.routers,
-        AuthRouters.routers,
-        LocationsRouters.routers,
+        SplashRouters.routes,
+        AuthRoutes.routes,
+        LocationsRoutes.routes,
         AutoRoute(
           page: NavigationRoute.page,
           guards: [
-            LocationsRouters.cityGuard,
-            LocationsRouters.addressesGuard,
+            LocationsRoutes.cityGuard,
+            LocationsRoutes.addressesGuard,
           ],
           children: [
-            HomeRouters.routers,
-            CatalogRouters.routers,
-            CartRouters.routers,
+            HomeRoutes.routes,
+            CatalogRoutes.routes,
+            CartRoutes.routes,
             EmptyRouters.routers,
-            ProfileRouters.routers,
+            ProfileRoutes.routes,
           ],
         ),
         AutoRoute(

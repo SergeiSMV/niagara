@@ -46,8 +46,8 @@ abstract class AppModule {
       Dio(
         BaseOptions(
           baseUrl: url,
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 60),
+          connectTimeout: const Duration(seconds: 360), // было 30
+          receiveTimeout: const Duration(seconds: 360), // было 60
           contentType: Headers.jsonContentType,
         ),
       )
@@ -62,9 +62,6 @@ abstract class AppModule {
   FlutterSecureStorage get secureStorage => const FlutterSecureStorage(
         aOptions: AndroidOptions(encryptedSharedPreferences: true),
       );
-
-  @lazySingleton
-  DeviceInfoPlugin get deviceInfoPlugin => DeviceInfoPlugin();
 
   @lazySingleton
   YandexGeocoder yandexGeocoder(

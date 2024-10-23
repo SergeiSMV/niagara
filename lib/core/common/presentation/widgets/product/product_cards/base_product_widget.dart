@@ -33,7 +33,6 @@ class BaseProductWidget extends StatelessWidget {
     required this.onAdd,
     required this.onRemove,
     required this.authorized,
-    this.redirectRoute,
     this.isOnWaterBalancePage = false,
   });
 
@@ -49,14 +48,6 @@ class BaseProductWidget extends StatelessWidget {
   /// Коллбек, вызываемый при уменьшении количества товара.
   final VoidCallback onRemove;
 
-  /// Страница, на которую должен быть перенаправлен пользователь при нажатии
-  /// на виджет.
-  ///
-  /// Используется для настройки стека навигации при переходе из разных экранов.
-  /// Например, в некоторых случаях не надо использовать [CatalogWrapper], т.к.
-  /// по возвращении назад пользователь не должен оказаться в каталоге.
-  final PageRouteInfo? redirectRoute;
-
   /// Индикатор того, что данный виджет отображает предоплатную воду **на
   /// балансе**.
   ///
@@ -69,16 +60,11 @@ class BaseProductWidget extends StatelessWidget {
   final bool authorized;
 
   /// Перенаправляет пользователя на страницу товара.
-  void _goToProductPage(BuildContext context) => context.navigateTo(
-        redirectRoute ??
-            CatalogWrapper(
-              children: [
-                ProductRoute(
-                  key: ValueKey(product.id),
-                  product: product,
-                ),
-              ],
-            ),
+  void _goToProductPage(BuildContext context) => context.pushRoute(
+        ProductRoute(
+          key: ValueKey(product.id),
+          product: product,
+        ),
       );
 
   /// Открывает модальное окно авторизации.
@@ -144,11 +130,31 @@ class BaseProductWidget extends StatelessWidget {
 
                   // Цена товара.
                   if (!isOnWaterBalancePage)
-                    Text(
-                      '${product.price} ${t.common.rub}'.spaceSeparateNumbers(),
-                      style: context.textStyle.textTypo.tx1SemiBold.withColor(
-                        context.colors.textColors.main,
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '${product.price} ${t.common.rub}'
+                              .spaceSeparateNumbers(),
+                          style:
+                              context.textStyle.textTypo.tx1SemiBold.withColor(
+                            context.colors.textColors.main,
+                          ),
+                        ),
+                        AppBoxes.kWidth4,
+                        if (product.hasDiscount)
+                          Text(
+                            '${product.priceOld} ${t.common.rub}'
+                                .spaceSeparateNumbers(),
+                            style:
+                                context.textStyle.descriptionTypo.des3.copyWith(
+                              color: context.colors.textColors.secondary,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor:
+                                  context.colors.textColors.secondary,
+                            ),
+                          ),
+                      ],
                     ),
 
                   // Хотя такой случай и не имеет смысла, из-за ошибки `count`
@@ -273,19 +279,18 @@ class _ProductLabelAndFavorite extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: shouldDisplay
-            ? [
-                Padding(
-                  padding: AppInsets.kHorizontal6 + AppInsets.kVertical4,
-                  child: ProductTagWidget(
-                    label: product.label,
-                    labelColor: product.labelColor,
-                  ),
-                ),
-                const Spacer(),
-                ProductFavoriteButton(product: product),
-              ]
-            : [],
+        children: [
+          if (shouldDisplay)
+            Padding(
+              padding: AppInsets.kHorizontal6 + AppInsets.kVertical4,
+              child: ProductTagWidget(
+                label: product.label,
+                labelColor: product.labelColor,
+              ),
+            ),
+          const Spacer(),
+          ProductFavoriteButton(product: product),
+        ],
       ),
     );
   }

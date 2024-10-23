@@ -15,6 +15,16 @@ sealed class Failure with EquatableMixin implements Exception {
   List<Object?> get props => [error];
 }
 
+// ! ------------------------------- Banners ------------------------------- ! //
+
+class BannersRepositoryFailure extends Failure {
+  const BannersRepositoryFailure([super.error = 'Banners repo failure']);
+}
+
+class BannersRemoteDataFailure extends Failure {
+  const BannersRemoteDataFailure([super.error = 'Banners remote data failure']);
+}
+
 // ! ------------------------------- Base ------------------------------- ! //
 
 class NoInternetFailure extends Failure {

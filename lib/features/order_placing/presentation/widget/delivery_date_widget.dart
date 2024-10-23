@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/bloc/time_slot_selection_cubit/time_slot_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/date_selection_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/date_selection_widget/list_time_slots_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -38,12 +39,45 @@ class DeliveryDateWidget extends StatelessWidget {
             builder: (context, state) => state.when(
               loaded: _DateSelection.new,
               loading: _Loading.new,
-              // TODO: Добавить виджеты для пустого и ошибочного состояний
-              error: () => const Center(child: Text('Error')),
-              empty: () => const Center(child: Text('Empty')),
+              error: _Error.new,
+              empty: _Empty.new,
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _Error extends StatelessWidget {
+  const _Error({
+    super.key,
+  });
+
+  void onRefresh(BuildContext context) {
+    context.read<DeliveryTimeOptionsCubit>().getOptions();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ErrorRefreshWidget(
+      onRefresh: () => onRefresh(context),
+    );
+  }
+}
+
+class _Empty extends StatelessWidget {
+  const _Empty({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        t.orderPlacing.noDeliveryDates,
+        style: context.textStyle.textTypo.tx2Medium,
+        textAlign: TextAlign.center,
       ),
     );
   }

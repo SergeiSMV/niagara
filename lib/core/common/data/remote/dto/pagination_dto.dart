@@ -1,11 +1,7 @@
 // ignore_for_file: sort_constructors_first
 
-import 'package:json_annotation/json_annotation.dart';
 import 'package:niagara_app/core/core.dart';
 
-part 'pagination_dto.g.dart';
-
-@JsonSerializable(createToJson: false, fieldRename: FieldRename.screamingSnake)
 class PaginationDto extends Equatable {
   const PaginationDto({
     required this.current,
@@ -17,8 +13,11 @@ class PaginationDto extends Equatable {
   final int total;
   final int items;
 
-  factory PaginationDto.fromJson(Map<String, dynamic> json) =>
-      _$PaginationDtoFromJson(json);
+  factory PaginationDto.fromJson(Map<String, dynamic> json) => PaginationDto(
+        current: (json['CURRENT'] as num).toInt(),
+        total: (json['TOTAL'] as num).toInt(),
+        items: (json['ITEMS'] as int?) ?? 0,
+      );
 
   @override
   List<Object?> get props => [current, total];
