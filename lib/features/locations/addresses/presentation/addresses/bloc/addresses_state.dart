@@ -44,7 +44,10 @@ class AddressesState with _$AddressesState {
           final location = defaultLocation;
           if (location == null) return null;
 
-          return '${location.name}, ${location.additional}';
+          final String additional =
+              location.additional.isNotEmpty ? ', ${location.additional}' : '';
+
+          return '${location.name}$additional';
         },
       );
 

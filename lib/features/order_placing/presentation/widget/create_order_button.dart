@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -64,18 +65,15 @@ class CreateOrderButton extends StatelessWidget {
   }
 }
 
-// TODO: Нужна белая анимация, нашу обычную на фоне кнопки не видно.
 /// Виджет состояния загрузки.
 class _Loading extends StatelessWidget {
   const _Loading();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return const Padding(
       padding: AppInsets.kAll8,
-      child: CircularProgressIndicator(
-        color: context.colors.textColors.white,
-      ),
+      child: AppCenterLoader(isWhite: true),
     );
   }
 }

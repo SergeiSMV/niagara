@@ -33,9 +33,8 @@ class AppRouter extends $AppRouter {
             ProfileRoutes.routes,
           ],
         ),
-        AutoRoute(
-          page: StorySlidesWrapper.page,
-        ),
+        AutoRoute(page: StorySlidesWrapper.page),
+        AutoRoute(page: PolicyRoute.page),
       ];
 
   /// Анимация переходов между экранами приложения.

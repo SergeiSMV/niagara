@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -10,6 +11,7 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/empty_orders_list_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/order_item_widgets/order_item_widget.dart';
@@ -20,12 +22,21 @@ class RecentOrdersListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrdersBloc, OrdersState>(
-      builder: (context, state) => state.maybeWhen(
-        loaded: (orders) {
+      builder: (context, state) {
+        final List<UserOrder>? orders = state.maybeWhen(
+          loaded: (_, preview) => preview,
+          loading: (preview) => preview,
+          orElse: () => [],
+        );
+
+        /// Лоадер рисуется только если нет `preview`.
+        if (orders == null) {
+          return const AppCenterLoader();
+        } else {
           final firstFourOrders =
               orders.length <= 4 ? orders : orders.sublist(0, 4);
 
-          return orders.isEmpty
+          return firstFourOrders.isEmpty
               ? const EmptyOrdersListWidget()
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,9 +77,8 @@ class RecentOrdersListWidget extends StatelessWidget {
                     ),
                   ],
                 );
-        },
-        orElse: () => const SizedBox.shrink(),
-      ),
+        }
+      },
     );
   }
 }

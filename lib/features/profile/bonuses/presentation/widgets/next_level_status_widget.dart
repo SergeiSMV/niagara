@@ -14,11 +14,15 @@ class NextLevelStatusWidget extends StatelessWidget {
   const NextLevelStatusWidget({
     required this.nextLevel,
     required this.toNextLevel,
+    required this.toKeepAmount,
+    required this.isMax,
     super.key,
   });
 
   final StatusLevel nextLevel;
+  final int toKeepAmount;
   final int toNextLevel;
+  final bool isMax;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +43,13 @@ class NextLevelStatusWidget extends StatelessWidget {
               ),
               AppBoxes.kHeight4,
               Text(
-                t.bonuses
-                    .toNextStatus(amount: toNextLevel)
-                    .spaceSeparateNumbers(),
+                isMax
+                    ? t.bonuses
+                        .toKeepLevel(amount: toKeepAmount)
+                        .spaceSeparateNumbers()
+                    : t.bonuses
+                        .toNextStatus(amount: toNextLevel)
+                        .spaceSeparateNumbers(),
                 style: context.textStyle.textTypo.tx2Medium.withColor(
                   context.colors.textColors.secondary,
                 ),

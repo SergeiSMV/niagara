@@ -75,6 +75,9 @@ class PaymentInstructionsCubit extends Cubit<PaymentInstructionsState> {
         await _getConfirmationInfo(data.orderId, paymentToken);
     if (confirmationInfo == null) return;
 
+    // Если страница была закрыта, прерываем процесс.
+    if (isClosed) return;
+
     // Запускаем процесс подтверждения платежа.
     final bool confirmationStarted =
         await _startConfirmation(data, confirmationInfo);

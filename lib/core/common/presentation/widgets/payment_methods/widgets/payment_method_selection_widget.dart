@@ -25,7 +25,7 @@ class PaymentMethodSelectionWidget extends StatelessWidget {
         PaymentMethodSelectionState>(
       listener: (_, state) => onValueChanged(state.method),
       builder: (_, state) {
-        final bool isOnline = state.type == PaymentMethodType.online;
+        final bool isOnline = state.type == PaymentMethodGroup.online;
         final cubit = context.read<PaymentMethodSelectionCubit>();
         final allowed = cubit.allowedMethods;
 

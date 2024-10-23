@@ -19,11 +19,11 @@ class GetOrdersUseCase extends BaseUseCase<Orders, OrdersParams> {
 class OrdersParams extends Equatable {
   const OrdersParams({
     required this.page,
-    required this.sort,
+    this.sort,
   });
 
   final int page;
-  final OrdersTypes sort;
+  final OrdersTypes? sort;
 
   @override
   List<Object?> get props => [page, sort];

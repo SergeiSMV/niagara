@@ -53,8 +53,6 @@ extension PaymentMethodMapper on PaymentMethodDto {
         return PaymentMethod.sbp;
       case PaymentMethodDto.sberbank:
         return PaymentMethod.sberPay;
-      case PaymentMethodDto.terminal:
-        return PaymentMethod.terminal;
     }
   }
 }

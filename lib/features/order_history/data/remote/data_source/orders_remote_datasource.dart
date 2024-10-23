@@ -9,7 +9,7 @@ abstract interface class IOrdersRemoteDatasource {
   /// Получение списка заказов с сортировкой по типу.
   Future<Either<Failure, OrdersDto>> getOrders({
     required int page,
-    required OrdersTypes sort,
+    required OrdersTypes? sort,
   });
 
   /// Получение вариантов оценки заказа.
@@ -50,14 +50,14 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
   @override
   Future<Either<Failure, OrdersDto>> getOrders({
     required int page,
-    required OrdersTypes sort,
+    required OrdersTypes? sort,
   }) =>
       _requestHandler.sendRequest<OrdersDto, Map<String, dynamic>>(
         request: (dio) => dio.get(
           ApiConst.kGetOrders,
           queryParameters: {
             'page': page,
-            'status': sort.name,
+            if (sort?.name != null) 'status': sort!.name,
           },
         ),
         converter: (json) {

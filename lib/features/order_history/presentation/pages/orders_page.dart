@@ -54,9 +54,9 @@ class OrdersPage extends HookWidget {
               const SliverAppBarWidget(),
               const SliverToBoxAdapter(child: OrdersTypeButtons()),
               state.when(
-                loading: () =>
+                loading: (_) =>
                     const SliverToBoxAdapter(child: AppCenterLoader()),
-                loaded: (orders) {
+                loaded: (orders, _) {
                   return SliverPadding(
                     padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
                     sliver: SliverList.separated(
@@ -75,7 +75,7 @@ class OrdersPage extends HookWidget {
                 ),
               ),
               state.maybeWhen(
-                loaded: (_) => SliverToBoxAdapter(
+                loaded: (_, __) => SliverToBoxAdapter(
                   child: Visibility(
                     visible: hasMore,
                     child: Padding(

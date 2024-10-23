@@ -23,9 +23,8 @@ class PaymentMethodTile extends StatelessWidget {
         return PaymentMethodTile.sbp();
       case PaymentMethod.sberPay:
         return PaymentMethodTile.sberPay();
-      case PaymentMethod.terminal:
-        return PaymentMethodTile.terminal();
-      case PaymentMethod.cash:
+      // Способ оплаты терминалом объединён с оплатой наличными.
+      default:
         return PaymentMethodTile.cash();
     }
   }
@@ -47,12 +46,6 @@ class PaymentMethodTile extends StatelessWidget {
       : image = Assets.images.sberPay,
         method = PaymentMethod.sberPay,
         title = t.paymentMethods.sberPay;
-
-  /// Создаёт виджет для оплаты через терминал.
-  PaymentMethodTile.terminal()
-      : image = Assets.images.newCard,
-        title = t.paymentMethods.terminal,
-        method = PaymentMethod.terminal;
 
   /// Создаёт виджет для оплаты наличными.
   PaymentMethodTile.cash()

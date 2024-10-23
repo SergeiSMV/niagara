@@ -10,7 +10,7 @@ typedef Orders = ({List<UserOrder> orders, Pagination pagination});
 abstract interface class IOrdersRepository {
   Future<Either<Failure, Orders>> getOrders({
     required int page,
-    required OrdersTypes sort,
+    required OrdersTypes? sort,
   });
 
   Future<Either<Failure, OrderReceipt>> getReceipt({

@@ -39,7 +39,7 @@
     "ruPhoneCode": "+7",
     "enterPhone": "Введите номер телефона",
     "authLater": "Авторизоваться позже",
-    "privacyPolicy(rich)": "При входе вы соглашаетесь с ${userAgreement(пользовательским соглашением)}, ${privacyPolicy(политикой конфиденциальности)} и ${offer(офертой)}",
+    "privacyPolicy(rich)": "При входе вы соглашаетесь с ${userAgreement(пользовательским соглашением)} и ${privacyPolicy(политикой конфиденциальности)}",
     "getCode": "Получить код",
     "confirmNumber": "Подтвердите номер",
     "enterCode": "Введите код из смс",
@@ -53,7 +53,7 @@
     "authTitleModal": "Вход и регистрация"
   },
   "bonuses": {
-    "loginOrRegister": "Войдите и зарегистрируйтесь",
+    "loginOrRegister": "Войдите или зарегистрируйтесь",
     "loginOrRegisterDescription": "чтобы совершать покупки, получать персональные скидки и копить бонусы",
     "login": "Войти",
     "levels": {
@@ -83,6 +83,7 @@
     "morePurchases": "Больше покупок — выше статус — больше выгоды",
     "willBeAccrued": "зачислятся",
     "toNextStatus": "До следующего статуса — \n${amount} @:common.rub",
+    "toKeepLevel": "Для сохранения совершайте покупки от \n${amount} рублей в месяц",
     "yourSpent": "Вы потратили ${amount} @:common.rub",
     "days": "дней",
     "hours": "часов",
@@ -280,7 +281,8 @@
   "promos": {
     "promotions": "Акции",
     "discountForYou": "Скидки для вас",
-    "more": "Подробнее"
+    "more": "Подробнее",
+    "empty": "На данный момент список предложений пуст"
   },
   "newProducts": {
     "newProducts": "Новинки"
@@ -400,9 +402,10 @@
       "cancelled": "Отменен"
     },
     "paymentTypes": {
-      "cash": "CASH",
-      "card": "CARD",
-      "online": "ONLINE"
+      "cash": "cash",
+      "card": "bank_card",
+      "sberbank": "sberbank",
+      "sbp": "sbp"
     },
     "repeat": "Повторить",
     "estimate": "Оценить",
@@ -429,8 +432,10 @@
     },
     "cancelOrder": "Отменить заказ",
     "ordersPaymentTypes": {
-      "inCash": "Наличными",
-      "byBankCard": "Банковской картой"
+      "inCash": "При получении",
+      "byBankCard": "Банковской картой",
+      "sbp": "Через СБП",
+      "sberbank": "Через SberPay"
     },
     "created": "Создан",
     "contactDriver": "Связаться с водителем",
@@ -517,7 +522,8 @@
     "continueShopping": "Продолжить покупки",
     "orderingError": "Ошибка оформления заказа",
     "retry": "Повторить",
-    "followInstructions": "Следуйте инструкциям\nна экране"
+    "followInstructions": "Следуйте инструкциям\nна экране",
+    "paymentProcess": "Подтверждение платежа"
   },
   "prepaidWater": {
     "title": "Предоплатная вода",
@@ -591,8 +597,7 @@
     "bankCard": "Банковской картой",
     "sbp": "Оплата через СБП",
     "sberPay": "SberPay",
-    "cash": "Наличными",
-    "terminal": "Через терминал"
+    "cash": "Наличными / картой"
   },
   "onboarding": {
     "greeting": {
@@ -605,7 +610,7 @@
     },
     "location": {
       "title": "Разрешите доступ к геолокации",
-      "description": "Мы автоматически отследим адрес для скорейшего заказа."
+      "description": "Это поможет более точно определить ваш адрес для заказа."
     },
     "next": "Далее"
   }
