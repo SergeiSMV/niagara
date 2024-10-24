@@ -33,8 +33,12 @@ class BaseProductWidget extends StatelessWidget {
     required this.onAdd,
     required this.onRemove,
     required this.authorized,
+    this.outOfStock = false,
     this.isOnWaterBalancePage = false,
   });
+
+  /// Означает, что товар добавлен в корзину, но отсутствует в наличии.
+  final bool outOfStock;
 
   /// Товар, отображаемый в карточке.
   final Product product;
@@ -180,6 +184,7 @@ class BaseProductWidget extends StatelessWidget {
 
                   // Переключатели количества товара.
                   AmountControlsWidget(
+                    outOfStock: outOfStock,
                     count: count,
                     onRemove: !authorized
                         ? () => _showAuthModal(context)

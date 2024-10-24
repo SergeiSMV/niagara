@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
@@ -80,11 +81,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   /// Когда изменяется состояние авторизации, происходит новый запрос корзины.
   void _onAuthStatusChanged(AuthenticatedStatus status) =>
       status.hasAuth ? add(const _GetCart()) : add(const _LoggedOut());
-  
+
   /// При выходе из аккаунта сразу же испускается состание [_Unauthorized].
   void _onLoggedOut(_LoggedOut event, _Emit emit) =>
-    emit(const _Unauthorized());
-  
+      emit(const _Unauthorized());
 
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
     final (cart, recommends) = state.maybeWhen(
@@ -225,6 +225,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _promocode = event.promocode;
     add(const _GetCart());
   }
+
+  bool isOutOfStock(Product product) => state.maybeWhen(
+        orElse: () => false,
+        loaded: (cart, _) {
+          final productInCart = cart.unavailableProducts.firstWhereOrNull(
+            (element) => element.id == product.id,
+          );
+          return productInCart != null;
+        },
+        loading: (cart, _) {
+          final productInCart = cart?.unavailableProducts.firstWhereOrNull(
+            (element) => element.id == product.id,
+          );
+          return productInCart != null;
+        },
+      );
 
   @override
   Future<void> close() {
