@@ -103,7 +103,11 @@ class BannerWidget extends StatelessWidget {
   VoidCallback _getOnTapCallback(BuildContext context) {
     switch (banner.type) {
       case BannerType.product:
-        return () => context.navigateTo(const CatalogWrapper());
+        return () => context.navigateTo(
+              banner.product != null
+                  ? ProductRoute(product: banner.product!)
+                  : const CatalogWrapper(),
+            );
       case BannerType.offers:
         return () => context.navigateTo(const CatalogWrapper());
       case BannerType.web:

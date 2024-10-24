@@ -19,6 +19,7 @@ abstract interface class IOrdersRepository {
 
   Future<Either<Failure, List<OrderRateOption>>> getOrderRateOptions({
     required int rating,
+    required String id,
   });
 
   Future<Either<Failure, bool>> rateOrder({

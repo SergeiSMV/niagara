@@ -30,7 +30,7 @@ class RateModalWidget extends StatelessWidget {
   Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
 
   void _changeRating(BuildContext context, double rating) =>
-      context.read<OrderRateOptionsCubit>().changeRating(rating);
+      context.read<OrderRateOptionsCubit>().changeRating(rating, orderId);
 
   void _saveComment(BuildContext context, String comment) {
     context.read<OrderRateOptionsCubit>().comment = comment;
@@ -39,7 +39,8 @@ class RateModalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<OrderRateOptionsCubit>()..getOrderRateOptions(),
+      create: (_) =>
+          getIt<OrderRateOptionsCubit>()..getOrderRateOptions(orderId),
       child: Builder(
         builder: (context) {
           return Padding(
@@ -134,7 +135,7 @@ class _SendRatingButtonWidget extends StatelessWidget {
   }
 
   /// Показывает модельное окно с успешной отправкой оценки
-  Future<void> _showEstimateSentModal(BuildContext context) async =>
+  Future<void> _showRateSentModal(BuildContext context) async =>
       showModalBottomSheet(
         context: context,
         useRootNavigator: true,
@@ -145,7 +146,7 @@ class _SendRatingButtonWidget extends StatelessWidget {
 
   Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
 
-  void _evaluationOrderCompleted(
+  void _rateOrderCompleted(
     BuildContext context,
     RateOrderState state,
   ) {
@@ -157,7 +158,7 @@ class _SendRatingButtonWidget extends StatelessWidget {
       ),
       success: () => _onCloseModal(context).then((_) {
         if (context.mounted) {
-          _showEstimateSentModal(context);
+          _showRateSentModal(context);
         }
       }),
       orElse: () {},
@@ -168,7 +169,7 @@ class _SendRatingButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RateOrderCubit, RateOrderState>(
       builder: (context, state) {
-        _evaluationOrderCompleted(context, state);
+        _rateOrderCompleted(context, state);
 
         final loading = state.maybeWhen(
           loading: () => true,

@@ -105,9 +105,10 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
   @override
   Future<Either<Failure, List<OrderRateOption>>> getOrderRateOptions({
     required int rating,
+    required String id,
   }) =>
       execute(
-        () async => _ordersRDS.getOrderRateOptions(rating: rating).fold(
+        () async => _ordersRDS.getOrderRateOptions(rating: rating, id: id).fold(
               (failure) => throw failure,
               (dto) => dto.map((e) => e.toModel()).toList(),
             ),

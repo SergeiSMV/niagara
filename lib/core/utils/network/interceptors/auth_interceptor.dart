@@ -30,6 +30,10 @@ class AuthInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
+    final bool refreshRequired =
+        err.response?.statusCode == 401 || err.response?.statusCode == 402;
+    if (!refreshRequired) return handler.next(err);
+
     _log('[AuthInterceptor] Trying to refresh token...');
 
     if (_refreshTokenGuard.isLocked) {
@@ -64,28 +68,25 @@ class AuthInterceptor extends Interceptor {
 
         return handler.next(err);
       }
-      if (err.response?.statusCode == 401 || err.response?.statusCode == 402) {
-        retryCount++;
-        // Создаем новый токен
-        return tokenRepository.createToken().fold(
-          (failure) => throw Exception(failure.error),
-          (_) async {
-            // Получаем новый токен
-            await tokenRepository.getToken().fold(
-              (failure) => throw Exception(failure.error),
-              (token) async {
-                _log('[AuthInterceptor] Refreshed token. Retrying request...');
 
-                // Повторяем запрос с новым токеном
-                err.requestOptions.headers['Authorization'] = 'Bearer $token';
-                return handler.resolve(await dio.fetch(err.requestOptions));
-              },
-            );
-          },
-        );
-      }
+      retryCount++;
+      // Создаем новый токен
+      return tokenRepository.createToken().fold(
+        (failure) => throw Exception(failure.error),
+        (_) async {
+          // Получаем новый токен
+          await tokenRepository.getToken().fold(
+            (failure) => throw Exception(failure.error),
+            (token) async {
+              _log('[AuthInterceptor] Refreshed token. Retrying request...');
 
-      return handler.next(err);
+              // Повторяем запрос с новым токеном
+              err.requestOptions.headers['Authorization'] = 'Bearer $token';
+              return handler.resolve(await dio.fetch(err.requestOptions));
+            },
+          );
+        },
+      );
     });
   }
 
