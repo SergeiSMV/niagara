@@ -18,7 +18,7 @@ class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
   void _navigateToOTP(BuildContext context, String phone) =>
-      context.pushRoute(OTPRoute(phoneNumber: phone));
+      context.navigateTo(OTPRoute(phoneNumber: phone));
 
   @override
   Widget build(BuildContext context) {
