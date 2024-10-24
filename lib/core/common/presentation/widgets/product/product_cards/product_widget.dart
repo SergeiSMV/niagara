@@ -41,7 +41,7 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<CartBloc>();
+    final bloc = context.watch<CartBloc>();
 
     // Тип события зависит от того, добавляем мы обычный товар или предоплатную
     // воду на списание с баланса.
