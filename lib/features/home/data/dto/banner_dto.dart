@@ -9,6 +9,7 @@ class BannerDto extends Equatable {
     required this.imageUrl,
     required this.type,
     required this.link,
+    required this.data,
   });
 
   final String id;
@@ -16,6 +17,7 @@ class BannerDto extends Equatable {
   final String imageUrl;
   final String type;
   final String link;
+  final Map<String, dynamic>? data;
 
   factory BannerDto.fromJson(Map<String, dynamic> json) {
     return BannerDto(
@@ -24,8 +26,11 @@ class BannerDto extends Equatable {
       // TODO: Регулярка нужна, чтобы удалить лишние `https://` из ссылки.
       imageUrl: (json['IMAGE'] as String)
           .replaceAll(RegExp(r'(https:\/\/)+'), 'https://'),
-      type: json['TYPE'] as String,
-      link: json['LINK'] as String,
+      type: json['TYPE'] as String? ?? '',
+      link: json['LINK'] as String? ?? '',
+      data: json['DATA'] is Map<String, dynamic>
+          ? json['DATA'] as Map<String, dynamic>
+          : null,
     );
   }
 
@@ -36,5 +41,6 @@ class BannerDto extends Equatable {
         imageUrl,
         type,
         link,
+        data,
       ];
 }

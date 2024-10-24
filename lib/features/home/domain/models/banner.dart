@@ -1,3 +1,4 @@
+import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 
 /// Модель с данными о баннере.
@@ -8,6 +9,7 @@ class Banner extends Equatable {
     required this.imageUrl,
     required this.type,
     required this.link,
+    this.product,
   });
 
   /// Идентификатор баннера.
@@ -24,6 +26,9 @@ class Banner extends Equatable {
 
   /// Ссылка на внешний ресурс или `ID` продукта, с которым связан баннер.
   final String? link;
+
+  /// [Product], на который должен перенаправлять баннер.
+  final Product? product;
 
   @override
   List<Object?> get props => [
