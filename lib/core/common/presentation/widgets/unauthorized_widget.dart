@@ -30,6 +30,7 @@ class AuthorizationWidget extends StatelessWidget {
             otpSuccess: () async {
               await context.maybePop();
               if (outerContext.mounted) {
+                // Тост рисуем только в модалке
                 _showToast(outerContext);
               }
               return;
@@ -47,10 +48,9 @@ class AuthorizationWidget extends StatelessWidget {
   /// Влияет на размеры и стили.
   final bool modal;
 
-  static void _showToast(BuildContext context) => AppSnackBar.showInfo(
-        context,
-        title: 'Авторзиация прошла успешно!',
-      );
+  /// Отображает всплывающее уведомление об успешной авторизации.
+  static void _showToast(BuildContext context) =>
+      AppSnackBar.showInfo(context, title: t.auth.authSuccess);
 
   @override
   Widget build(BuildContext context) {
