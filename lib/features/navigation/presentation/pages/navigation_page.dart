@@ -67,6 +67,9 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
         final test = ModalRoute.of(context);
         final bool current = test?.isCurrent ?? false;
 
+        // Если поверх маршрута навигации открыт маршрут авторизации (например,
+        // на главной странице виджет авторизации открывает AuthRoute), то не
+        // нужно ничего делать.
         if (!current) return;
 
         context.navigateTo(OTPRoute(phoneNumber: phoneNumber));
