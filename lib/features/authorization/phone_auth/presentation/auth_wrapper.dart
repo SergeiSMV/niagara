@@ -13,7 +13,7 @@ class AuthWrapper extends AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => getIt<AuthBloc>()),
+          BlocProvider.value(value: getIt<AuthBloc>()),
           BlocProvider(create: (_) => getIt<ValidatePhoneCubit>()),
         ],
         child: AutoRouter(

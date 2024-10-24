@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -18,14 +19,26 @@ class AuthorizationWidget extends StatelessWidget {
   const AuthorizationWidget({super.key, this.modal = false});
 
   /// Отображает модальное окно с виджетом авторизации.
-  static void showModal(BuildContext context) {
+  static void showModal(BuildContext outerContext) {
     showModalBottomSheet(
-      context: context,
-      backgroundColor: context.colors.mainColors.white,
+      context: outerContext,
+      backgroundColor: outerContext.colors.mainColors.white,
       useSafeArea: true,
       isScrollControlled: true,
-      builder: (ctx) {
-        return const AuthorizationWidget(modal: true);
+      builder: (innerContext) {
+        return BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) => state.maybeWhen(
+            otpSuccess: () async {
+              await context.maybePop();
+              if (outerContext.mounted) {
+                _showToast(outerContext);
+              }
+              return;
+            },
+            orElse: () => null,
+          ),
+          child: const AuthorizationWidget(modal: true),
+        );
       },
     );
   }
@@ -35,6 +48,19 @@ class AuthorizationWidget extends StatelessWidget {
   /// Влияет на размеры и стили.
   final bool modal;
 
+  /// В случае успещной авторизации переводит пользователя на предыдущий экран.
+  static void _onAuthCompleted(BuildContext context, AuthState state) =>
+      state.maybeWhen(
+        otpSuccess: () => context.maybePop(),
+        orElse: () => null,
+      );
+
+  static void _showToast(BuildContext context) => AppSnackBar.showInfo(
+        context,
+        title: 'Авторзиация прошла успешно!',
+      );
+
+  /// Переводит пользователя на экран ввода кода подтверждения.
   void _navigateToOTP(BuildContext context, String phone) =>
       context.pushRoute(AuthWrapper(children: [OTPRoute(phoneNumber: phone)]));
 

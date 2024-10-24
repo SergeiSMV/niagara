@@ -28,7 +28,7 @@ class VipSubcribeButton extends StatelessWidget {
 
   /// Обработчик нажатия на кнопку.
   Future<void> _goToPayment(
-      BuildContext context, ActivationOption option) async {
+      BuildContext context, ActivationOption option,) async {
     final bool? authorized = await context.read<UserBloc>().isAuthorized;
 
     if (authorized == null) {

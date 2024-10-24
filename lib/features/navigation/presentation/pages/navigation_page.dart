@@ -132,8 +132,8 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
             create: (_) => getIt<EquipmentsBloc>(),
             lazy: false,
           ),
-          BlocProvider(
-            create: (_) => getIt<AuthBloc>(),
+          BlocProvider.value(
+            value: getIt<AuthBloc>(),
           ),
           BlocProvider(
             create: (_) => getIt<ValidatePhoneCubit>(),
