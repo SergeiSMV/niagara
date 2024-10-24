@@ -44,6 +44,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_SetBonusesToPay>(_onSetBonusesToPay);
     on<_ToggleAllTare>(_onToggleAllTare);
     on<_SetPromocode>(_onSetPromocode);
+    on<_LoggedOut>(_onLoggedOut);
 
     add(const _GetCart());
   }
@@ -78,8 +79,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   /// Когда изменяется состояние авторизации, происходит новый запрос корзины.
   void _onAuthStatusChanged(AuthenticatedStatus status) =>
-      // ignore: invalid_use_of_visible_for_testing_member
-      status.hasAuth ? add(const _GetCart()) : emit(const _Unauthorized());
+      status.hasAuth ? add(const _GetCart()) : add(const _LoggedOut());
+  
+  /// При выходе из аккаунта сразу же испускается состание [_Unauthorized].
+  void _onLoggedOut(_LoggedOut event, _Emit emit) =>
+    emit(const _Unauthorized());
+  
 
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
     final (cart, recommends) = state.maybeWhen(

@@ -2,7 +2,11 @@ part of 'cart_bloc.dart';
 
 @freezed
 class CartEvent with _$CartEvent {
+  /// Получает данные корзины.
   const factory CartEvent.getCart() = _GetCart;
+
+  /// Выход из аккаунта.
+  const factory CartEvent.loggedOut() = _LoggedOut;
 
   /// Добавляет товар в корзину или увеличивает его количество на `1`.
   const factory CartEvent.addToCart({
