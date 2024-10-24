@@ -43,7 +43,6 @@ class ProfilePage extends StatelessWidget {
                       BannersWidget(),
                       AppInfoWidget(),
                       ProfileAccountActionsWidget(),
-                      // TODO: Версия приложения на данный момент захардкожена
                       AppVersionWidget(),
                     ],
                   ),
@@ -51,7 +50,6 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       BannersWidget(),
                       AppInfoWidget(),
-                      // TODO: Версия приложения на данный момент захардкожена
                       AppBoxes.kHeight24,
                       AppVersionWidget(),
                     ],

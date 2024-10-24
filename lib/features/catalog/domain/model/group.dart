@@ -19,6 +19,8 @@ class Group extends Equatable {
   /// подборки акционных товаров.
   final bool temporary;
 
+  /// Конструирует группу (если это возможно) по информации из акции, с которой
+  /// эта группа будет связана.
   static Group? fromPromotion(Promotion promotion) => promotion.groupId != null
       ? Group(
           name: promotion.title,
