@@ -408,7 +408,7 @@
       "sbp": "sbp"
     },
     "repeat": "Повторить",
-    "estimate": "Оценить",
+    "rate": "Оценить",
     "allOrders": "Все\nзаказы",
     "paymentStatuses": {
       "paidFor": "Оплачен",

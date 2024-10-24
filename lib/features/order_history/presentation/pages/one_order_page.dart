@@ -116,8 +116,8 @@ class _BottomButtonsWidget extends StatelessWidget {
   final UserOrder order;
 
   /// Открывает модальное окно с оценкой заказа
-  Future<void> _showEstimateModal(BuildContext context) async {
-    final evaluateOrderCubit = context.read<RateOrderCubit>();
+  Future<void> _showRateModal(BuildContext context) async {
+    final cubit = context.read<RateOrderCubit>();
 
     return showModalBottomSheet(
       isScrollControlled: true,
@@ -126,7 +126,7 @@ class _BottomButtonsWidget extends StatelessWidget {
       backgroundColor: context.colors.mainColors.white,
       useSafeArea: true,
       builder: (ctx) => BlocProvider.value(
-        value: evaluateOrderCubit,
+        value: cubit,
         child: RateModalWidget(orderId: order.id),
       ),
     );
@@ -214,7 +214,7 @@ class _BottomButtonsWidget extends StatelessWidget {
                           state == const RateOrderState.loading())
                       ? AppTextButton.secondary(
                           text: t.recentOrders.evaluateOrder,
-                          onTap: () => _showEstimateModal(context),
+                          onTap: () => _showRateModal(context),
                         )
                       : const SizedBox.shrink();
                 },
@@ -233,6 +233,7 @@ class _BottomButtonsWidget extends StatelessWidget {
             /// Повторить заказ (status = Отменен)
             if (order.orderStatus == OrderStatus.cancelled &&
                 order.orderAgain) ...[
+              AppBoxes.kHeight12,
               AppTextButton.primary(
                 text: t.recentOrders.repeatOrder,
                 onTap: () => _showRepeatOrderModal(context),

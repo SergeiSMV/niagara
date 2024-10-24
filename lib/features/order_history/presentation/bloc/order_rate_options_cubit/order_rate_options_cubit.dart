@@ -19,14 +19,17 @@ class OrderRateOptionsCubit extends Cubit<OrderRateOptionsState> {
   List<OrderRateOption> options = [];
   String comment = '';
 
-  void changeRating(double value) {
+  void changeRating(double value, String orderId) {
     rating = value;
-    getOrderRateOptions();
+    getOrderRateOptions(orderId);
   }
 
-  Future<void> getOrderRateOptions() async {
+  Future<void> getOrderRateOptions(String orderId) async {
     emit(const OrderRateOptionsState.loading());
-    await _getOrderRateOptionsUseCase(rating.toInt()).fold(
+    final params =
+        GetOrderRateOptionsParams(rating: rating.toInt(), id: orderId);
+
+    await _getOrderRateOptionsUseCase(params).fold(
       (failure) => emit(const OrderRateOptionsState.error()),
       (data) {
         if (data.isNotEmpty) {

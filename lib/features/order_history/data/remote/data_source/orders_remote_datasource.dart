@@ -15,6 +15,7 @@ abstract interface class IOrdersRemoteDatasource {
   /// Получение вариантов оценки заказа.
   Future<Either<Failure, List<OrderRateOptionDto>>> getOrderRateOptions({
     required int rating,
+    required String id,
   });
 
   /// Оценить заказ.
@@ -77,12 +78,14 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
   @override
   Future<Either<Failure, List<OrderRateOptionDto>>> getOrderRateOptions({
     required int rating,
+    required String id,
   }) =>
       _requestHandler.sendRequest<List<OrderRateOptionDto>, List<dynamic>>(
         request: (dio) => dio.get(
           ApiConst.kGetOrderRating,
           queryParameters: {
             'rating': rating,
+            'order': id,
           },
         ),
         converter: (json) => json
