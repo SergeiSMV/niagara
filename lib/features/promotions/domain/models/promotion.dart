@@ -9,6 +9,7 @@ class Promotion extends Equatable {
     required this.startDate,
     required this.endDate,
     required this.isPersonal,
+    required this.groupId,
   });
 
   final String id;
@@ -18,6 +19,7 @@ class Promotion extends Equatable {
   final DateTime startDate;
   final DateTime endDate;
   final bool isPersonal;
+  final String? groupId;
 
   @override
   List<Object?> get props => [
@@ -27,5 +29,6 @@ class Promotion extends Equatable {
         startDate,
         endDate,
         isPersonal,
+        groupId,
       ];
 }

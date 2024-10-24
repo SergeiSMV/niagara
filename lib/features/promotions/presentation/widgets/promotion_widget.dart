@@ -10,6 +10,7 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/catalog/domain/model/group.dart';
 import 'package:niagara_app/features/promotions/domain/models/promotion.dart';
 import 'package:niagara_app/features/promotions/presentation/widgets/promotion_image_widget.dart';
 
@@ -23,9 +24,31 @@ class PromotionWidget extends StatelessWidget {
   final Promotion _promotion;
   final bool withTitle;
 
-  void _navigateToCatalog(BuildContext context) => context
-    ..maybePop()
-    ..navigateTo(const CatalogWrapper(children: [CatalogRoute()]));
+  void _goToPromotionSubject(BuildContext context) {
+    context.maybePop();
+    PageRouteInfo? redirectRoute;
+    final group = Group.fromPromotion(_promotion);
+
+    if (group != null) {
+      redirectRoute = CategoryWrapperRoute(
+        group: group,
+        children: const [CategoryRoute()],
+      );
+    }
+
+    if (redirectRoute != null) {
+      context.navigateTo(redirectRoute);
+      return;
+    }
+
+    context.navigateTo(
+      CatalogWrapper(
+        children: [
+          if (redirectRoute != null) redirectRoute else const CatalogRoute(),
+        ],
+      ),
+    );
+  }
 
   void _showPromotionDetails(BuildContext context, Promotion promotion) =>
       showModalBottomSheet(
@@ -71,7 +94,7 @@ class PromotionWidget extends StatelessWidget {
                       padding: AppInsets.kAll16,
                       child: AppTextButton.primary(
                         text: t.common.goShopping,
-                        onTap: () => _navigateToCatalog(ctx),
+                        onTap: () => _goToPromotionSubject(ctx),
                       ),
                     ),
                     AppBoxes.kHeight24,
