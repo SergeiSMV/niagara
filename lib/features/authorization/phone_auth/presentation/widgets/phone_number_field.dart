@@ -26,6 +26,10 @@ class PhoneNumberField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO(kvbykov): Перепроверить, точно ли это так работает:
+    // Метод должен вызываться только при повторном открытии формы
+    context.read<ValidatePhoneCubit>().reset();
+
     return Padding(
       padding: AppInsets.kAll16,
       child: FormBuilder(

@@ -9,6 +9,7 @@ import 'package:niagara_app/core/common/presentation/router/routers/home_routes.
 import 'package:niagara_app/core/common/presentation/router/routers/location_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/profile_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/splash_routes.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Класс [AppRouter] роутера приложения. Содержит все модули и их маршруты.
 @AutoRouterConfig()
@@ -35,6 +36,10 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(page: StorySlidesWrapper.page),
         AutoRoute(page: PolicyRoute.page),
+        AutoRoute(
+          page: OTPRoute.page,
+          title: (_, __) => t.auth.confirmNumber,
+        ),
       ];
 
   /// Анимация переходов между экранами приложения.

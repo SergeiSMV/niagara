@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -18,14 +18,27 @@ class AuthorizationWidget extends StatelessWidget {
   const AuthorizationWidget({super.key, this.modal = false});
 
   /// Отображает модальное окно с виджетом авторизации.
-  static void showModal(BuildContext context) {
+  static void showModal(BuildContext outerContext) {
     showModalBottomSheet(
-      context: context,
-      backgroundColor: context.colors.mainColors.white,
+      context: outerContext,
+      backgroundColor: outerContext.colors.mainColors.white,
       useSafeArea: true,
       isScrollControlled: true,
-      builder: (ctx) {
-        return const AuthorizationWidget(modal: true);
+      builder: (innerContext) {
+        return BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) => state.maybeWhen(
+            otpSuccess: () async {
+              await context.maybePop();
+              if (outerContext.mounted) {
+                // Тост рисуем только в модалке
+                _showToast(outerContext);
+              }
+              return;
+            },
+            orElse: () => null,
+          ),
+          child: const AuthorizationWidget(modal: true),
+        );
       },
     );
   }
@@ -35,8 +48,9 @@ class AuthorizationWidget extends StatelessWidget {
   /// Влияет на размеры и стили.
   final bool modal;
 
-  void _navigateToOTP(BuildContext context, String phone) =>
-      context.pushRoute(AuthWrapper(children: [OTPRoute(phoneNumber: phone)]));
+  /// Отображает всплывающее уведомление об успешной авторизации.
+  static void _showToast(BuildContext context) =>
+      AppSnackBar.showInfo(context, title: t.auth.authSuccess);
 
   @override
   Widget build(BuildContext context) {
@@ -49,51 +63,44 @@ class AuthorizationWidget extends StatelessWidget {
         ? context.colors.textColors.secondary
         : context.colors.textColors.main;
 
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) => state.maybeWhen(
-        getCode: (phoneNumber) => _navigateToOTP(context, phoneNumber),
-        orElse: () => null,
-      ),
-      child: Column(
-        mainAxisSize: modal ? MainAxisSize.min : MainAxisSize.max,
-        children: [
-          if (!modal) AppBoxes.kHeight48,
-          Padding(
-            padding: AppInsets.kHorizontal16,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppBoxes.kHeight32,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      title,
-                      style: context.textStyle.headingTypo.h3
-                          .withColor(context.colors.textColors.main),
-                    ),
-                    if (modal)
-                      CloseModalButton(onTap: () => context.maybePop()),
-                  ],
-                ),
-                AppBoxes.kHeight12,
-                Text(
-                  description,
-                  style: context.textStyle.textTypo.tx1Medium
-                      .withColor(descriptionColor),
-                ),
-              ],
-            ),
+    return Column(
+      mainAxisSize: modal ? MainAxisSize.min : MainAxisSize.max,
+      children: [
+        if (!modal) AppBoxes.kHeight48,
+        Padding(
+          padding: AppInsets.kHorizontal16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppBoxes.kHeight32,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: context.textStyle.headingTypo.h3
+                        .withColor(context.colors.textColors.main),
+                  ),
+                  if (modal) CloseModalButton(onTap: () => context.maybePop()),
+                ],
+              ),
+              AppBoxes.kHeight12,
+              Text(
+                description,
+                style: context.textStyle.textTypo.tx1Medium
+                    .withColor(descriptionColor),
+              ),
+            ],
           ),
-          PhoneNumberField(formKey: formKey),
-          if (!modal) ...[
-            const Spacer(),
-            const PrivacyPolicyTextButtons(),
-            AppBoxes.kHeight12,
-          ],
-          GetCodeWidget(formKey: formKey),
+        ),
+        PhoneNumberField(formKey: formKey),
+        if (!modal) ...[
+          const Spacer(),
+          const PrivacyPolicyTextButtons(),
+          AppBoxes.kHeight12,
         ],
-      ),
+        GetCodeWidget(formKey: formKey),
+      ],
     );
   }
 }

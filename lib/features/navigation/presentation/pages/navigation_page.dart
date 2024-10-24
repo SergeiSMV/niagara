@@ -60,10 +60,35 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
         openedFromPush: () => context.navigateTo(const NotificationsRoute()),
       );
 
+  /// Переводит пользователя на экран ввода кода подтверждения.
+  void _navigateToOTPListener(BuildContext context, AuthState state) {
+    state.maybeWhen(
+      getCode: (phoneNumber) {
+        final test = ModalRoute.of(context);
+        final bool current = test?.isCurrent ?? false;
+
+        // Если поверх маршрута навигации открыт маршрут авторизации (например,
+        // на главной странице виджет авторизации открывает AuthRoute), то не
+        // нужно ничего делать.
+        if (!current) return;
+
+        context.navigateTo(OTPRoute(phoneNumber: phoneNumber));
+      },
+      orElse: () => null,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<NotificationsBloc, NotificationsState>(
-      listener: _notificationsListener,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: _navigateToOTPListener,
+        ),
+        BlocListener<NotificationsBloc, NotificationsState>(
+          listener: _notificationsListener,
+        ),
+      ],
       child: AutoTabsScaffold(
         routes: _routes,
         extendBodyBehindAppBar: true,
@@ -132,12 +157,8 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
             create: (_) => getIt<EquipmentsBloc>(),
             lazy: false,
           ),
-          BlocProvider(
-            create: (_) => getIt<AuthBloc>(),
-          ),
-          BlocProvider(
-            create: (_) => getIt<ValidatePhoneCubit>(),
-          ),
+          BlocProvider.value(value: getIt<AuthBloc>()),
+          BlocProvider(create: (_) => getIt<ValidatePhoneCubit>()),
         ],
         child: this,
       );

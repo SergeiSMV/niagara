@@ -40,7 +40,11 @@ class GetCodeWidget extends StatelessWidget {
     return BottomShadowWidget(
       child: AppTextButton.primary(
         text: !isLoading ? t.auth.getCode : null,
-        onTap: isValid ? () => onTapGetCode(context) : null,
+        onTap: isLoading
+            ? null
+            : isValid
+                ? () => onTapGetCode(context)
+                : null,
       ),
     );
   }

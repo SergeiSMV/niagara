@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
+import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
@@ -35,36 +36,39 @@ class OTPPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) => state.maybeWhen(
-        otpSuccess: () {
-          _navigateToMain(context);
-          return;
-        },
-        otpChangeError: () => _resetTimer(context),
-        orElse: () => null,
-      ),
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            const SliverAppBarWidget(),
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Padding(
-                padding: AppInsets.kHorizontal16,
-                child: Column(
-                  children: [
-                    OTPTitleWidget(phoneNumber: _phoneNumber),
-                    const OTPCodeWidget(),
-                    const Spacer(),
-                    const OtpLoadingWidget(),
-                    const Spacer(),
-                    const ReSendCodeWidget(),
-                  ],
+    return BlocProvider.value(
+      value: getIt<AuthBloc>(),
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) => state.maybeWhen(
+          otpSuccess: () {
+            _navigateToMain(context);
+            return;
+          },
+          otpChangeError: () => _resetTimer(context),
+          orElse: () => null,
+        ),
+        child: Scaffold(
+          body: CustomScrollView(
+            slivers: [
+              const SliverAppBarWidget(),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Padding(
+                  padding: AppInsets.kHorizontal16,
+                  child: Column(
+                    children: [
+                      OTPTitleWidget(phoneNumber: _phoneNumber),
+                      const OTPCodeWidget(),
+                      const Spacer(),
+                      const OtpLoadingWidget(),
+                      const Spacer(),
+                      const ReSendCodeWidget(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

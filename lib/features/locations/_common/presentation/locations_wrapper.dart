@@ -19,7 +19,7 @@ class LocationsWrapper implements AutoRouteWrapper {
         BlocProvider.value(value: getIt<AddressesBloc>()),
         BlocProvider(create: (_) => getIt<MapCubit>()),
         BlocProvider(create: (_) => getIt<ShopsBloc>()),
-        BlocProvider(create: (_) => getIt<AuthBloc>()),
+        BlocProvider.value(value: getIt<AuthBloc>()),
         BlocProvider(create: (_) => getIt<ValidatePhoneCubit>()),
       ],
       child: const AutoRouter(),
