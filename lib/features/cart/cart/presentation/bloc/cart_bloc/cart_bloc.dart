@@ -78,7 +78,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   /// Когда изменяется состояние авторизации, происходит новый запрос корзины.
   void _onAuthStatusChanged(AuthenticatedStatus status) =>
-      add(const _GetCart());
+      // ignore: invalid_use_of_visible_for_testing_member
+      status.hasAuth ? add(const _GetCart()) : emit(const _Unauthorized());
 
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
     final (cart, recommends) = state.maybeWhen(
