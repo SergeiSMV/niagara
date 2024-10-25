@@ -21,7 +21,11 @@ class AmountControlsWidget extends StatelessWidget {
     required this.onAdd,
     this.shortAmount = false,
     this.alwaysShowActions = false,
+    this.outOfStock = false,
   });
+
+  /// Означает, что товар добавлен в корзину, но отсутствует в наличии.
+  final bool outOfStock;
 
   /// Коллбек, вызываемый при уменьшении количества товара.
   final VoidCallback onRemove;
@@ -40,12 +44,14 @@ class AmountControlsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (count == 0 && !alwaysShowActions) {
+    if (count == 0 && !alwaysShowActions || outOfStock) {
       return InkWell(
-        onTap: onAdd,
+        onTap: outOfStock ? null : onAdd,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: context.colors.buttonColors.accent,
+            color: outOfStock
+                ? context.colors.buttonColors.inactive.withOpacity(0.5)
+                : context.colors.buttonColors.accent,
             borderRadius: AppBorders.kCircular6,
           ),
           child: Row(
@@ -53,14 +59,23 @@ class AmountControlsWidget extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: AppInsets.kVertical6,
-                  child: Assets.icons.shoppingCart.svg(
-                    width: AppSizes.kIconMedium,
-                    height: AppSizes.kIconMedium,
-                    colorFilter: ColorFilter.mode(
-                      context.colors.textColors.white,
-                      BlendMode.srcIn,
-                    ),
-                  ),
+                  child: outOfStock
+                      ? Text(
+                          t.common.outOfStock,
+                          textAlign: TextAlign.center,
+                          style:
+                              context.textStyle.textTypo.tx3SemiBold.withColor(
+                            context.colors.textColors.white,
+                          ),
+                        )
+                      : Assets.icons.shoppingCart.svg(
+                          width: AppSizes.kIconMedium,
+                          height: AppSizes.kIconMedium,
+                          colorFilter: ColorFilter.mode(
+                            context.colors.textColors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                 ),
               ),
             ],

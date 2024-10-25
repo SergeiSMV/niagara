@@ -10,5 +10,6 @@ extension PromotionsMapper on PromotionDto {
         startDate: DateTime.parse(dateBegin ?? ''),
         endDate: DateTime.parse(dateEnd ?? ''),
         isPersonal: personal ?? false,
+        groupId: groupId?.isNotEmpty == true ? groupId : null,
       );
 }

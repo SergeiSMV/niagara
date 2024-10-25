@@ -2,6 +2,9 @@ part of '../../core.dart';
 
 /// Константы для API
 abstract final class ApiConst {
+  // ? ----------------------------- БЦТ ------------------------------ ? //
+
+  static const String companyUrl = 'https://digitalburo.tech/?utm_source=niagara&utm_medium=mobile';
   // ? ----------------------------- General ------------------------------ ? //
   static const String kBaseUrl = 'API_HOST';
 

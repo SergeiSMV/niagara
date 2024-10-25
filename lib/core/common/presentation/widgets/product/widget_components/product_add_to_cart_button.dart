@@ -36,6 +36,8 @@ class ProductAddToCartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<CartBloc>();
+    final bool outOfStock = bloc.isOutOfStock(product);
+
     final CartState state = bloc.state;
     final List<Product> cartProducts = state.maybeWhen(
       loaded: (cart, recommends) => cart.products,
@@ -140,11 +142,13 @@ class ProductAddToCartButton extends StatelessWidget {
                   ),
                 ),
               )
-            : AppTextButton.primary(
-                icon: Assets.icons.shoppingCart,
-                text: t.catalog.toCard,
-                onTap: onPlus,
-              ),
+            : outOfStock
+                ? AppTextButton.primary(text: t.common.outOfStock)
+                : AppTextButton.primary(
+                    icon: Assets.icons.shoppingCart,
+                    text: t.catalog.toCard,
+                    onTap: onPlus,
+                  ),
       ),
     );
   }

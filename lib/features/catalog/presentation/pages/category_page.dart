@@ -60,13 +60,14 @@ class CategoryPage extends HookWidget {
               CatalogSearchButtonWidget(),
             ],
           ),
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            primary: false,
-            expandedHeight: 30,
-            titleSpacing: 0,
-            title: GroupsButtonsWidget(group: group),
-          ),
+          if (!group.temporary)
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              primary: false,
+              expandedHeight: 30,
+              titleSpacing: 0,
+              title: GroupsButtonsWidget(group: group),
+            ),
           SliverAppBar(
             automaticallyImplyLeading: false,
             primary: false,

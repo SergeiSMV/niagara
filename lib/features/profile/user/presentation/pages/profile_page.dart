@@ -10,6 +10,7 @@ import 'package:niagara_app/features/profile/user/presentation/widgets/account/e
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/profile_account_actions_widget.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/account/profile_user_data_widget.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/app_info_widget.dart';
+import 'package:niagara_app/features/profile/user/presentation/widgets/app_version_widget.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/banners_widget.dart';
 import 'package:niagara_app/features/profile/user/presentation/widgets/profile_info/profile_info_widget.dart';
 
@@ -42,18 +43,15 @@ class ProfilePage extends StatelessWidget {
                       BannersWidget(),
                       AppInfoWidget(),
                       ProfileAccountActionsWidget(),
-                      // TODO: Версия приложения на данный момент захардкожена
-                      // AppVersionWidget(),
+                      AppVersionWidget(),
                     ],
                   ),
                   unauthorized: (_) => const Column(
                     children: [
                       BannersWidget(),
                       AppInfoWidget(),
-                      ProfileAccountActionsWidget(),
-                      AppBoxes.kHeight16,
-                      // TODO: Версия приложения на данный момент захардкожена
-                      // AppVersionWidget(),
+                      AppBoxes.kHeight24,
+                      AppVersionWidget(),
                     ],
                   ),
                   orElse: SizedBox.shrink,
