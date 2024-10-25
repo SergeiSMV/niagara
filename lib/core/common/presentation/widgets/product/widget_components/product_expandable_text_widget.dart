@@ -86,10 +86,12 @@ class ProductExpandableTextWidget extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(text, style: textStyle),
-              AppBoxes.kHeight24,
-              PrepaidWaterDescriptionBanner(
-                backgroundColor: context.colors.mainColors.bgCard,
-              ),
+              if (showPrepaidWaterBanner) ...[
+                AppBoxes.kHeight24,
+                PrepaidWaterDescriptionBanner(
+                  backgroundColor: context.colors.mainColors.bgCard,
+                ),
+              ]
             ],
           );
         }
