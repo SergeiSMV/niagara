@@ -43,7 +43,7 @@ class AddressesPage extends StatelessWidget {
               ),
             ],
           ),
-          unauthorized: (_) => const AuthorizationWidget(),
+          unauthorized: (_) => const AuthorizationWidget(manageRedirect: true),
           error: (_) => ErrorRefreshWidget(
             error: t.locations.errorLoad,
             onRefresh: () => _onRefresh(context),
