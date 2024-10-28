@@ -29,6 +29,7 @@ abstract final class HomeRoutes {
           AutoRoute(page: NotificationsRoute.page),
           AutoRoute(page: OneNotificationRoute.page),
           ProductRoutes.routes,
+          AutoRoute(page: RecommendsRoute.page),
           ProfileRoutes.routes,
           PaymentRoutes.routes,
           OrderPlacingRoutes.routes,
