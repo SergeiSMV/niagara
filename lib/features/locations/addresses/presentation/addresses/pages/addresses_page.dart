@@ -20,9 +20,10 @@ class AddressesPage extends StatelessWidget {
 
   void _addressesListener(BuildContext context, AddressesState state) {
     state.maybeWhen(
-      error: (_, __) => 
-           AppSnackBar.showError(context, title: t.common.error),
-   
+      error: (_, __) => AppSnackBar.showError(
+        context,
+        title: t.common.errorOccured,
+      ),
       orElse: () {},
     );
   }
@@ -40,7 +41,7 @@ class AddressesPage extends StatelessWidget {
             loaded: (_, addresses) => _Loaded(addresses),
             unauthorized: (_) =>
                 const AuthorizationWidget(manageRedirect: true),
-            error: (_, addresses, __) =>
+            error: (_, addresses) =>
                 addresses != null ? _Loaded(addresses) : const _Error(),
           ),
         ),
