@@ -9,11 +9,15 @@ class Group extends Equatable {
     required this.id,
     required this.image,
     this.temporary = false,
+    this.promotionId,
   });
 
   final String name;
   final String id;
   final String image;
+
+  /// Идентификатор акции, на основе которой была сконструирована данная группа.
+  final String? promotionId;
 
   /// Индикатор того, что данная группа - временная и сконструирована на основе
   /// подборки акционных товаров.
@@ -27,6 +31,7 @@ class Group extends Equatable {
           id: promotion.groupId!,
           image: promotion.image,
           temporary: true,
+          promotionId: promotion.id,
         )
       : null;
 

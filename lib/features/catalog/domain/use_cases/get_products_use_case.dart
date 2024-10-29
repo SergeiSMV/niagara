@@ -18,6 +18,7 @@ class GetProductsUseCase extends BaseUseCase<Products, ProductsParams> {
         page: params.page,
         sort: params.sort,
         filtersIDs: params.filters.map((e) => e.id).toList(),
+        promotionId: params.group.promotionId,
       );
 }
 

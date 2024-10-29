@@ -12,6 +12,7 @@ abstract interface class ICatalogRepository {
     required int page,
     required ProductsSortType sort,
     List<String>? filtersIDs,
+    String? promotionId,
   });
 
   Future<Either<Failure, List<Product>>> getRecommends({

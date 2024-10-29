@@ -36,6 +36,7 @@ class CatalogRepositories extends BaseRepository implements ICatalogRepository {
     required int page,
     required ProductsSortType sort,
     List<String>? filtersIDs,
+    String? promotionId,
   }) =>
       execute(() async {
         return _groupsRDS
@@ -44,6 +45,7 @@ class CatalogRepositories extends BaseRepository implements ICatalogRepository {
               page: page,
               sort: sort,
               filters: filtersIDs,
+              promotionId: promotionId,
             )
             .fold(
               (failure) => throw failure,
