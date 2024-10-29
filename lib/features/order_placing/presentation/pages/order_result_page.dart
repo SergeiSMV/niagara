@@ -30,8 +30,8 @@ class OrderResultPage extends StatelessWidget {
         isSuccessful ? Assets.images.greenCheck : Assets.images.a3DError;
 
     final textStyle = context.textStyle.headingTypo.h3;
-    return BlocProvider(
-      create: (_) => getIt<UserBloc>(),
+    return BlocProvider.value(
+      value: getIt<UserBloc>(),
       child: Scaffold(
         body: Center(
           child: Column(

@@ -19,8 +19,7 @@ class OrderWaterRepository extends BaseRepository
   final IOrderWaterRemoteDataSource _orderWaterRemoteDataSource;
 
   @override
-  // TODO: implement failure
-  Failure get failure => throw UnimplementedError();
+  Failure get failure => OrderWaterRepositoryFailure();
 
   @override
   Future<Either<Failure, TokenizationData>> createOrder({

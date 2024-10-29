@@ -90,7 +90,6 @@ class _Content extends StatelessWidget {
             child: Padding(
               padding: AppInsets.kHorizontal16 + AppInsets.kTop24,
               child: BlocBuilder<ReferralBloc, ReferralState>(
-                // TODO: Добавить неавторизованное состояние.
                 builder: (_, state) => state.maybeWhen(
                   loaded: _Description.new,
                   orElse: AppCenterLoader.new,
