@@ -17,6 +17,7 @@ abstract final class CartRoutes {
             ],
           ),
           ProductRoutes.routes,
+          AutoRoute(page: RecommendsRoute.page),
           OrderPlacingRoutes.routes,
         ],
       );

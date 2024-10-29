@@ -31,6 +31,7 @@ abstract final class CatalogRoutes {
             ],
           ),
           ProductRoutes.routes,
+          AutoRoute(page: RecommendsRoute.page),
           ProfileRoutes.routes,
           OrderPlacingRoutes.routes,
           LoyaltyProgramRoutes.routes,

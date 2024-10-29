@@ -3,6 +3,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/enums/settings_type.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/check_gps_enabled_use_case.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/get_user_position_use_case.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/open_settings_use_case.dart';
@@ -42,6 +43,8 @@ class MapCubit extends Cubit<MapState> {
 
   bool isPermissionGranted = false;
   bool isGpsEnabled = false;
+
+  bool get needsGps => !isGpsEnabled;
 
   /// Отвечает за инициализацию контроллера карты
   Future<void> onControllerCreated(YandexMapController controller) async {
@@ -95,7 +98,8 @@ class MapCubit extends Cubit<MapState> {
   }
 
   /// Открывает настройки приложения
-  Future<void> onOpenSettings() async => _openSettingsUseCase.call();
+  Future<void> onOpenSettings() async => _openSettingsUseCase
+      .call(needsGps ? SettingsType.location : SettingsType.app);
 
   /// Включает слой пользователя на карте
   Future<void> _enableUserLayer() async => _controller.toggleUserLayer(
