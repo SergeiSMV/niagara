@@ -90,14 +90,8 @@ class _AllOrdersButtonWidget extends StatelessWidget {
     context
         .read<OrdersBloc>()
         .add(const OrdersEvent.loading(isForceUpdate: true));
-    context.navigateTo(
-      const ProfileWrapper(
-        children: [
-          ProfileRoute(),
-          OrdersRoute(),
-        ],
-      ),
-    );
+
+    context.navigateTo(const OrdersWrapper(children: [OrdersRoute()]));
   }
 
   @override

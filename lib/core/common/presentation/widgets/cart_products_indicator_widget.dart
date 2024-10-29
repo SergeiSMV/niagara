@@ -5,7 +5,6 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 
-// TODO(kvbykov): Тут можно улучишить UX (`loading` тоже даёт корзину)
 class CartProductsIndicatorWidget extends StatelessWidget {
   const CartProductsIndicatorWidget({super.key});
 
