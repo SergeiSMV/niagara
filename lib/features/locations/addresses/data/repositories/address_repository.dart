@@ -132,7 +132,7 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
 
   Future<void> _addAddress(Address address, String phone) async =>
       _addressesRDS.addAddress(address: address.toDto(), phone: phone).fold(
-            (failure) => throw failure,
+            (failure) => throw AddressesRepositoryFailure(failure.error),
             (locationId) async => _addressesLDS.addAddress(
               address.toEntity(
                 isDefault: true,
@@ -143,7 +143,7 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
 
   Future<void> _updateAddress(Address address) async =>
       _addressesRDS.updateAddress(address: address.toDto()).fold(
-        (failure) => throw failure,
+        (failure) => throw AddressesRepositoryFailure(failure.error),
         (locationId) async {
           await _addressesLDS.updateAddress(address.toEntity());
         },
@@ -151,7 +151,7 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
 
   Future<void> _deleteLocation(Address address) async =>
       _addressesRDS.deleteAddress(address: address.toDto()).fold(
-        (failure) => throw failure,
+        (failure) => throw AddressesRepositoryFailure(failure.error),
         (success) async {
           if (!success) throw const AddressesRepositoryFailure();
           await _addressesLDS.deleteAddress(address.toEntity());
