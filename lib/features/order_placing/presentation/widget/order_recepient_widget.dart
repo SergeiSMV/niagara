@@ -18,12 +18,7 @@ class OrderRecepientWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserBloc, UserState>(
-      listener: (context, state) =>
-          context.read<OrderCreationCubit>().recipientSet = state.maybeWhen(
-        loaded: (user) => user.hasRequiredData,
-        orElse: () => false,
-      ),
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) => state.maybeWhen(
         loaded: _RecepientData.new,
         // TODO: Тут как-то иначе должно быть, но ситуации, когда пользователя
@@ -41,6 +36,8 @@ class _RecepientData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<OrderCreationCubit>().recipientSet = user.hasRequiredData;
+
     final String name = user.name;
     final String surname = user.surname;
     final String patronymic = user.patronymic;
