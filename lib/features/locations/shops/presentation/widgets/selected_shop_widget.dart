@@ -32,9 +32,7 @@ class SelectedShopWidget extends StatelessWidget {
     final iosUrl =
         Uri.parse('maps:$latitude,$longitude?q=$latitude,$longitude');
 
-    final androidUrl = Uri.parse(
-      'geo:$latitude,$longitude', //?q=$latitude,$longitude($shop.name)
-    );
+    final androidUrl = Uri.parse('geo:$latitude,$longitude?q=${shop.name}');
 
     // TODO(Oleg): Проверить на яндексе
     // final yandexMap =
