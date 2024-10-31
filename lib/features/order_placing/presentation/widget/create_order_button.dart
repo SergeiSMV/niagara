@@ -27,9 +27,7 @@ class CreateOrderButton extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: loading
-            ? context.colors.buttonColors.secondary
-            : context.colors.mainColors.white,
+        color: context.colors.mainColors.white,
         boxShadow: [
           BoxShadow(
             color: context.colors.textColors.main
@@ -53,7 +51,9 @@ class CreateOrderButton extends StatelessWidget {
             alignment: Alignment.center,
             padding: AppInsets.kHorizontal16,
             decoration: BoxDecoration(
-              color: context.colors.buttonColors.primary,
+              color: loading
+                  ? context.colors.buttonColors.inactive.withOpacity(0.5)
+                  : context.colors.buttonColors.primary,
               borderRadius: AppBorders.kCircular12,
             ),
             height: AppSizes.kButtonLarge,
@@ -101,7 +101,7 @@ class _ButtonContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          t.product(n: cart.products.length),
+          t.product(n: cart.cartData.productsCount),
           style: context.textStyle.textTypo.tx2Medium
               .withColor(context.colors.textColors.white),
         ),
