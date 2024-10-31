@@ -85,13 +85,13 @@ class _Content extends StatelessWidget {
                             if (bonuses.level.isBasicStatus)
                               Column(
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding: AppInsets.kVertical16,
                                     child: Column(
                                       children: [
-                                        YearlyBonusesWidget(),
+                                        YearlyBonusesWidget(bonuses),
                                         AppBoxes.kHeight12,
-                                        AccruedBonusesWidget(),
+                                        AccruedBonusesWidget(bonuses),
                                       ],
                                     ),
                                   ),

@@ -7,9 +7,12 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
 
 class YearlyBonusesWidget extends StatelessWidget {
-  const YearlyBonusesWidget({super.key});
+  const YearlyBonusesWidget(this.bonuses);
+
+  final Bonuses bonuses;
 
   EdgeInsetsGeometry get _padding =>
       AppInsets.kHorizontal16 + AppInsets.kTop16 + AppInsets.kBottom24;
@@ -46,7 +49,7 @@ class YearlyBonusesWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight24,
           TimerCountdown(
-            endTime: DateTime.now().add(const Duration(days: 31)),
+            endTime: bonuses.yearlyBonusDate,
             daysDescription: t.bonuses.days,
             hoursDescription: t.bonuses.hours,
             minutesDescription: t.bonuses.minutes,

@@ -13,6 +13,8 @@ extension BonusesDtoMapper on ProfileDto {
         tempDays: int.parse(bonusesTempDays ?? '0'),
         level: StatusLevel.parseStatusLevel(bonusesLevel?.toLowerCase() ?? ''),
         nextLevel: StatusLevel.parseStatusLevel(bonusesLevelNext ?? ''),
+        yearlyBonusCount: yearlyBonusCount,
+        yearlyBonusDate: yearlyBonusDate,
         endDate: (bonusesLevelEnd != null
                 ? DateTime.tryParse(bonusesLevelEnd!)
                 : null) ??
