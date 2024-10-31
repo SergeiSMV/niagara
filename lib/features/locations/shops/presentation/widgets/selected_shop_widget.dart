@@ -89,24 +89,32 @@ class SelectedShopWidget extends StatelessWidget {
 class _ShopPhone extends StatelessWidget {
   const _ShopPhone();
 
+  Future<void> _onTapNumber(String phone) async {
+    final uri = Uri(scheme: 'tel', path: phone);
+    if (await canLaunchUrl(uri)) await launchUrl(uri);
+  }
+
   @override
   Widget build(BuildContext context) {
     final phone = context.read<AddressesBloc>().state.phone;
 
-    return Row(
-      children: [
-        Assets.icons.phone.svg(
-          width: AppSizes.kIconMedium,
-          height: AppSizes.kIconMedium,
-        ),
-        AppBoxes.kWidth8,
-        Text(
-          phone,
-          style: context.textStyle.textTypo.tx2Medium.withColor(
-            context.colors.textColors.main,
+    return GestureDetector(
+      onTap: () => _onTapNumber(phone),
+      child: Row(
+        children: [
+          Assets.icons.phone.svg(
+            width: AppSizes.kIconMedium,
+            height: AppSizes.kIconMedium,
           ),
-        ),
-      ],
+          AppBoxes.kWidth8,
+          Text(
+            phone,
+            style: context.textStyle.textTypo.tx2Medium.withColor(
+              context.colors.textColors.main,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
