@@ -96,7 +96,7 @@ class _TareSelectionWidget extends StatelessWidget {
                   const Spacer(),
                   if (allSelected)
                     Text(
-                      '$selectedTares ${t.pieces}',
+                      '${totalTares - selectedTares} ${t.pieces}',
                       style: context.textStyle.textTypo.tx1SemiBold.withColor(
                         context.colors.mainColors.primary,
                       ),

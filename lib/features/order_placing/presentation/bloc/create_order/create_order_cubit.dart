@@ -33,6 +33,10 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
   /// Выбранный способ оплаты.
   PaymentMethod? paymentMethod;
 
+  /// Индикатор загрузки.
+  bool get isLoading =>
+      state.maybeWhen(loading: () => true, orElse: () => false);
+
   /// Проверяет, выбраны ли дата доставки и временной слот.
   bool _checkDate() {
     final bool selected = selectedDate != null && selectedTimeSlot != null;

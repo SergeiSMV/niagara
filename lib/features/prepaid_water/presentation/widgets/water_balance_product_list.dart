@@ -46,8 +46,10 @@ class _Loaded extends StatelessWidget {
   Widget build(BuildContext context) {
     final int length = balance.bottles.length;
     final List<Widget> children = balance.bottles
-        .map((bottle) =>
-            ProductWidget(product: bottle, isOnWaterBalancePage: true))
+        .map(
+          (bottle) =>
+              ProductWidget(product: bottle, isOnWaterBalancePage: true),
+        )
         .toList();
 
     return Column(
