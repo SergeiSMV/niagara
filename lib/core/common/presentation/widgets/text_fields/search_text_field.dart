@@ -34,17 +34,19 @@ class SearchTextField extends HookWidget {
     final searchCtrl = useSearchController();
     useListenable(searchCtrl);
 
-    // Apply initialValue like in `initState`
+    // Применяет [initialValue]
     useEffect(
       () {
         if (initialValue != null) {
           searchCtrl.text = initialValue!;
+          // Обновляем поиск: если пользователь покрутил карту и теперь
+          // возвращается к поиску, нужно обновить старые результаты поиска
           onChanged?.call(initialValue);
         }
-        return null; // No clean-up action needed
+        return null;
       },
       [initialValue],
-    ); // Trigger only when `initialValue` changes
+    ); 
 
     return FormBuilderTextField(
       key: formKey,
