@@ -395,3 +395,9 @@ class PaymentsRemoteDataFailure extends Failure {
     super.error = 'Payments remote data failure',
   ]);
 }
+
+// ! --------------------------- Prepaid Water -------------------------! //
+
+class OrderWaterRepositoryFailure extends Failure {
+  const OrderWaterRepositoryFailure([super.error = 'Order water repo failure']);
+}

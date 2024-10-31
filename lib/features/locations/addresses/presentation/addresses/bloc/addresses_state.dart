@@ -14,6 +14,7 @@ class AddressesState with _$AddressesState {
 
   const factory AddressesState.error({
     City? city,
+    List<Address>? address,
   }) = _Error;
 
   const factory AddressesState.unauthorized({

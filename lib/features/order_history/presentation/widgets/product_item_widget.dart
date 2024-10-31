@@ -22,13 +22,9 @@ class ProductItemWidget extends StatelessWidget {
   final int productCount;
 
   void _navigateToProductPage(BuildContext context) => context.navigateTo(
-        CatalogWrapper(
-          children: [
-            ProductRoute(
-              key: ValueKey(product.id),
-              product: product,
-            ),
-          ],
+        ProductRoute(
+          key: ValueKey(product.id),
+          product: product,
         ),
       );
 
@@ -45,15 +41,18 @@ class ProductItemWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: AppBorders.kCircular6,
-              child: ExtendedImage.network(
-                product.imageUrl,
-                fit: BoxFit.fitHeight,
-                loadStateChanged: (state) =>
-                    state.extendedImageLoadState == LoadState.loading
-                        ? const AppCenterLoader()
-                        : null,
+            AspectRatio(
+              aspectRatio: 1,
+              child: ClipRRect(
+                borderRadius: AppBorders.kCircular6,
+                child: ExtendedImage.network(
+                  product.imageUrl,
+                  fit: BoxFit.contain,
+                  loadStateChanged: (state) =>
+                      state.extendedImageLoadState == LoadState.loading
+                          ? const AppCenterLoader()
+                          : null,
+                ),
               ),
             ),
             AppBoxes.kWidth12,

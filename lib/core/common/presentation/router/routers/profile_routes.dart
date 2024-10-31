@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/loyalty_program_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/order_placing_routes.dart';
+import 'package:niagara_app/core/common/presentation/router/routers/order_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/payment_routes.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
@@ -15,19 +16,8 @@ abstract final class ProfileRoutes {
             initial: true,
             title: (_, __) => '',
           ),
-          AutoRoute(
-            page: OrdersRoute.page,
-            title: (_, __) => t.recentOrders.myOrders,
-          ),
-          AutoRoute(
-            page: OneOrderRoute.page,
-          ),
-          AutoRoute(
-            page: NotificationsRoute.page,
-          ),
-          AutoRoute(
-            page: OneNotificationRoute.page,
-          ),
+          AutoRoute(page: NotificationsRoute.page),
+          AutoRoute(page: OneNotificationRoute.page),
           AutoRoute(
             page: PromotionsTabRoute.page,
             children: [
@@ -59,10 +49,9 @@ abstract final class ProfileRoutes {
             page: CleaningRequestRoute.page,
             title: (_, __) => t.equipments.requestForCleaning,
           ),
-          AutoRoute(
-            page: CleaningOrderSuccessfulRoute.page,
-          ),
+          AutoRoute(page: CleaningOrderSuccessfulRoute.page),
           LoyaltyProgramRoutes.routes,
+          OrderRoutes.routes,
         ],
       );
 }

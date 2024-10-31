@@ -19,7 +19,7 @@ class OrderPlacingWrapper implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => getIt<UserBloc>()),
+          BlocProvider.value(value: getIt<UserBloc>()),
           BlocProvider(create: (_) => getIt<OrderCreationCubit>()),
           BlocProvider(create: (_) => getIt<TimeSlotSelectionCubit>()),
           BlocProvider(create: (_) => getIt<DateSelectionCubit>()),

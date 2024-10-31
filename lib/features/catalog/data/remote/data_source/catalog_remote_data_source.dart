@@ -13,6 +13,7 @@ abstract interface class ICatalogRemoteDataSource {
     required int page,
     required ProductsSortType sort,
     List<String>? filters,
+    String? promotionId,
   });
 
   Future<Either<Failure, List<ProductDto>>> getRecommend({
@@ -56,6 +57,7 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
     required int page,
     required ProductsSortType sort,
     List<String>? filters,
+    String? promotionId,
   }) =>
       _requestHandler.sendRequest<ProductsDto, Map<String, dynamic>>(
         request: (dio) => dio.get(
@@ -63,6 +65,7 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
           queryParameters: {
             'product_group': groupId,
             'page': page,
+            if (promotionId != null) 'offers': promotionId,
             if (sort != ProductsSortType.none) 'sort': sort.name,
             if (filters != null && filters.isNotEmpty)
               'filters': filters.join(','),

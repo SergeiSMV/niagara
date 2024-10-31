@@ -19,7 +19,7 @@ class LoyaltyProgramWrapper implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => getIt<UserBloc>()),
+          BlocProvider.value(value: getIt<UserBloc>()),
           BlocProvider.value(value: getIt<BonusesBloc>()),
           BlocProvider(create: (_) => getIt<VipDescriptionBloc>()),
           BlocProvider(create: (_) => getIt<VipActivationSelectionCubit>()),

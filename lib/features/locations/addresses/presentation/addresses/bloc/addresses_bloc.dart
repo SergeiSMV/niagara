@@ -59,6 +59,12 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
 
   StreamSubscription? _authStatusSubscription;
 
+  List<Address>? get _current => state.maybeWhen(
+        loaded: (_, address) => address,
+        error: (_, address) => address,
+        orElse: () => null,
+      );
+
   /// Когда изменяется состояние авторизации, происходит повторный запрос на
   /// адреса.
   void _onAuthStatusChanged(AuthenticatedStatus status) =>
@@ -84,12 +90,13 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     _LoadAddressesEvent event,
     _Emit emit,
   ) async {
+    final addresses = _current;
     emit(const _Loading());
     final city = await _getCity();
     if (city == null) return emit(const _Error());
 
     await _getAddressesUseCase().fold(
-      (_) => emit(_Error(city: city)),
+      (_) => emit(_Error(city: city, address: addresses)),
       (addresses) => emit(_Loaded(city: city, address: addresses)),
     );
   }
@@ -98,9 +105,16 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     _AddAddressEvent event,
     _Emit emit,
   ) async {
+    final addresses = _current;
+
     emit(const _Loading());
     await _addAddressUseCase(event.address).fold(
-      (_) => emit(const _Error()),
+      (failure) {
+        emit(
+          _Error(address: addresses),
+        );
+        add(const _LoadAddressesEvent());
+      },
       (_) => add(const _LoadAddressesEvent()),
     );
   }
@@ -109,9 +123,15 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     _UpdateAddressEvent event,
     _Emit emit,
   ) async {
+    final addresses = _current;
     emit(const _Loading());
     await _updateAddressUseCase(event.address).fold(
-      (_) => emit(const _Error()),
+      (failure) {
+        emit(
+          _Error(address: addresses),
+        );
+        add(const _LoadAddressesEvent());
+      },
       (_) => add(const _LoadAddressesEvent()),
     );
   }
@@ -120,9 +140,16 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     _DeleteAddressEvent event,
     _Emit emit,
   ) async {
+    final addresses = _current;
+
     emit(const _Loading());
     await _deleteAddressUseCase(event.address).fold(
-      (_) => emit(const _Error()),
+      (failure) {
+        emit(
+          _Error(address: addresses),
+        );
+        add(const _LoadAddressesEvent());
+      },
       (_) => add(const _LoadAddressesEvent()),
     );
   }
@@ -135,9 +162,9 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     if (city == null) return emit(const _Error());
 
     await _setDefaultAddressUseCase(event.address).fold(
-      (_) => emit(const _Error()),
+      (_) => emit(_Error(address: _current)),
       (_) async => _getAddressesUseCase().fold(
-        (_) => emit(_Error(city: city)),
+        (_) => emit(_Error(city: city, address: _current)),
         (addresses) => emit(_Loaded(city: city, address: addresses)),
       ),
     );

@@ -17,7 +17,7 @@ part 'user_bloc.freezed.dart';
 
 typedef _Emit = Emitter<UserState>;
 
-@injectable
+@lazySingleton
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc(
     this._hasAuthStatusUseCase,

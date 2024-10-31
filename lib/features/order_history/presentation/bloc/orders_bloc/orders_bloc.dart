@@ -51,14 +51,15 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
   /// Когда изменяется состояние авторизации, происходит новый запрос списка
   /// заказов.
-  void _onAuthStatusChanged(AuthenticatedStatus status) =>
-      add(const _LoadingEvent(isForceUpdate: true));
+  void _onAuthStatusChanged(AuthenticatedStatus status) {
+    _previewOrders = null;
+    add(const _LoadAllEvent());
+    add(const _LoadingEvent(isForceUpdate: true));
+  }
 
   Future<void> _onLoadOrders(_LoadingEvent event, _Emit emit) async {
     if (event.isForceUpdate) {
-      emit(
-        _Loading(preview: _previewOrders),
-      );
+      emit(_Loading(preview: _previewOrders));
       _current = 0;
     }
 
@@ -91,6 +92,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     );
   }
 
+  /// Загружает вообще все заказы и отбирает оттуда заказы для превью на
+  /// главной.
   Future<void> _onLoadAllOrders(_LoadAllEvent event, _Emit emit) async {
     await _getOrdersUseCase(
       const OrdersParams(page: 1),
