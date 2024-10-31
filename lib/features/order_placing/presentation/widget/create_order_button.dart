@@ -23,9 +23,13 @@ class CreateOrderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool loading = context.watch<OrderCreationCubit>().isLoading;
+
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: context.colors.mainColors.white,
+        color: loading
+            ? context.colors.buttonColors.secondary
+            : context.colors.mainColors.white,
         boxShadow: [
           BoxShadow(
             color: context.colors.textColors.main
@@ -40,9 +44,11 @@ class CreateOrderButton extends StatelessWidget {
             AppInsets.kVertical12 +
             AppInsets.kBottom12,
         child: InkWell(
-          onTap: () => context
-              .read<OrderCreationCubit>()
-              .placeOrder(allowZeroPrice: cart.cartData.totalPrice == 0),
+          onTap: loading
+              ? null
+              : () => context
+                  .read<OrderCreationCubit>()
+                  .placeOrder(allowZeroPrice: cart.cartData.totalPrice == 0),
           child: Container(
             alignment: Alignment.center,
             padding: AppInsets.kHorizontal16,

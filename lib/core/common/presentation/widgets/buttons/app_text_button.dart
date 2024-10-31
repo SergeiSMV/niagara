@@ -144,10 +144,11 @@ class _TextButtonWidget extends StatelessWidget {
     };
 
     return Padding(
-      padding: AppInsets.kHorizontal24 +
-          EdgeInsets.symmetric(
-            vertical: size.verticalPadding,
-          ),
+      padding: EdgeInsets.zero,
+      // AppInsets.kHorizontal24 +
+      //     EdgeInsets.symmetric(
+      //       vertical: size.verticalPadding,
+      //     ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
