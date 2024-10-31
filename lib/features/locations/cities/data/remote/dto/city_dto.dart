@@ -1,12 +1,9 @@
 // ignore_for_file: sort_constructors_first
 
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
-
-part 'city_dto.g.dart';
 
 /// DTO для города с удаленного сервера.
-@JsonSerializable(fieldRename: FieldRename.screamingSnake, createToJson: false)
+
 class CityDto extends Equatable {
   const CityDto({
     required this.region,
@@ -15,28 +12,35 @@ class CityDto extends Equatable {
     required this.latitude,
     required this.longitude,
     required this.phone,
+    required this.diffLat,
+    required this.diffLong,
   });
 
   final String region;
-
-  @JsonKey(name: 'CITY_ID')
   final int id;
-
   final String city;
-
-  @JsonKey(name: 'LAT', fromJson: _getCoordinate)
   final double latitude;
-
-  @JsonKey(name: 'LAN', fromJson: _getCoordinate)
   final double longitude;
-
+  final double? diffLat;
+  final double? diffLong;
   final String phone;
 
-  factory CityDto.fromJson(Map<String, dynamic> json) =>
-      _$CityDtoFromJson(json);
+  factory CityDto.fromJson(Map<String, dynamic> json) => CityDto(
+        region: json['REGION'] as String,
+        id: (json['CITY_ID'] as num).toInt(),
+        city: json['CITY'] as String,
+        latitude: _getCoordinate(json['LAT'] as String),
+        longitude: _getCoordinate(json['LAN'] as String),
+        diffLat: _getCoordinateOrNull(json['DX'] as String?),
+        diffLong: _getCoordinateOrNull(json['DY'] as String?),
+        phone: json['PHONE'] as String,
+      );
 
   static double _getCoordinate(String value) =>
       double.parse(value.replaceAll(',', '.'));
+
+  static double? _getCoordinateOrNull(String? value) =>
+      value != null && value.isNotEmpty ? _getCoordinate(value) : null;
 
   @override
   List<Object?> get props => [

@@ -8,6 +8,9 @@ extension CityDtoMapper on CityDto {
         province: region,
         locality: city,
         phone: phone,
+        searchSpan: diffLat != null && diffLong != null
+            ? (diffLat: diffLat!, diffLong: diffLong!)
+            : null,
       );
 }
 
@@ -19,5 +22,7 @@ extension CityMapper on City {
         region: province,
         city: locality,
         phone: phone,
+        diffLat: searchSpan?.diffLat,
+        diffLong: searchSpan?.diffLong,
       );
 }

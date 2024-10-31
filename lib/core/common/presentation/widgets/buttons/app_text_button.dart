@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/base_button.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/enums/base_button_size.dart';
 import 'package:niagara_app/core/utils/enums/base_button_type.dart';
@@ -145,6 +144,9 @@ class _TextButtonWidget extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.zero,
+      // TODO: Проверить, ничего ли не сломалось. Сейчас убрал, потому что на
+      // маленьких экранах плывут постоянно текста кнопок. Тут по идее
+      // достаточно того, что в BaseButton есть Align.center.
       // AppInsets.kHorizontal24 +
       //     EdgeInsets.symmetric(
       //       vertical: size.verticalPadding,
