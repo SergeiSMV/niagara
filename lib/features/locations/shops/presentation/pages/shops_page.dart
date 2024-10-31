@@ -14,16 +14,18 @@ class ShopsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ShopsBloc, ShopsState>(
-      builder: (_, state) => state.maybeWhen(
-        loading: AppCenterLoader.new,
-        error: (_) => const _Error(),
-        orElse: () => const Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            ShopsMapWidget(),
-            ShopsListModal(),
-          ],
+    return Scaffold(
+      body: BlocBuilder<ShopsBloc, ShopsState>(
+        builder: (_, state) => state.maybeWhen(
+          loading: AppCenterLoader.new,
+          error: (_) => const _Error(),
+          orElse: () => const Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              ShopsMapWidget(),
+              ShopsListModal(),
+            ],
+          ),
         ),
       ),
     );

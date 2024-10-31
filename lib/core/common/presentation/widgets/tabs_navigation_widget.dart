@@ -13,12 +13,14 @@ class AppTabItem {
   const AppTabItem({
     required this.route,
     required this.title,
+    this.appBarActions,
     this.icon,
   });
 
   final PageRouteInfo<dynamic> route;
   final String title;
   final SvgGenImage? icon;
+  final List<Widget>? appBarActions;
 }
 
 class TabsNavigationWidget extends StatelessWidget {
@@ -38,7 +40,9 @@ class TabsNavigationWidget extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       builder: (_, child, ctrl) => Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: showAppBar ? const AppBarWidget() : null,
+        appBar: showAppBar
+            ? AppBarWidget(actions: tabs[ctrl.index].appBarActions)
+            : null,
         body: Stack(
           children: [
             child,
