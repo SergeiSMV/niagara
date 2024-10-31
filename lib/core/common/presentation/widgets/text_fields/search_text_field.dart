@@ -12,13 +12,19 @@ class SearchTextField extends HookWidget {
   /// Принимает параметры:
   /// - [key] - ключ виджета,
   /// - [onChanged] - функция, которая вызывается при изменении значения в поле
+  /// - [initialValue] - начальное значение поля, используется при возвращении к
+  ///   поиску из карты
   const SearchTextField({
     super.key,
     this.onChanged,
+    this.initialValue,
   });
 
   /// Функция, которая будет вызвана при изменении значения в поле
   final void Function(String?)? onChanged;
+
+  /// Начальное значение поля поиска
+  final String? initialValue;
 
   String get _fieldName => AppConstants.kSearchTextFieldName;
 
@@ -27,6 +33,18 @@ class SearchTextField extends HookWidget {
     final formKey = useMemoized(GlobalKey<FormBuilderState>.new);
     final searchCtrl = useSearchController();
     useListenable(searchCtrl);
+
+    // Apply initialValue like in `initState`
+    useEffect(
+      () {
+        if (initialValue != null) {
+          searchCtrl.text = initialValue!;
+          onChanged?.call(initialValue);
+        }
+        return null; // No clean-up action needed
+      },
+      [initialValue],
+    ); // Trigger only when `initialValue` changes
 
     return FormBuilderTextField(
       key: formKey,
