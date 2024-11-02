@@ -58,7 +58,7 @@ class AmountControlsWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: AppInsets.kVertical6,
+                  padding: AppInsets.kVertical4,
                   child: outOfStock
                       ? Text(
                           t.common.outOfStock,
@@ -91,7 +91,7 @@ class AmountControlsWidget extends StatelessWidget {
             onTap: onRemove,
           ),
           Padding(
-            padding: AppInsets.kHorizontal16,
+            padding: AppInsets.kHorizontal16 + AppInsets.kVertical4,
             child: Text(
               '$count${shortAmount ? '' : ' ${t.pieces}'}',
               style: context.textStyle.textTypo.tx2SemiBold.withColor(
