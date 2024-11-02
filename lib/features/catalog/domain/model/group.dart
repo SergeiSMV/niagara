@@ -1,6 +1,7 @@
 // ignore_for_file: sort_constructors_first
 
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/promotions/domain/models/promotion.dart';
 
 class Group extends Equatable {
@@ -32,6 +33,16 @@ class Group extends Equatable {
           image: promotion.image,
           temporary: true,
           promotionId: promotion.id,
+        )
+      : null;
+
+  /// Конструирует группу с акционными товарами для категории предоплатной воды.
+  static Group? forWater(String? bottlesGroupId) => bottlesGroupId != null
+      ? Group(
+          name: t.prepaidWater.title,
+          image: '',
+          id: bottlesGroupId,
+          promotionId: 'water',
         )
       : null;
 

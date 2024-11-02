@@ -18,6 +18,7 @@ class Bonuses extends Equatable {
     required this.endDate,
     required this.revThisMonth,
     required this.bottles,
+    required this.bottlesGroupId,
     int? yearlyBonusCount,
     DateTime? yearlyBonusDate,
   })  : yearlyBonusDate =
@@ -56,6 +57,11 @@ class Bonuses extends Equatable {
 
   /// Предоплатная вода.
   final Bottles bottles;
+
+  /// ID группы "Акции" в каталоге для предоплатной воды.
+  ///
+  /// Нужен для перехода в каталог.
+  final String? bottlesGroupId;
 
   /// Дата начисления годового бонуса.
   final DateTime yearlyBonusDate;

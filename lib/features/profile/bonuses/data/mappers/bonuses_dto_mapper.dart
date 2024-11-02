@@ -24,5 +24,7 @@ extension BonusesDtoMapper on ProfileDto {
           count: bottlesCount ?? 0,
           bottles: bottles?.map((bottle) => bottle.toModel()).toList() ?? [],
         ),
+        bottlesGroupId:
+            bottlesGroupId?.isNotEmpty == true ? bottlesGroupId : null,
       );
 }

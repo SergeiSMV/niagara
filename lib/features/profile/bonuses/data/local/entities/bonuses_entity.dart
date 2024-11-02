@@ -19,6 +19,7 @@ class BonusesEntity extends Equatable {
     required this.endDate,
     required this.revThisMonth,
     required this.bottles,
+    required this.bottlesGroupId,
   });
 
   final int id;
@@ -32,9 +33,10 @@ class BonusesEntity extends Equatable {
   final DateTime endDate;
   final int revThisMonth;
   final BottlesEntity bottles;
+  final String? bottlesGroupId;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         cardNumber,
         count,
@@ -46,6 +48,7 @@ class BonusesEntity extends Equatable {
         endDate,
         revThisMonth,
         bottles,
+        bottlesGroupId,
       ];
 }
 

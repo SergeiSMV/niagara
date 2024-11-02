@@ -25,6 +25,7 @@ class ProfileDto extends Equatable {
     this.revThisMonth,
     this.bottlesCount,
     this.bottles,
+    this.bottlesGroupId,
     this.locationDefault,
     this.yearlyBonusDate,
     this.yearlyBonusCount,
@@ -50,6 +51,7 @@ class ProfileDto extends Equatable {
   final int? revThisMonth;
   final int? bottlesCount;
   final List<ProductDto>? bottles;
+  final String? bottlesGroupId;
   final String? locationDefault;
   final DateTime? yearlyBonusDate;
   final int? yearlyBonusCount;
@@ -83,6 +85,7 @@ class ProfileDto extends Equatable {
         bottles: (json['BOTTELS'] as List<dynamic>?)
             ?.map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
             .toList(),
+        bottlesGroupId: json['BOTTELS_GROUP'] as String?,
         locationDefault: json['LOCATION_DEFAULT'] as String?,
       );
 
