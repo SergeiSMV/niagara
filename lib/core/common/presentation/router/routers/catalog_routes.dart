@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/loyalty_program_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/order_placing_routes.dart';
+import 'package:niagara_app/core/common/presentation/router/routers/payment_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/product_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/profile_routes.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
@@ -31,6 +32,7 @@ abstract final class CatalogRoutes {
             ],
           ),
           ProductRoutes.routes,
+          PaymentRoutes.routes,
           AutoRoute(page: RecommendsRoute.page),
           ProfileRoutes.routes,
           OrderPlacingRoutes.routes,
