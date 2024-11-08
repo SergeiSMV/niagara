@@ -13,6 +13,8 @@ extension BonusesDtoMapper on ProfileDto {
         tempDays: int.parse(bonusesTempDays ?? '0'),
         level: StatusLevel.parseStatusLevel(bonusesLevel?.toLowerCase() ?? ''),
         nextLevel: StatusLevel.parseStatusLevel(bonusesLevelNext ?? ''),
+        yearlyBonusCount: yearlyBonusCount,
+        yearlyBonusDate: yearlyBonusDate,
         endDate: (bonusesLevelEnd != null
                 ? DateTime.tryParse(bonusesLevelEnd!)
                 : null) ??
@@ -22,5 +24,7 @@ extension BonusesDtoMapper on ProfileDto {
           count: bottlesCount ?? 0,
           bottles: bottles?.map((bottle) => bottle.toModel()).toList() ?? [],
         ),
+        bottlesGroupId:
+            bottlesGroupId?.isNotEmpty == true ? bottlesGroupId : null,
       );
 }

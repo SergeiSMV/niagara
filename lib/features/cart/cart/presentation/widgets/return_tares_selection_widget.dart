@@ -86,17 +86,21 @@ class _TareSelectionWidget extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: onAllToggled,
-                    child: icon.svg(),
-                  ),
-                  AppBoxes.kWidth8,
-                  Text(
-                    t.cart.returnEmptyTare,
-                    style: context.textStyle.textTypo.tx2Medium,
+                    child: Row(
+                      children: [
+                        icon.svg(),
+                        AppBoxes.kWidth8,
+                        Text(
+                          t.cart.returnEmptyTare,
+                          style: context.textStyle.textTypo.tx2Medium,
+                        ),
+                      ],
+                    ),
                   ),
                   const Spacer(),
                   if (allSelected)
                     Text(
-                      '$selectedTares ${t.pieces}',
+                      '$totalTares ${t.pieces}',
                       style: context.textStyle.textTypo.tx1SemiBold.withColor(
                         context.colors.mainColors.primary,
                       ),
@@ -129,7 +133,7 @@ class _TareSelectionWidget extends StatelessWidget {
                           style: context.textStyle.textTypo.tx1SemiBold,
                         ),
                         Text(
-                          '$selectedTares ${t.pieces}',
+                          '${totalTares - selectedTares} ${t.pieces}',
                           style:
                               context.textStyle.descriptionTypo.des3.withColor(
                             context.colors.textColors.secondary,

@@ -117,7 +117,7 @@ class PayButton extends StatelessWidget {
                     ]
                   : [
                       Text(
-                        t.product(n: cart.products.length),
+                        t.product(n: cart.cartData.productsCount),
                         style: context.textStyle.textTypo.tx2Medium
                             .withColor(context.colors.textColors.white),
                       ),

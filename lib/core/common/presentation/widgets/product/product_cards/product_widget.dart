@@ -47,7 +47,9 @@ class ProductWidget extends StatelessWidget {
     // Тип события зависит от того, добавляем мы обычный товар или предоплатную
     // воду на списание с баланса.
     final CartEvent addEvent = CartEvent.addToCart(
-        product: product, prepaidWater: isOnWaterBalancePage);
+      product: product,
+      prepaidWater: isOnWaterBalancePage,
+    );
     final CartEvent removeEvent = CartEvent.removeFromCart(
       product: product,
       prepaidWater: isOnWaterBalancePage,

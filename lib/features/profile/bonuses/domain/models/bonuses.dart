@@ -6,7 +6,7 @@ import 'package:niagara_app/core/utils/enums/status_level_type.dart';
 /// Модель с полной информацией об уровне бонусной программы, VIP-статусе и
 /// предоплатной воде пользователя.
 class Bonuses extends Equatable {
-  const Bonuses({
+  Bonuses({
     required this.id,
     required this.cardNumber,
     required this.count,
@@ -18,7 +18,12 @@ class Bonuses extends Equatable {
     required this.endDate,
     required this.revThisMonth,
     required this.bottles,
-  });
+    required this.bottlesGroupId,
+    int? yearlyBonusCount,
+    DateTime? yearlyBonusDate,
+  })  : yearlyBonusDate =
+            yearlyBonusDate ?? DateTime(DateTime.now().year, 12, 31),
+        yearlyBonusCount = yearlyBonusCount ?? 0;
 
   /// `ID` бонусного уровня (ассоциирован с ID пользователя)
   final int id;
@@ -53,8 +58,23 @@ class Bonuses extends Equatable {
   /// Предоплатная вода.
   final Bottles bottles;
 
+  /// ID группы "Акции" в каталоге для предоплатной воды.
+  ///
+  /// Нужен для перехода в каталог.
+  final String? bottlesGroupId;
+
+  /// Дата начисления годового бонуса.
+  final DateTime yearlyBonusDate;
+
+  /// Количество годового бонуса.
+  final int yearlyBonusCount;
+
   /// Форматированная дата окончания действия бонусного уровня.
   String get endDateFormated => DateFormat('dd.MM.yyyy').format(endDate);
+
+  /// Форматированная дата начисления годового бонуса.
+  String get yearlyBonusDateFormated =>
+      DateFormat('d MMMM', 'ru').format(yearlyBonusDate);
 
   @override
   List<Object> get props => [

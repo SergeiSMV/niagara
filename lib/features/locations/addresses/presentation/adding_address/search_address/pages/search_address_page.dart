@@ -11,7 +11,9 @@ import 'package:niagara_app/features/locations/addresses/presentation/adding_add
 
 @RoutePage()
 class SearchAddressPage extends StatelessWidget {
-  const SearchAddressPage({super.key});
+  const SearchAddressPage({super.key, this.initialValue});
+
+  final String? initialValue;
 
   void _onInputChanged(BuildContext context, String? value) {
     context
@@ -26,6 +28,7 @@ class SearchAddressPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         body: SearchTextField(
           onChanged: (value) => _onInputChanged(context, value),
+          initialValue: initialValue,
         ),
         actions: const [SearchBarBackButton()],
       ),
