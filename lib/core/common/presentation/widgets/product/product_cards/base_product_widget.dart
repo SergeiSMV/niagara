@@ -1,23 +1,20 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_controls_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_coins_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_favorite_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_tag_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_card_price_widget.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_image_with_labels.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_short_description.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/water_banalce_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Базовый виджет карточки товара.
 ///
@@ -91,12 +88,18 @@ class BaseProductWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            /// Изображение, "избранное" и бонусы за покупку.
             Flexible(
-              child: _ProductImageWithLabels(
-                product: product,
-                isOnWaterBalancePage: isOnWaterBalancePage,
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: ProductImageWithLabels(
+                  product: product,
+                  isOnWaterBalancePage: isOnWaterBalancePage,
+                ),
               ),
             ),
+
+            /// Название, описание, цена и кнопки управления количеством.
             Flexible(
               child: Padding(
                 padding: AppInsets.kAll6 + AppInsets.kBottom2,
@@ -115,7 +118,7 @@ class BaseProductWidget extends StatelessWidget {
                     ),
 
                     // Описание товара + скидка от количества за покупку.
-                    _ProductShortDescription(
+                    ProductShortDescription(
                       product: product,
                       isWaterBalance: isOnWaterBalancePage,
                     ),
@@ -123,13 +126,11 @@ class BaseProductWidget extends StatelessWidget {
                     /// Прижимает цену / баланс к низу карточки перед кнопками.
                     const Spacer(),
 
-                    // Цена товара.
-                    if (!isOnWaterBalancePage)
-                      _ProductPriceWidget(product: product),
-
-                    // Баланс предоплатной воды.
+                    /// Баланс предоплатной воды или цена товара.
                     if (isOnWaterBalancePage)
-                      _WaterBanalceWidget(product: product),
+                      WaterBanalceWidget(product: product)
+                    else
+                      ProductCardPriceWidget(product: product),
 
                     AppBoxes.kHeight4,
 
@@ -154,221 +155,6 @@ class BaseProductWidget extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _WaterBanalceWidget extends StatelessWidget {
-  const _WaterBanalceWidget({
-    super.key,
-    required this.product,
-  });
-
-  final Product product;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          t.prepaidWater.balance,
-          style: context.textStyle.descriptionTypo.des3.copyWith(
-            color: context.colors.textColors.secondary,
-          ),
-        ),
-        Text(
-          '${product.count} ${t.pieces}',
-          style: context.textStyle.textTypo.tx2SemiBold,
-        ),
-      ],
-    );
-  }
-}
-
-class _ProductPriceWidget extends StatelessWidget {
-  const _ProductPriceWidget({
-    super.key,
-    required this.product,
-  });
-
-  final Product product;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(
-          '${product.price} ${t.common.rub}'.spaceSeparateNumbers(),
-          style: context.textStyle.textTypo.tx1SemiBold.withColor(
-            context.colors.textColors.main,
-          ),
-        ),
-        AppBoxes.kWidth4,
-        if (product.hasDiscount)
-          Text(
-            '${product.priceOld} ${t.common.rub}'.spaceSeparateNumbers(),
-            style: context.textStyle.descriptionTypo.des3.copyWith(
-              color: context.colors.textColors.secondary,
-              decoration: TextDecoration.lineThrough,
-              decorationColor: context.colors.textColors.secondary,
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class _ProductImageWithLabels extends StatelessWidget {
-  const _ProductImageWithLabels({
-    required this.product,
-    required this.isOnWaterBalancePage,
-  });
-
-  final Product product;
-  final bool isOnWaterBalancePage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: AppInsets.kAll6,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          _ProductImage(product: product),
-          _ProductLabelAndFavorite(
-            product: product,
-            isWaterBalance: isOnWaterBalancePage,
-          ),
-          if (product.bonus > 0) _BonusesForPurchaseWidget(product: product),
-        ],
-      ),
-    );
-  }
-}
-
-class _ProductShortDescription extends StatelessWidget {
-  const _ProductShortDescription({
-    required this.product,
-    required this.isWaterBalance,
-  });
-
-  final Product product;
-  final bool isWaterBalance;
-
-  @override
-  Widget build(BuildContext context) {
-    final bool displaySecondPart =
-        product.discountOfCount.isNotEmpty && !isWaterBalance;
-
-    final bool isEmpty = product.description.isEmpty && !displaySecondPart;
-
-    return isEmpty
-        ? const SizedBox.shrink()
-        : Padding(
-            padding: AppInsets.kVertical8,
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  if (product.description.isNotEmpty)
-                    TextSpan(
-                      text: product.description +
-                          (displaySecondPart ? t.common.dotSeparator : ''),
-                      style: context.textStyle.descriptionTypo.des3.copyWith(
-                        color: context.colors.textColors.secondary,
-                      ),
-                    ),
-                  if (displaySecondPart)
-                    TextSpan(
-                      text: product.discountOfCount,
-                      style: context.textStyle.captionTypo.c1.withColor(
-                        context.colors.infoColors.green,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          );
-  }
-}
-
-/// Отображает бонусы за покупку товара.
-class _BonusesForPurchaseWidget extends StatelessWidget {
-  const _BonusesForPurchaseWidget({
-    required this.product,
-  });
-
-  final Product product;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      child: ProductCoinsWidget(
-        count: product.bonus,
-      ),
-    );
-  }
-}
-
-// Отображает тег товара и кнопку "В избранное".
-class _ProductLabelAndFavorite extends StatelessWidget {
-  const _ProductLabelAndFavorite({
-    required this.product,
-    required this.isWaterBalance,
-  });
-
-  final Product product;
-
-  final bool isWaterBalance;
-
-  @override
-  Widget build(BuildContext context) {
-    final bool shouldDisplay = product.label.isNotEmpty && !isWaterBalance;
-
-    return Positioned.fill(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (shouldDisplay)
-            Padding(
-              padding: AppInsets.kHorizontal6 + AppInsets.kVertical4,
-              child: ProductTagWidget(
-                label: product.label,
-                labelColor: product.labelColor,
-              ),
-            ),
-          const Spacer(),
-          ProductFavoriteButton(product: product),
-        ],
-      ),
-    );
-  }
-}
-
-/// Отображает изображение товара.
-class _ProductImage extends StatelessWidget {
-  const _ProductImage({
-    required this.product,
-  });
-
-  final Product product;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: AppBorders.kCircular6,
-      child: ExtendedImage.network(
-        product.imageUrl,
-        fit: BoxFit.cover,
-        loadStateChanged: (state) =>
-            state.extendedImageLoadState == LoadState.loading
-                ? const AppCenterLoader()
-                : null,
       ),
     );
   }

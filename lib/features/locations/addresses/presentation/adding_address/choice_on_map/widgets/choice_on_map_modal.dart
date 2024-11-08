@@ -83,6 +83,7 @@ class ChoiceOnMapModal extends StatelessWidget {
                         child: AnimatedSwitcher(
                           duration: Durations.short3,
                           child: state.when(
+                            // TODO(kvbykov): Сюда добавить загрузочный
                             initial: SizedBox.shrink,
                             complete: CompleteAddressWidget.new,
                             approve: ApproveAddressWidget.new,

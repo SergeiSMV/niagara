@@ -26,9 +26,16 @@ class ChoiceOnMapCubit extends Cubit<ChoiceOnMapState> {
 
   // Получает адрес по координатам
   Future<void> _getAddress({required Point point}) async {
-    final address = await _getAddressUseCase
-        .call(point)
-        .fold((_) => null, (address) => address);
+    Address? address;
+
+    // TODO(kvbykov): Почему-то тут either не отработал
+    try {
+      address = await _getAddressUseCase
+          .call(point)
+          .fold((_) => null, (address) => address);
+    } catch (e, st) {
+      print('Error: $e, StackTrace: $st');
+    }
 
     if (address != null) {
       final isAvailableDelivery = await _checkingForDeliverabilityUseCase
