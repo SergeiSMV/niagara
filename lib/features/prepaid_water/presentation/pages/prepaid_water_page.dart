@@ -10,6 +10,7 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/catalog/domain/model/group.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/widgets/prepaid_water_description.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/widgets/water_balance_product_list.dart';
@@ -96,6 +97,27 @@ class _Content extends StatelessWidget {
 /// Кнопка "Перейти в корзигу" внизу экрана.
 class _GoToCartButton extends StatelessWidget {
   const _GoToCartButton();
+
+  void _goToWaterPromotions(BuildContext context) {
+    final String? groupId = context.read<WaterBalanceCubit>().bottlesGroupId;
+    final group = Group.forWater(groupId);
+    PageRouteInfo? redirectRoute;
+
+    if (group != null) {
+      redirectRoute = CategoryWrapperRoute(
+        group: group,
+        children: const [CategoryRoute()],
+      );
+    }
+
+    context.navigateTo(
+      CatalogWrapper(
+        children: [
+          if (redirectRoute != null) redirectRoute else const CatalogRoute(),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -12,6 +12,27 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 class EmptyWaterBalanceWidget extends StatelessWidget {
   const EmptyWaterBalanceWidget({super.key});
 
+  void _goToWaterPromotions(BuildContext context) {
+    final String? groupId = context.read<WaterBalanceCubit>().bottlesGroupId;
+    final group = Group.forWater(groupId);
+    PageRouteInfo? redirectRoute;
+
+    if (group != null) {
+      redirectRoute = CategoryWrapperRoute(
+        group: group,
+        children: const [CategoryRoute()],
+      );
+    }
+
+    context.navigateTo(
+      CatalogWrapper(
+        children: [
+          if (redirectRoute != null) redirectRoute else const CatalogRoute(),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

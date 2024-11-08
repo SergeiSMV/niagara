@@ -35,6 +35,17 @@ class Group extends Equatable {
         )
       : null;
 
+  /// Конструирует группу с акционными товарами для категории предоплатной воды.
+  static Group? forWater(String? bottlesGroupId) => bottlesGroupId != null
+      ? Group(
+          name: t.prepaidWater.title,
+          image: '',
+          id: bottlesGroupId,
+          temporary: true,
+          promotionId: 'water',
+        )
+      : null;
+
   @override
   List<Object?> get props => [name, id, image];
 }
