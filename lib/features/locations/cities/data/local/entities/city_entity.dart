@@ -9,6 +9,8 @@ class CityEntity extends Equatable {
     required this.latitude,
     required this.longitude,
     required this.phone,
+    required this.diffLat,
+    required this.diffLong,
   });
 
   final int id;
@@ -16,6 +18,8 @@ class CityEntity extends Equatable {
   final String locality;
   final double latitude;
   final double longitude;
+  final double? diffLat;
+  final double? diffLong;
   final String phone;
 
   @override

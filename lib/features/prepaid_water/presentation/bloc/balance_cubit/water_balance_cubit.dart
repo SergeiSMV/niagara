@@ -36,6 +36,9 @@ class WaterBalanceCubit extends Cubit<WaterBalanceState> {
   /// Подписка на изменение статуса авторизации.
   StreamSubscription? _authStatusSubscription;
 
+  /// Идентификатор группы "Акции" в каталоге для предоплатной воды.
+  String? bottlesGroupId;
+
   /// Определяет, возможно ли отрисовать количество бутылей на балансе.
   ///
   /// Возвращает `false` в случае ошибки или при отсутствии авторизации.
@@ -67,6 +70,8 @@ class WaterBalanceCubit extends Cubit<WaterBalanceState> {
   void _getBottles() => _getBonusesUseCase(true).fold(
         (failure) => emit(const WaterBalanceState.error()),
         (bonuses) {
+          bottlesGroupId = bonuses.bottlesGroupId;
+
           if (bonuses.bottles.bottles.isEmpty) {
             emit(const WaterBalanceState.empty());
           } else {

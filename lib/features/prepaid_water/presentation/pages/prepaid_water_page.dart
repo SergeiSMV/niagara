@@ -137,8 +137,8 @@ class _GoToCartButton extends StatelessWidget {
         padding:
             AppInsets.kHorizontal16 + AppInsets.kBottom24 + AppInsets.kTop12,
         child: AppTextButton.primary(
-          text: t.prepaidWater.goToCart,
-          onTap: () => context.navigateTo(const CartWrapper()),
+          text: t.prepaidWater.goShopping,
+          onTap: () => _goToWaterPromotions(context),
         ),
       ),
     );

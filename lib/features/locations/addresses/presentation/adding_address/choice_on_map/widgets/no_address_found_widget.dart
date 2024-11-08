@@ -41,7 +41,7 @@ class NoAddressFoundWidget extends StatelessWidget {
             padding: AppInsets.kVertical12,
             child: AppTextButton.secondary(
               text: t.locations.enterManually,
-              onTap: () {},
+              // onTap: null,
             ),
           ),
           AppBoxes.kHeight12,

@@ -3,6 +3,7 @@ import 'package:niagara_app/features/locations/addresses/data/mappers/geoobject_
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
 import 'package:niagara_app/features/locations/addresses/domain/repositories/geocoder_repository.dart';
 import 'package:niagara_app/features/locations/cities/data/local/data_source/cities_local_data_source.dart';
+import 'package:niagara_app/features/locations/cities/data/mappers/city_entity_mapper.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' as geo;
 
 @LazySingleton(as: IGeocoderRepository)
@@ -60,14 +61,23 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
               (city) => city,
             );
 
+        final bool hasSearchSpan = city.toModel().searchSpan != null;
+
         final res = await _geocoder.getGeocode(
           geo.DirectGeocodeRequest(
             addressGeocode: query,
             kind: geo.KindRequest.house,
+            rspn: hasSearchSpan,
             ll: geo.SearchAreaLL(
               latitude: city.latitude,
               longitude: city.longitude,
             ),
+            spn: hasSearchSpan
+                ? geo.SearchAreaSPN(
+                    differenceLatitude: city.diffLat!,
+                    differenceLongitude: city.diffLong!,
+                  )
+                : null,
             results: 20,
             lang: geo.Lang.ru,
           ),

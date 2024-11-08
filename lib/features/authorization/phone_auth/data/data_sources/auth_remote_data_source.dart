@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:niagara_app/core/core.dart';
 
 /// Определяет интерфейс для удаленного источника данных аутентификации.
@@ -54,6 +56,7 @@ class AuthRemoteDataSource implements IAuthRemoteDatasource {
           ApiConst.kCreateCode,
           data: {
             'phone': phone,
+            'platform': Platform.isIOS ? 'ios' : 'android',
           },
         ),
         converter: (json) => json['success'] as bool? ?? false,

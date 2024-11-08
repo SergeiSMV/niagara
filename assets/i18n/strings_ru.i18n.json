@@ -84,7 +84,15 @@
     "bonusesFaqs": "Частые вопросы и ответы",
     "contactUs": "Связаться с нами",
     "morePurchases": "Больше покупок — выше статус — больше выгоды",
-    "willBeAccrued": "зачислятся",
+    "willBeAccrued": {
+      "one": "зачислится",
+      "other": "зачислятся"
+    },
+    "bonusesToAccrue": {
+      "one": "$n бонус",
+      "few": "$n бонуса",
+      "other": "$n бонусов"
+    },
     "toNextStatus": "До следующего статуса — \n${amount} @:common.rub",
     "toKeepLevel": "Для сохранения совершайте покупки от \n${amount} рублей в месяц",
     "yourSpent": "Вы потратили ${amount} @:common.rub",
@@ -531,7 +539,7 @@
     "myBalance": "Мой баланс",
     "balance": "Баланс",
     "description": {
-      "title": "Покупайте воду с выгодой до 30%",
+      "title": "Покупайте воду с \nвыгодой до 30%",
       "first": {
         "text": "Покупайте комплекты воды сразу по лучшим ценам",
         "number": "1"

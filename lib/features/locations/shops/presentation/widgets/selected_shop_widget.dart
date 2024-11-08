@@ -32,9 +32,7 @@ class SelectedShopWidget extends StatelessWidget {
     final iosUrl =
         Uri.parse('maps:$latitude,$longitude?q=$latitude,$longitude');
 
-    final androidUrl = Uri.parse(
-      'geo:$latitude,$longitude', //?q=$latitude,$longitude($shop.name)
-    );
+    final androidUrl = Uri.parse('geo:$latitude,$longitude?q=${shop.name}');
 
     // TODO(Oleg): Проверить на яндексе
     // final yandexMap =
@@ -91,24 +89,32 @@ class SelectedShopWidget extends StatelessWidget {
 class _ShopPhone extends StatelessWidget {
   const _ShopPhone();
 
+  Future<void> _onTapNumber(String phone) async {
+    final uri = Uri(scheme: 'tel', path: phone);
+    if (await canLaunchUrl(uri)) await launchUrl(uri);
+  }
+
   @override
   Widget build(BuildContext context) {
     final phone = context.read<AddressesBloc>().state.phone;
 
-    return Row(
-      children: [
-        Assets.icons.phone.svg(
-          width: AppSizes.kIconMedium,
-          height: AppSizes.kIconMedium,
-        ),
-        AppBoxes.kWidth8,
-        Text(
-          phone,
-          style: context.textStyle.textTypo.tx2Medium.withColor(
-            context.colors.textColors.main,
+    return GestureDetector(
+      onTap: () => _onTapNumber(phone),
+      child: Row(
+        children: [
+          Assets.icons.phone.svg(
+            width: AppSizes.kIconMedium,
+            height: AppSizes.kIconMedium,
           ),
-        ),
-      ],
+          AppBoxes.kWidth8,
+          Text(
+            phone,
+            style: context.textStyle.textTypo.tx2Medium.withColor(
+              context.colors.textColors.main,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -91,7 +91,7 @@ class ProductExpandableTextWidget extends HookWidget {
                 PrepaidWaterDescriptionBanner(
                   backgroundColor: context.colors.mainColors.bgCard,
                 ),
-              ]
+              ],
             ],
           );
         }

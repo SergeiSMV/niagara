@@ -14,6 +14,7 @@ class BonusesTable extends Table {
   DateTimeColumn get endDate => dateTime()();
   IntColumn get revThisMonth => integer()();
   TextColumn get bottles => text().map(const BottlesEntityConverter())();
+  TextColumn get bottlesGroupId => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
