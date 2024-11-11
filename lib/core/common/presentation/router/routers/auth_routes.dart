@@ -17,6 +17,7 @@ abstract final class AuthRoutes {
             page: OTPRoute.page,
             title: (_, __) => t.auth.confirmNumber,
           ),
+          AutoRoute(page: PolicyRoute.page),
         ],
       );
 }

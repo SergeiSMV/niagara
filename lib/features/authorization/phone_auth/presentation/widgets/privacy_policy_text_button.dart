@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/enums/policy_type.dart';
@@ -10,7 +11,13 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 /// Виджет с текстом пользовательского соглашения и политики конфиденциальности.
 /// При нажатии на текст должен вызываться соответствующий метод/экран
 class PrivacyPolicyTextButtons extends StatelessWidget {
-  const PrivacyPolicyTextButtons({super.key});
+  const PrivacyPolicyTextButtons({
+    super.key,
+    required GlobalKey<FormBuilderState> formKey,
+  }) : _formKey = formKey;
+
+  // Ключ формы для валидации номера телефона.
+  final GlobalKey<FormBuilderState> _formKey;
 
   TextSpan _buildTextButton(
     BuildContext context, {
@@ -37,16 +44,22 @@ class PrivacyPolicyTextButtons extends StatelessWidget {
           userAgreement: (text) => _buildTextButton(
             context,
             text: text,
-            onTap: () => context.navigateTo(
-              PolicyRoute(type: PolicyType.agreement),
-            ),
+            onTap: () {
+              _formKey.currentState?.saveAndValidate();
+              context.pushRoute(
+                PolicyRoute(type: PolicyType.agreement),
+              );
+            },
           ),
           privacyPolicy: (text) => _buildTextButton(
             context,
             text: text,
-            onTap: () => context.navigateTo(
-              PolicyRoute(type: PolicyType.confidence),
-            ),
+            onTap: () {
+              _formKey.currentState?.saveAndValidate();
+              context.pushRoute(
+                PolicyRoute(type: PolicyType.confidence),
+              );
+            },
           ),
         ),
         style: context.textStyle.textTypo.tx2Medium,

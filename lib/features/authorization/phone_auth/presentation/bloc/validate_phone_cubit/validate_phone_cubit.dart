@@ -14,5 +14,7 @@ class ValidatePhoneCubit extends Cubit<bool> {
     emit(hasValid);
   }
 
-  void reset() => emit(false);
+  void reset() {
+    emit(false);
+  }
 }
