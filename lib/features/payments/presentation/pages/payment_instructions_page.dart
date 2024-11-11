@@ -110,6 +110,10 @@ class _Content extends StatelessWidget {
       error: (value) => true,
       orElse: () => false,
     );
+    final bool loading = cubit.state.maybeMap(
+      loading: (_) => true,
+      orElse: () => false,
+    );
 
     return Scaffold(
       body: Center(
@@ -133,8 +137,8 @@ class _Content extends StatelessWidget {
           ? Padding(
               padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
               child: AppTextButton.primary(
-                text: t.orderPlacing.retry,
-                onTap: onRetry,
+                text: loading ? null : t.orderPlacing.retry,
+                onTap: loading ? null : onRetry,
               ),
             )
           : null,

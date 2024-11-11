@@ -38,6 +38,11 @@ class PaymentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool loading = context.watch<PaymentCreationCubit>().state.maybeWhen(
+          loading: () => true,
+          orElse: () => false,
+        );
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.mainColors.white,
@@ -57,7 +62,9 @@ class PaymentButton extends StatelessWidget {
           alignment: Alignment.center,
           padding: AppInsets.kHorizontal16,
           decoration: BoxDecoration(
-            color: context.colors.buttonColors.primary,
+            color: loading
+                ? context.colors.buttonColors.inactive.withOpacity(0.5)
+                : context.colors.buttonColors.primary,
             borderRadius: AppBorders.kCircular12,
           ),
           height: AppSizes.kButtonLarge,

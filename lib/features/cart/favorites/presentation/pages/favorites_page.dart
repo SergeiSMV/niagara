@@ -18,66 +18,77 @@ class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
 
   void _clearFavorites(BuildContext context) => context
-    ..read<FavoritesBloc>().add(const FavoritesEvent.removeAllFavorites())
-    ..maybePop();
+    ..read<FavoritesBloc>().add(const FavoritesEvent.removeAllFavorites());
 
   void _showDeleteDialog(BuildContext context) {
     showDialog<void>(
       context: context,
-      builder: (_) => Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: AppInsets.kAll8,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: context.colors.mainColors.white,
-              borderRadius: BorderRadius.circular(
-                AppSizes.kGeneral24 - AppSizes.kGeneral4,
-              ),
-            ),
+      builder: (_) {
+        final bool loading = context.watch<FavoritesBloc>().state.maybeWhen(
+              loading: () => true,
+              orElse: () => false,
+            );
+
+        return BlocListener<FavoritesBloc, FavoritesState>(
+          listener: (ctx, state) => ctx.maybePop(),
+          child: Align(
+            alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: AppInsets.kVertical24 + AppInsets.kHorizontal16,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    t.favorites.clearTitle,
-                    style: context.textStyle.headingTypo.h3
-                        .withColor(context.colors.textColors.main),
+              padding: AppInsets.kAll8,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: context.colors.mainColors.white,
+                  borderRadius: BorderRadius.circular(
+                    AppSizes.kGeneral24 - AppSizes.kGeneral4,
                   ),
-                  AppBoxes.kHeight8,
-                  Text(
-                    t.favorites.clearDescription,
-                    style: context.textStyle.textTypo.tx1Medium
-                        .withColor(context.colors.textColors.secondary),
-                    textAlign: TextAlign.center,
-                  ),
-                  AppBoxes.kHeight24,
-                  Material(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: AppTextButton.secondary(
-                            text: t.common.cancel,
-                            onTap: () => context.maybePop(),
-                          ),
+                ),
+                child: Padding(
+                  padding: AppInsets.kVertical24 + AppInsets.kHorizontal16,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        t.favorites.clearTitle,
+                        style: context.textStyle.headingTypo.h3
+                            .withColor(context.colors.textColors.main),
+                      ),
+                      AppBoxes.kHeight8,
+                      Text(
+                        t.favorites.clearDescription,
+                        style: context.textStyle.textTypo.tx1Medium
+                            .withColor(context.colors.textColors.secondary),
+                        textAlign: TextAlign.center,
+                      ),
+                      AppBoxes.kHeight24,
+                      Material(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: AppTextButton.secondary(
+                                text: t.common.cancel,
+                                onTap: () => context.maybePop(),
+                              ),
+                            ),
+                            AppBoxes.kWidth12,
+                            Expanded(
+                              child: AppTextButton.primary(
+                                text: loading ? null : t.common.delete,
+                                onTap: loading
+                                    ? null
+                                    : () => _clearFavorites(context),
+                              ),
+                            ),
+                          ],
                         ),
-                        AppBoxes.kWidth12,
-                        Expanded(
-                          child: AppTextButton.primary(
-                            text: t.common.delete,
-                            onTap: () => _clearFavorites(context),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
