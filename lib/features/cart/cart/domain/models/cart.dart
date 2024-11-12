@@ -7,6 +7,7 @@ class Cart extends Equatable {
   const Cart({
     required this.products,
     required this.unavailableProducts,
+    required this.recommends,
     required this.cartData,
     required this.minLimit,
     required this.locationId,
@@ -16,6 +17,7 @@ class Cart extends Equatable {
 
   final List<Product> products;
   final List<Product> unavailableProducts;
+  final List<Product> recommends;
   final CartData cartData;
   final CartMinAmount minLimit;
   final String locationId;
@@ -47,6 +49,7 @@ class Cart extends Equatable {
   List<Object?> get props => [
         products,
         unavailableProducts,
+        recommends,
         cartData,
         minLimit,
         locationId,

@@ -12,22 +12,35 @@ abstract interface class ICartRepository {
     required bool allTare,
   });
 
-  Future<Either<Failure, bool>> addProductToCart(
-    Product product,
-    bool withdrawingWater,
-  );
-
-  Future<Either<Failure, bool>> removeProductFromCart(
-    Product product,
-    bool withdrawingWater,
-    bool all,
-  );
-
-  Future<Either<Failure, bool>> removeAllFromCart({
-    required CartClearTypes type,
+  Future<Either<Failure, Cart>> addProductToCart({
+    required Product product,
+    required bool withdrawingWater,
+    required String locationId,
+    required int bonuses,
+    required String promocode,
+    required int tareCount,
+    required bool allTare,
   });
 
-  Future<Either<Failure, List<Product>>> getCartRecommendations();
+  Future<Either<Failure, Cart>> removeProductFromCart({
+    required Product product,
+    required bool withdrawingWater,
+    required bool all,
+    required String locationId,
+    required int bonuses,
+    required String promocode,
+    required int tareCount,
+    required bool allTare,
+  });
+
+  Future<Either<Failure, Cart>> removeAllFromCart({
+    required CartClearTypes type,
+    required String locationId,
+    required int bonuses,
+    required String promocode,
+    required int tareCount,
+    required bool allTare,
+  });
 
   Future<Either<Failure, bool>> checkPromoCode({required String code});
 }
