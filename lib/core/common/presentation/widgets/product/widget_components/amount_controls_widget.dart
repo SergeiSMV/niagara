@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_icon_button.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -19,9 +20,11 @@ class AmountControlsWidget extends StatelessWidget {
     required this.onRemove,
     required this.count,
     required this.onAdd,
+    this.shrink = false,
     this.shortAmount = false,
     this.alwaysShowActions = false,
     this.outOfStock = false,
+    this.loading = false,
   });
 
   /// Означает, что товар добавлен в корзину, но отсутствует в наличии.
@@ -42,6 +45,12 @@ class AmountControlsWidget extends StatelessWidget {
   /// Должны ли всегда отображаться кнопки `+` и `-`, даже при нулевом [count].
   final bool alwaysShowActions;
 
+  /// Отображает индикатор загрузки.
+  final bool loading;
+
+  /// Уменьшает отступы.
+  final bool shrink;
+
   @override
   Widget build(BuildContext context) {
     if (count == 0 && !alwaysShowActions || outOfStock) {
@@ -49,7 +58,7 @@ class AmountControlsWidget extends StatelessWidget {
         onTap: outOfStock ? null : onAdd,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: outOfStock
+            color: outOfStock || loading
                 ? context.colors.buttonColors.inactive.withOpacity(0.5)
                 : context.colors.buttonColors.accent,
             borderRadius: AppBorders.kCircular6,
@@ -68,14 +77,20 @@ class AmountControlsWidget extends StatelessWidget {
                             context.colors.textColors.white,
                           ),
                         )
-                      : Assets.icons.shoppingCart.svg(
-                          width: AppSizes.kIconMedium,
-                          height: AppSizes.kIconMedium,
-                          colorFilter: ColorFilter.mode(
-                            context.colors.textColors.white,
-                            BlendMode.srcIn,
-                          ),
-                        ),
+                      : loading
+                          ? const AppCenterLoader(
+                              isWhite: true,
+                              size: AppSizes.kIconMedium,
+                              dense: true,
+                            )
+                          : Assets.icons.shoppingCart.svg(
+                              width: AppSizes.kIconMedium,
+                              height: AppSizes.kIconMedium,
+                              colorFilter: ColorFilter.mode(
+                                context.colors.textColors.white,
+                                BlendMode.srcIn,
+                              ),
+                            ),
                 ),
               ),
             ],
@@ -84,11 +99,13 @@ class AmountControlsWidget extends StatelessWidget {
       );
     } else {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment:
+            shrink ? MainAxisAlignment.end : MainAxisAlignment.spaceBetween,
         children: [
           AmountIconButton(
             itemAction: ItemAction.minus,
             onTap: onRemove,
+            loading: loading,
           ),
           Padding(
             padding: AppInsets.kHorizontal16 + AppInsets.kVertical4,
@@ -102,6 +119,7 @@ class AmountControlsWidget extends StatelessWidget {
           AmountIconButton(
             itemAction: ItemAction.plus,
             onTap: onAdd,
+            loading: loading,
           ),
         ],
       );

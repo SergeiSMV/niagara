@@ -5,7 +5,6 @@ import 'package:niagara_app/core/common/presentation/router/routers/order_placin
 import 'package:niagara_app/core/common/presentation/router/routers/order_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/payment_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/product_routes.dart';
-import 'package:niagara_app/core/common/presentation/router/routers/profile_routes.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Класс роутера для модуля Home (Главная)
@@ -31,7 +30,6 @@ abstract final class HomeRoutes {
           AutoRoute(page: OneNotificationRoute.page),
           ProductRoutes.routes,
           AutoRoute(page: RecommendsRoute.page),
-          ProfileRoutes.routes,
           PaymentRoutes.routes,
           OrderPlacingRoutes.routes,
           LoyaltyProgramRoutes.routes,

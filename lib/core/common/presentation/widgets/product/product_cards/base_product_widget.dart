@@ -30,6 +30,7 @@ class BaseProductWidget extends StatelessWidget {
     required this.onAdd,
     required this.onRemove,
     required this.authorized,
+    this.loading = false,
     this.outOfStock = false,
     this.isOnWaterBalancePage = false,
   });
@@ -59,6 +60,9 @@ class BaseProductWidget extends StatelessWidget {
   /// Авторизован ли текущий пользователь. Нужно для открытия модальных окон с
   /// авторизацией.
   final bool authorized;
+
+  /// Отображает индикатор загрузки.
+  final bool loading;
 
   /// Перенаправляет пользователя на страницу товара.
   void _goToProductPage(BuildContext context) => context.pushRoute(
@@ -141,6 +145,7 @@ class BaseProductWidget extends StatelessWidget {
                     AmountControlsWidget(
                       outOfStock: outOfStock,
                       count: count,
+                      loading: loading,
                       onRemove: !authorized
                           ? () => _showAuthModal(context)
                           : isWaterPromotion

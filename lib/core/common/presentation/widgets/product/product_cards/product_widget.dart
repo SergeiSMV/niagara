@@ -43,6 +43,7 @@ class ProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.watch<CartBloc>();
     final bool outOfStock = bloc.isOutOfStock(product);
+    final bool loading = bloc.isPendingProduct(product);
 
     // Тип события зависит от того, добавляем мы обычный товар или предоплатную
     // воду на списание с баланса.
@@ -71,6 +72,7 @@ class ProductWidget extends StatelessWidget {
           isOnWaterBalancePage: isOnWaterBalancePage,
           authorized: !bloc.unauthrorized,
           outOfStock: outOfStock,
+          loading: loading,
         );
       },
     );

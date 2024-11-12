@@ -12,6 +12,7 @@ class AmountIconButton extends StatelessWidget {
     super.key,
     required this.itemAction,
     required this.onTap,
+    this.loading = false,
   });
 
   /// Действие, которое будет выполнено при нажатии на кнопку.
@@ -20,6 +21,9 @@ class AmountIconButton extends StatelessWidget {
   /// Обработчик нажатия на кнопку.
   final VoidCallback onTap;
 
+  /// Отображает индикатор загрузки.
+  final bool loading;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -27,7 +31,9 @@ class AmountIconButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: AppBorders.kCircular4,
-          color: context.colors.buttonColors.accent,
+          color: loading
+              ? context.colors.buttonColors.inactive.withOpacity(0.5)
+              : context.colors.buttonColors.accent,
         ),
         child: Padding(
           padding: AppInsets.kAll4,

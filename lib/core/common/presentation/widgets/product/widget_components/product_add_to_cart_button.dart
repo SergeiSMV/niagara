@@ -37,6 +37,7 @@ class ProductAddToCartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.watch<CartBloc>();
     final bool outOfStock = bloc.isOutOfStock(product);
+    final bool loading = bloc.isPendingProduct(product);
 
     final CartState state = bloc.state;
     final List<Product> cartProducts = state.maybeWhen(
@@ -121,20 +122,20 @@ class ProductAddToCartButton extends StatelessWidget {
                           AmountIconButton(
                             itemAction: ItemAction.minus,
                             onTap: onMinus,
+                            loading: loading,
                           ),
                           Padding(
                             padding: AppInsets.kHorizontal16,
                             child: Text(
                               countInCart.toString(),
                               style: context.textStyle.textTypo.tx2SemiBold
-                                  .withColor(
-                                context.colors.mainColors.primary,
-                              ),
+                                  .withColor(context.colors.mainColors.primary),
                             ),
                           ),
                           AmountIconButton(
                             itemAction: ItemAction.plus,
                             onTap: onPlus,
+                            loading: loading,
                           ),
                         ],
                       ),
@@ -145,9 +146,9 @@ class ProductAddToCartButton extends StatelessWidget {
             : outOfStock
                 ? AppTextButton.primary(text: t.common.outOfStock)
                 : AppTextButton.primary(
-                    icon: Assets.icons.shoppingCart,
-                    text: t.catalog.toCard,
-                    onTap: onPlus,
+                    icon: loading ? null : Assets.icons.shoppingCart,
+                    text: loading ? null : t.catalog.toCard,
+                    onTap: loading ? null : onPlus,
                   ),
       ),
     );

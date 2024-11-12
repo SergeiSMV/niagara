@@ -36,7 +36,10 @@ class ProductInCart extends StatelessWidget {
     final CartEvent addEvent =
         CartEvent.addToCart(product: product, prepaidWater: isWaterBalance);
     CartEvent removeEvent({required bool all}) => CartEvent.removeFromCart(
-        product: product, prepaidWater: isWaterBalance, all: all,);
+          product: product,
+          prepaidWater: isWaterBalance,
+          all: all,
+        );
 
     return BlocBuilder<CartBloc, CartState>(
       buildWhen: (previous, current) {
@@ -47,6 +50,7 @@ class ProductInCart extends StatelessWidget {
       },
       builder: (context, state) {
         final int countInStok = _getCount(product, state);
+        final bool loading = context.read<CartBloc>().isPendingProduct(product);
 
         return BaseProductCartWidget(
           product: product,
@@ -55,6 +59,7 @@ class ProductInCart extends StatelessWidget {
           onRemoveAll: () => bloc.add(removeEvent(all: true)),
           count: countInStok,
           isAvailable: countInStok != 0,
+          loading: loading,
         );
       },
     );

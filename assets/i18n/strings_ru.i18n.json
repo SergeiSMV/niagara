@@ -144,6 +144,7 @@
     "floor": "Этаж",
     "addressComment": "Комментарий к адресу",
     "noAddressFound": "Адрес не найден",
+    "loadingAddress": "Ищем адрес...",
     "yourGeoIsUnavailable": "Ваша геолокация недоступна",
     "selectTheDeliveryAddressYourself": "Выберите адрес доставки самостоятельно",
     "enterAddress": "Введите адрес",
