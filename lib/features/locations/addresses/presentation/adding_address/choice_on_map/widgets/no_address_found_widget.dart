@@ -4,12 +4,15 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 class NoAddressFoundWidget extends StatelessWidget {
-  const NoAddressFoundWidget({super.key});
+  const NoAddressFoundWidget({super.key, this.loading = false});
+
+  final bool loading;
 
   void _onManualInput(BuildContext context) =>
       context.pushRoute(SearchAddressRoute());
@@ -23,17 +26,26 @@ class NoAddressFoundWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Assets.icons.attention.svg(
-                colorFilter: ColorFilter.mode(
-                  context.colors.infoColors.red,
-                  BlendMode.srcIn,
+              if (loading)
+                Assets.lottie.loadCircle.lottie(
+                  width: AppSizes.kLoaderSmall,
+                  height: AppSizes.kLoaderSmall,
+                  repeat: true,
+                )
+              else
+                Assets.icons.attention.svg(
+                  colorFilter: ColorFilter.mode(
+                    context.colors.infoColors.red,
+                    BlendMode.srcIn,
+                  ),
                 ),
-              ),
               AppBoxes.kWidth12,
               Padding(
                 padding: AppInsets.kVertical24,
                 child: Text(
-                  t.locations.noAddressFound,
+                  loading
+                      ? t.locations.loadingAddress
+                      : t.locations.noAddressFound,
                   style: context.textStyle.textTypo.tx1SemiBold,
                 ),
               ),
