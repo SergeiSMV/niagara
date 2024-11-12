@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/bloc/bonuses_bloc/bonuses_bloc.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/bloc/description/referral_bloc.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/bloc/history/referral_history_cubit.dart';
 import 'package:niagara_app/features/profile/referral_program/presentation/bloc/referral_code/referral_code_cubit.dart';
@@ -20,6 +21,7 @@ class ProfileWrapper implements AutoRouteWrapper {
           BlocProvider(create: (_) => getIt<ReferralCodeCubit>()),
           BlocProvider(create: (_) => getIt<ReferralHistoryCubit>()),
           BlocProvider(create: (_) => getIt<PackageDataCubit>()),
+          BlocProvider(create: (_) => getIt<BonusesBloc>()),
         ],
         child: const AutoRouter(),
       );

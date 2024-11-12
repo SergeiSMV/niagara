@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
@@ -25,7 +24,7 @@ class OneNotificationPage extends StatelessWidget {
 
   void _goShopping(BuildContext context) {
     if (notification.type == NotificationsTypes.offers) {
-      context.navigateTo(const CatalogWrapper());
+      context.tabsRouter.setActiveIndex(1);
     }
   }
 
