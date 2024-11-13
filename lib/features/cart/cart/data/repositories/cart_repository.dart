@@ -86,6 +86,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
               promocode: promocode,
               tareCount: tareCount,
               allTare: allTare,
+              all: all,
             )
             .fold(
               (failure) => throw failure,
