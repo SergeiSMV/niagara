@@ -36,13 +36,17 @@ class PromotionWidget extends StatelessWidget {
       );
     }
 
-    context.navigateTo(
-      CatalogWrapper(
-        children: [
-          if (redirectRoute != null) redirectRoute else const CatalogRoute(),
-        ],
-      ),
-    );
+    if (redirectRoute != null) {
+      context.pushRoute(redirectRoute);
+    } else {
+      context.pushRoute(
+        const CatalogWrapper(
+          children: [
+            CatalogRoute(),
+          ],
+        ),
+      );
+    }
   }
 
   void _showPromotionDetails(BuildContext context, Promotion promotion) =>
