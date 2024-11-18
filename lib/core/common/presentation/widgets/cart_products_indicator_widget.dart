@@ -14,7 +14,7 @@ class CartProductsIndicatorWidget extends StatelessWidget {
       builder: (context, state) {
         final int count = state.maybeWhen(
           loaded: (cart, _) => cart.products.length,
-          loading: (cart, _) => cart?.products.length ?? 0,
+          loading: (cart, _, __) => cart?.products.length ?? 0,
           orElse: () => 0,
         );
 
