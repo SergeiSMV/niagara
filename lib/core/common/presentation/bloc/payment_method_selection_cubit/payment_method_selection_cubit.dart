@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
@@ -43,6 +44,14 @@ class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {
   /// Устанавливает __тип__ оплаты (онлайн или курьеру).
   ///
   /// Нужен для переключения вкладок. Не влияет на выбранный __метод__ оплаты.
-  void selectPaymentMethodType(PaymentMethodGroup type) =>
-      emit(state.copyWith(type: type));
+  void selectPaymentMethodType(PaymentMethodGroup type) => emit(
+        state.copyWith(
+          type: type,
+
+          // Если метод оплаты не онлайн - выбираем первый доступный метод.
+          method: !type.isOnline
+              ? allowedMethods.firstWhereOrNull((it) => !it.isOnline)
+              : null,
+        ),
+      );
 }
