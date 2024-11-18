@@ -42,7 +42,7 @@ class BuyPrepaidWaterButton extends StatelessWidget {
     ///
     /// Обновляет список заказов и баланс воды.
     void onSuccess() {
-      getIt<OrdersBloc>().add(const OrdersEvent.loading(isForceUpdate: true));
+      getIt<OrdersBloc>().add(const OrdersEvent.loadAll());
       getIt<WaterBalanceCubit>().getBottles();
     }
 

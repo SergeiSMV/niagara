@@ -22,13 +22,15 @@ class VipSubcribeButton extends StatelessWidget {
   /// Обработчик успешного завершения покупки.
   void _onSuccess(BuildContext context) {
     // Обновляем список заказов.
-    getIt<OrdersBloc>().add(const OrdersEvent.loading(isForceUpdate: true));
+    getIt<OrdersBloc>().add(const OrdersEvent.loadAll());
     context.navigateTo(const VipRoute());
   }
 
   /// Обработчик нажатия на кнопку.
   Future<void> _goToPayment(
-      BuildContext context, ActivationOption option,) async {
+    BuildContext context,
+    ActivationOption option,
+  ) async {
     final bool? authorized = await context.read<UserBloc>().isAuthorized;
 
     if (authorized == null) {
