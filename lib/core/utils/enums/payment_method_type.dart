@@ -85,5 +85,7 @@ enum PaymentMethod {
 /// метода оплаты.
 enum PaymentMethodGroup {
   online,
-  courier,
+  courier;
+
+  bool get isOnline => this == PaymentMethodGroup.online;
 }

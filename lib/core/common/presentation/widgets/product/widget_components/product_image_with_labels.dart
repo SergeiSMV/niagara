@@ -5,7 +5,6 @@ import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/bonuses_for_purchase_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_label_and_favorite.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
 
 class ProductImageWithLabels extends StatelessWidget {
   const ProductImageWithLabels({
@@ -18,19 +17,16 @@ class ProductImageWithLabels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: AppInsets.kAll6,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          _ProductImage(product: product),
-          ProductLabelAndFavorite(
-            product: product,
-            isWaterBalance: isOnWaterBalancePage,
-          ),
-          if (product.bonus > 0) BonusesForPurchaseWidget(product: product),
-        ],
-      ),
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        _ProductImage(product: product),
+        ProductLabelAndFavorite(
+          product: product,
+          isWaterBalance: isOnWaterBalancePage,
+        ),
+        if (product.bonus > 0) BonusesForPurchaseWidget(product: product),
+      ],
     );
   }
 }

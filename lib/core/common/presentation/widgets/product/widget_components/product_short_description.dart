@@ -22,29 +22,33 @@ class ProductShortDescription extends StatelessWidget {
 
     if (isEmpty) return const SizedBox.shrink();
 
-    return Padding(
-      padding: AppInsets.kVertical8,
-      child: RichText(
-        text: TextSpan(
-          children: [
-            if (product.description.isNotEmpty)
-              TextSpan(
-                text: product.description +
-                    (displaySecondPart ? t.common.dotSeparator : ''),
-                style: context.textStyle.descriptionTypo.des3.copyWith(
-                  color: context.colors.textColors.secondary,
-                ),
+    return Row(
+      children: [
+        if (product.description.isNotEmpty)
+          Padding(
+            padding: AppInsets.kVertical4,
+            child: Text(
+              product.description +
+                  (displaySecondPart ? t.common.dotSeparator : ''),
+              style: context.textStyle.descriptionTypo.des3.copyWith(
+                color: context.colors.textColors.secondary,
               ),
-            if (displaySecondPart)
-              TextSpan(
-                text: product.discountOfCount,
+            ),
+          ),
+        if (displaySecondPart)
+          Expanded(
+            child: Padding(
+              padding: AppInsets.kVertical4,
+              child: Text(
+                product.discountOfCount,
+                textAlign: TextAlign.center,
                 style: context.textStyle.captionTypo.c1.withColor(
                   context.colors.infoColors.green,
                 ),
               ),
-          ],
-        ),
-      ),
+            ),
+          ),
+      ],
     );
   }
 }

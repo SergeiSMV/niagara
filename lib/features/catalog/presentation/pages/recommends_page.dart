@@ -31,7 +31,7 @@ class RecommendsPage extends StatelessWidget {
                 mainAxisSpacing: AppSizes.kGeneral8,
                 crossAxisSpacing: AppSizes.kGeneral8,
                 childAspectRatio:
-                    context.screenWidth / context.screenHeight / .8,
+                    context.screenWidth / context.screenHeight / .85,
               ),
               padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
               itemCount: products.length,

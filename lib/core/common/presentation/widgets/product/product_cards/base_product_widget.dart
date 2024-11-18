@@ -94,19 +94,22 @@ class BaseProductWidget extends StatelessWidget {
           children: [
             /// Изображение, "избранное" и бонусы за покупку.
             Flexible(
-              flex: 8,
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: ProductImageWithLabels(
-                  product: product,
-                  isOnWaterBalancePage: isOnWaterBalancePage,
+              flex: 24,
+              child: Padding(
+                padding: AppInsets.kAll6,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: ProductImageWithLabels(
+                    product: product,
+                    isOnWaterBalancePage: isOnWaterBalancePage,
+                  ),
                 ),
               ),
             ),
 
             /// Название, описание, цена и кнопки управления количеством.
             Flexible(
-              flex: 7,
+              flex: 18,
               child: Padding(
                 padding: AppInsets.kHorizontal6 + AppInsets.kBottom8,
                 child: Column(
