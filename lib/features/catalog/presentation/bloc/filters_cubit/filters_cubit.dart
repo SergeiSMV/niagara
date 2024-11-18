@@ -21,8 +21,14 @@ class FiltersCubit extends Cubit<FiltersState> {
 
   final GetFiltersUseCase _getFiltersUseCase;
 
-  final Group _group;
+  Group _group;
   Group get group => _group;
+
+  // TODO: сделать эвентом
+  void onGroupUpdated(Group group) {
+    _group = group;
+    loadFilters();
+  }
 
   Future<void> loadFilters() async {
     _emit(const FiltersState.loading());

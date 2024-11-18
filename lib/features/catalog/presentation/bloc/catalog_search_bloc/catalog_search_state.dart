@@ -8,6 +8,7 @@ class CatalogSearchState with _$CatalogSearchState {
 
   const factory CatalogSearchState.loaded({
     required List<Product> products,
+    required int totalCount,
   }) = _Loaded;
 
   const factory CatalogSearchState.error() = _Error;

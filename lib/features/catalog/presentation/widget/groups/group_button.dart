@@ -12,10 +12,12 @@ class GroupButton extends StatelessWidget {
     super.key,
     required this.group,
     required this.isSelected,
+    this.onTap,
   });
 
   final Group group;
   final bool isSelected;
+  final VoidCallback? onTap;
 
   void _navigateToGroup(
     BuildContext context, {
@@ -40,10 +42,11 @@ class GroupButton extends StatelessWidget {
       child: InkWell(
         onTap: isSelected
             ? null
-            : () => _navigateToGroup(
-                  context,
-                  group: group,
-                ),
+            : onTap ??
+                () => _navigateToGroup(
+                      context,
+                      group: group,
+                    ),
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: AppBorders.kCircular6,

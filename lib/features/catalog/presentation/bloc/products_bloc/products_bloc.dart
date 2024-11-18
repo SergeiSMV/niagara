@@ -28,8 +28,14 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     add(const _LoadingEvent(isForceUpdate: true, filters: []));
   }
 
-  final Group _group;
+  Group _group;
   Group get group => _group;
+
+  // TODO: сделать эвентом
+  void onGroupUpdated(Group group) {
+    _group = group;
+    add(const _LoadingEvent(isForceUpdate: true, filters: []));
+  }
 
   final GetProductsUseCase _getProductsUseCase;
 

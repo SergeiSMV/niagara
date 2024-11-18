@@ -70,6 +70,7 @@ class CatalogSearchBloc extends Bloc<CatalogSearchEvent, CatalogSearchState> {
         products: event.isForceUpdate
             ? data.products
             : [...products, ...data.products],
+        totalCount: data.pagination.items,
       ),
     );
   }
