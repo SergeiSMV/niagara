@@ -15,7 +15,7 @@ class ProductInCart extends StatelessWidget {
   int _getCount(Product product, CartState state) {
     final int count = state.maybeWhen(
       loaded: (cart, _) => cart.countInStock(product),
-      loading: (cart, _) => cart?.countInStock(product) ?? 0,
+      loading: (cart, _, __) => cart?.countInStock(product) ?? 0,
       orElse: () => 0,
     );
 

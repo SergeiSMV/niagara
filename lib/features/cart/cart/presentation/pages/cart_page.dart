@@ -65,11 +65,13 @@ class _Error extends StatelessWidget {
 class _Content extends StatelessWidget {
   const _Content(
     this.cart,
-    this.recommends,
-  );
+    this.recommends, [
+    this.test,
+  ]);
 
   final Cart? cart;
   final List<Product>? recommends;
+  final test;
 
   bool get hasData => cart != null && recommends != null;
 

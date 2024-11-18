@@ -135,6 +135,9 @@ class Product extends Equatable {
   /// Индикатор наличия скидки для `VIP`-клиентов.
   bool get hasVIPDiscount => priceVip > 0 && priceVip < price;
 
+  /// Уникальный ID продукта с учетом комплекта.
+  String get pendingId => id + (complectId ?? '');
+
   // Сокращение количества логов.
   @override
   String toString() => 'Product(id: $id, name: $name, price: $price)';

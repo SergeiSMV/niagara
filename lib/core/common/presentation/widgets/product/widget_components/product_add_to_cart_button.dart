@@ -42,7 +42,7 @@ class ProductAddToCartButton extends StatelessWidget {
     final CartState state = bloc.state;
     final List<Product> cartProducts = state.maybeWhen(
       loaded: (cart, recommends) => cart.products,
-      loading: (cart, recommends) => cart?.products ?? [],
+      loading: (cart, recommends, _) => cart?.products ?? [],
       orElse: () => [],
     );
     final bool productInCart = cartProducts.any((e) => e.id == product.id);

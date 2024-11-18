@@ -25,7 +25,7 @@ class ReturnTaresSelectionWidget extends StatelessWidget {
       builder: (context, state) {
         final CartData? data = state.maybeWhen(
           loaded: (cart, _) => cart.cartData,
-          loading: (maybeCart, _) => maybeCart?.cartData,
+          loading: (maybeCart, _, __) => maybeCart?.cartData,
           orElse: () => null,
         );
 

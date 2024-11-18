@@ -65,10 +65,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   String _promocode = '';
 
   final Map<String, int> _pendingProducts = {};
+
+  Set<String> get _pendingHash => {..._pendingProducts.keys};
+
   bool pendingClear = false;
 
   bool isPendingProduct(Product product) =>
-      (_pendingProducts[product.id] ?? 0) > 0;
+      (_pendingProducts[product.pendingId] ?? 0) > 0;
 
   bool get unauthrorized => state.maybeWhen(
         unauthorized: () => true,
@@ -101,7 +104,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           );
           return productInCart != null;
         },
-        loading: (cart, _) {
+        loading: (cart, _, __) {
           final productInCart = cart?.unavailableProducts.firstWhereOrNull(
             (element) => element.id == product.id,
           );
@@ -123,11 +126,17 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<bool> _handleEvent(_Emit emit) async {
     final (cart, recommends) = state.maybeWhen(
       loaded: (cart, recommends) => (cart, recommends),
-      loading: (cart, recommends) => (cart, recommends),
+      loading: (cart, recommends, _) => (cart, recommends),
       orElse: () => (null, null),
     );
 
-    emit(_Loading(cart: cart, recommends: recommends));
+    emit(
+      _Loading(
+        cart: cart,
+        recommends: recommends,
+        pendingProducts: _pendingHash,
+      ),
+    );
 
     final bool? hasAuth = await _hasAuth;
     if (hasAuth == null) {
@@ -185,7 +194,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _Emit emit,
   ) async {
     _pendingProducts.update(
-      event.product.id,
+      event.product.pendingId,
       (value) => value + 1,
       ifAbsent: () => 1,
     );
@@ -200,7 +209,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       ),
     );
 
-    _pendingProducts.update(event.product.id, (value) => value - 1);
+    _pendingProducts.update(event.product.pendingId, (value) => value - 1);
 
     result.fold(
       (_) => emit(const _Error()),
@@ -224,7 +233,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _Emit emit,
   ) async {
     _pendingProducts.update(
-      event.product.id,
+      event.product.pendingId,
       (value) => value + 1,
       ifAbsent: () => 1,
     );
@@ -240,7 +249,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       ),
     );
 
-    _pendingProducts.update(event.product.id, (value) => value - 1);
+    _pendingProducts.update(event.product.pendingId, (value) => value - 1);
 
     result.fold(
       (_) => emit(const _Error()),
