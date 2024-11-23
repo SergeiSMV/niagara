@@ -36,15 +36,13 @@ class ProductShortDescription extends StatelessWidget {
             ),
           ),
         if (displaySecondPart)
-          Expanded(
-            child: Padding(
-              padding: AppInsets.kVertical4,
-              child: Text(
-                product.discountOfCount,
-                textAlign: TextAlign.center,
-                style: context.textStyle.captionTypo.c1.withColor(
-                  context.colors.infoColors.green,
-                ),
+          Padding(
+            padding: AppInsets.kVertical4,
+            child: Text(
+              product.discountOfCount,
+              textAlign: TextAlign.center,
+              style: context.textStyle.captionTypo.c1.withColor(
+                context.colors.infoColors.green,
               ),
             ),
           ),

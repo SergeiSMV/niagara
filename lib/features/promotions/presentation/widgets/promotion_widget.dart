@@ -25,21 +25,27 @@ class PromotionWidget extends StatelessWidget {
   final bool withTitle;
 
   void _goToPromotionSubject(BuildContext context) {
+    // Закрываем модалку.
     context.maybePop();
+
+    // Если есть група у данной акции, навигация пойдет туда (redirectRoute)
     PageRouteInfo? redirectRoute;
     final group = Group.fromPromotion(_promotion);
-
     if (group != null) {
-      redirectRoute = CategoryWrapperRoute(
-        group: group,
-        children: const [CategoryRoute()],
+      redirectRoute = CatalogWrapper(
+        children: [
+          CategoryWrapperRoute(
+            group: group,
+            children: const [CategoryRoute()],
+          ),
+        ],
       );
     }
 
     if (redirectRoute != null) {
-      context.pushRoute(redirectRoute);
+      context.navigateTo(redirectRoute);
     } else {
-      context.pushRoute(
+      context.navigateTo(
         const CatalogWrapper(
           children: [
             CatalogRoute(),
@@ -93,7 +99,7 @@ class PromotionWidget extends StatelessWidget {
                       padding: AppInsets.kAll16,
                       child: AppTextButton.primary(
                         text: t.common.goShopping,
-                        onTap: () => _goToPromotionSubject(ctx),
+                        onTap: () => _goToPromotionSubject(context),
                       ),
                     ),
                     AppBoxes.kHeight24,

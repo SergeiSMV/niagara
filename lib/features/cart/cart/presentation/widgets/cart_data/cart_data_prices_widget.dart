@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -84,31 +86,40 @@ class _CartTotalPriceWidget extends StatelessWidget {
 
   final Cart cart;
 
+  void _gotToVipPage(BuildContext context) => context.navigateTo(
+        const LoyaltyProgramWrapper(children: [VipRoute()]),
+      );
+
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: context.colors.infoColors.green,
-        borderRadius: AppBorders.kCircular12,
-      ),
-      child: Padding(
-        padding: AppInsets.kAll12,
-        child: Column(
-          children: [
-            _InfoTotalPriceWidget(
-              title: t.cart.total,
-              data: cart.cartData.totalPrice,
-              textStyle: context.textStyle.headingTypo.h3,
-            ),
-            if (cart.cartData.vipPrice != 0) ...[
-              AppBoxes.kHeight8,
+    final bool showVip = cart.cartData.vipPrice != 0;
+
+    return GestureDetector(
+      onTap: showVip ? () => _gotToVipPage(context) : null,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: context.colors.infoColors.green,
+          borderRadius: AppBorders.kCircular12,
+        ),
+        child: Padding(
+          padding: AppInsets.kAll12,
+          child: Column(
+            children: [
               _InfoTotalPriceWidget(
-                title: t.catalog.withVIP,
-                data: cart.cartData.vipPrice,
-                textStyle: context.textStyle.textTypo.tx3Medium,
+                title: t.cart.total,
+                data: cart.cartData.totalPrice,
+                textStyle: context.textStyle.headingTypo.h3,
               ),
+              if (showVip) ...[
+                AppBoxes.kHeight8,
+                _InfoTotalPriceWidget(
+                  title: t.catalog.withVIP,
+                  data: cart.cartData.vipPrice,
+                  textStyle: context.textStyle.textTypo.tx3Medium,
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

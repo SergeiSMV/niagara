@@ -1,3 +1,5 @@
+// ignore_for_file: sort_constructors_first
+
 import 'package:yookassa_payments_flutter/models/payment_method_types.dart'
     as yk;
 
@@ -8,10 +10,17 @@ import 'package:yookassa_payments_flutter/models/payment_method_types.dart'
 /// - [sberPay] - оплата через СберПей.
 /// - [cash] - оплата курьеру.
 enum PaymentMethod {
-  bankCard,
   sbp,
   sberPay,
+  bankCard,
   cash;
+
+  static const List<PaymentMethod> all = [
+    PaymentMethod.sbp,
+    PaymentMethod.sberPay,
+    PaymentMethod.bankCard,
+    PaymentMethod.cash,
+  ];
 
   factory PaymentMethod.fromString(String value) {
     switch (value) {
@@ -48,8 +57,8 @@ enum PaymentMethod {
 
   /// Список методов для оплаты онлайн.
   static List<PaymentMethod> get onlineMethods => [
-        PaymentMethod.bankCard,
         PaymentMethod.sbp,
+        PaymentMethod.bankCard,
         PaymentMethod.sberPay,
       ];
 

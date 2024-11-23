@@ -15,10 +15,12 @@ part 'payment_method_selection_cubit.freezed.dart';
 @injectable
 class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {
   PaymentMethodSelectionCubit({
-    @factoryParam this.allowedMethods = PaymentMethod.values,
+    @factoryParam this.allowedMethods = PaymentMethod.all,
   }) : super(
-          const PaymentMethodSelectionState.selected(
+          PaymentMethodSelectionState.selected(
             type: PaymentMethodGroup.online,
+            method: allowedMethods.firstWhereOrNull((m) => m.isOnline) ??
+                PaymentMethod.sbp,
           ),
         );
 

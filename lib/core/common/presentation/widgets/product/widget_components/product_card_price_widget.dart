@@ -10,9 +10,11 @@ class ProductCardPriceWidget extends StatelessWidget {
   const ProductCardPriceWidget({
     super.key,
     required this.product,
+    this.price,
   });
 
   final Product product;
+  final int? price;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ProductCardPriceWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          '${product.price} ${t.common.rub}'.spaceSeparateNumbers(),
+          '${price ?? product.price} ${t.common.rub}'.spaceSeparateNumbers(),
           style: context.textStyle.textTypo.tx1SemiBold.withColor(
             context.colors.textColors.main,
           ),
@@ -29,6 +31,15 @@ class ProductCardPriceWidget extends StatelessWidget {
         if (product.hasDiscount)
           Text(
             '${product.priceOld} ${t.common.rub}'.spaceSeparateNumbers(),
+            style: context.textStyle.descriptionTypo.des3.copyWith(
+              color: context.colors.textColors.secondary,
+              decoration: TextDecoration.lineThrough,
+              decorationColor: context.colors.textColors.secondary,
+            ),
+          )
+        else if (price != null && price != product.price)
+          Text(
+            '${product.price} ${t.common.rub}'.spaceSeparateNumbers(),
             style: context.textStyle.descriptionTypo.des3.copyWith(
               color: context.colors.textColors.secondary,
               decoration: TextDecoration.lineThrough,

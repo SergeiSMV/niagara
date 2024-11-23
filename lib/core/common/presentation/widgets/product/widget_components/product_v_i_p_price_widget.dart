@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
@@ -11,6 +12,8 @@ import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
+import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 
 class ProductVIPPriceWidget extends StatelessWidget {
   const ProductVIPPriceWidget({
@@ -24,8 +27,36 @@ class ProductVIPPriceWidget extends StatelessWidget {
         const LoyaltyProgramWrapper(children: [VipRoute()]),
       );
 
+  int? _getVipPrice(Product product, CartState state) {
+    final Cart? cart = state.maybeWhen(
+      loaded: (cart, _) => cart,
+      loading: (cart, _, __) => cart,
+      orElse: () => null,
+    );
+
+    return cart?.vipPriceInStock(product);
+  }
+
+  int? _getPrice(Product product, CartState state) {
+    final Cart? cart = state.maybeWhen(
+      loaded: (cart, _) => cart,
+      loading: (cart, _, __) => cart,
+      orElse: () => null,
+    );
+
+    return cart?.priceInStock(product);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bloc = context.watch<CartBloc>();
+    final int? vipPriceInStock = _getVipPrice(product, bloc.state);
+    final int? priceInStock = _getPrice(product, bloc.state);
+
+    if (vipPriceInStock == priceInStock && vipPriceInStock != null) {
+      return const SizedBox.shrink();
+    }
+
     return GestureDetector(
       onTap: () => _gotToVipPage(context),
       child: DecoratedBox(

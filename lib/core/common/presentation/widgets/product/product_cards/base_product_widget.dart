@@ -27,6 +27,7 @@ class BaseProductWidget extends StatelessWidget {
     super.key,
     required this.product,
     required this.count,
+    required this.price,
     required this.onAdd,
     required this.onRemove,
     required this.authorized,
@@ -43,6 +44,11 @@ class BaseProductWidget extends StatelessWidget {
 
   /// Количество товара, отображаемое при добавлении / удалении.
   final int count;
+
+  /// Цена товара, отображаемая в каторчке.
+  ///
+  /// Если `null`, берется из [Product.price].
+  final int? price;
 
   /// Коллбек, вызываемый при увеличении количества товара.
   final VoidCallback onAdd;
@@ -140,7 +146,7 @@ class BaseProductWidget extends StatelessWidget {
                     if (isOnWaterBalancePage)
                       WaterBanalceWidget(product: product)
                     else
-                      ProductCardPriceWidget(product: product),
+                      ProductCardPriceWidget(product: product, price: price),
 
                     AppBoxes.kHeight4,
 

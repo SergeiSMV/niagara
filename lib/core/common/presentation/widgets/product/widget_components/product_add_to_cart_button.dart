@@ -15,6 +15,7 @@ import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 
 /// Виджет-кнопка для добавления товара в корзину.
@@ -32,6 +33,16 @@ class ProductAddToCartButton extends StatelessWidget {
 
   /// Товар, который добавляется в корзину.
   final Product product;
+
+  int? _getPrice(Product product, CartState state) {
+    final Cart? cart = state.maybeWhen(
+      loaded: (cart, _) => cart,
+      loading: (cart, _, __) => cart,
+      orElse: () => null,
+    );
+
+    return cart?.priceInStock(product);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +63,8 @@ class ProductAddToCartButton extends StatelessWidget {
           orElse: () => product,
         )
         .count;
+
+    final int? priceInStock = _getPrice(product, bloc.state);
 
     void onMinus() {
       if (bloc.unauthrorized) {
@@ -98,7 +111,7 @@ class ProductAddToCartButton extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '${product.price} ${t.common.rub}'
+                        '${priceInStock ?? product.price} ${t.common.rub}'
                             .spaceSeparateNumbers(),
                         style: context.textStyle.headingTypo.h3
                             .withColor(context.colors.mainColors.primary),
@@ -107,6 +120,18 @@ class ProductAddToCartButton extends StatelessWidget {
                       if (product.hasDiscount)
                         Text(
                           '${product.priceOld} ${t.common.rub}'
+                              .spaceSeparateNumbers(),
+                          style: context.textStyle.textTypo.tx3Medium.copyWith(
+                            color: context.colors.textColors.secondary,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor:
+                                context.colors.textColors.secondary,
+                          ),
+                        )
+                      else if (priceInStock != null &&
+                          priceInStock != product.price)
+                        Text(
+                          '${product.price} ${t.common.rub}'
                               .spaceSeparateNumbers(),
                           style: context.textStyle.textTypo.tx3Medium.copyWith(
                             color: context.colors.textColors.secondary,

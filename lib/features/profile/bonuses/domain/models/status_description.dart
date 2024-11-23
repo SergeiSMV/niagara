@@ -4,16 +4,14 @@ import 'package:niagara_app/features/profile/bonuses/domain/models/activation_op
 
 /// Описание статуса аккаунта.
 class StatusDescription extends Equatable {
-  StatusDescription({
+  const StatusDescription({
     required this.level,
     required this.description,
     required this.minSum,
     required this.maxSum,
     required this.benefits,
     this.activationOptions,
-  }) {
-    sortBenefits();
-  }
+  });
 
   /// Уровень статуса.
   final StatusLevel level;
@@ -31,13 +29,6 @@ class StatusDescription extends Equatable {
 
   /// Список преимуществ статуса.
   final List<BenefitDescription> benefits;
-
-  void sortBenefits() {
-    benefits.sort(
-      (a, b) =>
-          a.descriptionShort!.length.compareTo(b.descriptionShort!.length),
-    );
-  }
 
   /// Список опций для активации статуса.
   final List<ActivationOption>? activationOptions;

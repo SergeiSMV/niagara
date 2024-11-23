@@ -37,6 +37,27 @@ class Cart extends Equatable {
           ?.count ??
       0;
 
+  /// Возвращает цену [product] среди доступных товаров в корзине.
+  ///
+  /// [ignoreComplect] позволяет не учитывать [Product.complectId] при поиске.
+  int? priceInStock(Product product, {bool ignoreComplect = true}) => products
+      .firstWhereOrNull(
+        (p) =>
+            p.id == product.id &&
+            (ignoreComplect || p.complectId == product.complectId),
+      )
+      ?.price;
+
+  /// Возвращает цену [product] среди доступных товаров в корзине.
+  int? vipPriceInStock(Product product, {bool ignoreComplect = true}) =>
+      products
+          .firstWhereOrNull(
+            (p) =>
+                p.id == product.id &&
+                (ignoreComplect || p.complectId == product.complectId),
+          )
+          ?.priceVip;
+
   /// Индикатор того, что корзина пуста.
   bool get isEmpty => products.isEmpty && unavailableProducts.isEmpty;
 

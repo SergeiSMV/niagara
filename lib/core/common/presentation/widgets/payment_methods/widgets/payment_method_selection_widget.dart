@@ -48,12 +48,17 @@ class PaymentMethodSelectionWidget extends StatelessWidget {
                   ? onlineMethods
                       .map((e) => PaymentMethodTile.fromMethod(method: e))
                       .toList()
-                  : courierMethods
-                      .map((e) => PaymentMethodTile.fromMethod(
-                            method: e,
-                            selectedByDefault: onlyCourier,
-                          ))
-                      .toList(),
+                  : onlyCourier
+                      ? []
+                      : courierMethods
+                          .map(
+                            (e) => PaymentMethodTile.fromMethod(
+                              method: e,
+                              // TODO: Может, потребуется вернуть.
+                              // selectedByDefault: onlyCourier,
+                            ),
+                          )
+                          .toList(),
             ),
           ],
         );
