@@ -53,9 +53,15 @@ class ProductVIPPriceWidget extends StatelessWidget {
     final int? vipPriceInStock = _getVipPrice(product, bloc.state);
     final int? priceInStock = _getPrice(product, bloc.state);
 
+    /// Если ВИ-цена не приносит выгоды и при этом она вообще есть, убираем
+    /// значок.
     if (vipPriceInStock == priceInStock && vipPriceInStock != null) {
       return const SizedBox.shrink();
     }
+
+    // ВИП-цена отличается от изначально заданной из-за перерасчета в корзине и
+    // при этом не равна 0.
+    final bool hasVipDiscount = vipPriceInStock != null && vipPriceInStock != 0;
 
     return GestureDetector(
       onTap: () => _gotToVipPage(context),
@@ -72,7 +78,7 @@ class ProductVIPPriceWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${product.priceVip} ${t.common.rub}'
+                    '${hasVipDiscount ? vipPriceInStock : product.priceVip} ${t.common.rub}'
                         .spaceSeparateNumbers(),
                     style: context.textStyle.headingTypo.h3.withColor(
                       context.colors.textColors.white,
