@@ -14,7 +14,9 @@ part 'create_order_cubit.freezed.dart';
 class OrderCreationCubit extends Cubit<OrderCreationState> {
   OrderCreationCubit(
     this._createOrderUseCase,
-  ) : super(const OrderCreationState.initial());
+  ) : super(const OrderCreationState.initial()) {
+    // paymentMethod = PaymentMethod.sbp;
+  }
 
   final CreateOrderUseCase _createOrderUseCase;
 

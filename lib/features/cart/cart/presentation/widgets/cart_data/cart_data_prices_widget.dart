@@ -7,6 +7,7 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_bonuses_added_widget.dart';
@@ -116,6 +117,7 @@ class _CartTotalPriceWidget extends StatelessWidget {
                   title: t.catalog.withVIP,
                   data: cart.cartData.vipPrice,
                   textStyle: context.textStyle.textTypo.tx3Medium,
+                  showChevron: true,
                 ),
               ],
             ],
@@ -131,11 +133,13 @@ class _InfoTotalPriceWidget extends StatelessWidget {
     required this.title,
     required this.data,
     required this.textStyle,
+    this.showChevron = false,
   });
 
   final String title;
   final double data;
   final TextStyle textStyle;
+  final bool showChevron;
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +151,17 @@ class _InfoTotalPriceWidget extends StatelessWidget {
           title,
           style: textStyle.withColor(textColor),
         ),
+        if (showChevron) ...[
+          AppBoxes.kWidth4,
+          Assets.icons.arrowRight.svg(
+            width: AppSizes.kIconSmall,
+            height: AppSizes.kIconSmall,
+            colorFilter: ColorFilter.mode(
+              context.colors.textColors.white,
+              BlendMode.srcIn,
+            ),
+          ),
+        ],
         const Spacer(),
         Text(
           '${data.toInt()} ${t.common.rub}',

@@ -85,7 +85,7 @@ android {
     buildTypes {
         release {
             // Для сборки в настоящий релиз поменять `debug` на `release`
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

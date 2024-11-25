@@ -19,8 +19,7 @@ class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {
   }) : super(
           PaymentMethodSelectionState.selected(
             type: PaymentMethodGroup.online,
-            method: allowedMethods.firstWhereOrNull((m) => m.isOnline) ??
-                PaymentMethod.sbp,
+            method: allowedMethods.firstWhereOrNull((m) => m.isOnline),
           ),
         );
 
