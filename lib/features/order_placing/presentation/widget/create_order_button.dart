@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/bloc/payment_method_selection_cubit/payment_method_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -24,6 +25,8 @@ class CreateOrderButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool loading = context.watch<OrderCreationCubit>().isLoading;
+    final bool onlineMethod =
+        context.watch<PaymentMethodSelectionCubit>().isOnline;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -61,7 +64,8 @@ class CreateOrderButton extends StatelessWidget {
             child: BlocBuilder<OrderCreationCubit, OrderCreationState>(
               builder: (context, state) => state.maybeWhen(
                 loading: _Loading.new,
-                orElse: () => _ButtonContent(cart: cart),
+                orElse: () =>
+                    _ButtonContent(cart: cart, onlineMethod: onlineMethod),
               ),
             ),
           ),
@@ -89,13 +93,16 @@ class _Loading extends StatelessWidget {
 class _ButtonContent extends StatelessWidget {
   const _ButtonContent({
     required this.cart,
+    required this.onlineMethod,
   });
 
   final Cart cart;
+  final bool onlineMethod;
 
   @override
   Widget build(BuildContext context) {
-    final String text = t.orderPlacing.pay;
+    final String text =
+        onlineMethod ? t.orderPlacing.pay : t.orderPlacing.order;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

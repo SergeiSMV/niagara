@@ -7,6 +7,7 @@ class CartState with _$CartState {
   const factory CartState.loading({
     Cart? cart,
     List<Product>? recommends,
+    required Set<String> pendingProducts,
   }) = _Loading;
 
   const factory CartState.loaded({

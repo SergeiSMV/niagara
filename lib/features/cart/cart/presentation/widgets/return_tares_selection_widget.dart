@@ -25,7 +25,7 @@ class ReturnTaresSelectionWidget extends StatelessWidget {
       builder: (context, state) {
         final CartData? data = state.maybeWhen(
           loaded: (cart, _) => cart.cartData,
-          loading: (maybeCart, _) => maybeCart?.cartData,
+          loading: (maybeCart, _, __) => maybeCart?.cartData,
           orElse: () => null,
         );
 
@@ -70,81 +70,84 @@ class _TareSelectionWidget extends StatelessWidget {
         ? Assets.icons.checkboxChecked
         : Assets.icons.checkboxUnchecked;
 
-    return Padding(
-      padding: AppInsets.kAll16,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: context.colors.mainColors.bgCard,
-          borderRadius: AppBorders.kCircular8,
-        ),
-        child: Padding(
-          padding:
-              AppInsets.kHorizontal12 + AppInsets.kTop12 + AppInsets.kBottom4,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: onAllToggled,
-                    child: Row(
-                      children: [
-                        icon.svg(),
-                        AppBoxes.kWidth8,
-                        Text(
-                          t.cart.returnEmptyTare,
-                          style: context.textStyle.textTypo.tx2Medium,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  if (allSelected)
-                    Text(
-                      '$totalTares ${t.pieces}',
-                      style: context.textStyle.textTypo.tx1SemiBold.withColor(
-                        context.colors.mainColors.primary,
-                      ),
-                    )
-                  else
-                    AmountControlsWidget(
-                      count: selectedTares,
-                      onAdd: onPlus,
-                      onRemove: onMinus,
-                      alwaysShowActions: true,
-                      shortAmount: true,
-                    ),
-                ],
-              ),
-              AppBoxes.kHeight12,
-              if (!allSelected) ...[
-                Divider(color: context.colors.mainColors.light),
+    return GestureDetector(
+      onTap: !allSelected ? null : onAllToggled,
+      child: Padding(
+        padding: AppInsets.kAll16,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.colors.mainColors.bgCard,
+            borderRadius: AppBorders.kCircular8,
+          ),
+          child: Padding(
+            padding:
+                AppInsets.kHorizontal12 + AppInsets.kTop12 + AppInsets.kBottom4,
+            child: Column(
+              children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      t.cart.polycarbonateTare,
-                      style: context.textStyle.textTypo.tx2Medium,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          '$amountRub ${t.common.rub}',
-                          style: context.textStyle.textTypo.tx1SemiBold,
-                        ),
-                        Text(
-                          '${totalTares - selectedTares} ${t.pieces}',
-                          style:
-                              context.textStyle.descriptionTypo.des3.withColor(
-                            context.colors.textColors.secondary,
+                    GestureDetector(
+                      onTap: allSelected ? null : onAllToggled,
+                      child: Row(
+                        children: [
+                          icon.svg(),
+                          AppBoxes.kWidth8,
+                          Text(
+                            t.cart.returnEmptyTare,
+                            style: context.textStyle.textTypo.tx2Medium,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                    const Spacer(),
+                    if (allSelected)
+                      Text(
+                        '$totalTares ${t.pieces}',
+                        style: context.textStyle.textTypo.tx1SemiBold.withColor(
+                          context.colors.mainColors.primary,
+                        ),
+                      )
+                    else
+                      AmountControlsWidget(
+                        count: selectedTares,
+                        onAdd: onPlus,
+                        onRemove: onMinus,
+                        alwaysShowActions: true,
+                        shortAmount: true,
+                      ),
                   ],
                 ),
+                AppBoxes.kHeight12,
+                if (!allSelected) ...[
+                  Divider(color: context.colors.mainColors.light),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        t.cart.polycarbonateTare,
+                        style: context.textStyle.textTypo.tx2Medium,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            '$amountRub ${t.common.rub}',
+                            style: context.textStyle.textTypo.tx1SemiBold,
+                          ),
+                          Text(
+                            '${totalTares - selectedTares} ${t.pieces}',
+                            style: context.textStyle.descriptionTypo.des3
+                                .withColor(
+                              context.colors.textColors.secondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

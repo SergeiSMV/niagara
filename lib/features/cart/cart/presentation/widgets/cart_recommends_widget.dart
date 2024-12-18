@@ -53,7 +53,7 @@ class CartRecommendsWidget extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   padding: AppInsets.kHorizontal16,
                   itemBuilder: (_, index) => AspectRatio(
-                    aspectRatio: .5,
+                    aspectRatio: 0.55,
                     child: ProductWidget(
                       product: products[index],
                     ),

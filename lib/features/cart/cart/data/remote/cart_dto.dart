@@ -7,6 +7,7 @@ class CartDto extends Equatable {
   const CartDto({
     required this.products,
     required this.outOfStock,
+    required this.recommends,
     required this.data,
     required this.sumLimit,
     required this.paymentMethod,
@@ -14,6 +15,7 @@ class CartDto extends Equatable {
 
   final List<ProductDto> products;
   final List<ProductDto> outOfStock;
+  final List<ProductDto> recommends;
   final CartDataDto data;
   final CartSumLimitDto sumLimit;
   final List<PaymentMethodDto> paymentMethod;
@@ -23,6 +25,9 @@ class CartDto extends Equatable {
             .map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
             .toList(),
         outOfStock: (json['OUT_OF_STOCK'] as List<dynamic>)
+            .map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        recommends: (json['RECOMMEND'] as List<dynamic>)
             .map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
             .toList(),
         data: CartDataDto.fromJson(json['DATA'] as Map<String, dynamic>),

@@ -98,14 +98,14 @@ class RecommendProductsWidget extends StatelessWidget {
                           ),
                           AppBoxes.kHeight12,
                           AspectRatio(
-                            aspectRatio: 1.2,
+                            aspectRatio: 1.3,
                             child: ListView.separated(
                               itemCount: products.length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               padding: AppInsets.kHorizontal16,
                               itemBuilder: (_, index) => AspectRatio(
-                                aspectRatio: .5,
+                                aspectRatio: 0.55,
                                 child: ProductWidget(product: products[index]),
                               ),
                               separatorBuilder: (_, __) => AppBoxes.kWidth8,

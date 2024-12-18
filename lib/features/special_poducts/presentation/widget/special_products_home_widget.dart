@@ -67,7 +67,7 @@ class SpecialProductsHomeWidget extends StatelessWidget {
                     ),
                     AppBoxes.kHeight12,
                     AspectRatio(
-                      aspectRatio: 1.2,
+                      aspectRatio: 1.3,
                       child: ListView.separated(
                         itemCount: length,
                         shrinkWrap: true,
@@ -98,7 +98,7 @@ class SpecialProductsHomeWidget extends StatelessWidget {
                           }
 
                           return AspectRatio(
-                            aspectRatio: .5,
+                            aspectRatio: .55,
                             child: children[index],
                           );
                         },

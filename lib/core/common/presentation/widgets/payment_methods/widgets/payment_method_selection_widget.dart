@@ -32,6 +32,8 @@ class PaymentMethodSelectionWidget extends StatelessWidget {
         final onlineMethods = allowed.where((e) => e.isOnline).toList();
         final courierMethods = allowed.where((e) => !e.isOnline).toList();
 
+        final bool onlyCourier = courierMethods.length == 1;
+
         return Column(
           children: [
             if (!isOnline) ...[
@@ -46,9 +48,17 @@ class PaymentMethodSelectionWidget extends StatelessWidget {
                   ? onlineMethods
                       .map((e) => PaymentMethodTile.fromMethod(method: e))
                       .toList()
-                  : courierMethods
-                      .map((e) => PaymentMethodTile.fromMethod(method: e))
-                      .toList(),
+                  : onlyCourier
+                      ? []
+                      : courierMethods
+                          .map(
+                            (e) => PaymentMethodTile.fromMethod(
+                              method: e,
+                              // TODO: Может, потребуется вернуть.
+                              // selectedByDefault: onlyCourier,
+                            ),
+                          )
+                          .toList(),
             ),
           ],
         );

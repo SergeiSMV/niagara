@@ -24,17 +24,18 @@ class ShopsRepository extends BaseRepository implements IShopsRepository {
 
   @override
   Future<Either<Failure, List<Shop>>> getShops() => execute(() async {
-        final localShops = await _getLocalShops();
-        if (localShops.isNotEmpty) return localShops;
+        try {
+          final remoteShops = await _getRemoteShops();
+          if (remoteShops.isNotEmpty) {
+            final entities = remoteShops.map((dto) => dto.toEntity()).toList();
+            await _shopsLDS.setShops(entities);
 
-        final remoteShops = await _getRemoteShops();
-        if (remoteShops.isNotEmpty) {
-          final entities = remoteShops.map((dto) => dto.toEntity()).toList();
-          await _shopsLDS.setShops(entities);
-
+            return _getLocalShops();
+          }
+          return [];
+        } catch (_) {
           return _getLocalShops();
         }
-        return [];
       });
 
   Future<List<Shop>> _getLocalShops() async => _shopsLDS.getShops().fold(

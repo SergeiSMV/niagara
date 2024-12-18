@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/bloc/payment_method_selection_cubit/payment_method_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widgets/pay_button.dart';
@@ -92,11 +93,6 @@ class PaymentCreationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// Коллбек, вызываемый при изменении метода оплаты.
-    void onMethodChanged(PaymentMethod? method) {
-      context.read<PaymentCreationCubit>().paymentMethod = method;
-    }
-
     /// Коллбек, вызываемый при нажатии на кнопку оплаты.
     void onPlaceOrder() {
       context.read<PaymentCreationCubit>().placeOrder();
@@ -114,9 +110,7 @@ class PaymentCreationPage extends StatelessWidget {
                   AppBoxes.kHeight12,
                   purchasedProductWidget,
                   AppBoxes.kHeight24,
-                  PaymentMethodSelectionWidget(
-                    onValueChanged: onMethodChanged,
-                  ),
+                  const PaymentMethodSelection(),
                 ].map(_wrapPadding).toList(),
               ),
             ),
@@ -129,6 +123,37 @@ class PaymentCreationPage extends StatelessWidget {
         productCount: productCount,
         onTap: onPlaceOrder,
       ),
+    );
+  }
+}
+
+class PaymentMethodSelection extends StatefulWidget {
+  const PaymentMethodSelection({
+    super.key,
+  });
+
+  @override
+  State<PaymentMethodSelection> createState() => _PaymentMethodSelectionState();
+}
+
+class _PaymentMethodSelectionState extends State<PaymentMethodSelection> {
+  /// Коллбек, вызываемый при изменении метода оплаты.
+  void onMethodChanged(PaymentMethod? method, BuildContext context) {
+    context.read<PaymentCreationCubit>().paymentMethod = method;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final PaymentMethod? method =
+        context.read<PaymentMethodSelectionCubit>().state.method;
+    onMethodChanged(method, context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PaymentMethodSelectionWidget(
+      onValueChanged: (method) => onMethodChanged(method, context),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/widgets/flex_list.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -61,51 +60,23 @@ class VipStatusWidget extends StatelessWidget {
             ],
           ),
           AppBoxes.kHeight12,
-          FlexList(
-            children: description.benefits
-                .map(
-                  (benefit) => Container(
-                    width: context.screenWidth / 3,
-                    decoration: BoxDecoration(
-                      color: context.colors.mainColors.white,
-                      borderRadius: AppBorders.kCircular8,
-                    ),
-                    child: Padding(
-                      padding: AppInsets.kAll8,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                benefit.titleShort ?? '',
-                                style: context.textStyle.textTypo.tx2SemiBold
-                                    .withColor(
-                                  context.colors.textColors.accent,
-                                ),
-                              ),
-                              Assets.images.aboutBonuses.star.image(
-                                width: AppSizes.kIconMedium,
-                              ),
-                            ],
-                          ),
-                          AppBoxes.kHeight8,
-                          Text(
-                            benefit.descriptionShort ?? '',
-                            style:
-                                context.textStyle.textTypo.tx4Medium.withColor(
-                              context.colors.textColors.main,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Flexible(
+                  child: _BenefitDescription(benefit: description.benefits[0]),
+                ),
+                AppBoxes.kWidth8,
+                Flexible(
+                  child: _BenefitDescription(benefit: description.benefits[1]),
+                ),
+              ],
+            ),
           ),
+          AppBoxes.kHeight8,
+          _BenefitDescription(benefit: description.benefits.last),
           AppBoxes.kHeight16,
           InkWell(
             onTap: () => _onTap(
@@ -142,6 +113,56 @@ class VipStatusWidget extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BenefitDescription extends StatelessWidget {
+  const _BenefitDescription({
+    required this.benefit,
+  });
+
+  final BenefitDescription benefit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: context.colors.mainColors.white,
+        borderRadius: AppBorders.kCircular8,
+      ),
+      child: Padding(
+        padding: AppInsets.kAll8 + AppInsets.kAll2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    benefit.titleShort ?? '',
+                    style: context.textStyle.textTypo.tx2SemiBold.withColor(
+                      context.colors.textColors.accent,
+                    ),
+                  ),
+                ),
+                Assets.images.aboutBonuses.star.image(
+                  width: AppSizes.kIconMedium,
+                ),
+              ],
+            ),
+            AppBoxes.kHeight8,
+            Text(
+              benefit.descriptionShort ?? '',
+              style: context.textStyle.textTypo.tx4Medium.withColor(
+                context.colors.textColors.main,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

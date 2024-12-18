@@ -4,7 +4,6 @@ import 'package:niagara_app/core/common/presentation/router/routers/loyalty_prog
 import 'package:niagara_app/core/common/presentation/router/routers/order_placing_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/payment_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/product_routes.dart';
-import 'package:niagara_app/core/common/presentation/router/routers/profile_routes.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Класс роутера для модуля Catalog (Каталог)
@@ -34,7 +33,6 @@ abstract final class CatalogRoutes {
           ProductRoutes.routes,
           PaymentRoutes.routes,
           AutoRoute(page: RecommendsRoute.page),
-          ProfileRoutes.routes,
           OrderPlacingRoutes.routes,
           LoyaltyProgramRoutes.routes,
           AutoRoute(page: CatalogSearchRoute.page),

@@ -1,4 +1,3 @@
-import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
@@ -40,57 +39,83 @@ class CartRepository extends BaseRepository implements ICartRepository {
       );
 
   @override
-  Future<Either<Failure, bool>> addProductToCart(
-    Product product,
-    bool withdrawingWater,
-  ) =>
+  Future<Either<Failure, Cart>> addProductToCart({
+    required Product product,
+    required bool withdrawingWater,
+    required String locationId,
+    required int bonuses,
+    required String promocode,
+    required int tareCount,
+    required bool allTare,
+  }) =>
       execute(
         () => _cartRDS
             .addProductToCart(
-              product.id,
-              withdrawingWater ? product.complectId : null,
+              productId: product.id,
+              complectId: withdrawingWater ? product.complectId : null,
+              locationId: locationId,
+              bonuses: bonuses,
+              promocode: promocode,
+              tareCount: tareCount,
+              allTare: allTare,
             )
             .fold(
               (failure) => throw failure,
-              (success) => success,
+              (dto) => dto.toModel(),
             ),
       );
 
   @override
-  Future<Either<Failure, bool>> removeProductFromCart(
-    Product product,
-    bool withdrawingWater,
-    bool all,
-  ) =>
+  Future<Either<Failure, Cart>> removeProductFromCart({
+    required Product product,
+    required bool withdrawingWater,
+    required bool all,
+    required String locationId,
+    required int bonuses,
+    required String promocode,
+    required int tareCount,
+    required bool allTare,
+  }) =>
       execute(
         () => _cartRDS
             .removeProductFromCart(
-              product.id,
-              withdrawingWater ? product.complectId : null,
-              all,
+              productId: product.id,
+              complectId: withdrawingWater ? product.complectId : null,
+              locationId: locationId,
+              bonuses: bonuses,
+              promocode: promocode,
+              tareCount: tareCount,
+              allTare: allTare,
+              all: all,
             )
             .fold(
               (failure) => throw failure,
-              (success) => success,
+              (dto) => dto.toModel(),
             ),
       );
 
   @override
-  Future<Either<Failure, bool>> removeAllFromCart({
+  Future<Either<Failure, Cart>> removeAllFromCart({
     required CartClearTypes type,
+    required String locationId,
+    required int bonuses,
+    required String promocode,
+    required int tareCount,
+    required bool allTare,
   }) =>
       execute(
-        () => _cartRDS.clearCart(type: type).fold(
+        () => _cartRDS
+            .clearCart(
+              type: type,
+              locationId: locationId,
+              bonuses: bonuses,
+              promocode: promocode,
+              tareCount: tareCount,
+              allTare: allTare,
+            )
+            .fold(
               (failure) => throw failure,
-              (success) => success,
-            ),
-      );
-
-  @override
-  Future<Either<Failure, List<Product>>> getCartRecommendations() => execute(
-        () => _cartRDS.getRecommendedProducts().fold(
-              (failure) => throw failure,
-              (products) => products.map((e) => e.toModel()).toList(),
+              (dto) => dto.toModel(),
             ),
       );
 

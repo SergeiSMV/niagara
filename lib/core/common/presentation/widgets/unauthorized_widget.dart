@@ -126,7 +126,7 @@ class AuthorizationWidget extends StatelessWidget {
           PhoneNumberField(formKey: formKey),
           if (!modal) ...[
             const Spacer(),
-            const PrivacyPolicyTextButtons(),
+            PrivacyPolicyTextButtons(formKey: formKey),
             AppBoxes.kHeight12,
           ],
           GetCodeWidget(formKey: formKey),

@@ -46,7 +46,7 @@ class AuthPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      const PrivacyPolicyTextButtons(),
+                      PrivacyPolicyTextButtons(formKey: formKey),
                       AppBoxes.kHeight12,
                       GetCodeWidget(formKey: formKey),
                     ],

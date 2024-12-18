@@ -32,6 +32,7 @@ class BaseProductCartWidget extends StatefulWidget {
     this.onRemoveAll,
     this.isAvailable = true,
     this.interactive = true,
+    this.loading = false,
   });
 
   /// Преобретаемый товар.
@@ -57,6 +58,9 @@ class BaseProductCartWidget extends StatefulWidget {
   /// `false` отключает переход на страницу товара, [Slidable] функционал,
   /// кнопки `+` и `-`, а также немного изменяет внешний вид карточки.
   final bool interactive;
+
+  /// Отображает индикатор загрузки.
+  final bool loading;
 
   @override
   State<BaseProductCartWidget> createState() => _BaseProductCartWidgetState();
@@ -90,6 +94,7 @@ class _BaseProductCartWidgetState extends State<BaseProductCartWidget>
       onAdd: widget.onAdd,
       onRemove: widget.onRemove,
       count: widget.count,
+      loading: widget.loading,
     );
 
     if (!widget.interactive) return productCard;
@@ -121,6 +126,7 @@ class _CardContent extends StatelessWidget {
     required this.onAdd,
     required this.onRemove,
     required this.count,
+    required this.loading,
   });
 
   final Product product;
@@ -130,6 +136,7 @@ class _CardContent extends StatelessWidget {
   final VoidCallback onAdd;
   final VoidCallback onRemove;
   final int count;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +172,7 @@ class _CardContent extends StatelessWidget {
                   onMinus: onRemove,
                   count: count,
                   interactive: interactive,
+                  loading: loading,
                 ),
               ],
             ),

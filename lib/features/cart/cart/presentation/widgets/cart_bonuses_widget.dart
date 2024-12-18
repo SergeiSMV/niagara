@@ -60,7 +60,7 @@ class _CartBonusesWidgetState extends State<CartBonusesWidget> {
     /// Т.к. бонусы прикручены к состоянию корзины, считаем, что они загружаются
     /// тогда, когда загружается корзина.
     final bool loading = context.read<CartBloc>().state.maybeWhen(
-          loading: (_, __) => true,
+          loading: (_, __, ___) => true,
           orElse: () => false,
         );
 

@@ -10,8 +10,8 @@ import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/domain/use_cases/add_to_cart_use_case.dart';
+import 'package:niagara_app/features/cart/cart/domain/use_cases/cart_params.dart';
 import 'package:niagara_app/features/cart/cart/domain/use_cases/get_cart_use_case.dart';
-import 'package:niagara_app/features/cart/cart/domain/use_cases/get_recommends_cart_use_case.dart';
 import 'package:niagara_app/features/cart/cart/domain/use_cases/remove_all_from_cart_use_case.dart';
 import 'package:niagara_app/features/cart/cart/domain/use_cases/remove_from_cart_use_case.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/address/get_default_address_use_case.dart';
@@ -30,7 +30,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     this._addToCartUseCase,
     this._removeFromCartUseCase,
     this._removeAllFromCartUseCase,
-    this._getRecommendsCartUseCase,
     this._getDefaultAddressUseCase,
     this._hasAuthStatusUseCase,
     this._authStatusStream,
@@ -54,7 +53,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final AddToCartUseCase _addToCartUseCase;
   final RemoveFromCartUseCase _removeFromCartUseCase;
   final RemoveAllFromCartUseCase _removeAllFromCartUseCase;
-  final GetRecommendsCartUseCase _getRecommendsCartUseCase;
   final GetDefaultAddressUseCase _getDefaultAddressUseCase;
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
   final Stream<AuthenticatedStatus> _authStatusStream;
@@ -66,16 +64,52 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   int _bonusesToPay = 0;
   String _promocode = '';
 
+  final Map<String, int> _pendingProducts = {};
+
+  Set<String> get _pendingHash => {..._pendingProducts.keys};
+
+  bool pendingClear = false;
+
+  bool isPendingProduct(Product product) =>
+      (_pendingProducts[product.pendingId] ?? 0) > 0;
+
   bool get unauthrorized => state.maybeWhen(
         unauthorized: () => true,
         orElse: () => false,
       );
+
+  Future<CartParams> get _params async {
+    return CartParams(
+      allTare: _returnAllTare,
+      bonuses: _bonusesToPay,
+      promocode: _promocode,
+      tareCount: _returnTareCount,
+      locationId: await _getDefaultAddress(),
+    );
+  }
 
   StreamSubscription? _authStatusSubscription;
 
   Future<bool?> get _hasAuth => _hasAuthStatusUseCase.call().fold(
         (_) => null,
         (hasAuth) => hasAuth,
+      );
+
+  /// Проверяет, есть ли товар в корзине в разделе "Недоступно к заказу".
+  bool isOutOfStock(Product product) => state.maybeWhen(
+        orElse: () => false,
+        loaded: (cart, _) {
+          final productInCart = cart.unavailableProducts.firstWhereOrNull(
+            (element) => element.id == product.id,
+          );
+          return productInCart != null;
+        },
+        loading: (cart, _, __) {
+          final productInCart = cart?.unavailableProducts.firstWhereOrNull(
+            (element) => element.id == product.id,
+          );
+          return productInCart != null;
+        },
       );
 
   /// Когда изменяется состояние авторизации, происходит новый запрос корзины.
@@ -86,24 +120,48 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   void _onLoggedOut(_LoggedOut event, _Emit emit) =>
       emit(const _Unauthorized());
 
-  Future<void> _onGetCart(_GetCart event, _Emit emit) async {
+  /// Обработчик событий, которые требуют проверки авторизации.
+  ///
+  /// Также испускает состояние загрузки.
+  Future<bool> _handleEvent(_Emit emit) async {
     final (cart, recommends) = state.maybeWhen(
       loaded: (cart, recommends) => (cart, recommends),
-      loading: (cart, recommends) => (cart, recommends),
+      loading: (cart, recommends, _) => (cart, recommends),
       orElse: () => (null, null),
     );
 
-    emit(_Loading(cart: cart, recommends: recommends));
+    emit(
+      _Loading(
+        cart: cart,
+        recommends: recommends,
+        pendingProducts: _pendingHash,
+      ),
+    );
 
     final bool? hasAuth = await _hasAuth;
     if (hasAuth == null) {
-      return emit(const _Error());
+      emit(const _Error());
+      return false;
     } else if (!hasAuth) {
-      return emit(const _Unauthorized());
+      emit(const _Unauthorized());
+      return false;
     }
 
-    final locationId = await _getDefaultAddress();
+    return true;
+  }
 
+  /// Обновляет значения параметров [CartParams], которые используются при
+  /// запросе получения или изменения состояния корзины.
+  void _updateCartParams(Cart cart) {
+    _returnTareCount = cart.cartData.tareCount;
+    _returnTaresDefault = cart.cartData.totalTares;
+    _returnAllTare = _returnTareCount == _returnTaresDefault;
+  }
+
+  Future<void> _onGetCart(_GetCart event, _Emit emit) async {
+    if (!await _handleEvent(emit)) return;
+
+    final String locationId = await _getDefaultAddress();
     await _getCartUseCase
         .call(
       GetCartParams(
@@ -117,22 +175,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         .fold(
       (_) => emit(const _Error()),
       (cart) async {
-        if (cart.isEmpty) return emit(const _Empty());
-
-        _returnTareCount = cart.cartData.tareCount;
-        _returnTaresDefault = cart.cartData.totalTares;
-        _returnAllTare = _returnTareCount == _returnTaresDefault;
-
-        final recommends = await _getRecommendsCartUseCase.call().fold(
-              (failure) => <Product>[],
-              (products) => products,
-            );
+        _updateCartParams(cart);
 
         emit(
-          _Loaded(
-            cart: cart,
-            recommends: recommends,
-          ),
+          cart.isEmpty
+              ? const _Empty()
+              : _Loaded(
+                  cart: cart,
+                  recommends: cart.recommends,
+                ),
         );
       },
     );
@@ -141,43 +192,108 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _onAddToCart(
     _AddToCart event,
     _Emit emit,
-  ) async =>
-      await _addToCartUseCase(
-        AddToCartParams(
-          product: event.product,
-          withdrawingWater: event.prepaidWater ?? false,
-        ),
-      ).fold(
-        (_) => emit(const _Error()),
-        (success) async =>
-            success ? add(const _GetCart()) : emit(const _Error()),
-      );
+  ) async {
+    _pendingProducts.update(
+      event.product.pendingId,
+      (value) => value + 1,
+      ifAbsent: () => 1,
+    );
+
+    if (!await _handleEvent(emit)) return;
+
+    final result = await _addToCartUseCase(
+      AddToCartParams(
+        product: event.product,
+        withdrawingWater: event.prepaidWater ?? false,
+        cartParams: await _params,
+      ),
+    );
+
+    _pendingProducts.update(event.product.pendingId, (value) => value - 1);
+
+    result.fold(
+      (_) => emit(const _Error()),
+      (cart) {
+        _updateCartParams(cart);
+
+        emit(
+          cart.isEmpty
+              ? const _Empty()
+              : _Loaded(
+                  cart: cart,
+                  recommends: cart.recommends,
+                ),
+        );
+      },
+    );
+  }
 
   Future<void> _onRemoveFromCart(
     _RemoveFromCart event,
     _Emit emit,
-  ) async =>
-      await _removeFromCartUseCase(
-        RemoveFromCartParams(
-          product: event.product,
-          withdrawingWater: event.prepaidWater ?? false,
-          all: event.all ?? false,
-        ),
-      ).fold(
-        (_) => emit(const _Error()),
-        (success) async =>
-            success ? add(const _GetCart()) : emit(const _Error()),
-      );
+  ) async {
+    _pendingProducts.update(
+      event.product.pendingId,
+      (value) => value + 1,
+      ifAbsent: () => 1,
+    );
+
+    if (!await _handleEvent(emit)) return;
+
+    final result = await _removeFromCartUseCase(
+      RemoveFromCartParams(
+        product: event.product,
+        withdrawingWater: event.prepaidWater ?? false,
+        all: event.all ?? false,
+        cartParams: await _params,
+      ),
+    );
+
+    _pendingProducts.update(event.product.pendingId, (value) => value - 1);
+
+    result.fold(
+      (_) => emit(const _Error()),
+      (cart) async {
+        emit(
+          cart.isEmpty
+              ? const _Empty()
+              : _Loaded(
+                  cart: cart,
+                  recommends: cart.recommends,
+                ),
+        );
+      },
+    );
+  }
 
   Future<void> _onRemoveAllFromCart(
     _RemoveAllFromCart event,
     _Emit emit,
-  ) async =>
-      await _removeAllFromCartUseCase(event.type).fold(
-        (_) => emit(const _Error()),
-        (success) async =>
-            success ? add(const _GetCart()) : emit(const _Error()),
-      );
+  ) async {
+    if (!await _handleEvent(emit)) return;
+    emit(const _Empty());
+
+    final result = await _removeAllFromCartUseCase(
+      RemoveAllFromCartParams(
+        type: event.type,
+        cartParams: await _params,
+      ),
+    );
+
+    result.fold(
+      (_) => emit(const _Error()),
+      (cart) {
+        emit(
+          cart.isEmpty
+              ? const _Empty()
+              : _Loaded(
+                  cart: cart,
+                  recommends: cart.recommends,
+                ),
+        );
+      },
+    );
+  }
 
   Future<String> _getDefaultAddress() async =>
       await _getDefaultAddressUseCase.call().fold(
@@ -225,22 +341,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _promocode = event.promocode;
     add(const _GetCart());
   }
-
-  bool isOutOfStock(Product product) => state.maybeWhen(
-        orElse: () => false,
-        loaded: (cart, _) {
-          final productInCart = cart.unavailableProducts.firstWhereOrNull(
-            (element) => element.id == product.id,
-          );
-          return productInCart != null;
-        },
-        loading: (cart, _) {
-          final productInCart = cart?.unavailableProducts.firstWhereOrNull(
-            (element) => element.id == product.id,
-          );
-          return productInCart != null;
-        },
-      );
 
   @override
   Future<void> close() {

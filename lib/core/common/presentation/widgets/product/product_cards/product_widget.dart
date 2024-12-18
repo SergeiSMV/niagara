@@ -31,7 +31,7 @@ class ProductWidget extends StatelessWidget {
   int _getCount(Product product, CartState state) {
     final Cart? cart = state.maybeWhen(
       loaded: (cart, _) => cart,
-      loading: (cart, _) => cart,
+      loading: (cart, _, __) => cart,
       orElse: () => null,
     );
 
@@ -39,10 +39,21 @@ class ProductWidget extends StatelessWidget {
         0;
   }
 
+  int? _getPrice(Product product, CartState state) {
+    final Cart? cart = state.maybeWhen(
+      loaded: (cart, _) => cart,
+      loading: (cart, _, __) => cart,
+      orElse: () => null,
+    );
+
+    return cart?.priceInStock(product, ignoreComplect: !isOnWaterBalancePage);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<CartBloc>();
     final bool outOfStock = bloc.isOutOfStock(product);
+    final bool loading = bloc.isPendingProduct(product);
 
     // Тип события зависит от того, добавляем мы обычный товар или предоплатную
     // воду на списание с баланса.
@@ -59,18 +70,22 @@ class ProductWidget extends StatelessWidget {
       buildWhen: (previous, current) {
         final int oldCount = _getCount(product, previous);
         final int newCount = _getCount(product, current);
+        final int? oldCartPrice = _getPrice(product, previous);
+        final int? newCartPrice = _getPrice(product, current);
 
-        return oldCount != newCount;
+        return oldCount != newCount || oldCartPrice != newCartPrice;
       },
       builder: (context, state) {
         return BaseProductWidget(
           product: product,
           count: _getCount(product, state),
+          price: _getPrice(product, state),
           onAdd: () => bloc.add(addEvent),
           onRemove: () => bloc.add(removeEvent),
           isOnWaterBalancePage: isOnWaterBalancePage,
           authorized: !bloc.unauthrorized,
           outOfStock: outOfStock,
+          loading: loading,
         );
       },
     );

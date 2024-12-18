@@ -6,6 +6,7 @@ import 'package:either_dart/either.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mutex/mutex.dart';
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/address/checking_for_deliverability.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/geocoder/get_address_by_point_use_case.dart';
@@ -24,11 +25,34 @@ class ChoiceOnMapCubit extends Cubit<ChoiceOnMapState> {
   final GetAddressByPointUseCase _getAddressUseCase;
   final CheckingForDeliverabilityUseCase _checkingForDeliverabilityUseCase;
 
+  /// Защита от спама запросов на Geocoder API.
+  ///
+  /// Лок закрывается при начале задержки. Далее спустя секунду происходит
+  /// проверка: если сейчас лок захвачен (т.е. в течение прошлой секунды был
+  /// инициирован запрос, вызова АПИ не происходит). Таким образом будет
+  /// совершен только последний вызов (с самой актуальной точкой на карте).
+  final Mutex _searchGuard = Mutex();
+
   // Получает адрес по координатам
   Future<void> _getAddress({required Point point}) async {
-    final address = await _getAddressUseCase
-        .call(point)
-        .fold((_) => null, (address) => address);
+    if (_searchGuard.isLocked) {
+      print('[Geocoder] dropped spam request (previous pending)');
+      return;
+    }
+
+    emit(const _Initial());
+
+    Address? address;
+
+    // TODO(kvbykov): Почему-то тут either не отработал
+    try {
+      print('[Geocoder] MAKING A COSTLY REQUEST');
+      address = await _getAddressUseCase
+          .call(point)
+          .fold((_) => null, (address) => address);
+    } catch (e, st) {
+      print('Error: $e, StackTrace: $st');
+    }
 
     if (address != null) {
       final isAvailableDelivery = await _checkingForDeliverabilityUseCase
@@ -47,8 +71,19 @@ class ChoiceOnMapCubit extends Cubit<ChoiceOnMapState> {
     required Point point,
     required bool finished,
   }) async {
+    print('[Geocoder] search lock acquired!');
+    _searchGuard.acquire();
+
+    emit(const _Initial());
+    await Future.delayed(const Duration(milliseconds: 1000));
+
+    _searchGuard.release();
+    print('[Geocoder] search lock released after 1 second delay');
+
     // Если камера остановилась, то получаем адрес
-    if (finished) await _getAddress(point: point);
+    if (finished) {
+      await _getAddress(point: point);
+    }
   }
 
   /// Подтверждает адрес и переходит на экран редактирования

@@ -26,7 +26,7 @@ class SearchContentWidget extends StatelessWidget {
         builder: (ctx, state) => state.when(
           initial: () => const SizedBox.shrink(),
           loading: AppCenterLoader.new,
-          loaded: (products) {
+          loaded: (products, _) {
             final hasMore = ctx.read<CatalogSearchBloc>().hasMore;
 
             return Column(
@@ -39,7 +39,7 @@ class SearchContentWidget extends StatelessWidget {
                     mainAxisSpacing: AppSizes.kGeneral8,
                     crossAxisSpacing: AppSizes.kGeneral8,
                     childAspectRatio:
-                        context.screenWidth / context.screenHeight / .8,
+                        context.screenWidth / context.screenHeight / .85,
                     padding: EdgeInsets.zero,
                     physics: const NeverScrollableScrollPhysics(),
                     children: List.generate(

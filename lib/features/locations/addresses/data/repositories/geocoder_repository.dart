@@ -3,6 +3,7 @@ import 'package:niagara_app/features/locations/addresses/data/mappers/geoobject_
 import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
 import 'package:niagara_app/features/locations/addresses/domain/repositories/geocoder_repository.dart';
 import 'package:niagara_app/features/locations/cities/data/local/data_source/cities_local_data_source.dart';
+import 'package:niagara_app/features/locations/cities/data/local/entities/city_entity.dart';
 import 'package:niagara_app/features/locations/cities/data/mappers/city_entity_mapper.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' as geo;
 
@@ -56,16 +57,17 @@ class GeocoderRepository extends BaseRepository implements IGeocoderRepository {
     required String query,
   }) async =>
       execute(() async {
-        final city = await _citiesLDS.getCity().fold(
+        final CityEntity city = await _citiesLDS.getCity().fold(
               (failure) => throw failure,
               (city) => city,
             );
 
         final bool hasSearchSpan = city.toModel().searchSpan != null;
+        final String finalQuery = '${city.locality}, ${query.trim()}';
 
         final res = await _geocoder.getGeocode(
           geo.DirectGeocodeRequest(
-            addressGeocode: query,
+            addressGeocode: finalQuery,
             kind: geo.KindRequest.house,
             rspn: hasSearchSpan,
             ll: geo.SearchAreaLL(

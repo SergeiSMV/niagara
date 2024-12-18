@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_icon_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_controls_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/enums/cart_item_action.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
@@ -20,6 +18,7 @@ class CartProductDataWidget extends StatelessWidget {
     required this.onPlus,
     required this.onMinus,
     required this.interactive,
+    required this.loading,
   });
 
   final Product product;
@@ -29,6 +28,7 @@ class CartProductDataWidget extends StatelessWidget {
   final VoidCallback onPlus;
   final VoidCallback onMinus;
   final bool interactive;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
@@ -95,27 +95,12 @@ class CartProductDataWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight24,
           if (isAvailable && interactive)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                AmountIconButton(
-                  itemAction: ItemAction.minus,
-                  onTap: onMinus,
-                ),
-                Padding(
-                  padding: AppInsets.kHorizontal16,
-                  child: Text(
-                    '$count ${t.pieces}',
-                    style: context.textStyle.textTypo.tx2SemiBold.withColor(
-                      context.colors.mainColors.primary,
-                    ),
-                  ),
-                ),
-                AmountIconButton(
-                  itemAction: ItemAction.plus,
-                  onTap: onPlus,
-                ),
-              ],
+            AmountControlsWidget(
+              count: count,
+              loading: loading,
+              onRemove: onMinus,
+              onAdd: onPlus,
+              shrink: true,
             )
           else if (!isAvailable)
             Text(

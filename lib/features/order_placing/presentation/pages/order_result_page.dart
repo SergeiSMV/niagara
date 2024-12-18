@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
@@ -66,7 +65,7 @@ class _OkButton extends StatelessWidget {
           onTap: isSuccessful
               ? () => context
                 ..maybePop()
-                ..navigateTo(const HomeWrapperRoute())
+                ..tabsRouter.setActiveIndex(0)
               : () => context.maybePop(),
         ),
       );
