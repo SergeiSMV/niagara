@@ -35,6 +35,13 @@ class BannersWidget extends StatelessWidget {
       stops: AppConstants.profileBannersStops,
     );
 
+    final LinearGradient bonusesGradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: context.colors.gradientColors.bonusesBanner,
+      stops: AppConstants.profileBannersStops,
+    );
+
     return Padding(
       padding: AppInsets.kVertical12 + AppInsets.kHorizontal16,
       child: Column(
@@ -65,6 +72,16 @@ class BannersWidget extends StatelessWidget {
             title: t.profile.banners.vipHeader,
             description: t.profile.banners.vipDescription,
             image: Assets.images.vIPBannerImage,
+            bottomPositioning: -25,
+            rightPositioning: -25,
+          ),
+          AppBoxes.kHeight12,
+          BannerWidget(
+            redirectRoute: const AboutBonusesRoute(),
+            gradient: bonusesGradient,
+            title: t.profile.banners.bonusesHeader,
+            description: t.profile.banners.bonusesDescription,
+            image: Assets.images.bonusesBanner,
             bottomPositioning: -25,
             rightPositioning: -25,
           ),

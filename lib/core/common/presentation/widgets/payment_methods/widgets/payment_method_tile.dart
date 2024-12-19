@@ -15,47 +15,41 @@ class PaymentMethodTile extends StatelessWidget {
   /// Конструирует виджет в зависимости от указанного метода оплаты.
   factory PaymentMethodTile.fromMethod({
     required PaymentMethod method,
+    bool selectedByDefault = false,
   }) {
     switch (method) {
       case PaymentMethod.bankCard:
-        return PaymentMethodTile.bankCard();
+        return PaymentMethodTile.bankCard(selectedByDefault);
       case PaymentMethod.sbp:
-        return PaymentMethodTile.sbp();
+        return PaymentMethodTile.sbp(selectedByDefault);
       case PaymentMethod.sberPay:
-        return PaymentMethodTile.sberPay();
-      case PaymentMethod.terminal:
-        return PaymentMethodTile.terminal();
-      case PaymentMethod.cash:
-        return PaymentMethodTile.cash();
+        return PaymentMethodTile.sberPay(selectedByDefault);
+      // Способ оплаты терминалом объединён с оплатой наличными.
+      default:
+        return PaymentMethodTile.cash(selectedByDefault);
     }
   }
 
   /// Создаёт виджет для оплаты банковской картой.
-  PaymentMethodTile.bankCard()
+  PaymentMethodTile.bankCard(this.selectedByDefault)
       : image = Assets.images.newCard,
         title = t.paymentMethods.bankCard,
         method = PaymentMethod.bankCard;
 
   /// Создаёт виджет для оплаты через СБП.
-  PaymentMethodTile.sbp()
+  PaymentMethodTile.sbp(this.selectedByDefault)
       : image = Assets.images.sbp,
         title = t.paymentMethods.sbp,
         method = PaymentMethod.sbp;
 
   /// Создаёт виджет для оплаты черезе SberPay.
-  PaymentMethodTile.sberPay()
+  PaymentMethodTile.sberPay(this.selectedByDefault)
       : image = Assets.images.sberPay,
         method = PaymentMethod.sberPay,
         title = t.paymentMethods.sberPay;
 
-  /// Создаёт виджет для оплаты через терминал.
-  PaymentMethodTile.terminal()
-      : image = Assets.images.newCard,
-        title = t.paymentMethods.terminal,
-        method = PaymentMethod.terminal;
-
   /// Создаёт виджет для оплаты наличными.
-  PaymentMethodTile.cash()
+  PaymentMethodTile.cash(this.selectedByDefault)
       : image = Assets.images.ruble,
         title = t.paymentMethods.cash,
         method = PaymentMethod.cash;
@@ -69,13 +63,18 @@ class PaymentMethodTile extends StatelessWidget {
   /// Метод оплаты.
   final PaymentMethod method;
 
+  /// Признак, выбран ли метод оплаты по умолчанию.
+  ///
+  /// В таком случае отсутствует иконка выбора.
+  final bool selectedByDefault;
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.watch<PaymentMethodSelectionCubit>();
     final bool selected = cubit.state.method == method;
 
     return InkWell(
-      onTap: () => cubit.selectPaymentMethod(method),
+      onTap: () => selectedByDefault ? null : cubit.selectPaymentMethod(method),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: context.colors.mainColors.bgCard,
@@ -95,7 +94,9 @@ class PaymentMethodTile extends StatelessWidget {
                 style: context.textStyle.textTypo.tx1Medium,
               ),
               const Spacer(),
-              if (selected)
+              if (selectedByDefault)
+                const SizedBox.shrink()
+              else if (selected)
                 Assets.icons.check.svg(
                   height: AppSizes.kIconMedium,
                   width: AppSizes.kIconMedium,

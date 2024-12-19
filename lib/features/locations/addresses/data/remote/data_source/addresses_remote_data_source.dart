@@ -58,7 +58,9 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
         },
       ),
       converter: (json) {
-        if (json['success'] == false) throw const AddressesRemoteDataFailure();
+        if (json['success'] == false) {
+          throw AddressesRemoteDataFailure(json['error'] as String);
+        }
         return json['id'] as String;
       },
       failure: AddressesRemoteDataFailure.new,
@@ -75,7 +77,9 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
         data: address.toJson(),
       ),
       converter: (json) {
-        if (json['success'] == false) throw const AddressesRemoteDataFailure();
+        if (json['success'] == false) {
+          throw AddressesRemoteDataFailure(json['error'] as String);
+        }
         return json['id'] as String;
       },
       failure: AddressesRemoteDataFailure.new,

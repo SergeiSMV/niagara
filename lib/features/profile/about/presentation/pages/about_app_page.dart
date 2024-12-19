@@ -54,67 +54,17 @@ class _Content extends StatelessWidget {
               ProfileActionTile(
                 title: t.profile.aboutApp.policy,
                 textStyle: tileStyle,
-                redirectRoute: PolicyRoute(
-                  type: PolicyType.confidence,
-                  pageTitle: _Title(
-                    firstLine: t.profile.aboutApp.policyLine1,
-                    secondLine: t.profile.aboutApp.policyLine2,
-                  ),
-                ),
+                redirectRoute: PolicyRoute(type: PolicyType.confidence),
               ),
               ProfileActionTile(
                 title: t.profile.aboutApp.agreement,
                 textStyle: tileStyle,
-                redirectRoute: PolicyRoute(
-                  type: PolicyType.application,
-                  pageTitle: _Title(
-                    firstLine: t.profile.aboutApp.agreementLine1,
-                    secondLine: t.profile.aboutApp.agreementLine2,
-                  ),
-                ),
-              ),
-              ProfileActionTile(
-                title: t.profile.aboutApp.salesOffer,
-                textStyle: tileStyle,
-                redirectRoute: PolicyRoute(
-                  type: PolicyType.offer,
-                  pageTitle: _Title(
-                    firstLine: t.profile.aboutApp.salesOfferLine1,
-                    secondLine: t.profile.aboutApp.salesOfferLine2,
-                  ),
-                ),
+                redirectRoute: PolicyRoute(type: PolicyType.agreement),
               ),
             ],
           ),
         ],
       ),
-    );
-  }
-}
-
-class _Title extends StatelessWidget {
-  const _Title({
-    required this.firstLine,
-    required this.secondLine,
-  });
-
-  final String firstLine;
-  final String secondLine;
-
-  @override
-  Widget build(BuildContext context) {
-    final style = context.textStyle.textTypo.tx1SemiBold;
-    return Column(
-      children: [
-        Text(
-          firstLine,
-          style: style,
-        ),
-        Text(
-          secondLine,
-          style: style,
-        ),
-      ],
     );
   }
 }

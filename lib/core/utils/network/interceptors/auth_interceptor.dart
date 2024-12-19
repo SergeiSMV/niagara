@@ -15,16 +15,60 @@ class AuthInterceptor extends Interceptor {
   // Счетчик попыток повтора запроса
   int retryCount = 0;
 
+  /// [Mutex] для блокировки повторного запроса токена.
+  final Mutex _refreshTokenGuard = Mutex();
+
+  void _log(String message) {
+    getIt<IAppLogger>().log(
+      level: LogLevel.info,
+      message: message,
+    );
+  }
+
   @override
   Future<void> onError(
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    // Если количество попыток превышено, пропускаем ошибку дальше
-    // без повтора запроса и обработки ошибки.
-    if (retryCount >= 2) return handler.next(err);
+    final bool refreshRequired =
+        err.response?.statusCode == 401 || err.response?.statusCode == 402;
+    if (!refreshRequired) return handler.next(err);
 
-    if (err.response?.statusCode == 401 || err.response?.statusCode == 402) {
+    _log('[AuthInterceptor] Trying to refresh token...');
+
+    if (_refreshTokenGuard.isLocked) {
+      _log(
+        '[AuthInterceptor] Token refresh is already in progress. Waiting...',
+      );
+      return await _refreshTokenGuard.protect(
+        () async {
+          // Получаем новый токен
+          await tokenRepository.getToken().fold(
+            (failure) => throw Exception(failure.error),
+            (token) async {
+              // Повторяем запрос с новым токеном
+              err.requestOptions.headers['Authorization'] = 'Bearer $token';
+              _log(
+                '[AuthInterceptor] Token refresh is done by another process. Retrying request...',
+              );
+              return handler.resolve(await dio.fetch(err.requestOptions));
+            },
+          );
+        },
+      );
+    }
+
+    return await _refreshTokenGuard.protect(() async {
+      _log('[AuthInterceptor] Started refreshing token...');
+
+      // Если количество попыток превышено, пропускаем ошибку дальше
+      // без повтора запроса и обработки ошибки.
+      if (retryCount >= 2) {
+        _log('[AuthInterceptor] REFRESH FAILED: Retry count exceeded.');
+
+        return handler.next(err);
+      }
+
       retryCount++;
       // Создаем новый токен
       return tokenRepository.createToken().fold(
@@ -34,6 +78,8 @@ class AuthInterceptor extends Interceptor {
           await tokenRepository.getToken().fold(
             (failure) => throw Exception(failure.error),
             (token) async {
+              _log('[AuthInterceptor] Refreshed token. Retrying request...');
+
               // Повторяем запрос с новым токеном
               err.requestOptions.headers['Authorization'] = 'Bearer $token';
               return handler.resolve(await dio.fetch(err.requestOptions));
@@ -41,9 +87,7 @@ class AuthInterceptor extends Interceptor {
           );
         },
       );
-    }
-
-    return handler.next(err);
+    });
   }
 
   @override

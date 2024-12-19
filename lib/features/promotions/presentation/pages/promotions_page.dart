@@ -6,7 +6,10 @@ import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
+import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/promotions/presentation/cubit/promotions_cubit.dart';
 import 'package:niagara_app/features/promotions/presentation/widgets/promotion_widget.dart';
 
@@ -33,42 +36,74 @@ class PromotionsPage extends StatelessWidget {
             return state.maybeWhen(
               orElse: SizedBox.shrink,
               loading: () => const AppCenterLoader(),
-              loaded: (promotions) => NotificationListener(
-                onNotification: (ScrollEndNotification notification) {
-                  if (notification.metrics.pixels >=
-                      notification.metrics.maxScrollExtent /
-                          AppSizes.kGeneral2) {
-                    _loadMore(ctx);
-                  }
-                  return true;
-                },
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      AppBoxes.kHeight48,
-                      ...List.generate(
-                        promotions.length,
-                        (index) => Padding(
-                          padding: AppInsets.kVertical12,
-                          child: PromotionWidget(
-                            promotion: promotions[index],
-                            withTitle: true,
+              loaded: (promotions) {
+                if (promotions.isEmpty) {
+                  return const _Empty();
+                }
+
+                return NotificationListener(
+                  onNotification: (ScrollEndNotification notification) {
+                    if (notification.metrics.pixels >=
+                        notification.metrics.maxScrollExtent /
+                            AppSizes.kGeneral2) {
+                      _loadMore(ctx);
+                    }
+                    return true;
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        AppBoxes.kHeight48,
+                        ...List.generate(
+                          promotions.length,
+                          (index) => Padding(
+                            padding: AppInsets.kVertical12,
+                            child: PromotionWidget(
+                              promotion: promotions[index],
+                              withTitle: true,
+                            ),
                           ),
                         ),
-                      ),
-                      if (hasMore)
-                        Assets.lottie.loadCircle.lottie(
-                          width: AppSizes.kGeneral64,
-                          height: AppSizes.kGeneral64,
-                          repeat: true,
-                        ),
-                    ],
+                        if (hasMore)
+                          Assets.lottie.loadCircle.lottie(
+                            width: AppSizes.kGeneral64,
+                            height: AppSizes.kGeneral64,
+                            repeat: true,
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class _Empty extends StatelessWidget {
+  const _Empty();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Assets.images.bell.image(
+            width: AppSizes.kImageSize170,
+            height: AppSizes.kImageSize170,
+          ),
+          AppBoxes.kHeight16,
+          Text(
+            t.promos.empty,
+            style: context.textStyle.headingTypo.h3
+                .withColor(context.colors.textColors.main),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

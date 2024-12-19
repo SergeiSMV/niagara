@@ -9,6 +9,7 @@ import 'package:niagara_app/core/common/presentation/router/routers/home_routes.
 import 'package:niagara_app/core/common/presentation/router/routers/location_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/profile_routes.dart';
 import 'package:niagara_app/core/common/presentation/router/routers/splash_routes.dart';
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Класс [AppRouter] роутера приложения. Содержит все модули и их маршруты.
 @AutoRouterConfig()
@@ -16,26 +17,40 @@ import 'package:niagara_app/core/common/presentation/router/routers/splash_route
 class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
-        SplashRouters.routers,
-        AuthRouters.routers,
-        LocationsRouters.routers,
+        SplashRouters.routes,
+        AuthRoutes.routes,
+        LocationsRoutes.routes,
         AutoRoute(
           page: NavigationRoute.page,
           guards: [
-            LocationsRouters.cityGuard,
-            LocationsRouters.addressesGuard,
+            LocationsRoutes.cityGuard,
+            LocationsRoutes.addressesGuard,
           ],
           children: [
-            HomeRouters.routers,
-            CatalogRouters.routers,
-            CartRouters.routers,
+            HomeRoutes.routes,
+            CatalogRoutes.routes,
+            CartRoutes.routes,
             EmptyRouters.routers,
-            ProfileRouters.routers,
+            ProfileRoutes.routes,
           ],
         ),
+        AutoRoute(page: StorySlidesWrapper.page),
+        AutoRoute(page: PolicyRoute.page),
         AutoRoute(
-          page: StorySlidesWrapper.page,
+          page: OTPRoute.page,
+          title: (_, __) => t.auth.confirmNumber,
         ),
+        CatalogRoutes.routes,
+        // AutoRoute(
+        //   page: CategoryWrapperRoute.page,
+        //   children: [
+        //     AutoRoute(page: CategoryRoute.page),
+        //     AutoRoute(
+        //       page: FiltersRoute.page,
+        //       title: (_, __) => t.catalog.filter,
+        //     ),
+        //   ],
+        // ),
       ];
 
   /// Анимация переходов между экранами приложения.

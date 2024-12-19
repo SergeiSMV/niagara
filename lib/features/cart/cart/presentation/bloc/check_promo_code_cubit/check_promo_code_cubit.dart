@@ -1,34 +1,33 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/check_promocode_state.dart';
 import 'package:niagara_app/features/cart/cart/domain/use_cases/check_promo_code_use_case.dart';
-
-part 'check_promo_code_state.dart';
-part 'check_promo_code_cubit.freezed.dart';
 
 @injectable
 class CheckPromoCodeCubit extends Cubit<CheckPromoCodeState> {
   CheckPromoCodeCubit(
     this._checkPromoCodeUseCase,
-  ) : super(const CheckPromoCodeState.initial());
+  ) : super(CheckPromoCodeState.initial);
 
   final CheckPromoCodeUseCase _checkPromoCodeUseCase;
 
-  String? promoCode;
+  String? promocode;
+
+  void reset() => emit(CheckPromoCodeState.initial);
 
   Future<void> checkPromoCode() async {
-    if ((promoCode ?? '').isEmpty) return;
+    if ((promocode ?? '').isEmpty) return;
 
-    emit(const CheckPromoCodeState.initial());
+    emit(CheckPromoCodeState.loading);
 
-    promoCode = promoCode!.trim();
+    promocode = promocode!.trim();
 
-    await _checkPromoCodeUseCase(promoCode!).fold(
-      (failure) => emit(const CheckPromoCodeState.error()),
+    await _checkPromoCodeUseCase(promocode!).fold(
+      (failure) => emit(CheckPromoCodeState.error),
       (result) {
         result
-            ? emit(const CheckPromoCodeState.valid())
-            : emit(const CheckPromoCodeState.invalid());
+            ? emit(CheckPromoCodeState.valid)
+            : emit(CheckPromoCodeState.invalid);
       },
     );
   }

@@ -1,10 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_bonuses_added_widget.dart';
@@ -33,13 +36,13 @@ class CartDataPricesWidget extends StatelessWidget {
           ),
           AppBoxes.kHeight8,
           CartDataWidget(
-            title: t.product(n: cart.products.length),
-            data: cart.cartData.totalPrice,
+            title: t.product(n: cart.cartData.productsCount),
+            data: cart.cartData.productsTotalSum,
             isBold: true,
           ),
           CartDataWidget(
             title: t.cart.tarePrice,
-            data: cart.cartData.tareDiscount,
+            data: cart.cartData.tareSum,
           ),
           CartDataWidget(
             title: t.cart.discount,
@@ -84,29 +87,41 @@ class _CartTotalPriceWidget extends StatelessWidget {
 
   final Cart cart;
 
+  void _gotToVipPage(BuildContext context) => context.navigateTo(
+        const LoyaltyProgramWrapper(children: [VipRoute()]),
+      );
+
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: context.colors.infoColors.green,
-        borderRadius: AppBorders.kCircular12,
-      ),
-      child: Padding(
-        padding: AppInsets.kAll12,
-        child: Column(
-          children: [
-            _InfoTotalPriceWidget(
-              title: t.cart.total,
-              data: cart.cartData.totalPrice,
-              textStyle: context.textStyle.headingTypo.h3,
-            ),
-            AppBoxes.kHeight8,
-            _InfoTotalPriceWidget(
-              title: t.catalog.withVIP,
-              data: cart.cartData.vipPrice,
-              textStyle: context.textStyle.textTypo.tx3Medium,
-            ),
-          ],
+    final bool showVip = cart.cartData.vipPrice != 0;
+
+    return GestureDetector(
+      onTap: showVip ? () => _gotToVipPage(context) : null,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: context.colors.infoColors.green,
+          borderRadius: AppBorders.kCircular12,
+        ),
+        child: Padding(
+          padding: AppInsets.kAll12,
+          child: Column(
+            children: [
+              _InfoTotalPriceWidget(
+                title: t.cart.total,
+                data: cart.cartData.totalPrice,
+                textStyle: context.textStyle.headingTypo.h3,
+              ),
+              if (showVip) ...[
+                AppBoxes.kHeight8,
+                _InfoTotalPriceWidget(
+                  title: t.catalog.withVIP,
+                  data: cart.cartData.vipPrice,
+                  textStyle: context.textStyle.textTypo.tx3Medium,
+                  showChevron: true,
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
@@ -118,11 +133,13 @@ class _InfoTotalPriceWidget extends StatelessWidget {
     required this.title,
     required this.data,
     required this.textStyle,
+    this.showChevron = false,
   });
 
   final String title;
   final double data;
   final TextStyle textStyle;
+  final bool showChevron;
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +151,17 @@ class _InfoTotalPriceWidget extends StatelessWidget {
           title,
           style: textStyle.withColor(textColor),
         ),
+        if (showChevron) ...[
+          AppBoxes.kWidth4,
+          Assets.icons.arrowRight.svg(
+            width: AppSizes.kIconSmall,
+            height: AppSizes.kIconSmall,
+            colorFilter: ColorFilter.mode(
+              context.colors.textColors.white,
+              BlendMode.srcIn,
+            ),
+          ),
+        ],
         const Spacer(),
         Text(
           '${data.toInt()} ${t.common.rub}',

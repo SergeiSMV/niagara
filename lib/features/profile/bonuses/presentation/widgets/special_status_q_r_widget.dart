@@ -19,9 +19,8 @@ class SpecialStatusQRWidget extends StatelessWidget {
   final Bonuses bonuses;
 
   void _goToBonuses(BuildContext context) => context.navigateTo(
-        const ProfileWrapper(
+        const LoyaltyProgramWrapper(
           children: [
-            ProfileRoute(),
             MyBonusesRoute(),
           ],
         ),

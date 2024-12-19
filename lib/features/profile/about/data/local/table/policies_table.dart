@@ -6,4 +6,7 @@ class PoliciesTable extends Table {
 
   @override
   Set<Column> get primaryKey => {type};
+
+  @override
+  String get tableName => 'policies_table';
 }

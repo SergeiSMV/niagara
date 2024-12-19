@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_amount_icon_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_icon_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -14,6 +15,7 @@ import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 
 /// Виджет-кнопка для добавления товара в корзину.
@@ -32,13 +34,26 @@ class ProductAddToCartButton extends StatelessWidget {
   /// Товар, который добавляется в корзину.
   final Product product;
 
+  int? _getPrice(Product product, CartState state) {
+    final Cart? cart = state.maybeWhen(
+      loaded: (cart, _) => cart,
+      loading: (cart, _, __) => cart,
+      orElse: () => null,
+    );
+
+    return cart?.priceInStock(product);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<CartBloc>();
+    final bool outOfStock = bloc.isOutOfStock(product);
+    final bool loading = bloc.isPendingProduct(product);
+
     final CartState state = bloc.state;
     final List<Product> cartProducts = state.maybeWhen(
       loaded: (cart, recommends) => cart.products,
-      loading: (cart, recommends) => cart?.products ?? [],
+      loading: (cart, recommends, _) => cart?.products ?? [],
       orElse: () => [],
     );
     final bool productInCart = cartProducts.any((e) => e.id == product.id);
@@ -48,6 +63,26 @@ class ProductAddToCartButton extends StatelessWidget {
           orElse: () => product,
         )
         .count;
+
+    final int? priceInStock = _getPrice(product, bloc.state);
+
+    void onMinus() {
+      if (bloc.unauthrorized) {
+        AuthorizationWidget.showModal(context);
+        return;
+      }
+
+      bloc.add(CartEvent.removeFromCart(product: product));
+    }
+
+    void onPlus() {
+      if (bloc.unauthrorized) {
+        AuthorizationWidget.showModal(context);
+        return;
+      }
+
+      bloc.add(CartEvent.addToCart(product: product));
+    }
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -76,7 +111,7 @@ class ProductAddToCartButton extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '${product.price} ${t.common.rub}'
+                        '${priceInStock ?? product.price} ${t.common.rub}'
                             .spaceSeparateNumbers(),
                         style: context.textStyle.headingTypo.h3
                             .withColor(context.colors.mainColors.primary),
@@ -92,34 +127,40 @@ class ProductAddToCartButton extends StatelessWidget {
                             decorationColor:
                                 context.colors.textColors.secondary,
                           ),
+                        )
+                      else if (priceInStock != null &&
+                          priceInStock != product.price)
+                        Text(
+                          '${product.price} ${t.common.rub}'
+                              .spaceSeparateNumbers(),
+                          style: context.textStyle.textTypo.tx3Medium.copyWith(
+                            color: context.colors.textColors.secondary,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor:
+                                context.colors.textColors.secondary,
+                          ),
                         ),
                       const Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ProductAmountIconButton(
-                            product: product,
-                            cartAction: CartItemAction.minus,
-                            onTap: () => bloc.add(
-                              CartEvent.removeFromCart(product: product),
-                            ),
+                          AmountIconButton(
+                            itemAction: ItemAction.minus,
+                            onTap: onMinus,
+                            loading: loading,
                           ),
                           Padding(
                             padding: AppInsets.kHorizontal16,
                             child: Text(
                               countInCart.toString(),
                               style: context.textStyle.textTypo.tx2SemiBold
-                                  .withColor(
-                                context.colors.mainColors.primary,
-                              ),
+                                  .withColor(context.colors.mainColors.primary),
                             ),
                           ),
-                          ProductAmountIconButton(
-                            product: product,
-                            cartAction: CartItemAction.plus,
-                            onTap: () => bloc.add(
-                              CartEvent.addToCart(product: product),
-                            ),
+                          AmountIconButton(
+                            itemAction: ItemAction.plus,
+                            onTap: onPlus,
+                            loading: loading,
                           ),
                         ],
                       ),
@@ -127,13 +168,13 @@ class ProductAddToCartButton extends StatelessWidget {
                   ),
                 ),
               )
-            : AppTextButton.primary(
-                icon: Assets.icons.shoppingCart,
-                text: t.catalog.toCard,
-                onTap: () => bloc.add(
-                  CartEvent.addToCart(product: product),
-                ),
-              ),
+            : outOfStock
+                ? AppTextButton.primary(text: t.common.outOfStock)
+                : AppTextButton.primary(
+                    icon: loading ? null : Assets.icons.shoppingCart,
+                    text: loading ? null : t.catalog.toCard,
+                    onTap: loading ? null : onPlus,
+                  ),
       ),
     );
   }

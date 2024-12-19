@@ -7,9 +7,9 @@ import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
-/// Виджет выбора типа оплаты.
+/// Виджет выбора группы способов оплаты.
 ///
-/// Показывает `SegmentedButton` с двумя вариантами оплаты: онлайн и курьеру.
+/// Показывает `SegmentedButton` с двумя группами методов: онлайн и курьеру.
 class PaymentTypeSelectionWidget extends StatelessWidget {
   const PaymentTypeSelectionWidget({super.key});
 
@@ -19,10 +19,10 @@ class PaymentTypeSelectionWidget extends StatelessWidget {
     final bool isOnline = cubit.isOnline;
 
     void selectOnline() =>
-        cubit.selectPaymentMethodType(PaymentMethodType.online);
+        cubit.selectPaymentMethodType(PaymentMethodGroup.online);
 
     void selectCourier() =>
-        cubit.selectPaymentMethodType(PaymentMethodType.courier);
+        cubit.selectPaymentMethodType(PaymentMethodGroup.courier);
 
     return Padding(
       padding: AppInsets.kAll4,

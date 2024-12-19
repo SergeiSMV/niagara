@@ -5,6 +5,8 @@ import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
+import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
+import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
@@ -18,89 +20,117 @@ import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_promoco
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_recommends_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_unavailable_products_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/empty_cart_widget.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/free_delivery_info_widget.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/return_tares_selection_widget.dart';
+import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
+import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
 
 @RoutePage()
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
-  void onRefresh(BuildContext context) =>
-      context.read<CartBloc>().add(const CartEvent.getCart());
-
   @override
-  Widget build(BuildContext context) => BlocBuilder<CartBloc, CartState>(
-        builder: (_, state) => state.maybeWhen(
-          empty: EmptyCartWidget.new,
-          loading: _Loading.new,
-          loaded: _Content.new,
-          orElse: () => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [ErrorRefreshWidget(onRefresh: () => onRefresh(context))],
+  Widget build(BuildContext context) => SafeArea(
+        child: BlocBuilder<CartBloc, CartState>(
+          builder: (_, state) => state.when(
+            empty: EmptyCartWidget.new,
+            loading: _Content.new,
+            loaded: _Content.new,
+            error: _Error.new,
+            unauthorized: () => const AuthorizationWidget(),
           ),
         ),
       );
 }
 
-class _Loading extends StatelessWidget {
-  const _Loading(
-    this.cart,
-    this.recommends,
-  );
+class _Error extends StatelessWidget {
+  const _Error({
+    super.key,
+  });
 
-  final Cart? cart;
-  final List<Product>? recommends;
-
-  bool get hasData => cart != null && recommends != null;
+  void onRefresh(BuildContext context) =>
+      context.read<CartBloc>().add(const CartEvent.getCart());
 
   @override
-  Widget build(BuildContext context) =>
-      hasData ? _Content(cart!, recommends!) : const AppCenterLoader();
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ErrorRefreshWidget(onRefresh: () => onRefresh(context)),
+      ],
+    );
+  }
 }
 
 class _Content extends StatelessWidget {
   const _Content(
     this.cart,
-    this.recommends,
-  );
+    this.recommends, [
+    this.test,
+  ]);
 
-  final Cart cart;
-  final List<Product> recommends;
+  final Cart? cart;
+  final List<Product>? recommends;
+  final test;
+
+  bool get hasData => cart != null && recommends != null;
+
+  /// Обновляет состояние корзины при изменении адреса.
+  void _onAddressChanged(BuildContext context, AddressesState state) {
+    final String? locationId = state.defaultLocation?.locationId;
+    if (locationId != cart?.locationId) {
+      context.read<CartBloc>().add(const CartEvent.getCart());
+    }
+  }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: SafeArea(
+  Widget build(BuildContext context) {
+    if (!hasData) return const AppCenterLoader();
+
+    return Scaffold(
+      body: BlocListener<AddressesBloc, AddressesState>(
+        bloc: getIt<AddressesBloc>(),
+        listener: _onAddressChanged,
+        child: SafeArea(
           child: Padding(
             padding: AppInsets.kTop64,
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CartProductListWidget(cart: cart),
+                  const DeliveryAddressWidget(editable: true),
+                  FreeDeliveryInfoWidget(cart: cart!),
+                  AppBoxes.kHeight16,
+                  CartProductListWidget(cart: cart!),
+                  const ReturnTaresSelectionWidget(),
                   AppBoxes.kHeight16,
                   CartUnavailableProductsWidget(
-                    unavailableProducts: cart.unavailableProducts,
+                    unavailableProducts: cart!.unavailableProducts,
                   ),
                   AppBoxes.kHeight16,
-                  CartPromocodeWidget(cart: cart),
+                  CartPromocodeWidget(cart: cart!),
                   AppBoxes.kHeight16,
-                  CartBonusesWidget(cart: cart),
+                  CartBonusesWidget(cart: cart!),
                   AppBoxes.kHeight16,
-                  CartDataPricesWidget(cart: cart),
+                  CartDataPricesWidget(cart: cart!),
                   AppBoxes.kHeight16,
-                  CartRecommendsWidget(products: recommends),
+                  CartRecommendsWidget(products: recommends!),
                   AppBoxes.kHeight16,
                 ],
               ),
             ),
           ),
         ),
-        bottomNavigationBar: PayButton(
-          cart: cart,
-          text: t.cart.payable,
-          redirectRoute: OrderPlacingWrapper(
-            allowedPaymentMethods: cart.paymentMethods,
-            children: [
-              OrderPlacingRoute(cart: cart),
-            ],
-          ),
+      ),
+      bottomNavigationBar: PayButton(
+        cart: cart!,
+        text: t.cart.payable,
+        redirectRoute: OrderPlacingWrapper(
+          allowedPaymentMethods: cart!.paymentMethods,
+          children: [
+            OrderPlacingRoute(cart: cart!),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

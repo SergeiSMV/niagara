@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -20,8 +21,10 @@ class ProductImagesWidget extends HookWidget {
 
   final Product product;
 
-  bool get _isScrollable => product.additionalImages.isNotEmpty;
-  List<String> get _images => [product.imageUrl, ...product.additionalImages];
+  List<String> get _images =>
+      {product.imageUrl, ...product.additionalImages}.toList();
+
+  bool get _isScrollable => _images.length > 1;
 
   Future<void> _showFullImagesDialog(
     BuildContext context, {
@@ -45,6 +48,7 @@ class ProductImagesWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final active = useState(0);
+
     return Column(
       children: [
         _ImagesCarouselWidget(
@@ -112,18 +116,12 @@ class _FullScreenImages extends HookWidget {
             Expanded(
               child: CarouselSlider.builder(
                 itemCount: _images.length,
-                itemBuilder: (_, index, __) => Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  padding: AppInsets.kAll8,
-                  child: ExtendedImage.network(
-                    product.imageUrl,
-                    fit: BoxFit.fitHeight,
-                    mode: ExtendedImageMode.gesture,
-                  ),
+                itemBuilder: (_, index, __) => ExtendedImage.network(
+                  product.imageUrl,
+                  fit: BoxFit.fitHeight,
                 ),
                 options: CarouselOptions(
-                  aspectRatio: 1,
+                  aspectRatio: 0.75,
                   viewportFraction: 1,
                   enableInfiniteScroll: _isScrollable,
                   onPageChanged: (index, _) => active.value = index,
@@ -200,15 +198,19 @@ class _ImagesCarouselWidget extends StatelessWidget {
       itemCount: _images.length,
       itemBuilder: (_, index, __) => InkWell(
         onTap: onTap != null ? () => onTap!(index) : null,
+        key: ValueKey(_images[index]),
         child: Container(
           width: double.infinity,
           padding: AppInsets.kAll8,
           child: ClipRRect(
             borderRadius: AppBorders.kCircular16 + AppBorders.kCircular2,
             child: ExtendedImage.network(
-              product.imageUrl,
+              _images[index],
               fit: BoxFit.fitHeight,
-              mode: ExtendedImageMode.gesture,
+              loadStateChanged: (state) =>
+                  state.extendedImageLoadState == LoadState.loading
+                      ? const AppCenterLoader()
+                      : null,
             ),
           ),
         ),

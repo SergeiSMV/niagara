@@ -1,9 +1,8 @@
+import 'package:niagara_app/core/utils/gen/strings.g.dart';
+
 enum PolicyType {
   /// Пользовательское соглашение.
-  application,
-
-  /// Оферта на продажу товаров.
-  offer,
+  agreement,
 
   /// Политика конфиденциальности.
   confidence;
@@ -11,13 +10,21 @@ enum PolicyType {
   static PolicyType toEnum(String val) {
     switch (val) {
       case 'application':
-        return PolicyType.application;
-      case 'offer':
-        return PolicyType.offer;
+        return PolicyType.agreement;
       case 'confidence':
         return PolicyType.confidence;
       default:
-        return PolicyType.application;
+        return PolicyType.agreement;
     }
   }
+
+  String get titleFirstLine => switch (this) {
+        agreement => t.profile.aboutApp.agreementLine1,
+        confidence => t.profile.aboutApp.policyLine1,
+      };
+
+  String get titleSecondLine => switch (this) {
+        agreement => t.profile.aboutApp.agreementLine2,
+        confidence => t.profile.aboutApp.policyLine2,
+      };
 }

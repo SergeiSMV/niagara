@@ -36,15 +36,10 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
   @override
   Future<Either<Failure, Orders>> getOrders({
     required int page,
-    required OrdersTypes sort,
+    required OrdersTypes? sort,
   }) =>
       execute(
-        () async => await _ordersRDS
-            .getOrders(
-          page: page,
-          sort: sort,
-        )
-            .fold(
+        () async => await _ordersRDS.getOrders(page: page, sort: sort).fold(
           (failure) async => await _getOrdersIfNoInternet(sort),
           (dto) async {
             final orders = (
@@ -63,9 +58,17 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
             (entities) => entities.map((entity) => entity.toModel()).toList(),
           );
 
-  Future<Orders> _getOrdersIfNoInternet(OrdersTypes sort) async {
+  Future<Orders> _getOrdersIfNoInternet(OrdersTypes? sort) async {
     final localOrders = await _getLocalOrders();
     final List<UserOrder> sortedLocalOrders = [];
+
+    if (sort == null) {
+      return (
+        orders: localOrders,
+        pagination: const Pagination(items: 1, current: 1, total: 1),
+      );
+    }
+
     for (final item in localOrders) {
       bool shouldAdd = false;
 
@@ -102,9 +105,10 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
   @override
   Future<Either<Failure, List<OrderRateOption>>> getOrderRateOptions({
     required int rating,
+    required String id,
   }) =>
       execute(
-        () async => _ordersRDS.getOrderRateOptions(rating: rating).fold(
+        () async => _ordersRDS.getOrderRateOptions(rating: rating, id: id).fold(
               (failure) => throw failure,
               (dto) => dto.map((e) => e.toModel()).toList(),
             ),

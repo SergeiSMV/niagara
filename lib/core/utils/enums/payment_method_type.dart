@@ -1,3 +1,5 @@
+// ignore_for_file: sort_constructors_first
+
 import 'package:yookassa_payments_flutter/models/payment_method_types.dart'
     as yk;
 
@@ -6,27 +8,35 @@ import 'package:yookassa_payments_flutter/models/payment_method_types.dart'
 /// - [bankCard] - оплата банковской картой онлайн.
 /// - [sbp] - оплата через СБП.
 /// - [sberPay] - оплата через СберПей.
-/// - [cash] - оплата наличными курьеру.
-/// - [terminal] - оплата через терминал курьеру.
+/// - [cash] - оплата курьеру.
 enum PaymentMethod {
-  bankCard,
   sbp,
   sberPay,
-  cash,
-  terminal;
+  bankCard,
+  cash;
+
+  static const List<PaymentMethod> all = [
+    PaymentMethod.sbp,
+    PaymentMethod.sberPay,
+    PaymentMethod.bankCard,
+    PaymentMethod.cash,
+  ];
 
   factory PaymentMethod.fromString(String value) {
     switch (value) {
       case 'bank_card':
         return PaymentMethod.bankCard;
+
       case 'sbp':
         return PaymentMethod.sbp;
+
       case 'sberbank':
         return PaymentMethod.sberPay;
+
+      case 'terminal':
       case 'cash':
         return PaymentMethod.cash;
-      case 'terminal':
-        return PaymentMethod.terminal;
+
       default:
         throw ArgumentError('Unknown payment method: $value');
     }
@@ -47,15 +57,14 @@ enum PaymentMethod {
 
   /// Список методов для оплаты онлайн.
   static List<PaymentMethod> get onlineMethods => [
-        PaymentMethod.bankCard,
         PaymentMethod.sbp,
+        PaymentMethod.bankCard,
         PaymentMethod.sberPay,
       ];
 
   /// Список методов для оплаты курьеру.
   static List<PaymentMethod> get courierMethods => [
         PaymentMethod.cash,
-        PaymentMethod.terminal,
       ];
 
   /// Возвращает `true`, если оплата происходит онлайн.
@@ -75,17 +84,17 @@ enum PaymentMethod {
         return 'sberbank';
       case PaymentMethod.cash:
         return 'cash';
-      case PaymentMethod.terminal:
-        return 'terminal';
     }
   }
 }
 
-/// Типы методов оплаты.
+/// Группы методов оплаты.
 ///
 /// Нужны для переключения между вкладками "онлайн" и "курьеру" при выборе
 /// метода оплаты.
-enum PaymentMethodType {
+enum PaymentMethodGroup {
   online,
-  courier,
+  courier;
+
+  bool get isOnline => this == PaymentMethodGroup.online;
 }

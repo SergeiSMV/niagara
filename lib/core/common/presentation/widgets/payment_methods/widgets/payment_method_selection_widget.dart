@@ -25,12 +25,14 @@ class PaymentMethodSelectionWidget extends StatelessWidget {
         PaymentMethodSelectionState>(
       listener: (_, state) => onValueChanged(state.method),
       builder: (_, state) {
-        final bool isOnline = state.type == PaymentMethodType.online;
+        final bool isOnline = state.type == PaymentMethodGroup.online;
         final cubit = context.read<PaymentMethodSelectionCubit>();
         final allowed = cubit.allowedMethods;
 
         final onlineMethods = allowed.where((e) => e.isOnline).toList();
         final courierMethods = allowed.where((e) => !e.isOnline).toList();
+
+        final bool onlyCourier = courierMethods.length == 1;
 
         return Column(
           children: [
@@ -46,9 +48,17 @@ class PaymentMethodSelectionWidget extends StatelessWidget {
                   ? onlineMethods
                       .map((e) => PaymentMethodTile.fromMethod(method: e))
                       .toList()
-                  : courierMethods
-                      .map((e) => PaymentMethodTile.fromMethod(method: e))
-                      .toList(),
+                  : onlyCourier
+                      ? []
+                      : courierMethods
+                          .map(
+                            (e) => PaymentMethodTile.fromMethod(
+                              method: e,
+                              // TODO: Может, потребуется вернуть.
+                              // selectedByDefault: onlyCourier,
+                            ),
+                          )
+                          .toList(),
             ),
           ],
         );

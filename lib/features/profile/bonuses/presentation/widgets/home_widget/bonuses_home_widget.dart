@@ -37,9 +37,12 @@ class HomeBonusesWidget extends StatelessWidget {
               child: SpecialStatusWidget(bonuses: bonuses),
             );
           } else if (status.isVIPStatus) {
-            return VipStatusWidget(
-              bonuses: bonuses,
-              description: description,
+            return Padding(
+              padding: AppInsets.kBottom24,
+              child: VipStatusWidget(
+                bonuses: bonuses,
+                description: description,
+              ),
             );
           } else {
             return const SizedBox.shrink();

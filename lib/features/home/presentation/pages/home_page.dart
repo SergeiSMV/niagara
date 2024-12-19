@@ -6,8 +6,8 @@ import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/features/catalog/presentation/widget/groups/groups_home_widget.dart';
 import 'package:niagara_app/features/equipment/presentation/widgets/equipment_bunner_widget.dart';
+import 'package:niagara_app/features/home/presentation/widgets/banners_widget.dart';
 import 'package:niagara_app/features/home/presentation/widgets/notifications_button.dart';
-import 'package:niagara_app/features/home/presentation/widgets/static_banners_widget.dart';
 import 'package:niagara_app/features/locations/_common/presentation/widgets/address_button.dart';
 import 'package:niagara_app/features/new_products/presentation/widget/new_products_home_widget.dart';
 import 'package:niagara_app/features/order_history/presentation/widgets/recent_orders_list_widget.dart';
@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
                   children: [
                     HomeBonusesWidget(),
                     PrepaidWaterBanner(),
-                    StaticBannersWidget(),
+                    BannersSliderWidget(),
                   ],
                 ),
               ],

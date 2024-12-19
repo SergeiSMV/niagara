@@ -32,10 +32,8 @@ class OrderItemWidget extends StatelessWidget {
     final evaluateOrderCubit = BlocProvider.of<RateOrderCubit>(context);
 
     context.navigateTo(
-      ProfileWrapper(
+      OrdersWrapper(
         children: [
-          const ProfileRoute(),
-          const OrdersRoute(),
           OneOrderRoute(
             order: order,
             evaluateOrderCubit: evaluateOrderCubit,

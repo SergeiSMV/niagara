@@ -7,6 +7,7 @@ class Cart extends Equatable {
   const Cart({
     required this.products,
     required this.unavailableProducts,
+    required this.recommends,
     required this.cartData,
     required this.minLimit,
     required this.locationId,
@@ -16,6 +17,7 @@ class Cart extends Equatable {
 
   final List<Product> products;
   final List<Product> unavailableProducts;
+  final List<Product> recommends;
   final CartData cartData;
   final CartMinAmount minLimit;
   final String locationId;
@@ -35,6 +37,27 @@ class Cart extends Equatable {
           ?.count ??
       0;
 
+  /// Возвращает цену [product] среди доступных товаров в корзине.
+  ///
+  /// [ignoreComplect] позволяет не учитывать [Product.complectId] при поиске.
+  int? priceInStock(Product product, {bool ignoreComplect = true}) => products
+      .firstWhereOrNull(
+        (p) =>
+            p.id == product.id &&
+            (ignoreComplect || p.complectId == product.complectId),
+      )
+      ?.price;
+
+  /// Возвращает цену [product] среди доступных товаров в корзине.
+  int? vipPriceInStock(Product product, {bool ignoreComplect = true}) =>
+      products
+          .firstWhereOrNull(
+            (p) =>
+                p.id == product.id &&
+                (ignoreComplect || p.complectId == product.complectId),
+          )
+          ?.priceVip;
+
   /// Индикатор того, что корзина пуста.
   bool get isEmpty => products.isEmpty && unavailableProducts.isEmpty;
 
@@ -47,6 +70,7 @@ class Cart extends Equatable {
   List<Object?> get props => [
         products,
         unavailableProducts,
+        recommends,
         cartData,
         minLimit,
         locationId,
@@ -61,7 +85,7 @@ class CartData extends Equatable {
     required this.discount,
     required this.promocode,
     required this.tareCount,
-    required this.tareDiscount,
+    required this.tareSum,
     required this.bonuses,
     required this.bonusesPayment,
     required this.bonusesAccumulation,
@@ -69,13 +93,19 @@ class CartData extends Equatable {
     required this.totalPrice,
     required this.fullPrice,
     required this.vipPrice,
+    required this.productsCount,
+    required this.productsTotalSum,
+    required this.totalTares,
   });
 
   final double deliveryFee;
   final double discount;
   final double promocode;
   final int tareCount;
-  final double tareDiscount;
+  final int totalTares;
+  final int productsCount;
+  final int productsTotalSum;
+  final int tareSum;
   final double bonuses;
   final double bonusesPayment;
   final double bonusesAccumulation;
@@ -90,7 +120,7 @@ class CartData extends Equatable {
         discount,
         promocode,
         tareCount,
-        tareDiscount,
+        tareSum,
         bonuses,
         bonusesPayment,
         bonusesAccumulation,

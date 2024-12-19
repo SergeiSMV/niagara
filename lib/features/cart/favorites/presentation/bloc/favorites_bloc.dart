@@ -35,11 +35,18 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   final RemoveFavoriteUseCase _removeFavoriteUseCase;
   final RemoveAllFavoritesUseCase _removeAllFavoritesUseCase;
 
+  List<Product>? get _current => state.maybeWhen(
+        loaded: (favorites) => favorites,
+        loading: (favorites) => favorites,
+        orElse: () => null,
+      );
+
   Future<void> _onGetFavorites(
     _GetFavorites event,
     _Emit emit,
   ) async {
-    emit(const _Loading());
+    emit(_Loading(favorites: _current));
+
     await _getFavorites(emit);
   }
 
@@ -64,11 +71,14 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   Future<void> _onRemoveAllFavorites(
     _RemoveAllFavorites event,
     _Emit emit,
-  ) =>
-      _removeAllFavoritesUseCase.call().fold(
-            (_) => emit(const FavoritesState.error()),
-            (_) async => await _getFavorites(emit),
-          );
+  ) async {
+    emit(_Loading(favorites: _current));
+
+    await _removeAllFavoritesUseCase.call().fold(
+          (_) => emit(const FavoritesState.error()),
+          (_) async => await _getFavorites(emit),
+        );
+  }
 
   Future<void> _getFavorites(_Emit emit) async {
     await _getFavoritesUseCase.call().fold(

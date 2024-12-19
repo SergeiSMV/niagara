@@ -4,14 +4,19 @@ import 'package:niagara_app/features/notifications/data/remote/dto/notification_
 import 'package:niagara_app/features/notifications/domain/model/notifications_types.dart';
 
 abstract interface class INotificationRemoteDataSource {
+  /// Получает список уведомлений.
   Future<Either<Failure, NotificationsDto>> getNotifications({
     required int page,
     required NotificationsTypes type,
   });
 
+  /// Помечает уведомление как прочитанное.
   Future<Either<Failure, bool>> readNotification({
     required String id,
   });
+
+  /// Регистрирует устройство для получения уведомлений.
+  Future<Either<Failure, bool>> registerFcmDevice(String fcmToken);
 }
 
 @LazySingleton(as: INotificationRemoteDataSource)
@@ -57,6 +62,19 @@ class NotificationRemoteDataSource implements INotificationRemoteDataSource {
           },
         ),
         converter: (json) => json,
+        failure: NotificationsRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, bool>> registerFcmDevice(String fcmToken) =>
+      _requestHandler.sendRequest<bool, Map<String, dynamic>>(
+        request: (Dio dio) => dio.post(
+          ApiConst.kRegisterFcmDevice,
+          data: {
+            'FIREBASE_ID': fcmToken,
+          },
+        ),
+        converter: (json) => json['success'] as bool,
         failure: NotificationsRemoteDataFailure.new,
       );
 }

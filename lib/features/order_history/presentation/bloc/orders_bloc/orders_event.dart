@@ -6,6 +6,8 @@ class OrdersEvent with _$OrdersEvent {
     required bool isForceUpdate,
   }) = _LoadingEvent;
 
+  const factory OrdersEvent.loadAll() = _LoadAllEvent;
+
   const factory OrdersEvent.loadMore() = _LoadMoreEvent;
 
   const factory OrdersEvent.setSort({

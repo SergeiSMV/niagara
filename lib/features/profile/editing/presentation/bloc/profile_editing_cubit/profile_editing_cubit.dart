@@ -16,7 +16,8 @@ class ProfileEditingCubit extends Cubit<User> {
 
   final User _user;
 
-  bool get hasChanges => _user != state;
+  bool get _hasChanges => _user != state;
+  bool get canSave => _hasChanges && state.name.isNotEmpty;
 
   /// Обновляет данные пользователя.
   Future<void> updateUserData({

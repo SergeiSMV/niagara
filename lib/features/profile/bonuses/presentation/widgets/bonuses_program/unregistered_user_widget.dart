@@ -27,7 +27,7 @@ class UnregisteredUserWidget extends StatelessWidget {
               style: context.textStyle.textTypo.tx2Medium
                   .withColor(context.colors.mainColors.white),
             ),
-            AppBoxes.kHeight32,
+            AppBoxes.kHeight16,
             AppTextButton.invisible(
               text: t.bonuses.aboutBonusesProgram.signInOrRegister,
               onTap: () => _goToAuthPage(context),

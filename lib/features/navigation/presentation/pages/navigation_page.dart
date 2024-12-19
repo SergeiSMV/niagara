@@ -5,6 +5,8 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/navigation_bar.dart';
 import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/validate_phone_cubit/validate_phone_cubit.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:niagara_app/features/cart/cart/presentation/bloc/check_promo_code_cubit/check_promo_code_cubit.dart';
 import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
@@ -12,6 +14,7 @@ import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/grou
 import 'package:niagara_app/features/equipment/presentation/bloc/equipments_bloc/equipments_bloc.dart';
 import 'package:niagara_app/features/new_products/presentation/bloc/new_products_bloc.dart';
 import 'package:niagara_app/features/notifications/presentation/bloc/notifications_bloc/notifications_bloc.dart';
+import 'package:niagara_app/features/notifications/presentation/bloc/permission_cubit.dart/notification_permission_cubit.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 import 'package:niagara_app/features/promotions/presentation/cubit/promotions_cubit.dart';
 import 'package:niagara_app/features/special_poducts/presentation/bloc/special_products_bloc.dart';
@@ -52,22 +55,54 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
     );
   }
 
+  void _notificationsListener(BuildContext context, NotificationsState state) =>
+      state.whenOrNull(
+        openedFromPush: () => context.navigateTo(const NotificationsRoute()),
+      );
+
+  /// Переводит пользователя на экран ввода кода подтверждения.
+  void _navigateToOTPListener(BuildContext context, AuthState state) {
+    state.maybeWhen(
+      getCode: (phoneNumber) {
+        final test = ModalRoute.of(context);
+        final bool current = test?.isCurrent ?? false;
+
+        // Если поверх маршрута навигации открыт маршрут авторизации (например,
+        // на главной странице виджет авторизации открывает AuthRoute), то не
+        // нужно ничего делать.
+        if (!current) return;
+
+        context.navigateTo(OTPRoute(phoneNumber: phoneNumber));
+      },
+      orElse: () => null,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AutoTabsScaffold(
-      routes: _routes,
-      extendBodyBehindAppBar: true,
-      bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBarWidget(
-        tabsRouter: tabsRouter,
-        fullScreenTabs: _fullScreenTabs,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: _navigateToOTPListener,
+        ),
+        BlocListener<NotificationsBloc, NotificationsState>(
+          listener: _notificationsListener,
+        ),
+      ],
+      child: AutoTabsScaffold(
+        routes: _routes,
+        extendBodyBehindAppBar: true,
+        bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBarWidget(
+          tabsRouter: tabsRouter,
+          fullScreenTabs: _fullScreenTabs,
+        ),
+        floatingActionButton: AppConstants.kShowDebugButton
+            ? FloatingActionButton(
+                child: const Icon(Icons.bug_report),
+                onPressed: () => showLogsButton(context),
+              )
+            : null,
       ),
-      floatingActionButton: 
-          AppConstants.kShowDebugButton
-          ? FloatingActionButton(
-              child: const Icon(Icons.bug_report),
-              onPressed: () => showLogsButton(context),
-            )
-          : null,
     );
   }
 
@@ -88,6 +123,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           ),
           BlocProvider(
             create: (_) => getIt<NotificationsBloc>(),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => getIt<NotificationPermissionCubit>(),
             lazy: false,
           ),
           BlocProvider(
@@ -118,6 +157,8 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
             create: (_) => getIt<EquipmentsBloc>(),
             lazy: false,
           ),
+          BlocProvider.value(value: getIt<AuthBloc>()),
+          BlocProvider(create: (_) => getIt<ValidatePhoneCubit>()),
         ],
         child: this,
       );

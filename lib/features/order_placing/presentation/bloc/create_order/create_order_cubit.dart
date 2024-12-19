@@ -14,7 +14,9 @@ part 'create_order_cubit.freezed.dart';
 class OrderCreationCubit extends Cubit<OrderCreationState> {
   OrderCreationCubit(
     this._createOrderUseCase,
-  ) : super(const OrderCreationState.initial());
+  ) : super(const OrderCreationState.initial()) {
+    // paymentMethod = PaymentMethod.sbp;
+  }
 
   final CreateOrderUseCase _createOrderUseCase;
 
@@ -32,6 +34,10 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
 
   /// Выбранный способ оплаты.
   PaymentMethod? paymentMethod;
+
+  /// Индикатор загрузки.
+  bool get isLoading =>
+      state.maybeWhen(loading: () => true, orElse: () => false);
 
   /// Проверяет, выбраны ли дата доставки и временной слот.
   bool _checkDate() {
@@ -88,8 +94,8 @@ class OrderCreationCubit extends Cubit<OrderCreationState> {
   Future<void> placeOrder({bool allowZeroPrice = false}) async {
     emit(const OrderCreationState.initial());
 
-    final bool isDataValid = _checkDate() &&
-        _checkRecipient() &&
+    final bool isDataValid = _checkRecipient() &&
+        _checkDate() &&
         (allowZeroPrice || _checkPaymentMethod());
 
     if (allowZeroPrice) paymentMethod = PaymentMethod.cash;

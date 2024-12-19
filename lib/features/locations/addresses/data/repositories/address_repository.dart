@@ -92,14 +92,19 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
       execute(() async => _updateDefaultAddress(address));
 
   @override
-  Future<Either<Failure, Address>> getDefaultAddress() async =>
+  Future<Either<Failure, Address?>> getDefaultAddress() async =>
       execute(() async {
         final addresses = await _getLocalAddresses();
-        final defaultAddress =
+        Address? defaultAddress =
             addresses.firstWhereOrNull((address) => address.isDefault);
-        if (defaultAddress == null) throw failure;
 
-        return defaultAddress;
+        // Если не нашлось адреса в локальной БД, делаем запрос в сеть
+        // (иногда этот метод может вызываться до того, как адреса загрузились).
+        return defaultAddress ??= await getAddresses().fold(
+          (failure) => null,
+          (addresses) =>
+              addresses.firstWhereOrNull((address) => address.isDefault),
+        );
       });
 
   @override
@@ -127,7 +132,7 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
 
   Future<void> _addAddress(Address address, String phone) async =>
       _addressesRDS.addAddress(address: address.toDto(), phone: phone).fold(
-            (failure) => throw failure,
+            (failure) => throw AddressesRepositoryFailure(failure.error),
             (locationId) async => _addressesLDS.addAddress(
               address.toEntity(
                 isDefault: true,
@@ -138,7 +143,7 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
 
   Future<void> _updateAddress(Address address) async =>
       _addressesRDS.updateAddress(address: address.toDto()).fold(
-        (failure) => throw failure,
+        (failure) => throw AddressesRepositoryFailure(failure.error),
         (locationId) async {
           await _addressesLDS.updateAddress(address.toEntity());
         },
@@ -146,7 +151,7 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
 
   Future<void> _deleteLocation(Address address) async =>
       _addressesRDS.deleteAddress(address: address.toDto()).fold(
-        (failure) => throw failure,
+        (failure) => throw AddressesRepositoryFailure(failure.error),
         (success) async {
           if (!success) throw const AddressesRepositoryFailure();
           await _addressesLDS.deleteAddress(address.toEntity());

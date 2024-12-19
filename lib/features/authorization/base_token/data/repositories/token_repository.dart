@@ -1,4 +1,3 @@
-import 'package:niagara_app/core/common/data/services/device_id_service.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
 import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_remote_data_source.dart';
@@ -11,12 +10,10 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
     super._networkInfo,
     this._tokenRDS,
     this._tokenLDS,
-    this._deviceIdService,
   );
 
   final ITokenRemoteDataSource _tokenRDS;
   final ITokenLocalDataSource _tokenLDS;
-  final IDeviceIdService _deviceIdService;
 
   // Кешируем токен, чтобы избежать нескольких запросов к хранилищам данных.
   String? _cachedToken;
@@ -34,15 +31,19 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
   Future<Either<Failure, void>> deleteToken() => execute(_deleteToken);
 
   Future<void> _createToken() async {
-    final deviceId = await _deviceIdService.getUniqueId();
+    // Пытаемся получить [deviceId]. Если он `null`, значит это первая
+    // авторизация.
+    final String? deviceId = await _tokenLDS.getDeviceId();
 
-    if (deviceId.isLeft) throw const DeviceIdFailure();
-
-    await _tokenRDS.getToken(deviceId: deviceId.right).fold(
+    await _tokenRDS.getToken(deviceId: deviceId).fold(
       (failure) => throw GetTokenFailure(failure.error),
-      (token) async {
-        _cachedToken = token;
-        await _tokenLDS.setToken(token: token);
+      (creds) async {
+        _cachedToken = creds.token;
+
+        Future.wait([
+          _tokenLDS.setToken(token: creds.token),
+          _tokenLDS.setDeviceId(deviceId: creds.deviceId),
+        ]);
       },
     );
   }

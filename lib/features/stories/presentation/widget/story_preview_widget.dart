@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
@@ -59,6 +60,10 @@ class StoryPreviewWidget extends StatelessWidget {
                         child: ExtendedImage.network(
                           imageUrl!,
                           fit: BoxFit.cover,
+                          loadStateChanged: (state) =>
+                              state.extendedImageLoadState == LoadState.loading
+                                  ? const AppCenterLoader(isWhite: true)
+                                  : null,
                         ),
                       )
                     : const SizedBox.shrink(),

@@ -3,8 +3,8 @@ import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 /// Класс роутера для модуля авторизации
-abstract final class AuthRouters {
-  static AutoRoute get routers => AutoRoute(
+abstract final class AuthRoutes {
+  static AutoRoute get routes => AutoRoute(
         page: AuthWrapper.page,
         maintainState: false,
         children: [
@@ -17,6 +17,7 @@ abstract final class AuthRouters {
             page: OTPRoute.page,
             title: (_, __) => t.auth.confirmNumber,
           ),
+          AutoRoute(page: PolicyRoute.page),
         ],
       );
 }

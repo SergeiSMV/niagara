@@ -69,6 +69,9 @@ class UserOrder extends Equatable {
   final bool paymentCompleted;
   final List<Product> products;
 
+  bool get isCanceled => orderStatus == OrderStatus.cancelled;
+  bool get isActive => orderStatus == OrderStatus.goingTo || orderStatus == OrderStatus.onWay;
+
   @override
   List<Object?> get props => [
         id,

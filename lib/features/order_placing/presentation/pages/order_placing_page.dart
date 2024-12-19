@@ -30,21 +30,17 @@ class OrderPlacingPage extends StatelessWidget {
   /// Состояни корзины, которое будет использоваться при оформлении заказа.
   final Cart cart;
 
-  /// В случае успешного оформления заказа перенаправляет на страницу результата
-  ///
-  /// Также запрашивает обновление состояния корзины.
-  void _onSuccess(BuildContext context) {
-    context.read<CartBloc>().add(const CartEvent.getCart());
-
-    // Обновляем список заказов.
-    getIt<OrdersBloc>().add(const OrdersEvent.loading(isForceUpdate: true));
+  /// В случае успешного оформления заказа обновляет список заказов и состояние
+  /// корзины.
+  void _onSuccess() {
+    // Обновляем список заказов и состояние корзины
+    getIt<OrdersBloc>().add(const OrdersEvent.loadAll());
+    getIt<CartBloc>().add(const CartEvent.getCart());
 
     if (cart.containsComplect) {
       // Если списывали воду с баланса, нужно обновить его.
       getIt<WaterBalanceCubit>().getBottles();
     }
-
-    context.replaceRoute(OrderResultRoute(isSuccessful: true));
   }
 
   /// Обработчик состояния оформления заказа.
@@ -60,19 +56,20 @@ class OrderPlacingPage extends StatelessWidget {
           context,
           title: err.type.toErrorTitle,
         ),
-        paymentRequired: (state) => context.pushRoute(
+        paymentRequired: (state) => context.replaceRoute(
           // Если нужно оплатить заказ, перенаправляем на страницу оплаты.
           PaymentInstructionsRoute(
             tokenizationData: state.data,
-            onSuccess: () => _onSuccess(context),
-            onCancelled: () => context.replaceRoute(
-              OrderResultRoute(isSuccessful: false),
-            ),
+            onSuccess: _onSuccess,
+            onCancelled: () {},
           ),
         ),
         // Если созданный заказ не подразумевает онлайн оплаты, перенаправляем
         // на страницу результата.
-        created: (_) => _onSuccess(context),
+        created: (_) {
+          context.replaceRoute(OrderResultRoute(isSuccessful: true));
+          return _onSuccess();
+        },
       );
 
   @override
@@ -85,8 +82,9 @@ class OrderPlacingPage extends StatelessWidget {
             const SliverAppBarWidget(),
             SliverList(
               delegate: SliverChildListDelegate([
+                AppBoxes.kHeight8,
                 const OrderRecepientWidget(),
-                DeliveryAddressWidget(address: cart.locationName),
+                const DeliveryAddressWidget(),
                 const DeliveryDateWidget(),
                 if (cart.cartData.totalPrice != 0)
                   const OrderPaymentMethodWidget(),

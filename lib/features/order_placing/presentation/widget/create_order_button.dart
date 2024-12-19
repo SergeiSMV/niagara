@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/bloc/payment_method_selection_cubit/payment_method_selection_cubit.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
@@ -22,6 +24,10 @@ class CreateOrderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool loading = context.watch<OrderCreationCubit>().isLoading;
+    final bool onlineMethod =
+        context.watch<PaymentMethodSelectionCubit>().isOnline;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.mainColors.white,
@@ -39,14 +45,18 @@ class CreateOrderButton extends StatelessWidget {
             AppInsets.kVertical12 +
             AppInsets.kBottom12,
         child: InkWell(
-          onTap: () => context
-              .read<OrderCreationCubit>()
-              .placeOrder(allowZeroPrice: cart.cartData.totalPrice == 0),
+          onTap: loading
+              ? null
+              : () => context
+                  .read<OrderCreationCubit>()
+                  .placeOrder(allowZeroPrice: cart.cartData.totalPrice == 0),
           child: Container(
             alignment: Alignment.center,
             padding: AppInsets.kHorizontal16,
             decoration: BoxDecoration(
-              color: context.colors.buttonColors.primary,
+              color: loading
+                  ? context.colors.buttonColors.inactive.withOpacity(0.5)
+                  : context.colors.buttonColors.primary,
               borderRadius: AppBorders.kCircular12,
             ),
             height: AppSizes.kButtonLarge,
@@ -54,7 +64,8 @@ class CreateOrderButton extends StatelessWidget {
             child: BlocBuilder<OrderCreationCubit, OrderCreationState>(
               builder: (context, state) => state.maybeWhen(
                 loading: _Loading.new,
-                orElse: () => _ButtonContent(cart: cart),
+                orElse: () =>
+                    _ButtonContent(cart: cart, onlineMethod: onlineMethod),
               ),
             ),
           ),
@@ -64,18 +75,15 @@ class CreateOrderButton extends StatelessWidget {
   }
 }
 
-// TODO: Нужна белая анимация, нашу обычную на фоне кнопки не видно.
 /// Виджет состояния загрузки.
 class _Loading extends StatelessWidget {
   const _Loading();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return const Padding(
       padding: AppInsets.kAll8,
-      child: CircularProgressIndicator(
-        color: context.colors.textColors.white,
-      ),
+      child: AppCenterLoader(isWhite: true),
     );
   }
 }
@@ -85,19 +93,22 @@ class _Loading extends StatelessWidget {
 class _ButtonContent extends StatelessWidget {
   const _ButtonContent({
     required this.cart,
+    required this.onlineMethod,
   });
 
   final Cart cart;
+  final bool onlineMethod;
 
   @override
   Widget build(BuildContext context) {
-    final String text = t.orderPlacing.pay;
+    final String text =
+        onlineMethod ? t.orderPlacing.pay : t.orderPlacing.order;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          t.product(n: cart.products.length),
+          t.product(n: cart.cartData.productsCount),
           style: context.textStyle.textTypo.tx2Medium
               .withColor(context.colors.textColors.white),
         ),

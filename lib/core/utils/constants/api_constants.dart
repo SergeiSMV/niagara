@@ -2,6 +2,9 @@ part of '../../core.dart';
 
 /// Константы для API
 abstract final class ApiConst {
+  // ? ----------------------------- БЦТ ------------------------------ ? //
+
+  static const String companyUrl = 'https://digitalburo.tech/?utm_source=niagara&utm_medium=mobile';
   // ? ----------------------------- General ------------------------------ ? //
   static const String kBaseUrl = 'API_HOST';
 
@@ -98,6 +101,11 @@ abstract final class ApiConst {
   /// -POST- Запрос на создание заказа ВИП-подписки
   static const String kOrderVip = '/orders_vip';
 
+  // ? ---------------------------- Banners ------------------------------ ? //
+
+  /// -GET- Запрос на получение списка баннеров
+  static const String kGetBanners = '/baners';
+
   // ? ------------------------------ Promos ------------------------------ ? //
   /// -GET- Запрос на получение списка акции
   static const String kGetPromos = '/offers';
@@ -138,6 +146,9 @@ abstract final class ApiConst {
   /// -POST- Запрос на прочтение уведомления
   static const String kReadNotifications = '/notification_check';
 
+  /// -POST- Запрос на регистрацию устройства для получения уведомлений
+  static const String kRegisterFcmDevice = '/fcm_update';
+
   // ? ------------------------------ Cart -------------------------------- ? //
   /// -POST- Запрос на получение корзины
   static const String kGetCart = '/cart_calculate';
@@ -145,10 +156,13 @@ abstract final class ApiConst {
   /// -POST- Запрос на добавление товара в корзину
   static const String kAddProductToCart = '/cart';
 
-  /// -POST- Запрос на удаление товара из корзины
+  /// -DELETE- Запрос на удаление товара из корзины
   static const String kRemoveProductFromCart = '/cart';
 
-  /// -POST- Запрос на очистку корзины
+  /// -DELETE- Запрос на удаление всего количества заданного товара из корзины
+  static const String kRemoveWholeProductCount = '/cart_clear_sku';
+
+  /// -DELETE- Запрос на очистку корзины
   static const String kClearCart = '/cart_clear';
 
   /// -GET- Запрос на получение рекомендаций
@@ -205,6 +219,9 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение истории приглашений
   static const String kReferralHistory = '/referal_history';
 
+  /// -POST- Запрос на создание реферального кода
+  static const String kReferralCode = '/referal_code';
+
   // ? --------------------------- Equipment ------------------------------ ? //
   /// -GET- Запрос на получение списка оборудований
   static const String kGetEquipments = '/devices';
@@ -220,7 +237,7 @@ abstract final class ApiConst {
 
   // ? ----------------------- Policies -------------------------- ? //
   /// -GET- Запрос на получение информации о приложении (политика
-  /// конфиденциальности, публичная оферта и т.д.).
+  /// конфиденциальности).
   static const String kGetPolicies = '/about_app';
 
   // ? ----------------------- Payments -------------------------- ? //

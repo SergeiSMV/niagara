@@ -18,6 +18,7 @@ extension BonusesEntityMapper on BonusesEntity {
         endDate: endDate,
         revThisMonth: revThisMonth,
         bottles: bottles.toModel(),
+        bottlesGroupId: bottlesGroupId,
       );
 
   BonusesTableCompanion toCompanion() => BonusesTableCompanion(
@@ -32,6 +33,7 @@ extension BonusesEntityMapper on BonusesEntity {
         endDate: Value(endDate),
         revThisMonth: Value(revThisMonth),
         bottles: Value(bottles),
+        bottlesGroupId: Value(bottlesGroupId),
       );
 }
 
@@ -48,6 +50,7 @@ extension BonusesMapper on Bonuses {
         endDate: endDate,
         revThisMonth: revThisMonth,
         bottles: bottles.toEntity(),
+        bottlesGroupId: bottlesGroupId,
       );
 }
 
@@ -64,6 +67,7 @@ extension BonusesTableMapper on BonusesTableData {
         endDate: endDate,
         revThisMonth: revThisMonth,
         bottles: bottles,
+        bottlesGroupId: bottlesGroupId,
       );
 }
 

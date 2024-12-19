@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/status_description.dart';
@@ -19,7 +22,10 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
     this._hasAuthStatusUseCase,
     this._getBonusesUseCase,
     this._getStatusDescriptionUseCase,
+    this._authStatusStream,
   ) : super(const _Loading()) {
+    _authStatusSubscription = _authStatusStream.listen(_onAuthStatusChanged);
+
     on<_StartedEvent>(_onStarted);
 
     // При первом обращении получаем бонусы
@@ -29,6 +35,14 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
   final GetBonusesUseCase _getBonusesUseCase;
   final GetStatusDescriptionUseCase _getStatusDescriptionUseCase;
+  final Stream<AuthenticatedStatus> _authStatusStream;
+
+  /// Подписка на изменение статуса авторизации.
+  StreamSubscription? _authStatusSubscription;
+
+  /// Когда изменяется состояние авторизации, происходит запрос на бонусы.
+  void _onAuthStatusChanged(AuthenticatedStatus status) =>
+      add(const _StartedEvent());
 
   Future<void> _onStarted(
     _StartedEvent event,
@@ -55,5 +69,11 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
             );
       },
     );
+  }
+
+  @override
+  Future<void> close() {
+    _authStatusSubscription?.cancel();
+    return super.close();
   }
 }

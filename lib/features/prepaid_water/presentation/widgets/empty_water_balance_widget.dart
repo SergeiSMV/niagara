@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -7,10 +8,33 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/catalog/domain/model/group.dart';
+import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
 
 /// Виджет, отображающий при пустом балансе предоплатной воды.
 class EmptyWaterBalanceWidget extends StatelessWidget {
   const EmptyWaterBalanceWidget({super.key});
+
+  void _goToWaterPromotions(BuildContext context) {
+    final String? groupId = context.read<WaterBalanceCubit>().bottlesGroupId;
+    final group = Group.forWater(groupId);
+    PageRouteInfo? redirectRoute;
+
+    if (group != null) {
+      redirectRoute = CategoryWrapperRoute(
+        group: group,
+        children: const [CategoryRoute()],
+      );
+    }
+
+    context.navigateTo(
+      CatalogWrapper(
+        children: [
+          if (redirectRoute != null) redirectRoute else const CatalogRoute(),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +53,7 @@ class EmptyWaterBalanceWidget extends StatelessWidget {
         AppBoxes.kHeight24,
         AppTextButton.primary(
           text: t.prepaidWater.goShopping,
-          onTap: () => context.navigateTo(const CartWrapper()),
+          onTap: () => _goToWaterPromotions(context),
         ),
       ],
     );

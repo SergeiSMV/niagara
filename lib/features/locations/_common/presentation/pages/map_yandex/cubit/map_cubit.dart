@@ -3,6 +3,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/enums/settings_type.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/check_gps_enabled_use_case.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/get_user_position_use_case.dart';
 import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/open_settings_use_case.dart';
 import 'package:niagara_app/features/locations/cities/domain/use_cases/get_city_use_case.dart';
@@ -17,9 +20,11 @@ class MapCubit extends Cubit<MapState> {
     required OpenSettingsUseCase openSettingsUseCase,
     required LocationPermissionUseCase getUserLocationUseCase,
     required GetCityUseCase getCityUseCase,
+    required CheckGpsEnabledUseCase checkGpsEnabledUseCase,
   })  : _openSettingsUseCase = openSettingsUseCase,
         _getUserLocationUseCase = getUserLocationUseCase,
         _getCityUseCase = getCityUseCase,
+        _checkGpsEnabledUseCase = checkGpsEnabledUseCase,
         super(
           (
             point: Point(
@@ -34,9 +39,13 @@ class MapCubit extends Cubit<MapState> {
 
   final OpenSettingsUseCase _openSettingsUseCase;
   final LocationPermissionUseCase _getUserLocationUseCase;
+  final CheckGpsEnabledUseCase _checkGpsEnabledUseCase;
   final GetCityUseCase _getCityUseCase;
 
   bool isPermissionGranted = false;
+  bool isGpsEnabled = false;
+
+  bool get needsGps => !isGpsEnabled;
 
   /// Отвечает за инициализацию контроллера карты
   Future<void> onControllerCreated(YandexMapController controller) async {
@@ -51,7 +60,16 @@ class MapCubit extends Cubit<MapState> {
     final accuracy = view.accuracyCircle;
 
     return view.copyWith(
-      pin: pin.copyWith(opacity: 0),
+      pin: pin.copyWith(
+        icon: PlacemarkIcon.single(
+          PlacemarkIconStyle(
+            image: BitmapDescriptor.fromAssetImage(
+              Assets.images.currentLocation.path,
+            ),
+            scale: 0.5,
+          ),
+        ),
+      ),
       arrow: arrow.copyWith(opacity: 0),
       accuracyCircle: accuracy.copyWith(
         fillColor: accuracy.fillColor.withOpacity(.3),
@@ -79,8 +97,9 @@ class MapCubit extends Cubit<MapState> {
   /// Определяет текущее местоположение пользователя и отображает его на карте
   Future<void> determinePosition() async {
     isPermissionGranted = await _checkUserLocationPermission();
+    isGpsEnabled = await _checkGpsEnabled();
 
-    if (isPermissionGranted) {
+    if (isPermissionGranted && isGpsEnabled) {
       await _enableUserLayer();
       await getUserPosition();
     } else {
@@ -89,7 +108,8 @@ class MapCubit extends Cubit<MapState> {
   }
 
   /// Открывает настройки приложения
-  Future<void> onOpenSettings() async => _openSettingsUseCase.call();
+  Future<void> onOpenSettings() async => _openSettingsUseCase
+      .call(needsGps ? SettingsType.location : SettingsType.app);
 
   /// Включает слой пользователя на карте
   Future<void> _enableUserLayer() async => _controller.toggleUserLayer(
@@ -152,6 +172,12 @@ class MapCubit extends Cubit<MapState> {
             (failure) => false,
             (status) => status.isGranted,
           );
+
+  /// Проверяет включен ли GPS на устройстве
+  Future<bool> _checkGpsEnabled() => _checkGpsEnabledUseCase.call().fold(
+        (failure) => false,
+        (enabled) => enabled,
+      );
 
   void _emit(MapState state) {
     if (isClosed) return;

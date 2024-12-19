@@ -29,8 +29,10 @@ class BaseProductCartWidget extends StatefulWidget {
     required this.onAdd,
     required this.onRemove,
     required this.count,
+    this.onRemoveAll,
     this.isAvailable = true,
     this.interactive = true,
+    this.loading = false,
   });
 
   /// Преобретаемый товар.
@@ -45,6 +47,9 @@ class BaseProductCartWidget extends StatefulWidget {
   /// Обработчик нажатия на кнопку уменьшения количества товара.
   final VoidCallback onRemove;
 
+  /// Обработчик нажатия на кнопку удаления в [Slidable]-меню.
+  final VoidCallback? onRemoveAll;
+
   /// Количество товара.
   final int count;
 
@@ -53,6 +58,9 @@ class BaseProductCartWidget extends StatefulWidget {
   /// `false` отключает переход на страницу товара, [Slidable] функционал,
   /// кнопки `+` и `-`, а также немного изменяет внешний вид карточки.
   final bool interactive;
+
+  /// Отображает индикатор загрузки.
+  final bool loading;
 
   @override
   State<BaseProductCartWidget> createState() => _BaseProductCartWidgetState();
@@ -86,6 +94,7 @@ class _BaseProductCartWidgetState extends State<BaseProductCartWidget>
       onAdd: widget.onAdd,
       onRemove: widget.onRemove,
       count: widget.count,
+      loading: widget.loading,
     );
 
     if (!widget.interactive) return productCard;
@@ -99,7 +108,7 @@ class _BaseProductCartWidgetState extends State<BaseProductCartWidget>
           SlideButtonsWidget(
             product: widget.product,
             onActionCompleted: () => slidableController.close(),
-            onRemove: widget.onRemove,
+            onRemoveAll: widget.onRemoveAll ?? widget.onRemove,
           ),
         ],
       ),
@@ -117,6 +126,7 @@ class _CardContent extends StatelessWidget {
     required this.onAdd,
     required this.onRemove,
     required this.count,
+    required this.loading,
   });
 
   final Product product;
@@ -126,18 +136,15 @@ class _CardContent extends StatelessWidget {
   final VoidCallback onAdd;
   final VoidCallback onRemove;
   final int count;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
     /// Переход на страницу товара.
     void goToProductPage() => context.navigateTo(
-          CatalogWrapper(
-            children: [
-              ProductRoute(
-                key: ValueKey(product.id),
-                product: product,
-              ),
-            ],
+          ProductRoute(
+            key: ValueKey(product.id),
+            product: product,
           ),
         );
 
@@ -165,6 +172,7 @@ class _CardContent extends StatelessWidget {
                   onMinus: onRemove,
                   count: count,
                   interactive: interactive,
+                  loading: loading,
                 ),
               ],
             ),

@@ -19,7 +19,7 @@ class CompleteAddressWidget extends StatelessWidget {
   final Address location;
 
   void _onManualInput(BuildContext context) =>
-      context.pushRoute(const SearchAddressRoute());
+      context.pushRoute(SearchAddressRoute(initialValue: location.name));
 
   @override
   Widget build(BuildContext context) {

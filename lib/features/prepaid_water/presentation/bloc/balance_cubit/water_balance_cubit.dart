@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/use_cases/get_bonuses_use_case.dart';
@@ -14,7 +17,9 @@ class WaterBalanceCubit extends Cubit<WaterBalanceState> {
   WaterBalanceCubit(
     this._getBonusesUseCase,
     this._hasAuthStatusUseCase,
+    this._authStatusStream,
   ) : super(const WaterBalanceState.loading()) {
+    _authStatusSubscription = _authStatusStream.listen((_) => getBottles());
     // Загружаем баланс бутылей при инициализации.
     getBottles();
   }
@@ -24,6 +29,15 @@ class WaterBalanceCubit extends Cubit<WaterBalanceState> {
 
   /// Кейс проверки авторизации.
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
+
+  /// [Stream] статуса авторизации.
+  final Stream<AuthenticatedStatus> _authStatusStream;
+
+  /// Подписка на изменение статуса авторизации.
+  StreamSubscription? _authStatusSubscription;
+
+  /// Идентификатор группы "Акции" в каталоге для предоплатной воды.
+  String? bottlesGroupId;
 
   /// Определяет, возможно ли отрисовать количество бутылей на балансе.
   ///
@@ -56,6 +70,8 @@ class WaterBalanceCubit extends Cubit<WaterBalanceState> {
   void _getBottles() => _getBonusesUseCase(true).fold(
         (failure) => emit(const WaterBalanceState.error()),
         (bonuses) {
+          bottlesGroupId = bonuses.bottlesGroupId;
+
           if (bonuses.bottles.bottles.isEmpty) {
             emit(const WaterBalanceState.empty());
           } else {
@@ -63,4 +79,10 @@ class WaterBalanceCubit extends Cubit<WaterBalanceState> {
           }
         },
       );
+
+  @override
+  Future<void> close() {
+    _authStatusSubscription?.cancel();
+    return super.close();
+  }
 }

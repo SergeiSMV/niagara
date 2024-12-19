@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/bloc/payment_method_selection_cubit/payment_method_selection_cubit.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widgets/payment_method_selection_widget.dart';
 import 'package:niagara_app/core/common/presentation/widgets/payment_methods/widgets/payment_type_selection_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
@@ -10,16 +11,30 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_placing/presentation/bloc/create_order/create_order_cubit.dart';
 
-class OrderPaymentMethodWidget extends StatelessWidget {
+class OrderPaymentMethodWidget extends StatefulWidget {
   const OrderPaymentMethodWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    /// Изменяет метод оплаты в кубите создания заказа.
-    void onPaymentMethodChanged(PaymentMethod? method) {
-      context.read<OrderCreationCubit>().paymentMethod = method;
-    }
+  State<OrderPaymentMethodWidget> createState() =>
+      _OrderPaymentMethodWidgetState();
+}
 
+class _OrderPaymentMethodWidgetState extends State<OrderPaymentMethodWidget> {
+  /// Изменяет метод оплаты в кубите создания заказа.
+  void onMethodChanged(PaymentMethod? method, BuildContext context) {
+    context.read<OrderCreationCubit>().paymentMethod = method;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final PaymentMethod? method =
+        context.read<PaymentMethodSelectionCubit>().state.method;
+    onMethodChanged(method, context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: AppInsets.kHorizontal16,
       child: Column(
@@ -44,7 +59,7 @@ class OrderPaymentMethodWidget extends StatelessWidget {
                 ),
                 AppBoxes.kHeight12,
                 PaymentMethodSelectionWidget(
-                  onValueChanged: onPaymentMethodChanged,
+                  onValueChanged: (method) => onMethodChanged(method, context),
                 ),
               ],
             ),

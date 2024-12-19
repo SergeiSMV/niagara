@@ -35,6 +35,12 @@
 Использовать для сборки файл `main_dev.dart`:
 
 - `flutter build apk --dart-define-from-file=.env --release -t lib/main_dev.dart`
+- `flutter build ipa --dart-define-from-file=.env -t lib/main_dev.dart`
+  
+### ВАЖНО ПРИ СБОРКЕ В RELEASE / DEBUG:
+- Для сборки в "настоящий" релиз параметр должен быть установлен `signingConfig`
+-  на `signingConfigs.release` в `build.gradle` модуля. Но для целей теста такая
+-  сборка может не подойти (не установится на устройства).
 
 ## Зависимости:
 - Локатор зависимостей: [get_it](https://pub.dev/packages/get_it)

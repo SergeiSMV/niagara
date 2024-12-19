@@ -11,6 +11,10 @@ import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
 
+/// Строка с информацией о стоимости доставки.
+///
+/// По нажатии открывает модальное окно с информацией о рассчете стоимости
+/// доставки.
 class CartDataDeliveryWidget extends StatelessWidget {
   const CartDataDeliveryWidget({
     super.key,
@@ -27,51 +31,14 @@ class CartDataDeliveryWidget extends StatelessWidget {
         backgroundColor: context.colors.mainColors.white,
         useSafeArea: true,
         builder: (ctx) => SafeArea(
-          child: Padding(
-            padding: AppInsets.kHorizontal16,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const PinWidget(),
-                AppBoxes.kHeight12,
-                Row(
-                  children: [
-                    Text(
-                      t.cart.deliveryInfo,
-                      style: context.textStyle.headingTypo.h3
-                          .withColor(context.colors.textColors.main),
-                    ),
-                    const Spacer(),
-                    CloseModalButton(onTap: () => _onCloseModal(ctx)),
-                  ],
-                ),
-                AppBoxes.kHeight12,
-                Text.rich(
-                  t.cart.minimumOrderAmountDescription(
-                    n: TextSpan(
-                      text: cart.minLimit.minAmount.toInt().toString(),
-                    ),
-                    withoutMainProduct: (text) => TextSpan(
-                      text: text,
-                      style: context.textStyle.textTypo.tx2SemiBold.copyWith(
-                        color: context.colors.mainColors.primary,
-                      ),
-                    ),
-                  ),
-                  style: context.textStyle.descriptionTypo.des2,
-                ),
-                AppBoxes.kHeight24,
-              ],
-            ),
-          ),
+          child: _DeliveryInfoModalContent(cart: cart),
         ),
       );
-
-  Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
 
   @override
   Widget build(BuildContext context) {
     if (_deliveryFee == 0) return const SizedBox.shrink();
+
     return Padding(
       padding: AppInsets.kVertical4,
       child: Row(
@@ -95,6 +62,57 @@ class CartDataDeliveryWidget extends StatelessWidget {
             style: context.textStyle.textTypo.tx2Medium
                 .withColor(context.colors.textColors.main),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DeliveryInfoModalContent extends StatelessWidget {
+  const _DeliveryInfoModalContent({
+    required this.cart,
+  });
+
+  final Cart cart;
+
+  Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: AppInsets.kHorizontal16,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const PinWidget(),
+          AppBoxes.kHeight12,
+          Row(
+            children: [
+              Text(
+                t.cart.deliveryInfo,
+                style: context.textStyle.headingTypo.h3
+                    .withColor(context.colors.textColors.main),
+              ),
+              const Spacer(),
+              CloseModalButton(onTap: () => _onCloseModal(context)),
+            ],
+          ),
+          AppBoxes.kHeight12,
+          Text.rich(
+            t.cart.minimumOrderAmountDescription(
+              n: TextSpan(
+                text: cart.minLimit.minAmount.toInt().toString(),
+              ),
+              withoutMainProduct: (text) => TextSpan(
+                text: text,
+                style: context.textStyle.textTypo.tx2SemiBold.copyWith(
+                  color: context.colors.mainColors.primary,
+                ),
+              ),
+            ),
+            style: context.textStyle.descriptionTypo.des2,
+          ),
+          AppBoxes.kHeight24,
         ],
       ),
     );

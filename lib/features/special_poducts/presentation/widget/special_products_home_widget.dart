@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -19,11 +18,7 @@ class SpecialProductsHomeWidget extends StatelessWidget {
   const SpecialProductsHomeWidget({super.key});
 
   /// Преобразует [Product] в [ProductWidget].
-  Widget _toWidget(Product product) => ProductWidget(
-        product: product,
-        redirectRoute:
-            ProductRoute(key: ValueKey(product.id), product: product),
-      );
+  Widget _toWidget(Product product) => ProductWidget(product: product);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +67,7 @@ class SpecialProductsHomeWidget extends StatelessWidget {
                     ),
                     AppBoxes.kHeight12,
                     AspectRatio(
-                      aspectRatio: 1.2,
+                      aspectRatio: 1.3,
                       child: ListView.separated(
                         itemCount: length,
                         shrinkWrap: true,
@@ -103,7 +98,7 @@ class SpecialProductsHomeWidget extends StatelessWidget {
                           }
 
                           return AspectRatio(
-                            aspectRatio: .5,
+                            aspectRatio: .55,
                             child: children[index],
                           );
                         },

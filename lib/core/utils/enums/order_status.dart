@@ -20,6 +20,7 @@ enum OrderStatus {
     if (value == t.recentOrders.statuses.cancelled) {
       return OrderStatus.cancelled;
     }
+
     return OrderStatus.goingTo;
   }
 }

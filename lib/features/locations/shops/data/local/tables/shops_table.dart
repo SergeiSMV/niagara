@@ -16,6 +16,9 @@ class ShopsTable extends Table {
 
   @override
   Set<Column> get primaryKey => {id};
+
+  @override
+  String get tableName => 'shops_table';
 }
 
 class ShopWorkTimeEntityConverter

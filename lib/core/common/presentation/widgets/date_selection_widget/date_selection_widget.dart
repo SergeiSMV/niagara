@@ -78,7 +78,7 @@ class DateSelectionWidget extends StatelessWidget {
         date.day == tomorrow.day) {
       return t.equipments.tomorrow;
     } else {
-      return DateFormat('MM.dd.').format(date);
+      return DateFormat('dd.MM.').format(date);
     }
   }
 
@@ -126,7 +126,8 @@ class DateSelectionWidget extends StatelessWidget {
                 /// Виджет с выбранной датой
                 DateItemWidget(
                   showCalendarIcon: true,
-                  title: selectedDate != null
+                  title: selectedDate != null &&
+                          selected == DateSelectionItems.select
                       ? _getDateText(selectedDate!)
                       : t.equipments.choose,
                   isSelected: selected == DateSelectionItems.select,

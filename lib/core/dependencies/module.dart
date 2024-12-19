@@ -46,8 +46,8 @@ abstract class AppModule {
       Dio(
         BaseOptions(
           baseUrl: url,
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 60),
+          connectTimeout: const Duration(seconds: 360), // было 30
+          receiveTimeout: const Duration(seconds: 360), // было 60
           contentType: Headers.jsonContentType,
         ),
       )
@@ -64,9 +64,6 @@ abstract class AppModule {
       );
 
   @lazySingleton
-  DeviceInfoPlugin get deviceInfoPlugin => DeviceInfoPlugin();
-
-  @lazySingleton
   YandexGeocoder yandexGeocoder(
     @Named(ApiConst.kYandexGeo) String yandexGeoKey,
   ) =>
@@ -75,4 +72,11 @@ abstract class AppModule {
   @lazySingleton
   InternetConnectionChecker get connectionChecker =>
       InternetConnectionChecker();
+
+  @lazySingleton
+  FirebaseMessaging get firebaseMessaging => FirebaseMessaging.instance;
+
+  @lazySingleton
+  Stream<AuthenticatedStatus> get authStatusStream =>
+      getIt<IAuthRepository>().authStatusStream;
 }

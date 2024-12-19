@@ -19,12 +19,16 @@ class ProfileDto extends Equatable {
     this.bonusesTempLastDate,
     this.bonusesTempDays,
     this.bonusesLevel,
+    this.bonusesLevelEnd,
     this.bonusesLevelNext,
     this.bonusesDateEnd,
     this.revThisMonth,
     this.bottlesCount,
     this.bottles,
+    this.bottlesGroupId,
     this.locationDefault,
+    this.yearlyBonusDate,
+    this.yearlyBonusCount,
   });
 
   final String? id;
@@ -41,12 +45,16 @@ class ProfileDto extends Equatable {
   final String? bonusesTempLastDate;
   final String? bonusesTempDays;
   final String? bonusesLevel;
+  final String? bonusesLevelEnd;
   final String? bonusesLevelNext;
   final DateTime? bonusesDateEnd;
   final int? revThisMonth;
   final int? bottlesCount;
   final List<ProductDto>? bottles;
+  final String? bottlesGroupId;
   final String? locationDefault;
+  final DateTime? yearlyBonusDate;
+  final int? yearlyBonusCount;
 
   factory ProfileDto.fromJson(Map<String, dynamic> json) => ProfileDto(
         id: json['ID'] as String?,
@@ -63,15 +71,21 @@ class ProfileDto extends Equatable {
         bonusesTempLastDate: json['BONUSES_TEMP_LAST_DATE'] as String?,
         bonusesTempDays: json['BONUSES_TEMP_DAYS'] as String?,
         bonusesLevel: json['BONUSES_LEVEL'] as String?,
+        bonusesLevelEnd: json['BONUSES_LEVEL_END'] as String?,
         bonusesLevelNext: json['BONUSES_LEVEL_NEXT'] as String?,
+        yearlyBonusCount: json['BONUSES_FOR_YEAR_SUM'] as int?,
+        yearlyBonusDate: json['BONUSES_FOR_YEAR_DATE'] == null
+            ? null
+            : DateTime.tryParse(json['BONUSES_FOR_YEAR_DATE'] as String),
         bonusesDateEnd: json['BONUSES_DATE_END'] == null
             ? null
-            : DateTime.parse(json['BONUSES_DATE_END'] as String),
+            : DateTime.tryParse(json['BONUSES_DATE_END'] as String),
         revThisMonth: (json['REV_THIS_MONTH'] as num?)?.toInt(),
         bottlesCount: (json['BOTTELS_COUNT'] as num?)?.toInt(),
         bottles: (json['BOTTELS'] as List<dynamic>?)
             ?.map((e) => ProductDto.fromJson(e as Map<String, dynamic>))
             .toList(),
+        bottlesGroupId: json['BOTTELS_GROUP'] as String?,
         locationDefault: json['LOCATION_DEFAULT'] as String?,
       );
 

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/utils/enums/onboarding_step.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/onboarding/presentation/bloc/onboarding_cubit.dart';
 import 'package:niagara_app/features/onboarding/presentation/widgets/onboarding_bottom_buttons.dart';
 import 'package:niagara_app/features/onboarding/presentation/widgets/onboarding_step_widget.dart';
@@ -26,8 +25,6 @@ class OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<OnboardingCubit>();
-
     return BlocConsumer<OnboardingCubit, OnboardingStep>(
       listener: _stateListener,
       builder: (context, state) {
@@ -41,15 +38,7 @@ class OnboardingPage extends StatelessWidget {
         }
 
         return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            actions: [
-              IconButton(
-                onPressed: cubit.skipAll,
-                icon: Assets.icons.close.svg(),
-              ),
-            ],
-          ),
+          appBar: AppBar(automaticallyImplyLeading: false),
           body: OnboardingStepWidget(step: step, key: ValueKey(step)),
           bottomNavigationBar: OnboardingBottomButtonsWidget(step: step),
         );

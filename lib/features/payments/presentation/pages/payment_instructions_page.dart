@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
+import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
@@ -37,8 +39,8 @@ class PaymentInstructionsPage extends StatelessWidget {
 
   /// Коллбек, вызываемый в случае успешного завершения платежа.
   ///
-  /// Используйте для изменения состояния навигации и запросов на получение
-  /// обновлённых данных (состояние корзины, подписки т.д.).
+  /// Используйте для запросов на получение бновлённых данных (состояние
+  /// корзины, подписки т.д.).
   final VoidCallback onSuccess;
 
   /// Коллбек, вызываемый в случае ошибки платежа.
@@ -56,8 +58,14 @@ class PaymentInstructionsPage extends StatelessWidget {
     PaymentInstructionsState state,
   ) =>
       state.whenOrNull(
-        success: onSuccess,
-        orderCanceled: onCancelled,
+        success: () {
+          context.replaceRoute(OrderResultRoute(isSuccessful: true));
+          return onSuccess();
+        },
+        orderCanceled: () {
+          context.replaceRoute(OrderResultRoute(isSuccessful: false));
+          return onCancelled();
+        },
         error: (err) => AppSnackBar.showError(
           context,
           title: err.toErrorText,
@@ -72,14 +80,17 @@ class PaymentInstructionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          getIt<PaymentInstructionsCubit>()..startPayment(tokenizationData),
-      child: BlocConsumer<PaymentInstructionsCubit, PaymentInstructionsState>(
-        listener: _paymentStateListener,
-        builder: (context, state) => state.maybeWhen(
-          loading: AppCenterLoader.new,
-          orElse: () => _Content(() => _onRetry(context)),
+    return Scaffold(
+      appBar: const AppBarWidget(),
+      body: BlocProvider(
+        create: (_) =>
+            getIt<PaymentInstructionsCubit>()..startPayment(tokenizationData),
+        child: BlocConsumer<PaymentInstructionsCubit, PaymentInstructionsState>(
+          listener: _paymentStateListener,
+          builder: (context, state) => state.maybeWhen(
+            loading: AppCenterLoader.new,
+            orElse: () => _Content(() => _onRetry(context)),
+          ),
         ),
       ),
     );
@@ -97,6 +108,10 @@ class _Content extends StatelessWidget {
     final cubit = context.watch<PaymentInstructionsCubit>();
     final bool hasError = cubit.state.maybeMap(
       error: (value) => true,
+      orElse: () => false,
+    );
+    final bool loading = cubit.state.maybeMap(
+      loading: (_) => true,
       orElse: () => false,
     );
 
@@ -122,8 +137,8 @@ class _Content extends StatelessWidget {
           ? Padding(
               padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
               child: AppTextButton.primary(
-                text: t.orderPlacing.retry,
-                onTap: onRetry,
+                text: loading ? null : t.orderPlacing.retry,
+                onTap: loading ? null : onRetry,
               ),
             )
           : null,

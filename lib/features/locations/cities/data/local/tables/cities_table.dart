@@ -7,8 +7,13 @@ class CitiesTable extends Table {
   TextColumn get locality => text()();
   RealColumn get latitude => real()();
   RealColumn get longitude => real()();
+  RealColumn get diffLat => real().nullable()();
+  RealColumn get diffLong => real().nullable()();
   TextColumn get phone => text()();
 
   @override
   Set<Column> get primaryKey => {id};
+
+  @override
+  String get tableName => 'cities_table';
 }

@@ -83,7 +83,8 @@ class ChoiceOnMapModal extends StatelessWidget {
                         child: AnimatedSwitcher(
                           duration: Durations.short3,
                           child: state.when(
-                            initial: SizedBox.shrink,
+                            initial: () =>
+                                const NoAddressFoundWidget(loading: true),
                             complete: CompleteAddressWidget.new,
                             approve: ApproveAddressWidget.new,
                             denied: NoAddressFoundWidget.new,

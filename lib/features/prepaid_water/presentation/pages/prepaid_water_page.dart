@@ -10,6 +10,7 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/features/catalog/domain/model/group.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/bloc/balance_cubit/water_balance_cubit.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/widgets/prepaid_water_description.dart';
 import 'package:niagara_app/features/prepaid_water/presentation/widgets/water_balance_product_list.dart';
@@ -97,6 +98,27 @@ class _Content extends StatelessWidget {
 class _GoToCartButton extends StatelessWidget {
   const _GoToCartButton();
 
+  void _goToWaterPromotions(BuildContext context) {
+    final String? groupId = context.read<WaterBalanceCubit>().bottlesGroupId;
+    final group = Group.forWater(groupId);
+    PageRouteInfo? redirectRoute;
+
+    if (group != null) {
+      redirectRoute = CategoryWrapperRoute(
+        group: group,
+        children: const [CategoryRoute()],
+      );
+    }
+
+    context.navigateTo(
+      CatalogWrapper(
+        children: [
+          if (redirectRoute != null) redirectRoute else const CatalogRoute(),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -115,8 +137,8 @@ class _GoToCartButton extends StatelessWidget {
         padding:
             AppInsets.kHorizontal16 + AppInsets.kBottom24 + AppInsets.kTop12,
         child: AppTextButton.primary(
-          text: t.prepaidWater.goToCart,
-          onTap: () => context.navigateTo(const CartWrapper()),
+          text: t.prepaidWater.goShopping,
+          onTap: () => _goToWaterPromotions(context),
         ),
       ),
     );

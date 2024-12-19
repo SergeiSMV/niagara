@@ -50,7 +50,8 @@ class LocationListWidget extends StatelessWidget {
             style: textStyle.textTypo.tx1Medium.withColor(textColors.main),
           ),
           subtitle: Text(
-            location.description,
+            location.locality +
+                (location.district.isNotEmpty ? ', ${location.district}' : ''),
             style:
                 textStyle.descriptionTypo.des3.withColor(textColors.secondary),
           ),

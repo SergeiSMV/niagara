@@ -1,27 +1,24 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/string_extension.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
+import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_placing/presentation/bloc/create_order/create_order_cubit.dart';
 import 'package:niagara_app/features/profile/user/domain/models/user.dart';
 import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
-import 'package:niagara_app/features/profile/user/presentation/widgets/account/edit_user_data_button.dart';
 
 class OrderRecepientWidget extends StatelessWidget {
   const OrderRecepientWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserBloc, UserState>(
-      listener: (context, state) =>
-          context.read<OrderCreationCubit>().recipientSet = state.maybeWhen(
-        loaded: (user) => true,
-        orElse: () => false,
-      ),
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) => state.maybeWhen(
         loaded: _RecepientData.new,
         // TODO: Тут как-то иначе должно быть, но ситуации, когда пользователя
@@ -39,12 +36,14 @@ class _RecepientData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<OrderCreationCubit>().recipientSet = user.hasRequiredData;
+
     final String name = user.name;
     final String surname = user.surname;
     final String patronymic = user.patronymic;
     final String phone = user.phone.phoneFormat();
 
-    final bool hasData = name.isNotEmpty && surname.isNotEmpty;
+    final bool hasData = name.isNotEmpty;
     final bool hasPhone = phone.isNotEmpty;
 
     return Padding(
@@ -53,14 +52,28 @@ class _RecepientData extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            t.orderPlacing.recipient,
-            style: context.textStyle.textTypo.tx1SemiBold,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                t.orderPlacing.recipient,
+                style: context.textStyle.textTypo.tx1SemiBold,
+              ),
+              if (!hasData)
+                Padding(
+                  padding: AppInsets.kTop4,
+                  child: IconButton(
+                    onPressed: () =>
+                        context.navigateTo(EditProfileRoute(user: user)),
+                    icon: Assets.icons.pen.svg(),
+                  ),
+                ),
+            ],
           ),
-          AppBoxes.kHeight8,
           if (hasData) ...[
+            AppBoxes.kHeight8,
             Text(
-              '$surname $name $patronymic',
+              '${surname.isNotEmpty ? '$surname ' : ''}$name $patronymic',
               style: context.textStyle.textTypo.tx2Medium,
             ),
             if (hasPhone) ...[
@@ -71,17 +84,11 @@ class _RecepientData extends StatelessWidget {
               ),
             ],
           ] else
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  t.orderPlacing.nameAndPhone,
-                  style: context.textStyle.textTypo.tx2Medium.withColor(
-                    context.colors.textColors.secondary,
-                  ),
-                ),
-                const EditUserDataButton(),
-              ],
+            Text(
+              t.orderPlacing.nameAndPhone,
+              style: context.textStyle.textTypo.tx2Medium.withColor(
+                context.colors.textColors.secondary,
+              ),
             ),
         ],
       ),

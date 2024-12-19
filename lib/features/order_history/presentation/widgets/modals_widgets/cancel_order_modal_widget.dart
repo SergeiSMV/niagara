@@ -39,8 +39,7 @@ class CancelOrderModalWidget extends StatelessWidget {
 
           context.maybePop();
 
-          return getIt<OrdersBloc>()
-              .add(const OrdersEvent.loading(isForceUpdate: true));
+          return getIt<OrdersBloc>().add(const OrdersEvent.loadAll());
         },
         error: (_) {
           return AppSnackBar.showError(

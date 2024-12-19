@@ -1,8 +1,10 @@
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/dependencies/di.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/features/authorization/phone_auth/data/data_sources/auth_local_data_source.dart';
 import 'package:niagara_app/features/authorization/phone_auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/repositories/auth_repository.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 @LazySingleton(as: IAuthRepository)
 class AuthRepository extends BaseRepository implements IAuthRepository {
@@ -21,6 +23,19 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
 
   @override
   Failure get failure => const AuthRepositoryFailure();
+
+  @override
+  Stream<AuthenticatedStatus> get authStatusStream =>
+      _authLDS.authStatusStream.distinct().map((status) {
+        final verbose = AuthenticatedStatus.values[status];
+
+        getIt<IAppLogger>().log(
+          level: LogLevel.info,
+          message: 'Auth status changed to: $verbose',
+        );
+
+        return verbose;
+      });
 
   @override
   Future<Either<Failure, void>> logout() => execute(_logout);
@@ -71,9 +86,10 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
 
     return _authRDS.onConfirmCode(phone: _cachedPhone!, code: code).fold(
       (failure) => throw ValidateCodeFailure(failure.error),
-      (success) {
+      (success) async {
         if (!success) throw const ValidateCodeFailure();
-        _authLDS.setAuthStatus(
+
+        await _authLDS.setAuthStatus(
           status: AuthenticatedStatus.authenticated.index,
         );
         _cachedPhone = null;

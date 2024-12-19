@@ -7,6 +7,7 @@ extension CartDtoMapper on CartDto {
   Cart toModel() => Cart(
         products: products.map((e) => e.toModel()).toList(),
         unavailableProducts: outOfStock.map((e) => e.toModel()).toList(),
+        recommends: recommends.map((e) => e.toModel()).toList(),
         cartData: data.toModel(),
         minLimit: sumLimit.toModel(),
         locationId: data.location,
@@ -21,7 +22,7 @@ extension CartDataMapper on CartDataDto {
         discount: sumDiscont ?? 0,
         promocode: sumPromocode ?? 0,
         tareCount: countTara?.toInt() ?? 0,
-        tareDiscount: sumTara ?? 0,
+        tareSum: sumTara?.round() ?? 0,
         bonuses: bonuses ?? 0,
         bonusesPayment: bonusesPay ?? 0,
         bonusesAccumulation: bonusesAdd ?? 0,
@@ -29,6 +30,9 @@ extension CartDataMapper on CartDataDto {
         totalPrice: totalSum ?? 0,
         fullPrice: totalSumFull ?? 0,
         vipPrice: totalSumVip ?? 0,
+        productsTotalSum: productsSum?.round() ?? 0,
+        productsCount: productsCount?.round() ?? 0,
+        totalTares: countTaraDefault?.round() ?? 0,
       );
 }
 
@@ -50,8 +54,6 @@ extension PaymentMethodMapper on PaymentMethodDto {
         return PaymentMethod.sbp;
       case PaymentMethodDto.sberbank:
         return PaymentMethod.sberPay;
-      case PaymentMethodDto.terminal:
-        return PaymentMethod.terminal;
     }
   }
 }

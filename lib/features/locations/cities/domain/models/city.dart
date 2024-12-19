@@ -8,9 +8,14 @@ class City extends BaseLocality {
     required super.province,
     required super.locality,
     required this.phone,
+    required this.searchSpan,
   });
 
   final String phone;
+
+  /// Пара максимальных расстойний (разниц координат от центра), которые
+  /// описывают эллипс зоны поиска города.
+  final ({double diffLat, double diffLong})? searchSpan;
 
   @override
   String get name => super.locality;

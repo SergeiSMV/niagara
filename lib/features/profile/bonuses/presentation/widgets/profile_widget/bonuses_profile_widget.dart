@@ -34,7 +34,7 @@ class BonusesProfileWidget extends StatelessWidget {
           } else if (bonuses.level.isVIPStatus) {
             return Stack(
               children: [
-                bonuses.level.cardImage.image(),
+                bonuses.level.cardImage.image(fit: BoxFit.cover),
                 VipStatusWidget(bonuses: bonuses, description: description),
               ],
             );

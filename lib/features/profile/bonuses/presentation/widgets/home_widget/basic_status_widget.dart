@@ -22,20 +22,9 @@ class BasicStatusWidget extends StatelessWidget {
 
   /// Переходит на страницу бонусов.
   void _goToBonuses(BuildContext context) => context.navigateTo(
-        const ProfileWrapper(
+        const LoyaltyProgramWrapper(
           children: [
-            ProfileRoute(),
             MyBonusesRoute(),
-          ],
-        ),
-      );
-
-  /// Переходит на страницу предоплатной воды.
-  void _goToPrepaidWater(BuildContext context) => context.navigateTo(
-        const ProfileWrapper(
-          children: [
-            ProfileRoute(),
-            PrepaidWaterRoute(),
           ],
         ),
       );
@@ -47,18 +36,12 @@ class BasicStatusWidget extends StatelessWidget {
       children: [
         Flexible(
           flex: AppSizes.kGeneral4.toInt(),
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InkWell(
-                onTap: () => _goToBonuses(context),
-                child: const BonusesDataWidget(),
-              ),
+              BonusesDataWidget(),
               AppBoxes.kHeight8,
-              InkWell(
-                onTap: () => _goToPrepaidWater(context),
-                child: const PrepaidWaterDataWidget(),
-              ),
+              PrepaidWaterDataWidget(),
             ],
           ),
         ),

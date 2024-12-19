@@ -56,69 +56,75 @@ class BannerWidget extends StatelessWidget {
             ? () => context.navigateTo(redirectRoute!)
             : null);
 
-    return InkWell(
-      onTap: onTap,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: gradient,
-          borderRadius: AppBorders.kCircular12,
-        ),
-        child: Stack(
-          clipBehavior: Clip.antiAlias,
-          children: [
-            /// Изображение в правом углу баннера.
-            Positioned(
-              top: 0,
-              right: rightPositioning,
-              bottom: bottomPositioning,
-              child: image.image(
-                fit: BoxFit.cover,
+    return ClipRRect(
+      borderRadius: AppBorders.kCircular12,
+      child: InkWell(
+        onTap: onTap,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: gradient,
+            borderRadius: AppBorders.kCircular12,
+          ),
+          child: Stack(
+            clipBehavior: Clip.antiAlias,
+            children: [
+              /// Изображение в правом углу баннера.
+              Positioned(
+                top: 0,
+                right: rightPositioning,
+                bottom: bottomPositioning,
+                child: image.image(
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
 
-            // Текстовое содержимое баннера.
-            Padding(
-              padding: AppInsets.kAll12,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: context.textStyle.textTypo.tx2SemiBold.withColor(
-                      context.colors.textColors.white,
+              // Текстовое содержимое баннера.
+              Padding(
+                padding: AppInsets.kAll12,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: context.textStyle.textTypo.tx2SemiBold.withColor(
+                        context.colors.textColors.white,
+                      ),
                     ),
-                  ),
-                  AppBoxes.kHeight4,
-                  Text(
-                    description,
-                    style: context.textStyle.textTypo.tx3Medium.withColor(
-                      context.colors.textColors.white,
-                    ),
-                  ),
-                  AppBoxes.kHeight12,
-                  Row(
-                    children: [
-                      Text(
-                        t.profile.banners.more,
-                        style:
-                            context.textStyle.buttonTypo.btn3semiBold.withColor(
+                    AppBoxes.kHeight4,
+                    Padding(
+                      padding: AppInsets.kRight72,
+                      child: Text(
+                        description,
+                        style: context.textStyle.textTypo.tx3Medium.withColor(
                           context.colors.textColors.white,
                         ),
                       ),
-                      Assets.icons.arrowRight.svg(
-                        width: AppSizes.kIconSmall,
-                        height: AppSizes.kIconSmall,
-                        colorFilter: ColorFilter.mode(
-                          context.colors.mainColors.white,
-                          BlendMode.srcIn,
+                    ),
+                    AppBoxes.kHeight12,
+                    Row(
+                      children: [
+                        Text(
+                          t.profile.banners.more,
+                          style: context.textStyle.buttonTypo.btn3semiBold
+                              .withColor(
+                            context.colors.textColors.white,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        Assets.icons.arrowRight.svg(
+                          width: AppSizes.kIconSmall,
+                          height: AppSizes.kIconSmall,
+                          colorFilter: ColorFilter.mode(
+                            context.colors.mainColors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

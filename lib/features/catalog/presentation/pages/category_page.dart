@@ -32,7 +32,7 @@ class CategoryPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final group = context.read<ProductsBloc>().group;
+    final group = context.watch<ProductsBloc>().group;
     final scrollController = useScrollController();
 
     useEffect(
@@ -60,13 +60,14 @@ class CategoryPage extends HookWidget {
               CatalogSearchButtonWidget(),
             ],
           ),
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            primary: false,
-            expandedHeight: 30,
-            titleSpacing: 0,
-            title: GroupsButtonsWidget(group: group),
-          ),
+          if (!group.temporary)
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              primary: false,
+              expandedHeight: 30,
+              titleSpacing: 0,
+              title: GroupsButtonsWidget(group: group),
+            ),
           SliverAppBar(
             automaticallyImplyLeading: false,
             primary: false,
@@ -92,7 +93,7 @@ class CategoryPage extends HookWidget {
                           mainAxisSpacing: AppSizes.kGeneral8,
                           crossAxisSpacing: AppSizes.kGeneral8,
                           childAspectRatio:
-                              context.screenWidth / context.screenHeight / .8,
+                              context.screenWidth / context.screenHeight / 0.85,
                           padding: EdgeInsets.zero,
                           physics: const NeverScrollableScrollPhysics(),
                           children: List.generate(

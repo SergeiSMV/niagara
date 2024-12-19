@@ -10,6 +10,9 @@ extension CityEntityMapper on CityEntity {
         province: province,
         locality: locality,
         phone: phone,
+        searchSpan: diffLat != null && diffLong != null
+            ? (diffLat: diffLat!, diffLong: diffLong!)
+            : null,
       );
 
   CitiesTableCompanion toCompanion() => CitiesTableCompanion(
@@ -19,6 +22,8 @@ extension CityEntityMapper on CityEntity {
         latitude: Value(latitude),
         longitude: Value(longitude),
         phone: Value(phone),
+        diffLat: Value(diffLat),
+        diffLong: Value(diffLong),
       );
 }
 
@@ -30,6 +35,8 @@ extension CityMapper on City {
         latitude: coordinates.$1,
         longitude: coordinates.$2,
         phone: phone,
+        diffLat: searchSpan?.diffLat,
+        diffLong: searchSpan?.diffLong,
       );
 }
 
@@ -41,5 +48,7 @@ extension CitiesTableExtension on CitiesTableData {
         latitude: latitude,
         longitude: longitude,
         phone: phone,
+        diffLat: diffLat,
+        diffLong: diffLong,
       );
 }

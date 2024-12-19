@@ -21,7 +21,9 @@ class SearchAddressBloc extends Bloc<SearchAddressEvent, SearchAddressState> {
   ) : super(const _Initial()) {
     on<SearchAddressEvent>(
       _onSearchAddress,
-      transformer: debounce(),
+      transformer: debounce(
+        duration: const Duration(milliseconds: 1000),
+      ),
     );
   }
 
@@ -30,12 +32,18 @@ class SearchAddressBloc extends Bloc<SearchAddressEvent, SearchAddressState> {
   Future<void> _onSearchAddress(SearchAddressEvent event, _Emit emit) async {
     emit(const _Loading());
     if (event.input != null && event.input!.isNotEmpty) {
-      await _searchByTextUseCase.call(event.input!).fold(
-            (failure) => emit(const _Error()),
-            (locations) => emit(
-              locations.isEmpty ? const _Error() : _Loaded(locations),
-            ),
-          );
+      try {
+        print('[Geocoder] searching for "${event.input}"');
+
+        await _searchByTextUseCase.call(event.input!).fold(
+              (failure) => emit(const _Error()),
+              (locations) => emit(
+                locations.isEmpty ? const _Error() : _Loaded(locations),
+              ),
+            );
+      } catch (_) {
+        emit(const _Error());
+      }
     } else {
       emit(const _Initial());
     }

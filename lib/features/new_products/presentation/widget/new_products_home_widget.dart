@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -25,15 +24,7 @@ class NewProductsHomeWidget extends StatelessWidget {
         loaded: (state) {
           final List<Product> products = state.products;
           final List<Widget> children = products
-              .map(
-                (product) => ProductWidget(
-                  product: product,
-                  redirectRoute: ProductRoute(
-                    key: ValueKey(product.id),
-                    product: product,
-                  ),
-                ),
-              )
+              .map((product) => ProductWidget(product: product))
               .toList();
 
           if (children.isEmpty) {
@@ -71,7 +62,7 @@ class NewProductsHomeWidget extends StatelessWidget {
                     ),
                     AppBoxes.kHeight12,
                     AspectRatio(
-                      aspectRatio: 1.2,
+                      aspectRatio: 1.3,
                       child: ListView.separated(
                         itemCount: length,
                         shrinkWrap: true,
@@ -100,7 +91,7 @@ class NewProductsHomeWidget extends StatelessWidget {
                           }
 
                           return AspectRatio(
-                            aspectRatio: .5,
+                            aspectRatio: 0.55,
                             child: children[index],
                           );
                         },

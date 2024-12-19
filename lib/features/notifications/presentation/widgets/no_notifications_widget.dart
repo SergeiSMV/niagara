@@ -24,6 +24,7 @@ class NoNotificationsWidget extends StatelessWidget {
             AppBoxes.kHeight16,
             Text(
               t.notifications.yourNotifications,
+              textAlign: TextAlign.center,
               style: context.textStyle.headingTypo.h3.withColor(
                 context.colors.textColors.main,
               ),

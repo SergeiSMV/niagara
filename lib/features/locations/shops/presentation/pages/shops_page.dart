@@ -12,26 +12,44 @@ import 'package:niagara_app/features/locations/shops/presentation/widgets/shops_
 class ShopsPage extends StatelessWidget {
   const ShopsPage({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<ShopsBloc, ShopsState>(
+        builder: (_, state) => state.maybeWhen(
+          loading: AppCenterLoader.new,
+          error: (_) => const _Error(),
+          orElse: () => const Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              ShopsMapWidget(),
+              ShopsListModal(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Error extends StatelessWidget {
+  const _Error();
+
   void _onRefresh(BuildContext context) =>
       context.read<ShopsBloc>().add(const ShopsEvent.loading());
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ShopsBloc, ShopsState>(
-      builder: (_, state) => state.maybeWhen(
-        loading: AppCenterLoader.new,
-        error: (_) => ErrorRefreshWidget(
-          error: t.shops.errorLoad,
-          onRefresh: () => _onRefresh(context),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: ErrorRefreshWidget(
+            error: t.shops.errorLoad,
+            onRefresh: () => _onRefresh(context),
+          ),
         ),
-        orElse: () => const Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            ShopsMapWidget(),
-            ShopsListModal(),
-          ],
-        ),
-      ),
+      ],
     );
   }
 }

@@ -108,12 +108,7 @@ class FavoritesRepository extends BaseRepository
         if (!hasAuth) {
           await _favoriteLDS.clearFavorites();
         } else {
-          final login = await _getUserPhone();
-          await _favoriteRDS
-              .clearFavorite(
-                login: login,
-              )
-              .fold(
+          await _favoriteRDS.clearFavorite().fold(
                 (failure) => throw failure,
                 (isCleared) =>
                     isCleared ? _favoriteLDS.clearFavorites() : throw failure,

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:niagara_app/core/common/data/mappers/pagination_mapper.dart';
 import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/features/notifications/data/mappers/notifications_mapper.dart';
@@ -12,9 +15,34 @@ class NotificationsRepository extends BaseRepository
     super._logger,
     super._networkInfo,
     this._notificationsRDS,
-  );
+    this._fcmInstance,
+  ) {
+    init();
+  }
 
   final INotificationRemoteDataSource _notificationsRDS;
+  final FirebaseMessaging _fcmInstance;
+
+  @override
+  Future<void> init() async {
+    final String? fcmToken = await _fcmInstance.getToken();
+    if (fcmToken != null) {
+      await _registerFcmDevice(fcmToken);
+    }
+
+    _onTokenRefresh = _fcmInstance.onTokenRefresh.listen(_registerFcmDevice);
+  }
+
+  @override
+  @disposeMethod
+  void dispose() {
+    _onTokenRefresh?.cancel();
+  }
+
+  /// Подписка на обновление FCM токена.
+  ///
+  /// Посылает на бекенд новый токен.
+  StreamSubscription? _onTokenRefresh;
 
   @override
   Failure get failure => const NotificationsRepositoryFailure();
@@ -45,4 +73,12 @@ class NotificationsRepository extends BaseRepository
               (result) => result,
             );
       });
+
+  /// Отправляет на бекенд FCM-токен устройства.
+  Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) => execute(
+        () => _notificationsRDS.registerFcmDevice(fcmToken).fold(
+              (failure) => throw failure,
+              (result) => result,
+            ),
+      );
 }

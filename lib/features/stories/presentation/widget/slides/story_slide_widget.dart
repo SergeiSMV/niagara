@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/theme/colors/text_colors.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
+import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/core/utils/constants/app_constants.dart';
@@ -38,6 +39,10 @@ class StorySlideWidget extends StatelessWidget {
             slide.backgroundImage!,
             fit: BoxFit.cover,
             printError: false,
+            loadStateChanged: (state) =>
+                state.extendedImageLoadState == LoadState.loading
+                    ? AppCenterLoader(isWhite: isBgDark)
+                    : null,
           ),
 
         Padding(

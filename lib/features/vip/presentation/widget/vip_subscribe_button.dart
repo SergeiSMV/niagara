@@ -11,6 +11,7 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
 import 'package:niagara_app/features/profile/bonuses/domain/models/activation_option.dart';
+import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 import 'package:niagara_app/features/vip/presentation/bloc/vip_activation_selection_cubit/vip_activation_selection_cubit.dart';
 import 'package:niagara_app/features/vip/presentation/widget/vip_purchase_description.dart';
 
@@ -21,27 +22,39 @@ class VipSubcribeButton extends StatelessWidget {
   /// Обработчик успешного завершения покупки.
   void _onSuccess(BuildContext context) {
     // Обновляем список заказов.
-    getIt<OrdersBloc>().add(const OrdersEvent.loading(isForceUpdate: true));
+    getIt<OrdersBloc>().add(const OrdersEvent.loadAll());
     context.navigateTo(const VipRoute());
   }
 
   /// Обработчик нажатия на кнопку.
-  void _goToPayment(BuildContext context, ActivationOption option) {
-    context.navigateTo(
-      PaymentWrapper(
-        activationOption: option,
-        children: [
-          PaymentCreationRoute(
-            pageTitle: t.vip.subscribing,
-            purchasedProductWidget: VipPurchaseDescription(option: option),
-            onSuccess: () => _onSuccess(context),
-            onCancelled: () => context.navigateTo(const VipRoute()),
-            amountRub: option.sum,
-            payButtonText: t.vip.pay,
-          ),
-        ],
-      ),
-    );
+  Future<void> _goToPayment(
+    BuildContext context,
+    ActivationOption option,
+  ) async {
+    final bool? authorized = await context.read<UserBloc>().isAuthorized;
+
+    if (authorized == null) {
+      return;
+    } else if (!authorized && context.mounted) {
+      context.pushRoute(const AuthWrapper(children: [AuthRoute()]));
+      return;
+    } else if (context.mounted) {
+      context.navigateTo(
+        PaymentWrapper(
+          activationOption: option,
+          children: [
+            PaymentCreationRoute(
+              pageTitle: t.vip.subscribing,
+              purchasedProductWidget: VipPurchaseDescription(option: option),
+              onSuccess: () => _onSuccess(context),
+              onCancelled: () => context.navigateTo(const VipRoute()),
+              amountRub: option.sum,
+              payButtonText: t.vip.pay,
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override

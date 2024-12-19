@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
@@ -15,65 +14,78 @@ import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_
 class ProductWidget extends StatelessWidget {
   const ProductWidget({
     required this.product,
-    this.redirectRoute,
-    this.isWaterBalance = false,
+    this.isOnWaterBalancePage = false,
     super.key,
   });
 
   /// Товар, отображаемый в карточке.
   final Product product;
 
-  /// Страница, на которую должен быть перенаправлен пользователь при нажатии.
-  final PageRouteInfo? redirectRoute;
-
   /// Индикатор того, что данный виджет отображает предоплатную воду на балансе.
   ///
   /// Если `true`, то добавление товара в корзину происходит через механизм
   /// предоплаты воды. В таком случае цена товара будет нулевой.
-  final bool isWaterBalance;
+  final bool isOnWaterBalancePage;
 
   /// Возвращает количество товара в корзине.
   int _getCount(Product product, CartState state) {
     final Cart? cart = state.maybeWhen(
       loaded: (cart, _) => cart,
-      loading: (cart, _) => cart,
+      loading: (cart, _, __) => cart,
       orElse: () => null,
     );
 
-    return cart?.countInStock(product, ignoreComplect: !isWaterBalance) ?? 0;
+    return cart?.countInStock(product, ignoreComplect: !isOnWaterBalancePage) ??
+        0;
+  }
+
+  int? _getPrice(Product product, CartState state) {
+    final Cart? cart = state.maybeWhen(
+      loaded: (cart, _) => cart,
+      loading: (cart, _, __) => cart,
+      orElse: () => null,
+    );
+
+    return cart?.priceInStock(product, ignoreComplect: !isOnWaterBalancePage);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<CartBloc>();
+    final bloc = context.watch<CartBloc>();
+    final bool outOfStock = bloc.isOutOfStock(product);
+    final bool loading = bloc.isPendingProduct(product);
 
     // Тип события зависит от того, добавляем мы обычный товар или предоплатную
     // воду на списание с баланса.
-    final CartEvent addEvent = isWaterBalance
-        ? CartEvent.addPrepaidWaterToCart(product: product)
-        : CartEvent.addToCart(product: product);
-    final CartEvent removeEvent = isWaterBalance
-        ? CartEvent.removePrepaidWaterFromCart(product: product)
-        : CartEvent.removeFromCart(product: product);
-
-    void onAdd() => bloc.add(addEvent);
-    void onRemove() => bloc.add(removeEvent);
+    final CartEvent addEvent = CartEvent.addToCart(
+      product: product,
+      prepaidWater: isOnWaterBalancePage,
+    );
+    final CartEvent removeEvent = CartEvent.removeFromCart(
+      product: product,
+      prepaidWater: isOnWaterBalancePage,
+    );
 
     return BlocBuilder<CartBloc, CartState>(
       buildWhen: (previous, current) {
         final int oldCount = _getCount(product, previous);
         final int newCount = _getCount(product, current);
+        final int? oldCartPrice = _getPrice(product, previous);
+        final int? newCartPrice = _getPrice(product, current);
 
-        return oldCount != newCount;
+        return oldCount != newCount || oldCartPrice != newCartPrice;
       },
       builder: (context, state) {
         return BaseProductWidget(
           product: product,
           count: _getCount(product, state),
-          onAdd: onAdd,
-          onRemove: onRemove,
-          redirectRoute: redirectRoute,
-          isWaterBalance: isWaterBalance,
+          price: _getPrice(product, state),
+          onAdd: () => bloc.add(addEvent),
+          onRemove: () => bloc.add(removeEvent),
+          isOnWaterBalancePage: isOnWaterBalancePage,
+          authorized: !bloc.unauthrorized,
+          outOfStock: outOfStock,
+          loading: loading,
         );
       },
     );

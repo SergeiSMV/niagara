@@ -8,23 +8,27 @@ import 'package:niagara_app/features/profile/user/domain/models/user.dart';
 import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 
 class EditUserDataButton extends StatelessWidget {
-  const EditUserDataButton({super.key});
+  const EditUserDataButton({super.key, this.size});
+
+  final double? size;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (_, state) => state.maybeWhen(
         orElse: SizedBox.shrink,
-        loaded: _EditButton.new,
+        loaded: (user) => _EditButton(user, size),
       ),
     );
   }
 }
 
 class _EditButton extends StatelessWidget {
-  const _EditButton(this.user);
+  const _EditButton(this.user, [this.size]);
 
   final User user;
+
+  final double? size;
 
   void _goToEditPage(BuildContext context, User user) {
     context.navigateTo(
@@ -34,11 +38,11 @@ class _EditButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => _goToEditPage(context, user),
-      child: SizedBox(
-        width: AppSizes.kGeneral48,
-        height: AppSizes.kGeneral48,
+    return IconButton(
+      onPressed: () => _goToEditPage(context, user),
+      icon: SizedBox(
+        width: size ?? AppSizes.kGeneral48,
+        height: size ?? AppSizes.kGeneral48,
         child: Assets.icons.pen.svg(
           width: AppSizes.kIconMedium,
           height: AppSizes.kIconMedium,
