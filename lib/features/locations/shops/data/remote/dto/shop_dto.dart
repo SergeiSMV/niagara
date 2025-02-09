@@ -15,6 +15,7 @@ class ShopDto extends Equatable {
     required this.latitude,
     required this.longitude,
     required this.storeDay,
+    required this.storePhone,
     required this.storeTimeBegin,
     required this.storeTimeEnd,
     this.workTimes,
@@ -34,6 +35,9 @@ class ShopDto extends Equatable {
 
   @JsonKey(name: 'STORE_DAY')
   final int? storeDay;
+
+  @JsonKey(name: 'STORE_PHONE')
+  final String? storePhone;
 
   @JsonKey(name: 'STORE_TIME_BEGIN')
   final String? storeTimeBegin;

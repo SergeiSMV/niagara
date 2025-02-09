@@ -67,7 +67,7 @@ class SelectedShopWidget extends StatelessWidget {
                       AppBoxes.kHeight24,
                       _ShopSchedule(schedule: shop.schedule),
                       AppBoxes.kHeight16,
-                      const _ShopPhone(),
+                      _ShopPhone(storePhone: shop.storePhone),
                       AppBoxes.kHeight48,
                     ],
                   ),
@@ -87,19 +87,24 @@ class SelectedShopWidget extends StatelessWidget {
 }
 
 class _ShopPhone extends StatelessWidget {
-  const _ShopPhone();
+  const _ShopPhone({
+    required this.storePhone,
+  });
+
+  final String storePhone;
 
   Future<void> _onTapNumber(String phone) async {
     final uri = Uri(scheme: 'tel', path: phone);
     if (await canLaunchUrl(uri)) await launchUrl(uri);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    final phone = context.read<AddressesBloc>().state.phone;
 
     return GestureDetector(
-      onTap: () => _onTapNumber(phone),
+      onTap: () => _onTapNumber(storePhone),
       child: Row(
         children: [
           Assets.icons.phone.svg(
@@ -108,7 +113,7 @@ class _ShopPhone extends StatelessWidget {
           ),
           AppBoxes.kWidth8,
           Text(
-            phone,
+            storePhone,
             style: context.textStyle.textTypo.tx2Medium.withColor(
               context.colors.textColors.main,
             ),

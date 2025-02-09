@@ -9,6 +9,7 @@ extension ShopDtoMapper on ShopDto {
         latitude: latitude,
         longitude: longitude,
         storeDays: storeDay ?? 0,
+        storePhone: storePhone == null || storePhone!.isEmpty ? '8-351-2-111-000' : storePhone!,
         openTime: storeTimeBegin ?? '',
         closeTime: storeTimeEnd ?? '',
         schedule: workTimes != null
