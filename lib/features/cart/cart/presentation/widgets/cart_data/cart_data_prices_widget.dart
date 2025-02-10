@@ -35,6 +35,7 @@ class CartDataPricesWidget extends StatelessWidget {
                 .withColor(context.colors.textColors.main),
           ),
           AppBoxes.kHeight8,
+          /// строка изначальной суммы к оплате
           CartDataWidget(
             title: t.product(n: cart.cartData.productsCount),
             data: cart.cartData.productsTotalSum,
@@ -52,10 +53,12 @@ class CartDataPricesWidget extends StatelessWidget {
             title: t.cart.promocode,
             data: cart.cartData.promocode,
           ),
+          /// строка "Оплатить бонусами"
           CartDataWidget(
             title: t.cart.bonusesPay,
             data: cart.cartData.bonusesPayment,
           ),
+          /// строка "Ваша выгода"
           CartDataWidget(
             title: t.cart.yourBenefits,
             data: cart.cartData.benefits,
