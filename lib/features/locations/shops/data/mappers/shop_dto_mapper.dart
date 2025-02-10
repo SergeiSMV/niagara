@@ -1,3 +1,4 @@
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/features/locations/shops/data/local/entities/shop_entity.dart';
 import 'package:niagara_app/features/locations/shops/data/remote/dto/shop_dto.dart';
 
@@ -9,7 +10,7 @@ extension ShopDtoMapper on ShopDto {
         latitude: latitude,
         longitude: longitude,
         storeDays: storeDay ?? 0,
-        storePhone: storePhone == null || storePhone!.isEmpty ? '8-351-2-111-000' : storePhone!,
+        storePhone: storePhone == null || storePhone!.isEmpty ? AppConstants.callCenterNumber : storePhone!,
         openTime: storeTimeBegin ?? '',
         closeTime: storeTimeEnd ?? '',
         schedule: workTimes != null

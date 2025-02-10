@@ -57,6 +57,9 @@ abstract final class AppConstants {
   // * --------------------------- Order Number --------------------------- * //
   static const String orderNumber = '+7 (800) 505-10-21';
 
+    // * --------------------------- Call Center Number --------------------------- * //
+  static const String callCenterNumber = '+7 (351) 2-111-000';
+
   // * ----------------------------- Stories ------------------------------ * //
   static const lightSlideGradientStops1 = [0.0, 0.497, 0.8434, 1.0];
 
