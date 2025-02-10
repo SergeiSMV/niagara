@@ -1,9 +1,13 @@
-name: Commit Review to Telegram 
+name: Commit Review to Discord
 
 on:
   push:
     branches:
-      - "*"
+      - main
+      - master
+      - dev
+      - develop
+      - claude
 
 jobs:
   review:
@@ -16,37 +20,32 @@ jobs:
       - name: Review commits
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: "-4515463288"
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           commits=$(git rev-list ${{ github.event.before }}..${{ github.event.after }})
-          
+
           for commit in $commits; do
             parents=$(git log -1 --pretty=%P $commit | wc -w)
             if [ "$parents" -gt 1 ]; then
               echo "Skipping merge commit $commit"
               continue
             fi
-            
-            # Get commit info
+
             git log -1 --pretty=%an $commit > author.txt
             git log -1 --pretty=%B $commit > message.txt
             git diff-tree --no-commit-id --name-only -r $commit > files.txt
             git show $commit > diff_raw.txt
-            
-            # Handle large diffs
+
             if [ $(stat -f%z diff_raw.txt 2>/dev/null || stat -c%s diff_raw.txt) -gt 50000 ]; then
               echo "Diff is too large, truncating..."
               head -c 50000 diff_raw.txt > diff_truncated.txt
               mv diff_truncated.txt diff_raw.txt
               echo -e "\n... (diff truncated due to size)" >> diff_raw.txt
             fi
-            
-            # Properly encode content for JSON
+
             files_json=$(cat files.txt | jq -Rs .)
             diff_json=$(cat diff_raw.txt | jq -Rs .)
-            
-            # Create Claude request with properly escaped JSON
+
             jq -n \
               --arg files "$files_json" \
               --arg diff "$diff_json" \
@@ -56,22 +55,20 @@ jobs:
                 messages: [{
                   role: "user",
                   content: (
-                    "Review this code change and report only potential issues (bugs, security problems, or major improvements needed). Give me your answer in Russian. If no issues found, respond with \"✅ No issues found\". Keep your response very brief.\n\nChanged Files:\n" + 
+                    "Review this code change and report only potential issues (bugs, security problems, or major improvements needed). Give me your answer in Russian. If no issues found, respond with \"✅ No issues found\". Keep your response very brief.\n\nChanged Files:\n" +
                     ($files | fromjson) +
-                    "\n\nChanges:\n" + 
+                    "\n\nChanges:\n" +
                     ($diff | fromjson)
                   )
                 }]
               }' > claude_request.json
-            
-            # Get review from Claude
+
             response=$(curl -s https://api.anthropic.com/v1/messages \
               -H "x-api-key: $ANTHROPIC_API_KEY" \
               -H "anthropic-version: 2023-06-01" \
               -H "content-type: application/json" \
               -d @claude_request.json)
-            
-            # Check if Claude's response is valid
+
             if ! echo "$response" | jq -e '.content[0].text' > /dev/null 2>&1; then
               echo "Error in Claude's response:"
               echo "$response"
@@ -81,26 +78,23 @@ jobs:
             else
               review_text=$(echo "$response" | jq -r '.content[0].text')
             fi
-            
-            # Get branch and repository info
+
             branch="${GITHUB_REF_NAME}"
             repository="${GITHUB_REPOSITORY}"
-            
-            # Generate Telegram message
+
             author=$(cat author.txt)
             commit_url="https://github.com/$GITHUB_REPOSITORY/commit/$commit"
-            commit_message=$(cat message.txt)
-            
-            tg_message="*Commit Review*\n\n*Author:* $author\n*Repository:* $repository\n*Branch:* \`${branch}\`\n*Commit:* [\`${commit:0:7}\`]($commit_url)\n*Message:* \`${commit_message}\`\n\n*Review:* $review_text"
+            commit_message=$(cat message.txt | sed 's/"/\\"/g' | tr '\n' ' ')
+            author=$(cat author.txt | sed 's/"/\\"/g')
+            review_text=$(echo "$review_text" | sed 's/"/\\"/g' | tr '\n' ' ')
 
-            # Send Telegram message
-            curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
+            discord_message="{\"embeds\":[{\"title\":\"Commit Review\",\"fields\":[{\"name\":\"Author\",\"value\":\"${author}\",\"inline\":true},{\"name\":\"Repository\",\"value\":\"${repository}\",\"inline\":true},{\"name\":\"Branch\",\"value\":\"\`${branch}\`\",\"inline\":true},{\"name\":\"Commit\",\"value\":\"[\`${commit:0:7}\`](${commit_url})\",\"inline\":true},{\"name\":\"Message\",\"value\":\"${commit_message}\",\"inline\":false},{\"name\":\"Review\",\"value\":\"${review_text}\",\"inline\":false}],\"color\":5814783}]}"
+
+            curl -s -X POST "$DISCORD_WEBHOOK_URL" \
               -H "Content-Type: application/json" \
-              -d "{\"chat_id\": \"$TELEGRAM_CHAT_ID\", \"text\": \"$tg_message\", \"parse_mode\": \"Markdown\"}"
+              -d "$discord_message"
 
-            # Cleanup
             rm -f author.txt message.txt files.txt diff_raw.txt claude_request.json
-            
+
             sleep 1
           done
-

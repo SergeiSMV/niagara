@@ -10,6 +10,7 @@ class ShopsTable extends Table {
   RealColumn get latitude => real()();
   RealColumn get longitude => real()();
   IntColumn get storeDays => integer()();
+  TextColumn get storePhone => text()();
   TextColumn get openTime => text()();
   TextColumn get closeTime => text()();
   TextColumn get schedule => text().map(const ShopWorkTimeEntityConverter())();

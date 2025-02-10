@@ -11,6 +11,7 @@ class ShopEntity extends Equatable {
     required this.latitude,
     required this.longitude,
     required this.storeDays,
+    required this.storePhone,
     required this.openTime,
     required this.closeTime,
     required this.schedule,
@@ -22,6 +23,7 @@ class ShopEntity extends Equatable {
   final double latitude;
   final double longitude;
   final int storeDays;
+  final String storePhone;
   final String openTime;
   final String closeTime;
   final List<ShopScheduleEntity> schedule;
@@ -34,6 +36,7 @@ class ShopEntity extends Equatable {
         latitude,
         longitude,
         storeDays,
+        storePhone,
         openTime,
         closeTime,
         schedule,

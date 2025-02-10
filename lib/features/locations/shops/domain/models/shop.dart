@@ -9,21 +9,26 @@ class Shop extends BaseLocality {
     required super.province,
     required super.locality,
     required int storeDays,
+    required String storePhone,
     required String openTime,
     required String closeTime,
     required List<ShopSchedule> schedule,
   })  : _storeDays = storeDays,
+        _storePhone = storePhone,
         _openTime = openTime,
         _closeTime = closeTime,
         _schedule = schedule;
 
   final int _storeDays;
+  final String _storePhone;
   final String _openTime;
   final String _closeTime;
   final List<ShopSchedule> _schedule;
 
   @override
   String get name => super.locality;
+
+  String get storePhone => _storePhone;
 
   String get description => _everydaySchedule;
 
@@ -65,6 +70,7 @@ class Shop extends BaseLocality {
         super.province,
         super.locality,
         _storeDays,
+        _storePhone,
         _openTime,
         _closeTime,
         _schedule,
