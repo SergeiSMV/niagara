@@ -12,14 +12,14 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 
 class NextLevelStatusWidget extends StatelessWidget {
   const NextLevelStatusWidget({
-    required this.nextLevel,
+    required this.currentLevel,
     required this.toNextLevel,
     required this.toKeepAmount,
     required this.isMax,
     super.key,
   });
 
-  final StatusLevel nextLevel;
+  final StatusLevel currentLevel;
   final int toKeepAmount;
   final int toNextLevel;
   final bool isMax;
@@ -36,7 +36,7 @@ class NextLevelStatusWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${nextLevel.toLocale} ${t.bonuses.status.toLowerCase()}',
+                '${currentLevel.toLocale} ${t.bonuses.status.toLowerCase()}',
                 style: context.textStyle.textTypo.tx1SemiBold.withColor(
                   context.colors.textColors.main,
                 ),
@@ -63,7 +63,7 @@ class NextLevelStatusWidget extends StatelessWidget {
             borderRadius: AppBorders.kCircular6,
             child: Stack(
               children: [
-                nextLevel.cardImage.image(),
+                _nextLevelCard,
                 Padding(
                   padding: AppInsets.kAll6,
                   child: Assets.images.logo.svg(height: AppSizes.kGeneral8),
@@ -75,4 +75,27 @@ class NextLevelStatusWidget extends StatelessWidget {
       ],
     );
   }
+
+  /// Получает картинку следующего уровня.
+  /// текущий статус - [currentLevel]
+  Image get _nextLevelCard {
+    switch (currentLevel) {
+      case StatusLevel.silver:
+        return Assets.images.bonusStatus.gold.image();
+      case StatusLevel.gold:
+        return Assets.images.bonusStatus.platinum.image();
+      case StatusLevel.platinum:
+        return Assets.images.bonusStatus.statusVIP.image();
+      case StatusLevel.vip:
+        return Assets.images.bonusStatus.statusVIP.image();
+      case StatusLevel.partner:
+        return Assets.images.bonusStatus.partner.image();
+      case StatusLevel.employee:
+        return Assets.images.bonusStatus.employer.image();
+      case StatusLevel.social:
+        return Assets.images.bonusStatus.social.image();
+    }
+  }
+
+
 }
