@@ -56,7 +56,7 @@ class _NextLevelData extends StatelessWidget {
     return Column(
       children: [
         NextLevelStatusWidget(
-          nextLevel: isMaxLevel ? bonuses.level : bonuses.nextLevel,
+          currentLevel: isMaxLevel ? bonuses.level : bonuses.nextLevel,
           toNextLevel: statusDescription.maxSum,
           toKeepAmount: statusDescription.minSum,
           isMax: isMaxLevel,
