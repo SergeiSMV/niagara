@@ -77,4 +77,8 @@ abstract final class AppConstants {
 
   // * ------------------------------ Dates ----------------------------- * //
   static const int kStandardDate = 2;
+
+  // * ------------------------------ Cart -------------------------------- * //
+  static const int kZeroBonusesToPay = 0;
+
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:niagara_app/core/common/domain/models/product.dart';
 import 'package:niagara_app/core/core.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/enums/auth_status.dart';
 import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
 import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
@@ -254,6 +255,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     result.fold(
       (_) => emit(const _Error()),
       (cart) async {
+        /// Если корзина пустая, то обнуляем бонусы к оплате для корректного
+        /// отображения и пересчета
+        if (cart.isEmpty) {
+          add(const _SetBonusesToPay(bonuses: AppConstants.kZeroBonusesToPay));
+        }
         emit(
           cart.isEmpty
               ? const _Empty()
@@ -283,6 +289,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     result.fold(
       (_) => emit(const _Error()),
       (cart) {
+        /// Обнуляем бонусы к оплате для корректного отображения и пересчета
+        add(const _SetBonusesToPay(bonuses: AppConstants.kZeroBonusesToPay));
         emit(
           cart.isEmpty
               ? const _Empty()

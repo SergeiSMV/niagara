@@ -27,20 +27,21 @@ class CartBonusesWidget extends StatefulWidget {
 
 class _CartBonusesWidgetState extends State<CartBonusesWidget> {
   int current = 0;
+  Cart get cart => widget.cart;
 
   @override
   void initState() {
     super.initState();
-    current = widget.cart.cartData.bonusesPayment.round();
+    current = cart.cartData.bonusesPayment.round();
   }
 
   @override
   Widget build(BuildContext context) {
     /// Сколько для этой корзины всего можно списать бонусов.
-    final int maxValue = widget.cart.cartData.bonuses.round();
+    final int maxValue = cart.cartData.bonuses.round();
 
     /// Сколько в текущем сотоянии корзины уже применено бонусов.
-    final int applied = widget.cart.cartData.bonusesPayment.round();
+    final int applied = cart.cartData.bonusesPayment.round();
 
     /// Применить бонусы можно:
     /// - если пытаемся списать меньше или столько же, сколько доступно;
@@ -89,7 +90,7 @@ class _CartBonusesWidgetState extends State<CartBonusesWidget> {
               ),
               AppBoxes.kWidth6,
               Text(
-                widget.cart.cartData.bonuses.round().toString(),
+                cart.cartData.bonuses.round().toString(),
                 style: context.textStyle.textTypo.tx1Medium
                     .withColor(context.colors.textColors.main),
               ),
@@ -100,7 +101,7 @@ class _CartBonusesWidgetState extends State<CartBonusesWidget> {
             label: t.cart.enterQuantity,
             onChanged: onChanged,
             initial: current != 0 ? current.toString() : null,
-            maxValue: widget.cart.cartData.bonuses.round(),
+            maxValue: cart.cartData.bonuses.round(),
             onApplied: canApply ? applyBonuses : null,
             loading: loading && canApply,
             state: current == applied && current != 0
