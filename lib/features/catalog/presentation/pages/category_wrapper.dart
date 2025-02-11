@@ -16,16 +16,19 @@ class CategoryWrapperPage implements AutoRouteWrapper {
   });
 
   final Group group;
+  String get key => group.toString();
 
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            key: Key(group.id),
-            create: (_) => getIt<ProductsBloc>(param1: group),
+            key: Key(key),
+            create: (_) {
+              return getIt<ProductsBloc>(param1: group);
+            },
           ),
           BlocProvider(
-            key: Key(group.id),
+            key: Key(key),
             create: (_) => getIt<FiltersCubit>(param1: group),
           ),
           BlocProvider.value(value: getIt<CartBloc>()),
