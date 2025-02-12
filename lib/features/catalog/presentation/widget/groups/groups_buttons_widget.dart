@@ -9,7 +9,6 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/features/catalog/domain/model/group.dart';
-import 'package:niagara_app/features/catalog/presentation/bloc/filters_cubit/filters_cubit.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/groups_cubit.dart';
 import 'package:niagara_app/features/catalog/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:niagara_app/features/catalog/presentation/widget/groups/group_button.dart';
@@ -79,6 +78,22 @@ class _GroupsButtonsWidgetState extends State<GroupsButtonsWidget> {
         ),
       );
 
+  void _navigateToCategory(
+    BuildContext context, {
+    required Group group,
+  }) =>
+      context.navigateTo(
+        CatalogWrapper(
+          children: [
+            const CatalogRoute(),
+            CategoryWrapperRoute(
+              group: group,
+              children: const [CategoryRoute()],
+            ),
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GroupsCubit, GroupsState>(
@@ -99,6 +114,8 @@ class _GroupsButtonsWidgetState extends State<GroupsButtonsWidget> {
               padding: AppInsets.kVertical12,
               child: Row(
                 children: [
+              
+                  /// категории то списком
                   Padding(
                     padding: AppInsets.kHorizontal4 + AppInsets.kLeft12,
                     child: InkWell(
@@ -123,19 +140,15 @@ class _GroupsButtonsWidgetState extends State<GroupsButtonsWidget> {
                       ),
                     ),
                   ),
+              
+                  /// категории товаров кнопками
                   ...List.generate(groups.length, (index) {
                     final hasCurrentGroup = groups[index].id == widget.group.id;
                     return GroupButton(
                         group: groups[index],
                         isSelected: hasCurrentGroup,
-                        onTap: () {
-                          context
-                              .read<FiltersCubit>()
-                              .onGroupUpdated(groups[index]);
-                          context
-                              .read<ProductsBloc>()
-                              .onGroupUpdated(groups[index]);
-                        });
+                        onTap: () => _navigateToCategory(context, group: groups[index]),
+                      );
                   }),
                   AppBoxes.kWidth12,
                 ],
