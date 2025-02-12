@@ -20,6 +20,7 @@ class UserOrderEntity extends Equatable {
     required this.locationId,
     required this.locationName,
     required this.description,
+    required this.pickup,
     required this.sumDelivery,
     required this.sumDiscont,
     required this.promoCode,
@@ -52,6 +53,7 @@ class UserOrderEntity extends Equatable {
   final String locationId;
   final String locationName;
   final String description;
+  final bool pickup;
   final double sumDelivery;
   final double sumDiscont;
   final String promoCode;
@@ -84,6 +86,7 @@ class UserOrderEntity extends Equatable {
         locationId,
         locationName,
         description,
+        pickup,
         sumDelivery,
         sumDiscont,
         promoCode,

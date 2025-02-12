@@ -19,6 +19,7 @@ class UserOrderDto extends Equatable {
     required this.ordersLocationId,
     required this.ordersLocationName,
     required this.ordersDescription,
+    required this.ordersPickup,
     required this.ordersSumDelivery,
     required this.ordersSumDiscont,
     required this.ordersPromoCode,
@@ -51,6 +52,7 @@ class UserOrderDto extends Equatable {
   final String ordersLocationId;
   final String ordersLocationName;
   final String ordersDescription;
+  final bool ordersPickup;
   final double ordersSumDelivery;
   final double ordersSumDiscont;
   final String ordersPromoCode;
@@ -84,6 +86,7 @@ class UserOrderDto extends Equatable {
         ordersLocationId: json['ORDERS_LOCATION_ID'] as String,
         ordersLocationName: json['ORDERS_LOCATION_NAME'] as String,
         ordersDescription: json['ORDERS_DESCRIPTION'] as String,
+        ordersPickup: json['ORDERS_PICKUP'] as bool,
         ordersSumDelivery: (json['ORDERS_SUM_DELIVERY'] as num).toDouble(),
         ordersSumDiscont: (json['ORDERS_SUM_DISCONT'] as num).toDouble(),
         ordersPromoCode: json['ORDERS_PROMOCODE'] as String,
@@ -119,6 +122,7 @@ class UserOrderDto extends Equatable {
         ordersLocationId,
         ordersLocationName,
         ordersDescription,
+        ordersPickup,
         ordersSumDelivery,
         ordersSumDiscont,
         ordersPromoCode,
