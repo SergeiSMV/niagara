@@ -46,13 +46,17 @@ class PaymentMethodSelectionCubit extends Cubit<PaymentMethodSelectionState> {
   ///
   /// Нужен для переключения вкладок. Не влияет на выбранный __метод__ оплаты.
   void selectPaymentMethodType(PaymentMethodGroup type) => emit(
-        state.copyWith(
-          type: type,
-
-          // Если метод оплаты не онлайн - выбираем первый доступный метод.
-          method: !type.isOnline
-              ? allowedMethods.firstWhereOrNull((it) => !it.isOnline)
-              : null,
-        ),
-      );
+    state.copyWith(
+      type: type,
+      method: allowedMethods.firstWhereOrNull((it) => !type.isOnline ? 
+        !it.isOnline : it.isOnline,
+      ),
+      /// TODO Sergei Semenov: закоментировал для предотвращения сброса
+      /// способа оплаты онлайн (удалить в будущем за ненадобностью)
+      // Если метод оплаты не онлайн - выбираем первый доступный метод.
+      // !type.isOnline
+      //     ? allowedMethods.firstWhereOrNull((it) => !it.isOnline)
+      //     : null,
+    ),
+  );
 }
