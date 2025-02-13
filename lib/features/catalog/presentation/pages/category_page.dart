@@ -31,6 +31,12 @@ class CategoryPage extends HookWidget {
         .add(ProductsEvent.loadMore(filters: selectFilters));
   }
 
+  /// Возвращает соотношение сторон для [GridView].
+  double _getAspectRatio(BuildContext context) {
+    return ((context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2) / 
+    (context.screenWidth - AppConstants.kHeightCorrector55);
+  }
+
   @override
   Widget build(BuildContext context) {
     final group = context.watch<ProductsBloc>().group;
@@ -94,9 +100,7 @@ class CategoryPage extends HookWidget {
                           shrinkWrap: true,
                           mainAxisSpacing: AppSizes.kGeneral8,
                           crossAxisSpacing: AppSizes.kGeneral8,
-                          childAspectRatio: 
-                              ((context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2) / 
-                              (context.screenWidth - AppConstants.kHeightCorrector55),
+                          childAspectRatio: _getAspectRatio(context),
                           padding: EdgeInsets.zero,
                           physics: const NeverScrollableScrollPhysics(),
                           children: List.generate(
