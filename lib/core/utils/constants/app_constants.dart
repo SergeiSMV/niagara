@@ -81,4 +81,9 @@ abstract final class AppConstants {
   // * ------------------------------ Cart -------------------------------- * //
   static const int kZeroBonusesToPay = 0;
 
+  // * ------------------------------ Max Text Lines -------------------------------- * //
+  static const int kMaxLines1 = 1;
+  static const int kMaxLines2 = 2;
+  static const int kMaxLines3 = 3;
+  
 }
