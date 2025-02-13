@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -86,14 +87,16 @@ class CategoryPage extends HookWidget {
                   return Padding(
                     padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         GridView.count(
-                          crossAxisCount: 2,
+                          crossAxisCount: AppConstants.kCrossAxis2,
                           shrinkWrap: true,
                           mainAxisSpacing: AppSizes.kGeneral8,
                           crossAxisSpacing: AppSizes.kGeneral8,
-                          childAspectRatio:
-                              context.screenWidth / context.screenHeight / 0.85,
+                          childAspectRatio: 
+                              ((context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2) / 
+                              (context.screenWidth - AppConstants.kHeightCorrector55),
                           padding: EdgeInsets.zero,
                           physics: const NeverScrollableScrollPhysics(),
                           children: List.generate(
