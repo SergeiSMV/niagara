@@ -99,7 +99,7 @@ class PromotionWidget extends StatelessWidget {
                       padding: AppInsets.kAll16,
                       child: AppTextButton.primary(
                         text: t.common.goShopping,
-                        onTap: () => _goToPromotionSubject(context),
+                        onTap: () => _goToPromotionSubject(ctx),
                       ),
                     ),
                     AppBoxes.kHeight24,
