@@ -88,5 +88,5 @@ abstract final class AppConstants {
 
   // * ------------------------------ GridView -------------------------------- * //
   static const int kCrossAxis2 = 2;
-  static const int kHeightCorrector55 = 55;
+  static const int kHeightCorrector50 = 50;
 }
