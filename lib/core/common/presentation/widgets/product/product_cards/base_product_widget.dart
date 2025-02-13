@@ -12,7 +12,9 @@ import 'package:niagara_app/core/common/presentation/widgets/product/widget_comp
 import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
+import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 
@@ -96,20 +98,15 @@ class BaseProductWidget extends StatelessWidget {
           borderRadius: AppBorders.kCircular8,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             /// Изображение, "избранное" и бонусы за покупку.
-            Flexible(
-              flex: 24,
-              child: Padding(
-                padding: AppInsets.kAll6,
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: ProductImageWithLabels(
-                    product: product,
-                    isOnWaterBalancePage: isOnWaterBalancePage,
-                  ),
-                ),
+            Container(
+              padding: AppInsets.kAll6,
+              width: (context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2,
+              height: (context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2,
+              child: ProductImageWithLabels(
+                product: product,
+                isOnWaterBalancePage: isOnWaterBalancePage,
               ),
             ),
 
@@ -129,7 +126,7 @@ class BaseProductWidget extends StatelessWidget {
                       style: context.textStyle.textTypo.tx2Medium.withColor(
                         context.colors.textColors.main,
                       ),
-                      maxLines: 2,
+                      maxLines: AppConstants.kMaxLines2,
                       overflow: TextOverflow.ellipsis,
                     ),
 
