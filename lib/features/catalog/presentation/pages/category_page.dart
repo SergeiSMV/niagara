@@ -34,7 +34,7 @@ class CategoryPage extends HookWidget {
   /// Возвращает соотношение сторон для [GridView].
   double _getAspectRatio(BuildContext context) {
     return ((context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2) / 
-    (context.screenWidth - AppConstants.kHeightCorrector55);
+    (context.screenWidth - AppConstants.kHeightCorrector50);
   }
 
   @override
