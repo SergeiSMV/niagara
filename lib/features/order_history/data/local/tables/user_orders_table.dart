@@ -14,6 +14,7 @@ class UserOrdersTable extends Table {
   TextColumn get locationId => text()();
   TextColumn get locationName => text()();
   TextColumn get description => text()();
+  BoolColumn get pickup => boolean()();
   RealColumn get sumDelivery => real()();
   RealColumn get sumDiscont => real()();
   TextColumn get promoCode => text()();

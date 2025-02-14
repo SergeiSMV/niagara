@@ -23,6 +23,10 @@ class OrderDataWidget extends StatelessWidget {
     return '$dayAndMonth, $timeBegin-$timeEnd';
   }
 
+  String _returnDeliveryFormatValue() => order.pickup 
+      ? t.recentOrders.deliveryStoreFormat
+      : t.recentOrders.deliveryCourierFormat;
+
   String _formatPhoneNumber() {
     final cleanedPhoneNumber =
         order.customerPhone.replaceAll(RegExp('[^0-9]'), '');
@@ -61,6 +65,12 @@ class OrderDataWidget extends StatelessWidget {
           icon: Assets.icons.calendar,
           title: t.recentOrders.deliveryDate,
           subtitle: _returnFormattedDateDelivery(),
+        ),
+        AppBoxes.kHeight16,
+        DataItemWidget(
+          icon: Assets.icons.boxOrder,
+          title: t.recentOrders.deliveryFormat,
+          subtitle: _returnDeliveryFormatValue(),
         ),
         AppBoxes.kHeight16,
         DataItemWidget(

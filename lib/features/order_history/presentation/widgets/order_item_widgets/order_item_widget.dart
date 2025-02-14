@@ -68,7 +68,7 @@ class OrderItemWidget extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     color: context.colors.textColors.main
-                        .withOpacity(AppSizes.kShadowOpacity),
+                        .withAlpha((AppSizes.kShadowOpacity * 255).round()),
                     offset: AppConstants.kShadowDiagonal,
                     blurRadius: AppSizes.kGeneral16,
                   ),
@@ -102,6 +102,8 @@ class OrderItemWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
+                    maxLines: AppConstants.kMaxLines1,
+                    overflow: TextOverflow.ellipsis,
                     order.locationName,
                     style: context.textStyle.textTypo.tx3Medium.withColor(
                       context.colors.textColors.secondary,

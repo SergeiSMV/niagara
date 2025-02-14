@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
@@ -85,11 +86,16 @@ class StatusesDescriptionWidget extends StatelessWidget {
                             ),
                           ),
                           AppBoxes.kHeight8,
-                          Text(
-                            status.description,
-                            style:
-                                context.textStyle.textTypo.tx3Medium.withColor(
-                              context.colors.textColors.secondary,
+                          SizedBox(
+                            height: AppSizes.kGeneral48,
+                            child: Text(
+                              maxLines: AppConstants.kMaxLines3,
+                              overflow: TextOverflow.ellipsis,
+                              status.description,
+                              style:
+                                  context.textStyle.textTypo.tx3Medium.withColor(
+                                context.colors.textColors.secondary,
+                              ),
                             ),
                           ),
                           AppBoxes.kHeight16,

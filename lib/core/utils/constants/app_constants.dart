@@ -57,6 +57,9 @@ abstract final class AppConstants {
   // * --------------------------- Order Number --------------------------- * //
   static const String orderNumber = '+7 (800) 505-10-21';
 
+    // * --------------------------- Call Center Number --------------------------- * //
+  static const String callCenterNumber = '+7 (351) 2-111-000';
+
   // * ----------------------------- Stories ------------------------------ * //
   static const lightSlideGradientStops1 = [0.0, 0.497, 0.8434, 1.0];
 
@@ -74,4 +77,16 @@ abstract final class AppConstants {
 
   // * ------------------------------ Dates ----------------------------- * //
   static const int kStandardDate = 2;
+
+  // * ------------------------------ Cart -------------------------------- * //
+  static const int kZeroBonusesToPay = 0;
+
+  // * ------------------------------ Max Text Lines -------------------------------- * //
+  static const int kMaxLines1 = 1;
+  static const int kMaxLines2 = 2;
+  static const int kMaxLines3 = 3;
+
+  // * ------------------------------ GridView -------------------------------- * //
+  static const int kCrossAxis2 = 2;
+  static const int kHeightCorrector50 = 50;
 }
