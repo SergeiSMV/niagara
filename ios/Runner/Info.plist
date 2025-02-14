@@ -34,6 +34,7 @@
 				<key>CFBundleURLSchemes</key>
 				<array>
 					<string>yookassapaymentsflutter</string>
+					<string>cordova</string>
 				</array>
 			</dict>
 		</array>
