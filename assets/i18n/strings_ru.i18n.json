@@ -135,6 +135,7 @@
   },
   "locations": {
     "deliveryAddress": "Адрес доставки",
+    "shopAddress": "Адрес магазина",
     "yeahThatsRight": "Да, всё верно",
     "enterManually": "Ввести адрес вручную",
     "continueButton": "Продолжить",
@@ -447,6 +448,7 @@
     "ordersPaymentTypes": {
       "inCash": "При получении",
       "byBankCard": "Банковской картой",
+      "inShop": "В магазине",
       "sbp": "Через СБП",
       "sberbank": "Через SberPay"
     },
