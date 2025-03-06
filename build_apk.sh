@@ -5,10 +5,10 @@ ITALIC='\033[3m'
 UNDERLINE='\033[4m'
 
 echo "${BOLD}${WHITE}----------------------------------------------${DEFAULT}"
-echo "${BOLD}${WHITE}---------------- Build APK... ----------------${DEFAULT}"
+echo "${BOLD}${WHITE}------------ Build Release APK... ------------${DEFAULT}"
 echo "${BOLD}${WHITE}----------------------------------------------${DEFAULT}"
 
-flutter build apk --dart-define-from-file=.env --release -t lib/main_dev.dart
+flutter build apk --dart-define-from-file=.env --release -t lib/main.dart
 
 echo "${BOLD}${WHITE}----------------------------------------------${DEFAULT}"
 echo "${BOLD}${WHITE}-------- Opening a project in folder... -------${DEFAULT}"

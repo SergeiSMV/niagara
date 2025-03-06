@@ -29,10 +29,13 @@ class BonusDataWidget extends StatelessWidget {
         padding: AppInsets.kAll8,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               title,
-              style: context.textStyle.textTypo.tx4Medium,
+              style: context.textStyle.textTypo.tx4Medium.copyWith(
+                color: context.colors.textColors.secondary,
+              ),
             ),
             AppBoxes.kHeight8,
             Row(
