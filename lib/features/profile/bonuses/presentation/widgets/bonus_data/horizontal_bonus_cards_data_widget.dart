@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/bonuses_data_widget.dart';
 import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/prepaid_water_data_widget.dart';
+import 'package:niagara_app/features/profile/bonuses/presentation/widgets/bonus_data/temporary_bonuses_data_widget.dart';
 
 class HorizontalBonusCardsDataWidget extends StatelessWidget {
   const HorizontalBonusCardsDataWidget({super.key});
@@ -11,6 +12,8 @@ class HorizontalBonusCardsDataWidget extends StatelessWidget {
     return const Row(
       children: [
         Expanded(child: BonusesDataWidget()),
+        AppBoxes.kWidth8,
+        Expanded(child: TemporaryBonusesDataWidget()),
         AppBoxes.kWidth8,
         Expanded(child: PrepaidWaterDataWidget()),
       ],
