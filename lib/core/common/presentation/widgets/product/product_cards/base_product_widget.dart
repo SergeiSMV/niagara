@@ -102,8 +102,10 @@ class BaseProductWidget extends StatelessWidget {
             /// Изображение, "избранное" и бонусы за покупку.
             Container(
               padding: AppInsets.kAll6,
-              width: (context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2,
-              height: (context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2,
+              width: (context.screenWidth - AppSizes.kGeneral8) /
+                  AppConstants.kCrossAxis2,
+              height: (context.screenWidth - AppSizes.kGeneral8) /
+                  AppConstants.kCrossAxis2,
               child: ProductImageWithLabels(
                 product: product,
                 isOnWaterBalancePage: isOnWaterBalancePage,

@@ -62,7 +62,7 @@ class NewProductsHomeWidget extends StatelessWidget {
                     ),
                     AppBoxes.kHeight12,
                     AspectRatio(
-                      aspectRatio: 1.3,
+                      aspectRatio: 1.27,
                       child: ListView.separated(
                         itemCount: length,
                         shrinkWrap: true,
