@@ -79,7 +79,6 @@ class OrderDataWidget extends StatelessWidget {
         ],
         DataItemWidget(
           icon: Assets.icons.mapPoint,
-          // title: t.locations.deliveryAddress,
           title: t.locations.shopAddress,
           subtitle: order.locationName,
         ),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
+import 'package:niagara_app/core/utils/constants/app_constants.dart';
+import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
@@ -37,9 +39,9 @@ class BasicStatusWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
-            flex: AppSizes.kGeneral4.toInt(),
-            child: const Column(
+          const Flexible(
+            flex: AppConstants.kFlexe4,
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -63,12 +65,7 @@ class BasicStatusWidget extends StatelessWidget {
             child: InkWell(
               onTap: () => _goToBonuses(context),
               child: Container(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSizes.kGeneral12,
-                  AppSizes.kGeneral12,
-                  AppSizes.kGeneral8,
-                  AppSizes.kGeneral8,
-                ),
+                padding: AppInsets.kAll12,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: bonuses.level.cardImage.provider(),
