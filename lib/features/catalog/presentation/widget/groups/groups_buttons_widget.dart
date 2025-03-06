@@ -114,7 +114,6 @@ class _GroupsButtonsWidgetState extends State<GroupsButtonsWidget> {
               padding: AppInsets.kVertical12,
               child: Row(
                 children: [
-              
                   /// категории то списком
                   Padding(
                     padding: AppInsets.kHorizontal4 + AppInsets.kLeft12,
@@ -140,15 +139,16 @@ class _GroupsButtonsWidgetState extends State<GroupsButtonsWidget> {
                       ),
                     ),
                   ),
-              
+
                   /// категории товаров кнопками
                   ...List.generate(groups.length, (index) {
                     final hasCurrentGroup = groups[index].id == widget.group.id;
                     return GroupButton(
-                        group: groups[index],
-                        isSelected: hasCurrentGroup,
-                        onTap: () => _navigateToCategory(context, group: groups[index]),
-                      );
+                      group: groups[index],
+                      isSelected: hasCurrentGroup,
+                      onTap: () =>
+                          _navigateToCategory(context, group: groups[index]),
+                    );
                   }),
                   AppBoxes.kWidth12,
                 ],

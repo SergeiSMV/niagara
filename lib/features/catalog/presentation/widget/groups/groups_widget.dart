@@ -40,7 +40,7 @@ class GroupsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GroupsCubit, GroupsState>(
-      builder: (ctx, state) => state.when(
+      builder: (context, state) => state.when(
         loading: AppCenterLoader.new,
         loaded: (groups) => Padding(
           padding: AppInsets.kAll16 + AppInsets.kBottom16,
@@ -84,7 +84,7 @@ class GroupsWidget extends StatelessWidget {
           ),
         ),
         error: () => ErrorRefreshWidget(
-          onRefresh: () => _onRefresh(ctx),
+          onRefresh: () => _onRefresh(context),
         ),
       ),
     );
