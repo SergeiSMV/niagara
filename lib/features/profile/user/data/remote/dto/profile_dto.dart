@@ -68,7 +68,7 @@ class ProfileDto extends Equatable {
         bonusesCardNumber: json['BONUSES_CARD_NUMBER'] as String?,
         bonusesCount: json['BONUSES_COUNT'] as String?,
         bonusesTempCount: json['BONUSES_TEMP_COUNT'] as String?,
-        bonusesTempLastDate: json['BONUSES_TEMP_LAST_DATE'] as String?,
+        bonusesTempLastDate: json['BONUSES_DATE_END'] as String?,
         bonusesTempDays: json['BONUSES_TEMP_DAYS'] as String?,
         bonusesLevel: json['BONUSES_LEVEL'] as String?,
         bonusesLevelEnd: json['BONUSES_LEVEL_END'] as String?,

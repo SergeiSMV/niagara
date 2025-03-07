@@ -23,7 +23,7 @@ class OrderDataWidget extends StatelessWidget {
     return '$dayAndMonth, $timeBegin-$timeEnd';
   }
 
-  String _returnDeliveryFormatValue() => order.pickup 
+  String _returnDeliveryFormatValue() => order.pickup
       ? t.recentOrders.deliveryStoreFormat
       : t.recentOrders.deliveryCourierFormat;
 
@@ -57,25 +57,29 @@ class OrderDataWidget extends StatelessWidget {
           DataItemWidget(
             icon: Assets.icons.card,
             title: t.recentOrders.paymentMethod,
-            subtitle: order.paymentType.toLocale(),
+            subtitle: order.pickup
+                ? t.recentOrders.ordersPaymentTypes.inShop
+                : order.paymentType.toLocale(),
             paymentCompleted: order.paymentCompleted,
           ),
         AppBoxes.kHeight16,
-        DataItemWidget(
-          icon: Assets.icons.calendar,
-          title: t.recentOrders.deliveryDate,
-          subtitle: _returnFormattedDateDelivery(),
-        ),
-        AppBoxes.kHeight16,
-        DataItemWidget(
-          icon: Assets.icons.boxOrder,
-          title: t.recentOrders.deliveryFormat,
-          subtitle: _returnDeliveryFormatValue(),
-        ),
-        AppBoxes.kHeight16,
+        if (!order.pickup) ...[
+          DataItemWidget(
+            icon: Assets.icons.calendar,
+            title: t.recentOrders.deliveryDate,
+            subtitle: _returnFormattedDateDelivery(),
+          ),
+          AppBoxes.kHeight16,
+          DataItemWidget(
+            icon: Assets.icons.boxOrder,
+            title: t.recentOrders.deliveryFormat,
+            subtitle: _returnDeliveryFormatValue(),
+          ),
+          AppBoxes.kHeight16,
+        ],
         DataItemWidget(
           icon: Assets.icons.mapPoint,
-          title: t.locations.deliveryAddress,
+          title: t.locations.shopAddress,
           subtitle: order.locationName,
         ),
         AppBoxes.kHeight32,
@@ -85,12 +89,14 @@ class OrderDataWidget extends StatelessWidget {
           subtitle: order.customerName,
           phone: _formatPhoneNumber(),
         ),
-        AppBoxes.kHeight16,
-        DataItemWidget(
-          icon: Assets.icons.comment,
-          title: t.recentOrders.comment,
-          subtitle: order.description,
-        ),
+        if (!order.pickup) ...[
+          AppBoxes.kHeight16,
+          DataItemWidget(
+            icon: Assets.icons.comment,
+            title: t.recentOrders.comment,
+            subtitle: order.description,
+          ),
+        ],
       ],
     );
   }
