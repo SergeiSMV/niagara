@@ -84,6 +84,10 @@ class BaseProductWidget extends StatelessWidget {
   void _showAuthModal(BuildContext context) =>
       AuthorizationWidget.showModal(context);
 
+  /// Возвращает размер контейнера для изображения.
+  double _getContainerSize(BuildContext context) =>
+      (context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2;
+
   @override
   Widget build(BuildContext context) {
     /// Если товар - предоплатная вода и при этом не отображается на странице
@@ -102,10 +106,8 @@ class BaseProductWidget extends StatelessWidget {
             /// Изображение, "избранное" и бонусы за покупку.
             Container(
               padding: AppInsets.kAll6,
-              width: (context.screenWidth - AppSizes.kGeneral8) /
-                  AppConstants.kCrossAxis2,
-              height: (context.screenWidth - AppSizes.kGeneral8) /
-                  AppConstants.kCrossAxis2,
+              width: _getContainerSize(context),
+              height: _getContainerSize(context),
               child: ProductImageWithLabels(
                 product: product,
                 isOnWaterBalancePage: isOnWaterBalancePage,

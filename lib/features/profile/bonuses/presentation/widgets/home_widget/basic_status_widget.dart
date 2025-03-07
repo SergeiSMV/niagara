@@ -40,7 +40,7 @@ class BasicStatusWidget extends StatelessWidget {
           child: InkWell(
             onTap: () => _goToBonuses(context),
             child: Container(
-              height: 124,
+              height: AppSizes.kGeneral124,
               padding: AppInsets.kAll12,
               decoration: BoxDecoration(
                 image: DecorationImage(
