@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
 import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
@@ -34,72 +33,62 @@ class BasicStatusWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: AppSizes.kGeneral138,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Flexible(
-            flex: AppConstants.kFlexe4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: AppSizes.kGeneral72,
-                  child: Row(
+    return Column(
+      children: [
+        Padding(
+          padding: AppInsets.kBottom8,
+          child: InkWell(
+            onTap: () => _goToBonuses(context),
+            child: Container(
+              height: AppSizes.kGeneral124,
+              padding: AppInsets.kAll12,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: bonuses.level.cardImage.provider(),
+                  fit: BoxFit.fill,
+                ),
+                borderRadius: AppBorders.kCircular12,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Assets.images.logo.svg(height: AppSizes.kGeneral16),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: BonusesDataWidget()),
-                      AppBoxes.kWidth6,
-                      Flexible(child: TemporaryBonusesDataWidget()),
+                      Flexible(
+                        flex: AppSizes.kGeneral8.toInt(),
+                        child: LevelNameWidget(
+                          level:
+                              '${bonuses.level.toLocale} ${t.bonuses.status.toLowerCase()}',
+                        ),
+                      ),
+                      const Spacer(),
+                      QRCodeButton(data: bonuses.cardNumber),
                     ],
                   ),
-                ),
-                PrepaidWaterDataWidget(),
-              ],
-            ),
-          ),
-          AppBoxes.kWidth8,
-          Flexible(
-            flex: AppSizes.kGeneral6.toInt(),
-            child: InkWell(
-              onTap: () => _goToBonuses(context),
-              child: Container(
-                padding: AppInsets.kAll12,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: bonuses.level.cardImage.provider(),
-                    fit: BoxFit.fill,
-                  ),
-                  borderRadius: AppBorders.kCircular12,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Assets.images.logo.svg(height: AppSizes.kGeneral16),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          flex: AppSizes.kGeneral8.toInt(),
-                          child: LevelNameWidget(
-                            level:
-                                '${bonuses.level.toLocale} ${t.bonuses.status.toLowerCase()}',
-                          ),
-                        ),
-                        const Spacer(),
-                        QRCodeButton(data: bonuses.cardNumber),
-                      ],
-                    ),
-                  ],
-                ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: AppSizes.kGeneral72,
+          child: Row(
+            children: [
+              const Flexible(child: BonusesDataWidget()),
+              AppBoxes.kWidth6,
+              if (bonuses.tempCount > 0) ...[
+                const Flexible(child: TemporaryBonusesDataWidget()),
+                AppBoxes.kWidth6,
+              ],
+              const Flexible(child: PrepaidWaterDataWidget()),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

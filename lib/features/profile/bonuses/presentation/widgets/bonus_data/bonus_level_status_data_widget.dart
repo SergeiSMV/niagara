@@ -40,7 +40,7 @@ class BonusLevelStatusDataWidget extends StatelessWidget {
                           .withColor(context.colors.mainColors.white),
                     ),
                     AppBoxes.kHeight16,
-                    const HorizontalBonusCardsDataWidget(),
+                    HorizontalBonusCardsDataWidget(bonuses: bonuses),
                     AppBoxes.kHeight16,
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,

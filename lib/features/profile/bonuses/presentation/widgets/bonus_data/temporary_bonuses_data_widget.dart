@@ -22,8 +22,8 @@ class TemporaryBonusesDataWidget extends StatelessWidget {
       );
 
   /// Возвращает дату окончания в формате "day.month.".
-  String _getEndDate(DateTime endDate) {
-    final DateTime dateTime = DateTime.parse(endDate.toString());
+  String _getEndDate(String endDate) {
+    final DateTime dateTime = DateTime.parse(endDate);
     final String formattedDate = DateFormat('dd.MM.').format(dateTime);
     return formattedDate;
   }
@@ -37,7 +37,7 @@ class TemporaryBonusesDataWidget extends StatelessWidget {
           onTap: () => _goToBonuses(context),
           child: BonusDataWidget(
             title:
-                '${t.bonuses.temporaryBonuses} ${_getEndDate(bonuses.endDate)}',
+                '${t.bonuses.temporaryBonuses} ${_getEndDate(bonuses.tempLastDate)}',
             value: bonuses.tempCount.toString(),
             icon: Assets.icons.fire,
           ),

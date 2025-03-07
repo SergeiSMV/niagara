@@ -30,7 +30,7 @@ class BasicStatusWidget extends StatelessWidget {
         children: [
           _BasicStatusQRWidget(bonuses: bonuses),
           AppBoxes.kHeight8,
-          const HorizontalBonusCardsDataWidget(),
+          HorizontalBonusCardsDataWidget(bonuses: bonuses),
         ],
       ),
     );
