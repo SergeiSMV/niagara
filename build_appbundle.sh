@@ -13,4 +13,4 @@ flutter build appbundle --dart-define-from-file=.env
 echo "${BOLD}${WHITE}----------------------------------------------${DEFAULT}"
 echo "${BOLD}${WHITE}-------- Opening a project in folder... -------${DEFAULT}"
 echo "${BOLD}${WHITE}----------------------------------------------${DEFAULT}"
-open build/app/outputs/flutter-apk/
+open build/app/outputs/bundle/release/
