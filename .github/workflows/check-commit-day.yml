@@ -1,0 +1,170 @@
+name: Check Pushes and Notify Discord
+
+on:
+  schedule:
+    - cron: '0 18 * * 3,5'
+    - cron: '0 18 * * 5'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Ветка для проверки (dev или main)'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - main
+
+jobs:
+  check-dev-pushes:
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 18 * * 3,5' || (github.event_name == 'workflow_dispatch' && github.event.inputs.branch == 'dev')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check dev pushes
+        id: check_dev
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          COMMITS=$(git log --since="$TODAY 00:00:00" --until="$TODAY 23:59:59" --format="%H" origin/dev || echo "")
+
+          if [ -z "$COMMITS" ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "NO_PUSHES=true" >> $GITHUB_OUTPUT
+            DAY_OF_WEEK=$(date +%u)
+            if [ "$DAY_OF_WEEK" == "3" ]; then
+              echo "DAY_NAME=среду" >> $GITHUB_OUTPUT
+            else
+              echo "DAY_NAME=пятницу" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "NO_PUSHES=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send Discord notification for dev
+        if: steps.check_dev.outputs.NO_PUSHES == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::error::DISCORD_WEBHOOK_URL is not set"
+            exit 1
+          fi
+
+          BRANCH_NAME="dev"
+          DAY_NAME="${{ steps.check_dev.outputs.DAY_NAME }}"
+
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            TEST_MODE="[ТЕСТОВЫЙ РЕЖИМ] "
+          else
+            TEST_MODE=""
+          fi
+
+          cat > discord_payload.json << EOF
+          {
+            "embeds": [{
+              "title": "${TEST_MODE}⚠️ ВНИМАНИЕ! Отсутствуют пуши в dev",
+              "description": "Сегодня (в $DAY_NAME) не было пушей в ветку **dev**!",
+              "color": 16763904,
+              "fields": [
+                {
+                  "name": "Репозиторий",
+                  "value": "${{ github.repository }}",
+                  "inline": true
+                },
+                {
+                  "name": "Ветка",
+                  "value": "$BRANCH_NAME",
+                  "inline": true
+                },
+                {
+                  "name": "Напоминание",
+                  "value": "Пуши в dev должны выполняться по средам и пятницам."
+                }
+              ],
+              "footer": {
+                "text": "GitHub Actions ID: ${{ github.run_id }} | ${{ github.event_name }} trigger"
+              },
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            }]
+          }
+          EOF
+
+          curl -s -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d @discord_payload.json
+
+  check-main-pushes:
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 18 * * 5' || (github.event_name == 'workflow_dispatch' && github.event.inputs.branch == 'main')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check main pushes
+        id: check_main
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          COMMITS=$(git log --since="$TODAY 00:00:00" --until="$TODAY 23:59:59" --format="%H" origin/main || echo "")
+
+          if [ -z "$COMMITS" ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "NO_PUSHES=true" >> $GITHUB_OUTPUT
+          else
+            echo "NO_PUSHES=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send Discord notification for main
+        if: steps.check_main.outputs.NO_PUSHES == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::error::DISCORD_WEBHOOK_URL is not set"
+            exit 1
+          fi
+
+          BRANCH_NAME="main"
+
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            TEST_MODE="[ТЕСТОВЫЙ РЕЖИМ] "
+          else
+            TEST_MODE=""
+          fi
+
+          cat > discord_payload.json << EOF
+          {
+            "embeds": [{
+              "title": "${TEST_MODE}🚨 КРИТИЧЕСКОЕ ПРЕДУПРЕЖДЕНИЕ!",
+              "description": "Сегодня (в пятницу) не было пушей в ветку **main**!",
+              "color": 16711680,
+              "fields": [
+                {
+                  "name": "Репозиторий",
+                  "value": "${{ github.repository }}",
+                  "inline": true
+                },
+                {
+                  "name": "Ветка",
+                  "value": "$BRANCH_NAME",
+                  "inline": true
+                },
+                {
+                  "name": "Срочная мера",
+                  "value": "Необходимо срочно обновить main согласно расписанию."
+                }
+              ],
+              "footer": {
+                "text": "GitHub Actions ID: ${{ github.run_id }} | ${{ github.event_name }} trigger"
+              },
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            }]
+          }
+          EOF
+
+          curl -s -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d @discord_payload.json
