@@ -1,0 +1,102 @@
+name: Check Commit Message Format
+
+on:
+  push:
+    branches: [ '*' ]
+
+jobs:
+  check-commit-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check commit messages format
+        id: check_commits
+        run: |
+          COMMITS=$(git log -n 1 --format="%H %s")
+
+          FOUND_INVALID=false
+          INVALID_LIST=""
+
+          while read -r commit_hash commit_msg; do
+            if [ -n "$commit_hash" ]; then
+              echo "Checking commit message: $commit_msg"
+              if ! [[ "$commit_msg" =~ ^\[([A-Za-z0-9]+-[0-9]+)\]\ .+$ ]]; then
+                echo "::error::Incorrect commit message format: '$commit_msg'"
+                echo "Message should match pattern: [project-123] Your message"
+                FOUND_INVALID=true
+                INVALID_LIST="${INVALID_LIST}- Commit ${commit_hash:0:7}: $commit_msg\\n"
+              fi
+            fi
+          done <<< "$COMMITS"
+
+          echo "INVALID_COMMITS=$INVALID_LIST" >> $GITHUB_ENV
+          echo "HAS_INVALID_COMMITS=$FOUND_INVALID" >> $GITHUB_ENV
+
+          echo "Has invalid commits: $FOUND_INVALID"
+          echo "Invalid commits list: $INVALID_LIST"
+
+          if [ "$FOUND_INVALID" = "true" ]; then
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Debug Environment Variables
+        run: |
+          echo "HAS_INVALID_COMMITS value: ${{ env.HAS_INVALID_COMMITS }}"
+          echo "INVALID_COMMITS value: ${{ env.INVALID_COMMITS }}"
+
+      - name: Send Discord notification
+        if: env.HAS_INVALID_COMMITS == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::error::DISCORD_WEBHOOK_URL is not set"
+            exit 1
+          fi
+
+          FORMATTED_COMMITS="${{ env.INVALID_COMMITS }}"
+
+          cat > discord_payload.json << EOF
+          {
+            "embeds": [{
+              "title": "⚠️ Неправильный формат коммит-сообщения",
+              "description": "В репозитории **${{ github.repository }}** обнаружены коммиты с неправильным форматом.",
+              "color": 16711680,
+              "fields": [
+                {
+                  "name": "Ветка",
+                  "value": "${{ github.ref_name }}",
+                  "inline": true
+                },
+                {
+                  "name": "Автор",
+                  "value": "${{ github.actor }}",
+                  "inline": true
+                },
+                {
+                  "name": "Неправильные коммиты",
+                  "value": "$FORMATTED_COMMITS"
+                },
+                {
+                  "name": "Требуемый формат",
+                  "value": "\`[project-123] Ваше сообщение\`"
+                }
+              ]
+            }]
+          }
+          EOF
+
+          curl -s -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d @discord_payload.json
+
+          echo "Discord notification sent!"
+
+      - name: Fail job if invalid commits found
+        if: env.HAS_INVALID_COMMITS == 'true'
+        run: exit 1
