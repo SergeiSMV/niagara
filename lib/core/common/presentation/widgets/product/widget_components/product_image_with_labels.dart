@@ -33,7 +33,6 @@ class ProductImageWithLabels extends HookWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // _ProductImage(product: product),
         CarouselSlider.builder(
           itemCount: _images.length,
           itemBuilder: (_, index, __) => ClipRRect(
