@@ -20,8 +20,8 @@ class ProductImageWithLabels extends HookWidget {
   final Product product;
   final bool isOnWaterBalancePage;
 
-  /// Список изображений.
-  List<String> get _images => product.additionalImages;
+  /// Список изображений. (Убираем дубликаты)
+  List<String> get _images => product.additionalImages.toSet().toList();
 
   /// Возвращает true, если количество изображений больше одного.
   bool get _isScrollable => _images.length > 1;
