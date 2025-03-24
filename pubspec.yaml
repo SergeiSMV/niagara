@@ -2,7 +2,7 @@ name: niagara_app
 description: A new Flutter project from Niagara
 publish_to: "none"
 
-version: 6.0.18+641
+version: 6.0.19+642
 
 environment:
   sdk: ">=3.4.3 <4.0.0"
@@ -35,6 +35,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   flutter_slidable: ^3.1.1
   flutter_svg: ^2.0.10+1
+  flutter_uxcam: ^2.5.8
   flutter_widget_from_html: ^0.15.2
   form_builder_validators: ^10.0.1
   freezed_annotation: ^2.4.1

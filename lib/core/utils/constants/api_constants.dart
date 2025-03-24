@@ -4,7 +4,13 @@ part of '../../core.dart';
 abstract final class ApiConst {
   // ? ----------------------------- БЦТ ------------------------------ ? //
 
-  static const String companyUrl = 'https://digitalburo.tech/?utm_source=niagara&utm_medium=mobile';
+  static const String companyUrl =
+      'https://digitalburo.tech/?utm_source=niagara&utm_medium=mobile';
+
+  // ? ----------------------------- UXCAM ------------------------------ ? //
+
+  static const String uxcamAppKey = 'UXCAM_APP_KEY';
+
   // ? ----------------------------- General ------------------------------ ? //
   static const String kBaseUrl = 'API_HOST';
 
