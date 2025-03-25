@@ -128,7 +128,6 @@ class _FullScreenImages extends HookWidget {
                   maxScale: PhotoViewComputedScale.covered * 2,
                   basePosition: Alignment.center,
                 ),
-                // TODO: Vadim пока нет дизайна для загрузки изображений
                 loadingBuilder: (context, event) => const Center(
                   child: CircularProgressIndicator(),
                 ),
