@@ -117,7 +117,6 @@ class _FullScreenImages extends HookWidget {
           children: [
             Expanded(
               child: PhotoViewGallery.builder(
-                // pageController: controller,
                 itemCount: _images.length,
                 onPageChanged: (index) => active.value = index,
                 builder: (BuildContext context, int index) =>
@@ -131,7 +130,9 @@ class _FullScreenImages extends HookWidget {
                 loadingBuilder: (context, event) => const Center(
                   child: CircularProgressIndicator(),
                 ),
-                backgroundDecoration: const BoxDecoration(color: Colors.white),
+                backgroundDecoration: BoxDecoration(
+                  color: context.colors.mainColors.white,
+                ),
               ),
             ),
             if (_isScrollable)
