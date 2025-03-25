@@ -12,6 +12,8 @@ import 'package:niagara_app/core/utils/constants/app_insets.dart';
 import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class ProductImagesWidget extends HookWidget {
   const ProductImagesWidget({
@@ -114,18 +116,23 @@ class _FullScreenImages extends HookWidget {
         body: Column(
           children: [
             Expanded(
-              child: CarouselSlider.builder(
+              child: PhotoViewGallery.builder(
+                // pageController: controller,
                 itemCount: _images.length,
-                itemBuilder: (_, index, __) => ExtendedImage.network(
-                  product.imageUrl,
-                  fit: BoxFit.fitHeight,
+                onPageChanged: (index) => active.value = index,
+                builder: (BuildContext context, int index) =>
+                    PhotoViewGalleryPageOptions(
+                  imageProvider: ExtendedNetworkImageProvider(_images[index]),
+                  initialScale: PhotoViewComputedScale.contained,
+                  minScale: PhotoViewComputedScale.contained,
+                  maxScale: PhotoViewComputedScale.covered * 2,
+                  basePosition: Alignment.center,
                 ),
-                options: CarouselOptions(
-                  aspectRatio: 0.75,
-                  viewportFraction: 1,
-                  enableInfiniteScroll: _isScrollable,
-                  onPageChanged: (index, _) => active.value = index,
+                // TODO: Vadim пока нет дизайна для загрузки изображений
+                loadingBuilder: (context, event) => const Center(
+                  child: CircularProgressIndicator(),
                 ),
+                backgroundDecoration: const BoxDecoration(color: Colors.white),
               ),
             ),
             if (_isScrollable)
