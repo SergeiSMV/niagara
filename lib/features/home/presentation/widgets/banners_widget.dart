@@ -140,8 +140,6 @@ class BannerWidget extends StatelessWidget {
               return state.completedWidget;
             case LoadState.failed:
               return const Center(child: Text('Failed to load image'));
-            default:
-              return const SizedBox.shrink();
           }
         },
         fit: BoxFit.cover,
