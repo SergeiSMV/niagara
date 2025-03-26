@@ -13,6 +13,7 @@ import 'package:niagara_app/core/core.dart';
 import 'package:niagara_app/core/dependencies/di.dart' as di;
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:niagara_app/core/utils/network/overrides/http_overrides.dart';
+import 'package:niagara_app/core/utils/services/uxcam_service/uxcam_service.dart';
 import 'package:niagara_app/firebase_options.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -40,6 +41,8 @@ void main() async {
   Bloc.observer = di.getIt<TalkerBlocObserver>();
 
   LocaleSettings.useDeviceLocale();
+
+  di.getIt<UXCamService>().initialize();
 
   /// Запрет на горизонтальное вращение экрана.
   await SystemChrome.setPreferredOrientations([

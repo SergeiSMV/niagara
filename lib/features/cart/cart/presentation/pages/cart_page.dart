@@ -22,6 +22,7 @@ import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_unavail
 import 'package:niagara_app/features/cart/cart/presentation/widgets/empty_cart_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/free_delivery_info_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/return_tares_selection_widget.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/tare_inspection_widget.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
 
@@ -86,7 +87,6 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!hasData) return const AppCenterLoader();
-
     return Scaffold(
       body: BlocListener<AddressesBloc, AddressesState>(
         bloc: getIt<AddressesBloc>(),
@@ -102,6 +102,7 @@ class _Content extends StatelessWidget {
                   AppBoxes.kHeight16,
                   CartProductListWidget(cart: cart!),
                   const ReturnTaresSelectionWidget(),
+                  const TareInspectionWidget(),
                   AppBoxes.kHeight16,
                   CartUnavailableProductsWidget(
                     unavailableProducts: cart!.unavailableProducts,
