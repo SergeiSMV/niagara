@@ -38,7 +38,8 @@ class CancelOrderModalWidget extends StatelessWidget {
           );
 
           context.maybePop();
-
+          getIt<OrdersBloc>()
+              .add(const OrdersEvent.loading(isForceUpdate: true));
           return getIt<OrdersBloc>().add(const OrdersEvent.loadAll());
         },
         error: (_) {
@@ -75,9 +76,13 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<CancelOrderCubit>();
 
+    /// Состояние загрузки.
     final bool isLoading = cubit.state == const CancelOrderState.loading();
 
+    /// Закрывает модальное окно.
     void closeModal() => context.maybePop();
+
+    /// Отменяет заказ.
     void cancelOrder() => cubit.cancelOrder(order.id);
 
     return Padding(

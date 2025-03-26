@@ -58,7 +58,6 @@ class _InspectorMessageWidget extends StatelessWidget {
             children: [
               Text(
                 t.cart.tareInspectionMessage,
-                // textAlign: TextAlign.justify,
                 style: context.textStyle.textTypo.tx2SemiBold.copyWith(
                   color: context.colors.textColors.error,
                 ),
