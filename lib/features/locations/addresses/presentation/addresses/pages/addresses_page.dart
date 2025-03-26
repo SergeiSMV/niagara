@@ -28,8 +28,12 @@ class AddressesPage extends StatelessWidget {
     );
   }
 
+  void _onRefresh(BuildContext context) =>
+      context.read<AddressesBloc>().add(const AddressesEvent.loadAddresses());
+
   @override
   Widget build(BuildContext context) {
+    _onRefresh(context);
     return SafeArea(
       child: BlocListener<AddressesBloc, AddressesState>(
         listener: _addressesListener,
