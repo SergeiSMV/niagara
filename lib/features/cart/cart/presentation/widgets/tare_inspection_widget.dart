@@ -25,7 +25,7 @@ class TareInspectionWidget extends HookWidget {
       builder: (context, state) {
         return state.maybeWhen(
           loaded: (user) {
-            return user.ordersCount > 0 && isVisible.value
+            return user.ordersCount == 0 && isVisible.value
                 ? _InspectorMessageWidget(
                     onDismiss: () => _onDismiss(isVisible),
                   )
