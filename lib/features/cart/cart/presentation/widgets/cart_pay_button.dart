@@ -97,7 +97,7 @@ class PayButton extends StatelessWidget {
             padding: AppInsets.kHorizontal16,
             decoration: BoxDecoration(
               color: _inactive
-                  ? context.colors.buttonColors.inactive.withOpacity(0.5)
+                  ? context.colors.buttonColors.inactive.withAlpha(128)
                   : context.colors.buttonColors.primary,
               borderRadius: AppBorders.kCircular12,
             ),

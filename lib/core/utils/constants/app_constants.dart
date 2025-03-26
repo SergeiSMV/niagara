@@ -93,4 +93,7 @@ abstract final class AppConstants {
 
   // * ------------------------------ Flexible ---------------------------- * //
   static const int kFlexe4 = 4;
+
+  // * ------------------------------ Duration ---------------------------- * //
+  static const Duration kSnackBarDuration = Duration(seconds: 2);
 }
