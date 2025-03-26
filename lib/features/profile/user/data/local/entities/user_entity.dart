@@ -12,6 +12,7 @@ class UserEntity extends Equatable {
     required this.email,
     required this.birthday,
     required this.defaultLocationId,
+    required this.ordersCount,
   });
 
   final int id;
@@ -24,7 +25,7 @@ class UserEntity extends Equatable {
   final String email;
   final String birthday;
   final String defaultLocationId;
-
+  final int ordersCount;
   @override
   List<Object?> get props => [
         id,
@@ -37,5 +38,6 @@ class UserEntity extends Equatable {
         email,
         birthday,
         defaultLocationId,
+        ordersCount,
       ];
 }

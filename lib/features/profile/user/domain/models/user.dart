@@ -14,6 +14,7 @@ class User extends Equatable {
     required this.email,
     required this.birthday,
     required this.defaultLocationId,
+    required this.ordersCount,
   });
 
   final int id;
@@ -26,6 +27,7 @@ class User extends Equatable {
   final String email;
   final String birthday;
   final String defaultLocationId;
+  final int ordersCount;
 
   /// Возращает дату рождения в формате `dd.mm.yyyy`.
   ///
@@ -53,6 +55,7 @@ class User extends Equatable {
     String? patronymic,
     DateTime? birthday,
     String? email,
+    int? ordersCount,
   }) =>
       User(
         id: id,
@@ -66,6 +69,7 @@ class User extends Equatable {
         // Обрезаем у даты часть после точки: 1969-07-20T20:18:04.000.
         birthday: birthday?.toIso8601String().split('.')[0] ?? this.birthday,
         defaultLocationId: defaultLocationId,
+        ordersCount: ordersCount ?? this.ordersCount,
       );
 
   @override
@@ -80,5 +84,6 @@ class User extends Equatable {
         email,
         birthday,
         defaultLocationId,
+        ordersCount,
       ];
 }

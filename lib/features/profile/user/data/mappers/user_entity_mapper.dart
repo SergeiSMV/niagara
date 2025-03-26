@@ -15,6 +15,7 @@ extension UserEntityMapper on UserEntity {
         email: email,
         birthday: birthday,
         defaultLocationId: defaultLocationId,
+        ordersCount: ordersCount,
       );
 
   UsersTableCompanion toCompanion() => UsersTableCompanion(
@@ -28,6 +29,7 @@ extension UserEntityMapper on UserEntity {
         email: Value(email),
         birthday: Value(birthday),
         defaultLocationId: Value(defaultLocationId),
+        ordersCount: Value(ordersCount),
       );
 }
 
@@ -43,6 +45,7 @@ extension UserMapper on User {
         email: email,
         birthday: birthday,
         defaultLocationId: defaultLocationId,
+        ordersCount: ordersCount,
       );
 }
 
@@ -58,5 +61,6 @@ extension UserCompanionMapper on UsersTableData {
         email: email,
         birthday: birthday,
         defaultLocationId: defaultLocationId,
+        ordersCount: ordersCount,
       );
 }

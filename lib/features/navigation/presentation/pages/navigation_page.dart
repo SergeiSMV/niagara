@@ -16,6 +16,7 @@ import 'package:niagara_app/features/new_products/presentation/bloc/new_products
 import 'package:niagara_app/features/notifications/presentation/bloc/notifications_bloc/notifications_bloc.dart';
 import 'package:niagara_app/features/notifications/presentation/bloc/permission_cubit.dart/notification_permission_cubit.dart';
 import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
+import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 import 'package:niagara_app/features/promotions/presentation/cubit/promotions_cubit.dart';
 import 'package:niagara_app/features/special_poducts/presentation/bloc/special_products_bloc.dart';
 import 'package:niagara_app/features/stories/presentation/bloc/stories_bloc.dart';
@@ -96,7 +97,7 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           tabsRouter: tabsRouter,
           fullScreenTabs: _fullScreenTabs,
         ),
-        floatingActionButton: AppConstants.kShowDebugButton
+        floatingActionButton: AppConstants.kDebugMode
             ? FloatingActionButton(
                 child: const Icon(Icons.bug_report),
                 onPressed: () => showLogsButton(context),
@@ -139,6 +140,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           ),
           BlocProvider(
             create: (_) => getIt<OrdersBloc>(),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => getIt<UserBloc>(),
             lazy: false,
           ),
           BlocProvider(

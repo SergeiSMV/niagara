@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_uxcam/flutter_uxcam.dart';
 import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
 import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
 import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
@@ -14,6 +13,7 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/core/utils/services/uxcam_service/uxcam_service.dart';
 import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
 import 'package:niagara_app/features/payments/presentation/bloc/payment_instructions_cubit/payment_instructions_cubit.dart';
 
@@ -53,17 +53,15 @@ class PaymentInstructionsPage extends StatefulWidget {
 }
 
 class _PaymentInstructionsPageState extends State<PaymentInstructionsPage> {
-  final FlutterUXBlur blur = FlutterUXBlur();
-
   @override
   void initState() {
     super.initState();
-    FlutterUxcam.applyOcclusion(blur);
+    getIt<UXCamService>().applyOcclusion();
   }
 
   @override
   void dispose() {
-    FlutterUxcam.removeOcclusion(blur);
+    getIt<UXCamService>().removeOcclusion();
     super.dispose();
   }
 

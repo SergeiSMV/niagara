@@ -11,7 +11,7 @@ class UsersTable extends Table {
   TextColumn get email => text()();
   TextColumn get birthday => text()();
   TextColumn get defaultLocationId => text()();
-
+  IntColumn get ordersCount => integer().withDefault(const Constant(0))();
   @override
   Set<Column> get primaryKey => {id};
 }
