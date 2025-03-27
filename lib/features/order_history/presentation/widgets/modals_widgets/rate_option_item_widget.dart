@@ -24,7 +24,7 @@ class RateOptionItemWidget extends StatelessWidget {
         return InkWell(
           onTap: () => cubit.selectOption(option.id),
           child: Container(
-            margin: AppInsets.kAll4,
+            margin: AppInsets.kVertical4 + AppInsets.kRight8,
             padding: AppInsets.kHorizontal12 + AppInsets.kVertical8,
             decoration: BoxDecoration(
               borderRadius: AppBorders.kCircular6,
