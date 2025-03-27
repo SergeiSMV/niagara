@@ -28,8 +28,8 @@ class ListOptionsWidget extends StatelessWidget {
               children: [
                 Text(
                   rating == 5.0
-                      ? t.recentOrders.whatWouldYouLikeToImprove
-                      : t.recentOrders.heading,
+                      ? t.recentOrders.likeTheMost
+                      : t.recentOrders.whatWouldYouLikeToImprove,
                   style: context.textStyle.textTypo.tx1SemiBold
                       .withColor(context.colors.textColors.main),
                 ),
