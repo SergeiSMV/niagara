@@ -21,6 +21,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   }) =>
       execute(
@@ -30,6 +31,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
               bonuses: bonuses,
               promocode: promocode,
               tareCount: tareCount,
+              otherTareCount: otherTareCount,
               allTare: allTare,
             )
             .fold(
@@ -46,6 +48,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   }) =>
       execute(
@@ -57,6 +60,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
               bonuses: bonuses,
               promocode: promocode,
               tareCount: tareCount,
+              otherTareCount: otherTareCount,
               allTare: allTare,
             )
             .fold(
@@ -74,6 +78,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   }) =>
       execute(
@@ -85,6 +90,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
               bonuses: bonuses,
               promocode: promocode,
               tareCount: tareCount,
+              otherTareCount: otherTareCount,
               allTare: allTare,
               all: all,
             )
@@ -101,6 +107,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   }) =>
       execute(
@@ -111,6 +118,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
               bonuses: bonuses,
               promocode: promocode,
               tareCount: tareCount,
+              otherTareCount: otherTareCount,
               allTare: allTare,
             )
             .fold(

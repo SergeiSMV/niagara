@@ -77,8 +77,11 @@ class CartDataDto extends Equatable {
     this.sumDiscont,
     this.sumPromocode,
     this.countTara,
+    this.countTaraOther,
     this.sumTara,
+    this.sumTaraOther,
     this.countTaraDefault,
+    this.taraNotation,
     this.bonuses,
     this.bonusesPay,
     this.bonusesAdd,
@@ -98,8 +101,11 @@ class CartDataDto extends Equatable {
   final double? productsSum;
   final double? productsCount;
   final double? countTara;
+  final double? countTaraOther;
   final double? sumTara;
+  final double? sumTaraOther;
   final double? countTaraDefault;
+  final String? taraNotation;
   final double? bonuses;
   final double? bonusesPay;
   final double? bonusesAdd;
@@ -117,8 +123,11 @@ class CartDataDto extends Equatable {
         productsSum: (json['PRODUCTS_SUM'] as num?)?.toDouble(),
         productsCount: (json['PRODUCTS_COUNT'] as num?)?.toDouble(),
         countTara: (json['COUNT_TARA'] as num?)?.toDouble(),
+        countTaraOther: (json['COUNT_TARA_OTHER'] as num?)?.toDouble(),
         countTaraDefault: (json['COUNT_TARA_DEFAULT'] as num?)?.toDouble(),
         sumTara: (json['SUM_TARA'] as num?)?.toDouble(),
+        sumTaraOther: (json['SUM_TARA_OTHER'] as num?)?.toDouble(),
+        taraNotation: json['TARA_NOTATION'] as String,
         bonuses: (json['BONUSES'] as num?)?.toDouble(),
         bonusesPay: (json['BONUSES_PAY'] as num?)?.toDouble(),
         bonusesAdd: (json['BONUSES_ADD'] as num?)?.toDouble(),
@@ -136,6 +145,7 @@ class CartDataDto extends Equatable {
         sumDiscont,
         sumPromocode,
         countTara,
+        countTaraOther,
         sumTara,
         bonuses,
         bonusesPay,

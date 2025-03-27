@@ -42,8 +42,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_RemoveFromCart>(_onRemoveFromCart);
     on<_RemoveAllFromCart>(_onRemoveAllFromCart);
     on<_SetReturnTareCount>(_onSetReturnTareCount);
+    on<_SetOtherReturnTareCount>(_onSetOtherReturnTareCount);
     on<_SetBonusesToPay>(_onSetBonusesToPay);
     on<_ToggleAllTare>(_onToggleAllTare);
+    on<_ToggleAllOtherTare>(_onToggleAllOtherTare);
     on<_SetPromocode>(_onSetPromocode);
     on<_LoggedOut>(_onLoggedOut);
 
@@ -59,8 +61,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final Stream<AuthenticatedStatus> _authStatusStream;
 
   bool _returnAllTare = true;
+  bool _returnAllOtherTare = false;
   int _returnTaresDefault = 0;
   int _returnTareCount = 0;
+  int _otherReturnTareCount = 0;
 
   int _bonusesToPay = 0;
   String _promocode = '';
@@ -85,6 +89,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       bonuses: _bonusesToPay,
       promocode: _promocode,
       tareCount: _returnTareCount,
+      otherTareCount: _otherReturnTareCount,
       locationId: await _getDefaultAddress(),
     );
   }
@@ -170,6 +175,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         bonuses: _bonusesToPay,
         promocode: _promocode,
         tareCount: _returnTareCount,
+        otherTareCount: _otherReturnTareCount,
         allTare: _returnAllTare,
       ),
     )
@@ -313,9 +319,27 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _SetReturnTareCount event,
     _Emit emit,
   ) {
+    final advanceResult =
+        _otherReturnTareCount + _returnTareCount + event.count;
+
+    if (advanceResult > _returnTaresDefault) return;
     if (_returnTareCount + event.count < 0) return;
 
     _returnTareCount += event.count;
+    add(const _GetCart());
+  }
+
+  void _onSetOtherReturnTareCount(
+    _SetOtherReturnTareCount event,
+    _Emit emit,
+  ) {
+    final advanceResult =
+        _otherReturnTareCount + _returnTareCount + event.count;
+
+    if (advanceResult > _returnTaresDefault) return;
+    if (_otherReturnTareCount + event.count < 0) return;
+
+    _otherReturnTareCount += event.count;
     add(const _GetCart());
   }
 
@@ -335,8 +359,27 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     if (_returnAllTare) {
       _returnTareCount = _returnTaresDefault;
+      _returnAllOtherTare = false;
+      _otherReturnTareCount = 0;
     } else {
       _returnTareCount = 0;
+    }
+
+    add(const _GetCart());
+  }
+
+  void _onToggleAllOtherTare(
+    _ToggleAllOtherTare event,
+    _Emit emit,
+  ) {
+    _returnAllOtherTare = !_returnAllOtherTare;
+
+    if (_returnAllOtherTare) {
+      _otherReturnTareCount = _returnTaresDefault;
+      _returnAllTare = false;
+      _returnTareCount = 0;
+    } else {
+      _otherReturnTareCount = 0;
     }
 
     add(const _GetCart());
