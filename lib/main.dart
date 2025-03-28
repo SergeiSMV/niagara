@@ -6,17 +6,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/app.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.dart';
-import 'package:niagara_app/core/common/presentation/theme/app_theme.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/dependencies/di.dart' as di;
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/core/utils/network/overrides/http_overrides.dart';
-import 'package:niagara_app/core/utils/services/uxcam_service/uxcam_service.dart';
-import 'package:niagara_app/firebase_options.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+
+import 'core/common/presentation/app.dart';
+import 'core/common/presentation/router/app_router.dart';
+import 'core/common/presentation/theme/app_theme.dart';
+import 'core/core.dart';
+import 'core/dependencies/di.dart' as di;
+import 'core/utils/gen/strings.g.dart';
+import 'core/utils/network/overrides/http_overrides.dart';
+import 'core/utils/services/uxcam_service/uxcam_service.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

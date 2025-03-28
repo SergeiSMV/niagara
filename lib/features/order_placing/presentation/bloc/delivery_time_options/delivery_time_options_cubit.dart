@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/order_placing/domain/models/delivery_time_options.dart';
-import 'package:niagara_app/features/order_placing/domain/use_cases/get_delivery_time_options_use_case.dart';
+import '../../../../../core/core.dart';
+import '../../../domain/models/delivery_time_options.dart';
+import '../../../domain/use_cases/get_delivery_time_options_use_case.dart';
 
 part 'delivery_time_options_state.dart';
 part 'delivery_time_options_cubit.freezed.dart';

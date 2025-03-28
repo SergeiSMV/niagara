@@ -1,29 +1,35 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/text_colors.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/enums/slide_enums.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/features/stories/domain/model/slide.dart';
+import '../../../../../core/common/presentation/widgets/app_network_image_widget.dart';
+import '../../../../../core/common/presentation/widgets/buttons/app_text_button.dart';
+import '../../../../../core/utils/constants/app_borders.dart';
+import '../../../../../core/utils/constants/app_boxes.dart';
+import '../../../../../core/utils/constants/app_constants.dart';
+import '../../../../../core/utils/constants/app_insets.dart';
+import '../../../../../core/utils/enums/slide_enums.dart';
+import '../../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../../core/utils/extensions/text_style_ext.dart';
+import '../../../domain/model/slide.dart';
 
 /// Виджет, отображающий слайд истории.
 class StorySlideWidget extends StatelessWidget {
-  const StorySlideWidget({super.key, required this.slide});
+  const StorySlideWidget({required this.slide, super.key});
 
+  /// Слайд.
   final Slide slide;
 
   @override
   Widget build(BuildContext context) {
-    final TextColors textColors = context.colors.textColors;
-    final bool isBgDark = slide.themeImage == SlideTheme.dark;
-    final bool isTextDark = slide.themeText == SlideTheme.dark;
-    final Color labelColor = slide.labelColor != null
+    /// Цвета текста.
+    final textColors = context.colors.textColors;
+
+    /// Флаг для определения, является ли фон слайда темным.
+    final isBgDark = slide.themeImage == SlideTheme.dark;
+
+    /// Флаг для определения, является ли текст слайда темным.
+    final isTextDark = slide.themeText == SlideTheme.dark;
+
+    /// Цвет тега слайда.
+    final labelColor = slide.labelColor != null
         ? Color(int.parse(slide.labelColor!))
         : context.colors.infoColors.green;
 
@@ -35,14 +41,9 @@ class StorySlideWidget extends StatelessWidget {
 
         // Фоновое изображение.
         if (slide.backgroundImage != null)
-          ExtendedImage.network(
-            slide.backgroundImage!,
-            fit: BoxFit.cover,
-            printError: false,
-            loadStateChanged: (state) =>
-                state.extendedImageLoadState == LoadState.loading
-                    ? AppCenterLoader(isWhite: isBgDark)
-                    : null,
+          AppNetworkImageWidget(
+            url: slide.backgroundImage!,
+            whiteLoader: isBgDark,
           ),
 
         Padding(
@@ -134,9 +135,9 @@ class StorySlideWidget extends StatelessWidget {
 /// отсутствует.
 class StoryBackGroundWidget extends StatelessWidget {
   const StoryBackGroundWidget({
-    super.key,
     required this.isDark,
     required this.align,
+    super.key,
   });
 
   final bool isDark;
@@ -197,7 +198,7 @@ abstract class StoryBackGroundGradient {
 
       case SlideAlign.top:
       case SlideAlign.bottom:
-        final bool isTop = align == SlideAlign.top;
+        final isTop = align == SlideAlign.top;
 
         return DecoratedBox(
           decoration: BoxDecoration(
@@ -229,7 +230,7 @@ abstract class StoryBackGroundGradient {
 
 /// Виджет для короткого тега слайда, отображающийся над заголовком.
 class StorySlideTag extends StatelessWidget {
-  const StorySlideTag({super.key, required this.title, required this.color});
+  const StorySlideTag({required this.title, required this.color, super.key});
 
   final String title;
   final Color color;
