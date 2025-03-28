@@ -20,6 +20,7 @@ class AddToCartUseCase extends BaseUseCase<Cart, AddToCartParams> {
         locationId: params.cartParams.locationId,
         promocode: params.cartParams.promocode,
         tareCount: params.cartParams.tareCount,
+        otherTareCount: params.cartParams.otherTareCount,
       );
 }
 

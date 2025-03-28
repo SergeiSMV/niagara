@@ -20,6 +20,7 @@ class RemoveFromCartUseCase extends BaseUseCase<Cart, RemoveFromCartParams> {
         locationId: params.cartParams.locationId,
         promocode: params.cartParams.promocode,
         tareCount: params.cartParams.tareCount,
+        otherTareCount: params.cartParams.otherTareCount,
         all: params.all,
       );
 }

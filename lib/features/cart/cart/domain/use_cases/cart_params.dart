@@ -6,6 +6,7 @@ class CartParams extends Equatable {
     required this.bonuses,
     required this.promocode,
     required this.tareCount,
+    required this.otherTareCount,
     required this.allTare,
   });
 
@@ -13,6 +14,7 @@ class CartParams extends Equatable {
   final int bonuses;
   final String promocode;
   final int tareCount;
+  final int otherTareCount;
   final bool allTare;
 
   @override
@@ -21,6 +23,7 @@ class CartParams extends Equatable {
         bonuses,
         promocode,
         tareCount,
+        otherTareCount,
         allTare,
       ];
 }

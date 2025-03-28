@@ -8,6 +8,7 @@ abstract interface class ICartRemoteDataSource {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   });
 
@@ -17,6 +18,7 @@ abstract interface class ICartRemoteDataSource {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
     String? complectId,
   });
@@ -27,6 +29,7 @@ abstract interface class ICartRemoteDataSource {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
     String? complectId,
     bool all = false,
@@ -38,6 +41,7 @@ abstract interface class ICartRemoteDataSource {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   });
 
@@ -56,6 +60,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   }) =>
       _requestHandler.sendRequest<CartDto, Map<String, dynamic>>(
@@ -66,6 +71,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
             'BONUSES': bonuses,
             'PROMOCODE': promocode,
             'TARA_COUNT': tareCount,
+            'TARA_OTHER_COUNT': otherTareCount,
             'TARA_ALL': allTare,
           },
         ),
@@ -80,6 +86,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
     String? complectId,
   }) =>
@@ -93,6 +100,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
             'BONUSES': bonuses,
             'PROMOCODE': promocode,
             'TARA_COUNT': tareCount,
+            'TARA_OTHER_COUNT': otherTareCount,
             'TARA_ALL': allTare,
           },
         ),
@@ -107,6 +115,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
     String? complectId,
     bool all = false,
@@ -123,6 +132,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
             'BONUSES': bonuses,
             'PROMOCODE': promocode,
             'TARA_COUNT': tareCount,
+            'TARA_OTHER_COUNT': otherTareCount,
             'TARA_ALL': allTare,
           },
         ),
@@ -137,6 +147,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   }) =>
       _requestHandler.sendRequest<CartDto, Map<String, dynamic>>(
@@ -148,6 +159,7 @@ class CartRemoteDataSource implements ICartRemoteDataSource {
             'BONUSES': bonuses,
             'PROMOCODE': promocode,
             'TARA_COUNT': tareCount,
+            'TARA_OTHER_COUNT': otherTareCount,
             'TARA_ALL': allTare,
           },
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_controls_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -8,59 +7,38 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 
-class ReturnTaresSelectionWidget extends StatelessWidget {
-  const ReturnTaresSelectionWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = context.read<CartBloc>();
-    void onPlus() => bloc.add(const CartEvent.setReturnTareCount(count: 1));
-    void onMinus() => bloc.add(const CartEvent.setReturnTareCount(count: -1));
-    void onAllToggled() => bloc.add(const CartEvent.toggleAllTare());
-
-    return BlocBuilder<CartBloc, CartState>(
-      builder: (context, state) {
-        final CartData? data = state.maybeWhen(
-          loaded: (cart, _) => cart.cartData,
-          loading: (maybeCart, _, __) => maybeCart?.cartData,
-          orElse: () => null,
-        );
-
-        if (data == null || data.totalTares == 0) {
-          return const SizedBox.shrink();
-        }
-
-        return _TareSelectionWidget(
-          amountRub: data.tareSum,
-          selectedTares: data.tareCount,
-          totalTares: data.totalTares,
-          onPlus: onPlus,
-          onMinus: onMinus,
-          onAllToggled: onAllToggled,
-        );
-      },
-    );
-  }
-}
-
-class _TareSelectionWidget extends StatelessWidget {
-  const _TareSelectionWidget({
+/// Виджет управления количеством тары к возврату
+class TareSelectionWidget extends StatelessWidget {
+  const TareSelectionWidget({
     required this.totalTares,
     required this.selectedTares,
+    required this.otherSelectedTares,
     required this.amountRub,
     required this.onPlus,
     required this.onMinus,
     required this.onAllToggled,
   });
 
+  /// Общее количество тары к возврату
   final int totalTares;
+
+  /// Количество тары к возврату (Niagara)
   final int selectedTares;
+
+  /// Количество тары к возврату (другой поставщик)
+  final int otherSelectedTares;
+
+  /// Сумма тары к возврату в рублях
   final int amountRub;
+
+  /// Увеличивает количество тары к возврату на 1
   final VoidCallback onPlus;
+
+  /// Уменьшает количество тары к возврату на 1
   final VoidCallback onMinus;
+
+  /// Выбирает все тары к возврату
   final VoidCallback onAllToggled;
 
   @override
@@ -135,7 +113,7 @@ class _TareSelectionWidget extends StatelessWidget {
                             style: context.textStyle.textTypo.tx1SemiBold,
                           ),
                           Text(
-                            '${totalTares - selectedTares} ${t.pieces}',
+                            '${totalTares - selectedTares - otherSelectedTares} ${t.pieces}',
                             style: context.textStyle.descriptionTypo.des3
                                 .withColor(
                               context.colors.textColors.secondary,
