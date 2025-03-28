@@ -3,31 +3,37 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
+import '../../../../../utils/constants/app_borders.dart';
+import '../../../../../utils/constants/app_boxes.dart';
+import '../../../../../utils/constants/app_insets.dart';
+import '../../../../../utils/constants/app_sizes.dart';
+import '../../../../../utils/extensions/build_context_ext.dart';
+import '../../../../../utils/gen/assets.gen.dart';
+import '../../../../domain/models/product.dart';
+import '../../app_bar.dart';
+import '../../app_network_image_widget.dart';
+
+/// Виджет для отображения изображений продукта.
 class ProductImagesWidget extends HookWidget {
   const ProductImagesWidget({
-    super.key,
     required this.product,
+    super.key,
   });
 
+  /// Продукт.
   final Product product;
 
+  /// Список изображений.
   List<String> get _images =>
       {product.imageUrl, ...product.additionalImages}.toList();
 
+  /// Возвращает true, если количество изображений больше одного.
   bool get _isScrollable => _images.length > 1;
 
+  /// Показывает полноэкранное изображение.
   Future<void> _showFullImagesDialog(
     BuildContext context, {
     required List<String> images,
@@ -49,6 +55,7 @@ class ProductImagesWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Активный индекс.
     final active = useState(0);
 
     return Column(
@@ -58,7 +65,7 @@ class ProductImagesWidget extends HookWidget {
           product: product,
           isScrollable: _isScrollable,
           active: active,
-          onTap: (index) => _showFullImagesDialog(
+          onTap: (index) async => _showFullImagesDialog(
             context,
             images: _images,
             index: index,
@@ -83,8 +90,13 @@ class _FullScreenImages extends HookWidget {
   })  : _images = images,
         _isScrollable = isScrollable;
 
+  /// Список изображений.
   final List<String> _images;
+
+  /// Продукт.
   final Product product;
+
+  /// Возвращает true, если количество изображений больше одного.
   final bool _isScrollable;
 
   @override
@@ -97,7 +109,7 @@ class _FullScreenImages extends HookWidget {
           automaticallyImplyTitle: false,
           actions: [
             InkWell(
-              onTap: () => context.maybePop(),
+              onTap: () async => context.maybePop(),
               child: Container(
                 width: AppSizes.kIconLarge,
                 height: AppSizes.kIconLarge,
@@ -156,33 +168,36 @@ class _PaginationImagesWidget extends StatelessWidget {
     required this.active,
   }) : _images = images;
 
+  /// Список изображений.
   final List<String> _images;
+
+  /// Активный индекс.
   final ValueNotifier<int> active;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: _images.map((url) {
-        final index = _images.indexOf(url);
-        return AnimatedContainer(
-          duration: Durations.medium1,
-          width:
-              active.value == index ? AppSizes.kGeneral32 : AppSizes.kGeneral6,
-          height: AppSizes.kGeneral6,
-          margin: AppInsets.kHorizontal4,
-          decoration: BoxDecoration(
-            borderRadius: AppBorders.kCircular4,
-            color: active.value == index
-                ? context.colors.mainColors.primary
-                : context.colors.mainColors.light,
-          ),
-        );
-      }).toList(),
-    );
-  }
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: _images.map((url) {
+          final index = _images.indexOf(url);
+          return AnimatedContainer(
+            duration: Durations.medium1,
+            width: active.value == index
+                ? AppSizes.kGeneral32
+                : AppSizes.kGeneral6,
+            height: AppSizes.kGeneral6,
+            margin: AppInsets.kHorizontal4,
+            decoration: BoxDecoration(
+              borderRadius: AppBorders.kCircular4,
+              color: active.value == index
+                  ? context.colors.mainColors.primary
+                  : context.colors.mainColors.light,
+            ),
+          );
+        }).toList(),
+      );
 }
 
+/// Виджет для отображения изображений в виде карусели.
 class _ImagesCarouselWidget extends StatelessWidget {
   const _ImagesCarouselWidget({
     required List<String> images,
@@ -193,41 +208,41 @@ class _ImagesCarouselWidget extends StatelessWidget {
   })  : _images = images,
         _isScrollable = isScrollable;
 
+  /// Список изображений.
   final List<String> _images;
+
+  /// Продукт.
   final Product product;
+
+  /// Возвращает true, если количество изображений больше одного.
   final bool _isScrollable;
+
+  /// Активный индекс.
   final ValueNotifier<int> active;
+
+  /// Функция для обработки нажатия на изображение.
   final Function(int)? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    return CarouselSlider.builder(
-      itemCount: _images.length,
-      itemBuilder: (_, index, __) => InkWell(
-        onTap: onTap != null ? () => onTap!(index) : null,
-        key: ValueKey(_images[index]),
-        child: Container(
-          width: double.infinity,
-          padding: AppInsets.kAll8,
-          child: ClipRRect(
-            borderRadius: AppBorders.kCircular16 + AppBorders.kCircular2,
-            child: ExtendedImage.network(
-              _images[index],
-              fit: BoxFit.fitHeight,
-              loadStateChanged: (state) =>
-                  state.extendedImageLoadState == LoadState.loading
-                      ? const AppCenterLoader()
-                      : null,
+  Widget build(BuildContext context) => CarouselSlider.builder(
+        itemCount: _images.length,
+        itemBuilder: (_, index, __) => InkWell(
+          onTap: onTap != null ? () => onTap!(index) : null,
+          key: ValueKey(_images[index]),
+          child: Container(
+            width: double.infinity,
+            padding: AppInsets.kAll8,
+            child: ClipRRect(
+              borderRadius: AppBorders.kCircular16 + AppBorders.kCircular2,
+              child: AppNetworkImageWidget(url: _images[index]),
             ),
           ),
         ),
-      ),
-      options: CarouselOptions(
-        aspectRatio: 1,
-        viewportFraction: 1,
-        enableInfiniteScroll: _isScrollable,
-        onPageChanged: (index, _) => active.value = index,
-      ),
-    );
-  }
+        options: CarouselOptions(
+          aspectRatio: 1,
+          viewportFraction: 1,
+          enableInfiniteScroll: _isScrollable,
+          onPageChanged: (index, _) => active.value = index,
+        ),
+      );
 }
