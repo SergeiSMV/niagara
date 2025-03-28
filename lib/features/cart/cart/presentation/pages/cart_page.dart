@@ -19,10 +19,10 @@ import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_product
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_promocode_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_recommends_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_unavailable_products_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/competitors_tare_widget.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/other_tare_return/other_tare_return_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/empty_cart_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/free_delivery_info_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/return_tares_selection_widget.dart';
+import 'package:niagara_app/features/cart/cart/presentation/widgets/tare_return/tare_return_widget.dart';
 import 'package:niagara_app/features/cart/cart/presentation/widgets/tare_inspection_widget.dart';
 import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
 import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
@@ -102,8 +102,8 @@ class _Content extends StatelessWidget {
                   FreeDeliveryInfoWidget(cart: cart!),
                   AppBoxes.kHeight16,
                   CartProductListWidget(cart: cart!),
-                  const ReturnTaresSelectionWidget(),
-                  const CompetitorsTareWidget(),
+                  const TareReturnWidget(),
+                  const OtherTareReturnWidget(),
                   const TareInspectionWidget(),
                   AppBoxes.kHeight16,
                   CartUnavailableProductsWidget(

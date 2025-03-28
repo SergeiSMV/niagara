@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_controls_widget.dart';
 import 'package:niagara_app/core/utils/constants/app_borders.dart';
 import 'package:niagara_app/core/utils/constants/app_boxes.dart';
@@ -8,50 +7,10 @@ import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
 
-class CompetitorsTareWidget extends StatelessWidget {
-  const CompetitorsTareWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = context.read<CartBloc>();
-    void onPlus() =>
-        bloc.add(const CartEvent.setOtherReturnTareCount(count: 1));
-    void onMinus() =>
-        bloc.add(const CartEvent.setOtherReturnTareCount(count: -1));
-    void onAllToggled() => bloc.add(const CartEvent.toggleAllOtherTare());
-
-    return BlocBuilder<CartBloc, CartState>(
-      builder: (context, state) {
-        final CartData? data = state.maybeWhen(
-          loaded: (cart, _) => cart.cartData,
-          loading: (maybeCart, _, __) => maybeCart?.cartData,
-          orElse: () => null,
-        );
-
-        if (data == null || data.totalTares == 0) {
-          return const SizedBox.shrink();
-        }
-
-        return _OtherTareSelectionWidget(
-          amountRub: data.otherTareSum,
-          mainSelectedTares: data.tareCount,
-          selectedTares: data.otherTareCount,
-          totalTares: data.totalTares,
-          onPlus: onPlus,
-          onMinus: onMinus,
-          onAllToggled: onAllToggled,
-          taraNotation: data.taraNotation,
-        );
-      },
-    );
-  }
-}
-
-class _OtherTareSelectionWidget extends StatelessWidget {
-  const _OtherTareSelectionWidget({
+/// Виджет управления количеством тары к возврату
+class OtherTareSelectionWidget extends StatelessWidget {
+  const OtherTareSelectionWidget({
     required this.totalTares,
     required this.mainSelectedTares,
     required this.selectedTares,
