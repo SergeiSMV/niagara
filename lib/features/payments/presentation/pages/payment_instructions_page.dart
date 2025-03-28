@@ -13,6 +13,7 @@ import 'package:niagara_app/core/utils/constants/app_sizes.dart';
 import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
 import 'package:niagara_app/core/utils/gen/assets.gen.dart';
 import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import 'package:niagara_app/core/utils/services/uxcam_service/uxcam_service.dart';
 import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
 import 'package:niagara_app/features/payments/presentation/bloc/payment_instructions_cubit/payment_instructions_cubit.dart';
 
@@ -26,7 +27,7 @@ import 'package:niagara_app/features/payments/presentation/bloc/payment_instruct
 /// После завершения оплаты вызывает [onSuccess] или [onCancelled] в зависимости
 /// от результата обработки платежа.
 @RoutePage()
-class PaymentInstructionsPage extends StatelessWidget {
+class PaymentInstructionsPage extends StatefulWidget {
   const PaymentInstructionsPage({
     super.key,
     required this.tokenizationData,
@@ -46,6 +47,24 @@ class PaymentInstructionsPage extends StatelessWidget {
   /// Коллбек, вызываемый в случае ошибки платежа.
   final VoidCallback onCancelled;
 
+  @override
+  State<PaymentInstructionsPage> createState() =>
+      _PaymentInstructionsPageState();
+}
+
+class _PaymentInstructionsPageState extends State<PaymentInstructionsPage> {
+  @override
+  void initState() {
+    super.initState();
+    getIt<UXCamService>().applyOcclusion();
+  }
+
+  @override
+  void dispose() {
+    getIt<UXCamService>().removeOcclusion();
+    super.dispose();
+  }
+
   /// Обработчик состояния оплаты.
   ///
   /// В случае успешной оплаты перенаправляет на [successRoute]. При отмене
@@ -60,11 +79,11 @@ class PaymentInstructionsPage extends StatelessWidget {
       state.whenOrNull(
         success: () {
           context.replaceRoute(OrderResultRoute(isSuccessful: true));
-          return onSuccess();
+          return widget.onSuccess();
         },
         orderCanceled: () {
           context.replaceRoute(OrderResultRoute(isSuccessful: false));
-          return onCancelled();
+          return widget.onCancelled();
         },
         error: (err) => AppSnackBar.showError(
           context,
@@ -75,7 +94,9 @@ class PaymentInstructionsPage extends StatelessWidget {
 
   /// Повторно запускает процесс оплаты.
   void _onRetry(BuildContext context) {
-    context.read<PaymentInstructionsCubit>().startPayment(tokenizationData);
+    context
+        .read<PaymentInstructionsCubit>()
+        .startPayment(widget.tokenizationData);
   }
 
   @override
@@ -83,8 +104,8 @@ class PaymentInstructionsPage extends StatelessWidget {
     return Scaffold(
       appBar: const AppBarWidget(),
       body: BlocProvider(
-        create: (_) =>
-            getIt<PaymentInstructionsCubit>()..startPayment(tokenizationData),
+        create: (_) => getIt<PaymentInstructionsCubit>()
+          ..startPayment(widget.tokenizationData),
         child: BlocConsumer<PaymentInstructionsCubit, PaymentInstructionsState>(
           listener: _paymentStateListener,
           builder: (context, state) => state.maybeWhen(

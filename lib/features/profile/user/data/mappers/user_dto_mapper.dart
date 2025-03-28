@@ -13,6 +13,7 @@ extension UserDtoMapper on ProfileDto {
         email: email ?? '',
         birthday: birthday ?? '',
         defaultLocationId: locationDefault ?? '',
+        ordersCount: ordersCount ?? 0,
       );
 }
 
@@ -25,6 +26,7 @@ extension UserMapper on User {
         login: login,
         email: email,
         birthday: birthday,
+        ordersCount: ordersCount,
         // TODO: Это поле не должно отправляться на сервер
         city: '',
         bonusesCardNumber: '',

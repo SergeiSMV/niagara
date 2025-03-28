@@ -1,30 +1,33 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/modals/draggable_pin_widget.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/catalog/domain/model/group.dart';
-import 'package:niagara_app/features/promotions/domain/models/promotion.dart';
-import 'package:niagara_app/features/promotions/presentation/widgets/promotion_image_widget.dart';
+import '../../../../core/common/presentation/router/app_router.gr.dart';
+import '../../../../core/common/presentation/widgets/buttons/app_text_button.dart';
+import '../../../../core/common/presentation/widgets/modals/draggable_pin_widget.dart';
+import '../../../../core/utils/constants/app_boxes.dart';
+import '../../../../core/utils/constants/app_insets.dart';
+import '../../../../core/utils/constants/app_sizes.dart';
+import '../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../core/utils/extensions/text_style_ext.dart';
+import '../../../../core/utils/gen/assets.gen.dart';
+import '../../../../core/utils/gen/strings.g.dart';
+import '../../../catalog/domain/model/group.dart';
+import '../../domain/models/promotion.dart';
+import 'promotion_image_widget.dart';
 
 class PromotionWidget extends StatelessWidget {
   const PromotionWidget({
-    super.key,
     required Promotion promotion,
+    super.key,
     this.withTitle = false,
   }) : _promotion = promotion;
 
+  /// Акция.
   final Promotion _promotion;
+
+  /// Флаг для отображения заголовка.
   final bool withTitle;
 
-  void _goToPromotionSubject(BuildContext context) {
+  Future<void> _goToPromotionSubject(BuildContext context) async {
     // Закрываем модалку.
     context.maybePop();
 
@@ -55,7 +58,10 @@ class PromotionWidget extends StatelessWidget {
     }
   }
 
-  void _showPromotionDetails(BuildContext context, Promotion promotion) =>
+  Future<void> _showPromotionDetails(
+    BuildContext context,
+    Promotion promotion,
+  ) async =>
       showModalBottomSheet(
         context: context,
         useRootNavigator: true,
@@ -112,53 +118,51 @@ class PromotionWidget extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => _showPromotionDetails(context, _promotion),
-      child: withTitle
-          ? Column(
-              children: [
-                PromotionImageWidget(imageUrl: _promotion.image),
-                Padding(
-                  padding: AppInsets.kHorizontal16,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          _promotion.title,
-                          style:
-                              context.textStyle.textTypo.tx1SemiBold.withColor(
-                            context.colors.textColors.main,
+  Widget build(BuildContext context) => InkWell(
+        onTap: () async => _showPromotionDetails(context, _promotion),
+        child: withTitle
+            ? Column(
+                children: [
+                  PromotionImageWidget(imageUrl: _promotion.image),
+                  Padding(
+                    padding: AppInsets.kHorizontal16,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            _promotion.title,
+                            style: context.textStyle.textTypo.tx1SemiBold
+                                .withColor(
+                              context.colors.textColors.main,
+                            ),
                           ),
                         ),
-                      ),
-                      AppBoxes.kWidth8,
-                      Row(
-                        children: [
-                          Text(
-                            t.promos.more,
-                            style: context.textStyle.textTypo.tx3SemiBold
-                                .withColor(
-                              context.colors.mainColors.primary,
+                        AppBoxes.kWidth8,
+                        Row(
+                          children: [
+                            Text(
+                              t.promos.more,
+                              style: context.textStyle.textTypo.tx3SemiBold
+                                  .withColor(
+                                context.colors.mainColors.primary,
+                              ),
                             ),
-                          ),
-                          Assets.icons.arrowRight.svg(
-                            width: AppSizes.kIconSmall,
-                            height: AppSizes.kIconSmall,
-                            colorFilter: ColorFilter.mode(
-                              context.colors.mainColors.primary,
-                              BlendMode.srcIn,
+                            Assets.icons.arrowRight.svg(
+                              width: AppSizes.kIconSmall,
+                              height: AppSizes.kIconSmall,
+                              colorFilter: ColorFilter.mode(
+                                context.colors.mainColors.primary,
+                                BlendMode.srcIn,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            )
-          : PromotionImageWidget(imageUrl: _promotion.image),
-    );
-  }
+                ],
+              )
+            : PromotionImageWidget(imageUrl: _promotion.image),
+      );
 }

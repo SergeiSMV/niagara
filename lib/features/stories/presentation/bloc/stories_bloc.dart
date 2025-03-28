@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/stories/domain/model/story.dart';
-import 'package:niagara_app/features/stories/domain/use_cases/get_sotries_use_case.dart';
-import 'package:niagara_app/features/stories/domain/use_cases/mark_story_seen_use_case.dart';
+import '../../../../core/core.dart';
+import '../../domain/model/story.dart';
+import '../../domain/use_cases/get_sotries_use_case.dart';
+import '../../domain/use_cases/mark_story_seen_use_case.dart';
 
 part 'stories_event.dart';
 part 'stories_state.dart';
@@ -26,11 +26,16 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
     _LoadStoriesEvent event,
     Emitter<StoriesState> emit,
   ) async {
-    final List<Story> fetched = await _getCase
-        .call(NoParams())
-        .fold((failure) => throw failure, (data) => data);
+    try {
+      final result = await _getCase.call(NoParams());
 
-    return emit(_LoadedStories(stories: fetched));
+      result.fold(
+        (failure) => emit(const StoriesState.error()),
+        (stories) => emit(StoriesState.loaded(stories: stories)),
+      );
+    } on Failure {
+      emit(const StoriesState.error());
+    }
   }
 
   Future<void> _onMark(
@@ -39,13 +44,13 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
   ) async {
     if (state is! _LoadedStories) return;
 
-    final String storyId = event.id;
-    final List<Story> stories = (state as _LoadedStories).stories;
+    final storyId = event.id;
+    final stories = (state as _LoadedStories).stories;
 
     // Если история уже открыта, то не нужно ее помечать
     if (stories.any((s) => s.id == storyId && s.open)) return;
 
-    final bool result = await _markCase
+    final result = await _markCase
         .call(event.id)
         .fold((failure) => throw failure, (data) => data);
 
@@ -53,12 +58,12 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
       // Добавить в список историй, которые были помечены прочитанными.
       seenStories.add(storyId);
 
-      final List<Story> newList = List.from(stories);
+      final newList = List<Story>.from(stories);
 
       // Пройтись по всем прочитанным историям нужно, чтобы не возникало
       // конкурентных гонок из-за асинхронных запросов.
-      for (final String id in seenStories) {
-        final int index = stories.indexWhere((s) => s.id == id);
+      for (final id in seenStories) {
+        final index = stories.indexWhere((s) => s.id == id);
         if (index != -1) {
           newList[index] = stories[index].copyWithOpen(true);
         }

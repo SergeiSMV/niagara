@@ -26,9 +26,15 @@ class CartEvent with _$CartEvent {
 
   const factory CartEvent.toggleAllTare() = _ToggleAllTare;
 
+  const factory CartEvent.toggleAllOtherTare() = _ToggleAllOtherTare;
+
   const factory CartEvent.setReturnTareCount({
     required int count,
   }) = _SetReturnTareCount;
+
+  const factory CartEvent.setOtherReturnTareCount({
+    required int count,
+  }) = _SetOtherReturnTareCount;
 
   const factory CartEvent.setBonusesToPay({
     required int bonuses,

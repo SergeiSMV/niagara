@@ -1,8 +1,8 @@
 // ignore_for_file: sort_constructors_first
 
-import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
-import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
-import 'package:niagara_app/core/core.dart';
+import '../../../../../core/common/data/remote/dto/pagination_dto.dart';
+import '../../../../../core/common/data/remote/dto/product_dto.dart';
+import '../../../../../core/core.dart';
 
 typedef OrdersDto = ({List<UserOrderDto> orders, PaginationDto pagination});
 
@@ -81,11 +81,11 @@ class UserOrderDto extends Equatable {
         ordersDate: DateTime.parse(json['ORDERS_DATE'] as String),
         ordersTimeBegin: DateTime.parse(json['ORDERS_TIME_BEGIN'] as String),
         ordersTimeEnd: DateTime.parse(json['ORDERS_TIME_END'] as String),
-        ordersCustomerName: json['ORDERS_CUSTOMER_NAME'] as String,
-        ordersCustomerPhone: json['ORDERS_CUSTOMER_PHONE'] as String,
-        ordersLocationId: json['ORDERS_LOCATION_ID'] as String,
-        ordersLocationName: json['ORDERS_LOCATION_NAME'] as String,
-        ordersDescription: json['ORDERS_DESCRIPTION'] as String,
+        ordersCustomerName: (json['ORDERS_CUSTOMER_NAME'] ?? '') as String,
+        ordersCustomerPhone: (json['ORDERS_CUSTOMER_PHONE'] ?? '') as String,
+        ordersLocationId: (json['ORDERS_LOCATION_ID'] ?? '') as String,
+        ordersLocationName: (json['ORDERS_LOCATION_NAME'] ?? '') as String,
+        ordersDescription: (json['ORDERS_DESCRIPTION'] ?? '') as String,
         ordersPickup: json['ORDERS_PICKUP'] as bool,
         ordersSumDelivery: (json['ORDERS_SUM_DELIVERY'] as num).toDouble(),
         ordersSumDiscont: (json['ORDERS_SUM_DISCONT'] as num).toDouble(),

@@ -15,6 +15,7 @@ class GetCartUseCase extends BaseUseCase<Cart, GetCartParams> {
         bonuses: params.bonuses,
         promocode: params.promocode,
         tareCount: params.tareCount,
+        otherTareCount: params.otherTareCount,
         allTare: params.allTare,
       );
 }
@@ -25,6 +26,7 @@ class GetCartParams extends Equatable {
     required this.bonuses,
     required this.promocode,
     required this.tareCount,
+    required this.otherTareCount,
     required this.allTare,
   });
 
@@ -32,14 +34,15 @@ class GetCartParams extends Equatable {
   final int bonuses;
   final String promocode;
   final int tareCount;
+  final int otherTareCount;
   final bool allTare;
-
   @override
   List<Object> get props => [
         locationId,
         bonuses,
         promocode,
         tareCount,
+        otherTareCount,
         allTare,
       ];
 }

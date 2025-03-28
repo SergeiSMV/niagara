@@ -1,27 +1,28 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/bonuses_for_purchase_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/product_label_and_favorite.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
+
+import '../../../../../utils/constants/app_borders.dart';
+import '../../../../../utils/constants/app_insets.dart';
+import '../../../../../utils/constants/app_sizes.dart';
+import '../../../../../utils/extensions/build_context_ext.dart';
+import '../../../../domain/models/product.dart';
+import '../../app_network_image_widget.dart';
+import 'bonuses_for_purchase_widget.dart';
+import 'product_label_and_favorite.dart';
 
 class ProductImageWithLabels extends HookWidget {
   const ProductImageWithLabels({
     required this.product,
     required this.isOnWaterBalancePage,
+    super.key,
   });
 
   final Product product;
   final bool isOnWaterBalancePage;
 
-  /// Список изображений.
-  List<String> get _images => product.additionalImages;
+  /// Список изображений. (Убираем дубликаты)
+  List<String> get _images => product.additionalImages.toSet().toList();
 
   /// Возвращает true, если количество изображений больше одного.
   bool get _isScrollable => _images.length > 1;
@@ -37,14 +38,7 @@ class ProductImageWithLabels extends HookWidget {
           itemCount: _images.length,
           itemBuilder: (_, index, __) => ClipRRect(
             borderRadius: AppBorders.kCircular6,
-            child: ExtendedImage.network(
-              _images[index],
-              fit: BoxFit.cover,
-              loadStateChanged: (state) =>
-                  state.extendedImageLoadState == LoadState.loading
-                      ? const AppCenterLoader()
-                      : null,
-            ),
+            child: AppNetworkImageWidget(url: _images[index]),
           ),
           options: CarouselOptions(
             enlargeCenterPage: true,

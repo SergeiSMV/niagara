@@ -1,39 +1,38 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/features/home/domain/models/banner.dart';
-import 'package:niagara_app/features/home/presentation/cubit/banners_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../core/common/presentation/router/app_router.gr.dart';
+import '../../../../core/common/presentation/widgets/app_network_image_widget.dart';
+import '../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../../core/dependencies/di.dart';
+import '../../../../core/utils/constants/app_borders.dart';
+import '../../../../core/utils/constants/app_insets.dart';
+import '../../../../core/utils/constants/app_sizes.dart';
+import '../../../../core/utils/extensions/build_context_ext.dart';
+import '../../domain/models/banner.dart';
+import '../cubit/banners_cubit.dart';
 
 class BannersSliderWidget extends HookWidget {
   const BannersSliderWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<BannersCubit>(),
-      child: BlocBuilder<BannersCubit, BannersState>(
-        builder: (context, state) => state.maybeWhen(
-          loaded: _Loaded.new,
-          loading: () => const AspectRatio(
-            aspectRatio: 16 / 9,
-            child: AppCenterLoader(),
+  Widget build(BuildContext context) => BlocProvider(
+        create: (_) => getIt<BannersCubit>(),
+        child: BlocBuilder<BannersCubit, BannersState>(
+          builder: (context, state) => state.maybeWhen(
+            loaded: _Loaded.new,
+            loading: () => const AspectRatio(
+              aspectRatio: 16 / 9,
+              child: AppCenterLoader(),
+            ),
+            orElse: SizedBox.shrink,
           ),
-          orElse: SizedBox.shrink,
         ),
-      ),
-    );
-  }
+      );
 }
 
 class _Loaded extends HookWidget {
@@ -96,24 +95,24 @@ class _Loaded extends HookWidget {
 }
 
 class BannerWidget extends StatelessWidget {
-  const BannerWidget(this.banner);
+  const BannerWidget(this.banner, {super.key});
 
   final Banner banner;
 
   VoidCallback _getOnTapCallback(BuildContext context) {
     switch (banner.type) {
       case BannerType.product:
-        return () => context.navigateTo(
+        return () async => context.navigateTo(
               banner.product != null
                   ? ProductRoute(product: banner.product!)
                   : const CatalogWrapper(),
             );
       case BannerType.offers:
-        return () => context.navigateTo(const CatalogWrapper());
+        return () async => context.navigateTo(const CatalogWrapper());
       case BannerType.web:
         if (banner.link == null) return () {};
 
-        final Uri? uri = Uri.tryParse(banner.link!);
+        final uri = Uri.tryParse(banner.link!);
         return () async {
           if (uri != null && await canLaunchUrl(uri)) {
             await launchUrl(uri);
@@ -125,27 +124,12 @@ class BannerWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _getOnTapCallback(context),
-      child: ExtendedImage.network(
-        banner.imageUrl,
-        width: double.infinity,
-        height: double.infinity,
-        loadStateChanged: (state) {
-          switch (state.extendedImageLoadState) {
-            case LoadState.loading:
-              return const AppCenterLoader();
-            case LoadState.completed:
-              return state.completedWidget;
-            case LoadState.failed:
-              return const Center(child: Text('Failed to load image'));
-            default:
-              return const SizedBox.shrink();
-          }
-        },
-        fit: BoxFit.cover,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: _getOnTapCallback(context),
+        child: AppNetworkImageWidget(
+          url: banner.imageUrl,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      );
 }

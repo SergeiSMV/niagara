@@ -21,21 +21,23 @@ class Application extends StatelessWidget {
   final AppTheme _theme;
 
   @override
-  Widget build(BuildContext context) => MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        locale: TranslationProvider.of(context).flutterLocale,
-        supportedLocales: AppLocaleUtils.supportedLocales,
-        localizationsDelegates: const [
-          ...GlobalMaterialLocalizations.delegates,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          FormBuilderLocalizations.delegate,
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      locale: TranslationProvider.of(context).flutterLocale,
+      supportedLocales: AppLocaleUtils.supportedLocales,
+      localizationsDelegates: const [
+        ...GlobalMaterialLocalizations.delegates,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        FormBuilderLocalizations.delegate,
+      ],
+      theme: _theme.lightTheme,
+      routerConfig: _router.config(
+        navigatorObservers: () => [
+          TalkerRouteObserver(_talker),
         ],
-        theme: _theme.lightTheme,
-        routerConfig: _router.config(
-          navigatorObservers: () => [
-            TalkerRouteObserver(_talker),
-          ],
-        ),
-      );
+      ),
+    );
+  }
 }

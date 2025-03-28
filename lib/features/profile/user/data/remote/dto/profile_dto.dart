@@ -29,6 +29,7 @@ class ProfileDto extends Equatable {
     this.locationDefault,
     this.yearlyBonusDate,
     this.yearlyBonusCount,
+    this.ordersCount,
   });
 
   final String? id;
@@ -55,6 +56,7 @@ class ProfileDto extends Equatable {
   final String? locationDefault;
   final DateTime? yearlyBonusDate;
   final int? yearlyBonusCount;
+  final int? ordersCount;
 
   factory ProfileDto.fromJson(Map<String, dynamic> json) => ProfileDto(
         id: json['ID'] as String?,
@@ -87,6 +89,7 @@ class ProfileDto extends Equatable {
             .toList(),
         bottlesGroupId: json['BOTTELS_GROUP'] as String?,
         locationDefault: json['LOCATION_DEFAULT'] as String?,
+        ordersCount: (json['ORDERS_COUNT'] as num?)?.toInt(),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -122,5 +125,6 @@ class ProfileDto extends Equatable {
         bottlesCount,
         bottles,
         locationDefault,
+        ordersCount,
       ];
 }

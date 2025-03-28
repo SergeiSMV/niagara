@@ -9,6 +9,7 @@ abstract interface class ICartRepository {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   });
 
@@ -19,6 +20,7 @@ abstract interface class ICartRepository {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   });
 
@@ -30,6 +32,7 @@ abstract interface class ICartRepository {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   });
 
@@ -39,6 +42,7 @@ abstract interface class ICartRepository {
     required int bonuses,
     required String promocode,
     required int tareCount,
+    required int otherTareCount,
     required bool allTare,
   });
 

@@ -373,7 +373,8 @@
     "enterQuantity": "Введите количество",
     "hasPromocode": "Есть промокод?",
     "enterPromocode": "Введите промокод",
-    "returnEmptyTare": "Верну пустую тару",
+    "returnEmptyTare": "Вернуть пустую тару",
+    "returnOtherTare": "Вернуть пустую тару другого поставщика",
     "polycarbonateTare": "Поликарбонатная тара",
     "deliveryCost": "Стоимость доставки",
     "freeDelivery": "Бесплатная доставка от $n₽ или при заказе 19-литровой воды",
@@ -389,7 +390,8 @@
     "transferAndProceed": "Перенести и продолжить",
     "proceedWithoutTransfer": "Продолжить без переноса",
     "clearCart": "Очистить корзину",
-    "clearUnavailable": "Удалить"
+    "clearUnavailable": "Удалить",
+    "tareInspectionMessage": "Проверьте наличие поликарбонатной тары. На донной части бутыли в треугольнике должна быть цифра '7' или надпись 'PC'. А также отсутствовать выбитые логотипы других компаний."
   },
   "recentOrders": {
     "myOrders": "Мои заказы",
@@ -461,6 +463,7 @@
     "rateOrder": "Оцените заказ",
     "generalAssessment": "Общая оценка",
     "whatWouldYouLikeToImprove": "Что бы вы хотели улучшить?",
+    "likeTheMost": "Что вам понравилось больше всего?",
     "generalImpressions": "Общие впечатления",
     "send": "Отправить",
     "yourComment": "Ваш комментарий",

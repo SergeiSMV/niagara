@@ -3,9 +3,10 @@ import 'dart:ui';
 /// Константы приложения
 abstract final class AppConstants {
   /// Должна ли отображаться кнопка, открывающая логи.
+  /// И инициализироваться UXCam.
   ///
   /// Для установки `true` используйте `main_dev.dart`.
-  static bool kShowDebugButton = false;
+  static bool kDebugMode = false;
 
   // * ------------------------------- DB ------------------------------- * //
 
@@ -92,4 +93,7 @@ abstract final class AppConstants {
 
   // * ------------------------------ Flexible ---------------------------- * //
   static const int kFlexe4 = 4;
+
+  // * ------------------------------ Duration ---------------------------- * //
+  static const Duration kSnackBarDuration = Duration(seconds: 2);
 }

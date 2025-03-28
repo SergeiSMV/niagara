@@ -32,17 +32,24 @@ class ListAddressesWidget extends StatelessWidget {
       ? Assets.icons.radio.radioTrue
       : Assets.icons.radio.radioFalse;
 
+  void _onRefresh(BuildContext context) =>
+      context.read<AddressesBloc>().add(const AddressesEvent.loadAddresses());
+
   @override
-  Widget build(BuildContext context) => ListView.builder(
-        padding:  AppInsets.kVertical12,
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        _onRefresh(context);
+      },
+      child: ListView.builder(
+        padding: AppInsets.kVertical12,
         itemCount: addresses.length + 1,
-        shrinkWrap: true,
         itemBuilder: (_, index) {
           if (index == addresses.length) return const AddNewAddressButton();
 
           final address = addresses[index];
           return ListTile(
-            contentPadding:  AppInsets.kHorizontal16,
+            contentPadding: AppInsets.kHorizontal16,
             leading: _buildRadioIcon(address).svg(
               width: AppSizes.kIconMedium,
               height: AppSizes.kIconMedium,
@@ -69,5 +76,7 @@ class ListAddressesWidget extends StatelessWidget {
             onTap: () => _onSetDefault(context, address),
           ); // выбор
         },
-      );
+      ),
+    );
+  }
 }

@@ -1,10 +1,11 @@
-import 'package:niagara_app/core/common/data/database/_imports.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/features/profile/about/data/local/dao/policies_dao.dart';
-import 'package:niagara_app/features/profile/about/data/local/table/policies_table.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+
+import '../../../../features/profile/about/data/local/dao/policies_dao.dart';
+import '../../../../features/profile/about/data/local/table/policies_table.dart';
+import '../../../core.dart';
+import '../../../dependencies/di.dart';
+import '../../../utils/constants/app_constants.dart';
+import '_imports.dart';
 
 part 'app_database.g.dart';
 
@@ -35,12 +36,18 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async => m.createAll(),
         beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            await m.addColumn(usersTable, usersTable.ordersCount);
+            await m.addColumn(userOrdersTable, userOrdersTable.pickup);
+          }
+        },
       );
 
   /// Удаляет все данные из всех таблиц. Нужно для очищения кеша при смене
