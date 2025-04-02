@@ -81,8 +81,6 @@ linter:
     no_literal_bool_comparisons: true
     # Избегать пустых операций с примитивными типами
     noop_primitive_operations: true
-    # Избегать указания типов переменных
-    omit_local_variable_types: true
     # Предпочитать использование коллекционных литералов
     prefer_collection_literals: true
     # Предпочитать условное присваивание
@@ -220,10 +218,16 @@ linter:
 
 analyzer:
   exclude:
+    # Web
+    - 'web/**'
+    # Build
+    - 'build/**'
+    # Generated code
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "**/*.gen.dart"
     - "**/*.config.dart"
-    - "**/*.mocks.dart"     
-    - "build/**"             
+    - "**/*.mocks.dart"         
     - "test/**"
+    - '.test_coverage.dart'
+    - 'lib/**.graphql.dart'

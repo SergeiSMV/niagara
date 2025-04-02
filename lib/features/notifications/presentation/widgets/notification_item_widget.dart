@@ -129,7 +129,7 @@ class _NotificationItemContent extends StatelessWidget {
                               ),
                             AppBoxes.kHeight12,
                             Text(
-                              DateFormat('hh:mm').format(notification.date),
+                              DateFormat('HH:mm').format(notification.date),
                               style: context.textStyle.descriptionTypo.des3
                                   .withColor(
                                 context.colors.textColors.secondary,

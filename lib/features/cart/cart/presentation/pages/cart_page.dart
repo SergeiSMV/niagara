@@ -1,31 +1,31 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_bonuses_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_data/cart_data_prices_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_pay_button.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_products_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_promocode_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_recommends_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/cart_unavailable_products_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/other_tare_return/other_tare_return_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/empty_cart_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/free_delivery_info_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/tare_return/tare_return_widget.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/tare_inspection_widget.dart';
-import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
-import 'package:niagara_app/features/order_placing/presentation/widget/delivery_address_widget.dart';
+
+import '../../../../../core/common/domain/models/product.dart';
+import '../../../../../core/common/presentation/router/app_router.gr.dart';
+import '../../../../../core/common/presentation/widgets/errors/error_refresh_widget.dart';
+import '../../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../../../core/common/presentation/widgets/unauthorized_widget.dart';
+import '../../../../../core/dependencies/di.dart';
+import '../../../../../core/utils/constants/app_boxes.dart';
+import '../../../../../core/utils/constants/app_insets.dart';
+import '../../../../../core/utils/gen/strings.g.dart';
+import '../../../../locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
+import '../../../../order_placing/presentation/widget/delivery_address_widget.dart';
+import '../../domain/models/cart.dart';
+import '../bloc/cart_bloc/cart_bloc.dart';
+import '../widgets/cart_bonuses_widget.dart';
+import '../widgets/cart_data/cart_data_prices_widget.dart';
+import '../widgets/cart_pay_button.dart';
+import '../widgets/cart_products_widget.dart';
+import '../widgets/cart_promocode_widget.dart';
+import '../widgets/cart_recommends_widget.dart';
+import '../widgets/cart_unavailable_products_widget.dart';
+import '../widgets/empty_cart_widget.dart';
+import '../widgets/free_delivery_info_widget.dart';
+import '../widgets/tare_inspection_widget.dart';
+import '../widgets/tare_return/tare_return_widget.dart';
 
 @RoutePage()
 class CartPage extends StatelessWidget {
@@ -54,14 +54,12 @@ class _Error extends StatelessWidget {
       context.read<CartBloc>().add(const CartEvent.getCart());
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ErrorRefreshWidget(onRefresh: () => onRefresh(context)),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ErrorRefreshWidget(onRefresh: () => onRefresh(context)),
+        ],
+      );
 }
 
 class _Content extends StatelessWidget {
@@ -103,7 +101,6 @@ class _Content extends StatelessWidget {
                   AppBoxes.kHeight16,
                   CartProductListWidget(cart: cart!),
                   const TareReturnWidget(),
-                  const OtherTareReturnWidget(),
                   const TareInspectionWidget(),
                   AppBoxes.kHeight16,
                   CartUnavailableProductsWidget(

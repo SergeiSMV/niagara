@@ -1,13 +1,12 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import '../../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+
+import '../../../../../core/common/presentation/widgets/app_network_image_widget.dart';
 import '../../../../../core/utils/constants/app_borders.dart';
 import '../../../../../core/utils/constants/app_boxes.dart';
 import '../../../../../core/utils/constants/app_insets.dart';
 import '../../../../../core/utils/constants/app_sizes.dart';
 import '../../../../../core/utils/extensions/build_context_ext.dart';
 import '../../../../../core/utils/extensions/text_style_ext.dart';
-import '../../../../../core/common/presentation/widgets/app_network_image_widget.dart';
 
 /// Виджет для отображения оборудования.
 class EquipmentWidget extends StatelessWidget {
