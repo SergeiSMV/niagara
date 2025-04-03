@@ -23,11 +23,12 @@ class UXCamService {
         userAppKey: uxcamKey,
         enableAutomaticScreenNameTagging: false,
       );
-      await FlutterUxcam.startWithConfiguration(config);
-      appLogger.log(
-        message: 'initialize success',
-        level: LogLevel.info,
-      );
+      await FlutterUxcam.startWithConfiguration(config).then((_) {
+        appLogger.log(
+          message: 'initialize success',
+          level: LogLevel.info,
+        );
+      });
     } on Exception catch (e, stackTrace) {
       appLogger.handle(e, stackTrace);
     }
