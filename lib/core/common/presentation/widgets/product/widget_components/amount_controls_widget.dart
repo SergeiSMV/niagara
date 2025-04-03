@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/widget_components/amount_icon_button.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/enums/cart_item_action.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
+
+import '../../../../../utils/constants/app_borders.dart';
+import '../../../../../utils/constants/app_insets.dart';
+import '../../../../../utils/constants/app_sizes.dart';
+import '../../../../../utils/enums/cart_item_action.dart';
+import '../../../../../utils/extensions/build_context_ext.dart';
+import '../../../../../utils/extensions/text_style_ext.dart';
+import '../../../../../utils/gen/assets.gen.dart';
+import '../../../../../utils/gen/strings.g.dart';
+import '../../loaders/app_center_loader.dart';
+import 'amount_icon_button.dart';
 
 /// Виджет, отображающий кнопки для изменения количества товара.
 ///
@@ -16,10 +17,10 @@ import 'package:niagara_app/core/utils/gen/strings.g.dart';
 /// отображаются количество товара и кнопки `+` и `-`.
 class AmountControlsWidget extends StatelessWidget {
   const AmountControlsWidget({
-    super.key,
     required this.onRemove,
     required this.count,
     required this.onAdd,
+    super.key,
     this.shrink = false,
     this.shortAmount = false,
     this.alwaysShowActions = false,

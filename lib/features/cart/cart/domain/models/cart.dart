@@ -99,6 +99,8 @@ class CartData extends Equatable {
     required this.productsTotalSum,
     required this.totalTares,
     required this.taraNotation,
+    required this.taraExchangeInfo,
+    required this.taraProductInfo,
   });
 
   final double deliveryFee;
@@ -119,6 +121,8 @@ class CartData extends Equatable {
   final double fullPrice;
   final double vipPrice;
   final String taraNotation;
+  final String taraExchangeInfo;
+  final String taraProductInfo;
 
   @override
   List<Object?> get props => [
@@ -137,6 +141,8 @@ class CartData extends Equatable {
         fullPrice,
         vipPrice,
         taraNotation,
+        taraExchangeInfo,
+        taraProductInfo,
       ];
 }
 
