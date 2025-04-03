@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.dart';
-import 'package:niagara_app/core/common/presentation/theme/app_theme.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+
+import '../../utils/gen/strings.g.dart';
+import 'router/app_router.dart';
+import 'theme/app_theme.dart';
 
 class Application extends StatelessWidget {
   const Application({
@@ -21,23 +22,21 @@ class Application extends StatelessWidget {
   final AppTheme _theme;
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      locale: TranslationProvider.of(context).flutterLocale,
-      supportedLocales: AppLocaleUtils.supportedLocales,
-      localizationsDelegates: const [
-        ...GlobalMaterialLocalizations.delegates,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        FormBuilderLocalizations.delegate,
-      ],
-      theme: _theme.lightTheme,
-      routerConfig: _router.config(
-        navigatorObservers: () => [
-          TalkerRouteObserver(_talker),
+  Widget build(BuildContext context) => MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        locale: TranslationProvider.of(context).flutterLocale,
+        supportedLocales: AppLocaleUtils.supportedLocales,
+        localizationsDelegates: const [
+          ...GlobalMaterialLocalizations.delegates,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          FormBuilderLocalizations.delegate,
         ],
-      ),
-    );
-  }
+        theme: _theme.lightTheme,
+        routerConfig: _router.config(
+          navigatorObservers: () => [
+            TalkerRouteObserver(_talker),
+          ],
+        ),
+      );
 }
