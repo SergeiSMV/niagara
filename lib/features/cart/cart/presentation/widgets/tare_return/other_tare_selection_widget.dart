@@ -115,7 +115,6 @@ class OtherTareSelectionWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                // faqIcon.svg(),
                 GestureDetector(
                   onTap: () async => _showOtherTareFaq(context),
                   child: faqIcon.svg(),

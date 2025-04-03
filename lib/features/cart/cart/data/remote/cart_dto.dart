@@ -82,6 +82,8 @@ class CartDataDto extends Equatable {
     this.sumTaraOther,
     this.countTaraDefault,
     this.taraNotation,
+    this.taraExchangeInfo,
+    this.taraProductInfo,
     this.bonuses,
     this.bonusesPay,
     this.bonusesAdd,
@@ -106,6 +108,8 @@ class CartDataDto extends Equatable {
   final double? sumTaraOther;
   final double? countTaraDefault;
   final String? taraNotation;
+  final String? taraExchangeInfo;
+  final String? taraProductInfo;
   final double? bonuses;
   final double? bonusesPay;
   final double? bonusesAdd;
@@ -128,6 +132,8 @@ class CartDataDto extends Equatable {
         sumTara: (json['SUM_TARA'] as num?)?.toDouble(),
         sumTaraOther: (json['SUM_TARA_OTHER'] as num?)?.toDouble(),
         taraNotation: json['TARA_NOTATION'] as String,
+        taraExchangeInfo: json['TARA_EXCHANGE_INFO'] as String,
+        taraProductInfo: json['TARA_PRODUCT_INFO'] as String,
         bonuses: (json['BONUSES'] as num?)?.toDouble(),
         bonusesPay: (json['BONUSES_PAY'] as num?)?.toDouble(),
         bonusesAdd: (json['BONUSES_ADD'] as num?)?.toDouble(),

@@ -6,11 +6,11 @@ import '../../../../../../core/utils/constants/app_boxes.dart';
 import '../../../../../../core/utils/constants/app_insets.dart';
 import '../../../../../../core/utils/constants/app_sizes.dart';
 import '../../../../../../core/utils/extensions/build_context_ext.dart';
-import '../../../../../../core/utils/gen/strings.g.dart';
 import '../../../domain/models/cart.dart';
 import '../../bloc/cart_bloc/cart_bloc.dart';
 import 'main_tare_selection_widget.dart';
 import 'other_tare_selection_widget.dart';
+import 'tare_calculate_widget.dart';
 
 /// Виджет тары к возврату
 class TareReturnWidget extends StatelessWidget {
@@ -48,6 +48,7 @@ class TareReturnWidget extends StatelessWidget {
                       otherSelectedTares: data.otherTareCount,
                       selectedTares: data.tareCount,
                       totalTares: data.totalTares,
+                      taraExchangeInfo: data.taraExchangeInfo,
                     ),
                     Divider(color: context.colors.mainColors.light),
                     // тара другого поставщика
@@ -60,23 +61,9 @@ class TareReturnWidget extends StatelessWidget {
                     ),
                     Divider(color: context.colors.mainColors.light),
                     // общая сумма тары
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          t.cart.polycarbonateTare,
-                          style: context.textStyle.textTypo.tx2Medium,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              '${data.tareSum} ${t.common.rub}',
-                              style: context.textStyle.textTypo.tx1SemiBold,
-                            ),
-                          ],
-                        ),
-                      ],
+                    TareCalculateWidget(
+                      tareSum: data.tareSum,
+                      taraProductInfo: data.taraProductInfo,
                     ),
                     AppBoxes.kHeight12,
                   ],
