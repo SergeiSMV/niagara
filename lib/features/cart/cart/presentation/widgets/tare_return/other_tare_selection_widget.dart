@@ -66,7 +66,7 @@ class OtherTareSelectionWidget extends StatelessWidget {
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
-                'закрыть',
+                t.cart.close,
                 style: context.textStyle.textTypo.tx2SemiBold,
               ),
             ),
@@ -83,9 +83,6 @@ class OtherTareSelectionWidget extends StatelessWidget {
     final SvgGenImage icon = allSelected
         ? Assets.icons.checkboxChecked
         : Assets.icons.checkboxUnchecked;
-
-    /// иконка вопроса (faq)
-    final SvgGenImage faqIcon = Assets.icons.question;
 
     return GestureDetector(
       onTap: !allSelected ? null : () => _onAllToggled(context),
@@ -117,7 +114,7 @@ class OtherTareSelectionWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () async => _showOtherTareFaq(context),
-                  child: faqIcon.svg(),
+                  child: Assets.icons.question.svg(),
                 ),
                 AppBoxes.kWidth12,
                 if (allSelected)

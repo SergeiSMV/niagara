@@ -54,12 +54,8 @@ class _Error extends StatelessWidget {
       context.read<CartBloc>().add(const CartEvent.getCart());
 
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ErrorRefreshWidget(onRefresh: () => onRefresh(context)),
-        ],
-      );
+  Widget build(BuildContext context) =>
+      Center(child: ErrorRefreshWidget(onRefresh: () => onRefresh(context)));
 }
 
 class _Content extends StatelessWidget {

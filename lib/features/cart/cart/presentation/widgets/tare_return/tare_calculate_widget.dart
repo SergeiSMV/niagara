@@ -38,7 +38,7 @@ class TareCalculateWidget extends StatelessWidget {
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
-                'закрыть',
+                t.cart.close,
                 style: context.textStyle.textTypo.tx2SemiBold,
               ),
             ),
@@ -47,28 +47,24 @@ class TareCalculateWidget extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) {
-    /// иконка вопроса (faq)
-    final SvgGenImage faqIcon = Assets.icons.question;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Text(
-            t.cart.polycarbonateTare,
-            style: context.textStyle.textTypo.tx2Medium,
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              t.cart.polycarbonateTare,
+              style: context.textStyle.textTypo.tx2Medium,
+            ),
           ),
-        ),
-        GestureDetector(
-          onTap: () async => _showOtherTareFaq(context),
-          child: faqIcon.svg(),
-        ),
-        AppBoxes.kWidth12,
-        Text(
-          '$tareSum ${t.common.rub}',
-          style: context.textStyle.textTypo.tx1SemiBold,
-        ),
-      ],
-    );
-  }
+          GestureDetector(
+            onTap: () async => _showOtherTareFaq(context),
+            child: Assets.icons.question.svg(),
+          ),
+          AppBoxes.kWidth12,
+          Text(
+            '$tareSum ${t.common.rub}',
+            style: context.textStyle.textTypo.tx1SemiBold,
+          ),
+        ],
+      );
 }

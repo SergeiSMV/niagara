@@ -65,7 +65,7 @@ class MainTareSelectionWidget extends StatelessWidget {
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
-                'закрыть',
+                t.cart.close,
                 style: context.textStyle.textTypo.tx2SemiBold,
               ),
             ),
@@ -75,13 +75,13 @@ class MainTareSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// флаг, который определяет, выбраны ли все тары к возврату
     final bool allSelected = totalTares == selectedTares;
+
+    /// чекбокс, который определяет, выбраны ли все тары к возврату
     final SvgGenImage icon = allSelected
         ? Assets.icons.checkboxChecked
         : Assets.icons.checkboxUnchecked;
-
-    /// иконка вопроса (faq)
-    final SvgGenImage faqIcon = Assets.icons.question;
 
     return GestureDetector(
       onTap: !allSelected ? null : () => _onAllToggled(context),
@@ -106,7 +106,7 @@ class MainTareSelectionWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () async => _showOtherTareFaq(context),
-                child: faqIcon.svg(),
+                child: Assets.icons.question.svg(),
               ),
               AppBoxes.kWidth12,
               if (allSelected)
