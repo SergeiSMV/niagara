@@ -96,9 +96,11 @@ class MainTareSelectionWidget extends StatelessWidget {
                     children: [
                       icon.svg(),
                       AppBoxes.kWidth8,
-                      Text(
-                        t.cart.returnEmptyTare,
-                        style: context.textStyle.textTypo.tx2Medium,
+                      Expanded(
+                        child: Text(
+                          t.cart.returnEmptyTare,
+                          style: context.textStyle.textTypo.tx2Medium,
+                        ),
                       ),
                     ],
                   ),
