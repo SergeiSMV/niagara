@@ -2,7 +2,7 @@ name: niagara_app
 description: A new Flutter project from Niagara
 publish_to: "none"
 
-version: 6.0.21+644
+version: 6.0.22+645
 
 environment:
   sdk: ">=3.4.3 <4.0.0"
