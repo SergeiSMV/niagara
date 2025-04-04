@@ -1,7 +1,5 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/common/presentation/widgets/app_network_image_widget.dart';
-import '../../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
 import '../../../../../core/utils/constants/app_borders.dart';
 import '../../../../../core/utils/constants/app_boxes.dart';
 import '../../../../../core/utils/constants/app_insets.dart';

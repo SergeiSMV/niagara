@@ -36,6 +36,8 @@ extension CartDataMapper on CartDataDto {
         productsCount: productsCount?.round() ?? 0,
         totalTares: countTaraDefault?.round() ?? 0,
         taraNotation: taraNotation ?? '',
+        taraExchangeInfo: taraExchangeInfo ?? '',
+        taraProductInfo: taraProductInfo ?? '',
       );
 }
 
