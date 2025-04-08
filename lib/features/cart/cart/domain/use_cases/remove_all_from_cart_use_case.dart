@@ -1,8 +1,8 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
-import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/cart/cart/domain/repositories/cart_repository.dart';
-import 'package:niagara_app/features/cart/cart/domain/use_cases/cart_params.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/cart_clear_types.dart';
+import '../models/cart.dart';
+import '../repositories/cart_repository.dart';
+import 'cart_params.dart';
 
 @injectable
 class RemoveAllFromCartUseCase

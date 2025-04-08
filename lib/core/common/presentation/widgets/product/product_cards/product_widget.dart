@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/base_product_widget.dart';
-import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
+
+import '../../../../../../features/cart/cart/domain/models/cart.dart';
+import '../../../../../../features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
+import '../../../../domain/models/product.dart';
+import 'base_product_widget.dart';
 
 /// Виджет карточки товара.
 ///
@@ -75,19 +76,17 @@ class ProductWidget extends StatelessWidget {
 
         return oldCount != newCount || oldCartPrice != newCartPrice;
       },
-      builder: (context, state) {
-        return BaseProductWidget(
-          product: product,
-          count: _getCount(product, state),
-          price: _getPrice(product, state),
-          onAdd: () => bloc.add(addEvent),
-          onRemove: () => bloc.add(removeEvent),
-          isOnWaterBalancePage: isOnWaterBalancePage,
-          authorized: !bloc.unauthrorized,
-          outOfStock: outOfStock,
-          loading: loading,
-        );
-      },
+      builder: (context, state) => BaseProductWidget(
+        product: product,
+        count: _getCount(product, state),
+        price: _getPrice(product, state),
+        onAdd: () => bloc.add(addEvent),
+        onRemove: () => bloc.add(removeEvent),
+        isOnWaterBalancePage: isOnWaterBalancePage,
+        authorized: !bloc.unauthrorized,
+        outOfStock: outOfStock,
+        loading: loading,
+      ),
     );
   }
 }
