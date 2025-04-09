@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:niagara_app/core/common/data/mappers/pagination_mapper.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/notifications/data/mappers/notifications_mapper.dart';
-import 'package:niagara_app/features/notifications/data/remote/data_source/notification_remote_data_source.dart';
-import 'package:niagara_app/features/notifications/domain/model/notifications_types.dart';
-import 'package:niagara_app/features/notifications/domain/repositories/notifications_repository.dart';
+
+import '../../../../core/common/data/mappers/pagination_mapper.dart';
+import '../../../../core/core.dart';
+import '../../domain/model/notifications_types.dart';
+import '../../domain/repositories/notifications_repository.dart';
+import '../mappers/notifications_mapper.dart';
+import '../remote/data_source/notification_remote_data_source.dart';
 
 @LazySingleton(as: INotificationsRepository)
 class NotificationsRepository extends BaseRepository
@@ -17,7 +18,7 @@ class NotificationsRepository extends BaseRepository
     this._notificationsRDS,
     this._fcmInstance,
   ) {
-    init();
+    unawaited(init());
   }
 
   final INotificationRemoteDataSource _notificationsRDS;
@@ -25,18 +26,21 @@ class NotificationsRepository extends BaseRepository
 
   @override
   Future<void> init() async {
-    final String? fcmToken = await _fcmInstance.getToken();
-    if (fcmToken != null) {
-      await _registerFcmDevice(fcmToken);
-    }
+    await execute(() async {
+      final String? fcmToken = await _fcmInstance.getToken();
 
-    _onTokenRefresh = _fcmInstance.onTokenRefresh.listen(_registerFcmDevice);
+      if (fcmToken != null) {
+        await _registerFcmDevice(fcmToken);
+      }
+
+      _onTokenRefresh = _fcmInstance.onTokenRefresh.listen(_registerFcmDevice);
+    });
   }
 
   @override
   @disposeMethod
-  void dispose() {
-    _onTokenRefresh?.cancel();
+  Future<void> dispose() async {
+    await _onTokenRefresh?.cancel();
   }
 
   /// Подписка на обновление FCM токена.
@@ -52,27 +56,22 @@ class NotificationsRepository extends BaseRepository
     required int page,
     required NotificationsTypes type,
   }) =>
-      execute(() async {
-        return await _notificationsRDS
-            .getNotifications(page: page, type: type)
-            .fold(
-              (failure) => throw failure,
-              (dto) => (
-                notifications:
-                    dto.notifications.map((e) => e.toModel()).toList(),
-                pagination: dto.pagination.toModel(),
-              ),
-            );
-      });
+      execute(() async => await _notificationsRDS
+          .getNotifications(page: page, type: type)
+          .fold(
+            (failure) => throw failure,
+            (dto) => (
+              notifications: dto.notifications.map((e) => e.toModel()).toList(),
+              pagination: dto.pagination.toModel(),
+            ),
+          ));
 
   @override
   Future<Either<Failure, void>> readNotification({required String id}) =>
-      execute(() async {
-        return await _notificationsRDS.readNotification(id: id).fold(
-              (failure) => throw failure,
-              (result) => result,
-            );
-      });
+      execute(() async => await _notificationsRDS.readNotification(id: id).fold(
+            (failure) => throw failure,
+            (result) => result,
+          ));
 
   /// Отправляет на бекенд FCM-токен устройства.
   Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) => execute(

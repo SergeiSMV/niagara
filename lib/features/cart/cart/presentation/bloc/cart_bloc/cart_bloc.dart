@@ -3,19 +3,20 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
-import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/cart/cart/domain/use_cases/add_to_cart_use_case.dart';
-import 'package:niagara_app/features/cart/cart/domain/use_cases/cart_params.dart';
-import 'package:niagara_app/features/cart/cart/domain/use_cases/get_cart_use_case.dart';
-import 'package:niagara_app/features/cart/cart/domain/use_cases/remove_all_from_cart_use_case.dart';
-import 'package:niagara_app/features/cart/cart/domain/use_cases/remove_from_cart_use_case.dart';
-import 'package:niagara_app/features/locations/addresses/domain/use_cases/address/get_default_address_use_case.dart';
+
+import '../../../../../../core/common/domain/models/product.dart';
+import '../../../../../../core/core.dart';
+import '../../../../../../core/utils/constants/app_constants.dart';
+import '../../../../../../core/utils/enums/auth_status.dart';
+import '../../../../../../core/utils/enums/cart_clear_types.dart';
+import '../../../../../authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
+import '../../../../../locations/addresses/domain/use_cases/address/get_default_address_use_case.dart';
+import '../../../domain/models/cart.dart';
+import '../../../domain/use_cases/add_to_cart_use_case.dart';
+import '../../../domain/use_cases/cart_params.dart';
+import '../../../domain/use_cases/get_cart_use_case.dart';
+import '../../../domain/use_cases/remove_all_from_cart_use_case.dart';
+import '../../../domain/use_cases/remove_from_cart_use_case.dart';
 
 part 'cart_bloc.freezed.dart';
 part 'cart_event.dart';
@@ -43,6 +44,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<_RemoveAllFromCart>(_onRemoveAllFromCart);
     on<_SetReturnTareCount>(_onSetReturnTareCount);
     on<_SetOtherReturnTareCount>(_onSetOtherReturnTareCount);
+    on<_CancelAllTare>(_onCancelAllTare);
     on<_SetBonusesToPay>(_onSetBonusesToPay);
     on<_ToggleAllTare>(_onToggleAllTare);
     on<_ToggleAllOtherTare>(_onToggleAllOtherTare);
@@ -83,16 +85,14 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         orElse: () => false,
       );
 
-  Future<CartParams> get _params async {
-    return CartParams(
-      allTare: _returnAllTare,
-      bonuses: _bonusesToPay,
-      promocode: _promocode,
-      tareCount: _returnTareCount,
-      otherTareCount: _otherReturnTareCount,
-      locationId: await _getDefaultAddress(),
-    );
-  }
+  Future<CartParams> get _params async => CartParams(
+        allTare: _returnAllTare,
+        bonuses: _bonusesToPay,
+        promocode: _promocode,
+        tareCount: _returnTareCount,
+        otherTareCount: _otherReturnTareCount,
+        locationId: await _getDefaultAddress(),
+      );
 
   StreamSubscription? _authStatusSubscription;
 
@@ -278,12 +278,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     );
   }
 
+  /// Удаляет все товары из корзины.
   Future<void> _onRemoveAllFromCart(
     _RemoveAllFromCart event,
     _Emit emit,
   ) async {
     if (!await _handleEvent(emit)) return;
     emit(const _Empty());
+
+    /// Обнуляем счетчики тары к возврату
+    add(const _CancelAllTare());
 
     final result = await _removeAllFromCartUseCase(
       RemoveAllFromCartParams(
@@ -341,6 +345,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     _otherReturnTareCount += event.count;
     add(const _GetCart());
+  }
+
+  /// Обнуляет все тары к возврату
+  void _onCancelAllTare(_CancelAllTare event, _Emit emit) {
+    _returnTareCount = 0;
+    _otherReturnTareCount = 0;
   }
 
   void _onSetBonusesToPay(
