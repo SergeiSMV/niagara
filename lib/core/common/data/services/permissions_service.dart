@@ -19,35 +19,24 @@ abstract interface class IPermissionsService {
 
 @LazySingleton(as: IPermissionsService)
 class PermissionsService implements IPermissionsService {
-  /// Флаг, который отвечает за то, чтобы не запрашивать разрешение на
-  /// использование геолокации несколько раз подряд.
-  bool _isRequestingPermission = false;
+  /// Мьютекс для синхронизации доступа к методам.
+  final _mutex = Mutex();
 
   @override
   Future<bool> openSettings() async => openAppSettings();
 
   @override
-  Future<PermissionStatus> checkLocationPermission() async {
-    /// Если разрешение уже запрашивается, то возвращаем текущий статус.
-    if (_isRequestingPermission) {
-      return await Permission.location.status;
-    }
+  Future<PermissionStatus> checkLocationPermission() async =>
+      _mutex.protect(() async {
+        final status = await Permission.location.status;
 
-    try {
-      _isRequestingPermission = true;
-      final status = await Permission.location.status;
+        /// Если разрешение отклонено, то запрашиваем его.
+        if (status == PermissionStatus.denied) {
+          return await Permission.location.request();
+        }
 
-      /// Если разрешение отклонено, то запрашиваем его.
-      if (status == PermissionStatus.denied) {
-        return await Permission.location.request();
-      }
-
-      return status;
-    } finally {
-      /// Снимаем флаг, что разрешение запрашивается.
-      _isRequestingPermission = false;
-    }
-  }
+        return status;
+      });
 
   @override
   Future<PermissionStatus> checkNotificationPermission() async {
