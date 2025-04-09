@@ -34,7 +34,20 @@ class AuthInterceptor extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     // Проверяем наличие интернета
-    final hasConnection = await networkInfo.hasConnection;
+    bool hasConnection = false;
+    try {
+      hasConnection = await networkInfo.hasConnection;
+    } on Exception catch (e) {
+      _log('[AuthInterceptor] Error while checking internet connection: $e');
+      return handler.next(
+        DioException(
+          requestOptions: err.requestOptions,
+          error: 'Failed to check internet connection',
+          type: DioExceptionType.connectionError,
+        ),
+      );
+    }
+
     if (!hasConnection) {
       _log('[AuthInterceptor] No internet connection');
       return handler.next(
