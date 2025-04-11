@@ -19,15 +19,24 @@ abstract interface class IPermissionsService {
 
 @LazySingleton(as: IPermissionsService)
 class PermissionsService implements IPermissionsService {
+  /// Мьютекс для синхронизации доступа к методам.
+  final _mutex = Mutex();
+
   @override
   Future<bool> openSettings() async => openAppSettings();
 
   @override
-  Future<PermissionStatus> checkLocationPermission() async {
-    await Permission.location.request();
-    final status = await Permission.location.status;
-    return status;
-  }
+  Future<PermissionStatus> checkLocationPermission() async =>
+      _mutex.protect(() async {
+        final status = await Permission.location.status;
+
+        /// Если разрешение отклонено, то запрашиваем его.
+        if (status == PermissionStatus.denied) {
+          return await Permission.location.request();
+        }
+
+        return status;
+      });
 
   @override
   Future<PermissionStatus> checkNotificationPermission() async {

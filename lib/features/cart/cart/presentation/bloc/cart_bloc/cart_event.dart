@@ -36,6 +36,8 @@ class CartEvent with _$CartEvent {
     required int count,
   }) = _SetOtherReturnTareCount;
 
+  const factory CartEvent.cancelAllTare() = _CancelAllTare;
+
   const factory CartEvent.setBonusesToPay({
     required int bonuses,
   }) = _SetBonusesToPay;

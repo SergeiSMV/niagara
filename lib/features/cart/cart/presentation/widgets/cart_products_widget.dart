@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_in_cart.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/enums/cart_clear_types.dart';
-import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
-import 'package:niagara_app/features/cart/cart/presentation/widgets/delete_products_button_widget.dart';
+import '../../../../../core/common/presentation/widgets/product/product_cards/product_in_cart.dart';
+import '../../../../../core/utils/constants/app_boxes.dart';
+import '../../../../../core/utils/constants/app_insets.dart';
+import '../../../../../core/utils/enums/cart_clear_types.dart';
+import '../../domain/models/cart.dart';
+import '../bloc/cart_bloc/cart_bloc.dart';
+import 'delete_products_button_widget.dart';
 
 /// Виджет, отображающий список доступных к заказу товаров в корзине.
 class CartProductListWidget extends StatelessWidget {
