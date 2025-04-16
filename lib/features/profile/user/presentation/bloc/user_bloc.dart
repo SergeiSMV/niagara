@@ -11,7 +11,7 @@ import 'package:niagara_app/features/profile/user/domain/usecases/delete_user_us
 import 'package:niagara_app/features/profile/user/domain/usecases/get_user_use_case.dart';
 import 'package:niagara_app/features/profile/user/domain/usecases/update_user_use_case.dart';
 
-import '../../../../../core/utils/services/uxcam_service/uxcam_service.dart';
+import '../../../../../core/utils/services/userx_service/userx_service.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -46,7 +46,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final DeleteUserUseCase _deleteUserUseCase;
   final UpdateUserUseCase _updateUserUseCase;
   final Stream<AuthenticatedStatus> _authStatusStream;
-  final UXCamService _uxCamService;
+  final UserXService _uxCamService;
 
   /// Подписка на изменение статуса авторизации.
   StreamSubscription? _authStatusSubscription;

@@ -1,34 +1,28 @@
-import 'package:flutter_uxcam/flutter_uxcam.dart';
 import 'package:get_it/get_it.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:userx_flutter/userx_flutter.dart';
+
 import '../../../core.dart';
 import '../../constants/app_constants.dart';
 
-/// Маска для UXCam.
-final _blur = FlutterUXBlur();
-
-/// Сервис для работы с UXCam.
+/// Сервис для работы с UserX (запись экрана).
 @lazySingleton
-class UXCamService {
-  const UXCamService({required this.appLogger});
+class UserXService {
+  const UserXService({required this.appLogger});
+
   final IAppLogger appLogger;
 
   /// Инициализирует UXCam.
   Future<void> initialize() async {
     if (AppConstants.kDebugMode) return;
-    final uxcamKey = GetIt.I<String>(instanceName: ApiConst.uxcamAppKey);
+    final String appKey = GetIt.I<String>(instanceName: ApiConst.userxAppKey);
     try {
-      FlutterUxcam.optIntoSchematicRecordings();
-      final config = FlutterUxConfig(
-        userAppKey: uxcamKey,
-        enableAutomaticScreenNameTagging: false,
+      UserX.start(appKey);
+
+      appLogger.log(
+        message: 'initialize success',
+        level: LogLevel.info,
       );
-      await FlutterUxcam.startWithConfiguration(config).then((_) {
-        appLogger.log(
-          message: 'initialize success',
-          level: LogLevel.info,
-        );
-      });
     } on Exception catch (e, stackTrace) {
       appLogger.handle(e, stackTrace);
     }
@@ -37,13 +31,13 @@ class UXCamService {
   /// Применяет маску UXCam для страницы.
   Future<void> applyOcclusion() async {
     if (AppConstants.kDebugMode) return;
-    FlutterUxcam.applyOcclusion(_blur);
+    UserX.stopScreenRecording();
   }
 
   /// Удаляет маску UXCam со страницы.
   Future<void> removeOcclusion() async {
     if (AppConstants.kDebugMode) return;
-    FlutterUxcam.removeOcclusion(_blur);
+    UserX.startScreenRecording();
   }
 
   /// Устанавливает идентификатор пользователя для UXCam.
@@ -53,19 +47,18 @@ class UXCamService {
     if (AppConstants.kDebugMode) return;
     try {
       if (username != null && username.isNotEmpty) {
-        FlutterUxcam.setUserIdentity(username).then((_) {
-          appLogger.log(
-            message: 'setUserIdentity success',
-            level: LogLevel.info,
-          );
-        });
+        UserX.setUserId(username);
+        appLogger.log(
+          message: 'setUserIdentity success',
+          level: LogLevel.info,
+        );
       } else {
-        FlutterUxcam.setUserIdentity('anonymous_user').then((_) {
-          appLogger.log(
-            message: 'setUserIdentity success',
-            level: LogLevel.info,
-          );
-        });
+        UserX.setUserId('anonymous_user');
+
+        appLogger.log(
+          message: 'setUserIdentity success',
+          level: LogLevel.info,
+        );
       }
     } on Exception catch (e, stackTrace) {
       appLogger.handle(e, stackTrace);
