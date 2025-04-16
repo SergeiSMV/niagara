@@ -28,14 +28,17 @@ class AmountControlsWidget extends StatelessWidget {
     this.loading = false,
   });
 
-  /// Означает, что товар добавлен в корзину, но отсутствует в наличии.
+  /// Используется для отображения сообщения об отсутствии товара в наличии.
+  ///
+  /// В таком случае исчезнут кнопки `+` и `-`, а обработчики нажатий не
+  /// будут вызываться.
   final bool outOfStock;
 
   /// Коллбек, вызываемый при уменьшении количества товара.
-  final VoidCallback onRemove;
+  final VoidCallback? onRemove;
 
   /// Коллбек, вызываемый при увеличении количества товара.
-  final VoidCallback onAdd;
+  final VoidCallback? onAdd;
 
   /// Количество товара.
   final int count;

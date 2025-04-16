@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../../../core/common/presentation/widgets/product/widget_components/amount_controls_widget.dart';
 import '../../../../../../core/utils/constants/app_borders.dart';
 import '../../../../../../core/utils/constants/app_boxes.dart';
 import '../../../../../../core/utils/constants/app_insets.dart';
 import '../../../../../../core/utils/extensions/build_context_ext.dart';
-import '../../../../../../core/utils/extensions/text_style_ext.dart';
 import '../../../../../../core/utils/gen/assets.gen.dart';
 import '../../../../../../core/utils/gen/strings.g.dart';
-
 import '../../bloc/cart_bloc/cart_bloc.dart';
 
 /// Виджет управления количеством тары (другого поставщика) к возврату
@@ -84,6 +83,12 @@ class OtherTareSelectionWidget extends StatelessWidget {
         ? Assets.icons.checkboxChecked
         : Assets.icons.checkboxUnchecked;
 
+    /// Находится ли корзина в состоянии загрузки.
+    final bool loading = context.read<CartBloc>().state.maybeWhen(
+          loading: (_, __, ___) => true,
+          orElse: () => false,
+        );
+
     return GestureDetector(
       onTap: !allSelected ? null : () => _onAllToggled(context),
       child: DecoratedBox(
@@ -117,21 +122,16 @@ class OtherTareSelectionWidget extends StatelessWidget {
                   child: Assets.icons.question.svg(),
                 ),
                 AppBoxes.kWidth12,
-                if (allSelected)
-                  Text(
-                    '$totalTares ${t.pieces}',
-                    style: context.textStyle.textTypo.tx1SemiBold.withColor(
-                      context.colors.mainColors.primary,
-                    ),
-                  )
-                else
-                  AmountControlsWidget(
-                    count: selectedTares,
-                    onAdd: () => _onOtherTarePlus(context),
-                    onRemove: () => _onOtherTareMinus(context),
-                    alwaysShowActions: true,
-                    shortAmount: true,
-                  ),
+                AmountControlsWidget(
+                  count: selectedTares,
+                  onAdd: !allSelected ? () => _onOtherTarePlus(context) : null,
+                  onRemove: selectedTares > 0
+                      ? () => _onOtherTareMinus(context)
+                      : null,
+                  alwaysShowActions: true,
+                  shortAmount: true,
+                  loading: loading,
+                ),
               ],
             ),
           ],
