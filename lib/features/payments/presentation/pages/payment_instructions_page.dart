@@ -1,21 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/core/utils/services/uxcam_service/uxcam_service.dart';
-import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
-import 'package:niagara_app/features/payments/presentation/bloc/payment_instructions_cubit/payment_instructions_cubit.dart';
+
+import '../../../../core/common/presentation/router/app_router.gr.dart';
+import '../../../../core/common/presentation/widgets/app_bar.dart';
+import '../../../../core/common/presentation/widgets/buttons/app_text_button.dart';
+import '../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../../core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
+import '../../../../core/dependencies/di.dart';
+import '../../../../core/utils/constants/app_boxes.dart';
+import '../../../../core/utils/constants/app_insets.dart';
+import '../../../../core/utils/constants/app_sizes.dart';
+import '../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../core/utils/gen/assets.gen.dart';
+import '../../../../core/utils/gen/strings.g.dart';
+import '../../../../core/utils/services/userx_service/userx_service.dart';
+import '../../../order_placing/domain/models/tokenization_data.dart';
+import '../bloc/payment_instructions_cubit/payment_instructions_cubit.dart';
 
 /// Экран с информацией о ходе оплаты.
 ///
@@ -56,12 +57,12 @@ class _PaymentInstructionsPageState extends State<PaymentInstructionsPage> {
   @override
   void initState() {
     super.initState();
-    getIt<UXCamService>().applyOcclusion();
+    getIt<UserXService>().applyOcclusion();
   }
 
   @override
   void dispose() {
-    getIt<UXCamService>().removeOcclusion();
+    getIt<UserXService>().removeOcclusion();
     super.dispose();
   }
 
@@ -93,29 +94,28 @@ class _PaymentInstructionsPageState extends State<PaymentInstructionsPage> {
       );
 
   /// Повторно запускает процесс оплаты.
-  void _onRetry(BuildContext context) {
+  Future<void> _onRetry(BuildContext context) async {
     context
         .read<PaymentInstructionsCubit>()
         .startPayment(widget.tokenizationData);
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppBarWidget(),
-      body: BlocProvider(
-        create: (_) => getIt<PaymentInstructionsCubit>()
-          ..startPayment(widget.tokenizationData),
-        child: BlocConsumer<PaymentInstructionsCubit, PaymentInstructionsState>(
-          listener: _paymentStateListener,
-          builder: (context, state) => state.maybeWhen(
-            loading: AppCenterLoader.new,
-            orElse: () => _Content(() => _onRetry(context)),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: const AppBarWidget(),
+        body: BlocProvider(
+          create: (_) => getIt<PaymentInstructionsCubit>()
+            ..startPayment(widget.tokenizationData),
+          child:
+              BlocConsumer<PaymentInstructionsCubit, PaymentInstructionsState>(
+            listener: _paymentStateListener,
+            builder: (context, state) => state.maybeWhen(
+              loading: AppCenterLoader.new,
+              orElse: () => _Content(() => _onRetry(context)),
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class _Content extends StatelessWidget {

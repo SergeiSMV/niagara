@@ -323,10 +323,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _SetReturnTareCount event,
     _Emit emit,
   ) {
+    if (event.count < 0) {
+      _returnAllOtherTare = false;
+      _returnAllTare = false;
+    }
+
     final advanceResult =
         _otherReturnTareCount + _returnTareCount + event.count;
 
-    if (advanceResult > _returnTaresDefault) return;
+    if (advanceResult > _returnTaresDefault) {
+      if (_otherReturnTareCount > 0) {
+        _otherReturnTareCount -= event.count;
+        _returnAllOtherTare = false;
+      } else {
+        return;
+      }
+    }
     if (_returnTareCount + event.count < 0) return;
 
     _returnTareCount += event.count;
@@ -337,10 +349,27 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _SetOtherReturnTareCount event,
     _Emit emit,
   ) {
+    if (event.count < 0) {
+      _returnAllOtherTare = false;
+      _returnAllTare = false;
+    }
+
+    /// Превдарительный результат, который получается при сложении всех
+    /// тар к возврату
     final advanceResult =
         _otherReturnTareCount + _returnTareCount + event.count;
 
-    if (advanceResult > _returnTaresDefault) return;
+    /// Если ввышло больше, чем можно, уменьшаем основные тары (если они есть)
+    if (advanceResult > _returnTaresDefault) {
+      if (_returnTareCount > 0) {
+        _returnTareCount -= event.count;
+        _returnAllTare = false;
+      } else {
+        return;
+      }
+    }
+
+    // Если вышло меньше, тут ничего не поделать
     if (_otherReturnTareCount + event.count < 0) return;
 
     _otherReturnTareCount += event.count;

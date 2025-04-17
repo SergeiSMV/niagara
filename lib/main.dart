@@ -16,7 +16,7 @@ import 'core/core.dart';
 import 'core/dependencies/di.dart' as di;
 import 'core/utils/gen/strings.g.dart';
 import 'core/utils/network/overrides/http_overrides.dart';
-import 'core/utils/services/uxcam_service/uxcam_service.dart';
+import 'core/utils/services/userx_service/userx_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -43,7 +43,7 @@ void main() async {
 
   LocaleSettings.useDeviceLocale();
 
-  di.getIt<UXCamService>().initialize();
+  di.getIt<UserXService>().initialize();
 
   /// Запрет на горизонтальное вращение экрана.
   await SystemChrome.setPreferredOrientations([
