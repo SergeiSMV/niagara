@@ -131,6 +131,7 @@ class OtherTareSelectionWidget extends StatelessWidget {
                   alwaysShowActions: true,
                   shortAmount: true,
                   loading: loading,
+                  countPadding: AppInsets.kHorizontal4,
                 ),
               ],
             ),

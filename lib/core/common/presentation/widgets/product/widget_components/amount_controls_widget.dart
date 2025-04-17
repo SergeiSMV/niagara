@@ -26,7 +26,13 @@ class AmountControlsWidget extends StatelessWidget {
     this.alwaysShowActions = false,
     this.outOfStock = false,
     this.loading = false,
+    this.countPadding,
   });
+
+  /// Отступы для количества товара.
+  ///
+  /// Задаются для фиксирования отступов от кнопок `+` и `-`.
+  final EdgeInsets? countPadding;
 
   /// Используется для отображения сообщения об отсутствии товара в наличии.
   ///
@@ -112,11 +118,17 @@ class AmountControlsWidget extends StatelessWidget {
             loading: loading,
           ),
           Padding(
-            padding: AppInsets.kHorizontal16 + AppInsets.kVertical4,
-            child: Text(
-              '$count${shortAmount ? '' : ' ${t.pieces}'}',
-              style: context.textStyle.textTypo.tx2SemiBold.withColor(
-                context.colors.mainColors.primary,
+            padding: (countPadding ?? AppInsets.kHorizontal16) +
+                AppInsets.kVertical4 +
+                AppInsets.kHorizontal4,
+            child: Container(
+              width: countPadding != null ? 25 : null,
+              alignment: Alignment.center,
+              child: Text(
+                '$count${shortAmount ? '' : ' ${t.pieces}'}',
+                style: context.textStyle.textTypo.tx2SemiBold.withColor(
+                  context.colors.mainColors.primary,
+                ),
               ),
             ),
           ),
