@@ -27,7 +27,9 @@ class AmountIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => InkWell(
-        onTap: onTap,
+        // `() {}` обеспечит "непрозрачность" InkWell при отсутствии `onTap`.
+        // Иначе события о тапах будут передаваться вверх по древу виджетов.
+        onTap: onTap ?? () {},
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: AppBorders.kCircular4,

@@ -89,54 +89,50 @@ class OtherTareSelectionWidget extends StatelessWidget {
           orElse: () => false,
         );
 
-    return GestureDetector(
-      onTap: !allSelected ? null : () => _onAllToggled(context),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: context.colors.mainColors.bgCard,
-          borderRadius: AppBorders.kCircular8,
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: allSelected ? null : () => _onAllToggled(context),
-                    child: Row(
-                      children: [
-                        icon.svg(),
-                        AppBoxes.kWidth8,
-                        Expanded(
-                          child: Text(
-                            t.cart.returnOtherTare,
-                            style: context.textStyle.textTypo.tx2Medium,
-                          ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: context.colors.mainColors.bgCard,
+        borderRadius: AppBorders.kCircular8,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => _onAllToggled(context),
+                  child: Row(
+                    children: [
+                      icon.svg(),
+                      AppBoxes.kWidth8,
+                      Expanded(
+                        child: Text(
+                          t.cart.returnOtherTare,
+                          style: context.textStyle.textTypo.tx2Medium,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () async => _showOtherTareFaq(context),
-                  child: Assets.icons.question.svg(),
-                ),
-                AppBoxes.kWidth12,
-                AmountControlsWidget(
-                  count: selectedTares,
-                  onAdd: !allSelected ? () => _onOtherTarePlus(context) : null,
-                  onRemove: selectedTares > 0
-                      ? () => _onOtherTareMinus(context)
-                      : null,
-                  alwaysShowActions: true,
-                  shortAmount: true,
-                  loading: loading,
-                  countPadding: AppInsets.kHorizontal4,
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              GestureDetector(
+                onTap: () async => _showOtherTareFaq(context),
+                child: Assets.icons.question.svg(),
+              ),
+              AppBoxes.kWidth12,
+              AmountControlsWidget(
+                count: selectedTares,
+                onAdd: !allSelected ? () => _onOtherTarePlus(context) : null,
+                onRemove:
+                    selectedTares > 0 ? () => _onOtherTareMinus(context) : null,
+                alwaysShowActions: true,
+                shortAmount: true,
+                loading: loading,
+                countPadding: AppInsets.kHorizontal4,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
