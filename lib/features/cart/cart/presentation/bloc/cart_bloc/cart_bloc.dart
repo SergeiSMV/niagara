@@ -323,6 +323,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _SetReturnTareCount event,
     _Emit emit,
   ) {
+    if (event.count < 0) {
+      _returnAllOtherTare = false;
+      _returnAllTare = false;
+    }
+
     final advanceResult =
         _otherReturnTareCount + _returnTareCount + event.count;
 
@@ -344,6 +349,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _SetOtherReturnTareCount event,
     _Emit emit,
   ) {
+    if (event.count < 0) {
+      _returnAllOtherTare = false;
+      _returnAllTare = false;
+    }
+
     /// Превдарительный результат, который получается при сложении всех
     /// тар к возврату
     final advanceResult =
