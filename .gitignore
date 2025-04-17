@@ -101,3 +101,5 @@ pubspec.lock
 *.env.stage
 *.env.prod
 *.env.default
+
+.vscode/settings.json
