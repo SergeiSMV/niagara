@@ -2,7 +2,7 @@ name: niagara_app
 description: A new Flutter project from Niagara
 publish_to: "none"
 
-version: 6.0.26+649
+version: 6.0.27+650
 
 environment:
   sdk: ">=3.4.3 <4.0.0"
@@ -44,6 +44,7 @@ dependencies:
   injectable: ^2.4.0
   internet_connection_checker: ^1.0.0+1
   intl: ^0.19.0
+  jivosdk_plugin: ^0.9.8
   json_annotation: ^4.9.0
   lottie: ^3.1.0
   mask_text_input_formatter: ^2.9.0
@@ -63,6 +64,7 @@ dependencies:
   sqlite3: ^2.4.2
   sqlite3_flutter_libs: ^0.5.0
   story: ^1.1.0
+  stream_chat_flutter: ^9.3.0
   stream_transform: ^2.1.0
   talker_bloc_logger: ^4.4.1
   talker_dio_logger: ^4.4.1

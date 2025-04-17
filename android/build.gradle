@@ -3,11 +3,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://www.jitpack.io' } // Jivo requirement
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.14' // Jivo requirement
     }
 }
 
@@ -15,7 +17,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://developer.huawei.com/repo/") } // YooKassa
+        maven { url = uri("https://developer.huawei.com/repo/") } // YooKassa requirement
+        maven { url 'https://www.jitpack.io' } // Jivo requirement
     }
 }
 
