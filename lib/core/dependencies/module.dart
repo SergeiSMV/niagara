@@ -37,8 +37,8 @@ abstract class AppModule {
   @Named(ApiConst.kYandexGeo)
   String get yandexGeoKey => const String.fromEnvironment(ApiConst.kYandexGeo);
 
-  @Named(ApiConst.uxcamAppKey)
-  String get uxcamAppKey => const String.fromEnvironment(ApiConst.uxcamAppKey);
+  @Named(ApiConst.userxAppKey)
+  String get uxcamAppKey => const String.fromEnvironment(ApiConst.userxAppKey);
 
   @lazySingleton
   Dio dio(

@@ -26,16 +26,25 @@ class AmountControlsWidget extends StatelessWidget {
     this.alwaysShowActions = false,
     this.outOfStock = false,
     this.loading = false,
+    this.countPadding,
   });
 
-  /// Означает, что товар добавлен в корзину, но отсутствует в наличии.
+  /// Отступы для количества товара.
+  ///
+  /// Задаются для фиксирования отступов от кнопок `+` и `-`.
+  final EdgeInsets? countPadding;
+
+  /// Используется для отображения сообщения об отсутствии товара в наличии.
+  ///
+  /// В таком случае исчезнут кнопки `+` и `-`, а обработчики нажатий не
+  /// будут вызываться.
   final bool outOfStock;
 
   /// Коллбек, вызываемый при уменьшении количества товара.
-  final VoidCallback onRemove;
+  final VoidCallback? onRemove;
 
   /// Коллбек, вызываемый при увеличении количества товара.
-  final VoidCallback onAdd;
+  final VoidCallback? onAdd;
 
   /// Количество товара.
   final int count;
@@ -109,11 +118,17 @@ class AmountControlsWidget extends StatelessWidget {
             loading: loading,
           ),
           Padding(
-            padding: AppInsets.kHorizontal16 + AppInsets.kVertical4,
-            child: Text(
-              '$count${shortAmount ? '' : ' ${t.pieces}'}',
-              style: context.textStyle.textTypo.tx2SemiBold.withColor(
-                context.colors.mainColors.primary,
+            padding: (countPadding ?? AppInsets.kHorizontal16) +
+                AppInsets.kVertical4 +
+                AppInsets.kHorizontal4,
+            child: Container(
+              width: countPadding != null ? 25 : null,
+              alignment: Alignment.center,
+              child: Text(
+                '$count${shortAmount ? '' : ' ${t.pieces}'}',
+                style: context.textStyle.textTypo.tx2SemiBold.withColor(
+                  context.colors.mainColors.primary,
+                ),
               ),
             ),
           ),

@@ -7,9 +7,9 @@ abstract final class ApiConst {
   static const String companyUrl =
       'https://digitalburo.tech/?utm_source=niagara&utm_medium=mobile';
 
-  // ? ----------------------------- UXCAM ------------------------------ ? //
+  // ? ----------------------------- USERX ------------------------------ ? //
 
-  static const String uxcamAppKey = 'UXCAM_APP_KEY';
+  static const String userxAppKey = 'USERX_APP_KEY';
 
   // ? ----------------------------- General ------------------------------ ? //
   static const String kBaseUrl = 'API_HOST';
