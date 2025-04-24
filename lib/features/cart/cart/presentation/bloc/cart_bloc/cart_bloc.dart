@@ -62,10 +62,24 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
   final Stream<AuthenticatedStatus> _authStatusStream;
 
+  /// Выбрано ли хоть какое-то количество тар "Ниагара" к возврату.
+  bool get taresSelected => _returnTareCount > 0 || _returnAllTare;
+
+  /// Выбрано ли хоть какое-то количество других тар к возврату.
+  bool get otherTaresSelected => _otherReturnTareCount > 0;
+
+  /// Отметка "Вернуть всю тару" - для initial value корзины при старте,
+  /// устанавливает на бекенде [_returnTareCount] в [_returnTaresDefault],
+  /// т.к. мы еще не знаем этих значений.
   bool _returnAllTare = true;
-  bool _returnAllOtherTare = false;
+
+  /// Сумма всех (потенциальных) оборотных бутылей в корзине.
   int _returnTaresDefault = 0;
+
+  /// Выбранное кол-во тар Ниагара.
   int _returnTareCount = 0;
+
+  /// Выбранное кол-во чужих тар.
   int _otherReturnTareCount = 0;
 
   int _bonusesToPay = 0;
@@ -158,8 +172,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   /// Обновляет значения параметров [CartParams], которые используются при
   /// запросе получения или изменения состояния корзины.
-  void _updateCartParams(Cart cart) {
+  void _updateTareParams(Cart cart) {
     _returnTareCount = cart.cartData.tareCount;
+    _otherReturnTareCount = cart.cartData.otherTareCount;
     _returnTaresDefault = cart.cartData.totalTares;
     _returnAllTare = _returnTareCount == _returnTaresDefault;
   }
@@ -182,7 +197,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         .fold(
       (_) => emit(const _Error()),
       (cart) async {
-        _updateCartParams(cart);
+        _updateTareParams(cart);
 
         emit(
           cart.isEmpty
@@ -221,7 +236,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     result.fold(
       (_) => emit(const _Error()),
       (cart) {
-        _updateCartParams(cart);
+        _updateTareParams(cart);
 
         emit(
           cart.isEmpty
@@ -261,6 +276,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     result.fold(
       (_) => emit(const _Error()),
       (cart) async {
+        _updateTareParams(cart);
+
         /// Если корзина пустая, то обнуляем бонусы к оплате для корректного
         /// отображения и пересчета
         if (cart.isEmpty) {
@@ -324,7 +341,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _Emit emit,
   ) {
     if (event.count < 0) {
-      _returnAllOtherTare = false;
       _returnAllTare = false;
     }
 
@@ -334,7 +350,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     if (advanceResult > _returnTaresDefault) {
       if (_otherReturnTareCount > 0) {
         _otherReturnTareCount -= event.count;
-        _returnAllOtherTare = false;
       } else {
         return;
       }
@@ -350,7 +365,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _Emit emit,
   ) {
     if (event.count < 0) {
-      _returnAllOtherTare = false;
       _returnAllTare = false;
     }
 
@@ -394,14 +408,26 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _ToggleAllTare event,
     _Emit emit,
   ) {
-    _returnAllTare = !_returnAllTare;
+    // Если наши тары не были выбраны вообще:
+    if (!taresSelected) {
+      // Если не выбрано и чужих тар, выбираем все доступные, иначе только одну
+      _returnTareCount = otherTaresSelected ? 1 : _returnTaresDefault;
 
-    if (_returnAllTare) {
-      _returnTareCount = _returnTaresDefault;
-      _returnAllOtherTare = false;
-      _otherReturnTareCount = 0;
+      // Если все доступные тары "забиты" чужими, то уменьшаем их на единицу
+      // (логика с сайта)
+      if (_otherReturnTareCount == _returnTaresDefault) {
+        _otherReturnTareCount -= 1;
+      }
     } else {
+      // Если хоть одна наша тара была выбрана:
+      // Обнуляем счетчик наших тар, чтобы можно было выбрать чужие
+      _returnAllTare = false;
       _returnTareCount = 0;
+
+      // Если чужие тары выбраны, то выбираем все доступные (логика с сайта)
+      if (otherTaresSelected) {
+        _otherReturnTareCount = _returnTaresDefault;
+      }
     }
 
     add(const _GetCart());
@@ -411,14 +437,28 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _ToggleAllOtherTare event,
     _Emit emit,
   ) {
-    _returnAllOtherTare = !_returnAllOtherTare;
+    // Если чужие тары не были выбраны вообще:
+    if (!otherTaresSelected) {
+      // Если выбрано хоть одна наша тара, то выбираем все доступные, иначе
+      // только одну
+      _otherReturnTareCount = taresSelected ? 1 : _returnTaresDefault;
 
-    if (_returnAllOtherTare) {
-      _otherReturnTareCount = _returnTaresDefault;
+      // Если все доступные тары "забиты" нашими, то уменьшаем их на единицу
+      // (логика с сайта)
+      if (_returnTareCount == _returnTaresDefault) {
+        _returnTareCount -= 1;
+      }
+
       _returnAllTare = false;
-      _returnTareCount = 0;
     } else {
+      // Если выбрано хоть одна чужая тара, то обнуляем счетчик наших тар
       _otherReturnTareCount = 0;
+
+      // Если выбрана хоть одна наша тара, то выбираем все доступные
+      // (логика с сайта)
+      if (taresSelected) {
+        _returnTareCount = _returnTaresDefault;
+      }
     }
 
     add(const _GetCart());

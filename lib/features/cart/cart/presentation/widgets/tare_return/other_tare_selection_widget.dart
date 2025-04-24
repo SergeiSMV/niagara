@@ -75,11 +75,12 @@ class OtherTareSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// флаг, который определяет, выбраны ли все тары к возврату
+    /// Флаг, определяющий, выбраны ли все тары к возврату
     final bool allSelected = totalTares == selectedTares;
 
-    /// чекбокс, который определяет, выбраны ли все тары к возврату
-    final SvgGenImage icon = allSelected
+    /// Иконка чекбокса, который определяет, выбраны ли тары данного
+    /// вида к возврату.
+    final SvgGenImage icon = selectedTares > 0
         ? Assets.icons.checkboxChecked
         : Assets.icons.checkboxUnchecked;
 
