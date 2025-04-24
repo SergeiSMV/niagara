@@ -408,16 +408,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _ToggleAllTare event,
     _Emit emit,
   ) {
+    // Если наши тары не были выбраны вообще:
     if (!taresSelected) {
+      // Если не выбрано и чужих тар, выбираем все доступные, иначе только одну
       _returnTareCount = otherTaresSelected ? 1 : _returnTaresDefault;
 
+      // Если все доступные тары "забиты" чужими, то уменьшаем их на единицу
+      // (логика с сайта)
       if (_otherReturnTareCount == _returnTaresDefault) {
         _otherReturnTareCount -= 1;
       }
     } else {
+      // Если хоть одна наша тара была выбрана:
+      // Обнуляем счетчик наших тар, чтобы можно было выбрать чужие
       _returnAllTare = false;
       _returnTareCount = 0;
 
+      // Если чужие тары выбраны, то выбираем все доступные (логика с сайта)
       if (otherTaresSelected) {
         _otherReturnTareCount = _returnTaresDefault;
       }
@@ -430,17 +437,25 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _ToggleAllOtherTare event,
     _Emit emit,
   ) {
+    // Если чужие тары не были выбраны вообще:
     if (!otherTaresSelected) {
+      // Если выбрано хоть одна наша тара, то выбираем все доступные, иначе
+      // только одну
       _otherReturnTareCount = taresSelected ? 1 : _returnTaresDefault;
 
+      // Если все доступные тары "забиты" нашими, то уменьшаем их на единицу
+      // (логика с сайта)
       if (_returnTareCount == _returnTaresDefault) {
         _returnTareCount -= 1;
       }
 
       _returnAllTare = false;
     } else {
+      // Если выбрано хоть одна чужая тара, то обнуляем счетчик наших тар
       _otherReturnTareCount = 0;
 
+      // Если выбрана хоть одна наша тара, то выбираем все доступные
+      // (логика с сайта)
       if (taresSelected) {
         _returnTareCount = _returnTaresDefault;
       }
