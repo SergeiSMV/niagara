@@ -1,4 +1,5 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../core/core.dart';
 import '../../../core/dependencies/di.dart';
@@ -75,22 +76,26 @@ class SupportRepository extends BaseRepository implements ISupportRepository {
             (failure) => throw failure,
             (user) => user,
           ),
+      PackageInfo.fromPlatform(),
     ]);
 
     final orders = res[0] as List<UserOrder>;
     final city = res[1] as City;
     final bonuses = res[2] as Bonuses;
     final user = res[3] as User;
+    final packageInfo = res[4] as PackageInfo;
 
     final credentials = SupportChatCredentials(
       // TODO: Ссылка должна приходить с бекенда, могут удалить
       chatUrl: 'https://jivo.chat/AenBSnMXzu',
+
+      // TODO: Убрать токен фейковый, нужна генерация JWT на беке с секретом из Jivo консоли
       userToken: '1234567890',
       userAttributes: SupportUserAttributes(
         values: {
           'city': city.name,
           'last_order_id': orders.firstOrNull?.id ?? 'Нет заказов',
-          'app_version': '6.0.28+651',
+          'app_version': packageInfo.version,
           'bonus_count': bonuses.count,
         },
       ),
@@ -112,6 +117,7 @@ class SupportRepository extends BaseRepository implements ISupportRepository {
   Future<Either<Failure, void>> clearCache() async {
     try {
       await InAppWebViewController.clearAllCache();
+      await WebStorageManager.instance().deleteAllData();
       return const Right(null);
     } on Object catch (_) {
       return Left(failure);
