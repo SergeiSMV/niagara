@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/onboarding_step.dart';
-import 'package:niagara_app/features/locations/addresses/domain/use_cases/permissions/get_user_position_use_case.dart';
-import 'package:niagara_app/features/onboarding/domain/use_case/check_notifications_permission_use_case.dart';
-import 'package:niagara_app/features/onboarding/domain/use_case/set_passed_oboarding_use_case.dart';
+import '../../../../core/core.dart';
+import '../../../../core/utils/enums/onboarding_step.dart';
+import '../../../locations/addresses/domain/use_cases/permissions/get_user_position_use_case.dart';
+import '../../domain/use_case/check_notifications_permission_use_case.dart';
+import '../../domain/use_case/set_passed_oboarding_use_case.dart';
 
 /// [Cubit] для управления этапами онбординга.
 @injectable

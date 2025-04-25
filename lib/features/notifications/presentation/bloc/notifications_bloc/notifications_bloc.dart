@@ -3,10 +3,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/notifications/domain/model/notification.dart';
-import 'package:niagara_app/features/notifications/domain/model/notifications_types.dart';
-import 'package:niagara_app/features/notifications/domain/use_cases/get_notifications_use_case.dart';
+
+import '../../../../../core/core.dart';
+import '../../../domain/model/notification.dart';
+import '../../../domain/model/notifications_types.dart';
+import '../../../domain/use_cases/get_notifications_use_case.dart';
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';

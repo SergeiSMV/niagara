@@ -30,6 +30,7 @@ class NotificationsRepository extends BaseRepository
       final String? fcmToken = await _fcmInstance.getToken();
 
       if (fcmToken != null) {
+        // Регистрация токена на бекенде
         await _registerFcmDevice(fcmToken);
       }
 
@@ -75,7 +76,7 @@ class NotificationsRepository extends BaseRepository
 
   /// Отправляет на бекенд FCM-токен устройства.
   Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) => execute(
-        () => _notificationsRDS.registerFcmDevice(fcmToken).fold(
+        () async => _notificationsRDS.registerFcmDevice(fcmToken).fold(
               (failure) => throw failure,
               (result) => result,
             ),
