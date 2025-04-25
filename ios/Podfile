@@ -3,8 +3,6 @@ platform :ios, '14.0'
 
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://git.yoomoney.ru/scm/sdk/cocoa-pod-specs.git'
-source 'https://github.com/cocoapods/specs'
-source 'https://github.com/jivochat/cocoapods-repo'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -37,8 +35,7 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-  pod 'JivoSDK'
-  
+
   target 'RunnerTests' do
     inherit! :search_paths
   end
