@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../core/utils/gen/strings.g.dart';
 import 'support_cubit.dart';
 
 /// Страница с чатом службы поддержки.
@@ -40,27 +41,27 @@ class _SupportChatPageState extends State<SupportChatPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Поддержка'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () async {
-                await _controller?.reload();
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.cancel),
-              onPressed: () async {
-                if (_controller != null) {
-                  await Future.wait([
-                    _controller!.webStorage.sessionStorage.clear(),
-                    _controller!.webStorage.localStorage.clear(),
-                  ]);
-                }
+          title: Text(t.profile.appInfo.support),
+          // actions: [
+          //   IconButton(
+          //     icon: const Icon(Icons.refresh),
+          //     onPressed: () async {
+          //       await _controller?.reload();
+          //     },
+          //   ),
+          //   IconButton(
+          //     icon: const Icon(Icons.cancel),
+          //     onPressed: () async {
+          //       if (_controller != null) {
+          //         await Future.wait([
+          //           _controller!.webStorage.sessionStorage.clear(),
+          //           _controller!.webStorage.localStorage.clear(),
+          //         ]);
+          //       }
 
-                await _controller?.reload();
+          //       await _controller?.reload();
 
-                // TODO: Убрать тестовые код
+          // TODO: Убрать тестовые код
 
 //                 await Future.delayed(const Duration(seconds: 1));
 
@@ -109,9 +110,9 @@ class _SupportChatPageState extends State<SupportChatPage> {
 //                 );
 
 //                 print(c);
-              },
-            ),
-          ],
+          //     },
+          //   ),
+          // ],
         ),
         body: BlocBuilder<SupportCubit, SupportChatState>(
           builder: (context, state) {

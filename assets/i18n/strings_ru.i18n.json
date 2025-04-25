@@ -230,7 +230,7 @@
     "appInfo": {
       "appInfoHeader": "Информация",
       "aboutApp": "О приложении",
-      "suppoort": "Служба поддержки",
+      "support": "Служба поддержки",
       "appVersion": "Версия приложения: ${version}"
     },
     "banners": {
