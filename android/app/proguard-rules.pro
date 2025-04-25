@@ -13,3 +13,10 @@
 -dontwarn kotlinx.parcelize.Parceler
 -dontwarn kotlinx.parcelize.Parcelize
 -dontwarn org.joda.time.Instant
+
+# Для Retrofit и LiveData
+-keep class androidx.lifecycle.LiveData { *; }
+-keep class * extends retrofit2.CallAdapter
+-keepclassmembers class * {
+    @retrofit2.http.* <methods>;
+}

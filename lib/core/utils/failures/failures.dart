@@ -401,3 +401,9 @@ class PaymentsRemoteDataFailure extends Failure {
 class OrderWaterRepositoryFailure extends Failure {
   const OrderWaterRepositoryFailure([super.error = 'Order water repo failure']);
 }
+
+// ! ---------------------------- Support ------------------------------- ! //
+
+class SupportRepositoryFailure extends Failure {
+  const SupportRepositoryFailure([super.error = 'Support repo failure']);
+}

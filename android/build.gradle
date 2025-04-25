@@ -18,7 +18,7 @@ allprojects {
         google()
         mavenCentral()
         maven { url = uri("https://developer.huawei.com/repo/") } // YooKassa requirement
-        maven { url 'https://www.jitpack.io' } // Jivo requirement
+        maven { url "https://jitpack.io" } // Jivo requirement
     }
 }
 
