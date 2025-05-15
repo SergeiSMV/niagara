@@ -36,14 +36,14 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async => m.createAll(),
         beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
         onUpgrade: (m, from, to) async {
-          if (from < 2) {
+          if (from < 8) {
             final existingUserColumns = await customSelect(
               'PRAGMA table_info(users_table);',
               readsFrom: {usersTable},
@@ -53,8 +53,9 @@ class AppDatabase extends _$AppDatabase {
             final hasOrdersCount = existingUserColumns.any(
               (row) => row.read<String>('name') == usersTable.ordersCount.name,
             );
-            if (!hasOrdersCount) {
-              await m.addColumn(usersTable, usersTable.ordersCount);
+            if (!hasOrdersCount || true) {
+              await m.deleteTable(usersTable.actualTableName);
+              await m.createTable(usersTable);
             }
 
             // Проверка перед добавлением поля pickup:
@@ -66,8 +67,9 @@ class AppDatabase extends _$AppDatabase {
             final hasPickup = existingColumns.any(
               (row) => row.read<String>('name') == userOrdersTable.pickup.name,
             );
-            if (!hasPickup) {
-              await m.addColumn(userOrdersTable, userOrdersTable.pickup);
+            if (!hasPickup || true) {
+              await m.deleteTable(userOrdersTable.actualTableName);
+              await m.createTable(userOrdersTable);
             }
           }
         },
