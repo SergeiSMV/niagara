@@ -3,7 +3,10 @@ import '../../domain/support_user_attributes.dart';
 import '../../domain/user_contact_info.dart';
 import '../remote/support_chat_credentials_dto.dart';
 
+/// Расширение для преобразования [SupportChatCredentialsDto] в
+/// [SupportChatCredentials].
 extension SupportChatCredentialsMapper on SupportChatCredentialsDto {
+  /// Преобразует [SupportChatCredentialsDto] в [SupportChatCredentials].
   SupportChatCredentials toModel() => SupportChatCredentials(
         chatUrl: chatUrl,
         userToken: userToken,

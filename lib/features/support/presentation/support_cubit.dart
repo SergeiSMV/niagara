@@ -14,6 +14,9 @@ class SupportCubit extends Cubit<SupportChatState> {
   final ISupportRepository _chatRepo;
 
   /// Контроллер WebView.
+  ///
+  /// `N.B:` `dispose` вызывается автоматически при закрытии страницы.
+  /// Если вызвать его вручную, возникает ошибка.
   InAppWebViewController? _controller;
 
   /// Данные для подключения к чату службы поддержки.
@@ -23,15 +26,6 @@ class SupportCubit extends Cubit<SupportChatState> {
   WebUri? get chatUrl => _credentials?.chatUrl != null
       ? WebUri.uri(Uri.parse(_credentials!.chatUrl))
       : null;
-
-  @override
-  Future<void> close() async {
-    _controller?.dispose();
-    _controller = null;
-    _credentials = null;
-
-    super.close();
-  }
 
   /// Получает данные для подключения к чату службы поддержки.
   Future<void> getUserCredentials() async {

@@ -5,6 +5,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../core/common/presentation/widgets/errors/error_refresh_widget.dart';
 import '../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../core/dependencies/di.dart';
 import '../../../core/utils/gen/strings.g.dart';
 import 'support_cubit.dart';
 
@@ -32,39 +33,43 @@ class _SupportChatPageState extends State<SupportChatPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(t.profile.appInfo.support),
-        ),
-        body: BlocBuilder<SupportCubit, SupportChatState>(
-          builder: (context, state) {
-            final cubit = context.read<SupportCubit>();
-            final chatUrl = cubit.chatUrl;
+  Widget build(BuildContext context) => BlocProvider(
+        // ignore: discarded_futures
+        create: (_) => getIt<SupportCubit>()..getUserCredentials(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(t.profile.appInfo.support),
+          ),
+          body: BlocBuilder<SupportCubit, SupportChatState>(
+            builder: (context, state) {
+              final cubit = context.read<SupportCubit>();
+              final chatUrl = cubit.chatUrl;
 
-            // Пока кубит загружается (состояния `notInitialized`, `loading` или
-            // нет chatUrl), показываем лоадер.
-            if (chatUrl == null || !state.isReady) {
-              return const AppCenterLoader();
-            } else if (state.isError) {
-              // Если произошла ошибка, то показываем кнопку для повторной
-              // попытки.
-              return ErrorRefreshWidget(
-                onRefresh: cubit.getUserCredentials,
+              // Пока кубит загружается (состояния `notInitialized`, `loading`
+              // или нет chatUrl), показываем лоадер.
+              if (chatUrl == null || !state.isReady) {
+                return const AppCenterLoader();
+              } else if (state.isError) {
+                // Если произошла ошибка, то показываем кнопку для повторной
+                // попытки.
+                return ErrorRefreshWidget(
+                  onRefresh: cubit.getUserCredentials,
+                );
+              }
+
+              return InAppWebView(
+                initialUrlRequest: URLRequest(url: chatUrl),
+                onWebViewCreated: (controller) async {
+                  _controller = controller;
+                  cubit.onControllerReady(controller);
+                },
+                initialSettings: InAppWebViewSettings(
+                  mediaPlaybackRequiresUserGesture: false,
+                  supportZoom: false,
+                ),
               );
-            }
-
-            return InAppWebView(
-              initialUrlRequest: URLRequest(url: chatUrl),
-              onWebViewCreated: (controller) async {
-                _controller = controller;
-                cubit.onControllerReady(controller);
-              },
-              initialSettings: InAppWebViewSettings(
-                mediaPlaybackRequiresUserGesture: false,
-                supportZoom: false,
-              ),
-            );
-          },
+            },
+          ),
         ),
       );
 }

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/common/presentation/router/app_router.gr.dart';
@@ -7,7 +8,6 @@ import '../../../../../core/utils/constants/app_insets.dart';
 import '../../../../../core/utils/extensions/build_context_ext.dart';
 import '../../../../../core/utils/gen/assets.gen.dart';
 import '../../../../../core/utils/gen/strings.g.dart';
-import '../../../../support/presentation/support_chat_page.dart';
 import 'profile_action_tile.dart';
 import 'profile_actions_widget.dart';
 
@@ -41,12 +41,7 @@ class AppInfoWidget extends StatelessWidget {
                   ProfileActionTile(
                     leadingIcon: Assets.icons.support,
                     title: t.profile.appInfo.support,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SupportChatPage(),
-                      ),
-                    ),
+                    onTap: () => context.navigateTo(const SupportChatRoute()),
                   ),
                 ],
               ),

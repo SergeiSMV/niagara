@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../core/core.dart';
+import '../../../core/dependencies/di.dart';
 import '../../../core/utils/enums/auth_status.dart';
 import '../data/mappers/support_chat_credentials_mapper.dart';
 import '../data/remote/support_remote_data_source.dart';
@@ -40,6 +44,11 @@ class SupportRepository extends BaseRepository implements ISupportRepository {
     _authStatusStream.listen((status) async {
       if (!status.hasAuth) {
         await clearCache();
+
+        getIt<IAppLogger>().log(
+          level: LogLevel.info,
+          message: 'Logged out. Clearing support chat cache.',
+        );
       }
     });
   }
@@ -76,8 +85,13 @@ class SupportRepository extends BaseRepository implements ISupportRepository {
   @override
   Future<Either<Failure, void>> clearCache() async {
     try {
-      await InAppWebViewController.clearAllCache();
-      await WebStorageManager.instance().deleteAllData();
+      await PlatformInAppWebViewController.static().clearAllCache();
+
+      // Очистка кэша имплментирована только для Android.
+      if (Platform.isAndroid) {
+        await WebStorageManager.instance().deleteAllData();
+      }
+
       return const Right(null);
     } on Object catch (_) {
       return Left(failure);

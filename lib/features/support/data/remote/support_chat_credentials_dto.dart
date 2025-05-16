@@ -14,12 +14,12 @@ class SupportChatCredentialsDto extends Equatable {
 
   factory SupportChatCredentialsDto.fromJson(Map<String, dynamic> json) =>
       SupportChatCredentialsDto(
-        chatUrl: json['CHAT_URL'],
-        userToken: json['USER_TOKEN'],
-        userName: json['USER_NAME'],
-        userEmail: json['USER_EMAIL'],
-        userPhone: json['USER_PHONE'],
-        userDescription: json['USER_DESCRIPTION'],
+        chatUrl: json['CHAT_URL'] ?? '',
+        userToken: json['USER_TOKEN'] ?? '',
+        userName: json['USER_NAME'] ?? '',
+        userEmail: json['USER_EMAIL'] ?? '',
+        userPhone: json['USER_PHONE'] ?? '',
+        userDescription: json['USER_DESCRIPTION'] ?? '',
         customAttributes: Map.fromEntries(
           (json['customAttributes'] as List<dynamic>).map(
             (e) {
