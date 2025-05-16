@@ -44,8 +44,31 @@ class AppDatabase extends _$AppDatabase {
         beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
         onUpgrade: (m, from, to) async {
           if (from < 2) {
-            await m.addColumn(usersTable, usersTable.ordersCount);
-            await m.addColumn(userOrdersTable, userOrdersTable.pickup);
+            final existingUserColumns = await customSelect(
+              'PRAGMA table_info(users_table);',
+              readsFrom: {usersTable},
+            ).get();
+
+            // Проверка перед добавлением поля orders_count:
+            final hasOrdersCount = existingUserColumns.any(
+              (row) => row.read<String>('name') == usersTable.ordersCount.name,
+            );
+            if (!hasOrdersCount) {
+              await m.addColumn(usersTable, usersTable.ordersCount);
+            }
+
+            // Проверка перед добавлением поля pickup:
+            final existingColumns = await customSelect(
+              'PRAGMA table_info(user_orders_table);',
+              readsFrom: {userOrdersTable},
+            ).get();
+
+            final hasPickup = existingColumns.any(
+              (row) => row.read<String>('name') == userOrdersTable.pickup.name,
+            );
+            if (!hasPickup) {
+              await m.addColumn(userOrdersTable, userOrdersTable.pickup);
+            }
           }
         },
       );
