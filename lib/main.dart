@@ -14,6 +14,7 @@ import 'core/common/presentation/router/app_router.dart';
 import 'core/common/presentation/theme/app_theme.dart';
 import 'core/core.dart';
 import 'core/dependencies/di.dart' as di;
+import 'core/utils/crashlytics/crashlytics_error_filter.dart';
 import 'core/utils/gen/strings.g.dart';
 import 'core/utils/network/overrides/http_overrides.dart';
 import 'core/utils/services/userx_service/userx_service.dart';
@@ -28,8 +29,10 @@ void main() async {
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
 
-  FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  FlutterError.onError = (FlutterErrorDetails err) {
+    if (!CrashlyticsErrorFilter.isErrorFatal(err)) return;
+
+    FirebaseCrashlytics.instance.recordFlutterFatalError(err);
   };
 
   PlatformDispatcher.instance.onError = (error, stack) {
