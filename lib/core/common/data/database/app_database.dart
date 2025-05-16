@@ -55,7 +55,7 @@ class AppDatabase extends _$AppDatabase {
                 (row) =>
                     row.read<String>('name') == usersTable.ordersCount.name,
               );
-              if (!hasOrdersCount || true) {
+              if (!hasOrdersCount) {
                 await m.deleteTable(usersTable.actualTableName);
                 await m.createTable(usersTable);
               }
@@ -70,7 +70,7 @@ class AppDatabase extends _$AppDatabase {
                 (row) =>
                     row.read<String>('name') == userOrdersTable.pickup.name,
               );
-              if (!hasPickup || true) {
+              if (!hasPickup) {
                 await m.deleteTable(userOrdersTable.actualTableName);
                 await m.createTable(userOrdersTable);
               }
