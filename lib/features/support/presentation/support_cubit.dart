@@ -42,7 +42,16 @@ class SupportCubit extends Cubit<SupportChatState> {
       (failure) => emit(SupportChatState.error),
       (credentials) async {
         _credentials = credentials;
-        emit(SupportChatState.initialized);
+
+        /// Самое главное - валидная ссылка на чат. Все остальные параметры даже
+        /// будучи некорректными не оказывают критического влияния на работу
+        /// чата.
+        final bool isValidUrl = Uri.tryParse(_credentials!.chatUrl) != null;
+        if (isValidUrl) {
+          emit(SupportChatState.initialized);
+        } else {
+          emit(SupportChatState.error);
+        }
       },
     );
   }
@@ -116,5 +125,11 @@ enum SupportChatState {
   initialized,
 
   /// Ошибка при загрузке данных.
-  error,
+  error;
+
+  /// Готово для использования.
+  bool get isReady => this == initialized;
+
+  /// Ошибка при загрузке данных.
+  bool get isError => this == error;
 }
