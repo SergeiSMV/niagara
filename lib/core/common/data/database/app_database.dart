@@ -36,39 +36,62 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async => m.createAll(),
         beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
         onUpgrade: (m, from, to) async {
-          if (from < 2) {
-            final existingUserColumns = await customSelect(
-              'PRAGMA table_info(users_table);',
-              readsFrom: {usersTable},
-            ).get();
+          try {
+            if (from < 8) {
+              final existingUserColumns = await customSelect(
+                'PRAGMA table_info(users_table);',
+                readsFrom: {usersTable},
+              ).get();
 
-            // Проверка перед добавлением поля orders_count:
-            final hasOrdersCount = existingUserColumns.any(
-              (row) => row.read<String>('name') == usersTable.ordersCount.name,
+              // Проверка перед добавлением поля orders_count:
+              final hasOrdersCount = existingUserColumns.any(
+                (row) =>
+                    row.read<String>('name') == usersTable.ordersCount.name,
+              );
+              if (!hasOrdersCount || true) {
+                await m.deleteTable(usersTable.actualTableName);
+                await m.createTable(usersTable);
+              }
+
+              // Проверка перед добавлением поля pickup:
+              final existingColumns = await customSelect(
+                'PRAGMA table_info(user_orders_table);',
+                readsFrom: {userOrdersTable},
+              ).get();
+
+              final hasPickup = existingColumns.any(
+                (row) =>
+                    row.read<String>('name') == userOrdersTable.pickup.name,
+              );
+              if (!hasPickup || true) {
+                await m.deleteTable(userOrdersTable.actualTableName);
+                await m.createTable(userOrdersTable);
+              }
+            }
+          } on SqliteException catch (e, st) {
+            getIt<IAppLogger>().log(
+              level: LogLevel.error,
+              message: 'Error migrating database: $e',
+              error: e,
+              stackTrace: st,
             );
-            if (!hasOrdersCount) {
-              await m.addColumn(usersTable, usersTable.ordersCount);
+
+            for (final table in allTables) {
+              await m.deleteTable(table.actualTableName);
+              await m.createTable(table);
             }
 
-            // Проверка перед добавлением поля pickup:
-            final existingColumns = await customSelect(
-              'PRAGMA table_info(user_orders_table);',
-              readsFrom: {userOrdersTable},
-            ).get();
-
-            final hasPickup = existingColumns.any(
-              (row) => row.read<String>('name') == userOrdersTable.pickup.name,
+            getIt<IAppLogger>().log(
+              level: LogLevel.info,
+              message: 'Cleared and re-created all tables',
             );
-            if (!hasPickup) {
-              await m.addColumn(userOrdersTable, userOrdersTable.pickup);
-            }
           }
         },
       );
