@@ -22,6 +22,7 @@ import '../../../profile/user/presentation/bloc/user_bloc.dart';
 import '../../../promotions/presentation/cubit/promotions_cubit.dart';
 import '../../../special_poducts/presentation/bloc/special_products_bloc.dart';
 import '../../../stories/presentation/bloc/stories_bloc.dart';
+import '../../../support/presentation/support_cubit.dart';
 
 /// Страница [NavigationPage] для внутренней навигации в приложении.
 ///
@@ -136,6 +137,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           ),
           BlocProvider(
             create: (_) => getIt<CartBloc>(),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => getIt<SupportCubit>()..getUserCredentials(),
             lazy: false,
           ),
           BlocProvider(

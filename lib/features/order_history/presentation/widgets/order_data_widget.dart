@@ -50,54 +50,54 @@ class OrderDataWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (order.paymentType != OrdersPaymentTypes.unknown)
-          DataItemWidget(
-            icon: Assets.icons.card,
-            title: t.recentOrders.paymentMethod,
-            subtitle: order.pickup
-                ? t.recentOrders.ordersPaymentTypes.inShop
-                : order.paymentType.toLocale(),
-            paymentCompleted: order.paymentCompleted,
-          ),
-        AppBoxes.kHeight16,
-        if (!order.pickup) ...[
-          DataItemWidget(
-            icon: Assets.icons.calendar,
-            title: t.recentOrders.deliveryDate,
-            subtitle: _returnFormattedDateDelivery(),
-          ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          if (order.paymentType != OrdersPaymentTypes.unknown)
+            DataItemWidget(
+              icon: Assets.icons.card,
+              title: t.recentOrders.paymentMethod,
+              subtitle: order.pickup
+                  ? t.recentOrders.ordersPaymentTypes.inShop
+                  : order.paymentType.toLocale(),
+              paymentCompleted: order.paymentCompleted,
+            ),
           AppBoxes.kHeight16,
+          if (!order.pickup) ...[
+            DataItemWidget(
+              icon: Assets.icons.calendar,
+              title: t.recentOrders.deliveryDate,
+              subtitle: _returnFormattedDateDelivery(),
+            ),
+            AppBoxes.kHeight16,
+            DataItemWidget(
+              icon: Assets.icons.boxOrder,
+              title: t.recentOrders.deliveryFormat,
+              subtitle: _returnDeliveryFormatValue(),
+            ),
+            AppBoxes.kHeight16,
+          ],
           DataItemWidget(
-            icon: Assets.icons.boxOrder,
-            title: t.recentOrders.deliveryFormat,
-            subtitle: _returnDeliveryFormatValue(),
+            icon: Assets.icons.mapPoint,
+            title: order.pickup
+                ? t.locations.shopAddress
+                : t.locations.deliveryAddress,
+            subtitle: order.locationName,
           ),
-          AppBoxes.kHeight16,
+          AppBoxes.kHeight32,
+          DataItemWidget(
+            icon: Assets.icons.user,
+            title: t.recentOrders.recipient,
+            subtitle: order.customerName,
+            phone: _formatPhoneNumber(),
+          ),
+          if (!order.pickup) ...[
+            AppBoxes.kHeight16,
+            DataItemWidget(
+              icon: Assets.icons.comment,
+              title: t.recentOrders.comment,
+              subtitle: order.description,
+            ),
+          ],
         ],
-        DataItemWidget(
-          icon: Assets.icons.mapPoint,
-          title: t.locations.shopAddress,
-          subtitle: order.locationName,
-        ),
-        AppBoxes.kHeight32,
-        DataItemWidget(
-          icon: Assets.icons.user,
-          title: t.recentOrders.recipient,
-          subtitle: order.customerName,
-          phone: _formatPhoneNumber(),
-        ),
-        if (!order.pickup) ...[
-          AppBoxes.kHeight16,
-          DataItemWidget(
-            icon: Assets.icons.comment,
-            title: t.recentOrders.comment,
-            subtitle: order.description,
-          ),
-        ],
-      ],
-    );
-  }
+      );
 }

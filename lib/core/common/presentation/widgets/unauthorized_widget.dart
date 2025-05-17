@@ -23,32 +23,32 @@ class AuthorizationWidget extends StatelessWidget {
   });
 
   /// Отображает модальное окно с виджетом авторизации.
-  static void showModal(BuildContext outerContext,
-      [bool manageRedirect = false]) {
+  static Future<void> showModal(
+    BuildContext outerContext, [
+    bool manageRedirect = false,
+  ]) async {
     showModalBottomSheet(
       context: outerContext,
       backgroundColor: outerContext.colors.mainColors.white,
       useSafeArea: true,
       isScrollControlled: true,
-      builder: (innerContext) {
-        return BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) => state.maybeWhen(
-            otpSuccess: () async {
-              await context.maybePop();
-              if (outerContext.mounted) {
-                // Тост рисуем только в модалке
-                _showToast(outerContext);
-              }
-              return;
-            },
-            orElse: () => null,
-          ),
-          child: AuthorizationWidget(
-            modal: true,
-            manageRedirect: manageRedirect,
-          ),
-        );
-      },
+      builder: (innerContext) => BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) => state.maybeWhen(
+          otpSuccess: () async {
+            await context.maybePop();
+            if (outerContext.mounted) {
+              // Тост рисуем только в модалке
+              _showToast(outerContext);
+            }
+            return;
+          },
+          orElse: () => null,
+        ),
+        child: AuthorizationWidget(
+          modal: true,
+          manageRedirect: manageRedirect,
+        ),
+      ),
     );
   }
 
@@ -69,9 +69,12 @@ class AuthorizationWidget extends StatelessWidget {
       AppSnackBar.showInfo(context, title: t.auth.authSuccess);
 
   /// Переводит пользователя на экран ввода кода подтверждения.
-  void _navigateToOTPListener(BuildContext context, AuthState state) {
+  Future<void> _navigateToOTPListener(
+    BuildContext context,
+    AuthState state,
+  ) async {
     state.maybeWhen(
-      getCode: (phoneNumber) {
+      getCode: (phoneNumber) async {
         if (!manageRedirect) return;
         context.navigateTo(OTPRoute(phoneNumber: phoneNumber));
       },

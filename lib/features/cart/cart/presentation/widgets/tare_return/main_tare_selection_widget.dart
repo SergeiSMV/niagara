@@ -79,7 +79,7 @@ class MainTareSelectionWidget extends StatelessWidget {
     final bool allSelected = totalTares == selectedTares;
 
     /// чекбокс, который определяет, выбраны ли все тары к возврату
-    final SvgGenImage icon = allSelected
+    final SvgGenImage icon = selectedTares > 0
         ? Assets.icons.checkboxChecked
         : Assets.icons.checkboxUnchecked;
 
