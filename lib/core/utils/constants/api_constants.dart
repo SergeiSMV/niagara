@@ -256,4 +256,8 @@ abstract final class ApiConst {
   // ? ----------------------- Water -------------------------- ? //
   /// -POST- Запрос на создание заказа на воду
   static const String kOrderPrepaidWater = '/orders_complect';
+
+  // ? ----------------------- Support -------------------------- ? //
+  /// -GET- Запрос на получение данных для чата службы поддержки
+  static const String kGetSupportChatCredentials = '/chat';
 }

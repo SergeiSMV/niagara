@@ -37,21 +37,12 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(page: StorySlidesWrapper.page),
         AutoRoute(page: PolicyRoute.page),
+        AutoRoute(page: SupportChatRoute.page),
         AutoRoute(
           page: OTPRoute.page,
           title: (_, __) => t.auth.confirmNumber,
         ),
         CatalogRoutes.routes,
-        // AutoRoute(
-        //   page: CategoryWrapperRoute.page,
-        //   children: [
-        //     AutoRoute(page: CategoryRoute.page),
-        //     AutoRoute(
-        //       page: FiltersRoute.page,
-        //       title: (_, __) => t.catalog.filter,
-        //     ),
-        //   ],
-        // ),
       ];
 
   /// Анимация переходов между экранами приложения.

@@ -1,9 +1,9 @@
-import 'package:niagara_app/core/common/domain/models/pagination.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/orders_types.dart';
-import 'package:niagara_app/features/order_history/domain/models/order_rate_option.dart';
-import 'package:niagara_app/features/order_history/domain/models/order_receipt.dart';
-import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
+import '../../../../core/common/domain/models/pagination.dart';
+import '../../../../core/core.dart';
+import '../../../../core/utils/enums/orders_types.dart';
+import '../models/order_rate_option.dart';
+import '../models/order_receipt.dart';
+import '../models/user_order.dart';
 
 typedef Orders = ({List<UserOrder> orders, Pagination pagination});
 

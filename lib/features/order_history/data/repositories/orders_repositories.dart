@@ -1,18 +1,18 @@
-import 'package:niagara_app/core/common/data/mappers/pagination_mapper.dart';
-import 'package:niagara_app/core/common/domain/models/pagination.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/order_status.dart';
-import 'package:niagara_app/core/utils/enums/orders_types.dart';
-import 'package:niagara_app/features/order_history/data/local/data_source/orders_local_data_source.dart';
-import 'package:niagara_app/features/order_history/data/mappers/order_evaluation_option_mapper.dart';
-import 'package:niagara_app/features/order_history/data/mappers/receipt_mapper.dart';
-import 'package:niagara_app/features/order_history/data/mappers/user_entity_mapper.dart';
-import 'package:niagara_app/features/order_history/data/mappers/user_order_mapper.dart';
-import 'package:niagara_app/features/order_history/data/remote/data_source/orders_remote_datasource.dart';
-import 'package:niagara_app/features/order_history/domain/models/order_rate_option.dart';
-import 'package:niagara_app/features/order_history/domain/models/order_receipt.dart';
-import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
-import 'package:niagara_app/features/order_history/domain/repositories/orders_repository.dart';
+import '../../../../core/common/data/mappers/pagination_mapper.dart';
+import '../../../../core/common/domain/models/pagination.dart';
+import '../../../../core/core.dart';
+import '../../../../core/utils/enums/order_status.dart';
+import '../../../../core/utils/enums/orders_types.dart';
+import '../../domain/models/order_rate_option.dart';
+import '../../domain/models/order_receipt.dart';
+import '../../domain/models/user_order.dart';
+import '../../domain/repositories/orders_repository.dart';
+import '../local/data_source/orders_local_data_source.dart';
+import '../mappers/order_evaluation_option_mapper.dart';
+import '../mappers/receipt_mapper.dart';
+import '../mappers/user_entity_mapper.dart';
+import '../mappers/user_order_mapper.dart';
+import '../remote/data_source/orders_remote_datasource.dart';
 
 @LazySingleton(as: IOrdersRepository)
 class OrdersRepositories extends BaseRepository implements IOrdersRepository {

@@ -1,7 +1,7 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
-import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
-import 'package:niagara_app/features/profile/bonuses/domain/models/activation_option.dart';
+import '../../../../core/core.dart';
+import '../../../../core/utils/enums/payment_method_type.dart';
+import '../../../order_placing/domain/models/tokenization_data.dart';
+import '../../../profile/bonuses/domain/models/activation_option.dart';
 
 /// Репозиторий формирования заказа VIP-подписки.
 abstract interface class IVipOrderRepository {
