@@ -7,6 +7,7 @@ import '../../../core/common/presentation/widgets/errors/error_refresh_widget.da
 import '../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
 import '../../../core/dependencies/di.dart';
 import '../../../core/utils/gen/strings.g.dart';
+import 'support_chat_state.dart';
 import 'support_cubit.dart';
 
 /// Страница с чатом службы поддержки.

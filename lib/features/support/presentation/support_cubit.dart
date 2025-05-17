@@ -4,6 +4,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../../../core/core.dart';
 import '../domain/support_chat_credentials.dart';
 import '../domain/support_repository.dart';
+import 'support_chat_state.dart';
 
 /// [Cubit] для управления чатом службы поддержки.
 @injectable
@@ -71,6 +72,7 @@ class SupportCubit extends Cubit<SupportChatState> {
     emit(SupportChatState.initialized);
   }
 
+  /// Устанавливает данные видимые оператором службы поддержки.
   Future<void> _setUserInfo() async {
     final jsScript = '''
             if (typeof jivo_api !== 'undefined') {
@@ -93,6 +95,7 @@ class SupportCubit extends Cubit<SupportChatState> {
     );
   }
 
+  /// Устанавливает `JWT`-токен для аутентификации пользователя в чате.
   Future<void> _setUserToken() async {
     final token = _credentials!.userToken;
     if (token.isEmpty) return;
@@ -106,24 +109,4 @@ class SupportCubit extends Cubit<SupportChatState> {
             ''',
     );
   }
-}
-
-enum SupportChatState {
-  /// До начала всех операций.
-  notInitialized,
-
-  /// Загрузка данных пользователя.
-  loading,
-
-  /// Контроллер инициализирован, данные загружены.
-  initialized,
-
-  /// Ошибка при загрузке данных.
-  error;
-
-  /// Готово для использования.
-  bool get isReady => this == initialized;
-
-  /// Ошибка при загрузке данных.
-  bool get isError => this == error;
 }

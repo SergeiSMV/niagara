@@ -8,10 +8,12 @@ abstract interface class ISupportRemoteDataSource {
       getSupportChatCredentials();
 }
 
+/// Источник данных для чата службы поддержки.
 @LazySingleton(as: ISupportRemoteDataSource)
 class SupportRemoteDataSource implements ISupportRemoteDataSource {
   SupportRemoteDataSource(this._requestHandler);
 
+  /// Обработчик запросов.
   final RequestHandler _requestHandler;
 
   @override

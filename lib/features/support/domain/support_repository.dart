@@ -85,9 +85,10 @@ class SupportRepository extends BaseRepository implements ISupportRepository {
   @override
   Future<Either<Failure, void>> clearCache() async {
     try {
+      // Очистка кэша для iOS.
       await PlatformInAppWebViewController.static().clearAllCache();
 
-      // Очистка кэша имплментирована только для Android.
+      // Очистка кэша этим методомимплментирована только для Android.
       if (Platform.isAndroid) {
         await WebStorageManager.instance().deleteAllData();
       }
