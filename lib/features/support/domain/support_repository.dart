@@ -41,16 +41,18 @@ class SupportRepository extends BaseRepository implements ISupportRepository {
   ///
   /// Нужно для удаления истории чата при выходе из аккаунта.
   void initSubscription() {
-    _authStatusStream.listen((status) async {
-      if (!status.hasAuth) {
-        await clearCache();
+    _authStatusStream.listen(
+      (status) async {
+        if (!status.hasAuth) {
+          await clearCache();
 
-        getIt<IAppLogger>().log(
-          level: LogLevel.info,
-          message: 'Logged out. Clearing support chat cache.',
-        );
-      }
-    });
+          getIt<IAppLogger>().log(
+            level: LogLevel.info,
+            message: 'Logged out. Clearing support chat cache.',
+          );
+        }
+      },
+    );
   }
 
   /// [Stream] статуса авторизации.
