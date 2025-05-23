@@ -37,13 +37,11 @@ class OneNotificationPage extends StatelessWidget {
             const SliverAppBarWidget(automaticallyImplyTitle: false),
             SliverToBoxAdapter(
               child: Padding(
-                padding: AppInsets.kHorizontal16,
+                padding: AppInsets.kHorizontal16 + AppInsets.kTop16,
                 child: ClipRRect(
                   borderRadius: AppBorders.kCircular16,
                   child: AppNetworkImageWidget(
                     url: notification.image,
-                    width: double.infinity,
-                    height: double.infinity,
                   ),
                 ),
               ),

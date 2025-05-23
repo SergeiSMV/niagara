@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/notifications/domain/use_cases/read_notification_use_case.dart';
+
+import '../../../../../core/core.dart';
+import '../../../domain/use_cases/read_notification_use_case.dart';
 
 part 'read_notification_cubit.freezed.dart';
 part 'read_notification_state.dart';
@@ -14,5 +15,6 @@ class ReadNotificationCubit extends Cubit<ReadNotificationState> {
 
   final ReadNotificationUseCase _readNotificationUseCase;
 
-  void readNotification(String id) => _readNotificationUseCase(id);
+  Future<void> readNotification(String id) async =>
+      _readNotificationUseCase(id);
 }
