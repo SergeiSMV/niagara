@@ -10,6 +10,8 @@ class OrdersEvent with _$OrdersEvent {
 
   const factory OrdersEvent.loadMore() = _LoadMoreEvent;
 
+  const factory OrdersEvent.loadPreview() = _LoadPreviewEvent;
+
   const factory OrdersEvent.setSort({
     required OrdersTypes sort,
   }) = _SetSortEvent;
