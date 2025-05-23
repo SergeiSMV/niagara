@@ -16,15 +16,16 @@ class UserXService {
   Future<void> initialize() async {
     if (AppConstants.kDebugMode) return;
     final String appKey = GetIt.I<String>(instanceName: ApiConst.userxAppKey);
+
     try {
       UserX.start(appKey);
 
       appLogger.log(
-        message: 'initialize success',
+        message: '[UserXService] initialize success',
         level: LogLevel.info,
       );
     } on Exception catch (e, stackTrace) {
-      appLogger.handle(e, stackTrace);
+      appLogger.handle(e, stackTrace, '[UserXService] initialize');
     }
   }
 
@@ -32,12 +33,22 @@ class UserXService {
   Future<void> applyOcclusion() async {
     if (AppConstants.kDebugMode) return;
     UserX.stopScreenRecording();
+
+    appLogger.log(
+      message: '[UserXService] applyOcclusion',
+      level: LogLevel.info,
+    );
   }
 
   /// Удаляет маску UXCam со страницы.
   Future<void> removeOcclusion() async {
     if (AppConstants.kDebugMode) return;
     UserX.startScreenRecording();
+
+    appLogger.log(
+      message: '[UserXService] removeOcclusion',
+      level: LogLevel.info,
+    );
   }
 
   /// Устанавливает идентификатор пользователя для UXCam.
@@ -49,19 +60,19 @@ class UserXService {
       if (username != null && username.isNotEmpty) {
         UserX.setUserId(username);
         appLogger.log(
-          message: 'setUserIdentity success',
+          message: '[UserXService] setUserIdentity: $username',
           level: LogLevel.info,
         );
       } else {
         UserX.setUserId('anonymous_user');
 
         appLogger.log(
-          message: 'setUserIdentity success',
+          message: '[UserXService] setUserIdentity: anonymous_user',
           level: LogLevel.info,
         );
       }
     } on Exception catch (e, stackTrace) {
-      appLogger.handle(e, stackTrace);
+      appLogger.handle(e, stackTrace, '[UserXService] setUserIdentity');
     }
   }
 }

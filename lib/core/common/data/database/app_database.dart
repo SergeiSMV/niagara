@@ -9,6 +9,7 @@ import '_imports.dart';
 
 part 'app_database.g.dart';
 
+/// База данных для работы с SQLite.
 @DriftDatabase(
   tables: [
     AddressesTable,
@@ -33,7 +34,17 @@ part 'app_database.g.dart';
 )
 @Singleton()
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  /// Фабричный метод для создания экземпляра [AppDatabase].
+  ///
+  /// Реализуем паттерн синглтон для работы только с одним экземпляром
+  /// даже после перезапуска GetIt.
+  factory AppDatabase() => _instance;
+
+  /// Конструктор для создания экземпляра [AppDatabase].
+  AppDatabase._() : super(_openConnection());
+
+  /// Экземпляр [AppDatabase].
+  static final AppDatabase _instance = AppDatabase._();
 
   @override
   int get schemaVersion => 8;

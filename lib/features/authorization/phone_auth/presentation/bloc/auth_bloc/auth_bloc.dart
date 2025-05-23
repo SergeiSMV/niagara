@@ -4,12 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/skip_auth_use_case.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/otp/check_otp_code_use_case.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/otp/resend_code_use_case.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/otp/send_code_use_case.dart';
-import 'package:niagara_app/features/profile/user/domain/usecases/get_user_use_case.dart';
+
+import '../../../../../../core/utils/constants/app_constants.dart';
+import '../../../../../profile/user/domain/usecases/get_user_use_case.dart';
+import '../../../domain/use_cases/auth/skip_auth_use_case.dart';
+import '../../../domain/use_cases/otp/check_otp_code_use_case.dart';
+import '../../../domain/use_cases/otp/resend_code_use_case.dart';
+import '../../../domain/use_cases/otp/send_code_use_case.dart';
 
 part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';

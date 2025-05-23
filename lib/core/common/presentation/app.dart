@@ -7,6 +7,7 @@ import '../../utils/gen/strings.g.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 
+/// Основной виджет приложения.
 class Application extends StatelessWidget {
   const Application({
     required Talker talker,
@@ -17,8 +18,13 @@ class Application extends StatelessWidget {
         _router = router,
         _theme = theme;
 
+  /// Логгер.
   final Talker _talker;
+
+  /// Роутер.
   final AppRouter _router;
+
+  /// Тема.
   final AppTheme _theme;
 
   @override

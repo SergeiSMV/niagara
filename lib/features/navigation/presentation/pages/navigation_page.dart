@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +25,7 @@ import '../../../promotions/presentation/cubit/promotions_cubit.dart';
 import '../../../special_poducts/presentation/bloc/special_products_bloc.dart';
 import '../../../stories/presentation/bloc/stories_bloc.dart';
 import '../../../support/presentation/support_cubit.dart';
+import 'auth_check_wrapper.dart';
 
 /// Страница [NavigationPage] для внутренней навигации в приложении.
 ///
@@ -58,6 +61,9 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
     );
   }
 
+  /// Слушает изменения в статусе уведомлений.
+  ///
+  /// Используется для отловки перехода в приложение через push-уведомление.
   void _notificationsListener(BuildContext context, NotificationsState state) =>
       state.whenOrNull(
         openedFromPush: () async => context.navigateTo(
@@ -87,28 +93,31 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
   }
 
   @override
-  Widget build(BuildContext context) => MultiBlocListener(
-        listeners: [
-          BlocListener<AuthBloc, AuthState>(
-            listener: _navigateToOTPListener,
+  Widget build(BuildContext context) => AuthCheckWrapper(
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<AuthBloc, AuthState>(
+              listener: _navigateToOTPListener,
+            ),
+            BlocListener<NotificationsBloc, NotificationsState>(
+              listener: _notificationsListener,
+            ),
+          ],
+          child: AutoTabsScaffold(
+            routes: _routes,
+            extendBodyBehindAppBar: true,
+            bottomNavigationBuilder: (_, tabsRouter) =>
+                BottomNavigationBarWidget(
+              tabsRouter: tabsRouter,
+              fullScreenTabs: _fullScreenTabs,
+            ),
+            floatingActionButton: AppConstants.kDebugMode
+                ? FloatingActionButton(
+                    child: const Icon(Icons.bug_report),
+                    onPressed: () async => showLogsButton(context),
+                  )
+                : null,
           ),
-          BlocListener<NotificationsBloc, NotificationsState>(
-            listener: _notificationsListener,
-          ),
-        ],
-        child: AutoTabsScaffold(
-          routes: _routes,
-          extendBodyBehindAppBar: true,
-          bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBarWidget(
-            tabsRouter: tabsRouter,
-            fullScreenTabs: _fullScreenTabs,
-          ),
-          floatingActionButton: AppConstants.kDebugMode
-              ? FloatingActionButton(
-                  child: const Icon(Icons.bug_report),
-                  onPressed: () async => showLogsButton(context),
-                )
-              : null,
         ),
       );
 
