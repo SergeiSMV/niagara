@@ -38,6 +38,7 @@ class _AuthCheckWrapperState extends State<AuthCheckWrapper> {
   /// Подписка на изменения статуса авторизации.
   StreamSubscription<AuthenticatedStatus>? _authStatusSubscription;
 
+  /// Логирование.
   void _log(String message) {
     getIt<IAppLogger>().log(
       level: LogLevel.info,
@@ -55,6 +56,7 @@ class _AuthCheckWrapperState extends State<AuthCheckWrapper> {
         .listen(_onAuthStatusChanged);
   }
 
+  /// Обработчик изменения статуса авторизации.
   Future<void> _onAuthStatusChanged(AuthenticatedStatus status) async {
     _log('[AuthCheckWrapper] _onAuthStatusChanged: $status');
 
@@ -65,7 +67,7 @@ class _AuthCheckWrapperState extends State<AuthCheckWrapper> {
     /// пользователь не решил пропустить авторизаци или пройти ее.
     if (status.isUnknown) return;
 
-// Если статус авторизации изменился, то перезагружаем приложение.
+    // Если статус авторизации изменился, то перезагружаем приложение.
     if (_lastAuthStatus != status) {
       // Обновляем последний статус авторизации.
       _lastAuthStatus = status;

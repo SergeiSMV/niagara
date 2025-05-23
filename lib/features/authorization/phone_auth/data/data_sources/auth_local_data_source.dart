@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/keys_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../../core/core.dart';
+import '../../../../../core/dependencies/di.dart';
+import '../../../../../core/utils/constants/keys_constants.dart';
 
 /// Определяет интерфейс для AuthLocalDataSource, который отвечает за
 /// управление локальным хранением данных, связанных с аутентификацией.
