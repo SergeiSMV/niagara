@@ -45,7 +45,7 @@ class _NotificationItemContent extends StatelessWidget {
 
   /// Метод для перехода в страницу уведомления.
   Future<void> _goToPage(BuildContext context) async {
-    context.read<ReadNotificationCubit>().readNotification(notification.id);
+    context.read<ReadNotificationCubit?>()?.readNotification(notification.id);
     if (notification.type == NotificationsTypes.offers) {
       context.navigateTo(OneNotificationRoute(notification: notification));
     }
@@ -53,13 +53,8 @@ class _NotificationItemContent extends StatelessWidget {
 
   /// Метод для отмечания уведомления как прочитанного.
   void _readIt(BuildContext context) {
-    try {
-      if (notification.isNew &&
-          notification.type == NotificationsTypes.system) {
-        context.read<ReadNotificationCubit>().readNotification(notification.id);
-      }
-    } on Exception catch (_) {
-      // Игнорируем ошибку, если куб недоступен
+    if (notification.isNew && notification.type == NotificationsTypes.system) {
+      context.read<ReadNotificationCubit?>()?.readNotification(notification.id);
     }
   }
 

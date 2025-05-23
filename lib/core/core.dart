@@ -13,12 +13,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mutex/mutex.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/crashlytics/crashlytics_observer.dart';
-import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/core/utils/network/network_info.dart';
-import 'package:niagara_app/features/authorization/base_token/domain/repositories/token_repository.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/repositories/auth_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
@@ -27,6 +21,13 @@ import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' hide Response;
+
+import '../features/authorization/base_token/domain/repositories/token_repository.dart';
+import '../features/authorization/phone_auth/domain/repositories/auth_repository.dart';
+import 'dependencies/di.dart';
+import 'utils/crashlytics/crashlytics_observer.dart';
+import 'utils/enums/auth_status.dart';
+import 'utils/network/network_info.dart';
 
 export 'package:dio/dio.dart';
 export 'package:either_dart/either.dart';

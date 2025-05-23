@@ -3,7 +3,7 @@ part of 'cart_bloc.dart';
 @freezed
 class CartEvent with _$CartEvent {
   /// Получает данные корзины.
-  const factory CartEvent.getCart() = _GetCart;
+  const factory CartEvent.getCart({bool? clearParams}) = _GetCart;
 
   /// Выход из аккаунта.
   const factory CartEvent.loggedOut() = _LoggedOut;

@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/core/utils/enums/orders_types.dart';
-import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
-import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
-import 'package:niagara_app/features/order_history/domain/use_cases/get_orders_use_case.dart';
+
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/auth_status.dart';
+import '../../../../../core/utils/enums/orders_types.dart';
+import '../../../../../core/utils/extensions/flutter_bloc_ext.dart';
+import '../../../domain/models/user_order.dart';
+import '../../../domain/use_cases/get_orders_use_case.dart';
 
 part 'orders_bloc.freezed.dart';
 part 'orders_event.dart';
@@ -28,6 +29,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     on<_LoadMoreEvent>(_onLoadMoreOrders, transformer: debounce());
     on<_SetSortEvent>(_onSortChanged);
     on<_LoadAllEvent>(_onLoadAllOrders);
+    on<_LoadPreviewEvent>(_onLoadPreview);
 
     add(const _LoadAllEvent());
     add(const _LoadingEvent(isForceUpdate: true));
@@ -115,6 +117,22 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           preview: _previewOrders,
         ),
       ),
+    );
+  }
+
+  /// Загружает заказы для превью на главной странице.
+  Future<void> _onLoadPreview(_LoadPreviewEvent event, _Emit emit) async {
+    emit(_Loading(preview: _previewOrders));
+
+    await _getOrdersUseCase(
+      const OrdersParams(page: 1),
+    ).fold(
+      (failure) => emit(const _Error()),
+      (data) {
+        final previewOrders =
+            data.orders.whereNot((o) => o.isCanceled).toList();
+        emit(_Loaded(orders: data.orders, preview: previewOrders));
+      },
     );
   }
 

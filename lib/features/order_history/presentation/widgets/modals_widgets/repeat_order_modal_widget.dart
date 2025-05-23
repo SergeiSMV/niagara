@@ -29,7 +29,7 @@ class RepeatOrderModalWidget extends StatelessWidget {
   /// Отображает снекбары с информацией о результате повторения заказа.
   void _stateListener(BuildContext context, RepeatOrderState state) =>
       state.mapOrNull(
-        success: (_) {
+        success: (_) async {
           AppSnackBar.showInfo(
             outerContext,
             title: t.recentOrders.orderRepeated,
@@ -39,12 +39,10 @@ class RepeatOrderModalWidget extends StatelessWidget {
 
           return getIt<CartBloc>().add(const CartEvent.getCart());
         },
-        error: (_) {
-          return AppSnackBar.showError(
-            outerContext,
-            title: t.recentOrders.repeatOrderError,
-          );
-        },
+        error: (_) => AppSnackBar.showError(
+          outerContext,
+          title: t.recentOrders.repeatOrderError,
+        ),
       );
 
   /// Повторяемый заказ.
