@@ -85,6 +85,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   int _bonusesToPay = 0;
   String _promocode = '';
 
+  String get promocode => _promocode;
+
   final Map<String, int> _pendingProducts = {};
 
   Set<String> get _pendingHash => {..._pendingProducts.keys};
@@ -181,6 +183,19 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _onGetCart(_GetCart event, _Emit emit) async {
     if (!await _handleEvent(emit)) return;
+
+    if (event.clearParams ?? false) {
+      _promocode = '';
+
+      // TODO(kvbykov): На будущее: по идее можно сделать так, но пока
+      // горит только обнуление промокода. Потом можно зарефакторить и
+      // сделать обнуление всех параметров.
+
+      // _bonusesToPay = 0;
+      // _returnTareCount = 0;
+      // _otherReturnTareCount = 0;
+      // _returnAllTare = true;
+    }
 
     final String locationId = await _getDefaultAddress();
     await _getCartUseCase
