@@ -43,11 +43,16 @@ class CartPromocodeWidget extends StatelessWidget {
   }
 
   /// Обработчик изменения состояния корзины.
-  void _cartStateListener(BuildContext context, CartState _) {
+  Future<void> _cartStateListener(BuildContext context, CartState _) async {
     final String promocode = context.read<CartBloc>().promocode;
-    context.read<CheckPromoCodeCubit>()
-      ..reset()
-      ..promocode = promocode;
+
+    final cubit = context.read<CheckPromoCodeCubit>();
+    if (cubit.promocode != promocode) {
+      context.read<CheckPromoCodeCubit>()
+        ..reset()
+        ..promocode = promocode
+        ..checkPromoCode();
+    }
   }
 
   @override
