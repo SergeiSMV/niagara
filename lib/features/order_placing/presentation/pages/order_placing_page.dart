@@ -38,7 +38,7 @@ class OrderPlacingPage extends StatelessWidget {
     getIt<OrdersBloc>().add(const OrdersEvent.loading(isForceUpdate: true));
     getIt<OrdersBloc>().add(const OrdersEvent.loadAll());
     getIt<CartBloc>().add(const CartEvent.cancelAllTare());
-    getIt<CartBloc>().add(const CartEvent.getCart());
+    getIt<CartBloc>().add(const CartEvent.getCart(clearParams: true));
 
     if (cart.containsComplect) {
       // Если списывали воду с баланса, нужно обновить его.

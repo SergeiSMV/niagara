@@ -1,20 +1,29 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/check_promocode_state.dart';
-import 'package:niagara_app/features/cart/cart/domain/use_cases/check_promo_code_use_case.dart';
 
+import '../../../../../../core/core.dart';
+import '../../../../../../core/utils/enums/check_promocode_state.dart';
+import '../../../domain/use_cases/check_promo_code_use_case.dart';
+
+/// [Cubit] для проверки промокода.
 @injectable
 class CheckPromoCodeCubit extends Cubit<CheckPromoCodeState> {
   CheckPromoCodeCubit(
     this._checkPromoCodeUseCase,
   ) : super(CheckPromoCodeState.initial);
 
+  /// Usecase для проверки промокода.
   final CheckPromoCodeUseCase _checkPromoCodeUseCase;
 
+  /// Промокод.
   String? promocode;
 
-  void reset() => emit(CheckPromoCodeState.initial);
+  /// Сброс состояния.
+  void reset() {
+    promocode = null;
+    emit(CheckPromoCodeState.initial);
+  }
 
+  /// Проверка промокода.
   Future<void> checkPromoCode() async {
     if ((promocode ?? '').isEmpty) return;
 
