@@ -120,20 +120,24 @@ class _OrdersListWidgetState extends State<_OrdersListWidget> {
         listener: _ordersLoadingStateListener,
         child: Padding(
           padding: EdgeInsets.zero,
-          child: SmartRefresher(
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-            header: CustomHeader(builder: _refreshIndicatorBuilder),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                ...List.generate(
-                  widget.firstFourOrders.length,
-                  _buildOrderItem,
-                ),
-                const _AllOrdersButtonWidget(),
-              ],
-            ),
+          child:
+
+              // SmartRefresher(
+              //   controller: _refreshController,
+              //   onRefresh: _onRefresh,
+              //   header: CustomHeader(builder: _refreshIndicatorBuilder),
+              //   child:
+
+              ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              ...List.generate(
+                widget.firstFourOrders.length,
+                _buildOrderItem,
+              ),
+              const _AllOrdersButtonWidget(),
+            ],
+            // ),
           ),
         ),
       );
