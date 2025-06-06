@@ -2,14 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/auth_later_button.dart';
-import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/get_code_widget.dart';
-import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/phone_number_field.dart';
-import 'package:niagara_app/features/authorization/phone_auth/presentation/widgets/privacy_policy_text_button.dart';
+
+import '../../../../../core/common/presentation/router/app_router.gr.dart';
+import '../../../../../core/common/presentation/widgets/app_bar.dart';
+import '../../../../../core/utils/constants/app_boxes.dart';
+import '../../../../home/presentation/widgets/support_button.dart';
+import '../bloc/auth_bloc/auth_bloc.dart';
+import '../widgets/auth_later_button.dart';
+import '../widgets/get_code_widget.dart';
+import '../widgets/phone_number_field.dart';
+import '../widgets/privacy_policy_text_button.dart';
 
 /// Страница авторизации [AuthPage] с вводом номера телефона и кнопкой
 /// "Получить код", а также ссылками на политику конфиденциальности.
@@ -32,7 +34,11 @@ class AuthPage extends StatelessWidget {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            const SliverAppBarWidget(),
+            const SliverAppBarWidget(
+              actions: [
+                SupportButton(),
+              ],
+            ),
             SliverFillRemaining(
               hasScrollBody: false,
               child: Column(
