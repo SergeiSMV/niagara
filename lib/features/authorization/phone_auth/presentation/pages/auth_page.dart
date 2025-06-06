@@ -37,6 +37,7 @@ class AuthPage extends StatelessWidget {
             const SliverAppBarWidget(
               actions: [
                 SupportButton(),
+                AppBoxes.kWidth16,
               ],
             ),
             SliverFillRemaining(

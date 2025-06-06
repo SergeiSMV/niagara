@@ -13,6 +13,7 @@ import '../../../../home/presentation/widgets/support_button.dart';
 import '../cubit/cities_cubit.dart';
 import '../widgets/cities_list_widget.dart';
 
+/// Страница с выбором города из списка.
 @RoutePage()
 class CitiesPage extends StatelessWidget {
   const CitiesPage({super.key});
@@ -26,6 +27,7 @@ class CitiesPage extends StatelessWidget {
               const SliverAppBarWidget(
                 actions: [
                   SupportButton(),
+                  AppBoxes.kWidth16,
                 ],
               ),
               SliverPadding(
