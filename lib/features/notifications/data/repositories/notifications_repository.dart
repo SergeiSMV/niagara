@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:jivosdk_plugin/bridge.dart';
 
 import '../../../../core/common/data/mappers/pagination_mapper.dart';
 import '../../../../core/core.dart';
@@ -77,10 +78,12 @@ class NotificationsRepository extends BaseRepository
       );
 
   /// Отправляет на бекенд FCM-токен устройства.
-  Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) => execute(
-        () async => _notificationsRDS.registerFcmDevice(fcmToken).fold(
+  Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) =>
+      execute(() async {
+        // await Jivo.notifications.setPushToken(fcmToken);
+        await _notificationsRDS.registerFcmDevice(fcmToken).fold(
               (failure) => throw failure,
               (result) => result,
-            ),
-      );
+            );
+      });
 }

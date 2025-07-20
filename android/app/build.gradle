@@ -46,8 +46,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "io.cordova.niagara74"
-    compileSdk flutter.compileSdkVersion
-    ndkVersion "25.1.8937393"
+    compileSdk 35
+    ndkVersion "26.1.10909125"
 
     buildFeatures {
         dataBinding = true
@@ -69,8 +69,8 @@ android {
     defaultConfig {
         applicationId "io.cordova.niagara74"
         minSdkVersion 24
-        compileSdkVersion 34
-        targetSdkVersion 34
+        compileSdkVersion 35
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         resValue "string", "api_key", dartEnvironmentVariables['YANDEX_MAPS']
