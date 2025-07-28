@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/base_colors.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/buttons_colors.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/field_border_colors.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/gradient_colors.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/info_colors.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/main_colors.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/map_colors.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/other_colors.dart';
-import 'package:niagara_app/core/common/presentation/theme/colors/text_colors.dart';
+import 'colors/base_colors.dart';
+import 'colors/buttons_colors.dart';
+import 'colors/field_border_colors.dart';
+import 'colors/gradient_colors.dart';
+import 'colors/info_colors.dart';
+import 'colors/main_colors.dart';
+import 'colors/map_colors.dart';
+import 'colors/other_colors.dart';
+import 'colors/text_colors.dart';
 
 /// Класс [AppColors] содержит цветовую тему приложения.
 /// Все изменения в цветовой теме производятся в этом классе.

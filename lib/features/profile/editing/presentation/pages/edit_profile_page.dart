@@ -1,42 +1,50 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/profile/editing/presentation/bloc/profile_editing_cubit/profile_editing_cubit.dart';
-import 'package:niagara_app/features/profile/editing/presentation/widget/profile_fields/profile_editing_fields.dart';
-import 'package:niagara_app/features/profile/user/domain/models/user.dart';
-import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
 
+import '../../../../../core/common/presentation/widgets/app_bar.dart';
+import '../../../../../core/common/presentation/widgets/bottom_shadow_widget.dart';
+import '../../../../../core/common/presentation/widgets/buttons/app_text_button.dart';
+import '../../../../../core/dependencies/di.dart';
+import '../../../../../core/utils/gen/strings.g.dart';
+import '../../../user/domain/models/user.dart';
+import '../../../user/presentation/bloc/user_bloc.dart';
+import '../bloc/profile_editing_cubit/profile_editing_cubit.dart';
+import '../bloc/profile_validator_cubit/profile_validator_cubit.dart';
+import '../widget/profile_fields/profile_editing_fields.dart';
+
+/// Страница редактирования профиля пользователя
 @RoutePage()
 class EditProfilePage extends StatelessWidget {
   const EditProfilePage({
-    super.key,
     required User user,
+    super.key,
   }) : _user = user;
 
   final User _user;
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<ProfileEditingCubit>(param1: _user),
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            const SliverAppBarWidget(),
-            SliverToBoxAdapter(
-              child: ProfileEditingFieldsWidget(user: _user),
-            ),
-          ],
+  Widget build(BuildContext context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => getIt<ProfileEditingCubit>(param1: _user),
+          ),
+          BlocProvider(
+            create: (_) => getIt<ProfileValidatorCubit>(),
+          ),
+        ],
+        child: Scaffold(
+          body: CustomScrollView(
+            slivers: [
+              const SliverAppBarWidget(),
+              SliverToBoxAdapter(
+                child: ProfileEditingFieldsWidget(user: _user),
+              ),
+            ],
+          ),
+          bottomNavigationBar: const _SaveChangesButton(),
         ),
-        bottomNavigationBar: const _SaveChangesButton(),
-      ),
-    );
-  }
+      );
 }
 
 class _SaveChangesButton extends StatelessWidget {
@@ -44,13 +52,17 @@ class _SaveChangesButton extends StatelessWidget {
 
   VoidCallback? _onSaveCallback(BuildContext context) {
     final canSave = context.watch<ProfileEditingCubit>().canSave;
-    if (!canSave) return null;
+    final validData = context.watch<ProfileValidatorCubit>().state;
+    if (!canSave ||
+        validData.nameError != null ||
+        validData.surnameError != null) {
+      return null;
+    }
 
-    return () {
+    return () async {
       final User user = context.read<ProfileEditingCubit>().state;
-      context
-        ..read<UserBloc>().add(UserEvent.updateUser(user))
-        ..maybePop();
+      context.read<UserBloc>().add(UserEvent.updateUser(user));
+      await context.maybePop();
     };
   }
 

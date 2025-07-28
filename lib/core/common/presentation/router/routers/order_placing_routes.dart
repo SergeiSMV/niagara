@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
+
+import '../../../../utils/gen/strings.g.dart';
+import '../app_router.gr.dart';
 
 /// Класс роутера для модуля OrderPlacing (Оформление заказа)
 abstract final class OrderPlacingRoutes {

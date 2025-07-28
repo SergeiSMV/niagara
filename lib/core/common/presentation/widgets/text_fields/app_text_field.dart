@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/widgets/text_fields/base_text_field.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/enums/base_text_filed_state.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
+
+import '../../../../utils/constants/app_constants.dart';
+import '../../../../utils/constants/app_insets.dart';
+import '../../../../utils/constants/app_sizes.dart';
+import '../../../../utils/enums/base_text_filed_state.dart';
+import '../../../../utils/extensions/build_context_ext.dart';
+import '../../../../utils/extensions/text_style_ext.dart';
+import '../../../../utils/gen/assets.gen.dart';
+import '../../../../utils/gen/strings.g.dart';
+import 'base_text_field.dart';
 
 /// Текстовое поле приложения [AppTextField]. Поддерживает различные состояния
 /// и валидацию.
@@ -36,19 +37,18 @@ class AppTextField extends BaseTextField {
     String? initialText,
     void Function(String?)? onChanged,
     BaseTextFieldState? state,
-  }) {
-    return AppTextField._(
-      name: AppConstants.kEmailTextFieldName,
-      key: key,
-      initialText: initialText,
-      label: t.profile.edit.email,
-      hint: t.profile.edit.email,
-      keyboardType: TextInputType.emailAddress,
-      state: state ?? BaseTextFieldState.idle,
-      isRequired: true,
-      onChanged: onChanged,
-    );
-  }
+  }) =>
+      AppTextField._(
+        name: AppConstants.kEmailTextFieldName,
+        key: key,
+        initialText: initialText,
+        label: t.profile.edit.email,
+        hint: t.profile.edit.email,
+        keyboardType: TextInputType.emailAddress,
+        state: state ?? BaseTextFieldState.idle,
+        isRequired: true,
+        onChanged: onChanged,
+      );
 
   /// Текстовое поле для ввода номера телефона
   factory AppTextField.phone({
@@ -84,22 +84,21 @@ class AppTextField extends BaseTextField {
     int? maxLength,
     bool showCounter = false,
     bool expandable = false,
-  }) {
-    return AppTextField._(
-      name: AppConstants.kTextFieldTextName,
-      key: key,
-      expandable: expandable,
-      initialText: initialText,
-      label: label,
-      hint: hint,
-      keyboardType: TextInputType.text,
-      state: state ?? BaseTextFieldState.idle,
-      isRequired: isRequired,
-      maxLength: maxLength,
-      showCounter: showCounter,
-      onChanged: onChanged,
-    );
-  }
+  }) =>
+      AppTextField._(
+        name: AppConstants.kTextFieldTextName,
+        key: key,
+        expandable: expandable,
+        initialText: initialText,
+        label: label,
+        hint: hint,
+        keyboardType: TextInputType.text,
+        state: state ?? BaseTextFieldState.idle,
+        isRequired: isRequired,
+        maxLength: maxLength,
+        showCounter: showCounter,
+        onChanged: onChanged,
+      );
 
   factory AppTextField.number({
     Key? key,
@@ -112,22 +111,21 @@ class AppTextField extends BaseTextField {
     int? maxLength,
     int? maxValue,
     bool showCounter = false,
-  }) {
-    return AppTextField._(
-      name: AppConstants.kNumberTextFieldName,
-      key: key,
-      initialText: initialText,
-      label: label,
-      hint: hint,
-      keyboardType: TextInputType.number,
-      state: state ?? BaseTextFieldState.idle,
-      isRequired: isRequired,
-      maxLength: maxLength,
-      maxValue: maxValue,
-      showCounter: showCounter,
-      onChanged: onChanged,
-    );
-  }
+  }) =>
+      AppTextField._(
+        name: AppConstants.kNumberTextFieldName,
+        key: key,
+        initialText: initialText,
+        label: label,
+        hint: hint,
+        keyboardType: TextInputType.number,
+        state: state ?? BaseTextFieldState.idle,
+        isRequired: isRequired,
+        maxLength: maxLength,
+        maxValue: maxValue,
+        showCounter: showCounter,
+        onChanged: onChanged,
+      );
 
   factory AppTextField.bonuses({
     Key? key,
@@ -138,19 +136,18 @@ class AppTextField extends BaseTextField {
     int? maxValue,
     VoidCallback? onApplied,
     bool loading = false,
-  }) {
-    return AppTextField._(
-      name: AppConstants.kBonusesTextFieldName,
-      key: key,
-      initialText: initial,
-      label: label,
-      keyboardType: TextInputType.number,
-      state: state ?? BaseTextFieldState.idle,
-      maxValue: maxValue,
-      onChanged: onChanged,
-      suffixWidget: loading ? _loader : _ApplyButton(onApplied),
-    );
-  }
+  }) =>
+      AppTextField._(
+        name: AppConstants.kBonusesTextFieldName,
+        key: key,
+        initialText: initial,
+        label: label,
+        keyboardType: TextInputType.number,
+        state: state ?? BaseTextFieldState.idle,
+        maxValue: maxValue,
+        onChanged: onChanged,
+        suffixWidget: loading ? _loader : _ApplyButton(onApplied),
+      );
 
   factory AppTextField.promocode({
     Key? key,
@@ -161,19 +158,18 @@ class AppTextField extends BaseTextField {
     VoidCallback? onTap,
     String? initialText,
     bool loading = false,
-  }) {
-    return AppTextField._(
-      name: AppConstants.kPromocodeTextFieldName,
-      key: key,
-      label: label,
-      keyboardType: TextInputType.text,
-      state: state ?? BaseTextFieldState.idle,
-      maxLength: maxLength,
-      onChanged: onChanged,
-      suffixWidget: loading ? _loader : _ApplyButton(onTap),
-      initialText: initialText,
-    );
-  }
+  }) =>
+      AppTextField._(
+        name: AppConstants.kPromocodeTextFieldName,
+        key: key,
+        label: label,
+        keyboardType: TextInputType.text,
+        state: state ?? BaseTextFieldState.idle,
+        maxLength: maxLength,
+        onChanged: onChanged,
+        suffixWidget: loading ? _loader : _ApplyButton(onTap),
+        initialText: initialText,
+      );
   // TODO: Надо изменить [BaseTextFieldState] для отрисовки этого виджета, а не
   // прокидывать [bool loading] в тектовые поля.
   /// Индикатор загрузки.
