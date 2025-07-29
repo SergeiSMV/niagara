@@ -17,13 +17,16 @@ import '../widgets/orders_type_buttons_widget.dart';
 class OrdersPage extends HookWidget {
   const OrdersPage({super.key});
 
+  /// Обновляет список заказов
   void _onRefresh(BuildContext context) => context
       .read<OrdersBloc>()
       .add(const OrdersEvent.loading(isForceUpdate: true));
 
+  /// Загружает больше заказов
   void _onLoadMore(BuildContext context) =>
       context.read<OrdersBloc>().add(const OrdersEvent.loadMore());
 
+  /// Обновляет сортировку заказов
   void _onSetSort(BuildContext context) {
     final sort = context.read<OrdersBloc>().sort;
     context.read<OrdersBloc>().add(OrdersEvent.setSort(sort: sort));

@@ -104,7 +104,6 @@ class BottomButtonsWidget extends StatelessWidget {
                                 ),
                               ),
                             )
-                          // : const SizedBox.shrink(),
                           : Expanded(
                               child: OrderRaitingWidget(rating: order.rating),
                             ),

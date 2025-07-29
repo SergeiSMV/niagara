@@ -1,5 +1,6 @@
 import '../../../../core/core.dart';
 
+/// Модель для отображения опции оценки заказа
 class OrderRateOption extends Equatable {
   const OrderRateOption({
     required this.id,
@@ -7,8 +8,13 @@ class OrderRateOption extends Equatable {
     this.isSelected = false,
   });
 
+  /// Идентификатор опции
   final String id;
+
+  /// Название опции
   final String name;
+
+  /// Флаг выбранности опции
   final bool isSelected;
 
   @override
