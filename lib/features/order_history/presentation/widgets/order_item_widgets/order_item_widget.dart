@@ -2,36 +2,42 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/rate_order_cubit/rate_order_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/order_item_widgets/bottom_buttons_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/order_item_widgets/bottom_price_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
 
+import '../../../../../core/common/presentation/router/app_router.gr.dart';
+import '../../../../../core/dependencies/di.dart';
+import '../../../../../core/utils/constants/app_borders.dart';
+import '../../../../../core/utils/constants/app_boxes.dart';
+import '../../../../../core/utils/constants/app_constants.dart';
+import '../../../../../core/utils/constants/app_insets.dart';
+import '../../../../../core/utils/constants/app_sizes.dart';
+import '../../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../../core/utils/extensions/text_style_ext.dart';
+import '../../../../../core/utils/gen/strings.g.dart';
+import '../../../domain/models/user_order.dart';
+import '../../bloc/rate_order_cubit/rate_order_cubit.dart';
+import '../order_status_widget.dart';
+import 'bottom_buttons_widget.dart';
+import 'bottom_price_widget.dart';
+
+/// Виджет для отображения заказа в списке
 class OrderItemWidget extends StatelessWidget {
   const OrderItemWidget({
-    super.key,
     required this.order,
     this.inHorizontalList = false,
+    this.onSortUpdate,
+    super.key,
   });
 
   final UserOrder order;
   final bool inHorizontalList;
 
-  void _goToOrderPage(BuildContext context) {
+  /// Callback для обновления сортировки
+  final VoidCallback? onSortUpdate;
+
+  Future<void> _goToOrderPage(BuildContext context) async {
     final evaluateOrderCubit = BlocProvider.of<RateOrderCubit>(context);
 
-    context.navigateTo(
+    await context.navigateTo(
       OrdersWrapper(
         children: [
           OneOrderRoute(
@@ -52,12 +58,10 @@ class OrderItemWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<RateOrderCubit>(),
-      child: Builder(
-        builder: (context) {
-          return InkWell(
+  Widget build(BuildContext context) => BlocProvider(
+        create: (_) => getIt<RateOrderCubit>(),
+        child: Builder(
+          builder: (context) => InkWell(
             onTap: () => _goToOrderPage(context),
             child: Container(
               width: inHorizontalList ? AppSizes.recentOrderItemWidth : null,
@@ -126,13 +130,14 @@ class OrderItemWidget extends StatelessWidget {
                   if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
                   BottomPriceWidget(price: order.totalSum),
                   if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
-                  BottomButtonsWidget(order: order),
+                  BottomButtonsWidget(
+                    order: order,
+                    onSortUpdate: onSortUpdate,
+                  ),
                 ],
               ),
             ),
-          );
-        },
-      ),
-    );
-  }
+          ),
+        ),
+      );
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:jivosdk_plugin/bridge.dart';
 
 import '../../../../core/common/data/mappers/pagination_mapper.dart';
 import '../../../../core/core.dart';
