@@ -9,8 +9,6 @@ import 'package:niagara_app/features/prepaid_water/domain/model/prepaid_water_or
 import 'package:niagara_app/features/profile/bonuses/domain/models/activation_option.dart';
 
 /// [AutoRouteWrapper] для модуля оплат.
-///
-///
 @RoutePage()
 class PaymentWrapper implements AutoRouteWrapper {
   const PaymentWrapper({this.activationOption, this.prepaidWaterData});

@@ -3,6 +3,8 @@ platform :ios, '14.0'
 
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://git.yoomoney.ru/scm/sdk/cocoa-pod-specs.git'
+source 'https://github.com/cocoapods/specs' # JivoChat
+source 'https://github.com/jivochat/cocoapods-repo' # JivoChat
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'

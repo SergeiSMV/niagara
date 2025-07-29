@@ -103,3 +103,4 @@ pubspec.lock
 *.env.default
 
 .vscode/settings.json
+.fvm/

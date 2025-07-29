@@ -1,8 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/common/presentation/router/app_router.gr.dart';
 import '../../../../core/utils/gen/assets.gen.dart';
+import '../../../support/presentation/support_cubit.dart';
 import 'action_button.dart';
 
 /// Кнопка-иконка для открытия страницы с чатом службы поддержки.
@@ -11,7 +11,7 @@ class SupportButton extends StatelessWidget {
 
   /// Открывает страницу с чатом службы поддержки.
   Future<void> _openSupportChat(BuildContext context) =>
-      context.navigateTo(const SupportChatRoute());
+      context.read<SupportCubit>().openChat();
 
   @override
   Widget build(BuildContext context) => AppBarActionButton(

@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:jivosdk_plugin/bridge.dart';
 
 import '../../../core/core.dart';
 import '../domain/support_chat_credentials.dart';
@@ -14,19 +14,8 @@ class SupportCubit extends Cubit<SupportChatState> {
   /// Репозиторий для работы с чатом службы поддержки.
   final ISupportRepository _chatRepo;
 
-  /// Контроллер WebView.
-  ///
-  /// `N.B:` `dispose` вызывается автоматически при закрытии страницы.
-  /// Если вызвать его вручную, возникает ошибка.
-  InAppWebViewController? _controller;
-
   /// Данные для подключения к чату службы поддержки.
-  SupportChatCredentials? _credentials;
-
-  /// URL чата службы поддержки.
-  WebUri? get chatUrl => _credentials?.chatUrl != null
-      ? WebUri.uri(Uri.parse(_credentials!.chatUrl))
-      : null;
+  SupportChatCredentials? credentials;
 
   /// Получает данные для подключения к чату службы поддержки.
   Future<void> getUserCredentials() async {
@@ -35,13 +24,13 @@ class SupportCubit extends Cubit<SupportChatState> {
     final result = await _chatRepo.getSupportChatCredentials();
     result.fold(
       (failure) => emit(SupportChatState.error),
-      (credentials) async {
-        _credentials = credentials;
+      (data) async {
+        credentials = data;
 
         /// Самое главное - валидная ссылка на чат. Все остальные параметры даже
         /// будучи некорректными не оказывают критического влияния на работу
         /// чата.
-        final bool isValidUrl = Uri.tryParse(_credentials!.chatUrl) != null;
+        final bool isValidUrl = credentials?.chatUrl.isNotEmpty ?? false;
         if (isValidUrl) {
           emit(SupportChatState.initialized);
         } else {
@@ -51,62 +40,39 @@ class SupportCubit extends Cubit<SupportChatState> {
     );
   }
 
-  /// Устанавливает контроллер WebView.
-  Future<void> onControllerReady(InAppWebViewController controller) async {
-    _controller = controller;
-    await _setUserCredentials();
-  }
-
-  /// Устанавливает данные видимые оператором службы поддержки.
-  Future<void> _setUserCredentials() async {
-    if (_controller == null) {
+  /// Открывает чат службы поддержки.
+  Future<void> openChat() async {
+    if (credentials == null) {
       emit(SupportChatState.error);
       return;
+    } else {
+      await _setupSession(credentials!);
+      await Jivo.display.present();
     }
-
-    if (_credentials == null) return;
-
-    await _setUserToken();
-    await _setUserInfo();
-
-    emit(SupportChatState.initialized);
   }
 
   /// Устанавливает данные видимые оператором службы поддержки.
-  Future<void> _setUserInfo() async {
-    final jsScript = '''
-            if (typeof jivo_api !== 'undefined') {
-              jivo_api.setContactInfo({
-                name: "${_credentials!.contactInfo.name}",
-                email: "${_credentials!.contactInfo.email}",
-                phone: "${_credentials!.contactInfo.phone}",
-                description: "${_credentials!.contactInfo.description}",
-              });
-
-              jivo_api.setClientAttributes({
-                ${_credentials!.userAttributes.formatted}
-              });
-            }
-          ''';
-
-    await Future.delayed(const Duration(seconds: 1));
-    await _controller?.evaluateJavascript(
-      source: jsScript,
+  Future<void> _setupSession(SupportChatCredentials creds) async {
+    await Jivo.session.setup(
+      // channelId: creds.chatUrl, // `widget_id` в консоли Jivo - ID канала
+      channelId: 'zFZoRAwxfc',
+      userToken: creds.userToken, // JWT-токен для идентификации пользователя
+      // (нужен для сохранения истории чатов)
     );
-  }
 
-  /// Устанавливает `JWT`-токен для аутентификации пользователя в чате.
-  Future<void> _setUserToken() async {
-    final token = _credentials!.userToken;
-    if (token.isEmpty) return;
-
-    await Future.delayed(const Duration(seconds: 1));
-    await _controller!.evaluateJavascript(
-      source: '''
-              if (typeof jivo_api !== 'undefined') {
-                 jivo_api.setUserToken("${_credentials!.userToken}");
-              }
-            ''',
+    await Jivo.session.setContactInfo(
+      name: creds.contactInfo.name,
+      email: creds.contactInfo.email,
+      phone: creds.contactInfo.phone,
+      brief: creds.contactInfo.description,
     );
+
+    final atrs = creds.userAttributes.jivoFields;
+
+    if (atrs.isNotEmpty) {
+      // кастомные атрибуты пользователя
+      // (секция `Extra info` внутри чата)
+      await Jivo.session.setCustomData(atrs);
+    }
   }
 }

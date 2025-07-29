@@ -14,9 +14,11 @@
 -dontwarn kotlinx.parcelize.Parcelize
 -dontwarn org.joda.time.Instant
 
-# Для Retrofit и LiveData
+-keep class com.jivosite.sdk.** { *; }
 -keep class androidx.lifecycle.LiveData { *; }
--keep class * extends retrofit2.CallAdapter
--keepclassmembers class * {
-    @retrofit2.http.* <methods>;
-}
+
+-keep,allowobfuscation,allowshrinking interface retrofit2.Call
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+
+-keep,allowobfuscation,allowshrinking class com.jivosite.sdk.model.** { *; }
+-keep,allowobfuscation,allowshrinking class com.jivosite.sdk.network.** { *; }
