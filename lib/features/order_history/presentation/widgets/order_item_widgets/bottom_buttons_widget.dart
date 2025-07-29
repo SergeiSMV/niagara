@@ -77,61 +77,59 @@ class BottomButtonsWidget extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) {
-    debugPrint('BottomButtonsWidget: ${order.rating}');
-    return Column(
-      children: [
-        if (order.orderStatus == OrderStatus.goingTo) ...[
-          LightButtonWidget(
-            text: t.common.cancel,
-            icon: Assets.icons.close,
-            onTap: () => _showCancelOrderModal(context),
-          ),
-        ],
-        if (order.orderStatus == OrderStatus.received) ...[
-          BlocBuilder<RateOrderCubit, RateOrderState>(
-            builder: (context, state) => Row(
-              children: [
-                ...[
-                  if (state == const RateOrderState.initial() ||
-                      state == const RateOrderState.loading())
-                    order.rating == 0
-                        ? Expanded(
-                            child: Padding(
-                              padding: AppInsets.kRight4,
-                              child: LightButtonWidget(
-                                text: t.recentOrders.rate,
-                                icon: Assets.icons.star,
-                                onTap: () => _showRateModal(context),
-                              ),
-                            ),
-                          )
-                        // : const SizedBox.shrink(),
-                        : Expanded(
-                            child: OrderRaitingWidget(rating: order.rating),
-                          ),
-                ],
-                AppBoxes.kWidth4,
-                if (order.orderAgain)
-                  Expanded(
-                    child: LightButtonWidget(
-                      text: t.recentOrders.repeat,
-                      icon: Assets.icons.repeat,
-                      onTap: () => _showRepeatOrderModal(context),
-                    ),
-                  ),
-              ],
+  Widget build(BuildContext context) => Column(
+        children: [
+          if (order.orderStatus == OrderStatus.goingTo) ...[
+            LightButtonWidget(
+              text: t.common.cancel,
+              icon: Assets.icons.close,
+              onTap: () => _showCancelOrderModal(context),
             ),
-          ),
+          ],
+          if (order.orderStatus == OrderStatus.received) ...[
+            BlocBuilder<RateOrderCubit, RateOrderState>(
+              builder: (context, state) => Row(
+                children: [
+                  ...[
+                    if (state == const RateOrderState.initial() ||
+                        state == const RateOrderState.loading())
+                      order.rating == 0
+                          ? Expanded(
+                              child: Padding(
+                                padding: AppInsets.kRight4,
+                                child: LightButtonWidget(
+                                  text: t.recentOrders.rate,
+                                  icon: Assets.icons.star,
+                                  onTap: () => _showRateModal(context),
+                                ),
+                              ),
+                            )
+                          // : const SizedBox.shrink(),
+                          : Expanded(
+                              child: OrderRaitingWidget(rating: order.rating),
+                            ),
+                  ],
+                  AppBoxes.kWidth4,
+                  if (order.orderAgain)
+                    Expanded(
+                      child: LightButtonWidget(
+                        text: t.recentOrders.repeat,
+                        icon: Assets.icons.repeat,
+                        onTap: () => _showRepeatOrderModal(context),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+          if (order.orderStatus == OrderStatus.cancelled &&
+              order.orderAgain) ...[
+            LightButtonWidget(
+              text: t.recentOrders.repeat,
+              icon: Assets.icons.repeat,
+              onTap: () => _showRepeatOrderModal(context),
+            ),
+          ],
         ],
-        if (order.orderStatus == OrderStatus.cancelled && order.orderAgain) ...[
-          LightButtonWidget(
-            text: t.recentOrders.repeat,
-            icon: Assets.icons.repeat,
-            onTap: () => _showRepeatOrderModal(context),
-          ),
-        ],
-      ],
-    );
-  }
+      );
 }
