@@ -49,6 +49,10 @@
 		</array>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
+		<key>NSCameraUsageDescription</key>
+		<string>Доступ к камере необходим для отправки медиа в чате.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Доступ к библиотеке фото необходим для отправки медиа в чате.</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 		<string>Приложение запрашивает доступ к вашей геолокации, чтобы определить ваш город и адрес доставки.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
