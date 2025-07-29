@@ -1,4 +1,4 @@
-import 'package:niagara_app/core/core.dart';
+import '../../../../core/core.dart';
 
 class OrderRateOption extends Equatable {
   const OrderRateOption({
@@ -22,11 +22,10 @@ class OrderRateOption extends Equatable {
     String? id,
     String? name,
     bool? isSelected,
-  }) {
-    return OrderRateOption(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      isSelected: isSelected ?? this.isSelected,
-    );
-  }
+  }) =>
+      OrderRateOption(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        isSelected: isSelected ?? this.isSelected,
+      );
 }

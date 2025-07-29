@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/order_rate_options_cubit/order_rate_options_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_option_item_widget.dart';
+import '../../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../../../core/utils/constants/app_boxes.dart';
+import '../../../../../core/utils/constants/app_sizes.dart';
+import '../../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../../core/utils/extensions/text_style_ext.dart';
+import '../../../../../core/utils/gen/strings.g.dart';
+import '../../bloc/order_rate_options_cubit/order_rate_options_cubit.dart';
+import 'rate_option_item_widget.dart';
 
 class ListOptionsWidget extends StatelessWidget {
   const ListOptionsWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<OrderRateOptionsCubit, OrderRateOptionsState>(
-      builder: (context, state) {
-        final rating = context.read<OrderRateOptionsCubit>().rating;
-        return state.when(
-          loading: () => const SizedBox(
-            height: AppSizes.kGeneral64,
-            child: AppCenterLoader(),
-          ),
-          loaded: (options) {
-            return Column(
+  Widget build(BuildContext context) =>
+      BlocBuilder<OrderRateOptionsCubit, OrderRateOptionsState>(
+        builder: (context, state) {
+          final rating = context.read<OrderRateOptionsCubit>().rating;
+          return state.when(
+            loading: () => const SizedBox(
+              height: AppSizes.kGeneral64,
+              child: AppCenterLoader(),
+            ),
+            loaded: (options) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -41,12 +40,10 @@ class ListOptionsWidget extends StatelessWidget {
                 ),
                 AppBoxes.kHeight24,
               ],
-            );
-          },
-          error: () => const SizedBox.shrink(),
-          empty: () => const SizedBox.shrink(),
-        );
-      },
-    );
-  }
+            ),
+            error: () => const SizedBox.shrink(),
+            empty: () => const SizedBox.shrink(),
+          );
+        },
+      );
 }
