@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/common/presentation/theme/typography/button_typo.dart';
-import 'package:niagara_app/core/common/presentation/theme/typography/caption_typo.dart';
-import 'package:niagara_app/core/common/presentation/theme/typography/description_typo.dart';
-import 'package:niagara_app/core/common/presentation/theme/typography/heading_typo.dart';
-import 'package:niagara_app/core/common/presentation/theme/typography/text_typo.dart';
+import 'button_typo.dart';
+import 'caption_typo.dart';
+import 'description_typo.dart';
+import 'heading_typo.dart';
+import 'text_typo.dart';
 
 /// Базовая типографика приложения (размеры шрифтов, межстрочные интервалы, etc)
 abstract class BaseTypography extends ThemeExtension<BaseTypography> {
