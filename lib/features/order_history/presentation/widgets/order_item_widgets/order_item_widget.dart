@@ -100,7 +100,6 @@ class OrderItemWidget extends StatelessWidget {
                   ),
                   if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
                   Text(
-                    // t.locations.deliveryAddress,
                     order.pickup
                         ? t.locations.shopAddress
                         : t.locations.deliveryAddress,
