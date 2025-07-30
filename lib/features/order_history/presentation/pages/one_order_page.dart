@@ -3,34 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/enums/order_status.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/rate_order_cubit/rate_order_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/list_products_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/cancel_order_modal_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/order_receipt_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_modal_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/repeat_order_modal_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/order_data_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/order_status_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/prices_and_bonuses_widget.dart';
+import '../../../../core/common/presentation/widgets/app_bar.dart';
+import '../../../../core/common/presentation/widgets/buttons/app_text_button.dart';
+import '../../../../core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
+import '../../../../core/utils/constants/app_boxes.dart';
+import '../../../../core/utils/constants/app_insets.dart';
+import '../../../../core/utils/enums/order_status.dart';
+import '../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../core/utils/extensions/text_style_ext.dart';
+import '../../../../core/utils/gen/assets.gen.dart';
+import '../../../../core/utils/gen/strings.g.dart';
+import '../../domain/models/user_order.dart';
+import '../bloc/rate_order_cubit/rate_order_cubit.dart';
+import '../widgets/list_products_widget.dart';
+import '../widgets/modals_widgets/cancel_order_modal_widget.dart';
+import '../widgets/modals_widgets/order_receipt_widget.dart';
+import '../widgets/modals_widgets/rate_modal_widget.dart';
+import '../widgets/modals_widgets/repeat_order_modal_widget.dart';
+import '../widgets/order_data_widget.dart';
+import '../widgets/order_status_widget.dart';
+import '../widgets/prices_and_bonuses_widget.dart';
 
 /// Экран с одним заказом
 @RoutePage()
 class OneOrderPage extends StatelessWidget {
   const OneOrderPage({
-    super.key,
     required this.order,
     required this.evaluateOrderCubit,
+    super.key,
   });
 
   final UserOrder order;
@@ -44,67 +44,65 @@ class OneOrderPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBarWidget(
-            title: '${t.recentOrders.orderNumber}${order.orderNumber}',
-            actions: [
-              InkWell(
-                onTap: () => _copyOrderNumber(context),
-                child: Padding(
-                  padding: AppInsets.kRight16,
-                  child: Assets.icons.copy.svg(),
+  Widget build(BuildContext context) => Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBarWidget(
+              title: '${t.recentOrders.orderNumber}${order.orderNumber}',
+              actions: [
+                InkWell(
+                  onTap: () => _copyOrderNumber(context),
+                  child: Padding(
+                    padding: AppInsets.kRight16,
+                    child: Assets.icons.copy.svg(),
+                  ),
+                ),
+              ],
+            ),
+            const SliverToBoxAdapter(child: AppBoxes.kHeight12),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: AppInsets.kHorizontal16,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${t.recentOrders.created} ${DateFormat('EE. dd.MM, HH:mm', 'ru_RU').format(order.date)}',
+                      style: context.textStyle.textTypo.tx2Medium.withColor(
+                        context.colors.textColors.main,
+                      ),
+                    ),
+                    OrderStatusWidget(
+                      status: order.orderStatus,
+                      padding: AppInsets.kHorizontal14,
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-          const SliverToBoxAdapter(child: AppBoxes.kHeight12),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: AppInsets.kHorizontal16,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${t.recentOrders.created} ${DateFormat('EE. dd.MM, HH:mm', 'ru_RU').format(order.date)}',
-                    style: context.textStyle.textTypo.tx2Medium.withColor(
-                      context.colors.textColors.main,
-                    ),
-                  ),
-                  OrderStatusWidget(
-                    status: order.orderStatus,
-                    padding: AppInsets.kHorizontal14,
-                  ),
-                ],
+            ),
+            const SliverToBoxAdapter(child: AppBoxes.kHeight28),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: AppInsets.kHorizontal16,
+                child: OrderDataWidget(order: order),
               ),
             ),
-          ),
-          const SliverToBoxAdapter(child: AppBoxes.kHeight28),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: AppInsets.kHorizontal16,
-              child: OrderDataWidget(order: order),
+            const SliverToBoxAdapter(child: AppBoxes.kHeight32),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: AppInsets.kHorizontal16,
+                child: PricesAndBonusesWidget(order: order),
+              ),
             ),
-          ),
-          const SliverToBoxAdapter(child: AppBoxes.kHeight32),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: AppInsets.kHorizontal16,
-              child: PricesAndBonusesWidget(order: order),
+            const SliverToBoxAdapter(child: AppBoxes.kHeight16),
+            ListProductsWidget(products: order.products),
+            BlocProvider.value(
+              value: evaluateOrderCubit,
+              child: _BottomButtonsWidget(order: order),
             ),
-          ),
-          const SliverToBoxAdapter(child: AppBoxes.kHeight16),
-          ListProductsWidget(products: order.products),
-          BlocProvider.value(
-            value: evaluateOrderCubit,
-            child: _BottomButtonsWidget(order: order),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }
 
 /// Кнопки внизу экрана, с учетом статуса заказа
