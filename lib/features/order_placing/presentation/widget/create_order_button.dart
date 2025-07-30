@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/bloc/payment_method_selection_cubit/payment_method_selection_cubit.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/cart/cart/domain/models/cart.dart';
-import 'package:niagara_app/features/order_placing/presentation/bloc/create_order/create_order_cubit.dart';
+import '../../../../core/common/presentation/bloc/payment_method_selection_cubit/payment_method_selection_cubit.dart';
+import '../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../../core/utils/constants/app_borders.dart';
+import '../../../../core/utils/constants/app_constants.dart';
+import '../../../../core/utils/constants/app_insets.dart';
+import '../../../../core/utils/constants/app_sizes.dart';
+import '../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../core/utils/extensions/text_style_ext.dart';
+import '../../../../core/utils/gen/strings.g.dart';
+import '../../../cart/cart/domain/models/cart.dart';
+import '../bloc/create_order/create_order_cubit.dart';
 
 /// Кнопка оформления заказа.
 class CreateOrderButton extends StatelessWidget {
   const CreateOrderButton({
-    super.key,
     required this.cart,
+    super.key,
   });
 
   /// Состояни корзины, которое будет использоваться при оформлении заказа.
@@ -80,12 +80,10 @@ class _Loading extends StatelessWidget {
   const _Loading();
 
   @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: AppInsets.kAll8,
-      child: AppCenterLoader(isWhite: true),
-    );
-  }
+  Widget build(BuildContext context) => const Padding(
+        padding: AppInsets.kAll8,
+        child: AppCenterLoader(isWhite: true),
+      );
 }
 
 /// Контент кнопки в обычном состоянии (отображает количество товаров, цену и

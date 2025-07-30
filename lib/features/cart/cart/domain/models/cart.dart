@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
+import '../../../../../core/common/domain/models/product.dart';
+import '../../../../../core/utils/enums/payment_method_type.dart';
 
 class Cart extends Equatable {
   const Cart({
