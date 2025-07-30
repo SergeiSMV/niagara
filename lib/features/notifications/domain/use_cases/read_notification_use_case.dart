@@ -1,5 +1,5 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/notifications/domain/repositories/notifications_repository.dart';
+import '../../../../core/core.dart';
+import '../repositories/notifications_repository.dart';
 
 @injectable
 class ReadNotificationUseCase extends BaseUseCase<void, String> {

@@ -2,20 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/common/presentation/widgets/product/product_cards/product_widget.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/catalog/domain/model/filter.dart';
-import 'package:niagara_app/features/catalog/presentation/bloc/filters_cubit/filters_cubit.dart';
-import 'package:niagara_app/features/catalog/presentation/bloc/products_bloc/products_bloc.dart';
-import 'package:niagara_app/features/catalog/presentation/widget/category/interaction_category_widget.dart';
-import 'package:niagara_app/features/catalog/presentation/widget/groups/groups_buttons_widget.dart';
-import 'package:niagara_app/features/catalog/presentation/widget/search/catalog_search_button_widget.dart';
+import '../../../../core/common/presentation/widgets/app_bar.dart';
+import '../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../../core/common/presentation/widgets/product/product_cards/product_widget.dart';
+import '../../../../core/utils/constants/app_constants.dart';
+import '../../../../core/utils/constants/app_insets.dart';
+import '../../../../core/utils/constants/app_sizes.dart';
+import '../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../core/utils/gen/assets.gen.dart';
+import '../../domain/model/filter.dart';
+import '../bloc/filters_cubit/filters_cubit.dart';
+import '../bloc/products_bloc/products_bloc.dart';
+import '../widget/category/interaction_category_widget.dart';
+import '../widget/groups/groups_buttons_widget.dart';
+import '../widget/search/catalog_search_button_widget.dart';
 
 @RoutePage()
 class CategoryPage extends HookWidget {
@@ -32,11 +32,9 @@ class CategoryPage extends HookWidget {
   }
 
   /// Возвращает соотношение сторон для [GridView].
-  double _getAspectRatio(BuildContext context) {
-    return ((context.screenWidth - AppSizes.kGeneral8) /
-            AppConstants.kCrossAxis2) /
-        (context.screenWidth - AppConstants.kHeightCorrector50);
-  }
+  double _getAspectRatio(BuildContext context) =>
+      ((context.screenWidth - AppSizes.kGeneral8) / AppConstants.kCrossAxis2) /
+      (context.screenWidth - AppConstants.kHeightCorrector50);
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +43,10 @@ class CategoryPage extends HookWidget {
 
     useEffect(
       () {
-        void onScroll() {
+        Future<void> onScroll() async {
           if (scrollController.position.pixels ==
               scrollController.position.maxScrollExtent) {
-            _onLoadMore(context);
+            await _onLoadMore(context);
           }
         }
 

@@ -1,7 +1,7 @@
-import 'package:niagara_app/core/common/domain/models/pagination.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/notifications/domain/model/notification.dart';
-import 'package:niagara_app/features/notifications/domain/model/notifications_types.dart';
+import '../../../../core/common/domain/models/pagination.dart';
+import '../../../../core/core.dart';
+import '../model/notification.dart';
+import '../model/notifications_types.dart';
 
 typedef Notifications = ({
   List<NotificationItem> notifications,

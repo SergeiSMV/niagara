@@ -6,6 +6,11 @@ class NotificationsState with _$NotificationsState {
 
   const factory NotificationsState.openedFromPush() = _OpenedFromPush;
 
+  const factory NotificationsState.openedProductFromPush() =
+      _OpenedProductFromPush;
+  const factory NotificationsState.openedProductGroupFromPush() =
+      _OpenedProductGroupFromPush;
+
   const factory NotificationsState.loaded({
     required List<GroupedNotifications> groupedNotifications,
     required List<NotificationItem> unreadNotifications,

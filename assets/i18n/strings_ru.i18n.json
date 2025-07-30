@@ -352,7 +352,9 @@
       "all": "Все",
       "orders": "Заказы",
       "stocks": "Акции",
-      "system": "Системные"
+      "system": "Системные",
+      "product_group": "Группа товаров",
+      "product": "Товар"
     },
     "turnNotifications": "Включите пуш-уведомления",
     "stayUpToDateWithLatest": "Будьте в курсе последних скидок и акций",
