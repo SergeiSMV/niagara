@@ -321,6 +321,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     /// Обнуляем счетчики тары к возврату
     add(const _CancelAllTare());
 
+    /// Обнуляем промокод
+    add(const _SetPromocode(promocode: ''));
+
     final result = await _removeAllFromCartUseCase(
       RemoveAllFromCartParams(
         type: event.type,

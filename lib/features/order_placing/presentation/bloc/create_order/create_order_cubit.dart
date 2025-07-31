@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/common/domain/models/time_slot.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/payment_method_type.dart';
-import 'package:niagara_app/core/utils/enums/placing_order_error_type.dart';
-import 'package:niagara_app/features/order_placing/domain/models/tokenization_data.dart';
-import 'package:niagara_app/features/order_placing/domain/use_cases/create_order_use_case.dart';
+import '../../../../../core/common/domain/models/time_slot.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/payment_method_type.dart';
+import '../../../../../core/utils/enums/placing_order_error_type.dart';
+import '../../../domain/models/tokenization_data.dart';
+import '../../../domain/use_cases/create_order_use_case.dart';
 
 part 'create_order_state.dart';
 part 'create_order_cubit.freezed.dart';
