@@ -82,7 +82,7 @@ class _BuildQrCodeWidget extends StatelessWidget {
       ? Container(
           width: AppSizes.kImageSize150,
           height: AppSizes.kImageSize150,
-          margin: const EdgeInsets.symmetric(vertical: 20),
+          margin: AppInsets.kVertical20,
           child: Image.network(
             qrCodeUrl!,
             fit: BoxFit.contain,
