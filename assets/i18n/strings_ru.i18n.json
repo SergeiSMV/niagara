@@ -615,6 +615,9 @@
     "statusError": {
       "title": "Ошибка получения статуса заказа",
       "description": "Проверьте платёж в истории заказов"
+    },
+    "qrCodeError": {
+      "title": "QR код недоступен"
     }
   },
   "paymentMethods": {
