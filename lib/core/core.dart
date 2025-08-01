@@ -23,6 +23,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' hide Response;
 
 import '../features/authorization/base_token/domain/repositories/token_repository.dart';
+import '../features/authorization/phone_auth/data/data_sources/auth_local_data_source.dart';
 import '../features/authorization/phone_auth/domain/repositories/auth_repository.dart';
 import 'dependencies/di.dart';
 import 'utils/crashlytics/crashlytics_observer.dart';
@@ -34,6 +35,7 @@ export 'package:either_dart/either.dart';
 export 'package:equatable/equatable.dart';
 export 'package:injectable/injectable.dart';
 export 'package:niagara_app/core/common/data/database/app_database.dart';
+export '../features/authorization/phone_auth/data/data_sources/auth_local_data_source.dart';
 
 part 'common/data/services/permissions_service.dart';
 part 'dependencies/module.dart';

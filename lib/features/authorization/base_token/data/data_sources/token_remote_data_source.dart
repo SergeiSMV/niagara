@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/authorization/base_token/domain/models/credentials.dart';
+import '../../../../../core/core.dart';
+import '../../domain/models/credentials.dart';
 
 /// Удаленный источник данных для управления токенами аутентификации, отвечает
 /// за взаимодействие с удаленным сервисом для получения нового токена.
@@ -64,7 +64,6 @@ class TokenRemoteDataSource implements ITokenRemoteDataSource {
   }
 
   @override
-  Future<String> getBasicAuth() async {
-    return base64Encode(utf8.encode('$_basicLogin:$_basicPassword'));
-  }
+  Future<String> getBasicAuth() async =>
+      base64Encode(utf8.encode('$_basicLogin:$_basicPassword'));
 }
