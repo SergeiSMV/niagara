@@ -1,7 +1,7 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_local_data_source.dart';
-import 'package:niagara_app/features/authorization/base_token/data/data_sources/token_remote_data_source.dart';
-import 'package:niagara_app/features/authorization/base_token/domain/repositories/token_repository.dart';
+import '../../../../../core/core.dart';
+import '../../domain/repositories/token_repository.dart';
+import '../data_sources/token_local_data_source.dart';
+import '../data_sources/token_remote_data_source.dart';
 
 @LazySingleton(as: ITokenRepository)
 class TokenRepository extends BaseRepository implements ITokenRepository {
@@ -38,11 +38,25 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
     await _tokenRDS.getToken(deviceId: deviceId).fold(
       (failure) => throw GetTokenFailure(failure.error),
       (creds) async {
+        // Проверяем device_id от сервера
+        if (creds.deviceId?.isEmpty ?? true) {
+          // Этап 2: Удаление локальных данных
+          _cachedToken = null; // Очищаем кеш токена
+          await Future.wait([
+            _tokenLDS.deleteToken(), // Удаляем токен из FlutterSecureStorage
+            _tokenLDS.setDeviceId(deviceId: ''), // Очищаем device_id
+          ]);
+
+          // Обработка ошибки - бросаем ошибку DeviceIdFailure для
+          // перехвата в [AuthInterceptor]
+          throw const DeviceIdFailure('Empty device_id received from server');
+        }
+
         _cachedToken = creds.token;
 
         Future.wait([
           _tokenLDS.setToken(token: creds.token),
-          _tokenLDS.setDeviceId(deviceId: creds.deviceId),
+          _tokenLDS.setDeviceId(deviceId: creds.deviceId ?? ''),
         ]);
       },
     );
