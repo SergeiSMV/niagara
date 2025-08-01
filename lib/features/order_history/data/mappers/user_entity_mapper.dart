@@ -1,8 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:niagara_app/core/common/data/database/app_database.dart';
-import 'package:niagara_app/core/common/data/mappers/product_mapper.dart';
-import 'package:niagara_app/features/order_history/data/local/entities/user_order_entity.dart';
-import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
+
+import '../../../../core/common/data/database/app_database.dart';
+import '../../../../core/common/data/mappers/product_mapper.dart';
+import '../../domain/models/user_order.dart';
+import '../local/entities/user_order_entity.dart';
 
 extension AddressEntityMapper on UserOrderEntity {
   UserOrder toModel() => UserOrder(
@@ -27,6 +28,7 @@ extension AddressEntityMapper on UserOrderEntity {
         bonusesAdd: bonusesAdd,
         bonusesPay: bonusesPay,
         orderStatus: orderStatus,
+        orderStatusHex: orderStatusHex,
         orderProductsCount: orderProductsCount,
         orderProductsSum: orderProductsSum,
         totalBenefit: totalBenefit,
@@ -61,6 +63,7 @@ extension AddressEntityMapper on UserOrderEntity {
         bonusesAdd: Value(bonusesAdd),
         bonusesPay: Value(bonusesPay),
         orderStatus: Value(orderStatus),
+        orderStatusHex: Value(orderStatusHex),
         orderProductsCount: Value(orderProductsCount),
         orderProductsSum: Value(orderProductsSum),
         totalBenefit: Value(totalBenefit),
@@ -97,6 +100,7 @@ extension UserOrdersTableExtension on UserOrdersTableData {
         bonusesAdd: bonusesAdd,
         bonusesPay: bonusesPay,
         orderStatus: orderStatus,
+        orderStatusHex: orderStatusHex,
         orderProductsCount: orderProductsCount,
         orderProductsSum: orderProductsSum,
         totalBenefit: totalBenefit,
