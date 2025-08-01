@@ -74,6 +74,7 @@ class OneOrderPage extends StatelessWidget {
                     ),
                     OrderStatusWidget(
                       status: order.orderStatus,
+                      order: order,
                       padding: AppInsets.kHorizontal14,
                     ),
                   ],

@@ -95,7 +95,10 @@ class OrderItemWidget extends StatelessWidget {
                         ),
                       ),
                       AppBoxes.kWidth12,
-                      OrderStatusWidget(status: order.orderStatus),
+                      OrderStatusWidget(
+                        status: order.orderStatus,
+                        order: order,
+                      ),
                     ],
                   ),
                   if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:niagara_app/core/common/data/database/_imports.dart';
+import '../../../../../core/common/data/database/_imports.dart';
 
 class UserOrdersTable extends Table {
   TextColumn get id => text()();
@@ -24,6 +24,7 @@ class UserOrdersTable extends Table {
   RealColumn get bonusesAdd => real()();
   RealColumn get bonusesPay => real()();
   IntColumn get orderStatus => intEnum<OrderStatus>()();
+  TextColumn get orderStatusHex => text()();
   IntColumn get orderProductsCount => integer()();
   RealColumn get orderProductsSum => real()();
   RealColumn get totalBenefit => real()();
