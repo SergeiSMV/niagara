@@ -22,6 +22,9 @@ abstract interface class CrashlyticsErrorFilter {
     /// Ошибка авторизации (токен истек), автоматически обрабатывается AuthInterceptor.
     402,
 
+    /// Обнуление deviceId
+    403,
+
     /// Внутренняя ошибка сервера.
     500,
   ];
