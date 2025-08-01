@@ -26,7 +26,7 @@ class OrderStatusWidget extends StatelessWidget {
         padding: padding + AppInsets.kVertical6,
         decoration: BoxDecoration(
           borderRadius: AppBorders.kCircular4,
-          color: order.orderStatusHex.toColor(),
+          color: HexColor.fromHex(order.orderStatusHex),
         ),
         child: Text(
           order.orderStatus,
