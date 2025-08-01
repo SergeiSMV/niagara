@@ -1,5 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/common/presentation/router/app_router.gr.dart';
 import '../../../../../core/utils/constants/app_borders.dart';
@@ -8,6 +8,7 @@ import '../../../../../core/utils/constants/app_insets.dart';
 import '../../../../../core/utils/extensions/build_context_ext.dart';
 import '../../../../../core/utils/gen/assets.gen.dart';
 import '../../../../../core/utils/gen/strings.g.dart';
+import '../../../../support/presentation/support_cubit.dart';
 import 'profile_action_tile.dart';
 import 'profile_actions_widget.dart';
 
@@ -41,7 +42,7 @@ class AppInfoWidget extends StatelessWidget {
                   ProfileActionTile(
                     leadingIcon: Assets.icons.support,
                     title: t.profile.appInfo.support,
-                    onTap: () => context.navigateTo(const SupportChatRoute()),
+                    onTap: () => context.read<SupportCubit>().openChat(),
                   ),
                 ],
               ),

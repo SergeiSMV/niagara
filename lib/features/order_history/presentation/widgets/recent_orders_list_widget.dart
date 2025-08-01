@@ -93,18 +93,19 @@ class _OrdersListWidgetState extends State<_OrdersListWidget> {
         ),
       );
 
-  /// Строит индикатор обновления.
-  Widget _refreshIndicatorBuilder(context, state) => switch (state) {
-        RefreshStatus.refreshing => const AppCenterLoader(
-            dense: true,
-            size: AppSizes.kLoaderSmall,
-          ),
-        _ => const SizedBox.shrink(),
-      };
+  // TODO: Не релизили задачу
+  // /// Строит индикатор обновления.
+  // Widget _refreshIndicatorBuilder(context, state) => switch (state) {
+  //       RefreshStatus.refreshing => const AppCenterLoader(
+  //           dense: true,
+  //           size: AppSizes.kLoaderSmall,
+  //         ),
+  //       _ => const SizedBox.shrink(),
+  //     };
 
-  Future<void> _onRefresh() async {
-    context.read<OrdersBloc>().add(const OrdersEvent.loadPreview());
-  }
+  // Future<void> _onRefresh() async {
+  //   context.read<OrdersBloc>().add(const OrdersEvent.loadPreview());
+  // }
 
   /// Слушает состояние загрузки заказов.
   void _ordersLoadingStateListener(BuildContext context, OrdersState state) {
@@ -120,20 +121,24 @@ class _OrdersListWidgetState extends State<_OrdersListWidget> {
         listener: _ordersLoadingStateListener,
         child: Padding(
           padding: EdgeInsets.zero,
-          child: SmartRefresher(
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-            header: CustomHeader(builder: _refreshIndicatorBuilder),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                ...List.generate(
-                  widget.firstFourOrders.length,
-                  _buildOrderItem,
-                ),
-                const _AllOrdersButtonWidget(),
-              ],
-            ),
+          child:
+              // TODO: Не релизили задачу
+              // SmartRefresher(
+              //   controller: _refreshController,
+              //   onRefresh: _onRefresh,
+              //   header: CustomHeader(builder: _refreshIndicatorBuilder),
+              //   child:
+
+              ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              ...List.generate(
+                widget.firstFourOrders.length,
+                _buildOrderItem,
+              ),
+              const _AllOrdersButtonWidget(),
+            ],
+            // ),
           ),
         ),
       );

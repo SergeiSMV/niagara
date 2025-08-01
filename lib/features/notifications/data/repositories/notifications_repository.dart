@@ -77,10 +77,12 @@ class NotificationsRepository extends BaseRepository
       );
 
   /// Отправляет на бекенд FCM-токен устройства.
-  Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) => execute(
-        () async => _notificationsRDS.registerFcmDevice(fcmToken).fold(
+  Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) =>
+      execute(() async {
+        // await Jivo.notifications.setPushToken(fcmToken);
+        await _notificationsRDS.registerFcmDevice(fcmToken).fold(
               (failure) => throw failure,
               (result) => result,
-            ),
-      );
+            );
+      });
 }

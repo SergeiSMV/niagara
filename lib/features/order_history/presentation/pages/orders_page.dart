@@ -2,27 +2,35 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/orders_bloc/orders_bloc.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/order_item_widgets/order_item_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/orders_type_buttons_widget.dart';
+import '../../../../core/common/presentation/widgets/app_bar.dart';
+import '../../../../core/common/presentation/widgets/errors/error_refresh_widget.dart';
+import '../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../../core/utils/constants/app_boxes.dart';
+import '../../../../core/utils/constants/app_insets.dart';
+import '../../../../core/utils/constants/app_sizes.dart';
+import '../../../../core/utils/gen/assets.gen.dart';
+import '../bloc/orders_bloc/orders_bloc.dart';
+import '../widgets/order_item_widgets/order_item_widget.dart';
+import '../widgets/orders_type_buttons_widget.dart';
 
 @RoutePage()
 class OrdersPage extends HookWidget {
   const OrdersPage({super.key});
 
+  /// Обновляет список заказов
   void _onRefresh(BuildContext context) => context
       .read<OrdersBloc>()
       .add(const OrdersEvent.loading(isForceUpdate: true));
 
+  /// Загружает больше заказов
   void _onLoadMore(BuildContext context) =>
       context.read<OrdersBloc>().add(const OrdersEvent.loadMore());
+
+  /// Обновляет сортировку заказов
+  void _onSetSort(BuildContext context) {
+    final sort = context.read<OrdersBloc>().sort;
+    context.read<OrdersBloc>().add(OrdersEvent.setSort(sort: sort));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,18 +64,17 @@ class OrdersPage extends HookWidget {
               state.when(
                 loading: (_) =>
                     const SliverToBoxAdapter(child: AppCenterLoader()),
-                loaded: (orders, _) {
-                  return SliverPadding(
-                    padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
-                    sliver: SliverList.separated(
-                      itemCount: orders.length,
-                      itemBuilder: (context, index) => OrderItemWidget(
-                        order: orders[index],
-                      ),
-                      separatorBuilder: (_, __) => AppBoxes.kHeight16,
+                loaded: (orders, _) => SliverPadding(
+                  padding: AppInsets.kHorizontal16 + AppInsets.kVertical12,
+                  sliver: SliverList.separated(
+                    itemCount: orders.length,
+                    itemBuilder: (context, index) => OrderItemWidget(
+                      order: orders[index],
+                      onSortUpdate: () => _onSetSort(context),
                     ),
-                  );
-                },
+                    separatorBuilder: (_, __) => AppBoxes.kHeight16,
+                  ),
+                ),
                 error: () => SliverToBoxAdapter(
                   child: ErrorRefreshWidget(
                     onRefresh: () => _onRefresh(context),

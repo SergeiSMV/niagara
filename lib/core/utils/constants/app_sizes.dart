@@ -40,6 +40,7 @@ abstract final class AppSizes {
   static const double kImageSize120 = 120;
   static const double kImageSize100 = 100;
   static const double kImageSize110 = 110;
+  static const double kImageSize150 = 150;
   static const double kImageSize170 = 170;
 
   //* ---------------------------- Prepaid water -------------------------- *//

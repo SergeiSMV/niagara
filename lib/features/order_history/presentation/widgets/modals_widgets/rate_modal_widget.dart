@@ -2,48 +2,56 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/modals/close_modal_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/modals/draggable_pin_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/text_fields/app_text_field.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/order_rate_options_cubit/order_rate_options_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/bloc/rate_order_cubit/rate_order_cubit.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/list_options_widget.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/modals_widgets/rate_sent_modal_widget.dart';
+import '../../../../../core/common/presentation/widgets/buttons/app_text_button.dart';
+import '../../../../../core/common/presentation/widgets/modals/close_modal_button.dart';
+import '../../../../../core/common/presentation/widgets/modals/draggable_pin_widget.dart';
+import '../../../../../core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
+import '../../../../../core/common/presentation/widgets/text_fields/app_text_field.dart';
+import '../../../../../core/dependencies/di.dart';
+import '../../../../../core/utils/constants/app_boxes.dart';
+import '../../../../../core/utils/constants/app_insets.dart';
+import '../../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../../core/utils/extensions/text_style_ext.dart';
+import '../../../../../core/utils/gen/assets.gen.dart';
+import '../../../../../core/utils/gen/strings.g.dart';
+import '../../bloc/order_rate_options_cubit/order_rate_options_cubit.dart';
+import '../../bloc/rate_order_cubit/rate_order_cubit.dart';
+import 'list_options_widget.dart';
+import 'rate_sent_modal_widget.dart';
 
+/// Виджет модального окна для оценки заказа
 class RateModalWidget extends StatelessWidget {
   const RateModalWidget({
-    super.key,
     required this.orderId,
+    this.onSortUpdate,
+    super.key,
   });
 
+  /// Идентификатор заказа
   final String orderId;
 
+  /// Callback для обновления сортировки
+  final VoidCallback? onSortUpdate;
+
+  /// Закрывает модальное окно
   Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
 
+  /// Изменяет оценку заказа
   void _changeRating(BuildContext context, double rating) =>
       context.read<OrderRateOptionsCubit>().changeRating(rating, orderId);
 
+  /// Сохраняет комментарий
   void _saveComment(BuildContext context, String comment) {
     context.read<OrderRateOptionsCubit>().comment = comment;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          getIt<OrderRateOptionsCubit>()..getOrderRateOptions(orderId),
-      child: Builder(
-        builder: (context) {
-          return Padding(
+  Widget build(BuildContext context) => BlocProvider(
+        create: (_) =>
+            // ignore: discarded_futures
+            getIt<OrderRateOptionsCubit>()..getOrderRateOptions(orderId),
+        child: Builder(
+          builder: (context) => Padding(
             padding: AppInsets.kHorizontal16 +
                 EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -104,25 +112,33 @@ class RateModalWidget extends StatelessWidget {
                     onChanged: (val) => _saveComment(context, val ?? ''),
                   ),
                   AppBoxes.kHeight24,
-                  _SendRatingButtonWidget(orderId: orderId),
+                  _SendRatingButtonWidget(
+                    orderId: orderId,
+                    onSortUpdate: onSortUpdate,
+                  ),
                   AppBoxes.kHeight32,
                 ],
               ),
             ),
-          );
-        },
-      ),
-    );
-  }
+          ),
+        ),
+      );
 }
 
+/// Виджет кнопки для отправки оценки заказа
 class _SendRatingButtonWidget extends StatelessWidget {
   const _SendRatingButtonWidget({
     required this.orderId,
+    this.onSortUpdate,
   });
 
+  /// Идентификатор заказа
   final String orderId;
 
+  /// Callback для обновления сортировки
+  final VoidCallback? onSortUpdate;
+
+  /// Отправляет оценку заказа
   void _send(BuildContext context) {
     final cubit = context.read<OrderRateOptionsCubit>();
 
@@ -144,8 +160,10 @@ class _SendRatingButtonWidget extends StatelessWidget {
         builder: (ctx) => const RateSentModalWidget(),
       );
 
+  /// Закрывает модальное окно
   Future<void> _onCloseModal(BuildContext context) async => context.maybePop();
 
+  /// Обрабатывает результат отправки оценки заказа
   void _rateOrderCompleted(
     BuildContext context,
     RateOrderState state,
@@ -156,9 +174,10 @@ class _SendRatingButtonWidget extends StatelessWidget {
         title: t.recentOrders.sendingError,
         subtitle: t.recentOrders.failedSendRating,
       ),
-      success: () => _onCloseModal(context).then((_) {
+      success: () => _onCloseModal(context).then((_) async {
         if (context.mounted) {
-          _showRateSentModal(context);
+          onSortUpdate?.call();
+          await _showRateSentModal(context);
         }
       }),
       orElse: () {},
@@ -166,21 +185,20 @@ class _SendRatingButtonWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RateOrderCubit, RateOrderState>(
-      builder: (context, state) {
-        _rateOrderCompleted(context, state);
+  Widget build(BuildContext context) =>
+      BlocBuilder<RateOrderCubit, RateOrderState>(
+        builder: (context, state) {
+          _rateOrderCompleted(context, state);
 
-        final loading = state.maybeWhen(
-          loading: () => true,
-          orElse: () => false,
-        );
+          final loading = state.maybeWhen(
+            loading: () => true,
+            orElse: () => false,
+          );
 
-        return AppTextButton.primary(
-          text: !loading ? t.recentOrders.send : null,
-          onTap: () => _send(context),
-        );
-      },
-    );
-  }
+          return AppTextButton.primary(
+            text: !loading ? t.recentOrders.send : null,
+            onTap: () => _send(context),
+          );
+        },
+      );
 }

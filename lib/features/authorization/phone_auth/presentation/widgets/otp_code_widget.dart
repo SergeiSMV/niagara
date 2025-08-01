@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/utils/constants/app_borders.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pinput/pinput.dart';
+
+import '../../../../../core/utils/constants/app_borders.dart';
+import '../../../../../core/utils/constants/app_insets.dart';
+import '../../../../../core/utils/constants/app_sizes.dart';
+import '../../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../../core/utils/extensions/text_style_ext.dart';
+import '../../../../../core/utils/gen/strings.g.dart';
+import '../bloc/auth_bloc/auth_bloc.dart';
 
 /// Виджет для ввода кода подтверждения
 class OTPCodeWidget extends StatelessWidget {

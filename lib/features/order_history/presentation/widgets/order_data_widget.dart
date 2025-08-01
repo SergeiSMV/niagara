@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/order_history/domain/models/user_order.dart';
-import 'package:niagara_app/features/order_history/presentation/widgets/data_item_widget.dart';
+import '../../../../core/utils/constants/app_boxes.dart';
+import '../../../../core/utils/enums/orders_payment_types.dart';
+import '../../../../core/utils/gen/assets.gen.dart';
+import '../../../../core/utils/gen/strings.g.dart';
+import '../../domain/models/user_order.dart';
+import 'data_item_widget.dart';
 
 class OrderDataWidget extends StatelessWidget {
   const OrderDataWidget({
