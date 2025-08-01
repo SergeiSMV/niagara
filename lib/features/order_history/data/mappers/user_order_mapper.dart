@@ -1,5 +1,4 @@
 import '../../../../core/common/data/mappers/product_mapper.dart';
-import '../../../../core/utils/enums/order_status.dart';
 import '../../../../core/utils/enums/orders_payment_types.dart';
 import '../../domain/models/user_order.dart';
 import '../local/entities/user_order_entity.dart';
@@ -27,7 +26,7 @@ extension UserOrderDtoMapper on UserOrderDto {
         taraSum: ordersTaraSum,
         bonusesAdd: ordersBonusesAdd,
         bonusesPay: ordersBonusesPay,
-        orderStatus: OrderStatus.toEnum(ordersStatus),
+        orderStatus: ordersStatus,
         orderStatusHex: ordersStatusHex,
         orderProductsCount: ordersProductsCount,
         orderProductsSum: ordersProductsSum,

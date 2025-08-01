@@ -23,7 +23,7 @@ class UserOrdersTable extends Table {
   RealColumn get taraSum => real()();
   RealColumn get bonusesAdd => real()();
   RealColumn get bonusesPay => real()();
-  IntColumn get orderStatus => intEnum<OrderStatus>()();
+  TextColumn get orderStatus => text()();
   TextColumn get orderStatusHex => text()();
   IntColumn get orderProductsCount => integer()();
   RealColumn get orderProductsSum => real()();

@@ -102,7 +102,10 @@ class UserOrder extends Equatable {
   final double bonusesPay;
 
   /// Статус заказа
-  final OrderStatus orderStatus;
+  // final OrderStatus orderStatus;
+
+  /// Статус заказа
+  final String orderStatus;
 
   /// Цвет статуса заказа
   final String orderStatusHex;

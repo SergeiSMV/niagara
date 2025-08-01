@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../../../../../core/common/data/local/entities/product_entity.dart';
 import '../../../../../core/core.dart';
-import '../../../../../core/utils/enums/order_status.dart';
 import '../../../../../core/utils/enums/orders_payment_types.dart';
 
 part 'user_order_entity.g.dart';
@@ -63,7 +62,7 @@ class UserOrderEntity extends Equatable {
   final double taraSum;
   final double bonusesAdd;
   final double bonusesPay;
-  final OrderStatus orderStatus;
+  final String orderStatus;
   final String orderStatusHex;
   final int orderProductsCount;
   final double orderProductsSum;
