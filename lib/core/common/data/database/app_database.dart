@@ -47,7 +47,7 @@ class AppDatabase extends _$AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -55,7 +55,7 @@ class AppDatabase extends _$AppDatabase {
         beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
         onUpgrade: (m, from, to) async {
           try {
-            if (from < 8) {
+            if (from < 9) {
               final existingUserColumns = await customSelect(
                 'PRAGMA table_info(users_table);',
                 readsFrom: {usersTable},
