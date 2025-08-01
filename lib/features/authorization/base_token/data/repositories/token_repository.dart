@@ -3,6 +3,13 @@ import '../../domain/repositories/token_repository.dart';
 import '../data_sources/token_local_data_source.dart';
 import '../data_sources/token_remote_data_source.dart';
 
+/// Репозиторий для работы с токенами авторизации
+///
+/// Этот класс предоставляет методы для работы с токенами авторизации,
+/// такие как получение, создание и удаление токенов
+///
+/// Он также кеширует токены, чтобы избежать
+/// нескольких запросов к хранилищам данных
 @LazySingleton(as: ITokenRepository)
 class TokenRepository extends BaseRepository implements ITokenRepository {
   TokenRepository(
@@ -12,24 +19,32 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
     this._tokenLDS,
   );
 
+  /// Удалённый источник данных для получения токенов
   final ITokenRemoteDataSource _tokenRDS;
+
+  /// Локальный источник данных для получения токенов
   final ITokenLocalDataSource _tokenLDS;
 
-  // Кешируем токен, чтобы избежать нескольких запросов к хранилищам данных.
+  // Кешируем токен, чтобы избежать нескольких запросов к хранилищам данных
   String? _cachedToken;
 
+  /// Возвращает ошибку, которая может возникнуть при работе с токенами
   @override
   Failure get failure => const TokenRepositoryFailure();
 
+  /// Создаёт токен авторизации
   @override
   Future<Either<Failure, void>> createToken() => execute(_createToken);
 
+  /// Получает токен авторизации
   @override
   Future<Either<Failure, String>> getToken() => execute(_getToken);
 
+  /// Удаляет токен авторизации
   @override
   Future<Either<Failure, void>> deleteToken() => execute(_deleteToken);
 
+  /// Создаёт токен авторизации
   Future<void> _createToken() async {
     // Пытаемся получить [deviceId]. Если он `null`, значит это первая
     // авторизация.
@@ -52,8 +67,10 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
           throw const DeviceIdFailure('Empty device_id received from server');
         }
 
+        // Кешируем токен
         _cachedToken = creds.token;
 
+        // Сохраняем токен и device_id в хранилище
         Future.wait([
           _tokenLDS.setToken(token: creds.token),
           _tokenLDS.setDeviceId(deviceId: creds.deviceId ?? ''),
@@ -62,21 +79,31 @@ class TokenRepository extends BaseRepository implements ITokenRepository {
     );
   }
 
+  /// Получает токен авторизации из кеша или хранилища
   Future<String> _getToken() async {
     if (_cachedToken != null) return _cachedToken!;
 
+    // Получаем токен из хранилища
     final localToken = await _tokenLDS.getToken();
 
+    // Если токен не найден, бросаем ошибку TokenNotFoundFailure
     if (localToken == null || localToken.isEmpty) {
       throw const TokenNotFoundFailure();
     }
 
+    // Кешируем токен
     _cachedToken = localToken;
+
+    // Возвращаем токен
     return localToken;
   }
 
+  /// Удаляет токен авторизации из кеша и хранилища
   Future<void> _deleteToken() async {
+    // Удаляем токен из хранилища
     await _tokenLDS.deleteToken();
+
+    // Очищаем кеш токена
     _cachedToken = null;
   }
 }
