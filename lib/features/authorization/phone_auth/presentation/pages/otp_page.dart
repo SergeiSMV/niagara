@@ -7,8 +7,7 @@ import '../../../../../core/dependencies/di.dart';
 import '../../../../../core/utils/constants/app_boxes.dart';
 import '../../../../../core/utils/constants/app_insets.dart';
 import '../../../../home/presentation/widgets/support_button.dart';
-import '../../../../support/presentation/support_chat_state.dart';
-import '../../../../support/presentation/support_cubit.dart';
+import '../../../../support/presentation/bloc/support_chat_cubit/support_chat_cubit.dart';
 import '../bloc/auth_bloc/auth_bloc.dart';
 import '../bloc/countdown_timer_cubit/countdown_timer_cubit.dart';
 import '../widgets/otp_code_widget.dart';
@@ -41,7 +40,7 @@ class OTPPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) => BlocProvider(
         // ignore: discarded_futures
-        create: (_) => getIt<SupportCubit>()..getUserCredentials(),
+        create: (_) => getIt<SupportChatCubit>()..getUserCredentials(),
         child: BlocProvider.value(
           value: getIt<AuthBloc>(),
           child: BlocListener<AuthBloc, AuthState>(
@@ -58,10 +57,11 @@ class OTPPage extends StatelessWidget implements AutoRouteWrapper {
                 slivers: [
                   SliverAppBarWidget(
                     actions: [
-                      BlocBuilder<SupportCubit, SupportChatState>(
-                        builder: (_, state) => state.isReady
-                            ? const SupportButton()
-                            : const SizedBox.shrink(),
+                      BlocBuilder<SupportChatCubit, SupportChatState>(
+                        builder: (_, state) => state.maybeWhen(
+                          error: () => const SizedBox.shrink(),
+                          orElse: () => const SupportButton(),
+                        ),
                       ),
                       AppBoxes.kWidth16,
                     ],

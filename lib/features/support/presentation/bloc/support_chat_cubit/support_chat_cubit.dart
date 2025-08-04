@@ -1,20 +1,21 @@
-/*
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jivosdk_plugin/bridge.dart';
 
-import '../../../core/core.dart';
-import '../domain/support_chat_credentials.dart';
-import '../domain/support_repository.dart';
-import 'support_chat_state.dart';
+import '../../../../../core/core.dart';
+import '../../../domain/support_chat_credentials.dart';
+import '../../../domain/support_repository.dart';
 
-/// [Cubit] для управления чатом службы поддержки.
+part 'support_chat_state.dart';
+part 'support_chat_cubit.freezed.dart';
+
+/// [Cubit] для управления чатом службы поддержки
 @injectable
-class SupportCubit extends Cubit<SupportChatState> {
-  SupportCubit(this._chatRepo) : super(SupportChatState.notInitialized);
+class SupportChatCubit extends Cubit<SupportChatState> {
+  SupportChatCubit(this._chatRepo)
+      : super(const SupportChatState.notInitialized());
 
-  /// Репозиторий для работы с чатом службы поддержки.
+  /// Репозиторий для работы с чатом службы поддержки
   final ISupportRepository _chatRepo;
 
   /// Данные для подключения к чату службы поддержки.
@@ -28,11 +29,11 @@ class SupportCubit extends Cubit<SupportChatState> {
 
   /// Получает данные для подключения к чату службы поддержки.
   Future<void> getUserCredentials() async {
-    emit(SupportChatState.loading);
+    emit(const SupportChatState.loading());
 
     final result = await _chatRepo.getSupportChatCredentials();
     result.fold(
-      (failure) => emit(SupportChatState.error),
+      (failure) => emit(const SupportChatState.error()),
       (data) async {
         credentials = data;
 
@@ -41,11 +42,11 @@ class SupportCubit extends Cubit<SupportChatState> {
         /// чата.
         final bool isValidUrl = credentials?.chatUrl.isNotEmpty ?? false;
         if (isValidUrl) {
-          emit(SupportChatState.initialized);
+          emit(const SupportChatState.initialized());
           // Запускаем отслеживание непрочитанных сообщений после инициализации
           _startUnreadCounterWatcher();
         } else {
-          emit(SupportChatState.error);
+          emit(const SupportChatState.error());
         }
       },
     );
@@ -54,7 +55,7 @@ class SupportCubit extends Cubit<SupportChatState> {
   /// Открывает чат службы поддержки.
   Future<void> openChat() async {
     if (credentials == null) {
-      emit(SupportChatState.error);
+      emit(const SupportChatState.error());
       return;
     } else {
       await _setupSession(credentials!);
@@ -65,8 +66,7 @@ class SupportCubit extends Cubit<SupportChatState> {
   /// Устанавливает данные видимые оператором службы поддержки.
   Future<void> _setupSession(SupportChatCredentials creds) async {
     await Jivo.session.setup(
-      // channelId: creds.chatUrl, // `widget_id` в консоли Jivo - ID канала
-      channelId: 'zFZoRAwxfc',
+      channelId: creds.chatUrl,
       userToken: creds.userToken, // JWT-токен для идентификации пользователя
       // (нужен для сохранения истории чатов)
     );
@@ -88,11 +88,11 @@ class SupportCubit extends Cubit<SupportChatState> {
   }
 
   /// Запускает отслеживание счетчика непрочитанных сообщений
+  /// НЕ инициализирует начальное состояние непрочитанных сообщений
   void _startUnreadCounterWatcher() {
     Jivo.session.startWatchingUnreadCounter((count) {
       count == 0 ? _unreadCount = count : _unreadCount++;
-      debugPrint('🔴 count: $_unreadCount');
+      emit(_UnreadCountChanged(count: _unreadCount));
     });
   }
 }
-*/

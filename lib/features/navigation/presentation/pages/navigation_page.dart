@@ -24,7 +24,7 @@ import '../../../profile/user/presentation/bloc/user_bloc.dart';
 import '../../../promotions/presentation/cubit/promotions_cubit.dart';
 import '../../../special_poducts/presentation/bloc/special_products_bloc.dart';
 import '../../../stories/presentation/bloc/stories_bloc.dart';
-import '../../../support/presentation/support_cubit.dart';
+import '../../../support/presentation/bloc/support_chat_cubit/support_chat_cubit.dart';
 import 'auth_check_wrapper.dart';
 
 /// Страница [NavigationPage] для внутренней навигации в приложении.
@@ -149,7 +149,8 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
             lazy: false,
           ),
           BlocProvider(
-            create: (_) => getIt<SupportCubit>()..getUserCredentials(),
+            // ignore: discarded_futures
+            create: (_) => getIt<SupportChatCubit>()..getUserCredentials(),
             lazy: false,
           ),
           BlocProvider(

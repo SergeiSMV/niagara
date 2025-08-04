@@ -1,3 +1,5 @@
+
+/*
 /// Состояние чата службы поддержки.
 enum SupportChatState {
   /// До начала всех операций.
@@ -18,3 +20,4 @@ enum SupportChatState {
   /// Ошибка при загрузке данных.
   bool get isError => this == error;
 }
+*/
