@@ -30,6 +30,7 @@ class NotificationsRepository extends BaseRepository
       final String? fcmToken = await _fcmInstance.getToken();
 
       if (fcmToken != null) {
+        print('FCM TOKEN: $fcmToken');
         // Регистрация токена на бекенде
         await _registerFcmDevice(fcmToken);
       }

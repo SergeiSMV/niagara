@@ -53,11 +53,15 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   bool get hasMore => _total > _current;
 
   /// Обработчик получения уведомления во время работы приложения
-  void _onForegroundMessage(RemoteMessage message) =>
-      add(const _LoadingEvent(isForceUpdate: true));
+  void _onForegroundMessage(RemoteMessage message) {
+    print('FCM MESSAGE: ${message.messageId}');
+    add(const _LoadingEvent(isForceUpdate: true));
+  }
 
   /// Получает список уведомлений с сервера
   Future<void> _getNotifications(_LoadingEvent event, _Emit emit) async {
+    print('FCM MESSAGE: GET NOTIFICATIONS');
+
     /// Проверяем, было ли приложение открыто из пуша
     if (!_checkedPushOpen) {
       _checkedPushOpen = true;
