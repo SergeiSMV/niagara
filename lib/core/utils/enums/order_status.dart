@@ -1,4 +1,4 @@
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
+import '../gen/strings.g.dart';
 
 enum OrderStatus {
   goingTo,

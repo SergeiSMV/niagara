@@ -1,20 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/profile/user/presentation/bloc/user_bloc.dart';
+import '../../../../core/common/presentation/widgets/bottom_shadow_widget.dart';
+import '../../../../core/common/presentation/widgets/buttons/app_text_button.dart';
+import '../../../../core/dependencies/di.dart';
+import '../../../../core/utils/constants/app_boxes.dart';
+import '../../../../core/utils/constants/app_sizes.dart';
+import '../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../core/utils/gen/assets.gen.dart';
+import '../../../../core/utils/gen/strings.g.dart';
+import '../../../profile/user/presentation/bloc/user_bloc.dart';
 
 /// Страница с результатом оформления заказа.
 @RoutePage()
 class OrderResultPage extends StatelessWidget {
-  const OrderResultPage({super.key, required this.isSuccessful});
+  const OrderResultPage({required this.isSuccessful, super.key});
 
   /// Результат оформления заказа.
   final bool isSuccessful;
@@ -63,9 +63,10 @@ class _OkButton extends StatelessWidget {
               ? t.orderPlacing.continueShopping
               : t.orderPlacing.retry,
           onTap: isSuccessful
-              ? () => context
-                ..maybePop()
-                ..tabsRouter.setActiveIndex(0)
+              ? () async {
+                  await context.maybePop();
+                  context.tabsRouter.setActiveIndex(0);
+                }
               : () => context.maybePop(),
         ),
       );

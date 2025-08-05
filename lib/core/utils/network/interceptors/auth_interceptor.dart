@@ -1,32 +1,60 @@
 part of '../../../core.dart';
 
+/// [AuthInterceptor] для обработки токенов авторизации
 @lazySingleton
 class AuthInterceptor extends Interceptor {
   AuthInterceptor();
 
+  /// Репозиторий для работы с токенами
   ITokenRepository? _tokenRepository;
+
+  /// Экземпляр Dio
   Dio? _dio;
+
+  /// Информация о сети
   INetworkInfo? _networkInfo;
 
+  /// Локальный источник данных для авторизации
+  IAuthLocalDataSource? _authLocalDataSource;
+
+  /// Получает репозиторий для работы с токенами
   ITokenRepository get tokenRepository =>
       _tokenRepository ??= getIt<ITokenRepository>();
 
+  /// Экземпляр Dio
   Dio get dio => _dio ??= getIt<Dio>();
 
+  /// Локальный источник данных для авторизации
+  IAuthLocalDataSource get authLocalDataSource =>
+      _authLocalDataSource ??= getIt<IAuthLocalDataSource>();
+
+  /// Информация о сети
   INetworkInfo get networkInfo => _networkInfo ??= getIt<INetworkInfo>();
 
-  // Счетчик попыток повтора запроса
-  int retryCount = 0;
+  // Счетчик попыток повтора запроса для всех запросов
+  int _retryCount = 0;
 
   /// [Mutex] для блокировки повторного запроса токена.
   final Mutex _refreshTokenGuard = Mutex();
 
-  void _log(String message) {
-    getIt<IAppLogger>().log(
-      level: LogLevel.info,
-      message: message,
-    );
-  }
+  /// Генерирует уникальный ключ для запроса на основе метода и пути
+  String _getRequestKey(RequestOptions options) =>
+      '${options.method}_${options.path}';
+
+  /// Сбрасывает счетчик попыток
+  void _resetRetryCount() => _retryCount = 0;
+
+  /// Возвращает количество попыток
+  int _getRetryCount() => _retryCount;
+
+  /// Увеличивает счетчик попыток
+  void _incrementRetryCount() => _retryCount++;
+
+  /// Логирует сообщения в консоль
+  void _log(String message) => getIt<IAppLogger>().log(
+        level: LogLevel.info,
+        message: message,
+      );
 
   @override
   Future<void> onError(
@@ -59,50 +87,118 @@ class AuthInterceptor extends Interceptor {
       );
     }
 
+    // Проверяем, нужно ли обновлять токен
     final bool refreshRequired =
         err.response?.statusCode == 401 || err.response?.statusCode == 402;
-    if (!refreshRequired) return handler.next(err);
 
-    _log('[AuthInterceptor] Trying to refresh token...');
+    // Обработка ошибки 403 - перенаправление на авторизацию
+    if (err.response?.statusCode == 403) {
+      _log('[AuthInterceptor] 403 Forbidden detected, redirecting to auth');
 
-    if (_refreshTokenGuard.isLocked) {
-      _log(
-        '[AuthInterceptor] Token refresh is already in progress. Waiting...',
-      );
-      return await _refreshTokenGuard.protect(
-        () async {
-          try {
-            // Получаем новый токен
-            await tokenRepository.getToken().fold(
-              (failure) => throw Exception(failure.error),
-              (token) async {
-                // Повторяем запрос с новым токеном
-                err.requestOptions.headers['Authorization'] = 'Bearer $token';
-                _log(
-                  '[AuthInterceptor] Token refresh is done by another process. Retrying request...',
-                );
-                return handler.resolve(await dio.fetch(err.requestOptions));
-              },
-            );
-          } on Exception catch (e) {
-            _log('[AuthInterceptor] Error while refreshing token: $e');
-            return handler.next(err);
-          }
-        },
-      );
-    }
-
-    return await _refreshTokenGuard.protect(() async {
-      _log('[AuthInterceptor] Started refreshing token...');
-
-      // Если количество попыток превышено, пропускаем ошибку дальше
-      // без повтора запроса и обработки ошибки.
-      if (retryCount >= 2) {
-        _log('[AuthInterceptor] REFRESH FAILED: Retry count exceeded.');
+      // Проверяем текущий статус авторизации
+      final currentStatus = await authLocalDataSource.checkAuthStatus();
+      if (currentStatus == AuthenticatedStatus.unauthenticated.index) {
+        _log(
+            '[AuthInterceptor] User already unauthenticated, skipping redirect');
         return handler.next(err);
       }
 
-      retryCount++;
+      // Очищаем локальные данные токена
+      await tokenRepository.deleteToken();
+
+      // Изменяем статус авторизации на unauthenticated
+      // Это автоматически перенаправит пользователя на экран авторизации
+      await authLocalDataSource.setAuthStatus(
+        status: AuthenticatedStatus.unauthenticated.index,
+      );
+
+      return handler.next(err);
+    }
+
+    // Если токен не нужно обновлять, сбрасываем счетчик попыток
+    // и пропускаем ошибку дальше
+    if (!refreshRequired) {
+      // Сбрасываем счетчик попыток для других ошибок
+      _resetRetryCount();
+      return handler.next(err);
+    }
+
+    // Получаем ключ запроса
+    final String requestKey = _getRequestKey(err.requestOptions);
+    _log('[AuthInterceptor] Trying to refresh token for request: '
+        '$requestKey...');
+
+    // Проверяем, заблокирован ли [Mutex] для обновления токена
+    if (_refreshTokenGuard.isLocked) {
+      _log(
+        '[AuthInterceptor] Token refresh is already in progress. Waiting for completion...',
+      );
+
+      // Ждем завершения обновления токена
+      try {
+        await _refreshTokenGuard.protect(() async {
+          // Пустая функция, просто ждем разблокировки
+          return;
+        });
+
+        // После завершения обновления токена повторяем запрос с новым токеном
+        final token = await tokenRepository.getToken().fold(
+              (failure) => throw Exception(failure.error),
+              (token) => token,
+            );
+
+        _log('[AuthInterceptor] Token refresh completed. Retrying request: '
+            '$requestKey with new token...');
+
+        // Повторяем запрос с новым токеном
+        err.requestOptions.headers['Authorization'] = 'Bearer $token';
+        final response = await dio.fetch(err.requestOptions);
+
+        return handler.resolve(response);
+      } on Exception catch (e) {
+        _log(
+            '[AuthInterceptor] Error while waiting for token refresh or retrying request: $e');
+
+        // Если произошла ошибка при ожидании или повторном запросе,
+        // проверяем, не нужно ли перенаправить на авторизацию
+        if (e is DeviceIdFailure || e is TokenNotFoundFailure) {
+          if (e is DeviceIdFailure) {
+            await _deviceIdFailureHandler(
+              authLocalDataSource,
+              tokenRepository,
+              err,
+              handler,
+              _log,
+            );
+          } else {
+            await _tokenNotFoundFailureHandler(
+              authLocalDataSource,
+              err,
+              handler,
+              _log,
+            );
+          }
+        }
+
+        return handler.next(err);
+      }
+    }
+
+    return await _refreshTokenGuard.protect(() async {
+      _log('[AuthInterceptor] Started refreshing token for request: '
+          '$requestKey...');
+
+      // Если количество попыток превышено, пропускаем ошибку дальше
+      // без повтора запроса и обработки ошибки.
+      if (_getRetryCount() >= 2) {
+        _log('[AuthInterceptor] REFRESH FAILED: Retry count exceeded for '
+            'request: $requestKey.');
+        _resetRetryCount(); // Сбрасываем счетчик
+        return handler.next(err);
+      }
+
+      // Увеличиваем счетчик попыток для текущего запроса
+      _incrementRetryCount();
       try {
         // Создаем новый токен
         return tokenRepository.createToken().fold(
@@ -112,17 +208,47 @@ class AuthInterceptor extends Interceptor {
             await tokenRepository.getToken().fold(
               (failure) => throw Exception(failure.error),
               (token) async {
-                _log('[AuthInterceptor] Refreshed token. Retrying request...');
+                _log('[AuthInterceptor] Refreshed token. Retrying request: '
+                    '$requestKey...');
 
                 // Повторяем запрос с новым токеном
                 err.requestOptions.headers['Authorization'] = 'Bearer $token';
-                return handler.resolve(await dio.fetch(err.requestOptions));
+                final response = await dio.fetch(err.requestOptions);
+
+                // Если запрос успешен, сбрасываем счетчик попыток
+                if (response.statusCode! < 400) {
+                  _resetRetryCount();
+                }
+
+                return handler.resolve(response);
               },
             );
           },
         );
       } on Exception catch (e) {
         _log('[AuthInterceptor] Error while refreshing token: $e');
+
+        /// Обработка DeviceIdFailure - перенаправление на авторизацию
+        if (e is DeviceIdFailure) {
+          _deviceIdFailureHandler(
+            authLocalDataSource,
+            tokenRepository,
+            err,
+            handler,
+            _log,
+          );
+        }
+
+        /// Обработка TokenNotFoundFailure - перенаправление на авторизацию
+        if (e is TokenNotFoundFailure) {
+          _tokenNotFoundFailureHandler(
+            authLocalDataSource,
+            err,
+            handler,
+            _log,
+          );
+        }
+
         return handler.next(err);
       }
     });
@@ -143,6 +269,58 @@ class AuthInterceptor extends Interceptor {
         options.headers['Authorization'] = 'Bearer $token';
         return super.onRequest(options, handler);
       },
+    );
+  }
+
+  /// Обработка ошибки DeviceIdFailure - перенаправление на авторизацию
+  static Future<void> _deviceIdFailureHandler(
+    IAuthLocalDataSource authLocalDataSource,
+    ITokenRepository tokenRepository,
+    DioException err,
+    ErrorInterceptorHandler handler,
+    void Function(String message) log,
+  ) async {
+    log('[AuthInterceptor] DeviceIdFailure detected, '
+        'redirecting to auth');
+
+    // Проверяем текущий статус авторизации
+    final currentStatus = await authLocalDataSource.checkAuthStatus();
+    if (currentStatus == AuthenticatedStatus.unauthenticated.index) {
+      log('[AuthInterceptor] User already unauthenticated, skipping redirect');
+      return handler.next(err);
+    }
+
+    // Очищаем локальные данные токена
+    await tokenRepository.deleteToken();
+
+    // Изменяем статус авторизации на unauthenticated
+    // это автоматически перенаправит пользователя на экран авторизации
+    await authLocalDataSource.setAuthStatus(
+      status: AuthenticatedStatus.unauthenticated.index,
+    );
+  }
+
+  /// Обработка ошибки TokenNotFoundFailure - перенаправление на авторизацию
+  static Future<void> _tokenNotFoundFailureHandler(
+    IAuthLocalDataSource authLocalDataSource,
+    DioException err,
+    ErrorInterceptorHandler handler,
+    void Function(String message) log,
+  ) async {
+    log('[AuthInterceptor] TokenNotFoundFailure detected, '
+        'redirecting to auth');
+
+    // Проверяем текущий статус авторизации
+    final currentStatus = await authLocalDataSource.checkAuthStatus();
+    if (currentStatus == AuthenticatedStatus.unauthenticated.index) {
+      log('[AuthInterceptor] User already unauthenticated, skipping redirect');
+      return handler.next(err);
+    }
+
+    // Изменяем статус авторизации на unauthenticated
+    // это автоматически перенаправит пользователя на экран авторизации
+    await authLocalDataSource.setAuthStatus(
+      status: AuthenticatedStatus.unauthenticated.index,
     );
   }
 }

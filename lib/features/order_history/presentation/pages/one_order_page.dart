@@ -30,9 +30,9 @@ import '../widgets/prices_and_bonuses_widget.dart';
 @RoutePage()
 class OneOrderPage extends StatelessWidget {
   const OneOrderPage({
-    super.key,
     required this.order,
     required this.evaluateOrderCubit,
+    super.key,
   });
 
   final UserOrder order;
@@ -75,7 +75,7 @@ class OneOrderPage extends StatelessWidget {
                       ),
                     ),
                     OrderStatusWidget(
-                      status: order.orderStatus,
+                      order: order,
                       padding: AppInsets.kHorizontal14,
                     ),
                   ],
@@ -112,13 +112,11 @@ class _BottomButtonsWidget extends StatelessWidget {
   const _BottomButtonsWidget({
     required this.order,
   });
-
   final UserOrder order;
 
   /// Открывает модальное окно с оценкой заказа
   Future<void> _showRateModal(BuildContext context) async {
     final cubit = context.read<RateOrderCubit>();
-
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -132,7 +130,6 @@ class _BottomButtonsWidget extends StatelessWidget {
     );
   }
 
-  /// Открывает модальное окно с оценкой заказа
   Future<void> _showReceiptModal(BuildContext context) async =>
       showModalBottomSheet(
         isScrollControlled: true,
@@ -204,7 +201,7 @@ class _BottomButtonsWidget extends StatelessWidget {
                 ],
 
                 /// Оценить заказ
-                if (order.rating == 0)
+                if (order.rating == 0) ...[
                   BlocBuilder<RateOrderCubit, RateOrderState>(
                     builder: (context, state) =>
                         (state == const RateOrderState.initial() ||
@@ -215,15 +212,18 @@ class _BottomButtonsWidget extends StatelessWidget {
                               )
                             : const SizedBox.shrink(),
                   ),
+                  AppBoxes.kHeight12,
+                ],
               ],
 
               /// Электронный чек
               if (order.paymentCompleted) ...[
-                AppBoxes.kHeight12,
+                // AppBoxes.kHeight12,
                 AppTextButton.secondary(
                   text: t.recentOrders.electronicReceipt,
                   onTap: () => _showReceiptModal(context),
                 ),
+                AppBoxes.kHeight24,
               ],
 
               /// Повторить заказ (status = Отменен)
@@ -234,8 +234,8 @@ class _BottomButtonsWidget extends StatelessWidget {
                   text: t.recentOrders.repeatOrder,
                   onTap: () => _showRepeatOrderModal(context),
                 ),
+                AppBoxes.kHeight24,
               ],
-              AppBoxes.kHeight24,
             ],
           ),
         ),

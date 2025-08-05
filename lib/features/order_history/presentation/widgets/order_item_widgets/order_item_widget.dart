@@ -95,12 +95,16 @@ class OrderItemWidget extends StatelessWidget {
                         ),
                       ),
                       AppBoxes.kWidth12,
-                      OrderStatusWidget(status: order.orderStatus),
+                      OrderStatusWidget(
+                        order: order,
+                      ),
                     ],
                   ),
                   if (inHorizontalList) const Spacer() else AppBoxes.kHeight12,
                   Text(
-                    t.locations.deliveryAddress,
+                    order.pickup
+                        ? t.locations.shopAddress
+                        : t.locations.deliveryAddress,
                     style: context.textStyle.textTypo.tx3Medium.withColor(
                       context.colors.textColors.main,
                     ),

@@ -1,6 +1,6 @@
 // ignore_for_file: sort_constructors_first
 
-import 'package:niagara_app/core/core.dart';
+import '../../../../../core/core.dart';
 
 /// Пара `Access-Token` [token] и `Refresh-Token` [deviceId] для авторизации
 /// запросов к серверу.
@@ -16,12 +16,12 @@ class CredentialsDto extends Equatable {
   /// `Refresh-Token` текущей сессии.
   ///
   /// Соответствует идентификатору устройства и валиден вечно.
-  final String deviceId;
+  final String? deviceId;
 
   /// Создаёт [CredentialsDto] из JSON-представления.
   factory CredentialsDto.fromJson(Map<String, dynamic> json) => CredentialsDto(
         token: json['token'] as String,
-        deviceId: json['device_id'] as String,
+        deviceId: json['device_id'] as String?,
       );
 
   @override

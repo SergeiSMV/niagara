@@ -29,6 +29,7 @@ class UserOrderDto extends Equatable {
     required this.ordersBonusesAdd,
     required this.ordersBonusesPay,
     required this.ordersStatus,
+    required this.ordersStatusHex,
     required this.ordersProductsCount,
     required this.ordersProductsSum,
     required this.ordersTotalBenefit,
@@ -62,6 +63,7 @@ class UserOrderDto extends Equatable {
   final double ordersBonusesAdd;
   final double ordersBonusesPay;
   final String ordersStatus;
+  final String ordersStatusHex;
   final int ordersProductsCount;
   final double ordersProductsSum;
   final double ordersTotalBenefit;
@@ -96,6 +98,7 @@ class UserOrderDto extends Equatable {
         ordersBonusesAdd: (json['ORDERS_BONUSES_ADD'] as num).toDouble(),
         ordersBonusesPay: (json['ORDERS_BONUSES_PAY'] as num).toDouble(),
         ordersStatus: json['ORDERS_STATUS'] as String,
+        ordersStatusHex: json['ORDERS_STATUS_COLOR'] as String,
         ordersProductsCount: (json['ORDERS_PRODUCTS_COUNT'] as num).toInt(),
         ordersProductsSum: (json['ORDERS_PRODUCTS_SUM'] as num).toDouble(),
         ordersTotalBenefit: (json['ORDERS_TOTAL_BENEFIT'] as num).toDouble(),

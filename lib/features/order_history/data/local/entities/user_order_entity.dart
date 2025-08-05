@@ -1,8 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:niagara_app/core/common/data/local/entities/product_entity.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/order_status.dart';
-import 'package:niagara_app/core/utils/enums/orders_payment_types.dart';
+import '../../../../../core/common/data/local/entities/product_entity.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/orders_payment_types.dart';
 
 part 'user_order_entity.g.dart';
 
@@ -30,6 +29,7 @@ class UserOrderEntity extends Equatable {
     required this.bonusesAdd,
     required this.bonusesPay,
     required this.orderStatus,
+    required this.orderStatusHex,
     required this.orderProductsCount,
     required this.orderProductsSum,
     required this.totalBenefit,
@@ -62,7 +62,8 @@ class UserOrderEntity extends Equatable {
   final double taraSum;
   final double bonusesAdd;
   final double bonusesPay;
-  final OrderStatus orderStatus;
+  final String orderStatus;
+  final String orderStatusHex;
   final int orderProductsCount;
   final double orderProductsSum;
   final double totalBenefit;
@@ -96,6 +97,7 @@ class UserOrderEntity extends Equatable {
         bonusesAdd,
         bonusesPay,
         orderStatus,
+        orderStatusHex,
         orderProductsCount,
         orderProductsSum,
         totalBenefit,

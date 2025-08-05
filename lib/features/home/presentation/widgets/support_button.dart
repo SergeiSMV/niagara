@@ -5,7 +5,7 @@ import '../../../../core/utils/constants/app_positions.dart';
 import '../../../../core/utils/constants/app_sizes.dart';
 import '../../../../core/utils/extensions/build_context_ext.dart';
 import '../../../../core/utils/gen/assets.gen.dart';
-import '../../../support/presentation/support_cubit.dart';
+import '../../../support/presentation/bloc/support_chat_cubit/support_chat_cubit.dart';
 import 'action_button.dart';
 
 /// Кнопка-иконка для открытия страницы с чатом службы поддержки.
@@ -14,7 +14,7 @@ class SupportButton extends StatelessWidget {
 
   /// Открывает страницу с чатом службы поддержки.
   Future<void> _openSupportChat(BuildContext context) =>
-      context.read<SupportCubit>().openChat();
+      context.read<SupportChatCubit>().openChat();
 
   @override
   Widget build(BuildContext context) =>
