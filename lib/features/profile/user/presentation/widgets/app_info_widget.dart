@@ -8,7 +8,7 @@ import '../../../../../core/utils/constants/app_insets.dart';
 import '../../../../../core/utils/extensions/build_context_ext.dart';
 import '../../../../../core/utils/gen/assets.gen.dart';
 import '../../../../../core/utils/gen/strings.g.dart';
-import '../../../../support/presentation/support_cubit.dart';
+import '../../../../support/presentation/bloc/support_chat_cubit/support_chat_cubit.dart';
 import 'profile_action_tile.dart';
 import 'profile_actions_widget.dart';
 
@@ -42,7 +42,7 @@ class AppInfoWidget extends StatelessWidget {
                   ProfileActionTile(
                     leadingIcon: Assets.icons.support,
                     title: t.profile.appInfo.support,
-                    onTap: () => context.read<SupportCubit>().openChat(),
+                    onTap: () => context.read<SupportChatCubit>().openChat(),
                   ),
                 ],
               ),

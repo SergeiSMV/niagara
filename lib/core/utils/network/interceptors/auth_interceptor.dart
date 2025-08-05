@@ -31,8 +31,8 @@ class AuthInterceptor extends Interceptor {
   /// Информация о сети
   INetworkInfo get networkInfo => _networkInfo ??= getIt<INetworkInfo>();
 
-  // Счетчик попыток повтора запроса для каждого запроса
-  final Map<String, int> _retryCounts = {};
+  // Счетчик попыток повтора запроса для всех запросов
+  int _retryCount = 0;
 
   /// [Mutex] для блокировки повторного запроса токена.
   final Mutex _refreshTokenGuard = Mutex();
@@ -41,15 +41,14 @@ class AuthInterceptor extends Interceptor {
   String _getRequestKey(RequestOptions options) =>
       '${options.method}_${options.path}';
 
-  /// Сбрасывает счетчик попыток для конкретного запроса
-  void _resetRetryCount(String requestKey) => _retryCounts.remove(requestKey);
+  /// Сбрасывает счетчик попыток
+  void _resetRetryCount() => _retryCount = 0;
 
-  /// Возвращает количество попыток для конкретного запроса
-  int _getRetryCount(String requestKey) => _retryCounts[requestKey] ?? 0;
+  /// Возвращает количество попыток
+  int _getRetryCount() => _retryCount;
 
-  /// Увеличивает счетчик попыток для конкретного запроса
-  void _incrementRetryCount(String requestKey) =>
-      _retryCounts[requestKey] = (_retryCounts[requestKey] ?? 0) + 1;
+  /// Увеличивает счетчик попыток
+  void _incrementRetryCount() => _retryCount++;
 
   /// Логирует сообщения в консоль
   void _log(String message) => getIt<IAppLogger>().log(
@@ -120,7 +119,7 @@ class AuthInterceptor extends Interceptor {
     // и пропускаем ошибку дальше
     if (!refreshRequired) {
       // Сбрасываем счетчик попыток для других ошибок
-      _resetRetryCount(_getRequestKey(err.requestOptions));
+      _resetRetryCount();
       return handler.next(err);
     }
 
@@ -132,50 +131,57 @@ class AuthInterceptor extends Interceptor {
     // Проверяем, заблокирован ли [Mutex] для обновления токена
     if (_refreshTokenGuard.isLocked) {
       _log(
-        '[AuthInterceptor] Token refresh is already in progress. Waiting...',
+        '[AuthInterceptor] Token refresh is already in progress. Waiting for completion...',
       );
-      return await _refreshTokenGuard.protect(
-        () async {
-          try {
-            // Получаем новый токен
-            await tokenRepository.getToken().fold(
+
+      // Ждем завершения обновления токена
+      try {
+        await _refreshTokenGuard.protect(() async {
+          // Пустая функция, просто ждем разблокировки
+          return;
+        });
+
+        // После завершения обновления токена повторяем запрос с новым токеном
+        final token = await tokenRepository.getToken().fold(
               (failure) => throw Exception(failure.error),
-              (token) async {
-                // Повторяем запрос с новым токеном
-                err.requestOptions.headers['Authorization'] = 'Bearer $token';
-                _log(
-                  '[AuthInterceptor] Token refresh is done by another process. '
-                  'Retrying request: $requestKey...',
-                );
-                return handler.resolve(await dio.fetch(err.requestOptions));
-              },
+              (token) => token,
             );
-          } on Exception catch (e) {
-            _log('[AuthInterceptor] Error while refreshing token: $e');
 
-            // Обработка TokenNotFoundFailure - перенаправление на авторизацию
-            if (e is TokenNotFoundFailure) {
-              _log('[AuthInterceptor] TokenNotFoundFailure detected, '
-                  'redirecting to auth');
+        _log('[AuthInterceptor] Token refresh completed. Retrying request: '
+            '$requestKey with new token...');
 
-              // Проверяем текущий статус авторизации
-              final currentStatus = await authLocalDataSource.checkAuthStatus();
-              if (currentStatus == AuthenticatedStatus.unauthenticated.index) {
-                _log(
-                    '[AuthInterceptor] User already unauthenticated, skipping redirect');
-                return handler.next(err);
-              }
+        // Повторяем запрос с новым токеном
+        err.requestOptions.headers['Authorization'] = 'Bearer $token';
+        final response = await dio.fetch(err.requestOptions);
 
-              // Изменяем статус авторизации на unauthenticated
-              await authLocalDataSource.setAuthStatus(
-                status: AuthenticatedStatus.unauthenticated.index,
-              );
-            }
+        return handler.resolve(response);
+      } on Exception catch (e) {
+        _log(
+            '[AuthInterceptor] Error while waiting for token refresh or retrying request: $e');
 
-            return handler.next(err);
+        // Если произошла ошибка при ожидании или повторном запросе,
+        // проверяем, не нужно ли перенаправить на авторизацию
+        if (e is DeviceIdFailure || e is TokenNotFoundFailure) {
+          if (e is DeviceIdFailure) {
+            await _deviceIdFailureHandler(
+              authLocalDataSource,
+              tokenRepository,
+              err,
+              handler,
+              _log,
+            );
+          } else {
+            await _tokenNotFoundFailureHandler(
+              authLocalDataSource,
+              err,
+              handler,
+              _log,
+            );
           }
-        },
-      );
+        }
+
+        return handler.next(err);
+      }
     }
 
     return await _refreshTokenGuard.protect(() async {
@@ -184,15 +190,15 @@ class AuthInterceptor extends Interceptor {
 
       // Если количество попыток превышено, пропускаем ошибку дальше
       // без повтора запроса и обработки ошибки.
-      if (_getRetryCount(requestKey) >= 2) {
+      if (_getRetryCount() >= 2) {
         _log('[AuthInterceptor] REFRESH FAILED: Retry count exceeded for '
             'request: $requestKey.');
-        _resetRetryCount(requestKey); // Сбрасываем счетчик
+        _resetRetryCount(); // Сбрасываем счетчик
         return handler.next(err);
       }
 
       // Увеличиваем счетчик попыток для текущего запроса
-      _incrementRetryCount(requestKey);
+      _incrementRetryCount();
       try {
         // Создаем новый токен
         return tokenRepository.createToken().fold(
@@ -211,7 +217,7 @@ class AuthInterceptor extends Interceptor {
 
                 // Если запрос успешен, сбрасываем счетчик попыток
                 if (response.statusCode! < 400) {
-                  _resetRetryCount(requestKey);
+                  _resetRetryCount();
                 }
 
                 return handler.resolve(response);
@@ -235,7 +241,12 @@ class AuthInterceptor extends Interceptor {
 
         /// Обработка TokenNotFoundFailure - перенаправление на авторизацию
         if (e is TokenNotFoundFailure) {
-          _tokenNotFoundFailureHandler(authLocalDataSource, err, handler, _log);
+          _tokenNotFoundFailureHandler(
+            authLocalDataSource,
+            err,
+            handler,
+            _log,
+          );
         }
 
         return handler.next(err);
