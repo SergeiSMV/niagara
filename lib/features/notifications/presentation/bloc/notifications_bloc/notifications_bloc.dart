@@ -52,37 +52,45 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   int _total = 0;
   bool get hasMore => _total > _current;
 
-  /// Обработчик получения уведомления во время работы приложения.
+  /// Обработчик получения уведомления во время работы приложения
   void _onForegroundMessage(RemoteMessage message) =>
       add(const _LoadingEvent(isForceUpdate: true));
 
+  /// Получает список уведомлений с сервера
   Future<void> _getNotifications(_LoadingEvent event, _Emit emit) async {
+    /// Проверяем, было ли приложение открыто из пуша
     if (!_checkedPushOpen) {
       _checkedPushOpen = true;
       final bool shouldOpenPage = await _checkIfOpenedFromPush();
 
+      /// Если приложение было открыто из пуша, то открываем страницу уведомлений
       if (shouldOpenPage) {
         emit(const _OpenedFromPush());
       }
     }
 
+    /// Если нужно обновить список уведомлений, то обновляем его
     if (event.isForceUpdate) {
       emit(const _Loading());
       _current = 0;
     }
 
+    /// Получаем список уведомлений
     final groupedNotifications = state.maybeMap(
       loaded: (state) => state.groupedNotifications,
       orElse: () => const <GroupedNotifications>[],
     );
 
+    /// Получаем список непрочитанных уведомлений
     final unreadNotifications = state.maybeMap(
       loaded: (state) => state.unreadNotifications,
       orElse: () => const <NotificationItem>[],
     );
 
+    /// Увеличиваем текущую страницу
     _current++;
 
+    /// Получаем список уведомлений с сервера
     await _getNotificationsUseCase(
       NotificationsParams(
         page: _current,
@@ -121,6 +129,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     );
   }
 
+  /// Загружает больше уведомлений
   Future<void> _onLoadMore(_LoadMoreEvent event, _Emit emit) async {
     if (state is _Loading) return;
     if (hasMore) {
@@ -128,6 +137,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     }
   }
 
+  /// Устанавливает тип сортировки уведомлений
   void _setSort(_SetSortEvent event, _Emit emit) {
     _type = event.sort;
     add(const _LoadingEvent(isForceUpdate: true));

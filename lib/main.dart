@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -29,14 +30,20 @@ void main() async {
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
 
-  FlutterError.onError = (FlutterErrorDetails err) {
+  FlutterError.onError = (FlutterErrorDetails err) async {
     if (!CrashlyticsErrorFilter.isErrorFatal(err)) return;
 
-    FirebaseCrashlytics.instance.recordFlutterFatalError(err);
+    await FirebaseCrashlytics.instance.recordFlutterFatalError(err);
   };
 
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    unawaited(
+      FirebaseCrashlytics.instance.recordError(
+        error,
+        stack,
+        fatal: true,
+      ),
+    );
     return true;
   };
 

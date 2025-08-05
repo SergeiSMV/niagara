@@ -2,19 +2,19 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:niagara_app/core/common/presentation/widgets/app_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/errors/no_internet_connection_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/notifications/presentation/bloc/notifications_bloc/notifications_bloc.dart';
-import 'package:niagara_app/features/notifications/presentation/widgets/all_notifications_widget.dart';
-import 'package:niagara_app/features/notifications/presentation/widgets/no_notifications_widget.dart';
-import 'package:niagara_app/features/notifications/presentation/widgets/notification_type_buttons_widget.dart';
-import 'package:niagara_app/features/notifications/presentation/widgets/notification_warning_widget.dart';
+import '../../../../core/common/presentation/widgets/app_bar.dart';
+import '../../../../core/common/presentation/widgets/errors/error_refresh_widget.dart';
+import '../../../../core/common/presentation/widgets/errors/no_internet_connection_widget.dart';
+import '../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../../core/utils/constants/app_insets.dart';
+import '../../../../core/utils/constants/app_sizes.dart';
+import '../../../../core/utils/gen/assets.gen.dart';
+import '../../../../core/utils/gen/strings.g.dart';
+import '../bloc/notifications_bloc/notifications_bloc.dart';
+import '../widgets/all_notifications_widget.dart';
+import '../widgets/no_notifications_widget.dart';
+import '../widgets/notification_type_buttons_widget.dart';
+import '../widgets/notification_warning_widget.dart';
 
 /// Страница с уведомлениями
 @RoutePage()
