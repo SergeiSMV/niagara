@@ -6,6 +6,8 @@ enum NotificationsTypes {
   offers,
   system,
   product_group,
+  get_rating,
+  call,
   product;
 
   String toLocale() => switch (this) {
@@ -15,6 +17,8 @@ enum NotificationsTypes {
         NotificationsTypes.system => t.notifications.pushTypes.system,
         NotificationsTypes.product_group =>
           t.notifications.pushTypes.product_group,
+        NotificationsTypes.get_rating => t.notifications.pushTypes.get_rating,
+        NotificationsTypes.call => t.notifications.pushTypes.call,
         NotificationsTypes.product => t.notifications.pushTypes.product,
       };
 }

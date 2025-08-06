@@ -18,6 +18,7 @@ import 'core/dependencies/di.dart' as di;
 import 'core/utils/crashlytics/crashlytics_error_filter.dart';
 import 'core/utils/gen/strings.g.dart';
 import 'core/utils/network/overrides/http_overrides.dart';
+import 'core/utils/services/firebase/firebase_message_service.dart';
 import 'core/utils/services/userx_service/userx_service.dart';
 import 'firebase_options.dart';
 
@@ -50,6 +51,8 @@ void main() async {
   await di.setupDependencies();
 
   Bloc.observer = di.getIt<TalkerBlocObserver>();
+
+  di.getIt<FirebaseMessageServices>().init();
 
   LocaleSettings.useDeviceLocale();
 

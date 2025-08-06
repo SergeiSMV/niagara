@@ -73,19 +73,18 @@ class NotificationsPage extends HookWidget {
                 orElse: () => const SliverToBoxAdapter(
                   child: AppCenterLoader(),
                 ),
-                loaded: (groupedNotifications, unreadNotifications, _) {
-                  return groupedNotifications.isNotEmpty ||
-                          unreadNotifications.isNotEmpty
-                      ? SliverToBoxAdapter(
-                          child: AllNotificationsWidget(
-                            groupedNotifications: groupedNotifications,
-                            unreadNotifications: unreadNotifications,
+                loaded: (groupedNotifications, unreadNotifications, _) =>
+                    groupedNotifications.isNotEmpty ||
+                            unreadNotifications.isNotEmpty
+                        ? SliverToBoxAdapter(
+                            child: AllNotificationsWidget(
+                              groupedNotifications: groupedNotifications,
+                              unreadNotifications: unreadNotifications,
+                            ),
+                          )
+                        : const SliverToBoxAdapter(
+                            child: NoNotificationsWidget(),
                           ),
-                        )
-                      : const SliverToBoxAdapter(
-                          child: NoNotificationsWidget(),
-                        );
-                },
                 noInternet: () => SliverToBoxAdapter(
                   child: NoInternetConnectionWidget(
                     onRefresh: () => _onRefresh(context),
@@ -98,25 +97,24 @@ class NotificationsPage extends HookWidget {
                 ),
               ),
               state.maybeWhen(
-                loaded: (groupedNotifications, unreadNotifications, __) {
-                  return SliverToBoxAdapter(
-                    child: groupedNotifications.isNotEmpty ||
-                            unreadNotifications.isNotEmpty
-                        ? Visibility(
-                            visible: hasMore,
-                            child: Padding(
-                              padding: AppInsets.kAll16,
-                              child: Center(
-                                child: Assets.lottie.loadCircle.lottie(
-                                  width: AppSizes.kLoaderBig,
-                                  height: AppSizes.kLoaderBig,
-                                ),
+                loaded: (groupedNotifications, unreadNotifications, __) =>
+                    SliverToBoxAdapter(
+                  child: groupedNotifications.isNotEmpty ||
+                          unreadNotifications.isNotEmpty
+                      ? Visibility(
+                          visible: hasMore,
+                          child: Padding(
+                            padding: AppInsets.kAll16,
+                            child: Center(
+                              child: Assets.lottie.loadCircle.lottie(
+                                width: AppSizes.kLoaderBig,
+                                height: AppSizes.kLoaderBig,
                               ),
                             ),
-                          )
-                        : const SizedBox.shrink(),
-                  );
-                },
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ),
                 orElse: () => const SliverToBoxAdapter(),
               ),
             ],

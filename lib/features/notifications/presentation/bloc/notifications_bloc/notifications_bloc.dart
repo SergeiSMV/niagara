@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../../../core/core.dart';
+import '../../../../../core/utils/services/firebase/firebase_message_service.dart';
 import '../../../domain/model/notification.dart';
 import '../../../domain/model/notifications_types.dart';
 import '../../../domain/use_cases/get_notifications_use_case.dart';
@@ -19,6 +22,8 @@ typedef _Emit = Emitter<NotificationsState>;
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   NotificationsBloc(
     this._getNotificationsUseCase,
+    this._firebaseMessageServices,
+    this._logger,
   ) : super(const _Loading()) {
     on<_LoadingEvent>(_getNotifications);
     on<_LoadMoreEvent>(_onLoadMore);
@@ -26,52 +31,115 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
     add(const _LoadingEvent(isForceUpdate: true));
 
-    // Запрашиваем список уведомлений, когда приходит пуш во время работы
-    // приложения или когда оно свёрнуто.
-    FirebaseMessaging.onMessage.listen(_onForegroundMessage);
+    // Настраиваем callback для получения push-уведомлений
+    _setupFirebaseMessageListeners();
+  }
+
+  // Логгирование
+  final IAppLogger _logger;
+
+  /// Usecase для получения уведомлений
+  final GetNotificationsUseCase _getNotificationsUseCase;
+
+  /// Сервис для работы с Firebase Messaging
+  final FirebaseMessageServices _firebaseMessageServices;
+
+  /// Тип сортировки уведомлений
+  NotificationsTypes _type = NotificationsTypes.all;
+
+  /// Геттер для получения типа сортировки уведомлений
+  NotificationsTypes get type => _type;
+
+  /// Текущая страница
+  int _current = 1;
+
+  /// Общее количество страниц
+  int _total = 0;
+
+  /// Идентификатор уведомления, которое тапнули
+  String? _tappedMessageId;
+
+  /// Флаг, указывающий, было ли приложение открыто из пуша
+  bool _pushIsTapped = false;
+
+  /// Флаг, указывающий, есть ли ещё уведомления для загрузки
+  bool get hasMore => _total > _current;
+
+  /// Настраивает слушатели Firebase Messaging
+  void _setupFirebaseMessageListeners() {
+    // Устанавливаем callback для обработки foreground сообщений
+    _firebaseMessageServices
+      ..setForegroundCallback(_onForegroundMessage)
+
+      // Устанавливаем callback для обработки нажатий на локальные уведомления
+      ..setLocalNotificationTapCallback(_onLocalNotificationTap)
+
+      // Устанавливаем callback для обработки нажатий на push-уведомление
+      // в фоновом режиме
+      ..setPushTapCallback(_onBackgroundPushTap);
+
+    // Слушаем открытие приложения из push-уведомления в фоновом режиме
     FirebaseMessaging.onMessageOpenedApp.listen(_onForegroundMessage);
   }
 
-  /// Проверяет, было ли приложение открыто из пуша.
-  ///
-  /// **Важно**: метод вернёт `true` только при первом вызове. После этого
-  /// значение всегда будет `false`.
-  Future<bool> _checkIfOpenedFromPush() async {
+  /// Проверяет, было ли приложение открыто из пуша при закрытом приложении
+  Future<void> _checkIfOpenedFromPush() async {
     final message = await FirebaseMessaging.instance.getInitialMessage();
-    return message != null;
+    if (message != null) {
+      _tappedMessageId = message.messageId;
+      _pushIsTapped = true;
+    }
   }
-
-  final GetNotificationsUseCase _getNotificationsUseCase;
-
-  NotificationsTypes _type = NotificationsTypes.all;
-  NotificationsTypes get type => _type;
-
-  bool _checkedPushOpen = false;
-
-  int _current = 1;
-  int _total = 0;
-  bool get hasMore => _total > _current;
 
   /// Обработчик получения уведомления во время работы приложения
   void _onForegroundMessage(RemoteMessage message) {
-    print('FCM MESSAGE: ${message.messageId}');
+    _logger.log(
+      level: LogLevel.info,
+      message: 'NotificationsBloc ::: _onForegroundMessage',
+    );
+    add(const _LoadingEvent(isForceUpdate: true));
+  }
+
+  /// Обработчик нажатия на локальное уведомление
+  void _onLocalNotificationTap(String? payload) {
+    if (payload != null) {
+      try {
+        final data = json.decode(payload) as Map<String, dynamic>;
+        final messageId = data['messageId'] as String?;
+        _pushIsTapped = true;
+        _tappedMessageId = messageId;
+        _logger.log(
+          level: LogLevel.info,
+          message: 'NotificationsBloc ::: _onLocalNotificationTap ID ::: '
+              '$_tappedMessageId',
+        );
+        add(const _LoadingEvent(isForceUpdate: true));
+      } on Exception catch (e) {
+        _logger.handle(
+          e,
+          StackTrace.current,
+          'NotificationsBloc ::: Error payload decode ::: $runtimeType',
+        );
+      }
+    }
+  }
+
+  /// Обработчик нажатия на уведомление в фоновом режиме
+  void _onBackgroundPushTap(RemoteMessage message) {
+    _logger.log(
+      level: LogLevel.info,
+      message: 'NotificationsBloc ::: _onBackgroundPushTap ::: '
+          '${message.messageId}',
+    );
+    _pushIsTapped = true;
+    _tappedMessageId = message.messageId;
     add(const _LoadingEvent(isForceUpdate: true));
   }
 
   /// Получает список уведомлений с сервера
   Future<void> _getNotifications(_LoadingEvent event, _Emit emit) async {
-    print('FCM MESSAGE: GET NOTIFICATIONS');
-
-    /// Проверяем, было ли приложение открыто из пуша
-    if (!_checkedPushOpen) {
-      _checkedPushOpen = true;
-      final bool shouldOpenPage = await _checkIfOpenedFromPush();
-
-      /// Если приложение было открыто из пуша, то открываем страницу уведомлений
-      if (shouldOpenPage) {
-        emit(const _OpenedFromPush());
-      }
-    }
+    /// Проверяем, было ли приложение открыто из пуша при закрытом приложении
+    await _checkIfOpenedFromPush();
 
     /// Если нужно обновить список уведомлений, то обновляем его
     if (event.isForceUpdate) {
@@ -129,6 +197,11 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
             isNewNotifications: _thereAreNewNotifications(data.notifications),
           ),
         );
+
+        /// Обрабатываем нажатие на Push-уведомление
+        if (_pushIsTapped && _tappedMessageId != null) {
+          _onPushTap(emit, data.notifications);
+        }
       },
     );
   }
@@ -182,4 +255,30 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   /// Определяем есть ли новые уведомления
   bool _thereAreNewNotifications(List<NotificationItem> notifications) =>
       notifications.any((notification) => notification.isNew);
+
+  /// Обработчик навигации по нажатию на Push-уведомление
+  void _onPushTap(_Emit emit, List<NotificationItem> notifications) {
+    emit(const _OpenedCallFromPush(phoneNumber: '+79051133401'));
+    /*
+    /// Получаем уведомление по id
+    final notification = notifications.firstWhere(
+      (element) => element.id == _tappedMessageId,
+    );
+
+    if (notification.type == NotificationsTypes.product) {
+      emit(
+        _OpenedProductFromPush(
+          productId: notification.link,
+          productName: notification.title,
+        ),
+      );
+    } else if (notification.type == NotificationsTypes.product_group) {
+      emit(_OpenedProductGroupFromPush(groupId: notification.link));
+    } else {
+      emit(const _OpenedFromPush());
+    }
+    */
+    _pushIsTapped = false;
+    _tappedMessageId = null;
+  }
 }

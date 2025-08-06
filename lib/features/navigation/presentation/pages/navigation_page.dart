@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/common/presentation/router/app_router.gr.dart';
 import '../../../../core/common/presentation/widgets/navigation_bar.dart';
@@ -25,6 +26,7 @@ import '../../../promotions/presentation/cubit/promotions_cubit.dart';
 import '../../../special_poducts/presentation/bloc/special_products_bloc.dart';
 import '../../../stories/presentation/bloc/stories_bloc.dart';
 import '../../../support/presentation/bloc/support_chat_cubit/support_chat_cubit.dart';
+import '../widgets/notification_state_handler.dart';
 import 'auth_check_wrapper.dart';
 
 /// Страница [NavigationPage] для внутренней навигации в приложении.
@@ -63,12 +65,34 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
 
   /// Слушает изменения в статусе уведомлений.
   ///
-  /// Используется для отловки перехода в приложение через push-уведомление.
+  /// Используется для отловки перехода в приложение через push-уведомление
   void _notificationsListener(BuildContext context, NotificationsState state) =>
       state.whenOrNull(
         openedFromPush: () async => context.navigateTo(
           const NotificationsRoute(),
         ),
+        openedProductFromPush: (productId, productName) async {
+          await NotificationStateHandler().openedProductFromPushHandler(
+            context,
+            productId,
+            productName,
+          );
+          return null;
+        },
+        openedProductGroupFromPush: (groupId) async {
+          await NotificationStateHandler().openedProductGroupFromPushHandler(
+            context,
+            groupId,
+          );
+          return null;
+        },
+        openedCallFromPush: (phoneNumber) async {
+          await NotificationStateHandler().openedCallFromPushHandler(
+            context,
+            phoneNumber,
+          );
+          return null;
+        },
       );
 
   /// Переводит пользователя на экран ввода кода подтверждения.

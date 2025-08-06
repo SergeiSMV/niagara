@@ -1,15 +1,33 @@
 part of 'notifications_bloc.dart';
 
+/// Состояние блока уведомлений
 @freezed
 class NotificationsState with _$NotificationsState {
   const factory NotificationsState.loading() = _Loading;
 
+  /// Уведомление открыто из Push без типа
   const factory NotificationsState.openedFromPush() = _OpenedFromPush;
 
-  const factory NotificationsState.openedProductFromPush() =
-      _OpenedProductFromPush;
-  const factory NotificationsState.openedProductGroupFromPush() =
-      _OpenedProductGroupFromPush;
+  /// Уведомление открыто из Push с типом "PRODUCT"
+  const factory NotificationsState.openedProductFromPush({
+    required String productId,
+    required String productName,
+  }) = _OpenedProductFromPush;
+
+  /// Уведомление открыто из Push с типом "GROUP"
+  const factory NotificationsState.openedProductGroupFromPush({
+    required String groupId,
+  }) = _OpenedProductGroupFromPush;
+
+  /// Уведомление открыто из Push с типом "GET_RATING"
+  const factory NotificationsState.openedGetRatingFromPush({
+    required String orderID,
+  }) = _OpenedGetRatingFromPush;
+
+  /// Уведомление открыто из Push с типом "CALL"
+  const factory NotificationsState.openedCallFromPush({
+    required String phoneNumber,
+  }) = _OpenedCallFromPush;
 
   const factory NotificationsState.loaded({
     required List<GroupedNotifications> groupedNotifications,

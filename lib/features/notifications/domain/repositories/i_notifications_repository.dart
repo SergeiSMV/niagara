@@ -8,7 +8,7 @@ typedef Notifications = ({
   Pagination pagination
 });
 
-/// Репозиторий для работы с уведомлениями.
+/// Интерфейс для работы с уведомлениями.
 abstract interface class INotificationsRepository {
   /// Получает список уведомлений.
   ///
@@ -25,8 +25,13 @@ abstract interface class INotificationsRepository {
   });
 
   /// Закрывает подписки.
-  void dispose();
+  // void dispose();
 
   /// Инициализация репозитория.
-  void init();
+  // void init();
+
+  /// Регистрирует токен устройства для FCM.
+  Future<Either<Failure, void>> registerFcmDevice({
+    required String token,
+  });
 }

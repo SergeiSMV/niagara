@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-
 import '../../../../core/common/data/mappers/pagination_mapper.dart';
 import '../../../../core/core.dart';
 import '../../domain/model/notifications_types.dart';
-import '../../domain/repositories/notifications_repository.dart';
+import '../../domain/repositories/i_notifications_repository.dart';
 import '../mappers/notifications_mapper.dart';
 import '../remote/data_source/notification_remote_data_source.dart';
 
+/// Репозиторий для работы с уведомлениями
 @LazySingleton(as: INotificationsRepository)
 class NotificationsRepository extends BaseRepository
     implements INotificationsRepository {
@@ -16,58 +15,35 @@ class NotificationsRepository extends BaseRepository
     super._logger,
     super._networkInfo,
     this._notificationsRDS,
-    this._fcmInstance,
-  ) {
-    unawaited(init());
-  }
+  );
 
+  /// Источник данных для уведомлений
   final INotificationRemoteDataSource _notificationsRDS;
-  final FirebaseMessaging _fcmInstance;
 
-  @override
-  Future<void> init() async {
-    await execute(() async {
-      final String? fcmToken = await _fcmInstance.getToken();
-
-      if (fcmToken != null) {
-        print('FCM TOKEN: $fcmToken');
-        // Регистрация токена на бекенде
-        await _registerFcmDevice(fcmToken);
-      }
-
-      _onTokenRefresh = _fcmInstance.onTokenRefresh.listen(_registerFcmDevice);
-    });
-  }
-
-  @override
-  @disposeMethod
-  Future<void> dispose() async {
-    await _onTokenRefresh?.cancel();
-  }
-
-  /// Подписка на обновление FCM токена.
-  ///
-  /// Посылает на бекенд новый токен.
-  StreamSubscription? _onTokenRefresh;
-
+  /// Ошибка репозитория
   @override
   Failure get failure => const NotificationsRepositoryFailure();
 
+  /// Получает список уведомлений
   @override
   Future<Either<Failure, Notifications>> getNotifications({
     required int page,
     required NotificationsTypes type,
   }) =>
-      execute(() async => await _notificationsRDS
-          .getNotifications(page: page, type: type)
-          .fold(
-            (failure) => throw failure,
-            (dto) => (
-              notifications: dto.notifications.map((e) => e.toModel()).toList(),
-              pagination: dto.pagination.toModel(),
+      execute(
+        () async => await _notificationsRDS
+            .getNotifications(page: page, type: type)
+            .fold(
+              (failure) => throw failure,
+              (dto) => (
+                notifications:
+                    dto.notifications.map((e) => e.toModel()).toList(),
+                pagination: dto.pagination.toModel(),
+              ),
             ),
-          ));
+      );
 
+  /// Помечает уведомление как прочитанное
   @override
   Future<Either<Failure, void>> readNotification({required String id}) =>
       execute(
@@ -77,11 +53,14 @@ class NotificationsRepository extends BaseRepository
             ),
       );
 
-  /// Отправляет на бекенд FCM-токен устройства.
-  Future<Either<Failure, void>> _registerFcmDevice(String fcmToken) =>
+  /// Отправляет на бекенд FCM-токен устройства
+  @override
+  Future<Either<Failure, void>> registerFcmDevice({
+    required String token,
+  }) =>
       execute(() async {
-        // await Jivo.notifications.setPushToken(fcmToken);
-        await _notificationsRDS.registerFcmDevice(fcmToken).fold(
+        // await Jivo.notifications.setPushToken(token);
+        await _notificationsRDS.registerFcmDevice(token).fold(
               (failure) => throw failure,
               (result) => result,
             );

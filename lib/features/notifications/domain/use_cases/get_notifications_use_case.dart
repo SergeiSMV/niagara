@@ -1,14 +1,17 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/notifications/domain/model/notifications_types.dart';
-import 'package:niagara_app/features/notifications/domain/repositories/notifications_repository.dart';
+import '../../../../core/core.dart';
+import '../model/notifications_types.dart';
+import '../repositories/i_notifications_repository.dart';
 
+/// Usecase для получения списка уведомлений
 @injectable
 class GetNotificationsUseCase
     extends BaseUseCase<Notifications, NotificationsParams> {
   const GetNotificationsUseCase(this._notificationsRepository);
 
+  /// Репозиторий для работы с уведомлениями
   final INotificationsRepository _notificationsRepository;
 
+  /// Выполняет получение списка уведомлений
   @override
   Future<Either<Failure, Notifications>> call(
     NotificationsParams params,
@@ -19,6 +22,7 @@ class GetNotificationsUseCase
       );
 }
 
+/// Параметры для получения списка уведомлений
 class NotificationsParams extends Equatable {
   const NotificationsParams({
     required this.page,
