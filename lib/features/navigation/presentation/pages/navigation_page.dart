@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/common/presentation/router/app_router.gr.dart';
 import '../../../../core/common/presentation/widgets/navigation_bar.dart';
@@ -90,6 +89,13 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           await NotificationStateHandler().openedCallFromPushHandler(
             context,
             phoneNumber,
+          );
+          return null;
+        },
+        openedGetRatingFromPush: (orderID) async {
+          await NotificationStateHandler().openedGetRatingFromPushHandler(
+            context,
+            orderID,
           );
           return null;
         },

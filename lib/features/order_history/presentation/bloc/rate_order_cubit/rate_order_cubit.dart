@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/order_history/domain/use_cases/rate_order_use_case.dart';
+import '../../../../../core/core.dart';
+import '../../../domain/use_cases/rate_order_use_case.dart';
 
 part 'rate_order_cubit.freezed.dart';
 part 'rate_order_state.dart';
@@ -14,14 +14,14 @@ class RateOrderCubit extends Cubit<RateOrderState> {
 
   final RateOrderUseCase _rateOrderUseCase;
 
-  void rateOrder({
+  Future<void> rateOrder({
     required String id,
     required double rating,
     required String comment,
     required List<String> optionsIds,
-  }) {
+  }) async {
     emit(const RateOrderState.loading());
-    _rateOrderUseCase(
+    await _rateOrderUseCase(
       RateOrderParams(
         id: id,
         rating: rating.toInt(),

@@ -258,8 +258,6 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
   /// Обработчик навигации по нажатию на Push-уведомление
   void _onPushTap(_Emit emit, List<NotificationItem> notifications) {
-    emit(const _OpenedCallFromPush(phoneNumber: '+79051133401'));
-    /*
     /// Получаем уведомление по id
     final notification = notifications.firstWhere(
       (element) => element.id == _tappedMessageId,
@@ -273,11 +271,25 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         ),
       );
     } else if (notification.type == NotificationsTypes.product_group) {
+      // открываем группу товаров
       emit(_OpenedProductGroupFromPush(groupId: notification.link));
+    } else if (notification.type == NotificationsTypes.product) {
+      // открываем страницу товара
+      emit(
+        _OpenedProductFromPush(
+          productId: notification.link,
+          productName: notification.title,
+        ),
+      );
+    } else if (notification.type == NotificationsTypes.get_rating) {
+      // открываем страницу оценки заказа
+      emit(_OpenedGetRatingFromPush(orderID: notification.link));
+    } else if (notification.type == NotificationsTypes.call) {
+      // открываем телефонный номер
+      emit(_OpenedCallFromPush(phoneNumber: notification.link));
     } else {
       emit(const _OpenedFromPush());
     }
-    */
     _pushIsTapped = false;
     _tappedMessageId = null;
   }
