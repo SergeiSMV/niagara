@@ -8,6 +8,7 @@ import '../../../../../../core/utils/enums/base_text_filed_state.dart';
 import '../../../../../../core/utils/extensions/build_context_ext.dart';
 import '../../../../../../core/utils/gen/strings.g.dart';
 import '../../../../user/domain/models/user.dart';
+import '../../../../user/presentation/bloc/user_bloc.dart';
 import '../../bloc/profile_editing_cubit/profile_editing_cubit.dart';
 import '../../bloc/profile_validator_cubit/profile_validator_cubit.dart';
 import 'birthday_field.dart';
@@ -63,70 +64,77 @@ class ProfileEditingFieldsWidget extends StatelessWidget {
     }
   }
 
+  /// Обновляет данные пользователя
+  Future<void> _onRefreshUserData(BuildContext context) async {
+    context.read<UserBloc>().add(const UserEvent.loading());
+  }
+
   @override
   Widget build(BuildContext context) => Padding(
         padding: AppInsets.kHorizontal16,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppBoxes.kHeight24,
-            AppTextField.text(
-              hint: t.profile.edit.name,
-              label: t.profile.edit.name,
-              initialText: _user.name,
-              isRequired: true,
-              onChanged: (name) => _onUpdate(context, name: name),
-            ),
-            BlocBuilder<ProfileValidatorCubit, ProfileValidatorState>(
-              buildWhen: (previous, current) =>
-                  previous.nameError != current.nameError,
-              builder: (context, state) => state.nameError != null
-                  ? Text(
-                      state.nameError!,
-                      style: context.textStyle.descriptionTypo.des4.copyWith(
-                        color: context.colors.textColors.error,
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
-            AppBoxes.kHeight12,
-            AppTextField.text(
-              hint: t.profile.edit.surname,
-              initialText: _user.surname,
-              label: t.profile.edit.surname,
-              onChanged: (surname) => _onUpdate(context, surname: surname),
-            ),
-            BlocBuilder<ProfileValidatorCubit, ProfileValidatorState>(
-              buildWhen: (previous, current) =>
-                  previous.surnameError != current.surnameError,
-              builder: (context, state) => state.surnameError != null
-                  ? Text(
-                      state.surnameError!,
-                      style: context.textStyle.descriptionTypo.des4.copyWith(
-                        color: context.colors.textColors.error,
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
-            AppBoxes.kHeight12,
-            AppTextField.text(
-              hint: t.profile.edit.paternalName,
-              label: t.profile.edit.paternalName,
-              initialText: _user.patronymic,
-              onChanged: (patronymic) =>
-                  _onUpdate(context, patronymic: patronymic),
-            ),
-            AppBoxes.kHeight12,
-            AppTextField.phone(
-              initialText:
-                  _user.phone.isNotEmpty ? _user.phone.substring(1) : null,
-              state: BaseTextFieldState.disabled,
-            ),
-            AppBoxes.kHeight12,
-            const EmailField(),
-            AppBoxes.kHeight24,
-            BirthdayWidget(isBirthdaySet: _isBirthdaySet),
-          ],
+        child: RefreshIndicator(
+          onRefresh: () async => _onRefreshUserData(context),
+          child: ListView(
+            children: [
+              AppBoxes.kHeight24,
+              AppTextField.text(
+                hint: t.profile.edit.name,
+                label: t.profile.edit.name,
+                initialText: _user.name,
+                isRequired: true,
+                onChanged: (name) => _onUpdate(context, name: name),
+              ),
+              BlocBuilder<ProfileValidatorCubit, ProfileValidatorState>(
+                buildWhen: (previous, current) =>
+                    previous.nameError != current.nameError,
+                builder: (context, state) => state.nameError != null
+                    ? Text(
+                        state.nameError!,
+                        style: context.textStyle.descriptionTypo.des4.copyWith(
+                          color: context.colors.textColors.error,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              AppBoxes.kHeight12,
+              AppTextField.text(
+                hint: t.profile.edit.surname,
+                initialText: _user.surname,
+                label: t.profile.edit.surname,
+                onChanged: (surname) => _onUpdate(context, surname: surname),
+              ),
+              BlocBuilder<ProfileValidatorCubit, ProfileValidatorState>(
+                buildWhen: (previous, current) =>
+                    previous.surnameError != current.surnameError,
+                builder: (context, state) => state.surnameError != null
+                    ? Text(
+                        state.nameError!,
+                        style: context.textStyle.descriptionTypo.des4.copyWith(
+                          color: context.colors.textColors.error,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              AppBoxes.kHeight12,
+              AppTextField.text(
+                hint: t.profile.edit.paternalName,
+                label: t.profile.edit.paternalName,
+                initialText: _user.patronymic,
+                onChanged: (patronymic) =>
+                    _onUpdate(context, patronymic: patronymic),
+              ),
+              AppBoxes.kHeight12,
+              AppTextField.phone(
+                initialText:
+                    _user.phone.isNotEmpty ? _user.phone.substring(1) : null,
+                state: BaseTextFieldState.disabled,
+              ),
+              AppBoxes.kHeight12,
+              const EmailField(),
+              AppBoxes.kHeight24,
+              BirthdayWidget(isBirthdaySet: _isBirthdaySet),
+            ],
+          ),
         ),
       );
 }
