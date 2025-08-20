@@ -29,14 +29,14 @@ class HomePageRefreshHandler {
   }
 
   /// Обновляет уведомления
-  static void _refreshNotifications(BuildContext context) {
+  static Future<void> _refreshNotifications(BuildContext context) async {
     context
         .read<NotificationsBloc>()
         .add(const NotificationsEvent.loading(isForceUpdate: true));
   }
 
   /// Обновляет бонусы
-  static void _refreshBonuses(BuildContext context) {
+  static Future<void> _refreshBonuses(BuildContext context) async {
     context.read<BonusesBloc>().add(const BonusesEvent.started());
   }
 
