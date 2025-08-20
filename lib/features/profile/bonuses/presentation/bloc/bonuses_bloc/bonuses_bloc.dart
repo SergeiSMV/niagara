@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
-import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
-import 'package:niagara_app/features/profile/bonuses/domain/models/status_description.dart';
-import 'package:niagara_app/features/profile/bonuses/domain/use_cases/get_bonuses_use_case.dart';
-import 'package:niagara_app/features/profile/bonuses/domain/use_cases/get_status_description_use_case.dart';
+import '../../../../../../core/core.dart';
+import '../../../../../../core/utils/enums/auth_status.dart';
+import '../../../../../authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
+import '../../../domain/models/bonuses.dart';
+import '../../../domain/models/status_description.dart';
+import '../../../domain/use_cases/get_bonuses_use_case.dart';
+import '../../../domain/use_cases/get_status_description_use_case.dart';
 
 part 'bonuses_bloc.freezed.dart';
 part 'bonuses_event.dart';
@@ -16,6 +16,7 @@ part 'bonuses_state.dart';
 
 typedef _Emit = Emitter<BonusesState>;
 
+/// Блок для загрузки бонусов
 @injectable
 class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
   BonusesBloc(
@@ -32,9 +33,16 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
     add(const _StartedEvent());
   }
 
+  /// Кейс для проверки статуса авторизации
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
+
+  /// Кейс для загрузки бонусов
   final GetBonusesUseCase _getBonusesUseCase;
+
+  /// Кейс для получения описания статуса
   final GetStatusDescriptionUseCase _getStatusDescriptionUseCase;
+
+  /// [Stream] статуса авторизации
   final Stream<AuthenticatedStatus> _authStatusStream;
 
   /// Подписка на изменение статуса авторизации.
@@ -44,6 +52,7 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
   void _onAuthStatusChanged(AuthenticatedStatus status) =>
       add(const _StartedEvent());
 
+  /// Загрузка бонусов
   Future<void> _onStarted(
     _StartedEvent event,
     _Emit emit,
@@ -71,9 +80,10 @@ class BonusesBloc extends Bloc<BonusesEvent, BonusesState> {
     );
   }
 
+  /// Закрытие подписки на изменение статуса авторизации
   @override
-  Future<void> close() {
-    _authStatusSubscription?.cancel();
+  Future<void> close() async {
+    await _authStatusSubscription?.cancel();
     return super.close();
   }
 }

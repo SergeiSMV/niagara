@@ -17,6 +17,7 @@ import '../../../promotions/presentation/widgets/promotions_home_widget.dart';
 import '../../../special_poducts/presentation/widget/special_products_home_widget.dart';
 import '../../../stories/presentation/widget/stories_home_widget.dart';
 import '../widgets/banners_widget.dart';
+import '../widgets/home_page_refresh_handler.dart';
 import '../widgets/notifications_button.dart';
 import '../widgets/support_button.dart';
 
@@ -26,18 +27,24 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) => const Scaffold(
-        appBar: AppBarWidget(
-          automaticallyImplyLeading: false,
-          body: AddressButton(),
-          actions: [
-            NotificationsButton(),
-            AppBoxes.kWidth16,
-            SupportButton(),
-            AppBoxes.kWidth16,
-          ],
-        ),
-        body: SingleChildScrollView(
+  Widget build(BuildContext context) {
+    /// Обработчик pull-to-refresh
+    final _refreshHandler = HomePageRefreshHandler();
+
+    return Scaffold(
+      appBar: const AppBarWidget(
+        automaticallyImplyLeading: false,
+        body: AddressButton(),
+        actions: [
+          NotificationsButton(),
+          AppBoxes.kWidth16,
+          SupportButton(),
+          AppBoxes.kWidth16,
+        ],
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => _refreshHandler.onRefresh(context),
+        child: const SingleChildScrollView(
           child: Column(
             children: [
               Stack(
@@ -62,7 +69,9 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 // TODO(kvbykov): Зарефакторить, ВИП-фон должен быть вшит в виджет для ВИПа.
