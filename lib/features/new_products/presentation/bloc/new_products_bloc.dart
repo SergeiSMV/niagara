@@ -1,14 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
-import 'package:niagara_app/features/new_products/domain/use_cases/get_new_products_use_case.dart';
+import '../../../../core/common/domain/models/product.dart';
+import '../../../../core/core.dart';
+import '../../../../core/utils/extensions/flutter_bloc_ext.dart';
+import '../../domain/use_cases/get_new_products_use_case.dart';
 
 part 'new_products_bloc.freezed.dart';
 part 'new_products_event.dart';
 part 'new_products_state.dart';
 
+/// Блок для загрузки новинки на главной странице
 @injectable
 class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
   NewProductsBloc(this._useCase) : super(const _LoadingNewProducts()) {
@@ -18,9 +19,16 @@ class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
     add(const _LoadingNewProductsEvent());
   }
 
+  /// Кейс для загрузки новинки на главной странице
   final GetNewProductsUseCase _useCase;
+
+  /// Текущая страница
   int _currentPage = 1;
+
+  /// Общее количество страниц
   int _totalPages = 0;
+
+  /// Флаг для проверки, есть ли ещё страницы для загрузки
   bool get hasMore => _totalPages > _currentPage;
 
   Future<void> _onLoad(
@@ -58,6 +66,7 @@ class NewProductsBloc extends Bloc<NewProductsEvent, NewProductsState> {
     );
   }
 
+  /// Загрузка последующих страниц новинок на главной странице
   Future<void> _onLoadMore(
     _LoadingMoreNewProductsEvent event,
     Emitter<NewProductsState> emit,

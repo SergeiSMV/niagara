@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
-import 'package:niagara_app/features/profile/bonuses/domain/models/bonuses.dart';
-import 'package:niagara_app/features/profile/bonuses/domain/use_cases/get_bonuses_use_case.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/auth_status.dart';
+import '../../../../authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
+import '../../../../profile/bonuses/domain/models/bonuses.dart';
+import '../../../../profile/bonuses/domain/use_cases/get_bonuses_use_case.dart';
 
 part 'water_balance_state.dart';
 part 'water_balance_cubit.freezed.dart';

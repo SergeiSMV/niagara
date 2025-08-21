@@ -8,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/common/presentation/router/app_router.gr.dart';
 import '../../../../core/common/presentation/widgets/app_network_image_widget.dart';
 import '../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
-import '../../../../core/dependencies/di.dart';
 import '../../../../core/utils/constants/app_borders.dart';
 import '../../../../core/utils/constants/app_insets.dart';
 import '../../../../core/utils/constants/app_sizes.dart';
@@ -16,30 +15,31 @@ import '../../../../core/utils/extensions/build_context_ext.dart';
 import '../../domain/models/banner.dart';
 import '../cubit/banners_cubit.dart';
 
+/// Слайдер с баннерами для главной страницы
 class BannersSliderWidget extends HookWidget {
   const BannersSliderWidget({super.key});
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (_) => getIt<BannersCubit>(),
-        child: BlocBuilder<BannersCubit, BannersState>(
-          builder: (context, state) => state.maybeWhen(
-            loaded: _Loaded.new,
-            loading: () => const AspectRatio(
-              aspectRatio: 16 / 9,
-              child: AppCenterLoader(),
-            ),
-            orElse: SizedBox.shrink,
+  Widget build(BuildContext context) => BlocBuilder<BannersCubit, BannersState>(
+        builder: (context, state) => state.maybeWhen(
+          loaded: _Loaded.new,
+          loading: () => const AspectRatio(
+            aspectRatio: 16 / 9,
+            child: AppCenterLoader(),
           ),
+          orElse: SizedBox.shrink,
         ),
       );
 }
 
+/// Виджет для отображения баннеров
 class _Loaded extends HookWidget {
   const _Loaded(this.banners);
 
+  /// Баннеры
   final List<Banner> banners;
 
+  /// Обрезка изображения
   Widget _clipper(Widget widget) => ClipRRect(
         borderRadius: AppBorders.kCircular16,
         child: widget,
