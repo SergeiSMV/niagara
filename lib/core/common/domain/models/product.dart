@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:niagara_app/core/common/domain/models/pagination.dart';
-import 'package:niagara_app/core/utils/enums/product_type.dart';
+
+import '../../../utils/enums/product_type.dart';
+import 'pagination.dart';
 
 /// Список продуктов с пагинацией.
 typedef Products = ({List<Product> products, Pagination pagination});

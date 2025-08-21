@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/common/presentation/router/routers/payment_routes.dart';
+import '../app_router.gr.dart';
+import 'payment_routes.dart';
 
 /// Класс роутера для карточки товара.
 ///

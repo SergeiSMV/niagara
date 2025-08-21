@@ -1,8 +1,8 @@
 // ignore_for_file: sort_constructors_first
 
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/promotions/domain/models/promotion.dart';
+import '../../../../core/core.dart';
+import '../../../../core/utils/gen/strings.g.dart';
+import '../../../promotions/domain/models/promotion.dart';
 
 class Group extends Equatable {
   const Group({

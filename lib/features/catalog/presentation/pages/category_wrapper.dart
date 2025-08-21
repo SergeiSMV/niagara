@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/dependencies/di.dart';
-import 'package:niagara_app/features/cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
-import 'package:niagara_app/features/cart/favorites/presentation/bloc/favorites_bloc.dart';
-import 'package:niagara_app/features/catalog/domain/model/group.dart';
-import 'package:niagara_app/features/catalog/presentation/bloc/filters_cubit/filters_cubit.dart';
-import 'package:niagara_app/features/catalog/presentation/bloc/groups_cubit/groups_cubit.dart';
-import 'package:niagara_app/features/catalog/presentation/bloc/products_bloc/products_bloc.dart';
+import '../../../../core/dependencies/di.dart';
+import '../../../cart/cart/presentation/bloc/cart_bloc/cart_bloc.dart';
+import '../../../cart/favorites/presentation/bloc/favorites_bloc.dart';
+import '../../domain/model/group.dart';
+import '../bloc/filters_cubit/filters_cubit.dart';
+import '../bloc/groups_cubit/groups_cubit.dart';
+import '../bloc/products_bloc/products_bloc.dart';
 
 @RoutePage()
 class CategoryWrapperPage implements AutoRouteWrapper {

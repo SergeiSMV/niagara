@@ -352,7 +352,11 @@
       "all": "Все",
       "orders": "Заказы",
       "stocks": "Акции",
-      "system": "Системные"
+      "system": "Системные",
+      "product_group": "Группа товаров",
+      "product": "Товар",
+      "get_rating": "Оценка",
+      "call": "Звонок"
     },
     "turnNotifications": "Включите пуш-уведомления",
     "stayUpToDateWithLatest": "Будьте в курсе последних скидок и акций",
