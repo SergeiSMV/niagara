@@ -2,22 +2,24 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/common/presentation/widgets/errors/error_refresh_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/loaders/app_center_loader.dart';
-import 'package:niagara_app/core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
-import 'package:niagara_app/core/common/presentation/widgets/unauthorized_widget.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
-import 'package:niagara_app/features/locations/addresses/presentation/addresses/bloc/addresses_bloc.dart';
-import 'package:niagara_app/features/locations/addresses/presentation/addresses/widgets/list_addresses_widget.dart';
+import '../../../../../../core/common/presentation/widgets/bottom_shadow_widget.dart';
+import '../../../../../../core/common/presentation/widgets/buttons/app_text_button.dart';
+import '../../../../../../core/common/presentation/widgets/errors/error_refresh_widget.dart';
+import '../../../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
+import '../../../../../../core/common/presentation/widgets/snack_bars/app_snack_bar.dart';
+import '../../../../../../core/common/presentation/widgets/unauthorized_widget.dart';
+import '../../../../../../core/utils/constants/app_boxes.dart';
+import '../../../../../../core/utils/gen/strings.g.dart';
+import '../../../domain/models/address.dart';
+import '../bloc/addresses_bloc.dart';
+import '../widgets/list_addresses_widget.dart';
 
+/// Страница адресов доставки
 @RoutePage()
 class AddressesPage extends StatelessWidget {
   const AddressesPage({super.key});
 
+  /// Слушатель состояния [AddressesBloc]
   void _addressesListener(BuildContext context, AddressesState state) {
     state.maybeWhen(
       error: (_, __) => AppSnackBar.showError(
@@ -28,6 +30,7 @@ class AddressesPage extends StatelessWidget {
     );
   }
 
+  /// Обновляет список адресов
   void _onRefresh(BuildContext context) =>
       context.read<AddressesBloc>().add(const AddressesEvent.loadAddresses());
 
@@ -54,32 +57,33 @@ class AddressesPage extends StatelessWidget {
   }
 }
 
+/// Виджет загруженных адресов
 class _Loaded extends StatelessWidget {
   const _Loaded(this.addresses);
 
+  /// Список адресов
   final List<Address> addresses;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBoxes.kHeight48,
-        Expanded(
-          child: ListAddressesWidget(
-            addresses: addresses.reversed.toList(),
+  Widget build(BuildContext context) => Column(
+        children: [
+          AppBoxes.kHeight48,
+          Expanded(
+            child: ListAddressesWidget(
+              addresses: addresses.reversed.toList(),
+            ),
           ),
-        ),
-        BottomShadowWidget(
-          child: AppTextButton.primary(
-            text: t.common.save,
-            onTap: () => context.maybePop(),
+          BottomShadowWidget(
+            child: AppTextButton.primary(
+              text: t.common.save,
+              onTap: () => context.maybePop(),
+            ),
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }
 
+/// Виджет ошибки загрузки адресов
 class _Error extends StatelessWidget {
   const _Error();
 
@@ -87,17 +91,15 @@ class _Error extends StatelessWidget {
       context.read<AddressesBloc>().add(const AddressesEvent.loadAddresses());
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: ErrorRefreshWidget(
-            error: t.locations.errorLoad,
-            onRefresh: () => _onRefresh(context),
+  Widget build(BuildContext context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: ErrorRefreshWidget(
+              error: t.locations.errorLoad,
+              onRefresh: () => _onRefresh(context),
+            ),
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }

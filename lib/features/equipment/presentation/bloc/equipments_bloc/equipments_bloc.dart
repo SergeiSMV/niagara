@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/equipment/domain/model/equipment.dart';
-import 'package:niagara_app/features/equipment/domain/use_cases/get_equipments_use_case.dart';
+import '../../../../../core/core.dart';
+import '../../../domain/model/equipment.dart';
+import '../../../domain/use_cases/get_equipments_use_case.dart';
 
 part 'equipments_event.dart';
 part 'equipments_state.dart';
@@ -10,6 +10,7 @@ part 'equipments_bloc.freezed.dart';
 
 typedef _Emit = Emitter<EquipmentsState>;
 
+/// Блок для загрузки оборудования
 @injectable
 class EquipmentsBloc extends Bloc<EquipmentsEvent, EquipmentsState> {
   EquipmentsBloc(
@@ -20,8 +21,10 @@ class EquipmentsBloc extends Bloc<EquipmentsEvent, EquipmentsState> {
     add(const _GetEquipments());
   }
 
+  /// Кейс для загрузки оборудования
   final GetEquipmentsUseCase _getEquipmentsUseCase;
 
+  /// Загрузка оборудования
   Future<void> _getEquipments(
     _GetEquipments event,
     _Emit emit,

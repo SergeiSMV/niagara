@@ -1,37 +1,37 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:niagara_app/core/common/presentation/router/app_router.gr.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_insets.dart';
-import 'package:niagara_app/features/stories/domain/model/story.dart';
-import 'package:niagara_app/features/stories/presentation/bloc/stories_bloc.dart';
-import 'package:niagara_app/features/stories/presentation/widget/story_preview_widget.dart';
+import '../../../../core/common/presentation/router/app_router.gr.dart';
+import '../../../../core/utils/constants/app_boxes.dart';
+import '../../../../core/utils/constants/app_insets.dart';
+import '../../domain/model/story.dart';
+import '../bloc/stories_bloc.dart';
+import 'story_preview_widget.dart';
 
+/// Виджет для отображения историй на главной странице
 class StoriesHomeWidget extends StatelessWidget {
   const StoriesHomeWidget({super.key});
 
-  void _onTap(BuildContext context, int index, String id) {
-    context.pushRoute(StorySlidesWrapper(index: index));
+  /// Переход на страницу истории с отметкой о просмотре
+  Future<void> _onTap(BuildContext context, int index, String id) async {
+    await context.pushRoute(StorySlidesWrapper(index: index));
     context.read<StoriesBloc>().add(StoriesEvent.markSeen(id));
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<StoriesBloc, StoriesState>(
-      builder: (context, state) {
-        final List<Story> stories = state.maybeMap(
-          loaded: (state) => state.stories,
-          orElse: () => const [],
-        );
+  Widget build(BuildContext context) => BlocBuilder<StoriesBloc, StoriesState>(
+        builder: (context, state) {
+          final List<Story> stories = state.maybeMap(
+            loaded: (state) => state.stories,
+            orElse: () => const [],
+          );
 
-        if (stories.isEmpty) return const SizedBox.shrink();
+          if (stories.isEmpty) return const SizedBox.shrink();
 
-        return state.map(
-          loading: (_) => const SizedBox.shrink(),
-          error: (_) => const SizedBox.shrink(),
-          loaded: (state) {
-            return SizedBox(
+          return state.map(
+            loading: (_) => const SizedBox.shrink(),
+            error: (_) => const SizedBox.shrink(),
+            loaded: (state) => SizedBox(
               width: double.infinity,
               child: Padding(
                 padding: AppInsets.kTop32,
@@ -57,10 +57,8 @@ class StoriesHomeWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            );
-          },
-        );
-      },
-    );
-  }
+            ),
+          );
+        },
+      );
 }
