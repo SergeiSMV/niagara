@@ -8,6 +8,7 @@ import '../../../domain/use_cases/get_groups_use_case.dart';
 part 'groups_cubit.freezed.dart';
 part 'groups_state.dart';
 
+/// Блок для работы с группами товаров
 @lazySingleton
 class GroupsCubit extends Cubit<GroupsState> {
   GroupsCubit(this._getGroupsUseCase) : super(const _Loading()) {
@@ -16,8 +17,10 @@ class GroupsCubit extends Cubit<GroupsState> {
     getGroups();
   }
 
+  /// Usecase для получения списка групп товаров
   final GetGroupsUseCase _getGroupsUseCase;
 
+  /// Получает список групп товаров
   Future<void> getGroups() async {
     emit(const _Loading());
     final result = await _getGroupsUseCase.call();

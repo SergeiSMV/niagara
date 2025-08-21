@@ -1,13 +1,16 @@
-import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
-import 'package:niagara_app/core/common/data/remote/dto/product_dto.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
-import 'package:niagara_app/features/catalog/data/remote/dto/filter_dto.dart';
-import 'package:niagara_app/features/catalog/data/remote/dto/group_dto.dart';
+import '../../../../../core/common/data/remote/dto/pagination_dto.dart';
+import '../../../../../core/common/data/remote/dto/product_dto.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/products_sort_type.dart';
+import '../dto/filter_dto.dart';
+import '../dto/group_dto.dart';
 
+/// Интерфейс для работы с удаленным источником данных для работы с каталогом
 abstract interface class ICatalogRemoteDataSource {
+  /// Получает список групп товаров
   Future<Either<Failure, List<GroupDto>>> getGroups();
 
+  /// Получает список товаров указанной группы
   Future<Either<Failure, ProductsDto>> getCategory({
     required String groupId,
     required int page,
@@ -16,27 +19,40 @@ abstract interface class ICatalogRemoteDataSource {
     String? promotionId,
   });
 
+  /// Получает список рекомендованных товаров
   Future<Either<Failure, List<ProductDto>>> getRecommend({
     required String productId,
   });
 
+  /// Получает список фильтров для указанной группы
   Future<Either<Failure, List<FilterDto>>> getFilters({
     required String groupId,
   });
 
+  /// Получает список товаров по поисковому запросу
   Future<Either<Failure, ProductsDto>> getProductsBySearch({
     required String text,
     required int page,
     required ProductsSortType sort,
   });
+
+  /// Получает товар по id
+  ///
+  /// [productId] - идентификатор товара
+  Future<Either<Failure, ProductDto>> getProductById({
+    required String productId,
+  });
 }
 
+/// Удаленный источник данных для работы с каталогом
 @LazySingleton(as: ICatalogRemoteDataSource)
 class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
   CatalogRemoteDataSource(this._requestHandler);
 
+  /// Обработчик запросов
   final RequestHandler _requestHandler;
 
+  /// Получает список групп товаров
   @override
   Future<Either<Failure, List<GroupDto>>> getGroups() =>
       _requestHandler.sendRequest<List<GroupDto>, List<dynamic>>(
@@ -51,6 +67,7 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
         failure: GroupsRemoteDataFailure.new,
       );
 
+  /// Получает список товаров указанной группы
   @override
   Future<Either<Failure, ProductsDto>> getCategory({
     required String groupId,
@@ -85,6 +102,7 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
         failure: GroupsRemoteDataFailure.new,
       );
 
+  /// Получает список рекомендованных товаров
   @override
   Future<Either<Failure, List<ProductDto>>> getRecommend({
     required String productId,
@@ -104,6 +122,7 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
         failure: GroupsRemoteDataFailure.new,
       );
 
+  /// Получает список фильтров для указанной группы
   @override
   Future<Either<Failure, List<FilterDto>>> getFilters({
     required String groupId,
@@ -123,6 +142,7 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
         failure: GroupsRemoteDataFailure.new,
       );
 
+  /// Получает список товаров по поисковому запросу
   @override
   Future<Either<Failure, ProductsDto>> getProductsBySearch({
     required String text,
@@ -149,6 +169,24 @@ class CatalogRemoteDataSource implements ICatalogRemoteDataSource {
 
           return (products: products, pagination: pagination);
         },
+        failure: GroupsRemoteDataFailure.new,
+      );
+
+  /// Получает товар по id
+  ///
+  /// [productId] - идентификатор товара
+  @override
+  Future<Either<Failure, ProductDto>> getProductById({
+    required String productId,
+  }) =>
+      _requestHandler.sendRequest<ProductDto, Map<String, dynamic>>(
+        request: (dio) => dio.get(
+          ApiConst.kGetProductById,
+          queryParameters: {
+            'product_id': productId,
+          },
+        ),
+        converter: ProductDto.fromJson,
         failure: GroupsRemoteDataFailure.new,
       );
 }

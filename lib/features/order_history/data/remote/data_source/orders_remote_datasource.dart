@@ -1,24 +1,32 @@
-import 'package:niagara_app/core/common/data/remote/dto/pagination_dto.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/orders_types.dart';
-import 'package:niagara_app/features/order_history/data/remote/dto/order_rate_option_dto.dart';
-import 'package:niagara_app/features/order_history/data/remote/dto/receipt_dto.dart';
-import 'package:niagara_app/features/order_history/data/remote/dto/user_order_dto.dart';
+import '../../../../../core/common/data/remote/dto/pagination_dto.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/orders_types.dart';
+import '../dto/order_rate_option_dto.dart';
+import '../dto/receipt_dto.dart';
+import '../dto/user_order_dto.dart';
 
 abstract interface class IOrdersRemoteDatasource {
-  /// Получение списка заказов с сортировкой по типу.
+  /// Получение списка заказов с сортировкой по типу
+  /// [page] - номер страницы
+  /// [sort] - тип сортировки
   Future<Either<Failure, OrdersDto>> getOrders({
     required int page,
     required OrdersTypes? sort,
   });
 
-  /// Получение вариантов оценки заказа.
+  /// Получение вариантов оценки заказа
+  /// [rating] - оценка
+  /// [id] - id заказа
   Future<Either<Failure, List<OrderRateOptionDto>>> getOrderRateOptions({
     required int rating,
     required String id,
   });
 
-  /// Оценить заказ.
+  /// Оценить заказ
+  /// [id] - id заказа
+  /// [rating] - оценка
+  /// [comment] - комментарий
+  /// [optionsIds] - id опций
   Future<Either<Failure, bool>> rateOrder({
     required String id,
     required int rating,
@@ -26,19 +34,28 @@ abstract interface class IOrdersRemoteDatasource {
     required List<String> optionsIds,
   });
 
-  /// Получение чека заказа.
+  /// Получение чека заказа
+  /// [id] - id заказа
   Future<Either<Failure, OrderReceiptDto>> getOrderReceipt({
     required String id,
   });
 
-  /// Отменяет заказ.
+  /// Отменяет заказ
+  /// [id] - id заказа
   Future<Either<Failure, bool>> cancelOrder({
     required String id,
   });
 
-  /// Повторяет заказ.
+  /// Повторяет заказ
+  /// [id] - id заказа
   Future<Either<Failure, bool>> repeatOrder({
     required String id,
+  });
+
+  /// Получает заказ по id
+  /// [orderId] - id заказа
+  Future<Either<Failure, UserOrderDto>> getOrderById({
+    required String orderId,
   });
 }
 
@@ -158,6 +175,21 @@ class OrdersRemoteDatasource implements IOrdersRemoteDatasource {
           },
         ),
         converter: (result) => result,
+        failure: OrdersRemoteDataFailure.new,
+      );
+
+  @override
+  Future<Either<Failure, UserOrderDto>> getOrderById({
+    required String orderId,
+  }) =>
+      _requestHandler.sendRequest<UserOrderDto, Map<String, dynamic>>(
+        request: (dio) => dio.get(
+          ApiConst.kGetOrderById,
+          queryParameters: {
+            'order_id': orderId,
+          },
+        ),
+        converter: UserOrderDto.fromJson,
         failure: OrdersRemoteDataFailure.new,
       );
 }

@@ -3,6 +3,12 @@ import '../../../../core/core.dart';
 import '../model/notification.dart';
 import '../model/notifications_types.dart';
 
+/// Именованный кортеж с двумя полями:
+/// notifications (список уведомлений)
+/// и pagination (пагинация)
+///
+/// [notifications] - список уведомлений
+/// [pagination] - пагинация
 typedef Notifications = ({
   List<NotificationItem> notifications,
   Pagination pagination
@@ -23,12 +29,6 @@ abstract interface class INotificationsRepository {
   Future<Either<Failure, void>> readNotification({
     required String id,
   });
-
-  /// Закрывает подписки.
-  // void dispose();
-
-  /// Инициализация репозитория.
-  // void init();
 
   /// Регистрирует токен устройства для FCM.
   Future<Either<Failure, void>> registerFcmDevice({

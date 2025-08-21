@@ -17,10 +17,12 @@ import '../widget/category/interaction_category_widget.dart';
 import '../widget/groups/groups_buttons_widget.dart';
 import '../widget/search/catalog_search_button_widget.dart';
 
+/// Страница группы товаров
 @RoutePage()
 class CategoryPage extends HookWidget {
   const CategoryPage({super.key});
 
+  /// Загружает больше товаров
   Future<void> _onLoadMore(BuildContext context) async {
     final selectFilters = context.read<FiltersCubit>().state.maybeWhen(
           loaded: (_, selectedFilters) => selectedFilters,
@@ -38,11 +40,15 @@ class CategoryPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // получаем группу товаров
     final group = context.watch<ProductsBloc>().group;
+    // контроллер для скролла
     final scrollController = useScrollController();
 
+    // используем эффект для загрузки больше товаров при скролле
     useEffect(
       () {
+        // функция для загрузки больше товаров при скролле
         Future<void> onScroll() async {
           if (scrollController.position.pixels ==
               scrollController.position.maxScrollExtent) {

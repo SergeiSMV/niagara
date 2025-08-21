@@ -14,6 +14,7 @@ import '../mappers/user_entity_mapper.dart';
 import '../mappers/user_order_mapper.dart';
 import '../remote/data_source/orders_remote_datasource.dart';
 
+/// Репозиторий для работы с заказами
 @LazySingleton(as: IOrdersRepository)
 class OrdersRepositories extends BaseRepository implements IOrdersRepository {
   OrdersRepositories(
@@ -23,16 +24,23 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
     this._ordersLDS,
   );
 
+  /// Удалённый источник данных для работы с заказами
   final IOrdersRemoteDatasource _ordersRDS;
+
+  /// Локальный источник данных для работы с заказами
   final IOrdersLocalDatasource _ordersLDS;
 
   // TODO(kvbykov): Возможно, будет лучше сохрнаить чеки в БД.
   /// Кеш для чеков.
   final Map<String, OrderReceipt> _receipts = {};
 
+  /// Ошибка при работе с удалённым источником данных
   @override
   Failure get failure => const OrdersRepositoryFailure();
 
+  /// Получает заказы
+  /// [page] - номер страницы
+  /// [sort] - тип сортировки
   @override
   Future<Either<Failure, Orders>> getOrders({
     required int page,
@@ -52,12 +60,14 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
         ),
       );
 
+  /// Получает заказы из локального источника данных
   Future<List<UserOrder>> _getLocalOrders() async =>
       await _ordersLDS.getOrders().fold(
             (failure) => throw failure,
             (entities) => entities.map((entity) => entity.toModel()).toList(),
           );
 
+  /// Получает заказы из локального источника данных, если нет интернета
   Future<Orders> _getOrdersIfNoInternet(OrdersTypes? sort) async {
     final localOrders = await _getLocalOrders();
     final List<UserOrder> sortedLocalOrders = [];
@@ -91,6 +101,7 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
     );
   }
 
+  /// Сохраняет заказы в локальном источнике данных
   Future<void> _saveOrders(List<UserOrder> orders) async {
     final localOrders = await _getLocalOrders();
     for (final item in orders) {
@@ -102,6 +113,9 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
     }
   }
 
+  /// Получает опции оценки заказа
+  /// [rating] - оценка
+  /// [id] - id заказа
   @override
   Future<Either<Failure, List<OrderRateOption>>> getOrderRateOptions({
     required int rating,
@@ -114,6 +128,11 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
             ),
       );
 
+  /// Оценивает заказ
+  /// [id] - id заказа
+  /// [rating] - оценка
+  /// [comment] - комментарий
+  /// [optionsIds] - id опций
   @override
   Future<Either<Failure, bool>> rateOrder({
     required String id,
@@ -135,6 +154,8 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
             ),
       );
 
+  /// Получает чек заказа
+  /// [id] - id заказа
   @override
   Future<Either<Failure, OrderReceipt>> getReceipt({required String id}) =>
       execute(
@@ -153,6 +174,8 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
         },
       );
 
+  /// Отменяет заказ
+  /// [id] - id заказа
   @override
   Future<Either<Failure, bool>> cancelOrder({required String id}) => execute(
         () async => _ordersRDS.cancelOrder(id: id).fold(
@@ -161,11 +184,24 @@ class OrdersRepositories extends BaseRepository implements IOrdersRepository {
             ),
       );
 
+  /// Повторяет заказ
+  /// [id] - id заказа
   @override
   Future<Either<Failure, bool>> repeatOrder({required String id}) => execute(
         () async => _ordersRDS.repeatOrder(id: id).fold(
               (failure) => throw failure,
               (result) => result,
+            ),
+      );
+
+  /// Получает заказ по id
+  /// [orderId] - id заказа
+  @override
+  Future<Either<Failure, UserOrder>> getOrderById({required String orderId}) =>
+      execute(
+        () async => _ordersRDS.getOrderById(orderId: orderId).fold(
+              (failure) => throw failure,
+              (dto) => dto.toModel(),
             ),
       );
 }

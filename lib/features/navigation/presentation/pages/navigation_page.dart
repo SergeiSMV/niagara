@@ -70,11 +70,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
         openedFromPush: () async => context.navigateTo(
           const NotificationsRoute(),
         ),
-        openedProductFromPush: (productId, productName) async {
+        openedProductFromPush: (product) async {
           await NotificationStateHandler().openedProductFromPushHandler(
             context,
-            productId,
-            productName,
+            product,
           );
           return null;
         },
@@ -92,10 +91,10 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
           );
           return null;
         },
-        openedGetRatingFromPush: (orderID) async {
+        openedGetRatingFromPush: (order) async {
           await NotificationStateHandler().openedGetRatingFromPushHandler(
             context,
-            orderID,
+            order,
           );
           return null;
         },

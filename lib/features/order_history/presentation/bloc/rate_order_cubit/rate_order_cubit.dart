@@ -6,14 +6,17 @@ import '../../../domain/use_cases/rate_order_use_case.dart';
 part 'rate_order_cubit.freezed.dart';
 part 'rate_order_state.dart';
 
+/// Кубит для оценки заказа
 @injectable
 class RateOrderCubit extends Cubit<RateOrderState> {
   RateOrderCubit(
     this._rateOrderUseCase,
   ) : super(const RateOrderState.initial());
 
+  /// Кейс для оценки заказа
   final RateOrderUseCase _rateOrderUseCase;
 
+  /// Оценка заказа
   Future<void> rateOrder({
     required String id,
     required double rating,

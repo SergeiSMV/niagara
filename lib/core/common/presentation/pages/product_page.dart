@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../features/prepaid_water/presentation/widgets/buy_prepaid_water_button.dart';
+import '../../../dependencies/di.dart';
 import '../../../utils/constants/app_boxes.dart';
 import '../../../utils/constants/app_insets.dart';
 import '../../../utils/constants/app_sizes.dart';
@@ -38,7 +39,7 @@ class ProductPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (_) => OrderWaterAmountCubit(),
+        create: (_) => getIt<OrderWaterAmountCubit>(),
         child: Scaffold(
           backgroundColor: context.colors.mainColors.bgCard,
           body: CustomScrollView(

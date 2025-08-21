@@ -10,8 +10,7 @@ class NotificationsState with _$NotificationsState {
 
   /// Уведомление открыто из Push с типом "PRODUCT"
   const factory NotificationsState.openedProductFromPush({
-    required String productId,
-    required String productName,
+    required Product? product,
   }) = _OpenedProductFromPush;
 
   /// Уведомление открыто из Push с типом "GROUP"
@@ -21,7 +20,7 @@ class NotificationsState with _$NotificationsState {
 
   /// Уведомление открыто из Push с типом "GET_RATING"
   const factory NotificationsState.openedGetRatingFromPush({
-    required String orderID,
+    required UserOrder? order,
   }) = _OpenedGetRatingFromPush;
 
   /// Уведомление открыто из Push с типом "CALL"

@@ -6,8 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
+import '../../../../../core/common/domain/models/product.dart';
 import '../../../../../core/core.dart';
 import '../../../../../core/utils/services/firebase/firebase_message_service.dart';
+import '../../../../catalog/domain/use_cases/get_product_by_id_use_case.dart';
+import '../../../../order_history/domain/models/user_order.dart';
+import '../../../../order_history/domain/use_cases/get_order_by_id_use_case.dart';
 import '../../../domain/model/notification.dart';
 import '../../../domain/model/notifications_types.dart';
 import '../../../domain/use_cases/get_notifications_use_case.dart';
@@ -24,6 +28,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     this._getNotificationsUseCase,
     this._firebaseMessageServices,
     this._logger,
+    this._getProductByIdUseCase,
+    this._getOrderByIdUseCase,
   ) : super(const _Loading()) {
     on<_LoadingEvent>(_getNotifications);
     on<_LoadMoreEvent>(_onLoadMore);
@@ -46,6 +52,12 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
   /// Тип сортировки уведомлений
   NotificationsTypes _type = NotificationsTypes.all;
+
+  /// Usecase для получения товара по id
+  final GetProductByIdUseCase _getProductByIdUseCase;
+
+  /// Usecase для получения заказа по id
+  final GetOrderByIdUseCase _getOrderByIdUseCase;
 
   /// Геттер для получения типа сортировки уведомлений
   NotificationsTypes get type => _type;
@@ -172,7 +184,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       (failure) => failure is NoInternetFailure
           ? emit(const _NoInternet())
           : emit(const _Error()),
-      (data) {
+      (data) async {
         _current = data.pagination.current;
         _total = data.pagination.total;
 
@@ -200,7 +212,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
         /// Обрабатываем нажатие на Push-уведомление
         if (_pushIsTapped && _tappedMessageId != null) {
-          _onPushTap(emit, data.notifications);
+          await _onPushTap(emit, data.notifications);
         }
       },
     );
@@ -257,40 +269,55 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       notifications.any((notification) => notification.isNew);
 
   /// Обработчик навигации по нажатию на Push-уведомление
-  void _onPushTap(_Emit emit, List<NotificationItem> notifications) {
+  Future<void> _onPushTap(
+    _Emit emit,
+    List<NotificationItem> notifications,
+  ) async {
     /// Получаем уведомление по id
-    final notification = notifications.firstWhere(
+    final notification = notifications.firstWhereOrNull(
       (element) => element.id == _tappedMessageId,
     );
 
+    /// Если уведомление не найдено, то меняем стейт
+    /// на открытие страницы уведомлений и выходим
+    if (notification == null) {
+      emit(const _OpenedFromPush());
+      return;
+    }
+
+    /// Если уведомление найдено с типом [NotificationsTypes.product]
     if (notification.type == NotificationsTypes.product) {
-      emit(
-        _OpenedProductFromPush(
-          productId: notification.link,
-          productName: notification.title,
-        ),
+      final product = await _getProductByIdUseCase(notification.link).fold(
+        (_) => null,
+        (product) => product,
       );
+      // меняем стейт на открытие страницы товара
+      emit(_OpenedProductFromPush(product: product));
+
+      /// Если уведомление найдено с типом [NotificationsTypes.product_group]
     } else if (notification.type == NotificationsTypes.product_group) {
       // открываем группу товаров
       emit(_OpenedProductGroupFromPush(groupId: notification.link));
-    } else if (notification.type == NotificationsTypes.product) {
-      // открываем страницу товара
-      emit(
-        _OpenedProductFromPush(
-          productId: notification.link,
-          productName: notification.title,
-        ),
+
+      /// Если уведомление найдено с типом [NotificationsTypes.get_rating]
+    } else if (notification.type == NotificationsTypes.rating) {
+      final order = await _getOrderByIdUseCase(notification.link).fold(
+        (_) => null,
+        (order) => order,
       );
-    } else if (notification.type == NotificationsTypes.get_rating) {
-      // открываем страницу оценки заказа
-      emit(_OpenedGetRatingFromPush(orderID: notification.link));
+      // меняем стейт на открытие страницы оценки заказа
+      emit(_OpenedGetRatingFromPush(order: order));
+
+      /// Если уведомление найдено с типом [NotificationsTypes.call]
     } else if (notification.type == NotificationsTypes.call) {
       // открываем телефонный номер
       emit(_OpenedCallFromPush(phoneNumber: notification.link));
-    } else {
-      emit(const _OpenedFromPush());
     }
+
+    /// Сбрасываем флаг открытия из пуша
     _pushIsTapped = false;
+
+    /// Сбрасываем id уведомления
     _tappedMessageId = null;
   }
 }

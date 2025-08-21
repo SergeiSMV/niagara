@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -175,7 +174,13 @@ class FirebaseMessageServices {
 
         /// Регистрирует обработчик фоновых сообщений
         FirebaseMessaging.onBackgroundMessage(
-          _firebaseMessagingBackgroundHandler,
+          (message) async {
+            _logger.log(
+              level: LogLevel.info,
+              message:
+                  'FirebaseMessageService ::: onBackgroundMessage: $message',
+            );
+          },
         );
       },
     ).onError((error, stackTrace) {
@@ -196,24 +201,4 @@ class FirebaseMessageServices {
         );
     return isAuthorized;
   }
-}
-
-/// Обработчик push-уведомлений, получаемых в фоновом режиме.
-///
-/// Вызывается системой когда приложение находится в фоне или закрыто.
-/// Сохраняет данные для последующей обработки блоком при открытии приложения.
-///
-/// Параметры:
-/// - [message] - Полученное push-уведомление
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-
-  // Сохраняем данные для обработки блоком при открытии приложения
-  if (message.data.isNotEmpty) {
-    // TODO: Сохранить данные в SharedPreferences или локальную БД
-    // для последующей обработки в блоке
-  }
-
-  return;
 }

@@ -27,7 +27,7 @@ class NotificationTypeButtons extends StatelessWidget {
                         type != NotificationsTypes.product_group &&
                         type != NotificationsTypes.product &&
                         type != NotificationsTypes.call &&
-                        type != NotificationsTypes.get_rating,
+                        type != NotificationsTypes.rating,
                   )
                   .map(
                     (type) => PushTypeItemWidget(
