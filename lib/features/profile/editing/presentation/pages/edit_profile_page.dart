@@ -21,35 +21,41 @@ class EditProfilePage extends StatelessWidget {
     super.key,
   }) : _user = user;
 
+  /// Данные пользователя
   final User _user;
 
+  /// Обновляет данные пользователя при загрузке страницы
+  void _onRefreshUserData(BuildContext context) {
+    context.read<UserBloc>().setUserIdentity(false);
+    context.read<UserBloc>().add(const UserEvent.loading());
+  }
+
   @override
-  Widget build(BuildContext context) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => getIt<ProfileEditingCubit>(param1: _user),
-          ),
-          BlocProvider(
-            create: (_) => getIt<ProfileValidatorCubit>(),
-          ),
-        ],
-        child: Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              const SliverAppBarWidget(),
-              SliverToBoxAdapter(
-                child: ProfileEditingFieldsWidget(user: _user),
-              ),
-            ],
-          ),
-          bottomNavigationBar: const _SaveChangesButton(),
+  Widget build(BuildContext context) {
+    _onRefreshUserData(context);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => getIt<ProfileEditingCubit>(param1: _user),
         ),
-      );
+        BlocProvider(
+          create: (_) => getIt<ProfileValidatorCubit>(),
+        ),
+      ],
+      child: Scaffold(
+        appBar: AppBarWidget(title: t.profile.edit.pageTitle),
+        body: ProfileEditingFieldsWidget(user: _user),
+        bottomNavigationBar: const _SaveChangesButton(),
+      ),
+    );
+  }
 }
 
+/// Виджет кнопки сохранения изменений
 class _SaveChangesButton extends StatelessWidget {
   const _SaveChangesButton();
 
+  /// Возврат на страницу профиля пользователя после сохранения изменений
   VoidCallback? _onSaveCallback(BuildContext context) {
     final canSave = context.watch<ProfileEditingCubit>().canSave;
     final validData = context.watch<ProfileValidatorCubit>().state;
