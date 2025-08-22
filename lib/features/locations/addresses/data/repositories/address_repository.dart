@@ -50,7 +50,6 @@ class AddressesRepository extends BaseRepository implements IAddressRepository {
           if (!hasAuth) return [];
 
           final localAddresses = await _getLocalAddresses();
-          // if (localAddresses.isNotEmpty) return localAddresses;
 
           final remoteAddresses = await _getRemoteAddresses();
 
