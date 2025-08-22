@@ -1,8 +1,9 @@
-import 'package:niagara_app/core/utils/enums/location_precision.dart';
-import 'package:niagara_app/features/locations/addresses/data/local/entities/addresses_entity.dart';
-import 'package:niagara_app/features/locations/addresses/data/remote/dto/address_dto.dart';
-import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
+import '../../../../../core/utils/enums/location_precision.dart';
+import '../../domain/models/address.dart';
+import '../local/entities/addresses_entity.dart';
+import '../remote/dto/address_dto.dart';
 
+/// Маппер для преобразования DTO в Entity
 extension AddressDtoMapper on AddressDto {
   AddressEntity toEntity({required int id}) => AddressEntity(
         id: id,
@@ -27,6 +28,7 @@ extension AddressDtoMapper on AddressDto {
       );
 }
 
+/// Маппер для преобразования Address в DTO
 extension AddressMapper on Address {
   AddressDto toDto() => AddressDto(
         latitude: coordinates.$1,
@@ -40,9 +42,21 @@ extension AddressMapper on Address {
         flat: flat,
         entrance: entrance,
         floor: floor,
-        name: name,
+        name: _buildFullName(),
         description: description,
         isDefault: isDefault,
         locationId: locationId,
       );
+
+  String _buildFullName() {
+    final parts = <String>[];
+
+    if (district.isNotEmpty) parts.add(district);
+    if (locality.isNotEmpty) parts.add(locality);
+    if (street.isNotEmpty) parts.add(street);
+    if (house.isNotEmpty) parts.add('д $house');
+    if (flat.isNotEmpty) parts.add(flat);
+
+    return parts.join(', ');
+  }
 }

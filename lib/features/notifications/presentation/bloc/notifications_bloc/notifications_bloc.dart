@@ -282,6 +282,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     /// на открытие страницы уведомлений и выходим
     if (notification == null) {
       emit(const _OpenedFromPush());
+      _pushIsTapped = false;
+      _tappedMessageId = null;
       return;
     }
 

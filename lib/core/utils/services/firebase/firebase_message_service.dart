@@ -7,6 +7,15 @@ import '../../../../features/notifications/domain/repositories/i_notifications_r
 import '../../../core.dart';
 import 'local_notifications_service.dart';
 
+/// Обработчик фоновых сообщений Firebase
+/// Должен быть top-level функцией с @pragma('vm:entry-point')
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  /// TODO: это "заглушка" для Firebase SDK:
+  /// Без неё приложение крашится
+  /// С ней - работает нормально даже если она пустая
+}
+
 /// Callback для обработки foreground сообщений
 typedef ForegroundMessageCallback = void Function(RemoteMessage message);
 
@@ -174,13 +183,7 @@ class FirebaseMessageServices {
 
         /// Регистрирует обработчик фоновых сообщений
         FirebaseMessaging.onBackgroundMessage(
-          (message) async {
-            _logger.log(
-              level: LogLevel.info,
-              message:
-                  'FirebaseMessageService ::: onBackgroundMessage: $message',
-            );
-          },
+          _firebaseMessagingBackgroundHandler,
         );
       },
     ).onError((error, stackTrace) {
