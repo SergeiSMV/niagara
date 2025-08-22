@@ -56,71 +56,53 @@ class AppDatabase extends _$AppDatabase {
         onUpgrade: (m, from, to) async {
           try {
             if (from < 10) {
-              // Безопасно добавляем новые поля без удаления таблиц
-              try {
-                // Добавляем поле orders_count в users_table если его нет
-                await m.addColumn(usersTable, usersTable.ordersCount);
-                // Устанавливаем значение по умолчанию для существующих записей
-                await customStatement(
-                    'UPDATE users_table SET orders_count = 0 WHERE orders_count IS NULL');
-              } on SqliteException catch (e) {
-                // Поле уже существует, пропускаем
-                getIt<IAppLogger>().log(
-                  level: LogLevel.info,
-                  message:
-                      'Field orders_count already exists in users_table $e',
-                );
+              final existingUserColumns = await customSelect(
+                'PRAGMA table_info(users_table);',
+                readsFrom: {usersTable},
+              ).get();
+
+              // Проверка перед добавлением поля orders_count:
+              final hasOrdersCount = existingUserColumns.any(
+                (row) =>
+                    row.read<String>('name') == usersTable.ordersCount.name,
+              );
+              if (!hasOrdersCount) {
+                await m.deleteTable(usersTable.actualTableName);
+                await m.createTable(usersTable);
               }
 
-              try {
-                // Добавляем поле pickup в user_orders_table если его нет
-                await m.addColumn(userOrdersTable, userOrdersTable.pickup);
-                // Устанавливаем значение по умолчанию для существующих записей
-                await customStatement(
-                    'UPDATE user_orders_table SET pickup = 0 WHERE pickup IS NULL');
-              } on SqliteException catch (e) {
-                // Поле уже существует, пропускаем
-                getIt<IAppLogger>().log(
-                  level: LogLevel.info,
-                  message:
-                      'Field pickup already exists in user_orders_table $e',
-                );
+              // Проверка перед добавлением поля pickup:
+              final existingColumns = await customSelect(
+                'PRAGMA table_info(user_orders_table);',
+                readsFrom: {userOrdersTable},
+              ).get();
+
+              final hasPickup = existingColumns.any(
+                (row) =>
+                    row.read<String>('name') == userOrdersTable.pickup.name,
+              );
+              if (!hasPickup) {
+                await m.deleteTable(userOrdersTable.actualTableName);
+                await m.createTable(userOrdersTable);
               }
             }
           } on SqliteException catch (e, st) {
             getIt<IAppLogger>().log(
               level: LogLevel.error,
-              message: 'Error during database migration: $e',
+              message: 'Error migrating database: $e',
               error: e,
               stackTrace: st,
             );
 
-            // Вместо удаления всех таблиц, пытаемся создать недостающие
-            getIt<IAppLogger>().log(
-              level: LogLevel.warning,
-              message: 'Attempting to create missing tables...',
-            );
-
-            try {
-              // Создаем только те таблицы, которых нет
-              for (final table in allTables) {
-                try {
-                  await m.createTable(table);
-                } on SqliteException catch (e) {
-                  // Таблица уже существует, пропускаем
-                  getIt<IAppLogger>().log(
-                    level: LogLevel.info,
-                    message: 'Table ${table.actualTableName} already exists $e',
-                  );
-                }
-              }
-            } on SqliteException catch (fallbackError) {
-              getIt<IAppLogger>().log(
-                level: LogLevel.error,
-                message: 'Fallback migration failed: $fallbackError',
-                error: fallbackError,
-              );
+            for (final table in allTables) {
+              await m.deleteTable(table.actualTableName);
+              await m.createTable(table);
             }
+
+            getIt<IAppLogger>().log(
+              level: LogLevel.info,
+              message: 'Cleared and re-created all tables',
+            );
           }
         },
       );

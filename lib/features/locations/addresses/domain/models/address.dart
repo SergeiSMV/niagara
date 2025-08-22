@@ -1,7 +1,7 @@
-import 'package:niagara_app/core/utils/enums/location_precision.dart';
-import 'package:niagara_app/core/utils/extensions/iterable_ext.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/locations/_common/domain/models/base_locality.dart';
+import '../../../../../core/utils/enums/location_precision.dart';
+import '../../../../../core/utils/extensions/iterable_ext.dart';
+import '../../../../../core/utils/gen/strings.g.dart';
+import '../../../_common/domain/models/base_locality.dart';
 
 /// Модель местоположения для доставки
 class Address extends BaseLocality {
