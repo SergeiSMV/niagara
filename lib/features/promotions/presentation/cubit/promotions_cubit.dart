@@ -52,16 +52,17 @@ class PromotionsCubit extends Cubit<PromotionsState> {
 
       return emit(
         _Loaded(
-          promotions: [
-            ...state.maybeWhen(
-              orElse: List.empty,
-              loaded: (promotions) => promotions,
-            ),
-            ...data.promos,
-          ],
+          promotions: data.promos, // Заменяем список, а не дополняем
         ),
       );
     });
+  }
+
+  /// Принудительное обновление промо (сброс пагинации)
+  Future<void> refreshPromotions() async {
+    _current = 1; // Сбрасываем на первую страницу
+    _total = 1;
+    await getPromotions();
   }
 
   /// Загрузка последующих страниц промо
