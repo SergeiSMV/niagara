@@ -2,20 +2,20 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/auth_status.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/use_cases/auth/logout_use_case.dart';
-import 'package:niagara_app/features/profile/user/domain/models/user.dart';
-import 'package:niagara_app/features/profile/user/domain/usecases/delete_user_use_case.dart';
-import 'package:niagara_app/features/profile/user/domain/usecases/get_user_use_case.dart';
-import 'package:niagara_app/features/profile/user/domain/usecases/update_user_use_case.dart';
 
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/auth_status.dart';
 import '../../../../../core/utils/services/userx_service/userx_service.dart';
+import '../../../../authorization/phone_auth/domain/use_cases/auth/has_auth_status_use_case.dart';
+import '../../../../authorization/phone_auth/domain/use_cases/auth/logout_use_case.dart';
+import '../../domain/models/user.dart';
+import '../../domain/usecases/delete_user_use_case.dart';
+import '../../domain/usecases/get_user_use_case.dart';
+import '../../domain/usecases/update_user_use_case.dart';
 
+part 'user_bloc.freezed.dart';
 part 'user_event.dart';
 part 'user_state.dart';
-part 'user_bloc.freezed.dart';
 
 typedef _Emit = Emitter<UserState>;
 
@@ -40,16 +40,32 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     add(const _LoadingEvent());
   }
 
+  /// Кейс проверки статуса авторизации
   final HasAuthStatusUseCase _hasAuthStatusUseCase;
+
+  /// Кейс получения данных пользователя
   final GetUserUseCase _getUserUseCase;
+
+  /// Кейс выхода из аккаунта
   final LogoutUseCase _logoutUseCase;
+
+  /// Кейс удаления аккаунта
   final DeleteUserUseCase _deleteUserUseCase;
+
+  /// Кейс обновления данных пользователя
   final UpdateUserUseCase _updateUserUseCase;
+
+  /// Поток статуса авторизации
   final Stream<AuthenticatedStatus> _authStatusStream;
+
+  /// Сервис для работы с UserX
   final UserXService _uxCamService;
 
   /// Подписка на изменение статуса авторизации.
   StreamSubscription? _authStatusSubscription;
+
+  /// Флаг для установки идентификатора пользователя в UserX
+  bool _setUserIdentity = true;
 
   /// Проверяет, авторизован ли пользователь.
   Future<bool?> get isAuthorized => _hasAuthStatusUseCase().fold(
@@ -61,6 +77,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   void _onAuthStatusChanged(AuthenticatedStatus status) =>
       add(const _LoadingEvent());
 
+  /// Загружает данные пользователя
   Future<void> _onStarted(_LoadingEvent event, _Emit emit) async {
     emit(const _Loading());
 
@@ -73,8 +90,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     await _getUserUseCase.call().fold(
       (failure) => emit(const _Error()),
-      (user) {
-        _uxCamService.setUserIdentity(user.phone);
+      (user) async {
+        if (_setUserIdentity) {
+          await _uxCamService.setUserIdentity(user.phone);
+        }
         emit(_Loaded(user));
       },
     );
@@ -112,9 +131,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
+  /// Устанавливает флаг для установки идентификатора пользователя в UserX
+  void setUserIdentity(bool value) => _setUserIdentity = value;
+
   @override
-  Future<void> close() {
-    _authStatusSubscription?.cancel();
+  Future<void> close() async {
+    await _authStatusSubscription?.cancel();
     return super.close();
   }
 }

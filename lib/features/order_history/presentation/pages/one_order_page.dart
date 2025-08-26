@@ -1,3 +1,5 @@
+// ignore_for_file: always_put_required_named_parameters_first
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,10 +33,17 @@ class OneOrderPage extends StatelessWidget {
     required this.order,
     required this.evaluateOrderCubit,
     super.key,
+    this.isFromPush = false,
   });
 
+  /// Заказ
   final UserOrder order;
+
+  /// Кубит для оценки заказа
   final RateOrderCubit evaluateOrderCubit;
+
+  /// Флаг, что заказ открыт из Push
+  final bool isFromPush;
 
   Future<void> _copyOrderNumber(BuildContext context) async {
     await Clipboard.setData(ClipboardData(text: order.orderNumber));
@@ -98,7 +107,10 @@ class OneOrderPage extends StatelessWidget {
             ListProductsWidget(products: order.products),
             BlocProvider.value(
               value: evaluateOrderCubit,
-              child: _BottomButtonsWidget(order: order),
+              child: _BottomButtonsWidget(
+                order: order,
+                isFromPush: isFromPush,
+              ),
             ),
           ],
         ),
@@ -109,8 +121,14 @@ class OneOrderPage extends StatelessWidget {
 class _BottomButtonsWidget extends StatelessWidget {
   const _BottomButtonsWidget({
     required this.order,
+    required this.isFromPush,
   });
+
+  /// Заказ
   final UserOrder order;
+
+  /// Флаг, что заказ открыт из Push
+  final bool isFromPush;
 
   /// Открывает модальное окно с оценкой заказа
   Future<void> _showRateModal(BuildContext context) async {
@@ -164,78 +182,91 @@ class _BottomButtonsWidget extends StatelessWidget {
         ),
       );
 
+  /// Обработчик открытия заказа из Push
+  Future<void> _openOrderFromPush(BuildContext context) async {
+    if (isFromPush && order.rating == 0) {
+      _showRateModal(context);
+    }
+  }
+
   @override
-  Widget build(BuildContext context) => SliverToBoxAdapter(
-        child: Padding(
-          padding: AppInsets.kHorizontal16,
-          child: Column(
-            children: [
-              AppBoxes.kHeight24,
+  Widget build(BuildContext context) {
+    // Вызываем _openOrderFromPush после завершения построения виджета
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _openOrderFromPush(context);
+    });
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: AppInsets.kHorizontal16,
+        child: Column(
+          children: [
+            AppBoxes.kHeight24,
 
-              /// Отменить заказ (status = собирается)
-              if (order.orderStatus == OrderStatus.goingTo) ...[
-                AppTextButton.secondary(
-                  text: t.recentOrders.cancelOrder,
-                  onTap: () => _showCancelOrderModal(context),
-                ),
-              ],
+            /// Отменить заказ (status = собирается)
+            if (order.orderStatus == OrderStatus.goingTo) ...[
+              AppTextButton.secondary(
+                text: t.recentOrders.cancelOrder,
+                onTap: () => _showCancelOrderModal(context),
+              ),
+            ],
 
-              /// Связаться с водителем (status = в пути)
-              if (order.orderStatus == OrderStatus.onWay) ...[
-                AppTextButton.primary(
-                  text: t.recentOrders.contactDriver,
-                  onTap: () {},
-                ),
-              ],
+            /// Связаться с водителем (status = в пути)
+            if (order.orderStatus == OrderStatus.onWay.toLocale()) ...[
+              AppTextButton.primary(
+                text: t.recentOrders.contactDriver,
+                onTap: () {},
+              ),
+            ],
 
-              /// Повторить заказ (status = Получен)
-              if (order.orderStatus == OrderStatus.received) ...[
-                if (order.orderAgain) ...[
-                  AppTextButton.primary(
-                    text: t.recentOrders.repeatOrder,
-                    onTap: () => _showRepeatOrderModal(context),
-                  ),
-                  AppBoxes.kHeight12,
-                ],
-
-                /// Оценить заказ
-                if (order.rating == 0) ...[
-                  BlocBuilder<RateOrderCubit, RateOrderState>(
-                    builder: (context, state) =>
-                        (state == const RateOrderState.initial() ||
-                                state == const RateOrderState.loading())
-                            ? AppTextButton.secondary(
-                                text: t.recentOrders.evaluateOrder,
-                                onTap: () => _showRateModal(context),
-                              )
-                            : const SizedBox.shrink(),
-                  ),
-                  AppBoxes.kHeight12,
-                ],
-              ],
-
-              /// Электронный чек
-              if (order.paymentCompleted) ...[
-                // AppBoxes.kHeight12,
-                AppTextButton.secondary(
-                  text: t.recentOrders.electronicReceipt,
-                  onTap: () => _showReceiptModal(context),
-                ),
-                AppBoxes.kHeight24,
-              ],
-
-              /// Повторить заказ (status = Отменен)
-              if (order.orderStatus == OrderStatus.cancelled &&
-                  order.orderAgain) ...[
-                AppBoxes.kHeight12,
+            /// Повторить заказ (status = Получен)
+            if (order.orderStatus == OrderStatus.received.toLocale()) ...[
+              if (order.orderAgain) ...[
                 AppTextButton.primary(
                   text: t.recentOrders.repeatOrder,
                   onTap: () => _showRepeatOrderModal(context),
                 ),
-                AppBoxes.kHeight24,
+                AppBoxes.kHeight12,
+              ],
+
+              /// Оценить заказ
+              if (order.rating == 0) ...[
+                BlocBuilder<RateOrderCubit, RateOrderState>(
+                  builder: (context, state) =>
+                      (state == const RateOrderState.initial() ||
+                              state == const RateOrderState.loading())
+                          ? AppTextButton.secondary(
+                              text: t.recentOrders.evaluateOrder,
+                              onTap: () => _showRateModal(context),
+                            )
+                          : const SizedBox.shrink(),
+                ),
+                AppBoxes.kHeight12,
               ],
             ],
-          ),
+
+            /// Электронный чек
+            if (order.paymentCompleted) ...[
+              // AppBoxes.kHeight12,
+              AppTextButton.secondary(
+                text: t.recentOrders.electronicReceipt,
+                onTap: () => _showReceiptModal(context),
+              ),
+              AppBoxes.kHeight24,
+            ],
+
+            /// Повторить заказ (status = Отменен)
+            if (order.orderStatus == OrderStatus.cancelled &&
+                order.orderAgain) ...[
+              AppBoxes.kHeight12,
+              AppTextButton.primary(
+                text: t.recentOrders.repeatOrder,
+                onTap: () => _showRepeatOrderModal(context),
+              ),
+              AppBoxes.kHeight24,
+            ],
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

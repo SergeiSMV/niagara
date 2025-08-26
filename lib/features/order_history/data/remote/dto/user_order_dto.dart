@@ -6,6 +6,7 @@ import '../../../../../core/core.dart';
 
 typedef OrdersDto = ({List<UserOrderDto> orders, PaginationDto pagination});
 
+/// DTO для заказа
 class UserOrderDto extends Equatable {
   const UserOrderDto({
     required this.ordersId,

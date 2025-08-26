@@ -8,6 +8,11 @@ class NotificationsEvent with _$NotificationsEvent {
 
   const factory NotificationsEvent.openedFromPush() = _OpenedFromPushEvent;
 
+  const factory NotificationsEvent.openedProductFromPush() =
+      _OpenedProductFromPushEvent;
+  const factory NotificationsEvent.openedProductGroupFromPush() =
+      _OpenedProductGroupFromPushEvent;
+
   const factory NotificationsEvent.loadMore() = _LoadMoreEvent;
 
   const factory NotificationsEvent.setSort({

@@ -132,6 +132,9 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение списка товаров по поиску
   static const String kGetProductSearch = '/product_search';
 
+  /// -GET- Запрос на получение товара по id
+  static const String kGetProductById = '/product_card';
+
   // ? ---------------------------- Favorite ------------------------------ ? //
   /// -GET- Запрос на получение списка избранных товаров
   static const String kGetFavorites = '/favourites';
@@ -217,6 +220,9 @@ abstract final class ApiConst {
 
   /// -POST- Запрос на повторение заказа
   static const String kRepeatOrder = '/orders_repeat';
+
+  /// -GET- Запрос на получение заказа по id
+  static const String kGetOrderById = '/order_info';
 
   // ? --------------------------- Referral ------------------------------- ? //
   /// -GET- Запрос на получение описания реферальной программы

@@ -1,19 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:niagara_app/core/utils/constants/app_boxes.dart';
-import 'package:niagara_app/core/utils/constants/app_sizes.dart';
-import 'package:niagara_app/core/utils/extensions/build_context_ext.dart';
-import 'package:niagara_app/core/utils/extensions/text_style_ext.dart';
-import 'package:niagara_app/core/utils/gen/assets.gen.dart';
+import '../../../../../core/utils/constants/app_boxes.dart';
+import '../../../../../core/utils/constants/app_sizes.dart';
+import '../../../../../core/utils/extensions/build_context_ext.dart';
+import '../../../../../core/utils/extensions/text_style_ext.dart';
+import '../../../../../core/utils/gen/assets.gen.dart';
 
 /// Виджет для отображения панели с действием на странице профиля
 /// (e.g. выйти из аккаунта).
 class ProfileActionTile extends StatelessWidget {
   const ProfileActionTile({
+    required this.title,
     super.key,
     this.onTap,
     this.leadingIcon,
-    required this.title,
     this.notificationsCount,
     this.redirectRoute,
     this.textStyle,
@@ -76,10 +76,11 @@ class ProfileActionTile extends StatelessWidget {
   }
 }
 
-/// Круглый бейджик для отображения числа непрочитанных извещений.
+/// Круглый бейджик для отображения числа непрочитанных извещений
 class _StatusBadgeWidget extends StatelessWidget {
   const _StatusBadgeWidget({required this.count});
 
+  /// Число непрочитанных извещений
   final int count;
 
   @override

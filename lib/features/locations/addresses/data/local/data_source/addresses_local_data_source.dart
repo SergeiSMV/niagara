@@ -1,6 +1,6 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/locations/addresses/data/local/entities/addresses_entity.dart';
-import 'package:niagara_app/features/locations/addresses/data/mappers/address_entity_mapper.dart';
+import '../../../../../../core/core.dart';
+import '../../mappers/address_entity_mapper.dart';
+import '../entities/addresses_entity.dart';
 
 /// Интерфейс для работы с адресами в локальной базе данных.
 abstract interface class IAddressesLocalDatasource {

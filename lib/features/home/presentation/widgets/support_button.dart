@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utils/constants/app_positions.dart';
+import '../../../../core/utils/constants/app_sizes.dart';
+import '../../../../core/utils/extensions/build_context_ext.dart';
 import '../../../../core/utils/gen/assets.gen.dart';
 import '../../../support/presentation/bloc/support_chat_cubit/support_chat_cubit.dart';
 import 'action_button.dart';
@@ -33,13 +36,13 @@ class SupportButton extends StatelessWidget {
               ),
               if (unreadCount > 0)
                 Positioned(
-                  right: -8,
-                  top: -8,
+                  right: AppPositions.kMinus8,
+                  top: AppPositions.kMinus8,
                   child: Container(
-                    width: 20,
-                    height: 20,
+                    width: AppSizes.kGeneral20,
+                    height: AppSizes.kGeneral20,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: context.colors.infoColors.red, // Colors.red,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -52,10 +55,8 @@ class SupportButton extends StatelessWidget {
                     child: Center(
                       child: Text(
                         unreadCount > 99 ? '99+' : unreadCount.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
+                        style: context.textStyle.descriptionTypo.des3.copyWith(
+                          color: context.colors.textColors.white,
                         ),
                       ),
                     ),

@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:niagara_app/core/common/domain/models/product.dart';
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/products_sort_type.dart';
-import 'package:niagara_app/core/utils/extensions/flutter_bloc_ext.dart';
-import 'package:niagara_app/features/catalog/domain/model/filter.dart';
-import 'package:niagara_app/features/catalog/domain/model/group.dart';
-import 'package:niagara_app/features/catalog/domain/use_cases/get_products_use_case.dart';
+import '../../../../../core/common/domain/models/product.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/products_sort_type.dart';
+import '../../../../../core/utils/extensions/flutter_bloc_ext.dart';
+import '../../../domain/model/filter.dart';
+import '../../../domain/model/group.dart';
+import '../../../domain/use_cases/get_products_use_case.dart';
 
 part 'products_bloc.freezed.dart';
 part 'products_event.dart';
