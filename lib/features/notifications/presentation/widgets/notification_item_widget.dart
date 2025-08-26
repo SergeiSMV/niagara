@@ -1,10 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../../core/common/presentation/router/app_router.gr.dart';
 import '../../../../core/common/presentation/widgets/app_network_image_widget.dart';
 import '../../../../core/dependencies/di.dart';
 import '../../../../core/utils/constants/app_borders.dart';
@@ -17,6 +15,7 @@ import '../../../../core/utils/extensions/text_style_ext.dart';
 import '../../domain/model/notification.dart';
 import '../../domain/model/notifications_types.dart';
 import '../bloc/read_notification_cubit/read_notification_cubit.dart';
+import 'notification_route_handler.dart';
 
 class NotificationItemWidget extends StatelessWidget {
   const NotificationItemWidget({
@@ -43,18 +42,17 @@ class _NotificationItemContent extends StatelessWidget {
   /// Уведомление.
   final NotificationItem notification;
 
-  /// Метод для перехода в страницу уведомления.
+  /// Метод для перехода в страницу уведомления
   Future<void> _goToPage(BuildContext context) async {
-    context.read<ReadNotificationCubit?>()?.readNotification(notification.id);
-    if (notification.type == NotificationsTypes.offers) {
-      context.navigateTo(OneNotificationRoute(notification: notification));
-    }
+    NotificationRouteHandler().notificationTapHandler(context, notification);
   }
 
-  /// Метод для отмечания уведомления как прочитанного.
-  void _readIt(BuildContext context) {
+  /// Метод для отмечания уведомления как прочитанного при скролле
+  Future<void> _readIt(BuildContext context) async {
     if (notification.isNew && notification.type == NotificationsTypes.system) {
-      context.read<ReadNotificationCubit?>()?.readNotification(notification.id);
+      await context
+          .read<ReadNotificationCubit?>()
+          ?.readNotification(notification.id);
     }
   }
 

@@ -41,6 +41,16 @@ class AppRouter extends $AppRouter {
           page: OTPRoute.page,
           title: (_, __) => t.auth.confirmNumber,
         ),
+        AutoRoute(
+          page: CategoryWrapperRoute.page,
+          children: [
+            AutoRoute(page: CategoryRoute.page),
+            AutoRoute(
+              page: FiltersRoute.page,
+              title: (_, __) => t.catalog.filter,
+            ),
+          ],
+        ),
         CatalogRoutes.routes,
       ];
 
