@@ -1,12 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../core/common/presentation/widgets/app_bar.dart';
-import '../../../../core/common/presentation/widgets/loaders/app_center_loader.dart';
 import '../../../../core/utils/constants/app_boxes.dart';
-import '../../../../core/utils/constants/app_sizes.dart';
 import '../../../../core/utils/extensions/build_context_ext.dart';
 import '../../../catalog/presentation/widget/groups/groups_home_widget.dart';
 import '../../../equipment/presentation/widgets/equipment_bunner_widget.dart';
@@ -37,27 +34,32 @@ class _HomePageState extends State<HomePage> {
   /// Обработчик pull-to-refresh
   final _refreshHandler = HomePageRefreshHandler();
 
-  /// Контроллер для обновления списка.
-  final RefreshController _refreshController = RefreshController();
+  /// Контроллер для скролла списка и pull-to-refresh
+  final ScrollController _scrollController = ScrollController();
 
-  /// Обновление данных на главной странице
-  Future<void> _onRefresh() async {
-    await _refreshHandler.onRefresh(context);
-    _refreshController.refreshCompleted();
+  @override
+  void initState() {
+    super.initState();
+
+    // Добавляем слушатель скролла
+    _scrollController.addListener(_onScroll);
   }
 
-  /// Строит индикатор обновления.
-  Widget _refreshIndicatorBuilder(context, state) => switch (state) {
-        RefreshStatus.refreshing => const AppCenterLoader(
-            dense: true,
-            size: AppSizes.kLoaderSmall,
-          ),
-        _ => const SizedBox.shrink(),
-      };
+  /// Обработчик скролла для pull-to-refresh
+  Future<void> _onScroll() async {
+    /// Получаем позицию скролла
+    final position = _scrollController.position;
+
+    // Срабатывает при pull-to-refresh (скролл ниже 50 пикселей)
+    if (position.pixels <= -50) _onRefresh();
+  }
+
+  /// Обновление данных на главной странице
+  Future<void> _onRefresh() async => await _refreshHandler.onRefresh(context);
 
   @override
   void dispose() {
-    _refreshController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -73,36 +75,30 @@ class _HomePageState extends State<HomePage> {
             AppBoxes.kWidth16,
           ],
         ),
-        body: SmartRefresher(
+        body: ListView(
           physics: const BouncingScrollPhysics(),
-          onRefresh: _onRefresh,
-          controller: _refreshController,
-          header: CustomHeader(builder: _refreshIndicatorBuilder),
-          child: const SingleChildScrollView(
-            child: Column(
+          controller: _scrollController,
+          children: const [
+            Stack(
               children: [
-                Stack(
+                _HomeBackgroundColorsWidget(),
+                Column(
                   children: [
-                    _HomeBackgroundColorsWidget(),
-                    Column(
-                      children: [
-                        HomeBonusesWidget(),
-                        PrepaidWaterBanner(),
-                        BannersSliderWidget(),
-                      ],
-                    ),
+                    HomeBonusesWidget(),
+                    PrepaidWaterBanner(),
+                    BannersSliderWidget(),
                   ],
                 ),
-                EquipmentBannerWidget(),
-                RecentOrdersListWidget(),
-                StoriesHomeWidget(),
-                PromotionsHomeWidget(),
-                NewProductsHomeWidget(),
-                SpecialProductsHomeWidget(),
-                GroupsHomeWidget(),
               ],
             ),
-          ),
+            EquipmentBannerWidget(),
+            RecentOrdersListWidget(),
+            StoriesHomeWidget(),
+            PromotionsHomeWidget(),
+            NewProductsHomeWidget(),
+            SpecialProductsHomeWidget(),
+            GroupsHomeWidget(),
+          ],
         ),
       );
 }

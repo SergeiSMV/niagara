@@ -16,16 +16,18 @@ import '../cubit/banners_cubit.dart';
 class HomePageRefreshHandler {
   /// Метод обновления главной страницы
   Future<void> onRefresh(BuildContext context) async {
-    _refreshNotifications(context);
-    _refreshBonuses(context);
-    _refreshPrepaidWater(context);
-    _refreshBanners(context);
-    _refreshEquipment(context);
-    _refreshOrders(context);
-    _refreshStories(context);
-    _refreshPromotions(context);
-    _refreshNewProducts(context);
-    _refreshSpecialProducts(context);
+    await Future.wait([
+      _refreshNotifications(context),
+      _refreshBonuses(context),
+      _refreshPrepaidWater(context),
+      _refreshBanners(context),
+      _refreshEquipment(context),
+      _refreshOrders(context),
+      _refreshStories(context),
+      _refreshPromotions(context),
+      _refreshNewProducts(context),
+      _refreshSpecialProducts(context),
+    ]);
   }
 
   /// Обновляет уведомления
@@ -69,7 +71,7 @@ class HomePageRefreshHandler {
 
   /// Обновляет промо
   static Future<void> _refreshPromotions(BuildContext context) async {
-    context.read<PromotionsCubit>().getPromotions();
+    context.read<PromotionsCubit>().refreshPromotions();
   }
 
   /// Обновляет новинки
