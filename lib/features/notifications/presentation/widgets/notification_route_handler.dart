@@ -85,10 +85,15 @@ class NotificationRouteHandler {
     );
 
     if (currentGroup != null) {
-      context.router.push(
-        CategoryWrapperRoute(
-          group: currentGroup,
-          children: const [CategoryRoute()],
+      context.navigateTo(
+        CatalogWrapper(
+          children: [
+            const CatalogRoute(),
+            CategoryWrapperRoute(
+              group: currentGroup,
+              children: const [CategoryRoute()],
+            ),
+          ],
         ),
       );
     }

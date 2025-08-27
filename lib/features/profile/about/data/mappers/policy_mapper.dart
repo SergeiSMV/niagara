@@ -1,16 +1,19 @@
 import 'package:drift/drift.dart';
-import 'package:niagara_app/core/common/data/database/app_database.dart';
-import 'package:niagara_app/core/utils/enums/policy_type.dart';
-import 'package:niagara_app/features/profile/about/data/local/entity/policy.dart';
-import 'package:niagara_app/features/profile/about/data/remote/dto/policy_dto.dart';
-import 'package:niagara_app/features/profile/about/domain/model/policy.dart';
 
+import '../../../../../core/common/data/database/app_database.dart';
+import '../../../../../core/utils/enums/policy_type.dart';
+import '../../domain/model/policy.dart';
+import '../local/entity/policy.dart';
+import '../remote/dto/policy_dto.dart';
+
+/// Расширение для преобразования PolicyDto в Policy
 extension PolicyDtoMapper on PolicyDto {
   Policy toModel() => Policy(
         html: html,
       );
 }
 
+/// Расширение для преобразования PolicyEntity в Policy
 extension PolicyEntityMapper on PolicyEntity {
   Policy toModel() => Policy(
         html: html,
@@ -22,6 +25,7 @@ extension PolicyEntityMapper on PolicyEntity {
       );
 }
 
+/// Расширение для преобразования Policy в PolicyEntity
 extension PolicyMapper on Policy {
   PolicyEntity toEntity(PolicyType type) => PolicyEntity(
         html: html,
@@ -29,6 +33,7 @@ extension PolicyMapper on Policy {
       );
 }
 
+/// Расширение для преобразования PoliciesTableData в PolicyEntity
 extension PoliciesTableExtension on PoliciesTableData {
   PolicyEntity toEntity() => PolicyEntity(
         html: html,

@@ -1,12 +1,14 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/policy_type.dart';
-import 'package:niagara_app/features/profile/about/data/local/data_source/policies_local_data_source.dart';
-import 'package:niagara_app/features/profile/about/data/local/entity/policy.dart';
-import 'package:niagara_app/features/profile/about/data/mappers/policy_mapper.dart';
-import 'package:niagara_app/features/profile/about/data/remote/data_sources/policies_remote_data_source.dart';
-import 'package:niagara_app/features/profile/about/domain/model/policy.dart';
-import 'package:niagara_app/features/profile/about/domain/repositories/policies_repository.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/policy_type.dart';
+import '../../domain/model/policy.dart';
+import '../../domain/repositories/policies_repository.dart';
+import '../local/data_source/policies_local_data_source.dart';
+import '../local/entity/policy.dart';
+import '../mappers/policy_mapper.dart';
+import '../remote/data_sources/policies_remote_data_source.dart';
 
+/// Репозиторий для работы с политикой конфиденциальности и маркетинговым
+/// соглашением
 @LazySingleton(as: IPoliciesRepository)
 class PoliciesRepository extends BaseRepository implements IPoliciesRepository {
   PoliciesRepository(
@@ -16,12 +18,17 @@ class PoliciesRepository extends BaseRepository implements IPoliciesRepository {
     this._lds,
   );
 
+  /// Удаленный источник данных для работы с политикой конфиденциальности
   final IPoliciesRemoteDataSource _rds;
+
+  /// Локальный источник данных для работы с политикой конфиденциальности
   final IPoliciesLocalDataSource _lds;
 
+  /// Возвращает ошибку, которая может возникнуть при работе с политикой
   @override
   Failure get failure => const PoliciesRepositoryFailure();
 
+  /// Получение политики конфиденциальности или маркетингового соглашения
   @override
   Future<Either<Failure, Policy>> getPolicy({required PolicyType type}) async {
     final Policy? local = await _getLocalPolicy(type);
@@ -35,12 +42,16 @@ class PoliciesRepository extends BaseRepository implements IPoliciesRepository {
     }
   }
 
+  /// Получение политики конфиденциальности или маркетингового соглашения
+  /// из локального источника данных
   Future<Policy?> _getLocalPolicy(PolicyType type) =>
       _lds.getPolicy(type: type.name).fold(
             (failure) => null,
             (entity) => entity?.toModel(),
           );
 
+  /// Получение политики конфиденциальности или маркетингового соглашения
+  /// из удаленного источника данных
   Future<Policy?> _getRemotePolicy(PolicyType type) => execute(
         () => _rds.getPolicy(type: type.name).fold(
               (err) => null,
@@ -51,6 +62,7 @@ class PoliciesRepository extends BaseRepository implements IPoliciesRepository {
         (res) => res,
       );
 
+  /// Кэширование политики конфиденциальности или маркетингового соглашения
   Future<void> _cachePolicy(PolicyEntity policy) async {
     await _lds.setPolicy(policy);
   }

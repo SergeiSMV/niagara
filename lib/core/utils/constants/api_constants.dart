@@ -47,6 +47,10 @@ abstract final class ApiConst {
   /// -POST- Запрос на выход из аккаунта
   static const String kLogout = '/user_checkout';
 
+  /// -POST- Запрос на подтверждение политики конфиденциальности
+  /// пользовательского соглашения и получения рекламной рассылки
+  static const String kConfirmPrivacy = '/agreement';
+
   // ? ----------------------------- Location ----------------------------- ? //
   /// -GET- Запрос на получение списка городов
   static const String kGetCities = '/region';
@@ -251,6 +255,10 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение информации о приложении (политика
   /// конфиденциальности).
   static const String kGetPolicies = '/about_app';
+
+  /// -GET- Запрос на получение информации о приложении (политика
+  /// конфиденциальности).
+  static const String kGetMarketingPolicy = '/agreement';
 
   // ? ----------------------- Payments -------------------------- ? //
   /// -GET- Запрос на получение ссылки для подтверждения платежа
