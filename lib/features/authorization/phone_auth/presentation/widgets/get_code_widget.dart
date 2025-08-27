@@ -20,7 +20,7 @@ class GetCodeWidget extends StatelessWidget {
   final GlobalKey<FormBuilderState> _formKey;
 
   /// Обработчик нажатия на кнопку "Получить код"
-  void onTapGetCode(BuildContext context) {
+  void _onTapGetCode(BuildContext context) {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       final phoneNumber = _formKey
           .currentState?.value[AppConstants.kTextFieldPhoneName]
@@ -28,6 +28,20 @@ class GetCodeWidget extends StatelessWidget {
       if (phoneNumber == null || phoneNumber.isEmpty) return;
       context.read<AuthBloc>().add(AuthEvent.getCode(phoneNumber: phoneNumber));
     }
+  }
+
+  /// Метод для определения callback'а кнопки
+  VoidCallback? _getOnTapCallback(
+    BuildContext context,
+    bool isLoading,
+    bool isValid,
+    bool userAccepted,
+  ) {
+    if (isLoading) return null;
+    if (!isValid) return null;
+    if (!userAccepted) return null;
+
+    return () => _onTapGetCode(context);
   }
 
   @override
@@ -46,11 +60,7 @@ class GetCodeWidget extends StatelessWidget {
       builder: (context, state) => BottomShadowWidget(
         child: AppTextButton.primary(
           text: !isLoading ? t.auth.getCode : null,
-          onTap: isLoading
-              ? null
-              : isValid && state.user
-                  ? () => onTapGetCode(context)
-                  : null,
+          onTap: _getOnTapCallback(context, isLoading, isValid, state.user),
         ),
       ),
     );

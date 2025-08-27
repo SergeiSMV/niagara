@@ -135,15 +135,13 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
         // Если код валиден, передаем информацию о согласии с положениями
         await _authRDS
             .confirmPrivacy(
-          user: user,
-          marketing: marketing,
-        )
+              user: user,
+              marketing: marketing,
+            )
             .fold(
-          (failure) => throw failure,
-          (success) async {
-            if (!success) throw const ConfirmPrivacyFailure();
-          },
-        );
+              (failure) => throw failure,
+              (_) => null,
+            );
 
         _cachedPhone = null;
       },
