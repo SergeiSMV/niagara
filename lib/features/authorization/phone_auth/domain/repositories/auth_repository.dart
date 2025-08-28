@@ -1,5 +1,5 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/core/utils/enums/auth_status.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/utils/enums/auth_status.dart';
 
 /// Репозиторий для работы с авторизацией.
 ///
@@ -25,11 +25,17 @@ abstract interface class IAuthRepository {
   /// Проверяет код подтверждения.
   ///
   /// - [code] - код подтверждения.
+  /// - [user] - согласие на обработку персональных данных.
+  /// - [marketing] - согласие на маркетинговые коммуникации.
   ///
   /// Возвращает:
   /// - [void] если код подтверждения верный.
   /// - [Failure] если код подтверждения не верный.
-  Future<Either<Failure, void>> checkCode({required String code});
+  Future<Either<Failure, void>> checkCode({
+    required String code,
+    required bool user,
+    required bool marketing,
+  });
 
   /// Повторно отправляет код подтверждения.
   ///

@@ -1,5 +1,5 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/authorization/phone_auth/domain/repositories/auth_repository.dart';
+import '../../../../../../core/core.dart';
+import '../../repositories/auth_repository.dart';
 
 /// Отправляет номер телефона.
 ///
@@ -10,18 +10,22 @@ import 'package:niagara_app/features/authorization/phone_auth/domain/repositorie
 class SendPhoneUseCase extends BaseUseCase<void, SendPhoneParams> {
   SendPhoneUseCase(this._repository);
 
+  /// Репозиторий для работы с аутентификацией
   final IAuthRepository _repository;
 
+  /// Отправляет номер телефона
   @override
   Future<Either<Failure, void>> call(SendPhoneParams params) =>
       _repository.sendPhone(phone: params.phone.replaceAll(RegExp(r'\D'), ''));
 }
 
+/// Параметры для отправки кода на телефон
 class SendPhoneParams extends Equatable {
   const SendPhoneParams({
     required this.phone,
   });
 
+  /// Номер телефона
   final String phone;
 
   @override

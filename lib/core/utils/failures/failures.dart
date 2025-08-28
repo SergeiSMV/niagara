@@ -84,6 +84,10 @@ class LogoutFailure extends Failure {
   const LogoutFailure([super.error = 'Logout failure']);
 }
 
+class ConfirmPrivacyFailure extends Failure {
+  const ConfirmPrivacyFailure([super.error = 'Confirm privacy failure']);
+}
+
 // ! -------------------------------- City -------------------------------- ! //
 
 class CitiesRepositoryFailure extends Failure {
