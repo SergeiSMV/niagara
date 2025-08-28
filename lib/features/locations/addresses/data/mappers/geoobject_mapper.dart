@@ -1,6 +1,7 @@
-import 'package:niagara_app/core/utils/enums/location_precision.dart';
-import 'package:niagara_app/features/locations/addresses/domain/models/address.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' hide Address;
+
+import '../../../../../core/utils/enums/location_precision.dart';
+import '../../domain/models/address.dart';
 
 extension GeoObjectToLocationExt on GeoObject {
   Address toLocation() {
@@ -15,9 +16,11 @@ extension GeoObjectToLocationExt on GeoObject {
       metaDataProperty?.geocoderMetaData?.precision,
     );
 
-    final province = _addressComponent(KindResponse.province);
+    // Берем область (второе поле KindResponse.province)
+    // вместо федерального округа
+    final province = _getSecondProvince(); // "... область"
     final locality = _addressComponent(KindResponse.locality);
-    final district = _addressComponent(KindResponse.district);
+    final district = _addressComponent(KindResponse.area); // район из area
     final street = _addressComponent(KindResponse.street);
     final house = _addressComponent(KindResponse.house);
 
@@ -48,5 +51,14 @@ extension GeoObjectToLocationExt on GeoObject {
         )
         .name;
     return name ?? '';
+  }
+
+  String _getSecondProvince() {
+    // Второе поле KindResponse.province - область
+    final components =
+        metaDataProperty?.geocoderMetaData?.address?.components ?? [];
+    final provinces =
+        components.where((c) => c.kind == KindResponse.province).toList();
+    return provinces.length >= 2 ? provinces[1].name ?? '' : '';
   }
 }
