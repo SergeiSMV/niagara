@@ -55,8 +55,13 @@ class AppDatabase extends _$AppDatabase {
         beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
         onUpgrade: (m, from, to) async {
           if (from < 11) {
+            /// Удаляем и создаем таблицу пользователя
             await m.deleteTable(usersTable.actualTableName);
             await m.createTable(usersTable);
+
+            /// Удаляем и создаем таблицу заказов пользователя
+            await m.deleteTable(userOrdersTable.actualTableName);
+            await m.createTable(userOrdersTable);
 
             getIt<IAppLogger>().log(
               level: LogLevel.info,
