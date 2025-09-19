@@ -1,5 +1,5 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/notifications/domain/model/notifications_types.dart';
+import '../../../../core/core.dart';
+import 'notifications_types.dart';
 
 class NotificationItem extends Equatable {
   const NotificationItem({

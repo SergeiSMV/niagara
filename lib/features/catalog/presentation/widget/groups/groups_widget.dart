@@ -15,12 +15,15 @@ import '../../../../../core/utils/gen/strings.g.dart';
 import '../../../domain/model/group.dart';
 import '../../bloc/groups_cubit/groups_cubit.dart';
 
+/// Виджет групп товаров (плитки в каталоге)
 class GroupsWidget extends StatelessWidget {
   const GroupsWidget({super.key});
 
+  /// Обновляет список групп товаров
   Future<void> _onRefresh(BuildContext context) async =>
       context.read<GroupsCubit>().getGroups();
 
+  /// Переходит на страницу группы товаров
   Future<void> _navigateToCategory(
     BuildContext context, {
     required Group group,

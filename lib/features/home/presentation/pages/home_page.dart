@@ -17,17 +17,55 @@ import '../../../promotions/presentation/widgets/promotions_home_widget.dart';
 import '../../../special_poducts/presentation/widget/special_products_home_widget.dart';
 import '../../../stories/presentation/widget/stories_home_widget.dart';
 import '../widgets/banners_widget.dart';
+import '../widgets/home_page_refresh_handler.dart';
 import '../widgets/notifications_button.dart';
 import '../widgets/support_button.dart';
 
 /// Главная страница приложения.
 @RoutePage()
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) => const Scaffold(
-        appBar: AppBarWidget(
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  /// Обработчик pull-to-refresh
+  final _refreshHandler = HomePageRefreshHandler();
+
+  /// Контроллер для скролла списка и pull-to-refresh
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Добавляем слушатель скролла
+    _scrollController.addListener(_onScroll);
+  }
+
+  /// Обработчик скролла для pull-to-refresh
+  Future<void> _onScroll() async {
+    /// Получаем позицию скролла
+    final position = _scrollController.position;
+
+    // Срабатывает при pull-to-refresh (скролл ниже 50 пикселей)
+    if (position.pixels <= -50) _onRefresh();
+  }
+
+  /// Обновление данных на главной странице
+  Future<void> _onRefresh() async => await _refreshHandler.onRefresh(context);
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: const AppBarWidget(
           automaticallyImplyLeading: false,
           body: AddressButton(),
           actions: [
@@ -37,30 +75,30 @@ class HomePage extends StatelessWidget {
             AppBoxes.kWidth16,
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  _HomeBackgroundColorsWidget(),
-                  Column(
-                    children: [
-                      HomeBonusesWidget(),
-                      PrepaidWaterBanner(),
-                      BannersSliderWidget(),
-                    ],
-                  ),
-                ],
-              ),
-              EquipmentBannerWidget(),
-              RecentOrdersListWidget(),
-              StoriesHomeWidget(),
-              PromotionsHomeWidget(),
-              NewProductsHomeWidget(),
-              SpecialProductsHomeWidget(),
-              GroupsHomeWidget(),
-            ],
-          ),
+        body: ListView(
+          physics: const BouncingScrollPhysics(),
+          controller: _scrollController,
+          children: const [
+            Stack(
+              children: [
+                _HomeBackgroundColorsWidget(),
+                Column(
+                  children: [
+                    HomeBonusesWidget(),
+                    PrepaidWaterBanner(),
+                    BannersSliderWidget(),
+                  ],
+                ),
+              ],
+            ),
+            EquipmentBannerWidget(),
+            RecentOrdersListWidget(),
+            StoriesHomeWidget(),
+            PromotionsHomeWidget(),
+            NewProductsHomeWidget(),
+            SpecialProductsHomeWidget(),
+            GroupsHomeWidget(),
+          ],
         ),
       );
 }

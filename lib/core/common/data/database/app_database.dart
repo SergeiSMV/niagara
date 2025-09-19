@@ -47,57 +47,21 @@ class AppDatabase extends _$AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async => m.createAll(),
         beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
         onUpgrade: (m, from, to) async {
-          try {
-            if (from < 9) {
-              final existingUserColumns = await customSelect(
-                'PRAGMA table_info(users_table);',
-                readsFrom: {usersTable},
-              ).get();
+          if (from < 11) {
+            /// Удаляем и создаем таблицу пользователя
+            await m.deleteTable(usersTable.actualTableName);
+            await m.createTable(usersTable);
 
-              // Проверка перед добавлением поля orders_count:
-              final hasOrdersCount = existingUserColumns.any(
-                (row) =>
-                    row.read<String>('name') == usersTable.ordersCount.name,
-              );
-              if (!hasOrdersCount) {
-                await m.deleteTable(usersTable.actualTableName);
-                await m.createTable(usersTable);
-              }
-
-              // Проверка перед добавлением поля pickup:
-              final existingColumns = await customSelect(
-                'PRAGMA table_info(user_orders_table);',
-                readsFrom: {userOrdersTable},
-              ).get();
-
-              final hasPickup = existingColumns.any(
-                (row) =>
-                    row.read<String>('name') == userOrdersTable.pickup.name,
-              );
-              if (!hasPickup) {
-                await m.deleteTable(userOrdersTable.actualTableName);
-                await m.createTable(userOrdersTable);
-              }
-            }
-          } on SqliteException catch (e, st) {
-            getIt<IAppLogger>().log(
-              level: LogLevel.error,
-              message: 'Error migrating database: $e',
-              error: e,
-              stackTrace: st,
-            );
-
-            for (final table in allTables) {
-              await m.deleteTable(table.actualTableName);
-              await m.createTable(table);
-            }
+            /// Удаляем и создаем таблицу заказов пользователя
+            await m.deleteTable(userOrdersTable.actualTableName);
+            await m.createTable(userOrdersTable);
 
             getIt<IAppLogger>().log(
               level: LogLevel.info,

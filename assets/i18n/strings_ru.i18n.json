@@ -42,6 +42,7 @@
     "enterPhone": "Введите номер телефона",
     "authLater": "Авторизоваться позже",
     "privacyPolicy(rich)": "При входе вы соглашаетесь с ${userAgreement(пользовательским соглашением)} и ${privacyPolicy(политикой конфиденциальности)}",
+    "marketingAgreement(rich)": "Я даю согласие на получение ${marketingAgreement(рекламной и информационной рассылки)}",
     "getCode": "Получить код",
     "confirmNumber": "Подтвердите номер",
     "enterCode": "Введите код из смс",
@@ -256,7 +257,10 @@
       "agreement": "Пользовательское соглашение",
       "agreementLine1": "Пользовательское",
       "agreementLine2": "соглашение",
-      "salesOfferLine2": "товаров"
+      "salesOfferLine2": "товаров",
+      "marketing": "Рекламная и информационная рассылка",
+      "marketingLine1": "Рекламная и",
+      "marketingLine2": "информационная рассылка"
     }
   },
   "vip": {
@@ -352,7 +356,11 @@
       "all": "Все",
       "orders": "Заказы",
       "stocks": "Акции",
-      "system": "Системные"
+      "system": "Системные",
+      "product_group": "Группа товаров",
+      "product": "Товар",
+      "get_rating": "Оценка",
+      "call": "Звонок"
     },
     "turnNotifications": "Включите пуш-уведомления",
     "stayUpToDateWithLatest": "Будьте в курсе последних скидок и акций",

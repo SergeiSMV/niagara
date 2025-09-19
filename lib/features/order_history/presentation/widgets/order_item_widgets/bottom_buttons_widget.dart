@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/utils/constants/app_boxes.dart';
-import '../../../../../core/utils/constants/app_insets.dart';
 import '../../../../../core/utils/enums/order_status.dart';
 import '../../../../../core/utils/extensions/build_context_ext.dart';
 import '../../../../../core/utils/gen/assets.gen.dart';
@@ -79,14 +78,14 @@ class BottomButtonsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (order.orderStatus == OrderStatus.goingTo) ...[
+          if (order.orderStatus == OrderStatus.goingTo.toLocale()) ...[
             LightButtonWidget(
               text: t.common.cancel,
               icon: Assets.icons.close,
               onTap: () => _showCancelOrderModal(context),
             ),
           ],
-          if (order.orderStatus == OrderStatus.received) ...[
+          if (order.orderStatus == OrderStatus.received.toLocale()) ...[
             BlocBuilder<RateOrderCubit, RateOrderState>(
               builder: (context, state) => Row(
                 children: [
@@ -95,21 +94,18 @@ class BottomButtonsWidget extends StatelessWidget {
                         state == const RateOrderState.loading())
                       order.rating == 0
                           ? Expanded(
-                              child: Padding(
-                                padding: AppInsets.kRight4,
-                                child: LightButtonWidget(
-                                  text: t.recentOrders.rate,
-                                  icon: Assets.icons.star,
-                                  onTap: () => _showRateModal(context),
-                                ),
+                              child: LightButtonWidget(
+                                text: t.recentOrders.rate,
+                                icon: Assets.icons.star,
+                                onTap: () => _showRateModal(context),
                               ),
                             )
                           : Expanded(
                               child: OrderRaitingWidget(rating: order.rating),
                             ),
                   ],
-                  AppBoxes.kWidth4,
-                  if (order.orderAgain)
+                  if (order.orderAgain) ...[
+                    AppBoxes.kWidth4,
                     Expanded(
                       child: LightButtonWidget(
                         text: t.recentOrders.repeat,
@@ -117,11 +113,12 @@ class BottomButtonsWidget extends StatelessWidget {
                         onTap: () => _showRepeatOrderModal(context),
                       ),
                     ),
+                  ],
                 ],
               ),
             ),
           ],
-          if (order.orderStatus == OrderStatus.cancelled &&
+          if (order.orderStatus == OrderStatus.cancelled.toLocale() &&
               order.orderAgain) ...[
             LightButtonWidget(
               text: t.recentOrders.repeat,

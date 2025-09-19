@@ -24,7 +24,8 @@ import '../../../profile/user/presentation/bloc/user_bloc.dart';
 import '../../../promotions/presentation/cubit/promotions_cubit.dart';
 import '../../../special_poducts/presentation/bloc/special_products_bloc.dart';
 import '../../../stories/presentation/bloc/stories_bloc.dart';
-import '../../../support/presentation/support_cubit.dart';
+import '../../../support/presentation/bloc/support_chat_cubit/support_chat_cubit.dart';
+import '../widgets/notification_state_handler.dart';
 import 'auth_check_wrapper.dart';
 
 /// Страница [NavigationPage] для внутренней навигации в приложении.
@@ -63,12 +64,40 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
 
   /// Слушает изменения в статусе уведомлений.
   ///
-  /// Используется для отловки перехода в приложение через push-уведомление.
+  /// Используется для отловки перехода в приложение через push-уведомление
   void _notificationsListener(BuildContext context, NotificationsState state) =>
       state.whenOrNull(
         openedFromPush: () async => context.navigateTo(
           const NotificationsRoute(),
         ),
+        openedProductFromPush: (product) async {
+          await NotificationStateHandler().openedProductFromPushHandler(
+            context,
+            product,
+          );
+          return null;
+        },
+        openedProductGroupFromPush: (groupId) async {
+          await NotificationStateHandler().openedProductGroupFromPushHandler(
+            context,
+            groupId,
+          );
+          return null;
+        },
+        openedCallFromPush: (phoneNumber) async {
+          await NotificationStateHandler().openedCallFromPushHandler(
+            context,
+            phoneNumber,
+          );
+          return null;
+        },
+        openedGetRatingFromPush: (order) async {
+          await NotificationStateHandler().openedGetRatingFromPushHandler(
+            context,
+            order,
+          );
+          return null;
+        },
       );
 
   /// Переводит пользователя на экран ввода кода подтверждения.
@@ -149,7 +178,8 @@ class NavigationPage extends StatelessWidget implements AutoRouteWrapper {
             lazy: false,
           ),
           BlocProvider(
-            create: (_) => getIt<SupportCubit>()..getUserCredentials(),
+            // ignore: discarded_futures
+            create: (_) => getIt<SupportChatCubit>()..getUserCredentials(),
             lazy: false,
           ),
           BlocProvider(

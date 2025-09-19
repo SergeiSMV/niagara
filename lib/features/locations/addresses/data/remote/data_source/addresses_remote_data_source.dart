@@ -1,34 +1,41 @@
-import 'package:niagara_app/core/core.dart';
-import 'package:niagara_app/features/locations/addresses/data/remote/dto/address_dto.dart';
+import '../../../../../../core/core.dart';
+import '../dto/address_dto.dart';
 
 /// Интерфейс для работы с адресами в удаленном источнике данных.
 abstract interface class IAddressesRemoteDatasource {
   Future<Either<Failure, List<AddressDto>>> getAddresses();
 
+  /// Добавить адрес
   Future<Either<Failure, String>> addAddress({
     required AddressDto address,
     required String phone,
   });
 
+  /// Обновить адрес
   Future<Either<Failure, String>> updateAddress({
     required AddressDto address,
   });
 
+  /// Удалить адрес
   Future<Either<Failure, bool>> deleteAddress({
     required AddressDto address,
   });
 
+  /// Проверить возможность доставки по адресу
   Future<Either<Failure, bool>> checkAddress({
     required AddressDto address,
   });
 }
 
+/// Источник данных адресов в удаленном источнике данных
 @LazySingleton(as: IAddressesRemoteDatasource)
 class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
   AddressesRemoteDatasource(this._requestHandler);
 
+  /// Обработчик запросов
   final RequestHandler _requestHandler;
 
+  /// Получить адреса
   @override
   Future<Either<Failure, List<AddressDto>>> getAddresses() =>
       _requestHandler.sendRequest<List<AddressDto>, List<dynamic>>(
@@ -43,49 +50,50 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
         failure: AddressesRemoteDataFailure.new,
       );
 
+  /// Добавить адрес
   @override
   Future<Either<Failure, String>> addAddress({
     required AddressDto address,
     required String phone,
-  }) async {
-    return _requestHandler.sendRequest<String, Map<String, dynamic>>(
-      request: (dio) => dio.post(
-        ApiConst.kAddLocation,
-        data: {
-          ...address.toJson(),
-          // ? Для добавления нового адреса нужен номер телефона/логин
-          'PHONE': phone,
+  }) async =>
+      _requestHandler.sendRequest<String, Map<String, dynamic>>(
+        request: (dio) => dio.post(
+          ApiConst.kAddLocation,
+          data: {
+            ...address.toJson(),
+            // ? Для добавления нового адреса нужен номер телефона/логин
+            'PHONE': phone,
+          },
+        ),
+        converter: (json) {
+          if (json['success'] == false) {
+            throw AddressesRemoteDataFailure(json['error'] as String);
+          }
+          return json['id'] as String;
         },
-      ),
-      converter: (json) {
-        if (json['success'] == false) {
-          throw AddressesRemoteDataFailure(json['error'] as String);
-        }
-        return json['id'] as String;
-      },
-      failure: AddressesRemoteDataFailure.new,
-    );
-  }
+        failure: AddressesRemoteDataFailure.new,
+      );
 
+  /// Обновить адрес
   @override
   Future<Either<Failure, String>> updateAddress({
     required AddressDto address,
-  }) async {
-    return _requestHandler.sendRequest<String, Map<String, dynamic>>(
-      request: (dio) => dio.post(
-        ApiConst.kUpdateLocation,
-        data: address.toJson(),
-      ),
-      converter: (json) {
-        if (json['success'] == false) {
-          throw AddressesRemoteDataFailure(json['error'] as String);
-        }
-        return json['id'] as String;
-      },
-      failure: AddressesRemoteDataFailure.new,
-    );
-  }
+  }) async =>
+      _requestHandler.sendRequest<String, Map<String, dynamic>>(
+        request: (dio) => dio.post(
+          ApiConst.kUpdateLocation,
+          data: address.toJson(),
+        ),
+        converter: (json) {
+          if (json['success'] == false) {
+            throw AddressesRemoteDataFailure(json['error'] as String);
+          }
+          return json['id'] as String;
+        },
+        failure: AddressesRemoteDataFailure.new,
+      );
 
+  /// Удалить адрес
   @override
   Future<Either<Failure, bool>> deleteAddress({
     required AddressDto address,
@@ -101,6 +109,7 @@ class AddressesRemoteDatasource implements IAddressesRemoteDatasource {
         failure: AddressesRemoteDataFailure.new,
       );
 
+  /// Проверить возможность доставки по адресу
   @override
   Future<Either<Failure, bool>> checkAddress({
     required AddressDto address,

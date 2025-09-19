@@ -33,7 +33,7 @@ class AddressDto extends Equatable {
   @JsonKey(name: 'ID')
   final String locationId;
 
-  @JsonKey(name: 'NAME', includeToJson: false)
+  @JsonKey(name: 'NAME')
   final String name;
 
   @JsonKey(name: 'REGION')

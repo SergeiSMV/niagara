@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:niagara_app/core/common/presentation/widgets/bottom_shadow_widget.dart';
-import 'package:niagara_app/core/common/presentation/widgets/buttons/app_text_button.dart';
-import 'package:niagara_app/core/utils/constants/app_constants.dart';
-import 'package:niagara_app/core/utils/gen/strings.g.dart';
-import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:niagara_app/features/authorization/phone_auth/presentation/bloc/validate_phone_cubit/validate_phone_cubit.dart';
+import '../../../../../core/common/presentation/widgets/bottom_shadow_widget.dart';
+import '../../../../../core/common/presentation/widgets/buttons/app_text_button.dart';
+import '../../../../../core/utils/constants/app_constants.dart';
+import '../../../../../core/utils/gen/strings.g.dart';
+import '../bloc/auth_bloc/auth_bloc.dart';
+import '../bloc/privacy_check_cubit/privacy_check_cubit.dart';
+import '../bloc/validate_phone_cubit/validate_phone_cubit.dart';
 
 /// Кнопка "Получить код" для отправки кода подтверждения на номер телефона.
 class GetCodeWidget extends StatelessWidget {
@@ -18,7 +19,8 @@ class GetCodeWidget extends StatelessWidget {
   // Ключ формы для валидации номера телефона.
   final GlobalKey<FormBuilderState> _formKey;
 
-  void onTapGetCode(BuildContext context) {
+  /// Обработчик нажатия на кнопку "Получить код"
+  void _onTapGetCode(BuildContext context) {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       final phoneNumber = _formKey
           .currentState?.value[AppConstants.kTextFieldPhoneName]
@@ -28,23 +30,38 @@ class GetCodeWidget extends StatelessWidget {
     }
   }
 
+  /// Метод для определения callback'а кнопки
+  VoidCallback? _getOnTapCallback(
+    BuildContext context,
+    bool isLoading,
+    bool isValid,
+    bool userAccepted,
+  ) {
+    if (isLoading) return null;
+    if (!isValid) return null;
+    if (!userAccepted) return null;
+
+    return () => _onTapGetCode(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    /// Проверяем, что загрузка не идет
     final isLoading = context.watch<AuthBloc>().state.maybeWhen(
           loading: () => true,
           orElse: () => false,
         );
 
+    /// Проверяем, что номер телефона валиден
     final isValid = context.watch<ValidatePhoneCubit>().state;
 
-    return BottomShadowWidget(
-      child: AppTextButton.primary(
-        text: !isLoading ? t.auth.getCode : null,
-        onTap: isLoading
-            ? null
-            : isValid
-                ? () => onTapGetCode(context)
-                : null,
+    return BlocBuilder<PrivacyCheckCubit, ({bool user, bool marketing})>(
+      buildWhen: (previous, current) => previous.user != current.user,
+      builder: (context, state) => BottomShadowWidget(
+        child: AppTextButton.primary(
+          text: !isLoading ? t.auth.getCode : null,
+          onTap: _getOnTapCallback(context, isLoading, isValid, state.user),
+        ),
       ),
     );
   }

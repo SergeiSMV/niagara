@@ -16,6 +16,7 @@ part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+/// Тип для эмиттера состояния блока
 typedef _Emit = Emitter<AuthState>;
 
 /// Блок для авторизации. Отправляет код на телефон, проверяет его и пропускает
@@ -37,15 +38,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_AuthLaterEvent>(_onAuthLater);
   }
 
+  /// Usecase для пропуска авторизации
   final SkipAuthUseCase _skipAuthUseCase;
+
+  /// Usecase для отправки кода на телефон
   final SendPhoneUseCase _sendPhoneUseCase;
+
+  /// Usecase для переотправки кода на телефон
   final ResendPhoneUseCase _resendPhoneUseCase;
+
+  /// Usecase для проверки кода подтверждения
   final CheckOTPCodeUseCase _checkOTPCodeUseCase;
+
+  /// Usecase для получения пользователя
   final GetUserUseCase _getUserUseCase;
 
   /// Счетчик изменений OTP кода.
   int _attempts = 0;
 
+  /// Обработчик события получения кода
   Future<void> _onGetCode(_GetCodeEvent event, _Emit emit) async {
     emit(const _Loading());
     final phoneNumber = event.phoneNumber;
@@ -58,6 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
+  /// Обработчик события переотправки кода
   Future<void> _onResendCode(_ResendCodeEvent event, _Emit emit) async {
     emit(const _Loading());
     if (_attempts != 0) _attempts = 0;
@@ -67,10 +79,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
   }
 
+  /// Обработчик события изменения OTP кода
   void _onOtpChanged(_OtpChangedEvent event, _Emit emit) {
     if (state is _OtpError) emit(const _OtpWaiting());
   }
 
+  /// Обработчик события авторизации
   Future<void> _onAuthNow(_AuthNowEvent event, _Emit emit) async {
     final isNoChance = _attempts >= AppConstants.kOTPChangeCount;
     if (isNoChance) {
@@ -80,7 +94,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     _attempts++;
     emit(const _Loading());
-    await _checkOTPCodeUseCase.call(CheckOTPParams(code: event.otp)).fold(
+    await _checkOTPCodeUseCase
+        .call(
+          CheckOTPParams(
+            code: event.otp,
+            user: event.user,
+            marketing: event.marketing,
+          ),
+        )
+        .fold(
           (_) => emit(const _OtpError()),
           (_) async => await _getUserUseCase.call().fold(
                 (failure) => emit(_GetCodeError(failure.error)),
@@ -89,6 +111,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
   }
 
+  /// Обработчик события пропуска авторизации
   Future<void> _onAuthLater(_AuthLaterEvent event, _Emit emit) async {
     await _skipAuthUseCase.call();
   }

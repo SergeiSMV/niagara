@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -17,6 +18,7 @@ import 'core/dependencies/di.dart' as di;
 import 'core/utils/crashlytics/crashlytics_error_filter.dart';
 import 'core/utils/gen/strings.g.dart';
 import 'core/utils/network/overrides/http_overrides.dart';
+import 'core/utils/services/firebase/firebase_message_service.dart';
 import 'core/utils/services/userx_service/userx_service.dart';
 import 'firebase_options.dart';
 
@@ -29,20 +31,28 @@ void main() async {
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
 
-  FlutterError.onError = (FlutterErrorDetails err) {
+  FlutterError.onError = (FlutterErrorDetails err) async {
     if (!CrashlyticsErrorFilter.isErrorFatal(err)) return;
 
-    FirebaseCrashlytics.instance.recordFlutterFatalError(err);
+    await FirebaseCrashlytics.instance.recordFlutterFatalError(err);
   };
 
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    unawaited(
+      FirebaseCrashlytics.instance.recordError(
+        error,
+        stack,
+        fatal: true,
+      ),
+    );
     return true;
   };
 
   await di.setupDependencies();
 
   Bloc.observer = di.getIt<TalkerBlocObserver>();
+
+  di.getIt<FirebaseMessageServices>().init();
 
   LocaleSettings.useDeviceLocale();
 

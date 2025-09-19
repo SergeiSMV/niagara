@@ -47,6 +47,10 @@ abstract final class ApiConst {
   /// -POST- Запрос на выход из аккаунта
   static const String kLogout = '/user_checkout';
 
+  /// -POST- Запрос на подтверждение политики конфиденциальности
+  /// пользовательского соглашения и получения рекламной рассылки
+  static const String kConfirmPrivacy = '/agreement';
+
   // ? ----------------------------- Location ----------------------------- ? //
   /// -GET- Запрос на получение списка городов
   static const String kGetCities = '/region';
@@ -131,6 +135,9 @@ abstract final class ApiConst {
 
   /// -GET- Запрос на получение списка товаров по поиску
   static const String kGetProductSearch = '/product_search';
+
+  /// -GET- Запрос на получение товара по id
+  static const String kGetProductById = '/product_card';
 
   // ? ---------------------------- Favorite ------------------------------ ? //
   /// -GET- Запрос на получение списка избранных товаров
@@ -218,6 +225,9 @@ abstract final class ApiConst {
   /// -POST- Запрос на повторение заказа
   static const String kRepeatOrder = '/orders_repeat';
 
+  /// -GET- Запрос на получение заказа по id
+  static const String kGetOrderById = '/order_info';
+
   // ? --------------------------- Referral ------------------------------- ? //
   /// -GET- Запрос на получение описания реферальной программы
   static const String kReferralInfo = '/referal_info';
@@ -245,6 +255,10 @@ abstract final class ApiConst {
   /// -GET- Запрос на получение информации о приложении (политика
   /// конфиденциальности).
   static const String kGetPolicies = '/about_app';
+
+  /// -GET- Запрос на получение информации о приложении (политика
+  /// конфиденциальности).
+  static const String kGetMarketingPolicy = '/agreement';
 
   // ? ----------------------- Payments -------------------------- ? //
   /// -GET- Запрос на получение ссылки для подтверждения платежа

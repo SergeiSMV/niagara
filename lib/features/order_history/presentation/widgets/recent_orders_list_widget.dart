@@ -18,7 +18,7 @@ import '../bloc/orders_bloc/orders_bloc.dart';
 import 'empty_orders_list_widget.dart';
 import 'order_item_widgets/order_item_widget.dart';
 
-/// Список последних заказов.
+/// Список последних заказов на главной странице
 class RecentOrdersListWidget extends StatelessWidget {
   const RecentOrdersListWidget({super.key});
 
@@ -65,7 +65,7 @@ class RecentOrdersListWidget extends StatelessWidget {
       );
 }
 
-/// Сам виджет списка заказов.
+/// Сам виджет списка заказов
 class _OrdersListWidget extends StatefulWidget {
   const _OrdersListWidget({
     required this.firstFourOrders,
@@ -93,19 +93,18 @@ class _OrdersListWidgetState extends State<_OrdersListWidget> {
         ),
       );
 
-  // TODO: Не релизили задачу
-  // /// Строит индикатор обновления.
-  // Widget _refreshIndicatorBuilder(context, state) => switch (state) {
-  //       RefreshStatus.refreshing => const AppCenterLoader(
-  //           dense: true,
-  //           size: AppSizes.kLoaderSmall,
-  //         ),
-  //       _ => const SizedBox.shrink(),
-  //     };
+  /// Строит индикатор обновления.
+  Widget _refreshIndicatorBuilder(context, state) => switch (state) {
+        RefreshStatus.refreshing => const AppCenterLoader(
+            dense: true,
+            size: AppSizes.kLoaderSmall,
+          ),
+        _ => const SizedBox.shrink(),
+      };
 
-  // Future<void> _onRefresh() async {
-  //   context.read<OrdersBloc>().add(const OrdersEvent.loadPreview());
-  // }
+  Future<void> _onRefresh() async {
+    context.read<OrdersBloc>().add(const OrdersEvent.loadPreview());
+  }
 
   /// Слушает состояние загрузки заказов.
   void _ordersLoadingStateListener(BuildContext context, OrdersState state) {
@@ -121,24 +120,20 @@ class _OrdersListWidgetState extends State<_OrdersListWidget> {
         listener: _ordersLoadingStateListener,
         child: Padding(
           padding: EdgeInsets.zero,
-          child:
-              // TODO: Не релизили задачу
-              // SmartRefresher(
-              //   controller: _refreshController,
-              //   onRefresh: _onRefresh,
-              //   header: CustomHeader(builder: _refreshIndicatorBuilder),
-              //   child:
-
-              ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              ...List.generate(
-                widget.firstFourOrders.length,
-                _buildOrderItem,
-              ),
-              const _AllOrdersButtonWidget(),
-            ],
-            // ),
+          child: SmartRefresher(
+            controller: _refreshController,
+            onRefresh: _onRefresh,
+            header: CustomHeader(builder: _refreshIndicatorBuilder),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                ...List.generate(
+                  widget.firstFourOrders.length,
+                  _buildOrderItem,
+                ),
+                const _AllOrdersButtonWidget(),
+              ],
+            ),
           ),
         ),
       );
